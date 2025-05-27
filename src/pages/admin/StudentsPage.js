@@ -9,26 +9,29 @@ const StudentsPage = () => {
   }, []);
 
   return (
-    <div className="p-4">
+    <div className="p-4 text-gray-900 dark:text-white">
       <h2 className="text-2xl font-bold mb-4">Students</h2>
-      <table className="table-auto w-full border">
+      <table className="table-auto w-full border border-gray-300 dark:border-gray-600">
         <thead>
-          <tr className="bg-gray-200">
-            <th className="px-4 py-2">Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Coins</th>
-            <th>Badges</th>
+          <tr className="bg-gray-200 dark:bg-gray-700">
+            <th className="px-4 py-2 border border-gray-300 dark:border-gray-600">Name</th>
+            <th className="px-4 py-2 border border-gray-300 dark:border-gray-600">Email</th>
+            <th className="px-4 py-2 border border-gray-300 dark:border-gray-600">Phone</th>
+            <th className="px-4 py-2 border border-gray-300 dark:border-gray-600">Coins</th>
+            <th className="px-4 py-2 border border-gray-300 dark:border-gray-600">Badges</th>
           </tr>
         </thead>
         <tbody>
-          {students.map(s => (
-            <tr key={s._id} className="text-center border-t">
-              <td className="py-2">{s.name}</td>
-              <td>{s.email}</td>
-              <td>{s.phone}</td>
-              <td>{s.coins}</td>
-              <td>{(s.badges || []).join(', ')}</td>
+          {students.map((s) => (
+            <tr
+              key={s._id}
+              className="text-center border-t border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+            >
+              <td className="py-2 border border-gray-300 dark:border-gray-600">{s.name}</td>
+              <td className="border border-gray-300 dark:border-gray-600">{s.email}</td>
+              <td className="border border-gray-300 dark:border-gray-600">{s.phone}</td>
+              <td className="border border-gray-300 dark:border-gray-600">{s.coins}</td>
+              <td className="border border-gray-300 dark:border-gray-600">{(s.badges || []).join(', ')}</td>
             </tr>
           ))}
         </tbody>

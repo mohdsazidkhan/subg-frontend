@@ -12,6 +12,7 @@ const CategoryPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!name.trim()) return;
     await API.post('/admin/categories', { name });
     setName('');
     fetchCategories();
@@ -22,21 +23,33 @@ const CategoryPage = () => {
   }, []);
 
   return (
-    <div className="p-4">
+    <div className="p-4 text-gray-900 dark:text-white">
       <h2 className="text-2xl font-bold mb-4">Manage Categories</h2>
-      <form onSubmit={handleSubmit} className="flex space-x-2 mb-4">
+
+      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row sm:space-x-2 mb-4 space-y-2 sm:space-y-0">
         <input
           type="text"
           placeholder="Category Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="border p-2"
+          className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white p-2 rounded"
         />
-        <button className="bg-blue-600 text-white px-4 py-2">Add</button>
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Add
+        </button>
       </form>
-      <ul>
+
+      <ul className="space-y-2">
         {categories.map((cat) => (
-          <li key={cat._id} className="mb-2">{cat.name}</li>
+          <li
+            key={cat._id}
+            className="bg-gray-100 dark:bg-gray-700 p-2 rounded"
+          >
+            {cat.name}
+          </li>
         ))}
       </ul>
     </div>

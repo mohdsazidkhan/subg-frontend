@@ -1,5 +1,8 @@
+body {
+    background: #565656;
+}
 .appContainer{
-    margin-top: 48px;
+    margin-top: 44px;
     display: flex;
 }
 .sidebar{

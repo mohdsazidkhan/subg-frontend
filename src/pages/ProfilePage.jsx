@@ -18,27 +18,31 @@ const ProfilePage = () => {
     fetchProfile();
   }, []);
 
-  if (error) return <div className="p-4 text-red-600">{error}</div>;
-  if (!student) return <div className="p-4">Loading...</div>;
+  if (error)
+    return <div className="p-4 text-red-600 dark:text-red-400">{error}</div>;
+  if (!student)
+    return <div className="p-4 text-gray-700 dark:text-gray-300">Loading...</div>;
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 bg-white p-6 rounded shadow">
-      <h2 className="text-2xl font-bold mb-4 text-center">Student Profile</h2>
+    <div className="max-w-2xl mx-auto mt-10 bg-white dark:bg-gray-900 dark:text-white p-6 rounded shadow">
+      <h2 className="text-2xl font-bold mb-4 text-center text-gray-800 dark:text-white">
+        🎓 Profile
+      </h2>
       <div className="space-y-4">
         <div>
-          <strong>Name:</strong> {student.name}
+          <strong className="text-gray-700 dark:text-gray-300">Name:</strong> {student.name}
         </div>
         <div>
-          <strong>Email:</strong> {student.email}
+          <strong className="text-gray-700 dark:text-gray-300">Email:</strong> {student.email}
         </div>
         <div>
-          <strong>Phone:</strong> {student.phone}
+          <strong className="text-gray-700 dark:text-gray-300">Phone:</strong> {student.phone}
         </div>
         <div>
-          <strong>Coins:</strong> {student.coins || 0}
+          <strong className="text-gray-700 dark:text-gray-300">Coins:</strong> {student.coins || 0}
         </div>
         <div>
-          <strong>Badges:</strong>{' '}
+          <strong className="text-gray-700 dark:text-gray-300">Badges:</strong>{' '}
           {student.badges && student.badges.length > 0
             ? student.badges.join(', ')
             : 'No badges yet'}

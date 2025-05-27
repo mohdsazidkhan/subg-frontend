@@ -8,13 +8,13 @@ const LiveQuizPage = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    fetchAllQuizzes(); // For creating live quizzes
-    fetchLiveQuizzes(); // For managing live quizzes
+    fetchAllQuizzes();
+    fetchLiveQuizzes();
   }, []);
 
   const fetchAllQuizzes = async () => {
     try {
-      const { data } = await API.get('/admin/quizzes'); // replace with your quiz list endpoint
+      const { data } = await API.get('/admin/quizzes');
       setQuizList(data);
     } catch (err) {
       console.error('Failed to fetch quizzes', err);
@@ -63,15 +63,15 @@ const LiveQuizPage = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 text-gray-900 dark:text-white">
       <h2 className="text-xl font-bold mb-4">Live Quiz Management</h2>
 
       <form onSubmit={createLiveQuiz} className="mb-6 space-y-4">
-        {message && <p className="text-green-600">{message}</p>}
+        {message && <p className="text-green-600 dark:text-green-400">{message}</p>}
         <select
           value={selectedQuiz}
           onChange={(e) => setSelectedQuiz(e.target.value)}
-          className="border w-full p-2"
+          className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white w-full p-2 rounded"
           required
         >
           <option value="">Select a quiz</option>
@@ -81,7 +81,10 @@ const LiveQuizPage = () => {
             </option>
           ))}
         </select>
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <button
+          type="submit"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+        >
           Create Live Quiz
         </button>
       </form>
@@ -89,12 +92,19 @@ const LiveQuizPage = () => {
       <h3 className="text-lg font-semibold mb-2">Live Quizzes</h3>
       <ul className="space-y-3">
         {quizzes.map((quiz) => (
-          <li key={quiz._id} className="border p-4 rounded flex justify-between items-center">
+          <li
+            key={quiz._id}
+            className="border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-4 rounded flex justify-between items-center"
+          >
             <div>
               <h4 className="font-semibold">{quiz.quiz?.title || 'Untitled'}</h4>
               <p>
                 Status:{' '}
-                <span className="font-medium text-green-700">
+                <span
+                  className={`font-medium ${
+                    quiz.isActive ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'
+                  }`}
+                >
                   {quiz.isActive ? 'Live' : 'Ended'}
                 </span>
               </p>
@@ -102,14 +112,14 @@ const LiveQuizPage = () => {
             <div className="space-x-2">
               {!quiz.isActive ? (
                 <button
-                  className="bg-green-600 text-white px-3 py-1 rounded"
+                  className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded"
                   onClick={() => startQuiz(quiz._id)}
                 >
                   Start
                 </button>
               ) : (
                 <button
-                  className="bg-red-600 text-white px-3 py-1 rounded"
+                  className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
                   onClick={() => endQuiz(quiz._id)}
                 >
                   End
