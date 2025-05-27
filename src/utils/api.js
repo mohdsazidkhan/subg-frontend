@@ -1,7 +1,7 @@
 import axios from 'axios';
-const LIVE_URL = 'https://subg-backend.onrender.com/api' 
-//const LOCAL_URL = 'http://localhost:5000/api' 
-const API = axios.create({ baseURL: LIVE_URL });
+const API_URL = 'https://subg-backend.onrender.com/api' 
+//const API_URL = 'http://localhost:5000/api' 
+const API = axios.create({ baseURL: API_URL });
 
 API.interceptors.request.use((req) => {
   const token = localStorage.getItem('token');

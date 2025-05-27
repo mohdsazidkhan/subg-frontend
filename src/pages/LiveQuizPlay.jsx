@@ -7,7 +7,7 @@ const LiveQuizPlay = () => {
   const navigate = useNavigate();
 
   const [question, setQuestion] = useState(null);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState(null);
   const [leaderboard, setLeaderboard] = useState([]);
   const [userRank, setUserRank] = useState(null);
   const [userScore, setUserScore] = useState(null);
@@ -34,35 +34,43 @@ const LiveQuizPlay = () => {
     socket.on('question', ({ question }) => {
       console.log(question, 'question')
       setQuestion(question);
-      setMessage('');
+      setMessage(null);
     });
 
     // Handle quiz end
     socket.on('quizEnd', ({ message, leaderboard }) => {
-      setMessage(message || 'Quiz ended!');
+      setMessage({type: "error", message: message || 'Quiz ended!'});
       setQuestion(null);
       setLeaderboard(leaderboard || []);
 
       // 🏆 Find current user rank
-      const userRank = leaderboard.findIndex(entry => entry.name === storedUser.name); // or compare userId
+      const userRank = leaderboard?.findIndex(entry => entry.name === storedUser.name); // or compare userId
       if (userRank !== -1) {
         setUserRank(userRank + 1); // rank is 1-based
-        setUserScore(leaderboard[userRank].score);
-        setUserCoins(leaderboard[userRank].coinsEarned);
+        setUserScore(leaderboard[userRank]?.score);
+        setUserCoins(leaderboard[userRank]?.coinsEarned);
       }
 
       socket.disconnect();
     });
 
+    socket.on('alreadyAttempted', ({ message }) => {
+      setMessage({type: "error", message: message || 'You have already attempted this quiz!'});
+      setQuestion(null);    // Hide quiz questions
+      // setTimeout(()=>{
+      //   navigate('/');
+      // },3000)
+    });
 
     // Optional: Handle error messages
     socket.on('error', (err) => {
       console.error('Socket error:', err);
-      setMessage(err?.message || 'An error occurred.');
+      setMessage({type: "error", message : err?.message || 'An error occurred.'});
     });
 
     // Cleanup on unmount
     return () => {
+      socket.off('alreadyAttempted');
       socket.off('question');
       socket.off('quizEnd');
       socket.off('error');
@@ -78,7 +86,7 @@ const LiveQuizPlay = () => {
       questionId: question._id,
       answer: option,
     });
-    setMessage('Answer submitted!');
+    setMessage({type:"success", message: 'Answer Submitted!'});
   };
 
   return (
@@ -107,7 +115,8 @@ const LiveQuizPlay = () => {
         </div>
       )}
 
-      {message && <p className="mt-4 text-green-600">{message}</p>}
+      {message !== null && <p className={`mt-2 ${message.type === "success" ? 'text-green-600' : 'text-red-600'}`}>{message?.message}</p>}
+      {leaderboard?.length > 0 &&
       <ul className="bg-white p-4 rounded shadow">
         {leaderboard.map((entry, index) => {
           const isCurrentUser = entry.userId === user?.id; // or compare IDs if available
@@ -125,7 +134,7 @@ const LiveQuizPlay = () => {
           );
         })}
       </ul>
-
+}
 
     </div>
   );
