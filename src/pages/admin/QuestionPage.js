@@ -6,6 +6,7 @@ const QuestionPage = () => {
   const [questionText, setQuestionText] = useState('');
   const [options, setOptions] = useState(['', '', '', '']);
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(0);
+  const [timeLimit, setTimeLimit] = useState(30); // <-- New state
   const [quizzes, setQuizzes] = useState([]);
   const [questions, setQuestions] = useState([]);
 
@@ -32,10 +33,12 @@ const QuestionPage = () => {
       questionText,
       options,
       correctAnswerIndex,
+      timeLimit, // <-- Include in payload
     });
     setQuestionText('');
     setOptions(['', '', '', '']);
     setCorrectAnswerIndex(0);
+    setTimeLimit(30); // reset
     const questionRes = await API.get('/admin/questions');
     setQuestions(questionRes.data);
   };
@@ -90,6 +93,17 @@ const QuestionPage = () => {
           ))}
         </select>
 
+        {/* Time Limit Input */}
+        <input
+          type="number"
+          min="5"
+          className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white p-2 w-full rounded"
+          placeholder="Time limit (seconds)"
+          value={timeLimit}
+          onChange={(e) => setTimeLimit(Number(e.target.value))}
+          required
+        />
+
         <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
           Add
         </button>
@@ -98,7 +112,7 @@ const QuestionPage = () => {
       <ul>
         {questions.map((q) => (
           <li key={q._id} className="mb-2 border-b border-gray-200 dark:border-gray-700 pb-2">
-            <span className="font-semibold">{q.quiz.title}</span> - {q.questionText}
+            <span className="font-semibold">{q.quiz.title}</span> - {q.questionText} ({q.timeLimit}s)
           </li>
         ))}
       </ul>

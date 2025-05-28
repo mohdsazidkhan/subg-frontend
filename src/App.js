@@ -15,7 +15,6 @@ import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import AttemptQuizPage from './pages/AttemptQuizPage';
 import LiveQuizPage from './pages/admin/LiveQuizPage';
-import LiveQuizLobby from './pages/LiveQuizLobby';
 import LiveQuizPlay from './pages/LiveQuizPlay';
 import './App.css';
 
@@ -51,7 +50,6 @@ function AppLayout() {
 
             {/* Student Routes */}
             <Route exact path="/" element={<HomePage />} />
-            <Route path="/student/live-quizzes" element={<StudentRoute><LiveQuizLobby /></StudentRoute>} />
             <Route path="/student/live-quiz/:id" element={<StudentRoute><LiveQuizPlay /></StudentRoute>} />
             <Route path="/student/profile" element={<StudentRoute><ProfilePage /></StudentRoute>} />
             <Route path="/student/attempt-quiz/:quizId" element={<StudentRoute><AttemptQuizPage /></StudentRoute>} />
