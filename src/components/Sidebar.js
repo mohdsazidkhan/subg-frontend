@@ -1,17 +1,52 @@
+import { NavLink } from "react-router-dom";
+
 const Sidebar = () => {
+  const linkClasses = ({ isActive }) =>
+    `block transition-colors ${
+      isActive
+        ? "bg-blue-500 text-white"
+        : "text-gray-800 dark:text-gray-200"
+    }`;
+
   return (
-    <div className="sidebar">
-      <div>
-        <ul className="p-4 space-y-2">
-          <li><a href="/admin/dashboard" className="hover:text-blue-300">Dashboard</a></li>
-          <li><a href="/admin/categories" className="hover:text-blue-300">Categories</a></li>
-          <li><a href="/admin/sub-categories" className="hover:text-blue-300">Sub-Categories</a></li>
-          <li><a href="/admin/quizzes" className="hover:text-blue-300">Quizzes</a></li>
-          <li><a href="/admin/live-quiz" className="hover:text-blue-300">Live Quizzes</a></li>
-          <li><a href="/admin/questions" className="hover:text-blue-300">Questions</a></li>
-          <li><a href="/admin/students" className="hover:text-blue-300">Students</a></li>
-        </ul>
-      </div>
+    <div className="sidebar bg-gray-200 dark:bg-gray-900 min-h-screen w-64">
+      <ul className="space-y-2">
+        <li>
+          <NavLink to="/admin/dashboard" className={linkClasses}>
+            Dashboard
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/admin/categories" className={linkClasses}>
+            Categories
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/admin/sub-categories" className={linkClasses}>
+            Sub-Categories
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/admin/quizzes" className={linkClasses}>
+            Quizzes
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/admin/live-quiz" className={linkClasses}>
+            Live Quizzes
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/admin/questions" className={linkClasses}>
+            Questions
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/admin/students" className={linkClasses}>
+            Students
+          </NavLink>
+        </li>
+      </ul>
     </div>
   );
 };

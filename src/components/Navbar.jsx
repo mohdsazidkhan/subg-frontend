@@ -5,9 +5,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('userInfo'));
 
-  // State to manage theme: 'light' or 'dark'
   const [theme, setTheme] = useState(() => {
-    // Check localStorage or system preference
     if (typeof window !== 'undefined') {
       const savedTheme = localStorage.getItem('theme');
       if (savedTheme) return savedTheme;
@@ -35,38 +33,54 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-gray-800 dark:bg-gray-900 text-white p-2 flex justify-between items-center fixed top-0 w-full z-50">
-      <div className="text-lg font-bold">
-        <Link to={user?.role === 'admin' ? '/admin/dashboard' : '/'}>SUBG</Link>
+    <nav className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-3 flex justify-between items-center fixed top-0 w-full z-50 shadow-md">
+      <div className="text-xl font-bold">
+        <Link to={user?.role === 'admin' ? '/admin/dashboard' : '/'} className="hover:text-blue-600 dark:hover:text-blue-400 transition">
+          SUBG
+        </Link>
       </div>
+
       <div className="flex items-center space-x-4">
         <button
           onClick={toggleTheme}
           aria-label="Toggle Dark Mode"
-          className="bg-gray-700 dark:bg-gray-200 text-white dark:text-gray-900 rounded px-2 py-1 hover:bg-gray-600 dark:hover:bg-gray-300 transition"
+          className="border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 rounded px-3 py-1 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
         >
           {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
         </button>
 
         {user ? (
           <>
-            <span className="hidden sm:inline">Welcome, {user?.name}</span>
+            <span className="hidden sm:inline">Welcome, {user.name}</span>
             {user.role === 'student' && (
-              <>
-                <Link to="/student/profile">Profile</Link>
-              </>
+              <Link
+                to="/student/profile"
+                className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+              >
+                Profile
+              </Link>
             )}
             <button
               onClick={handleLogout}
-              className="bg-red-600 px-3 py-1 rounded hover:bg-red-700 transition"
+              className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
             >
               Logout
             </button>
           </>
         ) : (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
+            <Link
+              to="/login"
+              className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+            >
+              Login
+            </Link>
+            <Link
+              to="/register"
+              className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+            >
+              Register
+            </Link>
           </>
         )}
       </div>

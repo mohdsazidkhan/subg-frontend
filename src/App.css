@@ -1,22 +1,17 @@
-body {
-    background: #565656;
-}
 .appContainer{
-    margin-top: 44px;
+    margin-top: 58px;
     display: flex;
 }
 .sidebar{
     width: 200px;
     display: flex;
     flex-direction: column;
-    background-color: #1f2937;
     height: calc(100vh - 48px);
     min-width: 200px;
     max-width: 200px;
 }
 .sidebar ul li a{
-    color: #fff;
-    padding: 15px 5px;
+    padding: 10px 12px;
 }
 .authPage{
     height: calc(100vh - 48px);
