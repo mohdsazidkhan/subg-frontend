@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import API from '../../utils/api';
+import { useLocation } from 'react-router-dom';
+import Sidebar from '../../components/Sidebar';
 
 const StudentsPage = () => {
   const [students, setStudents] = useState([]);
@@ -7,9 +9,13 @@ const StudentsPage = () => {
   useEffect(() => {
     API.get('/admin/students').then(res => setStudents(res.data));
   }, []);
-
+const user = JSON.parse(localStorage.getItem('userInfo'));
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
   return (
-    <div className="p-4 text-gray-900 dark:text-white">
+    <div className='adminPanel'>
+      {user?.role === 'admin' && isAdminRoute && <Sidebar />}
+    <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
       <h2 className="text-2xl font-bold mb-4">Students</h2>
       <table className="table-auto w-full border border-gray-300 dark:border-gray-600">
         <thead>
@@ -36,6 +42,7 @@ const StudentsPage = () => {
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };

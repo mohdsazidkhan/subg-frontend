@@ -1,5 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import Sidebar from './components/Sidebar';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import AdminRoute from './components/AdminRoute';
 import StudentRoute from './components/StudentRoute';
@@ -19,19 +18,12 @@ import LiveQuizPlay from './pages/LiveQuizPlay';
 import './App.css';
 
 function AppLayout() {
-  
-  const user = JSON.parse(localStorage.getItem('userInfo'));
-  const location = useLocation();
-
-  const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
     <>
       {/* Navbar always shows */}
       <Navbar />
       <div className="appContainer">
-        {/* Sidebar only for logged-in admin on admin routes */}
-        {user?.role === 'admin' && isAdminRoute && <Sidebar />}
         <>
           <Routes>
             {/* Public Routes */}

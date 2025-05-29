@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import API from '../../utils/api';
+import { useLocation } from 'react-router-dom';
+import Sidebar from '../../components/Sidebar';
 
 const LiveQuizPage = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -61,9 +63,13 @@ const LiveQuizPage = () => {
       alert('Failed to end quiz');
     }
   };
-
+  const user = JSON.parse(localStorage.getItem('userInfo'));
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
   return (
-    <div className="p-6 text-gray-900 dark:text-white">
+    <div className='adminPanel'>
+      {user?.role === 'admin' && isAdminRoute && <Sidebar />}
+    <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
       <h2 className="text-xl font-bold mb-4">Live Quiz Management</h2>
 
       <form onSubmit={createLiveQuiz} className="mb-6 space-y-4">
@@ -101,9 +107,8 @@ const LiveQuizPage = () => {
               <p>
                 Status:{' '}
                 <span
-                  className={`font-medium ${
-                    quiz.isActive ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'
-                  }`}
+                  className={`font-medium ${quiz.isActive ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'
+                    }`}
                 >
                   {quiz.isActive ? 'Live' : 'Ended'}
                 </span>
@@ -129,6 +134,7 @@ const LiveQuizPage = () => {
           </li>
         ))}
       </ul>
+    </div>
     </div>
   );
 };

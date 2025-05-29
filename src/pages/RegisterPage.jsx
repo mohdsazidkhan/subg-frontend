@@ -28,7 +28,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="authPage flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 w-full transition-colors">
+    <div className="authPage flex items-center justify-center bg-gray-100 dark:bg-gray-900 w-full transition-colors">
       <form
         onSubmit={handleRegister}
         className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-8 rounded-lg shadow-md max-w-md w-full"

@@ -25,7 +25,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="authPage flex items-center justify-center min-h-screen w-full bg-gray-100 dark:bg-gray-900 transition-colors">
+    <div className="authPage flex items-center justify-center w-full bg-gray-100 dark:bg-gray-900 transition-colors">
       <form
         onSubmit={handleLogin}
         className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-8 rounded-lg shadow-md max-w-sm w-full"

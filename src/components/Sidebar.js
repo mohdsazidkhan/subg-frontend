@@ -9,7 +9,7 @@ const Sidebar = () => {
     }`;
 
   return (
-    <div className="sidebar bg-gray-200 dark:bg-gray-900 min-h-screen w-64">
+    <div className="sidebar bg-gray-200 dark:bg-gray-900 w-64">
       <ul className="space-y-2">
         <li>
           <NavLink to="/admin/dashboard" className={linkClasses}>

@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import API from '../../utils/api';
+import Sidebar from '../../components/Sidebar';
+import { useLocation } from 'react-router-dom';
 
 const QuestionPage = () => {
   const [quiz, setQuiz] = useState('');
@@ -42,9 +44,14 @@ const QuestionPage = () => {
     const questionRes = await API.get('/admin/questions');
     setQuestions(questionRes.data);
   };
+const user = JSON.parse(localStorage.getItem('userInfo'));
+  const location = useLocation();
 
+  const isAdminRoute = location.pathname.startsWith('/admin');
   return (
-    <div className="p-4 text-gray-900 dark:text-white">
+    <div className='adminPanel'>
+    {user?.role === 'admin' && isAdminRoute && <Sidebar />}
+    <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
       <h2 className="text-2xl font-bold mb-4">Manage Questions</h2>
       <form onSubmit={handleSubmit} className="space-y-2 mb-4">
         <select
@@ -116,6 +123,7 @@ const QuestionPage = () => {
           </li>
         ))}
       </ul>
+    </div>
     </div>
   );
 };
