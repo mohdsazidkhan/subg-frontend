@@ -31,6 +31,23 @@ const LiveQuizPlay = () => {
   // Audio ref for sound
   const audioRef = useRef(new Audio(TIME_UP_SOUND_URL));
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const autoSubmitBlankAnswer = () => {
+    const storedUser = JSON.parse(localStorage.getItem('userInfo'));
+    const q = currentQuestionRef.current;
+    console.log(q,storedUser,isSubmitting,'autoSubmitBlankAnswer')
+    if (!storedUser || !q || isSubmitting) return;
+    setIsSubmitting(true);
+    setLoadingNext(true);
+    socket.emit('submitAnswer', {
+      quizId: id,
+      userId: storedUser.id,
+      questionId: q._id,
+      answer: '',
+    });
+    setMessage({ type: "error", message: "⏰ Time's up! Answer auto-submitted." });
+  };
+
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('userInfo'));
     if (!storedUser) return navigate('/login');
@@ -91,6 +108,7 @@ const LiveQuizPlay = () => {
     return () => {
       cleanupSocket();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, navigate]);
 
   const cleanupSocket = () => {
@@ -127,21 +145,7 @@ const LiveQuizPlay = () => {
     clearInterval(timerRef.current);
   };
 
-  const autoSubmitBlankAnswer = () => {
-    const storedUser = JSON.parse(localStorage.getItem('userInfo'));
-    const q = currentQuestionRef.current;
-    console.log(q,storedUser,isSubmitting,'autoSubmitBlankAnswer')
-    if (!storedUser || !q || isSubmitting) return;
-    setIsSubmitting(true);
-    setLoadingNext(true);
-    socket.emit('submitAnswer', {
-      quizId: id,
-      userId: storedUser.id,
-      questionId: q._id,
-      answer: '',
-    });
-    setMessage({ type: "error", message: "⏰ Time's up! Answer auto-submitted." });
-  };
+  
 
 const playTimeUpSound = () => {
   if (audioRef.current) {

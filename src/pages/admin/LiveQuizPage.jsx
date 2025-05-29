@@ -7,6 +7,8 @@ const LiveQuizPage = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [quizList, setQuizList] = useState([]);
   const [selectedQuiz, setSelectedQuiz] = useState('');
+  const [accessType, setAccessType] = useState('free');
+  const [amount, setAmount] = useState(''); // ✅ Amount field
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -35,9 +37,15 @@ const LiveQuizPage = () => {
   const createLiveQuiz = async (e) => {
     e.preventDefault();
     try {
-      await API.post('/live-quizzes', { quizId: selectedQuiz });
+      await API.post('/live-quizzes', {
+        quizId: selectedQuiz,
+        isPro: accessType === 'pro',
+        amount: accessType === 'pro' ? Number(amount) : 0 // ✅ Send amount
+      });
       setMessage('Live quiz created!');
       setSelectedQuiz('');
+      setAccessType('free');
+      setAmount('');
       fetchLiveQuizzes();
     } catch (err) {
       setMessage(err.response?.data?.error || 'Error creating live quiz');
@@ -63,78 +71,112 @@ const LiveQuizPage = () => {
       alert('Failed to end quiz');
     }
   };
+
   const user = JSON.parse(localStorage.getItem('userInfo'));
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
+
   return (
     <div className='adminPanel'>
       {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-    <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
-      <h2 className="text-xl font-bold mb-4">Live Quiz Management</h2>
+      <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
+        <h2 className="text-xl font-bold mb-4">Live Quiz Management</h2>
 
-      <form onSubmit={createLiveQuiz} className="mb-6 space-y-4">
-        {message && <p className="text-green-600 dark:text-green-400">{message}</p>}
-        <select
-          value={selectedQuiz}
-          onChange={(e) => setSelectedQuiz(e.target.value)}
-          className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white w-full p-2 rounded"
-          required
-        >
-          <option value="">Select a quiz</option>
-          {quizList.map((quiz) => (
-            <option key={quiz._id} value={quiz._id}>
-              {quiz.title}
-            </option>
-          ))}
-        </select>
-        <button
-          type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-        >
-          Create Live Quiz
-        </button>
-      </form>
+        <form onSubmit={createLiveQuiz} className="mb-6 space-y-4">
+          {message && <p className="text-green-600 dark:text-green-400">{message}</p>}
 
-      <h3 className="text-lg font-semibold mb-2">Live Quizzes</h3>
-      <ul className="space-y-3">
-        {quizzes.map((quiz) => (
-          <li
-            key={quiz._id}
-            className="border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-4 rounded flex justify-between items-center"
+          <select
+            value={selectedQuiz}
+            onChange={(e) => setSelectedQuiz(e.target.value)}
+            className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white w-full p-2 rounded"
+            required
           >
-            <div>
-              <h4 className="font-semibold">{quiz.quiz?.title || 'Untitled'}</h4>
-              <p>
-                Status:{' '}
-                <span
-                  className={`font-medium ${quiz.isActive ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'
-                    }`}
-                >
-                  {quiz.isActive ? 'Live' : 'Ended'}
-                </span>
-              </p>
-            </div>
-            <div className="space-x-2">
-              {!quiz.isActive ? (
-                <button
-                  className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded"
-                  onClick={() => startQuiz(quiz._id)}
-                >
-                  Start
-                </button>
-              ) : (
-                <button
-                  className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
-                  onClick={() => endQuiz(quiz._id)}
-                >
-                  End
-                </button>
-              )}
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+            <option value="">Select a quiz</option>
+            {quizList.map((quiz) => (
+              <option key={quiz._id} value={quiz._id}>
+                {quiz.title}
+              </option>
+            ))}
+          </select>
+
+          {/* ✅ Access Type Dropdown */}
+          <select
+            value={accessType}
+            onChange={(e) => setAccessType(e.target.value)}
+            className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white w-full p-2 rounded"
+          >
+            <option value="free">Free</option>
+            <option value="pro">Pro</option>
+          </select>
+
+          {/* ✅ Amount Field (only when Pro is selected) */}
+          {accessType === 'pro' && (
+            <input
+              type="number"
+              placeholder="Enter amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white w-full p-2 rounded"
+              min={1}
+              step="1"
+              pattern="\d*"
+              required
+            />
+          )}
+
+          <button
+            type="submit"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          >
+            Create Live Quiz
+          </button>
+        </form>
+
+        <h3 className="text-lg font-semibold mb-2">Live Quizzes</h3>
+        <ul className="space-y-3">
+          {quizzes.map((quiz) => (
+            <li
+              key={quiz._id}
+              className="border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-4 rounded flex justify-between items-center"
+            >
+              <div>
+                <h4 className="font-semibold">{quiz.quiz?.title || 'Untitled'}</h4>
+                <p>
+                  Access:{' '}
+                  <span className={`font-medium ${quiz.isPro ? 'text-red-600' : 'text-green-600'}`}>
+                    {quiz.isPro ? 'Pro' : 'Free'}
+                  </span>
+                </p>
+                <p>
+                  Status:{' '}
+                  <span
+                    className={`font-medium ${quiz.isActive ? 'text-red-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}
+                  >
+                    {quiz.isActive ? 'Live' : 'Ended'}
+                  </span>
+                </p>
+              </div>
+              <div className="space-x-2">
+                {!quiz.isActive ? (
+                  <button
+                    className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded"
+                    onClick={() => startQuiz(quiz._id)}
+                  >
+                    Start
+                  </button>
+                ) : (
+                  <button
+                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
+                    onClick={() => endQuiz(quiz._id)}
+                  >
+                    End
+                  </button>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
