@@ -15,7 +15,10 @@ import ProfilePage from './pages/ProfilePage';
 import AttemptQuizPage from './pages/AttemptQuizPage';
 import LiveQuizPage from './pages/admin/LiveQuizPage';
 import LiveQuizPlay from './pages/LiveQuizPlay';
+import Wallet from './pages/Wallet';
 import './App.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AppLayout() {
 
@@ -23,6 +26,7 @@ function AppLayout() {
     <>
       {/* Navbar always shows */}
       <Navbar />
+      <ToastContainer position="top-right" autoClose={3000} />
       <div className="appContainer">
         <>
           <Routes>
@@ -45,6 +49,7 @@ function AppLayout() {
             <Route path="/student/live-quiz/:id" element={<StudentRoute><LiveQuizPlay /></StudentRoute>} />
             <Route path="/student/profile" element={<StudentRoute><ProfilePage /></StudentRoute>} />
             <Route path="/student/attempt-quiz/:quizId" element={<StudentRoute><AttemptQuizPage /></StudentRoute>} />
+            <Route path="/wallet" element={<StudentRoute><Wallet /></StudentRoute>} />
 
             {/* Add more student routes here, like profile */}
           </Routes>

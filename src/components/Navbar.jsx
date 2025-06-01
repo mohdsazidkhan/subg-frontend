@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { MdDarkMode, MdLightMode, MdLogout, MdPerson, MdPerson4, MdPersonAdd } from 'react-icons/md';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -40,49 +41,60 @@ export default function Navbar() {
         </Link>
       </div>
 
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-2">
+        
         <button
           onClick={toggleTheme}
           aria-label="Toggle Dark Mode"
-          className="border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 rounded px-3 py-1 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+          title={`${theme === 'dark' ? "Dark Mode" : "Light Mode"}`}
+          className="bg-green-600 text-white px-3 py-1 rounded hover:text-white transition"
         >
-          {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
+          {theme === 'dark' ? <MdLightMode /> : <MdDarkMode/>}
         </button>
-
         {user ? (
           <>
-            <span className="hidden sm:inline">Welcome, {user.name}</span>
-            {user.role === 'student' && (
-              <Link
-                to="/student/profile"
-                className="hover:text-blue-600 dark:hover:text-blue-400 transition"
-              >
-                Profile
-              </Link>
+            <span className="hidden sm:inline">Welcome, {user.name?.split(" ")[0]}</span>
+            {user?.role === 'student' && (
+              <>
+                <Link to="/wallet" className="text-sm sm:text-base">
+                💸 ₹{user.balance || 0} | 🪙 {user.coins || 0}
+                </Link>
+                <Link
+                  title='Profile'
+                  to="/student/profile"
+                  className="bg-blue-600 text-white px-3 py-1 rounded hover:text-blue-600 dark:hover:text-blue-400 transition"
+                >
+                  <MdPerson/>
+                </Link>
+              </>
             )}
             <button
+              title="Logout"
               onClick={handleLogout}
               className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
             >
-              Logout
+              <MdLogout/>
             </button>
           </>
         ) : (
           <>
             <Link
               to="/login"
-              className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+              title='Login'
+              className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition"
             >
-              Login
+              <MdPerson4/>
             </Link>
             <Link
+              title='Register'
               to="/register"
-              className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+              className="bg-pink-600 text-white px-3 py-1 rounded hover:bg-pink-700 transition"
             >
-              Register
+             <MdPersonAdd/> 
             </Link>
           </>
         )}
+       
       </div>
     </nav>
   );

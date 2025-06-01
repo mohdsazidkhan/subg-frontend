@@ -39,7 +39,10 @@ const ProfilePage = () => {
           <strong className="text-gray-700 dark:text-gray-300">Phone:</strong> {student.phone}
         </div>
         <div>
-          <strong className="text-gray-700 dark:text-gray-300">Coins:</strong> {student.coins || 0}
+          <strong className="text-gray-700 dark:text-gray-300">Coins:</strong> 💰{student.coins || 0}
+        </div>
+        <div>
+          <strong className="text-gray-700 dark:text-gray-300">Balance:</strong> ₹ {student.balance || 0}
         </div>
         <div>
           <strong className="text-gray-700 dark:text-gray-300">Badges:</strong>{' '}

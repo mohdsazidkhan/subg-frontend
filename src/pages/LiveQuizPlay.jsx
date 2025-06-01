@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import socket from '../utils/socket';
 import { FaTrophy } from 'react-icons/fa';
 
-// Simple spinner component
 const Spinner = () => (
   <div className="flex justify-center items-center my-8">
     <div className="w-8 h-8 border-4 border-blue-400 border-dashed rounded-full animate-spin"></div>
@@ -23,110 +22,117 @@ const LiveQuizPlay = () => {
   const [user, setUser] = useState(null);
   const [timer, setTimer] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [loadingNext, setLoadingNext] = useState(false); // new state for loading spinner
+  const [loadingNext, setLoadingNext] = useState(false);
+
+  const [quizResults, setQuizResults] = useState(null);
 
   const timerRef = useRef(null);
   const currentQuestionRef = useRef(null);
-  const TIME_UP_SOUND_URL = '/time-up.mp3';
-  // Audio ref for sound
-  const audioRef = useRef(new Audio(TIME_UP_SOUND_URL));
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const autoSubmitBlankAnswer = () => {
-    const storedUser = JSON.parse(localStorage.getItem('userInfo'));
-    const q = currentQuestionRef.current;
-    console.log(q,storedUser,isSubmitting,'autoSubmitBlankAnswer')
-    if (!storedUser || !q || isSubmitting) return;
-    setIsSubmitting(true);
-    setLoadingNext(true);
-    socket.emit('submitAnswer', {
-      quizId: id,
-      userId: storedUser.id,
-      questionId: q._id,
-      answer: '',
-    });
-    setMessage({ type: "error", message: "⏰ Time's up! Answer auto-submitted." });
-  };
+  const audioRef = useRef(new Audio('/time-up.mp3'));
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('userInfo'));
-    if (!storedUser) return navigate('/login');
-    setUser(storedUser);
+  const storedUser = JSON.parse(localStorage.getItem('userInfo'));
+  if (!storedUser) return navigate('/login');
+  setUser(storedUser);
 
-    socket.auth = { token: localStorage.getItem('token') };
-    if (!socket.connected) socket.connect();
+  // ✅ Set auth and connect
+  socket.auth = { token: localStorage.getItem('token') };
+  if (!socket.connected) socket.connect();
 
-    socket.emit('joinRoom', { quizId: id, userId: storedUser.id });
+  // ✅ Prevent duplicate listeners
+  socket.off('question');
+  socket.off('quizEnd');
+  socket.off('alreadyAttempted');
+  socket.off('error');
 
-    socket.on('question', ({ question }) => {
-      setLoadingNext(false); // stop loading spinner
-      setQuestion(question);
-      currentQuestionRef.current = question;
-      setMessage(null);
-      setTimer(question.timeLimit || 30);
-      setIsSubmitting(false);
+  // ✅ Join the quiz room
+  socket.emit('joinRoom', { quizId: id, userId: storedUser.publicId });
 
-      if (timerRef.current) clearInterval(timerRef.current);
+  socket.on('question', ({ question }) => {
+    setLoadingNext(false);
+    setQuestion(question);
+    currentQuestionRef.current = question;
+    setMessage(null);
+    setTimer(question.timeLimit || 30);
+    setIsSubmitting(false);
 
-      timerRef.current = setInterval(() => {
-        setTimer((prev) => {
-          if (prev <= 1) {
-            clearInterval(timerRef.current);
-            playTimeUpSound();
-            autoSubmitBlankAnswer();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    });
+    if (timerRef.current) clearInterval(timerRef.current);
 
-    socket.on('quizEnd', ({ message, leaderboard }) => {
-      console.log(message,leaderboard,'quizEnd')
-      cleanupSocket();
-      setLoadingNext(false);
-      setMessage({ type: "error", message: message || 'Quiz ended!' });
-      setQuestion(null);
-      setLeaderboard(leaderboard || []);
-      updateUserResult(storedUser, leaderboard);
-    });
+    timerRef.current = setInterval(() => {
+      setTimer((prev) => {
+        if (prev <= 1) {
+          clearInterval(timerRef.current);
+          playTimeUpSound();
+          autoSubmitBlankAnswer();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  });
 
-    socket.on('alreadyAttempted', ({ message, leaderboard }) => {
-      cleanupSocket();
-      setLoadingNext(false);
-      setMessage({ type: "error", message: message || 'You have already attempted this quiz!' });
-      setQuestion(null);
-      setLeaderboard(leaderboard || []);
-      updateUserResult(storedUser, leaderboard);
-    });
+  socket.on('quizEnd', (data) => {
+    cleanupSocket(false);
+    setLoadingNext(false);
+    setMessage({ type: "error", message: data.message || 'Quiz ended!' });
+    setQuestion(null);
+    setLeaderboard(data.leaderboard || []);
+    updateUserResult(storedUser, data.leaderboard);
 
-    socket.on('error', (err) => {
-      console.error('Socket error:', err);
-      setMessage({ type: "error", message: err?.message || 'An error occurred.' });
-    });
+    if (data.totalQuestions !== undefined) {
+      setQuizResults({
+        totalQuestions: data.totalQuestions,
+        correctAnswers: data.correctAnswers,
+        wrongAnswers: data.wrongAnswers,
+        coinsEarned: data.coinsEarned,
+        questionBreakdown: data.questionBreakdown
+      });
+    }
+  });
 
-    return () => {
-      cleanupSocket();
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, navigate]);
+  socket.on('alreadyAttempted', ({ message, leaderboard }) => {
+    cleanupSocket(false);
+    setLoadingNext(false);
+    setMessage({ type: "error", message: message || 'You have already attempted this quiz!' });
+    setQuestion(null);
+    setLeaderboard(leaderboard || []);
+    updateUserResult(storedUser, leaderboard);
+  });
 
-  const cleanupSocket = () => {
+  socket.on('error', (err) => {
+    console.error('Socket error:', err);
+    setMessage({ type: "error", message: err?.message || 'An error occurred.' });
+    setLoadingNext(false);
+  });
+
+  return () => {
+    cleanupSocket(true);
+  };
+}, [id, navigate]);
+
+
+  // cleanupSocket now has a param to decide whether to disconnect socket or just off listeners
+  const cleanupSocket = (disconnect = true) => {
     socket.off('alreadyAttempted');
     socket.off('question');
     socket.off('quizEnd');
     socket.off('error');
-    socket.disconnect();
-    if (timerRef.current) clearInterval(timerRef.current);
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    if (disconnect && socket.connected) {
+      socket.disconnect();
+    }
   };
 
   const updateUserResult = (user, leaderboard) => {
-    if(leaderboard){
-    const userRank = leaderboard?.findIndex(entry => entry.name === user.name);
-      if (userRank !== -1) {
-        setUserRank(userRank + 1);
-        setUserScore(leaderboard[userRank]?.score);
-        setUserCoins(leaderboard[userRank]?.coinsEarned);
+    if (leaderboard && user) {
+      const userRankIndex = leaderboard.findIndex(entry => entry.userId === user.publicId);
+      if (userRankIndex !== -1) {
+        setUserRank(userRankIndex + 1);
+        setUserScore(leaderboard[userRankIndex]?.score);
+        setUserCoins(leaderboard[userRankIndex]?.coinsEarned);
       }
     }
   };
@@ -134,28 +140,39 @@ const LiveQuizPlay = () => {
   const submitAnswer = (option) => {
     if (!question || !user || isSubmitting) return;
     setIsSubmitting(true);
-    setLoadingNext(true); // show spinner after answer submit
+    setLoadingNext(true);
     socket.emit('submitAnswer', {
       quizId: id,
-      userId: user.id,
+      userId: user.publicId,
       questionId: question._id,
       answer: option,
     });
     setMessage({ type: "success", message: 'Answer Submitted!' });
-    clearInterval(timerRef.current);
+    if (timerRef.current) clearInterval(timerRef.current);
   };
 
-  
+  const playTimeUpSound = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(() => {});
+    }
+  };
 
-const playTimeUpSound = () => {
-  if (audioRef.current) {
-    audioRef.current.currentTime = 0;
-    audioRef.current.play().catch(() => {
-      // silently catch errors if audio cannot play
+  // Auto-submit blank answer when time is up
+  const autoSubmitBlankAnswer = () => {
+    const storedUser = JSON.parse(localStorage.getItem('userInfo'));
+    const q = currentQuestionRef.current;
+    if (!storedUser || !q || isSubmitting) return;
+    setIsSubmitting(true);
+    setLoadingNext(true);
+    socket.emit('submitAnswer', {
+      quizId: id,
+      userId: storedUser.publicId,  // fixed here
+      questionId: q._id,
+      answer: '',
     });
-  }
-};
-
+    setMessage({ type: "error", message: "⏰ Time's up! Answer auto-submitted." });
+  };
 
   return (
     <div className="p-4 w-full dark:bg-gray-900 min-h-screen dark:text-white">
@@ -190,7 +207,48 @@ const playTimeUpSound = () => {
         </p>
       )}
 
-      {userRank > 0 && (
+      {quizResults && (
+        <div className="mb-6 p-4 bg-blue-50 dark:bg-gray-800 border-l-4 border-blue-400 dark:border-blue-500 rounded shadow">
+          <h3 className="text-lg font-semibold mb-2">🏅 Your Quiz Results</h3>
+          <p>Total Questions: <strong>{quizResults.totalQuestions}</strong></p>
+          <p>Correct Answers: <strong>{quizResults.correctAnswers}</strong></p>
+          <p>Wrong Answers: <strong>{quizResults.wrongAnswers}</strong></p>
+          <p>Coins Earned: <strong>{quizResults.coinsEarned}</strong></p>
+
+          <div className="mt-4">
+            <h4 className="font-semibold mb-2">Question Breakdown:</h4>
+            <ul>
+              {quizResults.questionBreakdown.map((q, i) => (
+                <li key={i} className="mb-4 p-3 border rounded bg-white dark:bg-gray-700">
+                  <p className="font-semibold mb-1">{i + 1}. {q.questionText}</p>
+                  <ul className="mb-2">
+                    {q.options.map((opt, idx) => {
+                      const isUserAnswer = opt === q.userAnswer;
+                      const isCorrectAnswer = opt === q.correctAnswer;
+                      return (
+                        <li
+                          key={idx}
+                          className={`pl-3 py-1 rounded
+                            ${isCorrectAnswer ? 'bg-green-300 font-bold' : ''}
+                            ${isUserAnswer && !q.isCorrect ? 'bg-red-300 line-through' : ''}
+                            ${isUserAnswer && q.isCorrect ? 'bg-green-400 font-bold' : ''}
+                          `}
+                        >
+                          {opt}
+                          {isUserAnswer && <span> ← Your answer</span>}
+                          {isCorrectAnswer && !q.isCorrect && <span> ← Correct answer</span>}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
+      {userRank > 0 && !quizResults && (
         <>
           <h3 className="text-lg font-semibold mb-1">🏅 Your Result</h3>
           <div className="mb-6 p-4 bg-blue-50 dark:bg-gray-800 border-l-4 border-blue-400 dark:border-blue-500 rounded shadow">
@@ -207,21 +265,34 @@ const playTimeUpSound = () => {
             <FaTrophy className="text-yellow-400 mr-2" />
             Leaderboard
           </h3>
-          <ul className="bg-gray-100 dark:bg-gray-800 p-4 rounded shadow max-h-64 overflow-auto">
-            {leaderboard.map((entry, index) => {
-              const isCurrentUser = entry.userId === user?.id;
+          <table className="w-full bg-gray-100 dark:bg-gray-800 p-4 rounded shadow max-h-64 overflow-auto">
+            <thead>
+            <tr>
+              <th align='left' className=' px-2'>Rank</th>
+              <th align='left' className=' px-2'>Name</th>
+              <th align='left' className=' px-2'>Score</th>
+              <th align='left' className=' px-2'>Coins Earned</th>
+            </tr>
+            </thead>
+            <tbody>
+            {leaderboard?.map((entry, index) => {
+              const isCurrentUser = entry.userId === user?.publicId;
               return (
-                <li
+                <tr
                   key={index}
-                  className={`border-b p-2 flex justify-between items-center ${isCurrentUser ? 'bg-green-600 text-white font-semibold' : ''
+                  className={`${isCurrentUser ? 'bg-green-600 text-white font-semibold' : ''
                     }`}
                 >
-                  <span>{index + 1}. {entry.name}</span>
-                  <span className="font-bold">{entry.score}</span>
-                </li>
+
+                  <td align='left' className="font-bold px-2">{index + 1}</td>
+                  <td align='left' className="font-bold px-2">{entry.name}</td>
+                  <td align='left' className="font-bold px-2">{entry.score}</td>
+                  <td align='left' className="font-bold px-2">{entry.coinsEarned}</td>
+                </tr>
               );
             })}
-          </ul>
+            </tbody>
+          </table>
         </div>
       )}
     </div>

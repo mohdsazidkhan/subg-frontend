@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import API from '../../utils/api';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
+import { toast } from 'react-toastify';
 
 const CategoryPage = () => {
   const [name, setName] = useState('');
@@ -14,10 +15,22 @@ const CategoryPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(name === ""){
+      toast.error("Enter Category Name!")
+      return
+    }
     if (!name.trim()) return;
-    await API.post('/admin/categories', { name });
-    setName('');
-    fetchCategories();
+    try{
+
+      const response = await API.post('/admin/categories', { name });
+      if(response.status === 201){
+        toast.success(response.data.message || "Category Created")
+        setName('');
+        fetchCategories();
+      }
+    }catch(error){
+      toast.error(error.response.data.message || "Error in Save Category")
+    }
   };
 
   useEffect(() => {

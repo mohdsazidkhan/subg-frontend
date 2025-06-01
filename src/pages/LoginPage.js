@@ -1,26 +1,31 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import API from '../utils/api';
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.post('/auth/login', { email, password });
-      localStorage.setItem('userInfo', JSON.stringify(res.data.user));
-      localStorage.setItem('token', res.data.token);
-      if (res.data.user.role === 'admin') {
-        navigate('/admin/dashboard');
-      } else {
-        navigate('/student/profile');
+      const response = await API.post('/auth/login', { email, password });
+      console.log(response, 'response')
+      if(response?.status === 200){
+        localStorage.setItem('userInfo', JSON.stringify(response.data.user));
+        localStorage.setItem('token', response.data.token);
+        
+        if (response.data.user.role === 'admin') {
+          navigate('/admin/dashboard');
+        } else {
+          navigate('/student/profile');
+        }
+        toast.success(response.data.message || "Login Success!")
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      toast.error(err.response?.data?.message || 'Login failed');
     }
   };
 
@@ -31,7 +36,6 @@ const LoginPage = () => {
         className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-8 rounded-lg shadow-md max-w-sm w-full"
       >
         <h2 className="text-2xl font-bold mb-4 text-center">🔐 Login</h2>
-        {error && <div className="text-red-600 dark:text-red-400 mb-2">{error}</div>}
         
         <input
           className="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 text-black dark:text-white p-2 mb-4 rounded"

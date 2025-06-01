@@ -2,14 +2,23 @@ import { useEffect, useState } from 'react';
 import API from '../../utils/api';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { toast } from 'react-toastify';
 
 const LiveQuizPage = () => {
+
   const [quizzes, setQuizzes] = useState([]);
   const [quizList, setQuizList] = useState([]);
   const [selectedQuiz, setSelectedQuiz] = useState('');
   const [accessType, setAccessType] = useState('free');
-  const [amount, setAmount] = useState(''); // ✅ Amount field
-  const [message, setMessage] = useState('');
+  const [coinsToPlay, setCoinsToPlay] = useState('');
+  const [startTime, setStartTime] = useState(null); // Use null for empty Date
+  const [endTime, setEndTime] = useState(null);
+
+  const user = JSON.parse(localStorage.getItem('userInfo'));
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
 
   useEffect(() => {
     fetchAllQuizzes();
@@ -34,47 +43,67 @@ const LiveQuizPage = () => {
     }
   };
 
+  // Format Date object to HH:mm string
+  const formatTime = (date) => {
+    if (!date) return '';
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
+
   const createLiveQuiz = async (e) => {
     e.preventDefault();
+
+    if (!startTime || !endTime) {
+      toast.error('Please select both start and end time');
+      return;
+    }
+
     try {
-      await API.post('/live-quizzes', {
+      const response = await API.post('/admin/live-quiz/create', {
         quizId: selectedQuiz,
         isPro: accessType === 'pro',
-        amount: accessType === 'pro' ? Number(amount) : 0 // ✅ Send amount
+        coinsToPlay: accessType === 'pro' ? Number(coinsToPlay) : 0,
+        startTime: formatTime(startTime),
+        endTime: formatTime(endTime),
       });
-      setMessage('Live quiz created!');
-      setSelectedQuiz('');
-      setAccessType('free');
-      setAmount('');
-      fetchLiveQuizzes();
+      if(response.status === 201){
+        toast.success(response?.data.message || 'Live quiz created!');
+        setSelectedQuiz('');
+        setAccessType('free');
+        setCoinsToPlay('');
+        setStartTime(null);
+        setEndTime(null);
+        fetchLiveQuizzes();
+      }
     } catch (err) {
-      setMessage(err.response?.data?.error || 'Error creating live quiz');
+      toast.error(err.response?.data?.error || 'Error creating live quiz');
     }
   };
 
-  const startQuiz = async (quizId) => {
+  const handleStartQuiz = async (quizId) => {
     try {
-      await API.post(`/live-quizzes/${quizId}/start`);
-      alert('Quiz started!');
-      fetchLiveQuizzes();
+      const response = await API.patch(`/admin/live-quiz/start/${quizId}`);
+      if(response?.status === 200){
+        toast.success(response.data?.message || 'Quiz Started');
+        fetchLiveQuizzes();
+      }
     } catch (err) {
-      alert('Failed to start quiz');
+      toast.error(err.response?.data?.error || 'Error Starting Quiz');
     }
   };
 
-  const endQuiz = async (quizId) => {
+  const handleEndQuiz = async (quizId) => {
     try {
-      await API.post(`/live-quizzes/${quizId}/end`);
-      alert('Quiz ended!');
-      fetchLiveQuizzes();
+      const response = await API.patch(`/admin/live-quiz/end/${quizId}`);
+      if(response?.status === 200){
+        toast.success(response.data?.message || 'Quiz Ended');
+        fetchLiveQuizzes();
+      }
     } catch (err) {
-      alert('Failed to end quiz');
+      toast.error(err.response?.data?.error || 'Error ending quiz');
     }
   };
-
-  const user = JSON.parse(localStorage.getItem('userInfo'));
-  const location = useLocation();
-  const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
     <div className='adminPanel'>
@@ -82,13 +111,12 @@ const LiveQuizPage = () => {
       <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
         <h2 className="text-xl font-bold mb-4">Live Quiz Management</h2>
 
-        <form onSubmit={createLiveQuiz} className="mb-6 space-y-4">
-          {message && <p className="text-green-600 dark:text-green-400">{message}</p>}
+        <form onSubmit={createLiveQuiz} className="mb-6 flex flex-wrap items-center gap-4">
 
           <select
             value={selectedQuiz}
             onChange={(e) => setSelectedQuiz(e.target.value)}
-            className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white w-full p-2 rounded"
+            className="border bg-white dark:bg-gray-800 text-black dark:text-white p-2 rounded flex-grow min-w-[100px]"
             required
           >
             <option value="">Select a quiz</option>
@@ -99,82 +127,116 @@ const LiveQuizPage = () => {
             ))}
           </select>
 
-          {/* ✅ Access Type Dropdown */}
           <select
             value={accessType}
             onChange={(e) => setAccessType(e.target.value)}
-            className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white w-full p-2 rounded"
+            className="border bg-white dark:bg-gray-800 text-black dark:text-white p-2 rounded min-w-[100px]"
           >
             <option value="free">Free</option>
             <option value="pro">Pro</option>
           </select>
 
-          {/* ✅ Amount Field (only when Pro is selected) */}
           {accessType === 'pro' && (
             <input
               type="number"
-              placeholder="Enter amount"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white w-full p-2 rounded"
+              placeholder="Coins to Play"
+              value={coinsToPlay}
+              onChange={(e) => setCoinsToPlay(e.target.value)}
+              className="border bg-white dark:bg-gray-800 text-black dark:text-white p-2 rounded w-24"
               min={1}
-              step="1"
-              pattern="\d*"
               required
             />
           )}
 
+          <DatePicker
+            selected={startTime}
+            onChange={setStartTime}
+            showTimeSelect
+            showTimeSelectOnly
+            timeIntervals={15}
+            timeCaption="Time"
+            dateFormat="h:mm aa"
+            placeholderText="Start Time"
+            className="border bg-white dark:bg-gray-800 text-black dark:text-white p-2 rounded w-28"
+            required
+          />
+
+          <DatePicker
+            selected={endTime}
+            onChange={setEndTime}
+            showTimeSelect
+            showTimeSelectOnly
+            timeIntervals={15}
+            timeCaption="Time"
+            dateFormat="h:mm aa"
+            placeholderText="End Time"
+            className="border bg-white dark:bg-gray-800 text-black dark:text-white p-2 rounded w-28"
+            required
+          />
+
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded whitespace-nowrap"
           >
             Create Live Quiz
           </button>
         </form>
 
+
         <h3 className="text-lg font-semibold mb-2">Live Quizzes</h3>
         <ul className="space-y-3">
-          {quizzes.map((quiz) => (
-            <li
-              key={quiz._id}
-              className="border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-4 rounded flex justify-between items-center"
-            >
-              <div>
-                <h4 className="font-semibold">{quiz.quiz?.title || 'Untitled'}</h4>
-                <p>
-                  Access:{' '}
-                  <span className={`font-medium ${quiz.isPro ? 'text-red-600' : 'text-green-600'}`}>
-                    {quiz.isPro ? 'Pro' : 'Free'}
-                  </span>
-                </p>
-                <p>
-                  Status:{' '}
-                  <span
-                    className={`font-medium ${quiz.isActive ? 'text-red-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}
+          {quizzes.map((quiz) => {
+            let status = 'Not Started';
+            if (quiz.status === "not_started") {
+              status = 'Not Started';
+            } else if (quiz.status === "started") {
+              status = 'Live';
+            } else if (quiz.status === "ended") {
+              status = 'Ended';
+            }
+
+            return (
+              <li
+                key={quiz._id}
+                className="border bg-gray-50 dark:bg-gray-800 p-4 rounded flex justify-between items-start"
+              >
+                <div>
+                  <h4 className="font-semibold">{quiz.quiz?.title || 'Untitled'}</h4>
+                  <p>Access: <span className={quiz.accessType === 'pro' ? 'text-red-600' : 'text-green-600'}>
+                    {quiz.accessType === 'pro' ? 'Pro' : 'Free'}
+                  </span></p>
+                  <p>Status: <span className={
+                    status === 'Not Started'
+                      ? 'text-yellow-600'
+                      : status === 'Live'
+                        ? 'text-green-600'
+                        : 'text-red-600'
+                  }
                   >
-                    {quiz.isActive ? 'Live' : 'Ended'}
-                  </span>
-                </p>
-              </div>
-              <div className="space-x-2">
-                {!quiz.isActive ? (
-                  <button
-                    className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded"
-                    onClick={() => startQuiz(quiz._id)}
-                  >
-                    Start
-                  </button>
-                ) : (
-                  <button
-                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
-                    onClick={() => endQuiz(quiz._id)}
-                  >
-                    End
-                  </button>
-                )}
-              </div>
-            </li>
-          ))}
+                    {status}
+                  </span></p>
+                </div>
+                <div className="flex flex-col gap-2">
+                  {status === 'Not Started' && (
+                    <button
+                      onClick={() => handleStartQuiz(quiz._id)}
+                      className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm"
+                    >
+                      Start
+                    </button>
+                  )}
+                  {status === 'Live' && (
+                    <button
+                      onClick={() => handleEndQuiz(quiz._id)}
+                      className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm"
+                    >
+                      End
+                    </button>
+                  )}
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

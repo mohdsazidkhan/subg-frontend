@@ -1,16 +1,15 @@
 .appContainer{
-    margin-top: 58px;
+    margin-top: 53px;
     display: flex;
 }
 .sidebar {
     width: 200px;
-    display: flex
-;
+    display: flex;
     flex-direction: column;
     min-width: 200px;
     max-width: 200px;
     position: fixed;
-    top: 58px;
+    top: 52px;
     left: 0;
     overflow-x: hidden;
     overflow-y: scroll;
