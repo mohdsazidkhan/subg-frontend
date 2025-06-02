@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import API from '../../utils/api';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
-
+import { useSelector } from 'react-redux';
 const SubcategoryPage = () => {
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
@@ -30,8 +30,9 @@ const SubcategoryPage = () => {
   const user = JSON.parse(localStorage.getItem('userInfo'));
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
+  const isOpen = useSelector((state) => state.sidebar.isOpen);
   return (
-    <div className='adminPanel'>
+    <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
       {user?.role === 'admin' && isAdminRoute && <Sidebar />}
       <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
         <h2 className="text-2xl font-bold mb-4">Manage Subcategories</h2>

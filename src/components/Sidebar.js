@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
-
+import { useSelector } from 'react-redux';
 const Sidebar = () => {
+  const isOpen = useSelector((state) => state.sidebar.isOpen);
+
   const linkClasses = ({ isActive }) =>
     `block transition-colors ${
       isActive
@@ -9,7 +11,9 @@ const Sidebar = () => {
     }`;
 
   return (
-    <div className="sidebar bg-gray-200 dark:bg-gray-900 w-64">
+    <div className={`sidebar bg-gray-200 dark:bg-gray-900 w-64 ${
+        isOpen ? 'showSidebar' : 'hideSidebar'
+      }`}>
       <ul className="space-y-2">
         <li>
           <NavLink to="/admin/dashboard" className={linkClasses}>

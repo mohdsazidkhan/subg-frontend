@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import API from '../../utils/api';
 import { Link, useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
-
+import { useSelector } from 'react-redux';
 const DashboardPage = () => {
   const [stats, setStats] = useState({});
 
@@ -22,11 +22,12 @@ const DashboardPage = () => {
 
   const isAdminRoute = location.pathname.startsWith('/admin');
 
+  const isOpen = useSelector((state) => state.sidebar.isOpen);
   return (
-    <div className='adminPanel'>
+    <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
       {user?.role === 'admin' && isAdminRoute && <Sidebar />}
       <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {cards.map((card) => (
             <Link key={card.title} to={card.link}>
               <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-md transition">

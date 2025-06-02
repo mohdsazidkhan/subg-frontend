@@ -19,6 +19,8 @@ import Wallet from './pages/Wallet';
 import './App.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Provider } from 'react-redux';
+import store from './store';
 
 function AppLayout() {
 
@@ -61,8 +63,10 @@ function AppLayout() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AppLayout />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppLayout />
+      </BrowserRouter>
+    </Provider>
   );
 }

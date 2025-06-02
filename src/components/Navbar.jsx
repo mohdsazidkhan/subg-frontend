@@ -1,11 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { MdDarkMode, MdLightMode, MdLogout, MdPerson, MdPerson4, MdPersonAdd } from 'react-icons/md';
+import { MdClose, MdDarkMode, MdLightMode, MdLogout, MdMenu, MdPerson, MdPerson4, MdPersonAdd } from 'react-icons/md';
+import { toggleSidebar } from '../store/sidebarSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Navbar() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('userInfo'));
-
+  const dispatch = useDispatch();
+  const isOpen = useSelector((state) => state.sidebar.isOpen);
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       const savedTheme = localStorage.getItem('theme');
@@ -42,7 +45,6 @@ export default function Navbar() {
       </div>
 
       <div className="flex items-center space-x-2">
-        
         <button
           onClick={toggleTheme}
           aria-label="Toggle Dark Mode"
@@ -68,6 +70,7 @@ export default function Navbar() {
                 </Link>
               </>
             )}
+            
             <button
               title="Logout"
               onClick={handleLogout}
@@ -75,6 +78,15 @@ export default function Navbar() {
             >
               <MdLogout/>
             </button>
+            {user.role === "admin" &&
+            <button
+              title="Toggle Menu"
+              onClick={() => dispatch(toggleSidebar())}
+              className="toggleMenu bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-700 transition"
+            >
+              {isOpen ? <MdClose /> : <MdMenu/>}
+            </button>
+            }
           </>
         ) : (
           <>
@@ -94,7 +106,6 @@ export default function Navbar() {
             </Link>
           </>
         )}
-       
       </div>
     </nav>
   );

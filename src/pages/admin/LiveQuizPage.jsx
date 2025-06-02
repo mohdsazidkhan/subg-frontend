@@ -5,7 +5,7 @@ import Sidebar from '../../components/Sidebar';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from 'react-toastify';
-
+import { useSelector } from 'react-redux';
 const LiveQuizPage = () => {
 
   const [quizzes, setQuizzes] = useState([]);
@@ -105,8 +105,9 @@ const LiveQuizPage = () => {
     }
   };
 
+  const isOpen = useSelector((state) => state.sidebar.isOpen);
   return (
-    <div className='adminPanel'>
+    <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
       {user?.role === 'admin' && isAdminRoute && <Sidebar />}
       <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
         <h2 className="text-xl font-bold mb-4">Live Quiz Management</h2>
