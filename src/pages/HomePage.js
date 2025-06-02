@@ -243,48 +243,48 @@ const LiveQuizPage = () => {
                 </div>
 
                 <div className="flex justify-between items-center gap-4">
-                 <div className="flex justify-between items-center gap-4">
-  {hasAttempted ? (
-    <Link
-      to={`/student/live-quiz/${lq.quiz?._id}`}
-      className="inline-block bg-green-600 text-white text-sm lg:text-md xl:text-lg px-2 py-1 rounded hover:bg-green-700 dark:hover:bg-green-500"
-    >
-      View Result
-    </Link>
-  ) : hasEnded ? (
-    <button
-      disabled
-      className="inline-block bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed"
-      title="Quiz ended - You did not attempt"
-    >
-      Quiz Ended
-    </button>
-  ) : hasStarted ? (
-    isPro && !hasPaid ? (
-      <button
-        onClick={() => handlePayNow(lq._id, lq.quiz._id)}
-        className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 dark:hover:bg-blue-500"
-      >
-        Pay with {lq.coinsToPlay} Coins
-      </button>
-    ) : (
-      <Link
-        to={`/student/live-quiz/${lq.quiz?._id}`}
-        className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 dark:hover:bg-blue-500"
-      >
-        Play Now
-      </Link>
-    )
-  ) : (
-    <LiveQuizCountdown
-      startTime={lq.startTime}
-      endTime={lq.endTime}
-      quizId={lq._id}
-      onStart={handleQuizStart}
-      onEnd={handleQuizEnd}
-    />
-  )}
-</div>
+                  <div className="flex justify-between items-center gap-4">
+                    {hasAttempted ? (
+                      <Link
+                        to={`/student/live-quiz/${lq.quiz?._id}`}
+                        className="inline-block bg-green-600 text-white text-sm lg:text-md xl:text-lg px-2 py-1 rounded hover:bg-green-700 dark:hover:bg-green-500"
+                      >
+                        View Result
+                      </Link>
+                    ) : hasEnded ? (
+                      <button
+                        disabled
+                        className="inline-block bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed"
+                        title="Quiz ended - You did not attempt"
+                      >
+                        Quiz Ended
+                      </button>
+                    ) : hasStarted ? (
+                      isPro && !hasPaid ? (
+                        <button
+                          onClick={() => handlePayNow(lq._id, lq.quiz._id)}
+                          className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 dark:hover:bg-blue-500"
+                        >
+                          Play with {lq.coinsToPlay} Coins
+                        </button>
+                      ) : (
+                        <Link
+                          to={`/student/live-quiz/${lq.quiz?._id}`}
+                          className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 dark:hover:bg-blue-500"
+                        >
+                          Play Now
+                        </Link>
+                      )
+                    ) : (
+                      <LiveQuizCountdown
+                        startTime={lq.startTime}
+                        endTime={lq.endTime}
+                        quizId={lq._id}
+                        onStart={handleQuizStart}
+                        onEnd={handleQuizEnd}
+                      />
+                    )}
+                  </div>
 
                 </div>
               </div>
