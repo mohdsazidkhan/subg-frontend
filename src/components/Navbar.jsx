@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { MdClose, MdDarkMode, MdLightMode, MdLogout, MdMenu, MdPerson, MdPerson4, MdPersonAdd } from 'react-icons/md';
+import { MdClose, MdDarkMode, MdDashboard, MdLightMode, MdLogout, MdMenu, MdPerson, MdPerson4, MdPersonAdd } from 'react-icons/md';
 import { toggleSidebar } from '../store/sidebarSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -39,7 +39,7 @@ export default function Navbar() {
   return (
     <nav className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-3 flex justify-between items-center fixed top-0 w-full z-50 shadow-md">
       <div className="text-xl font-bold">
-        <Link to={user?.role === 'admin' ? '/admin/dashboard' : '/'} className="hover:text-blue-600 dark:hover:text-blue-400 transition">
+        <Link to={'/'} className="hover:text-blue-600 dark:hover:text-blue-400 transition">
           SUBG
         </Link>
       </div>
@@ -48,29 +48,38 @@ export default function Navbar() {
         <button
           onClick={toggleTheme}
           aria-label="Toggle Dark Mode"
-          title={`${theme === 'dark' ? "Dark Mode" : "Light Mode"}`}
-          className="bg-green-600 text-white px-3 py-1 rounded hover:text-white transition"
+          title={`${theme === 'dark' ? "Light Mode" : "Dark Mode"}`}
+          className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded hover:text-white transition"
         >
           {theme === 'dark' ? <MdLightMode /> : <MdDarkMode/>}
         </button>
         {user ? (
           <>
-            <span className="hidden sm:inline">Welcome, {user.name?.split(" ")[0]}</span>
+            
             {user?.role === 'student' && (
               <>
-                <Link to="/wallet" className="text-sm sm:text-base">
+                <Link title='My Wallet' to="/wallet" className="text-sm sm:text-base">
                 💸 ₹{user.balance || 0} | 🪙 {user.coins || 0}
                 </Link>
                 <Link
-                  title='Profile'
+                  title='My Profile'
                   to="/student/profile"
-                  className="bg-blue-600 text-white px-3 py-1 rounded hover:text-blue-600 dark:hover:text-blue-400 transition"
+                  className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700 hover:text-white dark:hover:text-white transition"
                 >
                   <MdPerson/>
                 </Link>
               </>
             )}
+             {user.role === "admin" &&
             
+             <Link
+                  title='Dashboard'
+                  to="/admin/dashboard"
+                  className="bg-blue-600 text-white px-3 py-1 rounded hover:text-blue-600 dark:hover:text-blue-400 transition"
+                >
+                  <MdDashboard />
+                </Link>
+             }
             <button
               title="Logout"
               onClick={handleLogout}
@@ -79,6 +88,7 @@ export default function Navbar() {
               <MdLogout/>
             </button>
             {user.role === "admin" &&
+            <>
             <button
               title="Toggle Menu"
               onClick={() => dispatch(toggleSidebar())}
@@ -86,6 +96,7 @@ export default function Navbar() {
             >
               {isOpen ? <MdClose /> : <MdMenu/>}
             </button>
+            </>
             }
           </>
         ) : (

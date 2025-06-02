@@ -95,6 +95,9 @@
     bottom: 0;
     z-index: 9;
   }
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
   .authPage,
   .sidebar,
   .adminContent {

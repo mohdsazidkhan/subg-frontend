@@ -1,7 +1,9 @@
 import { NavLink } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { toggleSidebar } from '../store/sidebarSlice';
+import { useDispatch, useSelector } from 'react-redux';
 const Sidebar = () => {
   const isOpen = useSelector((state) => state.sidebar.isOpen);
+  const dispatch = useDispatch();
 
   const linkClasses = ({ isActive }) =>
     `block transition-colors ${
@@ -16,37 +18,37 @@ const Sidebar = () => {
       }`}>
       <ul className="space-y-2">
         <li>
-          <NavLink to="/admin/dashboard" className={linkClasses}>
+          <NavLink onClick={()=>dispatch(toggleSidebar())} to="/admin/dashboard" className={linkClasses}>
             Dashboard
           </NavLink>
         </li>
         <li>
-          <NavLink to="/admin/categories" className={linkClasses}>
+          <NavLink onClick={()=>dispatch(toggleSidebar())} to="/admin/categories" className={linkClasses}>
             Categories
           </NavLink>
         </li>
         <li>
-          <NavLink to="/admin/sub-categories" className={linkClasses}>
+          <NavLink onClick={()=>dispatch(toggleSidebar())} to="/admin/sub-categories" className={linkClasses}>
             Sub-Categories
           </NavLink>
         </li>
         <li>
-          <NavLink to="/admin/quizzes" className={linkClasses}>
+          <NavLink onClick={()=>dispatch(toggleSidebar())} to="/admin/quizzes" className={linkClasses}>
             Quizzes
           </NavLink>
         </li>
         <li>
-          <NavLink to="/admin/live-quiz" className={linkClasses}>
+          <NavLink onClick={()=>dispatch(toggleSidebar())} to="/admin/live-quiz" className={linkClasses}>
             Live Quizzes
           </NavLink>
         </li>
         <li>
-          <NavLink to="/admin/questions" className={linkClasses}>
+          <NavLink onClick={()=>dispatch(toggleSidebar())} to="/admin/questions" className={linkClasses}>
             Questions
           </NavLink>
         </li>
         <li>
-          <NavLink to="/admin/students" className={linkClasses}>
+          <NavLink onClick={()=>dispatch(toggleSidebar())} to="/admin/students" className={linkClasses}>
             Students
           </NavLink>
         </li>

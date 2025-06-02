@@ -73,7 +73,7 @@ const LiveQuizCountdown = ({ startTime, endTime, quizId, onStart, onEnd }) => {
 
   return (
     <span className="flex items-center gap-2">
-      <span className="text-md text-white font-semibold">
+      <span className="text-md text-black dark:text-white font-semibold">
         {mode === 'beforeStart' ? 'Quiz Will Start:' : 'Quiz Will End:'}
       </span>
       <span className="text-lg font-semibold text-yellow-300">{timeLeft}</span>
@@ -121,7 +121,6 @@ const LiveQuizPage = () => {
   const handlePayNow = async (quizId, orignalQuizId) => {
     const storedUser = JSON.parse(localStorage.getItem('userInfo'));
     if (!storedUser) return navigate('/login');
-
     try {
       const response = await API.post('/live-quizzes/join', { quizId });
       if (response.status === 200) {
@@ -131,7 +130,6 @@ const LiveQuizPage = () => {
           const updatedUser = { ...storedUser, coins: updatedCoins, balance: updatedbalance };
           localStorage.setItem('userInfo', JSON.stringify(updatedUser));
         }
-
         if (response.data.payment) {
           navigate(`/student/live-quiz/${orignalQuizId}`);
         }

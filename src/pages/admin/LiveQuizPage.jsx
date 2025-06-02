@@ -117,7 +117,7 @@ const LiveQuizPage = () => {
           <select
             value={selectedQuiz}
             onChange={(e) => setSelectedQuiz(e.target.value)}
-            className="border bg-white dark:bg-gray-800 text-black dark:text-white p-2 rounded flex-grow min-w-[100px]"
+            className="w-full md:w-auto border bg-white dark:bg-gray-800 text-black dark:text-white p-2 rounded flex-grow min-w-[100px]"
             required
           >
             <option value="">Select a quiz</option>
@@ -131,7 +131,7 @@ const LiveQuizPage = () => {
           <select
             value={accessType}
             onChange={(e) => setAccessType(e.target.value)}
-            className="border bg-white dark:bg-gray-800 text-black dark:text-white p-2 rounded min-w-[100px]"
+            className="w-full md:w-auto border bg-white dark:bg-gray-800 text-black dark:text-white p-2 rounded min-w-[100px]"
           >
             <option value="free">Free</option>
             <option value="pro">Pro</option>
@@ -143,7 +143,7 @@ const LiveQuizPage = () => {
               placeholder="Coins to Play"
               value={coinsToPlay}
               onChange={(e) => setCoinsToPlay(e.target.value)}
-              className="border bg-white dark:bg-gray-800 text-black dark:text-white p-2 rounded w-24"
+              className="border bg-white dark:bg-gray-800 text-black dark:text-white p-2 rounded w-full md:w-24"
               min={1}
               required
             />
@@ -158,7 +158,7 @@ const LiveQuizPage = () => {
             timeCaption="Time"
             dateFormat="h:mm aa"
             placeholderText="Start Time"
-            className="border bg-white dark:bg-gray-800 text-black dark:text-white p-2 rounded w-28"
+            className="border bg-white dark:bg-gray-800 text-black dark:text-white p-2 rounded w-full md:w-28"
             required
           />
 
@@ -171,13 +171,13 @@ const LiveQuizPage = () => {
             timeCaption="Time"
             dateFormat="h:mm aa"
             placeholderText="End Time"
-            className="border bg-white dark:bg-gray-800 text-black dark:text-white p-2 rounded w-28"
+            className="border bg-white dark:bg-gray-800 text-black dark:text-white p-2 rounded w-full md:w-28"
             required
           />
 
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded whitespace-nowrap"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded whitespace-nowrap w-full md:w-auto"
           >
             Create Live Quiz
           </button>

@@ -16,7 +16,6 @@ const LoginPage = () => {
       if(response?.status === 200){
         localStorage.setItem('userInfo', JSON.stringify(response.data.user));
         localStorage.setItem('token', response.data.token);
-        
         if (response.data.user.role === 'admin') {
           navigate('/admin/dashboard');
         } else {
