@@ -6,10 +6,8 @@ import socket from '../utils/socket'; // Make sure this is your socket instance
 import { convertTo12Hour } from '../utils/index';
 import { toast } from 'react-toastify';
 
-// Countdown component for each quiz
-const LiveQuizCountdown = ({ startTime, endTime, quizId, onStart, onEnd }) => {
+const LiveQuizCountdown = ({ startTime, endTime }) => {
   const [timeLeft, setTimeLeft] = useState('');
-  const [mode, setMode] = useState('beforeStart'); // 'beforeStart' or 'afterStart'
 
   useEffect(() => {
     const [startHour, startMinute] = startTime.split(':').map(Number);
@@ -19,44 +17,25 @@ const LiveQuizCountdown = ({ startTime, endTime, quizId, onStart, onEnd }) => {
     let start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), startHour, startMinute, 0);
     let end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), endHour, endMinute, 0);
 
-    // If quiz spans midnight (e.g., start 23:00, end 01:00 next day)
+    // If quiz spans midnight
     if (end <= start) {
       end.setDate(end.getDate() + 1);
     }
 
-    console.log('Current time:', now.toLocaleTimeString());
-    console.log('Quiz start time:', start.toLocaleTimeString());
-    console.log('Quiz end time:', end.toLocaleTimeString());
-
     const timer = setInterval(() => {
       const currentTime = new Date();
+      const diff = end - currentTime;
 
-      if (mode === 'beforeStart') {
-        const diff = start - currentTime;
-
-        if (diff <= 0) {
-          setMode('afterStart');
-          setTimeLeft('0 Min 0 Sec');
-          socket.emit('startQuiz', { quizId });
-          onStart(quizId);
-        } else {
-          updateTimeLeft(diff);
-        }
-      } else if (mode === 'afterStart') {
-        const diff = end - currentTime;
-
-        if (diff <= 0) {
-          clearInterval(timer);
-          setTimeLeft('0 Min 0 Sec');
-          onEnd?.(quizId);
-        } else {
-          updateTimeLeft(diff);
-        }
+      if (diff <= 0) {
+        clearInterval(timer);
+        setTimeLeft('0 Min 0 Sec');
+      } else {
+        updateTimeLeft(diff);
       }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [startTime, endTime, quizId, onStart, onEnd, mode]);
+  }, [startTime, endTime]);
 
   const updateTimeLeft = (diff) => {
     const totalSeconds = Math.floor(diff / 1000);
@@ -74,7 +53,7 @@ const LiveQuizCountdown = ({ startTime, endTime, quizId, onStart, onEnd }) => {
   return (
     <span className="flex items-center gap-2">
       <span className="text-md text-black dark:text-white font-semibold">
-        {mode === 'beforeStart' ? 'Quiz Will Start:' : 'Quiz Will End:'}
+        Time Remaining:
       </span>
       <span className="text-lg font-semibold text-yellow-300">{timeLeft}</span>
     </span>
@@ -96,27 +75,35 @@ const LiveQuizPage = () => {
         console.error('Failed to fetch quizzes:', err);
       }
     };
-
     fetchLiveQuizzes();
   }, []);
 
-  const handleQuizStart = (quizId) => {
-    setLiveQuizzes((prev) =>
-      prev.map((q) => (q._id === quizId ? { ...q, status: 'started' } : q))
-    );
+  useEffect(() => {
     socket.auth = { token: localStorage.getItem('token') };
     if (!socket.connected) socket.connect();
-    socket.emit('startQuiz', quizId);
-  };
 
-  const handleQuizEnd = (quizId) => {
-    setLiveQuizzes((prev) =>
-      prev.map((q) => (q._id === quizId ? { ...q, status: 'ended' } : q))
-    );
-    socket.auth = { token: localStorage.getItem('token') };
-    if (!socket.connected) socket.connect();
-    socket.emit('endQuiz', quizId);
-  };
+    const handleStartQuiz = ({ quizId }) => {
+      console.log(quizId,'handleStartQuiz');
+      setLiveQuizzes((prev) =>
+        prev.map((q) => (q._id === quizId ? { ...q, status: 'started' } : q))
+      );
+    };
+
+    const handleEndQuiz = ({ quizId }) => {
+       console.log(quizId,'handleEndQuiz');
+      setLiveQuizzes((prev) =>
+        prev.map((q) => (q._id === quizId ? { ...q, status: 'ended' } : q))
+      );
+    };
+
+    socket.on('quizStarted', handleStartQuiz);
+    socket.on('quizEnded', handleEndQuiz);
+
+    return () => {
+      socket.off('quizStarted', handleStartQuiz);
+      socket.off('quizEnded', handleEndQuiz);
+    };
+  }, []);
 
   const handlePayNow = async (quizId, orignalQuizId) => {
     const storedUser = JSON.parse(localStorage.getItem('userInfo'));
@@ -151,27 +138,12 @@ const LiveQuizPage = () => {
 
         <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {liveQuizzes?.map((lq) => {
-            const now = new Date();
-            const currentMinutes = now.getHours() * 60 + now.getMinutes();
-
-            const [startHours, startMinutes] = lq.startTime.split(':').map(Number);
-            const [endHours, endMinutes] = lq.endTime.split(':').map(Number);
-
-            const quizStartMinutes = startHours * 60 + startMinutes;
-            const quizEndMinutes = endHours * 60 + endMinutes;
-
+          
             // Determine if quiz has started
-            const hasStarted = (lq.status === 'started' || currentMinutes >= quizStartMinutes);
+            const hasStarted = lq.status === 'started';
 
             // Handle quiz spanning midnight
-            let hasEnded;
-            if (quizEndMinutes <= quizStartMinutes) {
-              // Quiz spans midnight, so ended if NOT between start and end times
-              hasEnded = !(currentMinutes >= quizStartMinutes || currentMinutes < quizEndMinutes);
-            } else {
-              hasEnded = currentMinutes >= quizEndMinutes;
-            }
-            hasEnded = hasEnded || (lq.status === 'ended');
+            let hasEnded = lq.status === 'ended';
 
             const isPro = lq.accessType === 'pro';
             const hasPaid = lq.paidUsers?.includes(storedUser?.publicId);
@@ -277,9 +249,6 @@ const LiveQuizPage = () => {
                       <LiveQuizCountdown
                         startTime={lq.startTime}
                         endTime={lq.endTime}
-                        quizId={lq._id}
-                        onStart={handleQuizStart}
-                        onEnd={handleQuizEnd}
                       />
                     )}
                   </div>
