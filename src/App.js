@@ -21,6 +21,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import store from './store';
+import QuizResult from './pages/QuizResult';
 
 function AppLayout() {
 
@@ -52,6 +53,7 @@ function AppLayout() {
             <Route path="/student/profile" element={<StudentRoute><ProfilePage /></StudentRoute>} />
             <Route path="/student/attempt-quiz/:quizId" element={<StudentRoute><AttemptQuizPage /></StudentRoute>} />
             <Route path="/wallet" element={<StudentRoute><Wallet /></StudentRoute>} />
+            <Route path="/quiz-result" element={<StudentRoute><QuizResult /></StudentRoute>} />
 
             {/* Add more student routes here, like profile */}
           </Routes>

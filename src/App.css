@@ -84,13 +84,7 @@
   border-radius: 100%;
   transform: translateY(-50%);
 }
-.toggleMenu{
-  display: none;
-}
 @media (max-width:768px) {
-  .toggleMenu{
-    display: flex;
-  }
   .sidebar{
     bottom: 0;
     z-index: 9;

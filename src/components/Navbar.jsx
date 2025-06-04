@@ -1,8 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { MdClose, MdDarkMode, MdDashboard, MdLightMode, MdLogout, MdMenu, MdPerson, MdPerson4, MdPersonAdd } from 'react-icons/md';
+import { MdClose, MdDarkMode, MdDashboard, MdLightMode, MdLogout, MdMenu, MdPerson4, MdPersonAdd } from 'react-icons/md';
 import { toggleSidebar } from '../store/sidebarSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { BiWallet } from 'react-icons/bi';
+import { BsPersonCircle, } from 'react-icons/bs';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -58,15 +60,18 @@ export default function Navbar() {
             
             {user?.role === 'student' && (
               <>
-                <Link title='My Wallet' to="/wallet" className="text-sm sm:text-base">
-                💸 ₹{user.balance || 0} | 🪙 {user.coins || 0}
+                <Link 
+                title='My Wallet' 
+                to="/wallet" 
+                className="bg-pink-500 text-white px-3 py-1 rounded hover:bg-pink-700 hover:text-white dark:hover:text-white transition">
+                  <BiWallet />
                 </Link>
                 <Link
                   title='My Profile'
                   to="/student/profile"
                   className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700 hover:text-white dark:hover:text-white transition"
                 >
-                  <MdPerson/>
+                  <BsPersonCircle />
                 </Link>
               </>
             )}
@@ -88,16 +93,14 @@ export default function Navbar() {
               <MdLogout/>
             </button>
             {user.role === "admin" &&
-            <>
             <button
               title="Toggle Menu"
               onClick={() => dispatch(toggleSidebar())}
               className="toggleMenu bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-700 transition"
             >
               {isOpen ? <MdClose /> : <MdMenu/>}
-            </button>
-            </>
-            }
+            </button>}
+            
           </>
         ) : (
           <>
