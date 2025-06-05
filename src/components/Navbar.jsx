@@ -99,7 +99,8 @@ export default function Navbar() {
               className="toggleMenu bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-700 transition"
             >
               {isOpen ? <MdClose /> : <MdMenu/>}
-            </button>}
+            </button>
+            }
             
           </>
         ) : (

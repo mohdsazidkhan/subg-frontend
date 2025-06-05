@@ -14,41 +14,44 @@ const LiveQuizCountdown = ({ startTime, endTime }) => {
     const [endHour, endMinute] = endTime.split(':').map(Number);
 
     const now = new Date();
-    let start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), startHour, startMinute, 0);
-    let end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), endHour, endMinute, 0);
 
-    // If quiz spans midnight
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), startHour, startMinute, 0);
+    const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), endHour, endMinute, 0);
+
+    // Handle overnight case (end is next day)
     if (end <= start) {
       end.setDate(end.getDate() + 1);
     }
 
-    const timer = setInterval(() => {
+    // If quiz hasn't started yet, use start time as countdown
+    const countdownTarget = now < start ? start : end;
+
+    const updateTimeLeft = () => {
       const currentTime = new Date();
-      const diff = end - currentTime;
+      const diff = countdownTarget - currentTime;
 
       if (diff <= 0) {
+        setTimeLeft('0 M 0 S');
         clearInterval(timer);
-        setTimeLeft('0 Min 0 Sec');
       } else {
-        updateTimeLeft(diff);
+        const totalSeconds = Math.floor(diff / 1000);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        let formatted = '';
+        if (hours > 0) formatted += `${hours} H${hours > 1 ? 's' : ''} `;
+        if (minutes > 0 || hours > 0) formatted += `${minutes} M${minutes > 1 ? 's' : ''} `;
+        formatted += `${seconds} S${seconds > 1 ? 's' : ''}`;
+        setTimeLeft(formatted.trim());
       }
-    }, 1000);
+    };
+
+    updateTimeLeft(); // Set immediately
+    const timer = setInterval(updateTimeLeft, 1000);
 
     return () => clearInterval(timer);
   }, [startTime, endTime]);
-
-  const updateTimeLeft = (diff) => {
-    const totalSeconds = Math.floor(diff / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    let formatted = '';
-    if (hours > 0) formatted += `${hours} Hour${hours > 1 ? 's' : ''} `;
-    if (minutes > 0 || hours > 0) formatted += `${minutes} Min${minutes > 1 ? 's' : ''} `;
-    formatted += `${seconds} Sec${seconds > 1 ? 's' : ''}`;
-    setTimeLeft(formatted.trim());
-  };
 
   return (
     <span className="flex items-center gap-2">
@@ -59,6 +62,7 @@ const LiveQuizCountdown = ({ startTime, endTime }) => {
     </span>
   );
 };
+
 
 const LiveQuizPage = () => {
   const storedUser = JSON.parse(localStorage.getItem('userInfo'));
@@ -152,11 +156,11 @@ const LiveQuizPage = () => {
             return (
               <div
                 key={lq._id}
-                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow p-4 hover:shadow-lg transition duration-300"
+                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow p-2 hover:shadow-lg transition duration-300"
               >
                 <div className="flex gap-2 items-center">
                   <span
-                    className={`px-2 py-1 text-xs font-semibold rounded-sm ${lq.status === 'not_started'
+                    className={`p-1 text-xs font-semibold rounded-sm ${lq.status === 'not_started'
                       ? 'bg-gray-600 text-white'
                       : lq.status === 'started'
                         ? 'bg-red-600 text-white'
@@ -171,17 +175,17 @@ const LiveQuizPage = () => {
                   </span>
 
                   <span
-                    className={`px-2 py-1 text-xs font-semibold rounded-sm ${lq.accessType === 'free' ? 'bg-green-600' : 'bg-yellow-600'
+                    className={`p-1 text-xs font-semibold rounded-sm ${lq.accessType === 'free' ? 'bg-green-600' : 'bg-yellow-600'
                       } text-white`}
                   >
                     {lq.accessType === 'free' ? 'FREE' : 'PRO'}
                   </span>
 
-                  <span className="px-2 py-1 text-xs font-semibold rounded-sm bg-orange-600 text-white">
+                  <span className="p-1 text-xs font-semibold rounded-sm bg-orange-600 text-white">
                     {convertTo12Hour(lq.startTime)}
                   </span>
                   <span>to</span>
-                  <span className="px-2 py-1 text-xs font-semibold rounded-sm bg-green-600 text-white">
+                  <span className="p-1 text-xs font-semibold rounded-sm bg-green-600 text-white">
                     {convertTo12Hour(lq.endTime)}
                   </span>
                 </div>
