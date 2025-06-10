@@ -72,7 +72,7 @@ const ProfilePage = () => {
       ) : (
         <div className="space-y-4">
           {playedQuizzes?.map((item, idx) => (
-            <div onClick={()=>showResult(item)} key={item._id || idx} className="p-4 border rounded bg-gray-100 dark:bg-gray-800">
+            <div onClick={()=>showResult(item)} key={item._id || idx} className=" cursor-pointer p-4 border rounded bg-gray-100 dark:bg-gray-800">
               <div className='font-medium'>{item?.liveQuiz?.quiz?.title || 'Untitled Quiz'}</div>
               <div><span className='font-medium'>Rank:</span> {item.rank}</div>
               <div><span className='font-medium'>Score:</span> {item.score}</div>
