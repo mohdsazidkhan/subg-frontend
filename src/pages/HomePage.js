@@ -140,7 +140,7 @@ const LiveQuizPage = () => {
           <span className="text-gray-500 dark:text-gray-400">No Quiz Found!</span>
         )}
 
-        <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {liveQuizzes?.map((lq) => {
           
             // Determine if quiz has started
@@ -190,7 +190,7 @@ const LiveQuizPage = () => {
                   </span>
                 </div>
 
-                <h3 className="text-sm lg:text-md xl:text-lg font-semibold my-2">{lq.quiz?.title}</h3>
+                <h3 className="text-sm sm:text-sm lg:text-md xl:text-lg xxl:text-xl font-semibold my-2">{lq.quiz?.title}</h3>
 
                 <div className="flex gap-2 mb-2">
                   <span className="px-3 py-1 text-xs font-semibold rounded-sm bg-pink-200 dark:bg-pink-600 dark:text-white">
@@ -201,7 +201,7 @@ const LiveQuizPage = () => {
                   </span>
                 </div>
 
-                <div className="flex gap-4 mb-2 text-gray-700 dark:text-gray-300">
+                <div className="flex gap-2 mb-2 text-gray-700 dark:text-gray-300">
                   <div className="flex items-center gap-1">
                     <FaQuestionCircle className="text-blue-600" />
                     <span>{lq.quiz?.totalQuestions} Questions</span>
