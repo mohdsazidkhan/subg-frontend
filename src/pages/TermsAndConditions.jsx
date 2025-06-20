@@ -6,10 +6,16 @@ const TermsAndConditions = () => (
       Terms & Conditions
     </h1>
     <p className="mb-4">
-      By using SUBG QUIZ, you agree to abide by the platform's rules and guidelines. Users must be 18 years or older. Participation is voluntary and solely based on individual skills. Any fraudulent activity, use of bots, or manipulation will result in a permanent ban from the platform.
+      By using <strong>SUBG QUIZ</strong>, you agree to follow our rules and play fairly. You must be at least <strong>18 years old</strong> to use this platform. All quizzes are based on skill, and your participation is completely voluntary.
+    </p>
+    <p className="mb-4">
+      Any attempt to cheat, use bots, or manipulate the system will result in a <strong>permanent ban</strong>. We’re committed to providing a fair and transparent experience for everyone.
+    </p>
+    <p className="mb-4">
+      Once you join a quiz, the entry fee is <strong>non-refundable</strong>, so please read the rules carefully before participating.
     </p>
     <p>
-      Entry fees are non-refundable once a quiz is joined. We reserve the right to modify rules, fee structures, and prize allocations at any time without prior notice. Your continued use of the platform implies acceptance of any such changes.
+      We reserve the right to change our terms, quiz rules, entry fees, and reward structure at any time. By continuing to use SUBG QUIZ, you accept these updates automatically.
     </p>
   </div>
 );

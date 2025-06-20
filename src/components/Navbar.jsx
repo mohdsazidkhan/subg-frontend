@@ -39,10 +39,10 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-3 flex justify-between items-center fixed top-0 w-full z-50 shadow-md">
+    <nav className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-2 flex justify-between items-center fixed top-0 w-full z-50 shadow-md">
       <div className="text-xl font-bold">
         <Link to={'/'} className="hover:text-blue-600 dark:hover:text-blue-400 transition">
-          SUBG
+          <img className='logo' alt='logo' title='SUBG QUIZ' src={'./logo.png'}/>
         </Link>
       </div>
 
