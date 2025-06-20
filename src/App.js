@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import AdminRoute from './components/AdminRoute';
+import Footer from './components/Footer';
 import StudentRoute from './components/StudentRoute';
 import DashboardPage from './pages/admin/DashboardPage';
 import CategoryPage from './pages/admin/CategoryPage';
@@ -10,6 +11,11 @@ import QuestionPage from './pages/admin/QuestionPage';
 import StudentsPage from './pages/admin/StudentsPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import AboutUs from './pages/AboutUs';
+import TermsAndConditions from './pages/TermsAndConditions';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import RefundPolicy from './pages/RefundPolicy';
+import ContactUs from './pages/ContactUs';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import AttemptQuizPage from './pages/AttemptQuizPage';
@@ -22,6 +28,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import store from './store';
 import QuizResult from './pages/QuizResult';
+import HowItWorks from './pages/HowItWorks';
 
 function AppLayout() {
 
@@ -36,6 +43,12 @@ function AppLayout() {
             {/* Public Routes */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/terms" element={<TermsAndConditions />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/refund" element={<RefundPolicy />} />
+            <Route path="/contact" element={<ContactUs />} />
 
             {/* Admin Routes */}
             
@@ -57,6 +70,8 @@ function AppLayout() {
 
             {/* Add more student routes here, like profile */}
           </Routes>
+          
+            <Footer />
         </>
       </div>
     </>

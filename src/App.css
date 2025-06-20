@@ -1,6 +1,7 @@
 .appContainer {
   margin-top: 53px;
   display: flex;
+  flex-direction: column;
 }
 
 .sidebar {

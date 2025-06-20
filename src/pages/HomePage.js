@@ -132,6 +132,7 @@ const LiveQuizPage = () => {
   };
 
   return (
+    <>
     <div className="container mx-auto">
       <div className="p-4 min-h-screen bg-gray-50 dark:bg-gray-900 dark:text-white">
         <h2 className="text-2xl font-bold mb-6">🎮 Quizzes</h2>
@@ -264,6 +265,8 @@ const LiveQuizPage = () => {
         </div>
       </div>
     </div>
+    
+    </>
   );
 };
 
