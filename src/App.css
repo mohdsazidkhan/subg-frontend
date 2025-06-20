@@ -2,6 +2,7 @@
   margin-top: 53px;
   display: flex;
   flex-direction: column;
+  padding-bottom: 80px;
 }
 .logo{
   max-width: 45px;
@@ -87,6 +88,7 @@
   border-radius: 100%;
   transform: translateY(-50%);
 }
+
 @media (max-width:768px) {
   .sidebar{
     bottom: 0;
@@ -94,6 +96,9 @@
   }
   .react-datepicker-wrapper {
     width: 100%;
+  }
+  .appContainer {
+    padding-bottom: 140px;
   }
   .authPage,
   .sidebar,
