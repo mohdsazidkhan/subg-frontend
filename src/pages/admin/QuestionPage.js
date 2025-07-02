@@ -1,26 +1,158 @@
 import { useState, useEffect } from 'react';
 import API from '../../utils/api';
-import Sidebar from '../../components/Sidebar';
 import { useLocation } from 'react-router-dom';
+import Sidebar from '../../components/Sidebar';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import Pagination from '../../components/Pagination';
+import ViewToggle from '../../components/ViewToggle';
+import SearchFilter from '../../components/SearchFilter';
+import { FaEdit, FaTrash, FaPlus, FaQuestion, FaCheck } from 'react-icons/fa';
+
 const QuestionPage = () => {
+  // Form states
   const [quiz, setQuiz] = useState('');
   const [questionText, setQuestionText] = useState('');
   const [options, setOptions] = useState(['', '', '', '']);
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(0);
-  const [timeLimit, setTimeLimit] = useState(30); // <-- New state
-  const [quizzes, setQuizzes] = useState([]);
+  const [timeLimit, setTimeLimit] = useState('');
+  const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+
+  // List states
   const [questions, setQuestions] = useState([]);
+  const [quizzes, setQuizzes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [pagination, setPagination] = useState({});
+  const [viewMode, setViewMode] = useState('table');
+  const [filters, setFilters] = useState({
+    quiz: ''
+  });
+
+  const user = JSON.parse(localStorage.getItem('userInfo'));
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
+  const isOpen = useSelector((state) => state.sidebar.isOpen);
+
+  const fetchQuestions = async (page = 1, search = '', filterParams = {}) => {
+    try {
+      setLoading(true);
+      const params = {
+        page,
+        limit: itemsPerPage,
+        ...(search && { search }),
+        ...filterParams
+      };
+      const response = await API.getAdminQuestions(params);
+      setQuestions(response.questions || response);
+      setPagination(response.pagination || {});
+    } catch (error) {
+      console.error('Error fetching questions:', error);
+      toast.error('Failed to fetch questions');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchQuizzes = async () => {
+    try {
+      const response = await API.getAdminQuizzes();
+      setQuizzes(response.quizzes || response);
+    } catch (error) {
+      console.error('Error fetching quizzes:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const quizRes = await API.get('/admin/quizzes');
-      const questionRes = await API.get('/admin/questions');
-      setQuizzes(quizRes.data);
-      setQuestions(questionRes.data);
+    fetchQuizzes();
+    fetchQuestions(currentPage, searchTerm, filters);
+  }, [currentPage, searchTerm, itemsPerPage, filters]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (options.some(option => !option.trim())) {
+      toast.error('All options must be filled');
+      return;
+    }
+
+    const payload = {
+      quiz,
+      questionText,
+      options: options.filter(option => option.trim()),
+      correctAnswerIndex: parseInt(correctAnswerIndex),
+      timeLimit: timeLimit ? parseInt(timeLimit) : undefined
     };
-    fetchData();
-  }, []);
+    
+    try {
+      if (editingId) {
+        await API.updateQuestion(editingId, payload);
+        toast.success('Question updated successfully!');
+        setEditingId(null);
+      } else {
+        await API.createQuestion(payload);
+        toast.success('Question created successfully!');
+      }
+      resetForm();
+      setShowForm(false);
+      fetchQuestions(currentPage, searchTerm, filters);
+    } catch (err) {
+      toast.error(err.message || 'Failed to save question');
+    }
+  };
+
+  const resetForm = () => {
+    setQuiz('');
+    setQuestionText('');
+    setOptions(['', '', '', '']);
+    setCorrectAnswerIndex(0);
+    setTimeLimit('');
+  };
+
+  const handleEdit = (question) => {
+    setEditingId(question._id);
+    setQuiz(question.quiz._id || question.quiz);
+    setQuestionText(question.questionText);
+    setOptions([...question.options, '', '', '', ''].slice(0, 4));
+    setCorrectAnswerIndex(question.correctAnswerIndex);
+    setTimeLimit(question.timeLimit || '');
+    setShowForm(true);
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this question?')) {
+      try {
+        await API.deleteQuestion(id);
+        toast.success('Question deleted successfully!');
+        fetchQuestions(currentPage, searchTerm, filters);
+      } catch (error) {
+        console.error('Error deleting question:', error);
+        toast.error('Failed to delete question');
+      }
+    }
+  };
+
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+  };
+
+  const handleFilterChange = (key, value) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+    setCurrentPage(1);
+  };
+
+  const handleClearFilters = () => {
+    setFilters({ quiz: '' });
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const handleOptionChange = (index, value) => {
     const newOptions = [...options];
@@ -28,103 +160,414 @@ const QuestionPage = () => {
     setOptions(newOptions);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await API.post('/admin/questions', {
-      quiz,
-      questionText,
-      options,
-      correctAnswerIndex,
-      timeLimit, // <-- Include in payload
-    });
-    setQuestionText('');
-    setOptions(['', '', '', '']);
-    setCorrectAnswerIndex(0);
-    setTimeLimit(30); // reset
-    const questionRes = await API.get('/admin/questions');
-    setQuestions(questionRes.data);
+  const filterOptions = {
+    quiz: {
+      label: 'Quiz',
+      options: quizzes.map(quiz => ({
+        value: quiz._id,
+        label: quiz.title
+      }))
+    }
   };
-const user = JSON.parse(localStorage.getItem('userInfo'));
-  const location = useLocation();
 
-  const isAdminRoute = location.pathname.startsWith('/admin');
- const isOpen = useSelector((state) => state.sidebar.isOpen);
+  // Table View Component
+  const TableView = () => (
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead className="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Question
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Quiz
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Options
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Correct Answer
+              </th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            {questions.map((question) => (
+              <tr key={question._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                <td className="px-6 py-4">
+                  <div className="text-sm text-gray-900 dark:text-white max-w-xs">
+                    {question.questionText}
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm text-gray-900 dark:text-white">
+                    {question.quiz?.title || 'Unknown Quiz'}
+                  </div>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="text-sm text-gray-500 dark:text-gray-300">
+                    {question.options.map((option, index) => (
+                      <div key={index} className="mb-1">
+                        {String.fromCharCode(65 + index)}. {option}
+                      </div>
+                    ))}
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                    {String.fromCharCode(65 + question.correctAnswerIndex)}
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <div className="flex items-center justify-end space-x-2">
+                    <button
+                      onClick={() => handleEdit(question)}
+                      className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                    >
+                      <FaEdit className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(question._id)}
+                      className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                    >
+                      <FaTrash className="w-4 h-4" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+
+  // Card View Component
+  const CardView = () => (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {questions.map((question) => (
+        <div key={question._id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white line-clamp-2">
+                {question.questionText}
+              </h3>
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => handleEdit(question)}
+                  className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                >
+                  <FaEdit className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => handleDelete(question._id)}
+                  className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                >
+                  <FaTrash className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+            
+            <div className="mb-4">
+              <div className="text-sm text-gray-600 dark:text-gray-300 mb-2">
+                <span className="font-medium">Quiz:</span> {question.quiz?.title || 'Unknown Quiz'}
+              </div>
+            </div>
+            
+            <div className="space-y-2 mb-4">
+              {question.options.map((option, index) => (
+                <div key={index} className={`flex items-center text-sm p-2 rounded ${
+                  index === question.correctAnswerIndex 
+                    ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' 
+                    : 'bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                }`}>
+                  <span className="font-medium mr-2">{String.fromCharCode(65 + index)}.</span>
+                  <span className="flex-1">{option}</span>
+                  {index === question.correctAnswerIndex && (
+                    <FaCheck className="w-4 h-4 text-green-600 dark:text-green-400" />
+                  )}
+                </div>
+              ))}
+            </div>
+            
+            <div className="text-xs text-gray-500 dark:text-gray-400">
+              Time Limit: {question.timeLimit || 'No limit'} seconds
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  // List View Component
+  const ListView = () => (
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        {questions.map((question) => (
+          <div key={question._id} className="p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <div className="flex items-center space-x-3 mb-3">
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                    {question.questionText}
+                  </h3>
+                  <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                    {String.fromCharCode(65 + question.correctAnswerIndex)}
+                  </span>
+                </div>
+                
+                <div className="mb-3">
+                  <span className="text-sm text-gray-600 dark:text-gray-300">
+                    <span className="font-medium">Quiz:</span> {question.quiz?.title || 'Unknown Quiz'}
+                  </span>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
+                  {question.options.map((option, index) => (
+                    <div key={index} className={`flex items-center text-sm p-2 rounded ${
+                      index === question.correctAnswerIndex 
+                        ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' 
+                        : 'bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                    }`}>
+                      <span className="font-medium mr-2">{String.fromCharCode(65 + index)}.</span>
+                      <span className="flex-1">{option}</span>
+                      {index === question.correctAnswerIndex && (
+                        <FaCheck className="w-4 h-4 text-green-600 dark:text-green-400" />
+                      )}
+                    </div>
+                  ))}
+                </div>
+                
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Time Limit: {question.timeLimit || 'No limit'} seconds
+                </p>
+              </div>
+              <div className="flex items-center space-x-2 ml-4">
+                <button
+                  onClick={() => handleEdit(question)}
+                  className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 p-2 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                >
+                  <FaEdit className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => handleDelete(question._id)}
+                  className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 p-2 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20"
+                >
+                  <FaTrash className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
     <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
-    {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-    <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
-      <h2 className="text-2xl font-bold mb-4">Manage Questions</h2>
-      <form onSubmit={handleSubmit} className="space-y-2 mb-4">
-        <select
-          className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white p-2 w-full rounded"
-          value={quiz}
-          onChange={(e) => setQuiz(e.target.value)}
-          required
-        >
-          <option value="">Select Quiz</option>
-          {quizzes.map((q) => (
-            <option key={q._id} value={q._id}>
-              {q.title}
-            </option>
-          ))}
-        </select>
+      {user?.role === 'admin' && isAdminRoute && <Sidebar />}
+      <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                Manage Questions
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400 mt-1">
+                Create, edit, and manage quiz questions
+              </p>
+            </div>
+            <button
+              onClick={() => setShowForm(true)}
+              className="mt-4 sm:mt-0 inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            >
+              <FaPlus className="w-4 h-4 mr-2" />
+              Add Question
+            </button>
+          </div>
 
-        <input
-          className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white p-2 w-full rounded"
-          placeholder="Question"
-          value={questionText}
-          onChange={(e) => setQuestionText(e.target.value)}
-          required
-        />
-
-        {options.map((opt, idx) => (
-          <input
-            key={idx}
-            className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white p-2 w-full rounded"
-            placeholder={`Option ${idx + 1}`}
-            value={opt}
-            onChange={(e) => handleOptionChange(idx, e.target.value)}
-            required
+          {/* Search and Filters */}
+          <SearchFilter
+            searchTerm={searchTerm}
+            onSearchChange={handleSearch}
+            filters={filters}
+            onFilterChange={handleFilterChange}
+            onClearFilters={handleClearFilters}
+            filterOptions={filterOptions}
+            placeholder="Search questions..."
           />
-        ))}
 
-        <select
-          className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white p-2 w-full rounded"
-          value={correctAnswerIndex}
-          onChange={(e) => setCorrectAnswerIndex(Number(e.target.value))}
-          required
-        >
-          {[0, 1, 2, 3].map((i) => (
-            <option key={i} value={i}>
-              Correct Option: {i + 1}
-            </option>
-          ))}
-        </select>
+          {/* View Toggle */}
+          <div className="flex items-center justify-between mb-4">
+            <ViewToggle
+              currentView={viewMode}
+              onViewChange={setViewMode}
+            />
+            <div className="flex items-center space-x-2">
+              <label className="text-sm text-gray-600 dark:text-gray-400">Show:</label>
+              <select
+                value={itemsPerPage}
+                onChange={(e) => {
+                  setItemsPerPage(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
+                className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+              </select>
+            </div>
+          </div>
 
-        {/* Time Limit Input */}
-        <input
-          type="number"
-          min="5"
-          className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white p-2 w-full rounded"
-          placeholder="Time limit (seconds)"
-          value={timeLimit}
-          onChange={(e) => setTimeLimit(Number(e.target.value))}
-          required
-        />
+          {/* Form */}
+          {showForm && (
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6 border border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-semibold mb-4">
+                {editingId ? 'Edit Question' : 'Add New Question'}
+              </h3>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Quiz
+                      </label>
+                      <select
+                        value={quiz}
+                        onChange={(e) => setQuiz(e.target.value)}
+                        required
+                        className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="">Select Quiz</option>
+                        {quizzes.map((q) => (
+                          <option key={q._id} value={q._id}>
+                            {q.title}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
 
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
-          Add
-        </button>
-      </form>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Question Text
+                      </label>
+                      <textarea
+                        value={questionText}
+                        onChange={(e) => setQuestionText(e.target.value)}
+                        required
+                        rows="3"
+                        className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Enter your question..."
+                      />
+                    </div>
 
-      <ul>
-        {questions.map((q) => (
-          <li key={q._id} className="mb-2 border-b border-gray-200 dark:border-gray-700 pb-2">
-            <span className="font-semibold">{q.quiz.title}</span> - {q.questionText} ({q.timeLimit}s)
-          </li>
-        ))}
-      </ul>
-    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Time Limit (seconds)
+                      </label>
+                      <input
+                        type="number"
+                        value={timeLimit}
+                        onChange={(e) => setTimeLimit(e.target.value)}
+                        className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Optional time limit"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Options
+                      </label>
+                      {options.map((option, index) => (
+                        <div key={index} className="flex items-center space-x-2 mb-2">
+                          <input
+                            type="radio"
+                            name="correctAnswer"
+                            value={index}
+                            checked={correctAnswerIndex === index}
+                            onChange={(e) => setCorrectAnswerIndex(parseInt(e.target.value))}
+                            className="text-blue-600 focus:ring-blue-500"
+                          />
+                          <input
+                            type="text"
+                            value={option}
+                            onChange={(e) => handleOptionChange(index, e.target.value)}
+                            required
+                            className="flex-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder={`Option ${String.fromCharCode(65 + index)}`}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex space-x-3">
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                  >
+                    {editingId ? 'Update' : 'Create'} Question
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowForm(false);
+                      setEditingId(null);
+                      resetForm();
+                    }}
+                    className="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+
+          {/* Content */}
+          {loading ? (
+            <div className="flex items-center justify-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+            </div>
+          ) : questions.length === 0 ? (
+            <div className="text-center py-12">
+              <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">❓</div>
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                No questions found
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                {searchTerm ? 'Try adjusting your search terms.' : 'Get started by creating your first question.'}
+              </p>
+            </div>
+          ) : (
+            <>
+              {viewMode === 'table' && <TableView />}
+              {viewMode === 'card' && <CardView />}
+              {viewMode === 'list' && <ListView />}
+            </>
+          )}
+
+          {/* Pagination */}
+          {pagination.totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={pagination.totalPages}
+              onPageChange={handlePageChange}
+              totalItems={pagination.total}
+              itemsPerPage={itemsPerPage}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 };

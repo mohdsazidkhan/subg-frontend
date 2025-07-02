@@ -13,8 +13,8 @@ const HowItWorks = () => (
       </li>
 
       <li>
-        <strong>Add Coins / Join Quiz:</strong>  
-        Load your wallet using our secure payment gateway (Easebuzz). Use coins to enter quiz contests.
+        <strong>Choose Subscription / Join Quiz:</strong>  
+        Subscribe to our premium plans to access exclusive quizzes and features. Free quizzes are available for all users.
       </li>
 
       <li>
@@ -28,13 +28,13 @@ const HowItWorks = () => (
       </li>
 
       <li>
-        <strong>Win Coins:</strong>  
-        Winners earn coins based on performance. These coins reflect in your in-app wallet.
+        <strong>Earn Points:</strong>  
+        Winners earn points based on performance. These points reflect your quiz achievements.
       </li>
 
       <li>
-        <strong>Withdraw Winnings:</strong>  
-        Users can request withdrawals via UPI or bank. Payouts are handled via API securely.
+        <strong>Track Progress:</strong>  
+        Monitor your performance, view detailed analytics, and track your improvement over time.
       </li>
     </ol>
 

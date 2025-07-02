@@ -1,20 +1,310 @@
 .appContainer {
-  margin-top: 53px;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 80px;
+  margin-top: 64px; /* Height of navbar */
+  min-height: calc(100vh - 64px);
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* When sidebar is open and user is admin, adjust main content */
+.appContainer.has-sidebar {
+  margin-left: 256px; /* Width of sidebar */
 }
 .logo{
-  max-width: 45px;
+  max-width: 65px;
 }
-.sidebar {
-  width: 200px;
+/* Sidebar toggle button styles */
+.toggleMenu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Admin route protection styles */
+.admin-access-denied {
   display: flex;
   flex-direction: column;
-  min-width: 200px;
-  max-width: 200px;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.admin-access-denied h2 {
+  color: #dc2626;
+  margin-bottom: 1rem;
+}
+
+.admin-access-denied p {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive design for admin panel */
+@media (max-width: 768px) {
+  .appContainer.has-sidebar {
+    margin-left: 0;
+  }
+  .sidebar {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+/* Subscription Page Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* Apply animations to subscription page elements */
+.subscription-hero {
+  animation: fadeInUp 1s ease-out;
+}
+
+.subscription-plan {
+  animation: scaleIn 0.6s ease-out;
+}
+
+.subscription-plan:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.subscription-plan:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.subscription-plan:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.subscription-benefit {
+  animation: slideInLeft 0.8s ease-out;
+}
+
+.subscription-benefit:nth-child(even) {
+  animation: slideInRight 0.8s ease-out;
+}
+
+/* Profile Page Animations */
+.profile-hero {
+  animation: fadeInUp 1s ease-out;
+}
+
+.profile-card {
+  animation: scaleIn 0.6s ease-out;
+}
+
+.profile-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.profile-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.profile-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.floating-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+.glow-animation {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.shimmer-effect {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background-size: 200px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Enhanced hover effects */
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.hover-scale {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Gradient text animation */
+.gradient-text-animation {
+  background: linear-gradient(-45deg, #3b82f6, #8b5cf6, #06b6d4, #10b981);
+  background-size: 400% 400%;
+  animation: gradientShift 3s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Pulse animation for important elements */
+.pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+}
+
+/* Stagger animation for lists */
+.stagger-item {
+  opacity: 0;
+  animation: staggerFadeIn 0.5s ease-out forwards;
+}
+
+.stagger-item:nth-child(1) { animation-delay: 0.1s; }
+.stagger-item:nth-child(2) { animation-delay: 0.2s; }
+.stagger-item:nth-child(3) { animation-delay: 0.3s; }
+.stagger-item:nth-child(4) { animation-delay: 0.4s; }
+.stagger-item:nth-child(5) { animation-delay: 0.5s; }
+.stagger-item:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes staggerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero section animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDelay {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.animate-fade-in-delay {
+  animation: fadeInDelay 1.2s ease-out;
+}
+
+
+
+.sidebar {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  min-width: 240px;
+  max-width: 240px;
   position: fixed;
-  top: 52px;
+  top: 64px;
   left: 0;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -26,17 +316,19 @@
 }
 
 .authPage,
-.sidebar,
-.adminContent {
+.sidebar{
   height: calc(100vh - 58px);
+}
+.adminContent {
+  height: auto;
 }
 
 .adminPanel {
   display: flex;
   flex-direction: row;
   width: 100%;
-  width: calc(100% - 200px);
-  margin-left: 200px;
+  width: calc(100% - 240px);
+  margin-left: 240px;
   transition: all ease-in-out .3s;
 }
 .adminPanel.hidePanel{
@@ -73,7 +365,7 @@
 }
 
 .sidebar.hideSidebar {
-  transform: translateX(-200px);
+  transform: translateX(-240px);
   transition: all ease-in-out 0.3s;
 }
 
@@ -94,11 +386,9 @@
     bottom: 0;
     z-index: 9;
   }
-  .react-datepicker-wrapper {
-    width: 100%;
-  }
+
   .appContainer {
-    padding-bottom: 140px;
+    padding-bottom: 165px;
   }
   .authPage,
   .sidebar,

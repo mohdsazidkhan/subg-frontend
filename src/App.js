@@ -1,41 +1,70 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import React from 'react';
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import Navbar from './components/Navbar.jsx';
+import Sidebar from './components/Sidebar';
 import AdminRoute from './components/AdminRoute';
-import Footer from './components/Footer';
+import Footer from './components/Footer.jsx';
 import StudentRoute from './components/StudentRoute';
+import ErrorBoundary from './components/ErrorBoundary';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage.jsx';
+import HomePage from './pages/HomePage';
+import ProfilePage from './pages/ProfilePage.jsx';
 import DashboardPage from './pages/admin/DashboardPage';
 import CategoryPage from './pages/admin/CategoryPage';
 import SubcategoryPage from './pages/admin/SubcategoryPage';
-import QuizPage from './pages/admin/QuizPage';
+import QuizManagementPage from './pages/admin/QuizPage';
 import QuestionPage from './pages/admin/QuestionPage';
-import StudentsPage from './pages/admin/StudentsPage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import AboutUs from './pages/AboutUs';
-import TermsAndConditions from './pages/TermsAndConditions';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import RefundPolicy from './pages/RefundPolicy';
-import ContactUs from './pages/ContactUs';
-import HomePage from './pages/HomePage';
-import ProfilePage from './pages/ProfilePage';
-import AttemptQuizPage from './pages/AttemptQuizPage';
-import LiveQuizPage from './pages/admin/LiveQuizPage';
-import LiveQuizPlay from './pages/LiveQuizPlay';
-import Wallet from './pages/Wallet';
+import StudentPage from './pages/admin/StudentsPage';
+import QuizResult from './pages/QuizResult';
+import HowItWorks from './pages/HowItWorks.jsx';
+import LevelsPage from './pages/LevelsPage.jsx';
+import LevelBasedQuizzesPage from './pages/LevelBasedQuizzesPage.jsx';
+import AboutUs from './pages/AboutUs.jsx';
+import TermsAndConditions from './pages/TermsAndConditions.jsx';
+import PrivacyPolicy from './pages/PrivacyPolicy.jsx';
+import RefundPolicy from './pages/RefundPolicy.jsx';
+import ContactUs from './pages/ContactUs.jsx';
+import SubscriptionPage from './pages/SubscriptionPage.jsx';
+import AttemptQuizPage from './pages/AttemptQuizPage.jsx';
+import { isAdmin, hasAdminPrivileges } from './utils/adminUtils';
 import './App.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import store from './store';
-import QuizResult from './pages/QuizResult';
-import HowItWorks from './pages/HowItWorks';
+import DashboardAnalytics from './pages/admin/DashboardAnalytics';
+import UserAnalytics from './pages/admin/UserAnalytics';
+import QuizAnalytics from './pages/admin/QuizAnalytics';
+import FinancialAnalytics from './pages/admin/FinancialAnalytics';
+import PerformanceAnalytics from './pages/admin/PerformanceAnalytics';
+import CategoryDetailPage from './pages/CategoryDetailPage';
+import SubcategoryDetailPage from './pages/SubcategoryDetailPage';
+import LevelDetailPage from './pages/LevelDetailPage';
+import ReactGA from 'react-ga4';
+
+function usePageTracking() {
+  const location = useLocation();
+  React.useEffect(() => {
+    ReactGA.send({ hitType: 'pageview', page: location.pathname + location.search });
+  }, [location]);
+}
 
 function AppLayout() {
+  const location = useLocation();
+  usePageTracking();
+  
+  // Check if current path is an admin route
+  const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
-    <>
+    <ErrorBoundary>
       {/* Navbar always shows */}
       <Navbar />
+      
+      {/* Sidebar only for admin users */}
+      {isAdmin() && hasAdminPrivileges() && <Sidebar />}
+      
       <ToastContainer position="top-right" autoClose={3000} />
       <div className="appContainer">
         <>
@@ -50,31 +79,41 @@ function AppLayout() {
             <Route path="/refund" element={<RefundPolicy />} />
             <Route path="/contact" element={<ContactUs />} />
 
-            {/* Admin Routes */}
-            
-            <Route path="/admin/dashboard" element={<AdminRoute><DashboardPage /></AdminRoute>} />
-            <Route path="/admin/live-quiz" element={<AdminRoute><LiveQuizPage /></AdminRoute>} />
-            <Route path="/admin/categories" element={<AdminRoute><CategoryPage /></AdminRoute>} />
-            <Route path="/admin/sub-categories" element={<AdminRoute><SubcategoryPage /></AdminRoute>} />
-            <Route path="/admin/quizzes" element={<AdminRoute><QuizPage /></AdminRoute>} />
-            <Route path="/admin/questions" element={<AdminRoute><QuestionPage /></AdminRoute>} />
-            <Route path="/admin/students" element={<AdminRoute><StudentsPage /></AdminRoute>} />
-
-            {/* Student Routes */}
-            <Route exact path="/" element={<HomePage />} />
-            <Route path="/student/live-quiz/:id" element={<StudentRoute><LiveQuizPlay /></StudentRoute>} />
-            <Route path="/student/profile" element={<StudentRoute><ProfilePage /></StudentRoute>} />
-            <Route path="/student/attempt-quiz/:quizId" element={<StudentRoute><AttemptQuizPage /></StudentRoute>} />
-            <Route path="/wallet" element={<StudentRoute><Wallet /></StudentRoute>} />
+            {/* Protected Routes */}
+            <Route path="/" element={<StudentRoute><HomePage /></StudentRoute>} />
+            <Route path="/profile" element={<StudentRoute><ProfilePage /></StudentRoute>} />
+            <Route path="/attempt-quiz/:quizId" element={<StudentRoute><AttemptQuizPage /></StudentRoute>} />
+            <Route path="/subscription" element={<StudentRoute><SubscriptionPage /></StudentRoute>} />
             <Route path="/quiz-result" element={<StudentRoute><QuizResult /></StudentRoute>} />
+            <Route path="/levels" element={<StudentRoute><LevelsPage /></StudentRoute>} />
+            <Route path="/level-quizzes" element={<StudentRoute><LevelBasedQuizzesPage /></StudentRoute>} />
+            <Route path="/category/:categoryId" element={<StudentRoute><CategoryDetailPage /></StudentRoute>} />
+            <Route path="/subcategory/:subcategoryId" element={<StudentRoute><SubcategoryDetailPage /></StudentRoute>} />
+            <Route path="/level/:levelNumber" element={<StudentRoute><LevelDetailPage /></StudentRoute>} />
 
-            {/* Add more student routes here, like profile */}
+            {/* Admin Routes */}
+            <Route path="/admin/dashboard" element={<AdminRoute><DashboardPage /></AdminRoute>} />
+            <Route path="/admin/categories" element={<AdminRoute><CategoryPage /></AdminRoute>} />
+            <Route path="/admin/subcategories" element={<AdminRoute><SubcategoryPage /></AdminRoute>} />
+            <Route path="/admin/quizzes" element={<AdminRoute><QuizManagementPage /></AdminRoute>} />
+            <Route path="/admin/questions" element={<AdminRoute><QuestionPage /></AdminRoute>} />
+            <Route path="/admin/students" element={<AdminRoute><StudentPage /></AdminRoute>} />
+            {/* Analytics Admin Routes */}
+            <Route path="/admin/analytics/dashboard" element={<AdminRoute><DashboardAnalytics /></AdminRoute>} />
+            <Route path="/admin/analytics/users" element={<AdminRoute><UserAnalytics /></AdminRoute>} />
+            <Route path="/admin/analytics/quizzes" element={<AdminRoute><QuizAnalytics /></AdminRoute>} />
+            <Route path="/admin/analytics/financial" element={<AdminRoute><FinancialAnalytics /></AdminRoute>} />
+            <Route path="/admin/analytics/performance" element={<AdminRoute><PerformanceAnalytics /></AdminRoute>} />
+
+            {/* Catch all route */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
           
-            <Footer />
+          {/* Footer only shows on non-admin pages */}
+          {!isAdminRoute && <Footer />}
         </>
       </div>
-    </>
+    </ErrorBoundary>
   );
 }
 
