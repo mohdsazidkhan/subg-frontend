@@ -35,7 +35,7 @@ const LeaderboardTable = ({ leaderboard, currentUser }) => {
   if (!leaderboard || leaderboard?.length === 0) {
     return (
       <div className="text-center py-8">
-        <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl p-8 border border-purple-200 dark:border-purple-700">
+        <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl p-2 md:p-8 border border-purple-200 dark:border-purple-700">
           <FaTrophy className="text-4xl text-purple-500 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">No Leaderboard Yet</h3>
           <p className="text-gray-500 dark:text-gray-400">Be the first to complete this quiz and claim the top spot!</p>
@@ -55,13 +55,13 @@ const LeaderboardTable = ({ leaderboard, currentUser }) => {
       
       <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full min-w-[30rem]">
             <thead className="bg-gradient-to-r from-purple-500 to-pink-500">
               <tr>
-                <th className="py-4 px-6 text-white font-semibold text-center">Rank</th>
-                <th className="py-4 px-6 text-white font-semibold text-left">Student</th>
-                <th className="py-4 px-6 text-white font-semibold text-center">Score</th>
-                <th className="py-4 px-6 text-white font-semibold text-center">Attempted At</th>
+                <th className="py-2 md:py-4 px-2 md:px-6 text-white font-semibold text-center">Rank</th>
+                <th className="py-2 md:py-4 px-2 md:px-6 text-white font-semibold text-left">Student</th>
+                <th className="py-2 md:py-4 px-2 md:px-6 text-white font-semibold text-center">Score</th>
+                <th className="py-2 md:py-4 px-2 md:px-6 text-white font-semibold text-center">Attempted At</th>
               </tr>
             </thead>
             <tbody>
@@ -76,7 +76,7 @@ const LeaderboardTable = ({ leaderboard, currentUser }) => {
                       isCurrentUser ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 border-l-4 border-blue-500' : ''
                     }`}
                   >
-                    <td className="py-4 px-6 text-center">
+                    <td className="py-2 md:py-4 px-2 md:px-6 text-center">
                       <div className="flex items-center justify-center">
                         {isTopThree ? (
                           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold ${
@@ -91,7 +91,7 @@ const LeaderboardTable = ({ leaderboard, currentUser }) => {
                         )}
                       </div>
                     </td>
-                    <td className="py-4 px-6">
+                    <td className="py-2 md:py-4 px-2 md:px-6">
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
                           {studentName?.charAt(0)?.toUpperCase() || 'A'}
@@ -108,14 +108,14 @@ const LeaderboardTable = ({ leaderboard, currentUser }) => {
                         </div>
                       </div>
                     </td>
-                    <td className="py-4 px-6 text-center">
+                    <td className="py-2 md:py-4 px-2 md:px-6 text-center">
                       <div className="flex items-center justify-center">
                         <span className="text-lg font-bold text-gray-800 dark:text-white">
                           {score || 0}%
                         </span>
                       </div>
                     </td>
-                    <td className="py-4 px-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                    <td className="py-2 md:py-4 px-2 md:px-6 text-center text-sm text-gray-500 dark:text-gray-400">
                       {(() => {
                         try {
                           const date = new Date(attemptedAt);
@@ -442,7 +442,7 @@ const AttemptQuizPage = () => {
   if (showExitConfirm) {
     return (
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md w-full shadow-2xl border border-red-200 dark:border-red-700">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-2 md:p-8 max-w-md w-full shadow-2xl border border-red-200 dark:border-red-700">
           <div className="text-center">
             <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
               <FaExclamationTriangle className="text-white text-2xl" />
@@ -515,21 +515,21 @@ const AttemptQuizPage = () => {
 
       <div className="max-w-6xl mx-auto p-4">
         {quiz.questions.length === 0 && (
-          <div className="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-xl p-6 text-red-700 dark:text-red-300 text-center">
+          <div className="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-xl p-2 md:p-6 text-red-700 dark:text-red-300 text-center">
             <FaTimesCircle className="text-2xl mx-auto mb-2" />
             No questions available for this quiz.
           </div>
         )}
         
         {/* Quiz Header */}
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 p-8 mb-8">
-          <div className="flex items-center justify-between mb-6">
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 p-2 md:p-8 mb-4 md:mb-8">
+          <div className="flex items-center justify-between flex-col md:flex-row mb-0 md:mb-6">
             <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
+              <div className="w-12 md:w-16 h-12 md:h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
                 <FaBookOpen className="text-white text-2xl" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">{quiz?.title}</h1>
+                <h1 className="text-lg md:text-3xl font-bold text-gray-800 dark:text-white mb-2">{quiz?.title}</h1>
                 <p className="text-gray-600 dark:text-gray-400 flex items-center space-x-2">
                   <FaGraduationCap className="text-purple-500" />
                   <span>{quiz.questions.length} Questions • {quiz.category?.name || 'General Knowledge'}</span>
@@ -592,33 +592,33 @@ const AttemptQuizPage = () => {
 
             {/* Results Section */}
             <div className="text-center mb-8">
-              <div className="bg-gradient-to-r from-green-50 via-blue-50 to-purple-50 dark:from-green-900/30 dark:via-blue-900/30 dark:to-purple-900/30 rounded-3xl p-8 border border-green-200 dark:border-green-700 shadow-2xl">
+              <div className="bg-gradient-to-r from-green-50 via-blue-50 to-purple-50 dark:from-green-900/30 dark:via-blue-900/30 dark:to-purple-900/30 rounded-3xl p-2 md:p-8 border border-green-200 dark:border-green-700 shadow-2xl">
                 <div className="flex justify-center mb-6">
                   <div className="w-24 h-24 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center animate-pulse">
                     <FaTrophy className="text-white text-4xl" />
                   </div>
                 </div>
                 
-                <h2 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">
+                <h2 className="text-xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">
                   🎉 Quiz Completed!
                 </h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                  <div className="bg-white/60 dark:bg-gray-700/60 rounded-2xl p-6 border border-white/20">
+                  <div className="bg-white/60 dark:bg-gray-700/60 rounded-2xl p-2 md:p-6 border border-white/20">
                     <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
                       {result?.score}
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">Correct Answers</div>
                   </div>
                   
-                  <div className="bg-white/60 dark:bg-gray-700/60 rounded-2xl p-6 border border-white/20">
+                  <div className="bg-white/60 dark:bg-gray-700/60 rounded-2xl p-2 md:p-6 border border-white/20">
                     <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                       {result?.scorePercentage}%
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">Success Rate</div>
                   </div>
                   
-                  <div className="bg-white/60 dark:bg-gray-700/60 rounded-2xl p-6 border border-white/20">
+                  <div className="bg-white/60 dark:bg-gray-700/60 rounded-2xl p-2 md:p-6 border border-white/20">
                     <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">
                       {result?.total}
                     </div>
@@ -650,12 +650,12 @@ const AttemptQuizPage = () => {
             </div>
             
             {/* Quiz Review Section */}
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 mb-8">
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-2xl p-2 md:p-8 border border-white/20 mb-8">
               <div className="flex items-center space-x-4 mb-8">
                 <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
                   <FaBrain className="text-white text-2xl" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
+                <h2 className="text-xl md:text-3xl font-bold text-gray-800 dark:text-white">
                   Quiz Review
                 </h2>
               </div>
@@ -668,9 +668,9 @@ const AttemptQuizPage = () => {
                   const isSkipped = userAnswer === 'SKIP';
                   
                   return (
-                    <div key={index} className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-600 shadow-lg">
+                    <div key={index} className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 rounded-2xl p-2 md:p-6 border border-gray-200 dark:border-gray-600 shadow-lg">
                       <div className="flex items-start space-x-4 mb-6">
-                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-white text-lg font-bold shadow-lg ${
+                        <div className={`hidden md:flex w-12 h-12 rounded-2xl items-center justify-center text-white text-lg font-bold shadow-lg ${
                           isSkipped ? 'bg-gradient-to-r from-gray-400 to-gray-500' :
                           isCorrect ? 'bg-gradient-to-r from-green-400 to-green-500' : 'bg-gradient-to-r from-red-400 to-red-500'
                         }`}>
@@ -763,17 +763,17 @@ const AttemptQuizPage = () => {
             </div>
             
             {/* Action Buttons */}
-            <div className="flex justify-center space-x-6 mb-8">
+            <div className="flex justify-center space-x-2 md:space-x-6 mb-4 md:mb-8">
               <button
                 onClick={() => navigate('/')}
-                className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+                className="px-4 md:px-8 py-2 md:py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
               >
                 <FaBookOpen />
                 <span>Take Another Quiz</span>
               </button>
               <button
                 onClick={() => navigate('/profile')}
-                className="px-8 py-4 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-2xl hover:from-green-600 hover:to-teal-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+                className="px-4 md:px-8 py-2 md:py-4 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-2xl hover:from-green-600 hover:to-teal-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
               >
                 <FaChartLine />
                 <span>View Profile</span>
@@ -785,7 +785,7 @@ const AttemptQuizPage = () => {
         ) : (
           <div className="space-y-8">
             {/* Progress Bar */}
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-xl">
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-2 md:p-6 border border-white/20 shadow-xl">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
@@ -806,7 +806,7 @@ const AttemptQuizPage = () => {
             </div>
             
             {/* Timer and Controls */}
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-xl">
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-2 md:p-6 border border-white/20 shadow-xl">
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">
@@ -831,13 +831,13 @@ const AttemptQuizPage = () => {
             </div>
 
             {/* Current Question */}
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-8 border border-white/20 shadow-2xl">
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-2 md:p-8 border border-white/20 shadow-2xl">
               <div className="flex items-start space-x-4 mb-8">
-                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
+                <div className="hidden md:flex w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl items-center justify-center">
                   <span className="text-white font-bold text-lg">{currentQuestionIndex + 1}</span>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 leading-relaxed">
+                  <h3 className="text-lg md:text-2xl font-bold text-gray-800 dark:text-white mb-6 leading-relaxed">
                     {currentQuestion.questionText}
                   </h3>
                   
@@ -850,7 +850,7 @@ const AttemptQuizPage = () => {
                         <div
                           key={j}
                           onClick={() => handleSelect(opt)}
-                          className={`p-6 rounded-2xl border-2 cursor-pointer transition-all duration-300 transform hover:scale-105 ${
+                          className={`p-2 md:p-6 rounded-2xl border-2 cursor-pointer transition-all duration-300 transform hover:scale-105 ${
                             isSelected
                               ? 'bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 border-purple-400 dark:border-purple-500 shadow-lg'
                               : 'bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600 hover:border-purple-300 dark:hover:border-purple-500 hover:shadow-lg'
@@ -886,7 +886,7 @@ const AttemptQuizPage = () => {
             </div>
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center gap-2 md:gap-4">
               <button
                 onClick={handlePreviousQuestion}
                 disabled={currentQuestionIndex === 0}
@@ -896,10 +896,10 @@ const AttemptQuizPage = () => {
                 <span className="font-medium">Previous</span>
               </button>
               
-              <div className="flex space-x-4">
+              <div className="flex space-x-2 md:space-x-4">
                 <button
                   onClick={handleSkipQuestion}
-                  className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-2xl hover:from-yellow-600 hover:to-orange-600 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+                  className="px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-2xl hover:from-yellow-600 hover:to-orange-600 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
                 >
                   <FaQuestionCircle />
                   <span className="font-medium">Skip</span>
