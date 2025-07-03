@@ -307,7 +307,7 @@ const SubscriptionPage = () => {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 sm:w-96 h-48 sm:h-96 bg-gradient-to-r from-green-400/10 to-blue-400/10 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
 
-      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8 mt-10 sm:mt-16 relative z-10">
+      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8 mt-0 md:mt-16 relative z-10">
         
         {/* Hero Section */}
         <div className="text-center mb-10 sm:mb-16 subscription-hero">
@@ -329,14 +329,14 @@ const SubscriptionPage = () => {
 
         {/* Current Subscription Status */}
         {subscription && (
-          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/30 mb-16 hover-lift">
-            <div className="flex items-center justify-between mb-8">
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-2xl p-2 py-4 md:p-8 border border-white/30 mb-16 hover-lift">
+            <div className="flex items-center justify-between mb-8 flex-col md:flex-row">
               <div className="flex items-center space-x-4">
-                <div className="w-20 h-20 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
+                <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
                   <FaShieldAlt className="text-white text-3xl" />
                 </div>
                 <div>
-                  <h2 className="text-4xl font-bold text-gray-800 dark:text-white">
+                  <h2 className="text-xl md:text-4xl font-bold text-gray-800 dark:text-white">
                     Current Subscription
                   </h2>
                   <p className="text-gray-600 dark:text-gray-300 text-lg">
@@ -346,7 +346,7 @@ const SubscriptionPage = () => {
               </div>
               <button
                 onClick={() => { navigate('/levels'); }}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 dark:from-blue-500 dark:to-purple-500 dark:hover:from-blue-600 dark:hover:to-purple-600 text-white dark:text-white px-6 py-3 rounded-2xl transition-all duration-300 font-semibold transform hover:scale-105 shadow-lg hover:shadow-xl dark:shadow-blue-500/25 hover:dark:shadow-blue-500/40"
+                className=" mt-4 md:mt-0 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 dark:from-blue-500 dark:to-purple-500 dark:hover:from-blue-600 dark:hover:to-purple-600 text-white dark:text-white px-6 py-3 rounded-2xl transition-all duration-300 font-semibold transform hover:scale-105 shadow-lg hover:shadow-xl dark:shadow-blue-500/25 hover:dark:shadow-blue-500/40"
               >
                 <span className="flex items-center space-x-2">
                   <FaTrophy className="text-sm" />
@@ -355,9 +355,9 @@ const SubscriptionPage = () => {
               </button>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-6 border border-blue-200 dark:border-blue-700 hover-scale">
-                <div className="flex items-center space-x-4 mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-3 md:p-6 border border-blue-200 dark:border-blue-700 hover-scale">
+                <div className="flex items-center space-x-4 mb-0 md:mb-4">
                   <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center">
                     <FaCrown className="text-white text-xl" />
                   </div>
@@ -370,8 +370,8 @@ const SubscriptionPage = () => {
                 </div>
               </div>
               
-              <div className="bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/30 dark:to-teal-900/30 rounded-2xl p-6 border border-green-200 dark:border-green-700 hover-scale">
-                <div className="flex items-center space-x-4 mb-4">
+              <div className="bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/30 dark:to-teal-900/30 rounded-2xl p-3 md:p-6 border border-green-200 dark:border-green-700 hover-scale">
+                <div className="flex items-center space-x-4 mb-0 md:mb-4">
                   <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-500 rounded-xl flex items-center justify-center">
                     <FaCheckCircle className="text-white text-xl" />
                   </div>
@@ -386,8 +386,8 @@ const SubscriptionPage = () => {
                 </div>
               </div>
               
-              <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl p-6 border border-purple-200 dark:border-purple-700 hover-scale">
-                <div className="flex items-center space-x-4 mb-4">
+              <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl p-3 md:p-6 border border-purple-200 dark:border-purple-700 hover-scale">
+                <div className="flex items-center space-x-4 mb-0 md:mb-4">
                   <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
                     <FaBookOpen className="text-white text-xl" />
                   </div>
@@ -409,8 +409,8 @@ const SubscriptionPage = () => {
                 </div>
               </div>
               
-              <div className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/30 dark:to-red-900/30 rounded-2xl p-6 border border-orange-200 dark:border-orange-700 hover-scale">
-                <div className="flex items-center space-x-4 mb-4">
+              <div className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/30 dark:to-red-900/30 rounded-2xl p-3 md:p-6 border border-orange-200 dark:border-orange-700 hover-scale">
+                <div className="flex items-center space-x-4 mb-0 md:mb-4">
                   <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
                     <FaCalendarAlt className="text-white text-xl" />
                   </div>
@@ -454,7 +454,7 @@ const SubscriptionPage = () => {
                   key={plan.key} 
                   className={`subscription-plan group relative backdrop-blur-xl rounded-3xl shadow-2xl p-8 border transition-all duration-500 transform hover:-translate-y-4 hover:shadow-3xl flex flex-col h-full ${
                     isCurrentPlan 
-                      ? 'bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-900/30 dark:via-emerald-900/30 dark:to-teal-900/30 border-4 border-green-500 shadow-green-500/20 scale-105' 
+                      ? 'bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-900/30 dark:via-emerald-900/30 dark:to-teal-900/30 border-4 border-green-500 shadow-green-500/20 md:scale-105' 
                       : 'bg-white/90 dark:bg-gray-800/90 border border-white/30'
                   } ${
                     isHovered ? 'scale-105' : 'scale-100'

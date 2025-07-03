@@ -244,7 +244,7 @@ const CategoryPage = () => {
     <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
       {user?.role === 'admin' && isAdminRoute && <Sidebar />}
       <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
             <div>

@@ -348,59 +348,6 @@ const HomePage = () => {
                   </div>
                 )}
               </div>
-
-      {/* Subcategories Section */}
-      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-6 flex items-center gap-2">
-          <FaTags className="text-blue-500" /> Subcategories
-                </h2>
-        <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-12 max-w-3xl">
-          Dive deeper into specific topics and specialized quiz areas
-        </p>
-        
-                {homeData?.subcategories?.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-                    {homeData.subcategories.map((subcategory, idx) => {
-                      const parentName = subcategory.category?.name || 'Default';
-                      const Icon = categoryIcons[parentName] || categoryIcons.Default;
-                      return (
-                        <Link
-                          key={subcategory._id}
-                          to={`/subcategory/${subcategory._id}`}
-                  className={`group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border-gray-300 dark:border-gray-600 p-6`}
-                          tabIndex={0}
-                        >
-                  {/* Icon */}
-                  <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <Icon className="text-white text-2xl" />
-                          </div>
-                  {/* Content */}
-                  <div className="text-center">
-                    <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
-                              {subcategory.name}
-                            </h3>
-                            {subcategory.category && (
-                              <span className="inline-block mb-2 px-2 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold">
-                                {subcategory.category.name}
-                              </span>
-                            )}
-                    <div className="text-center py-2 rounded-lg text-sm font-semibold bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
-                      View Quizzes
-                          </div>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <FaTags className="text-6xl text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-600 dark:text-gray-400 text-lg mb-4">
-                      No subcategories found.
-                    </p>
-          </div>
-        )}
-      </div>
     </div>
   );
 };

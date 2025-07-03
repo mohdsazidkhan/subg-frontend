@@ -23,10 +23,10 @@ const DashboardAnalytics = () => {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isOpen = useSelector((state) => state.sidebar.isOpen);
+
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true');
 
   useEffect(() => {
     setLoading(true);
@@ -52,72 +52,42 @@ const DashboardAnalytics = () => {
       });
   }, []);
 
-  if (loading) return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50'}`}>
-      <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-      </div>
-    </div>
-  );
+  const isDark = document.documentElement.classList.contains('dark');
 
-  if (error) return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50'} p-6`}>
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          {error}
-        </div>
-      </div>
-    </div>
-  );
+  const chartTextColor = isDark ? '#ffffff' : '#000000';
+  const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
 
-  if (!data) return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50'} p-6`}>
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center text-gray-500">No data available</div>
-      </div>
-    </div>
-  );
+  const levelLabels = data?.levelDistribution?.map(l => `Level ${l._id}`) || [];
+  const levelCounts = data?.levelDistribution?.map(l => l.count) || [];
 
-  // Prepare chart data
-  const levelLabels = data.levelDistribution?.map(l => `Level ${l._id}`) || [];
-  const levelCounts = data.levelDistribution?.map(l => l.count) || [];
-  const subscriptionLabels = data.subscriptionDistribution?.map(s => s._id) || [];
-  const subscriptionCounts = data.subscriptionDistribution?.map(s => s.count) || [];
+  const subscriptionLabels = data?.subscriptionDistribution?.map(s => s._id) || [];
+  const subscriptionCounts = data?.subscriptionDistribution?.map(s => s.count) || [];
 
   const levelBarData = {
     labels: levelLabels,
-    datasets: [
-      {
-        label: 'Users',
-        data: levelCounts,
-        backgroundColor: darkMode ? 'rgba(59, 130, 246, 0.8)' : 'rgba(59, 130, 246, 0.7)',
-        borderColor: darkMode ? 'rgba(59, 130, 246, 1)' : 'rgba(59, 130, 246, 1)',
-        borderWidth: 1,
-      },
-    ],
+    datasets: [{
+      label: 'Users',
+      data: levelCounts,
+      backgroundColor: 'rgba(59, 130, 246, 0.7)',
+      borderColor: 'rgba(59, 130, 246, 1)',
+      borderWidth: 1,
+    }],
   };
 
   const subscriptionPieData = {
     labels: subscriptionLabels,
-    datasets: [
-      {
-        label: 'Users',
-        data: subscriptionCounts,
-        backgroundColor: darkMode ? [
-          'rgba(59, 130, 246, 0.8)',
-          'rgba(139, 92, 246, 0.8)',
-          'rgba(16, 185, 129, 0.8)',
-          'rgba(251, 191, 36, 0.8)'
-        ] : [
-          'rgba(59, 130, 246, 0.7)',
-          'rgba(139, 92, 246, 0.7)',
-          'rgba(16, 185, 129, 0.7)',
-          'rgba(251, 191, 36, 0.7)'
-        ],
-        borderColor: darkMode ? 'rgba(17, 24, 39, 1)' : 'rgba(255, 255, 255, 1)',
-        borderWidth: 2,
-      },
-    ],
+    datasets: [{
+      label: 'Users',
+      data: subscriptionCounts,
+      backgroundColor: [
+        'rgba(59, 130, 246, 0.7)',
+        'rgba(139, 92, 246, 0.7)',
+        'rgba(16, 185, 129, 0.7)',
+        'rgba(251, 191, 36, 0.7)'
+      ],
+      borderColor: isDark ? 'rgba(17, 24, 39, 1)' : '#fff',
+      borderWidth: 2,
+    }]
   };
 
   const chartOptions = {
@@ -125,27 +95,17 @@ const DashboardAnalytics = () => {
     plugins: {
       legend: {
         display: false,
-        labels: {
-          color: darkMode ? '#ffffff' : '#000000'
-        }
+        labels: { color: chartTextColor }
       }
     },
     scales: {
       x: {
-        ticks: {
-          color: darkMode ? '#ffffff' : '#000000'
-        },
-        grid: {
-          color: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
-        }
+        ticks: { color: chartTextColor },
+        grid: { color: gridColor }
       },
       y: {
-        ticks: {
-          color: darkMode ? '#ffffff' : '#000000'
-        },
-        grid: {
-          color: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
-        }
+        ticks: { color: chartTextColor },
+        grid: { color: gridColor }
       }
     }
   };
@@ -156,7 +116,7 @@ const DashboardAnalytics = () => {
       legend: {
         position: 'bottom',
         labels: {
-          color: darkMode ? '#ffffff' : '#000000',
+          color: chartTextColor,
           padding: 20,
           usePointStyle: true
         }
@@ -164,217 +124,155 @@ const DashboardAnalytics = () => {
     }
   };
 
+  if (loading) return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+    </div>
+  );
+
+  if (error) return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 text-red-700">
+      <div className="max-w-4xl mx-auto bg-red-100 border border-red-400 px-4 py-3 rounded">
+        {error}
+      </div>
+    </div>
+  );
+
+  if (!data) return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 text-center text-gray-500 dark:text-gray-300">
+      No data available
+    </div>
+  );
+
   return (
     <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
       {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-6 w-full text-gray-900 dark:text-white">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} mb-2`}>
-              Analytics Dashboard
-            </h1>
-            <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              Comprehensive overview of platform performance and user engagement
-            </p>
+      <div className="adminContent p-6 w-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-2">Analytics Dashboard</h1>
+          <p className="text-gray-600 dark:text-gray-300">
+            Comprehensive overview of platform performance and user engagement
+          </p>
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
+          {[
+            { label: 'Total Users', icon: <FaUsers />, value: data.overview?.totalUsers, color: 'blue' },
+            { label: 'Total Quizzes', icon: <FaChartBar />, value: data.overview?.totalQuizzes, color: 'green' },
+            { label: 'Total Revenue', icon: <FaMoneyBillWave />, value: `₹${data.overview?.totalRevenue}`, color: 'yellow' },
+            { label: 'Active Users', icon: <FaTrophy />, value: data.overview?.activeUsers, color: 'purple' },
+            { label: 'Total Attempts', icon: <FaClock />, value: data.overview?.totalAttempts, color: 'indigo' },
+            { label: 'Subscriptions', icon: <FaStar />, value: data.overview?.totalSubscriptions, color: 'pink' },
+          ].map((stat, i) => (
+            <div key={i} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="flex items-center">
+                <div className={`p-3 rounded-full bg-${stat.color}-100 dark:bg-${stat.color}-600`}>
+                  {React.cloneElement(stat.icon, { className: `w-6 h-6 text-${stat.color}-600 dark:text-white` })}
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{stat.label}</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {stat.value?.toLocaleString() || 0}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Charts */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg">
+            <h3 className="text-lg font-semibold mb-4">Level Distribution</h3>
+            {levelLabels.length > 0 ? (
+              <Bar data={levelBarData} options={chartOptions} />
+            ) : (
+              <div className="h-64 flex items-center justify-center text-gray-400">No data available</div>
+            )}
           </div>
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
-            <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl border p-6 shadow-lg hover:shadow-xl transition-shadow duration-300`}>
-              <div className="flex items-center">
-                <div className={`p-3 rounded-full ${darkMode ? 'bg-blue-600' : 'bg-blue-100'}`}>
-                  <FaUsers className={`w-6 h-6 ${darkMode ? 'text-white' : 'text-blue-600'}`} />
-                </div>
-                <div className="ml-4">
-                  <p className={`text-sm font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Total Users</p>
-                  <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                    {data.overview?.totalUsers?.toLocaleString() || 0}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl border p-6 shadow-lg hover:shadow-xl transition-shadow duration-300`}>
-              <div className="flex items-center">
-                <div className={`p-3 rounded-full ${darkMode ? 'bg-green-600' : 'bg-green-100'}`}>
-                  <FaChartBar className={`w-6 h-6 ${darkMode ? 'text-white' : 'text-green-600'}`} />
-                </div>
-                <div className="ml-4">
-                  <p className={`text-sm font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Total Quizzes</p>
-                  <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                    {data.overview?.totalQuizzes?.toLocaleString() || 0}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl border p-6 shadow-lg hover:shadow-xl transition-shadow duration-300`}>
-              <div className="flex items-center">
-                <div className={`p-3 rounded-full ${darkMode ? 'bg-yellow-600' : 'bg-yellow-100'}`}>
-                  <FaMoneyBillWave className={`w-6 h-6 ${darkMode ? 'text-white' : 'text-yellow-600'}`} />
-                </div>
-                <div className="ml-4">
-                  <p className={`text-sm font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Total Revenue</p>
-                  <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                    ₹{data.overview?.totalRevenue?.toLocaleString() || 0}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl border p-6 shadow-lg hover:shadow-xl transition-shadow duration-300`}>
-              <div className="flex items-center">
-                <div className={`p-3 rounded-full ${darkMode ? 'bg-purple-600' : 'bg-purple-100'}`}>
-                  <FaTrophy className={`w-6 h-6 ${darkMode ? 'text-white' : 'text-purple-600'}`} />
-                </div>
-                <div className="ml-4">
-                  <p className={`text-sm font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Active Users</p>
-                  <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                    {data.overview?.activeUsers?.toLocaleString() || 0}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl border p-6 shadow-lg hover:shadow-xl transition-shadow duration-300`}>
-              <div className="flex items-center">
-                <div className={`p-3 rounded-full ${darkMode ? 'bg-indigo-600' : 'bg-indigo-100'}`}>
-                  <FaClock className={`w-6 h-6 ${darkMode ? 'text-white' : 'text-indigo-600'}`} />
-                </div>
-                <div className="ml-4">
-                  <p className={`text-sm font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Total Attempts</p>
-                  <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                    {data.overview?.totalAttempts?.toLocaleString() || 0}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl border p-6 shadow-lg hover:shadow-xl transition-shadow duration-300`}>
-              <div className="flex items-center">
-                <div className={`p-3 rounded-full ${darkMode ? 'bg-pink-600' : 'bg-pink-100'}`}>
-                  <FaStar className={`w-6 h-6 ${darkMode ? 'text-white' : 'text-pink-600'}`} />
-                </div>
-                <div className="ml-4">
-                  <p className={`text-sm font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Subscriptions</p>
-                  <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                    {data.overview?.totalSubscriptions?.toLocaleString() || 0}
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg">
+            <h3 className="text-lg font-semibold mb-4">Subscription Distribution</h3>
+            {subscriptionLabels.length > 0 ? (
+              <Pie data={subscriptionPieData} options={pieOptions} />
+            ) : (
+              <div className="h-64 flex items-center justify-center text-gray-400">No data available</div>
+            )}
           </div>
+        </div>
 
-          {/* Charts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl border p-6 shadow-lg`}>
-              <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                Level Distribution
-              </h3>
-              {levelLabels.length > 0 ? (
-                <Bar data={levelBarData} options={chartOptions} />
-              ) : (
-                <div className="h-64 flex items-center justify-center text-gray-400">
-                  No data available
-                </div>
-              )}
-            </div>
-
-            <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl border p-6 shadow-lg`}>
-              <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                Subscription Distribution
-              </h3>
-              {subscriptionLabels.length > 0 ? (
-                <Pie data={subscriptionPieData} options={pieOptions} />
-              ) : (
-                <div className="h-64 flex items-center justify-center text-gray-400">
-                  No data available
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Tables */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl border p-6 shadow-lg`}>
-              <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                Recent Activity
-              </h3>
-              <div className="overflow-x-auto">
-                <table className="min-w-full">
-                  <thead>
-                    <tr className={`${darkMode ? 'border-gray-700' : 'border-gray-200'} border-b`}>
-                      <th className={`text-left py-3 px-4 font-medium ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>User</th>
-                      <th className={`text-left py-3 px-4 font-medium ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Quiz</th>
-                      <th className={`text-left py-3 px-4 font-medium ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Date</th>
+        {/* Tables */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Recent Activity */}
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg">
+            <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
+            <div className="overflow-x-auto">
+              <table className="min-w-full">
+                <thead>
+                  <tr className="border-b border-gray-200 dark:border-gray-700">
+                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">User</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Quiz</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.recentActivity?.length > 0 ? (
+                    data.recentActivity.map((a, i) => (
+                      <tr key={i} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        <td className="py-3 px-4">{a.student?.name || 'Unknown'}</td>
+                        <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{a.quiz?.title || 'Unknown Quiz'}</td>
+                        <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{new Date(a.attemptedAt).toLocaleDateString()}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="3" className="text-center py-8 text-gray-500 dark:text-gray-400">
+                        No recent activity
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {data.recentActivity?.map((a, i) => (
-                      <tr key={i} className={`${darkMode ? 'border-gray-700 hover:bg-gray-700' : 'border-gray-200 hover:bg-gray-50'} border-b transition-colors`}>
-                        <td className={`py-3 px-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                          {a.student?.name || 'Unknown'}
-                        </td>
-                        <td className={`py-3 px-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                          {a.quiz?.title || 'Unknown Quiz'}
-                        </td>
-                        <td className={`py-3 px-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                          {new Date(a.attemptedAt).toLocaleDateString()}
-                        </td>
-                      </tr>
-                    )) || (
-                      <tr>
-                        <td colSpan="3" className={`text-center py-8 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                          No recent activity
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                  )}
+                </tbody>
+              </table>
             </div>
+          </div>
 
-            <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl border p-6 shadow-lg`}>
-              <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                Top Users
-              </h3>
-              <div className="overflow-x-auto">
-                <table className="min-w-full">
-                  <thead>
-                    <tr className={`${darkMode ? 'border-gray-700' : 'border-gray-200'} border-b`}>
-                      <th className={`text-left py-3 px-4 font-medium ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Name</th>
-                      <th className={`text-left py-3 px-4 font-medium ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Level</th>
-                      <th className={`text-left py-3 px-4 font-medium ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>High Scores</th>
+          {/* Top Users */}
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg">
+            <h3 className="text-lg font-semibold mb-4">Top Users</h3>
+            <div className="overflow-x-auto">
+              <table className="min-w-full">
+                <thead>
+                  <tr className="border-b border-gray-200 dark:border-gray-700">
+                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Name</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Level</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">High Scores</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.topUsers?.length > 0 ? (
+                    data.topUsers.map((u, i) => (
+                      <tr key={i} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        <td className="py-3 px-4">{u.name || 'Unknown'}</td>
+                        <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{u.level?.currentLevel || 0}</td>
+                        <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{u.level?.highScoreQuizzes || 0}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="3" className="text-center py-8 text-gray-500 dark:text-gray-400">
+                        No users found
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {data.topUsers?.map((u, i) => (
-                      <tr key={i} className={`${darkMode ? 'border-gray-700 hover:bg-gray-700' : 'border-gray-200 hover:bg-gray-50'} border-b transition-colors`}>
-                        <td className={`py-3 px-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                          {u.name || 'Unknown'}
-                        </td>
-                        <td className={`py-3 px-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                          {u.level?.currentLevel || 0}
-                        </td>
-                        <td className={`py-3 px-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                          {u.level?.highScoreQuizzes || 0}
-                        </td>
-                      </tr>
-                    )) || (
-                      <tr>
-                        <td colSpan="3" className={`text-center py-8 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                          No users found
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
+      </div>
     </div>
   );
 };
 
-export default DashboardAnalytics; 
+export default DashboardAnalytics;

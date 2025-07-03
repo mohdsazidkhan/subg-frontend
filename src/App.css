@@ -382,13 +382,12 @@
 }
 
 @media (max-width:768px) {
+  .logo {
+    max-width: 50px;
+  }
   .sidebar{
     bottom: 0;
-    z-index: 9;
-  }
-
-  .appContainer {
-    padding-bottom: 165px;
+    z-index: 99;
   }
   .authPage,
   .sidebar,

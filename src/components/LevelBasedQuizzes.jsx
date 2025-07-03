@@ -209,10 +209,10 @@ const LevelBasedQuizzes = () => {
     <div className="container mx-auto px-4 py-8">
       {/* User Level Info */}
       {userLevel && (
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg p-6 mb-8">
+        <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg p-2 md:p-6 mb-4 md:mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold mb-2">
+              <h2 className="text-xl md:text-2xl font-bold mb-2">
                 Level {userLevel.currentLevel} - {userLevel.levelName}
               </h2>
               <p className="text-blue-100">
@@ -233,20 +233,20 @@ const LevelBasedQuizzes = () => {
       )}
 
       {/* Filters */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
-        <div className="flex items-center justify-between mb-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-2 md:p-6 mb-2 md:mb-8">
+        <div className="flex items-center justify-between flex-col md:flex-row mb-4">
           <div className="flex items-center gap-2">
             <FaFilter className="text-gray-600" />
             <h3 className="text-lg font-semibold text-white dark:text-gray-100">Filters</h3>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mt-4 md:mt-0">
             <div className="relative">
               <input
                 type="text"
                 placeholder="Search quizzes, categories, subcategories..."
                 value={searchInput}
                 onChange={(e) => handleSearchChange(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm w-64 pr-8"
+                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm w-64 pr-0 md:pr-8"
                 disabled={searchLoading}
               />
               {searchLoading && (
@@ -447,7 +447,7 @@ const LevelBasedQuizzes = () => {
 
       {/* Quizzes Grid */}
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+        <h2 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-6">
           {filters.level 
             ? `Quizzes for Level ${filters.level} - ${getLevelName(parseInt(filters.level))}`
             : 'Quizzes for Your Level'
@@ -466,7 +466,7 @@ const LevelBasedQuizzes = () => {
             {quizzes.map((quiz) => (
               <div
                 key={quiz._id}
-                className={`bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-2 transition-all duration-300 hover:shadow-lg ${
+                className={`bg-white dark:bg-gray-800 rounded-lg shadow-md p-2 md:p-6 border-2 transition-all duration-300 hover:shadow-lg ${
                   quiz.isRecommended ? 'border-blue-500' : 
                   quiz.hasAttempted ? 'border-gray-300' : 'border-green-500'
                 }`}

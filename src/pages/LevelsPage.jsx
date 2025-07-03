@@ -88,26 +88,26 @@ const LevelsPage = () => {
           <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
             <FaTrophy className="text-white text-3xl" />
           </div>
-          <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-4">
+          <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-4">
             Level Progression System
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300">
+          <p className="text-md md:text-xl text-gray-600 dark:text-gray-300">
             Journey from Zero Level to Legend through 11 exciting levels
           </p>
         </div>
 
         {/* Current Level Card */}
-        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 mb-8">
+        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-2 md:p-8 border border-white/20 mb-8">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6">
+            <h2 className="text-xl md:text-3xl font-bold text-gray-800 dark:text-white mb-6">
               🎯 Your Current Level
             </h2>
             <div className="flex items-center justify-center space-x-6 mb-6">
-              <div className={`w-24 h-24 bg-gradient-to-r ${userLevel.color} rounded-2xl flex items-center justify-center`}>
+              <div className={`w-12 h-12 md:w-24 md:h-24 bg-gradient-to-r ${userLevel.color} rounded-2xl flex items-center justify-center`}>
                 <userLevel.icon className="text-white text-4xl" />
               </div>
               <div className="text-left">
-                <div className="text-3xl font-bold text-gray-800 dark:text-white">
+                <div className="text-xl md:text-3xl font-bold text-gray-800 dark:text-white">
                   {userLevel.name}
                 </div>
                 <div className="text-gray-600 dark:text-gray-300">
@@ -227,12 +227,12 @@ const LevelsPage = () => {
         {/* Info Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Scholarship Info */}
-          <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-3xl shadow-2xl p-8 border border-yellow-200 dark:border-yellow-700">
+          <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-3xl shadow-2xl p-2 md:p-8 border border-yellow-200 dark:border-yellow-700">
             <div className="flex items-center space-x-4 mb-6">
               <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center">
                 <FaAward className="text-white text-2xl" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
+              <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
                 Scholarship & Prizes
               </h3>
             </div>
@@ -253,12 +253,12 @@ const LevelsPage = () => {
           </div>
 
           {/* Progression Rules */}
-          <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 rounded-3xl shadow-2xl p-8 border border-blue-200 dark:border-blue-700">
+          <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 rounded-3xl shadow-2xl p-2 md:p-8 border border-blue-200 dark:border-blue-700">
             <div className="flex items-center space-x-4 mb-6">
               <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center">
                 <FaGem className="text-white text-2xl" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
+              <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
                 Progression Rules
               </h3>
             </div>

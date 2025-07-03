@@ -115,10 +115,11 @@ const config = {
 
   // Social Media Links
   SOCIAL_MEDIA: {
-    FACEBOOK: process.env.REACT_APP_FACEBOOK_URL || 'https://facebook.com/subgquiz',
+    FACEBOOK: process.env.REACT_APP_FACEBOOK_URL || 'https://facebook.com/subgquizz',
     TWITTER: process.env.REACT_APP_TWITTER_URL || 'https://twitter.com/subgquiz',
     INSTAGRAM: process.env.REACT_APP_INSTAGRAM_URL || 'https://instagram.com/subgquiz',
-    YOUTUBE: process.env.REACT_APP_YOUTUBE_URL || 'https://youtube.com/subgquiz'
+    YOUTUBE: process.env.REACT_APP_YOUTUBE_URL || 'https://youtube.com/subgquiz',
+    LINKEDIN: process.env.REACT_APP_LINKEDIN_URL || 'https://www.linkedin.com/company/subgquiz'
   },
 
   // Legal Information

@@ -105,7 +105,7 @@ const QuizResult = () => {
                     <div className="text-8xl mb-4">
                         {getScoreEmoji(quizResult?.scorePercentage)}
                     </div>
-                    <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-4">
+                    <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-4">
                         Quiz Result
                     </h1>
                     <p className="text-xl text-gray-600 dark:text-gray-300">
@@ -114,11 +114,11 @@ const QuizResult = () => {
                 </div>
 
                 {/* Main Result Card */}
-                <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 max-w-4xl mx-auto mb-8">
+                <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl px-2 py-4 md:p-8 border border-white/20 max-w-4xl mx-auto mb-8">
                     
                     {/* Quiz Title */}
                     <div className="text-center mb-6">
-                        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+                        <h2 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2">
                             {quizResult?.quizTitle || 'Quiz Result'}
                         </h2>
                         {quizResult?.categoryName && (
@@ -131,7 +131,7 @@ const QuizResult = () => {
 
                     {/* Score Display */}
                     <div className="text-center mb-8">
-                        <div className={`text-6xl font-bold mb-4 ${getScoreColor(quizResult?.scorePercentage)}`}>
+                        <div className={`text-4xl md:text-6xl font-bold mb-4 ${getScoreColor(quizResult?.scorePercentage)}`}>
                             {quizResult?.scorePercentage}%
                         </div>
                         <div className="text-2xl text-gray-700 dark:text-gray-300 mb-2">
@@ -177,12 +177,12 @@ const QuizResult = () => {
 
                     {/* High Score Status */}
                     {quizResult?.scorePercentage !== undefined && (
-                        <div className={`text-center p-4 rounded-lg ${
+                        <div className={`text-center p-2 md:p-4 rounded-lg ${
                             quizResult.scorePercentage >= 75
                                 ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800'
                                 : 'bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800'
                         }`}>
-                            <div className={`text-2xl font-bold ${
+                            <div className={`text-xl md:text-2xl font-bold ${
                                 quizResult.scorePercentage >= 75
                                     ? 'text-green-800 dark:text-green-200'
                                     : 'text-yellow-800 dark:text-yellow-200'
