@@ -14,7 +14,6 @@ import {
 } from 'chart.js';
 import config from '../../config/appConfig';
 import {
-  FaUsers, FaUserPlus, FaUserCheck,
   FaFilter, FaDownload, FaChartBar, FaChartLine, FaChartPie
 } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';

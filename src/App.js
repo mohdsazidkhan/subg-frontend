@@ -41,6 +41,7 @@ import PerformanceAnalytics from './pages/admin/PerformanceAnalytics';
 import CategoryDetailPage from './pages/CategoryDetailPage';
 import SubcategoryDetailPage from './pages/SubcategoryDetailPage';
 import LevelDetailPage from './pages/LevelDetailPage';
+import AdminContacts from './pages/admin/AdminContacts';
 import ReactGA from 'react-ga4';
 
 function usePageTracking() {
@@ -98,6 +99,7 @@ function AppLayout() {
             <Route path="/admin/quizzes" element={<AdminRoute><QuizManagementPage /></AdminRoute>} />
             <Route path="/admin/questions" element={<AdminRoute><QuestionPage /></AdminRoute>} />
             <Route path="/admin/students" element={<AdminRoute><StudentPage /></AdminRoute>} />
+            <Route path="/admin/contacts" element={<AdminRoute><AdminContacts /></AdminRoute>} />
             {/* Analytics Admin Routes */}
             <Route path="/admin/analytics/dashboard" element={<AdminRoute><DashboardAnalytics /></AdminRoute>} />
             <Route path="/admin/analytics/users" element={<AdminRoute><UserAnalytics /></AdminRoute>} />

@@ -22,8 +22,8 @@ const Sidebar = () => {
 
   const getActiveClass = (path) => {
     return isActiveRoute(path)
-      ? "flex items-center space-x-3 p-3 bg-blue-600 text-white transition-colors rounded-md"
-      : "flex items-center space-x-3 p-3 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-800 dark:text-gray-100 rounded-md";
+      ? "flex items-center space-x-3 p-3 bg-blue-600 text-white transition-colors"
+      : "flex items-center space-x-3 p-3 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-800 dark:text-gray-100";
   };
 
   return (
@@ -59,6 +59,11 @@ const Sidebar = () => {
         <Link to="/admin/students" onClick={() => handleNavClick('students')} className={getActiveClass('/admin/students')}>
           <MdPeople className="text-xl" />
           <span>Students</span>
+        </Link>
+
+        <Link to="/admin/contacts" onClick={() => handleNavClick('contacts')} className={getActiveClass('/admin/contacts')}>
+          <MdPeople className="text-xl" />
+          <span>Contacts</span>
         </Link>
       </nav>
 

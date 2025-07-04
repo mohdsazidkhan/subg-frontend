@@ -8,11 +8,32 @@ const ContactUs = () => {
     subject: '',
     message: ''
   });
+  const [status, setStatus] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+    setStatus(null);
+    try {
+      const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${API_BASE_URL}/api/contacts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: `Subject: ${formData.subject}\n${formData.message}`
+        })
+      });
+      const data = await response.json();
+      if (data.success) {
+        setStatus('success');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      setStatus('error');
+    }
   };
 
   const handleChange = (e) => {
@@ -43,8 +64,8 @@ const ContactUs = () => {
           
           {/* Contact Information */}
           <div className="space-y-8">
-            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20">
-              <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6">
+            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl px-2 py-4 md:p-8 border border-white/20">
+              <h2 className="text-xl md:text-3xl font-bold text-gray-800 dark:text-white mb-6">
                 Contact Information
               </h2>
               
@@ -111,12 +132,12 @@ const ContactUs = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20">
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl px-2 py-4 md:p-8 border border-white/20">
             <div className="flex items-center space-x-4 mb-6">
               <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
                 <FaPaperPlane className="text-white text-2xl" />
               </div>
-              <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
+              <h2 className="text-xl md:text-3xl font-bold text-gray-800 dark:text-white">
                 Send Message
               </h2>
             </div>
@@ -181,6 +202,13 @@ const ContactUs = () => {
                   placeholder="Enter your message here..."
                 />
               </div>
+
+              {status === 'success' && (
+                <div className="text-green-600 dark:text-green-400 font-semibold">Message sent successfully!</div>
+              )}
+              {status === 'error' && (
+                <div className="text-red-600 dark:text-red-400 font-semibold">Failed to send message. Please try again.</div>
+              )}
 
               <button
                 type="submit"
