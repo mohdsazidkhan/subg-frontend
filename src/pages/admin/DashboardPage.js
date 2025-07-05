@@ -191,7 +191,7 @@ const DashboardPage = () => {
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
             🚀 Quick Actions
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
             <Link to="/admin/quizzes" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 hover:from-blue-100 hover:to-blue-200 dark:hover:from-blue-800/30 dark:hover:to-blue-700/30 transition-all duration-300">
               <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center mr-3">
                 <span className="text-white text-lg">🎯</span>

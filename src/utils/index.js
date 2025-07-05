@@ -8,6 +8,13 @@ export function formatTimeToIST(utcDateString) {
   });
   return time.replace(/(am|pm)/i, (match) => match.toUpperCase());
 }
+export function formatDateToIST(dateStr){
+  const date = new Date(dateStr);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = date.toLocaleString('en-US', { month: 'long' });
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
 export function convertTo12Hour(time24) {
   const [hour, minute] = time24.split(':').map(Number);
   const ampm = hour >= 12 ? 'PM' : 'AM';

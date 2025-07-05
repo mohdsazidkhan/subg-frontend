@@ -7,7 +7,8 @@ import { toast } from 'react-toastify';
 import Pagination from '../../components/Pagination';
 import ViewToggle from '../../components/ViewToggle';
 import SearchFilter from '../../components/SearchFilter';
-import { FaEdit, FaTrash, FaPlus, FaEye, FaClock, FaStar, FaSpinner } from 'react-icons/fa';
+import { FaTrash, FaPlus, FaClock, FaStar, FaSpinner } from 'react-icons/fa';
+import { formatTimeToIST,formatDateToIST } from '../../utils';
 
 const QuizPage = () => {
   // Form states
@@ -291,6 +292,9 @@ const QuizPage = () => {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Details
               </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Created
+              </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Actions
               </th>
@@ -335,6 +339,14 @@ const QuizPage = () => {
                     {quiz.timeLimit} min
                   </div>
                 </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm text-gray-500 dark:text-gray-300">
+                  {formatDateToIST(quiz.createdAt)}
+                  </div>
+                  <div className="text-sm text-gray-500 dark:text-gray-300">
+                    {formatTimeToIST(quiz.createdAt)}
+                  </div>
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <div className="flex items-center justify-end space-x-2">
                     <button
@@ -355,10 +367,10 @@ const QuizPage = () => {
 
   // Card View Component
   const CardView = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
       {quizzes.map((quiz) => (
         <div key={quiz._id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow">
-          <div className="p-6">
+          <div className="p-3">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white truncate">
                 {quiz.title}
@@ -373,8 +385,7 @@ const QuizPage = () => {
             </p>
             
             <div className="space-y-2 mb-4">
-              <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                <span className="font-medium mr-2">Category:</span>
+              <div className="flex items-center font-semibold text-sm text-gray-600 dark:text-gray-300">
                 {quiz.category?.name} / {quiz.subcategory?.name}
               </div>
               <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
@@ -389,7 +400,7 @@ const QuizPage = () => {
             
             <div className="flex items-center justify-between">
               <div className="text-xs text-gray-500 dark:text-gray-400">
-                Created: {new Date(quiz.createdAt).toLocaleDateString()}
+                {formatDateToIST(quiz.createdAt)} at {formatTimeToIST(quiz.createdAt)}
               </div>
               <button
                 onClick={() => handleDelete(quiz._id)}
@@ -409,7 +420,7 @@ const QuizPage = () => {
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         {quizzes.map((quiz) => (
-          <div key={quiz._id} className="p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          <div key={quiz._id} className="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <div className="flex items-center space-x-3 mb-2">
@@ -438,7 +449,7 @@ const QuizPage = () => {
                   </span>
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                  Created: {new Date(quiz.createdAt).toLocaleDateString()}
+                  Created: {formatDateToIST(quiz.createdAt)} at {formatTimeToIST(quiz.createdAt)}
                 </p>
               </div>
               <div className="flex items-center space-x-2 ml-4">
