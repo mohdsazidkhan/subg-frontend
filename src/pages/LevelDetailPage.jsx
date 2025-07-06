@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaTrophy, FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaArrowLeft, FaClock, FaQuestionCircle, FaLayerGroup } from 'react-icons/fa';
 import API from '../utils/api';
+import QuizStartModal from '../components/QuizStartModal';
 
 const levels = [
   { level: 0, name: 'Zero Level', desc: 'Just registered - Start your journey!', quizzes: 0, plan: 'Free', amount: 0, prize: 0, color: 'from-gray-300 to-gray-400', icon: FaBrain },
@@ -29,6 +30,8 @@ const LevelDetailPage = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [userLevel, setUserLevel] = useState(null);
+  const [showQuizModal, setShowQuizModal] = useState(false);
+  const [selectedQuiz, setSelectedQuiz] = useState(null);
 
   const level = levels.find(lvl => lvl.level === Number(levelNumber));
 
@@ -70,7 +73,21 @@ const LevelDetailPage = () => {
   };
 
   const handleQuizClick = (quizId) => {
-    navigate(`/attempt-quiz/${quizId}`);
+    const quiz = quizzes.find(q => q._id === quizId);
+    setSelectedQuiz(quiz);
+    setShowQuizModal(true);
+  };
+
+  const handleConfirmQuizStart = () => {
+    setShowQuizModal(false);
+    if (selectedQuiz) {
+      navigate(`/attempt-quiz/${selectedQuiz._id}`, { state: { quizData: selectedQuiz } });
+    }
+  };
+
+  const handleCancelQuizStart = () => {
+    setShowQuizModal(false);
+    setSelectedQuiz(null);
   };
 
   if (!level) {
@@ -192,7 +209,7 @@ const LevelDetailPage = () => {
                       ) : (
                         <button
                           className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-purple-600 hover:to-blue-500 text-white font-semibold py-2 rounded-xl transition-all duration-300 shadow-md"
-                          onClick={() => navigate(`/attempt-quiz/${quiz._id}`)}
+                          onClick={() => handleQuizClick(quiz._id)}
                         >
                           Start Quiz
                         </button>
@@ -217,6 +234,14 @@ const LevelDetailPage = () => {
           )}
         </div>
       </div>
+
+      {/* Quiz Start Confirmation Modal */}
+      <QuizStartModal
+        isOpen={showQuizModal}
+        onClose={handleCancelQuizStart}
+        onConfirm={handleConfirmQuizStart}
+        quiz={selectedQuiz}
+      />
     </div>
   );
 };

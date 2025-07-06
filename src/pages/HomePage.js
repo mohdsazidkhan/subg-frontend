@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { getCurrentUser } from '../utils/authUtils';
 import { hasActiveSubscription, useTheme } from '../utils/subscriptionUtils';
 import SubscriptionGuard from '../components/SubscriptionGuard';
+import QuizStartModal from '../components/QuizStartModal';
 
 // Icon mapping for categories
 const categoryIcons = {
@@ -38,6 +39,8 @@ const HomePage = () => {
   const [homeData, setHomeData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [showQuizModal, setShowQuizModal] = useState(false);
+  const [selectedQuiz, setSelectedQuiz] = useState(null);
   console.log(homeData,'homeData');
   useEffect(() => {
     fetchHomePageData();
@@ -60,7 +63,20 @@ const HomePage = () => {
   };
 
   const handleQuizAttempt = (quiz) => {
-    navigate(`/attempt-quiz/${quiz._id}`);
+    setSelectedQuiz(quiz);
+    setShowQuizModal(true);
+  };
+
+  const handleConfirmQuizStart = () => {
+    setShowQuizModal(false);
+    if (selectedQuiz) {
+      navigate(`/attempt-quiz/${selectedQuiz._id}`, { state: { quizData: selectedQuiz } });
+    }
+  };
+
+  const handleCancelQuizStart = () => {
+    setShowQuizModal(false);
+    setSelectedQuiz(null);
   };
 
   const getDifficultyColor = (difficulty) => {
@@ -108,8 +124,8 @@ const HomePage = () => {
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-indigo-600/20"></div>
-        <div className="relative container mx-auto px-2 sm:px-4 py-10 sm:py-16 mt-10 sm:mt-16">
-          <div className="text-center mb-8 sm:mb-12">
+        <div className="relative container mx-auto px-2 sm:px-4 py-10 sm:py-16">
+          <div className="text-center">
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-gray-800 dark:text-white mb-2 sm:mb-4">
               Welcome to SUBG Quiz! 🎯
             </h1>
@@ -348,6 +364,14 @@ const HomePage = () => {
                   </div>
                 )}
               </div>
+
+      {/* Quiz Start Confirmation Modal */}
+      <QuizStartModal
+        isOpen={showQuizModal}
+        onClose={handleCancelQuizStart}
+        onConfirm={handleConfirmQuizStart}
+        quiz={selectedQuiz}
+      />
     </div>
   );
 };

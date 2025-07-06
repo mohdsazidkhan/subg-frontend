@@ -17,13 +17,7 @@ import {
   FaArrowRight,
   FaChartLine,
   FaFire,
-  FaGem,
-  FaShieldAlt,
-  FaCheckCircle,
-  FaClock,
-  FaUsers,
   FaBookOpen,
-  FaInfinity
 } from 'react-icons/fa';
 import { getSubscriptionStatusTextWithTheme } from '../utils/subscriptionUtils';
 
@@ -40,27 +34,12 @@ const levels = [
   { number: 10, name: 'Legend', quizzes: 1024 }
 ];
 
-const getUserLevel = (highScoreQuizzes) => {
-  for (let i = levels.length - 1; i >= 0; i--) {
-    if (highScoreQuizzes >= levels[i].quizzes) return levels[i];
-  }
-  return levels[0];
-};
-
-const getNextLevel = (highScoreQuizzes) => {
-  for (let i = 0; i < levels.length; i++) {
-    if (highScoreQuizzes < levels[i].quizzes) return levels[i];
-  }
-  return levels[levels.length - 1];
-};
-
 const ProfilePage = () => {
   const navigate = useNavigate();
   const [student, setStudent] = useState(null);
   const [playedQuizzes, setPlayedQuizzes] = useState([]);
   const [error, setError] = useState('');
-  const [showLevels, setShowLevels] = useState(false);
-
+  console.log(student, 'student')
   useEffect(() => {
     const fetchProfileAndQuizzes = async () => {
       try {
@@ -208,10 +187,10 @@ const ProfilePage = () => {
                   <div>
                     <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Subscription Status</span>
                     {(() => {
-                      const statusInfo = getSubscriptionStatusTextWithTheme();
+                      const statusInfo = getSubscriptionStatusTextWithTheme(student.subscriptionStatus);
                       return (
                         <div className={`text-2xl font-bold ${statusInfo.textColor}`}>
-                          {statusInfo.icon} {statusInfo.text}
+                          {statusInfo.text}
                         </div>
                       );
                     })()}

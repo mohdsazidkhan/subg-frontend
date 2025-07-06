@@ -165,12 +165,12 @@ const DashboardAnalytics = () => {
             { label: 'Total Attempts', icon: <FaClock />, value: data.overview?.totalAttempts, color: 'indigo' },
             { label: 'Subscriptions', icon: <FaStar />, value: data.overview?.totalSubscriptions, color: 'pink' },
           ].map((stat, i) => (
-            <div key={i} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div key={i} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-2 shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div className="flex items-center">
-                <div className={`p-3 rounded-full bg-${stat.color}-100 dark:bg-${stat.color}-600`}>
-                  {React.cloneElement(stat.icon, { className: `w-6 h-6 text-${stat.color}-600 dark:text-white` })}
+                <div className={`p-2 rounded-full bg-${stat.color}-100 dark:bg-${stat.color}-600`}>
+                  {React.cloneElement(stat.icon, { className: `w-4 h-4 text-${stat.color}-600 dark:text-white` })}
                 </div>
-                <div className="ml-4">
+                <div className="ml-2">
                   <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{stat.label}</p>
                   <p className="text-2xl font-bold text-gray-900 dark:text-white">
                     {stat.value?.toLocaleString() || 0}
@@ -220,7 +220,7 @@ const DashboardAnalytics = () => {
                   {data.recentActivity?.length > 0 ? (
                     data.recentActivity.map((a, i) => (
                       <tr key={i} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                        <td className="py-3 px-4">{a.student?.name || 'Unknown'}</td>
+                        <td className="py-3 px-4">{a.user?.name || 'Unknown'}</td>
                         <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{a.quiz?.title || 'Unknown Quiz'}</td>
                         <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{new Date(a.attemptedAt).toLocaleDateString()}</td>
                       </tr>

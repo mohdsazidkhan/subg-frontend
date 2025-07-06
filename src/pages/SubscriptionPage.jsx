@@ -83,111 +83,111 @@ const SubscriptionPage = () => {
     }
   };
 
-  const handleSubscribe = async (planName) => {
-    try {
-      // Convert plan key to lowercase for backend
-      const planId = planName.toLowerCase();
+  // const handleSubscribe = async (planName) => {
+  //   try {
+  //     // Convert plan key to lowercase for backend
+  //     const planId = planName.toLowerCase();
       
-      // Get plan details from config
-      const plan = config.SUBSCRIPTION_PLANS[planName];
-      if (!plan) {
-        toast.error('Invalid plan selected');
-        return;
-      }
+  //     // Get plan details from config
+  //     const plan = config.SUBSCRIPTION_PLANS[planName];
+  //     if (!plan) {
+  //       toast.error('Invalid plan selected');
+  //       return;
+  //     }
 
-      setSelectedPlan(plan);
+  //     setSelectedPlan(plan);
       
-      // Check if user is logged in
-      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-      if (!userInfo) {
-        toast.error('Please login to subscribe');
-        return;
-      }
+  //     // Check if user is logged in
+  //     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  //     if (!userInfo) {
+  //       toast.error('Please login to subscribe');
+  //       return;
+  //     }
 
-      if (!userInfo._id) {
-        toast.error('User information is incomplete. Please login again.');
-        return;
-      }
+  //     if (!userInfo._id) {
+  //       toast.error('User information is incomplete. Please login again.');
+  //       return;
+  //     }
 
-      console.log('Creating subscription order for:', { 
-        planId, 
-        userId: userInfo._id,
-        userInfo: userInfo 
-      });
+  //     console.log('Creating subscription order for:', { 
+  //       planId, 
+  //       userId: userInfo._id,
+  //       userInfo: userInfo 
+  //     });
       
-      const orderRes = await API.createSubscriptionOrder({
-        planId: planId,
-        userId: userInfo._id
-      });
+  //     const orderRes = await API.createSubscriptionOrder({
+  //       planId: planId,
+  //       userId: userInfo._id
+  //     });
 
-      console.log('Order created:', orderRes);
+  //     console.log('Order created:', orderRes);
 
-      const options = {
-        key: config.RAZORPAY_KEY_ID,
-        amount: plan.price * 100,
-        currency: config.CURRENCY,
-        name: config.APP_NAME,
-        description: `${plan.name} - 1 year`,
-        order_id: orderRes.id,
-        handler: async (response) => {
-          try {
-            console.log('Payment response:', response);
-            await API.verifySubscription({
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_signature: response.razorpay_signature,
-              userId: userInfo._id,
-              planId: planId
-            });
+  //     const options = {
+  //       key: config.RAZORPAY_KEY_ID,
+  //       amount: plan.price * 100,
+  //       currency: config.CURRENCY,
+  //       name: config.APP_NAME,
+  //       description: `${plan.name} - 1 year`,
+  //       order_id: orderRes.id,
+  //       handler: async (response) => {
+  //         try {
+  //           console.log('Payment response:', response);
+  //           await API.verifySubscription({
+  //             razorpay_payment_id: response.razorpay_payment_id,
+  //             razorpay_order_id: response.razorpay_order_id,
+  //             razorpay_signature: response.razorpay_signature,
+  //             userId: userInfo._id,
+  //             planId: planId
+  //           });
 
-            toast.success('🎉 Subscription activated successfully!');
-            fetchSubscriptionData();
-          } catch (error) {
-            console.error('Payment verification failed:', error);
-            toast.error('Payment verification failed: ' + (error.message || 'Unknown error'));
-          }
-        },
-        prefill: {
-          name: userInfo.name || '',
-          email: userInfo.email || '',
-          contact: userInfo.phone || ''
-        },
-        theme: {
-          color: '#10B981'
-        }
-      };
+  //           toast.success('🎉 Subscription activated successfully!');
+  //           fetchSubscriptionData();
+  //         } catch (error) {
+  //           console.error('Payment verification failed:', error);
+  //           toast.error('Payment verification failed: ' + (error.message || 'Unknown error'));
+  //         }
+  //       },
+  //       prefill: {
+  //         name: userInfo.name || '',
+  //         email: userInfo.email || '',
+  //         contact: userInfo.phone || ''
+  //       },
+  //       theme: {
+  //         color: '#10B981'
+  //       }
+  //     };
 
-      // Check if Razorpay is loaded
-      if (typeof window.Razorpay === 'undefined') {
-        toast.error('Payment gateway is not loaded. Please refresh the page and try again.');
-        // Try to reload Razorpay script
-        const script = document.createElement('script');
-        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-        script.onload = () => {
-          setRazorpayLoaded(true);
-          toast.success('Payment gateway loaded. Please try again.');
-        };
-        document.head.appendChild(script);
-        return;
-      }
+  //     // Check if Razorpay is loaded
+  //     if (typeof window.Razorpay === 'undefined') {
+  //       toast.error('Payment gateway is not loaded. Please refresh the page and try again.');
+  //       // Try to reload Razorpay script
+  //       const script = document.createElement('script');
+  //       script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+  //       script.onload = () => {
+  //         setRazorpayLoaded(true);
+  //         toast.success('Payment gateway loaded. Please try again.');
+  //       };
+  //       document.head.appendChild(script);
+  //       return;
+  //     }
 
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-    } catch (error) {
-      console.error('Error creating subscription:', error);
+  //     const rzp = new window.Razorpay(options);
+  //     rzp.open();
+  //   } catch (error) {
+  //     console.error('Error creating subscription:', error);
       
-      // Provide more specific error messages
-      if (error.message.includes('User not found')) {
-        toast.error('User not found. Please login again.');
-      } else if (error.message.includes('Invalid plan')) {
-        toast.error('Invalid subscription plan selected.');
-      } else if (error.message.includes('Payment gateway not configured')) {
-        toast.error('Payment system is currently unavailable. Please try again later.');
-      } else {
-        toast.error('Failed to create subscription order: ' + (error.message || 'Unknown error'));
-      }
-    }
-  };
+  //     // Provide more specific error messages
+  //     if (error.message.includes('User not found')) {
+  //       toast.error('User not found. Please login again.');
+  //     } else if (error.message.includes('Invalid plan')) {
+  //       toast.error('Invalid subscription plan selected.');
+  //     } else if (error.message.includes('Payment gateway not configured')) {
+  //       toast.error('Payment system is currently unavailable. Please try again later.');
+  //     } else {
+  //       toast.error('Failed to create subscription order: ' + (error.message || 'Unknown error'));
+  //     }
+  //   }
+  // };
 
   const getSubscriptionPlans = () => {
     return Object.entries(config.SUBSCRIPTION_PLANS).map(([key, plan]) => ({
@@ -394,10 +394,10 @@ const SubscriptionPage = () => {
                   <div>
                     <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Level Access</span>
                     <p className="text-xl font-bold text-gray-800 dark:text-white">
-                      {subscription.planName?.toLowerCase() === 'basic' && 'Zero Level to Mastermind'}
-                      {subscription.planName?.toLowerCase() === 'premium' && 'Zero Level to Quiz Wizard'}
-                      {subscription.planName?.toLowerCase() === 'pro' && 'All Levels (Zero Level to Legend)'}
-                      {(!subscription.planName || subscription.planName === 'free') && 'Zero Level to Thinker'}
+                      {subscription.planName?.toLowerCase() === 'basic' && 'Zero to Mastermind'}
+                      {subscription.planName?.toLowerCase() === 'premium' && 'Zero to Quiz Wizard'}
+                      {subscription.planName?.toLowerCase() === 'pro' && 'Zero to Legend'}
+                      {(!subscription.planName || subscription.planName === 'free') && 'Zero to Thinker'}
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                       {subscription.planName?.toLowerCase() === 'basic' && 'Levels 0-6'}
@@ -560,7 +560,8 @@ const SubscriptionPage = () => {
                   {/* Subscribe Button - Now at the bottom */}
                   <div className="mt-auto">
                     <button
-                      onClick={() => handleSubscribe(plan.key)}
+                      title='Website In Test Mode You Can Play Free Quizzes Only'
+                     // onClick={() => handleSubscribe(plan.key)}
                       disabled={isCurrentPlan}
                       className={`w-full py-4 px-6 rounded-2xl font-bold text-white dark:text-white transition-all duration-300 transform hover:scale-105 shadow-lg group-hover:shadow-3xl ${
                         isCurrentPlan 

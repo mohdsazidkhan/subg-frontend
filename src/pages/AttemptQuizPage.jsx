@@ -206,7 +206,8 @@ const AttemptQuizPage = () => {
     setIsFullscreen(isFullscreenNow);
     
     // If user exited fullscreen during quiz (not submitted), show confirmation
-    if (!isFullscreenNow && !submitted && quiz && !showExitConfirm) {
+    // Only show confirmation if not on the last question
+    if (!isFullscreenNow && !submitted && quiz && !showExitConfirm && currentQuestionIndex < quiz.questions.length - 1) {
       setShowExitConfirm(true);
     }
   };
@@ -222,6 +223,21 @@ const AttemptQuizPage = () => {
     }
   };
 
+  const handleFullscreenButtonClick = () => {
+    if (isFullscreen) {
+      // If trying to exit fullscreen before last question, show confirmation
+      if (currentQuestionIndex < quiz.questions.length - 1) {
+        setShowExitConfirm(true);
+      } else {
+        // On last question, allow exit without confirmation
+        exitFullscreen();
+      }
+    } else {
+      // Entering fullscreen - no confirmation needed
+      enterFullscreen();
+    }
+  };
+
   // Fullscreen event listeners
   useEffect(() => {
     document.addEventListener('fullscreenchange', handleFullscreenChange);
@@ -233,7 +249,13 @@ const AttemptQuizPage = () => {
       if (event.key === 'F11' && !submitted && quiz) {
         event.preventDefault();
         if (isFullscreen) {
-          exitFullscreen();
+          // If trying to exit fullscreen before last question, show confirmation
+          if (currentQuestionIndex < quiz.questions.length - 1) {
+            setShowExitConfirm(true);
+          } else {
+            // On last question, allow exit without confirmation
+            exitFullscreen();
+          }
         } else {
           enterFullscreen();
         }
@@ -404,6 +426,9 @@ const AttemptQuizPage = () => {
   const handleSubmit = async () => {
     try {
       setIsTimerRunning(false);
+      // Set submitted to true before exiting fullscreen to prevent exit confirmation
+      setSubmitted(true);
+      
       // Exit fullscreen when submitting
       if (isFullscreen) {
         await exitFullscreen();
@@ -412,7 +437,6 @@ const AttemptQuizPage = () => {
       const actualQuizId = quizData?._id || quizId;
       const res = await API.submitQuiz(actualQuizId, answers);
       setResult(res);
-      setSubmitted(true);
       
       if (res.scorePercentage >= 80) {
         setShowConfetti(true);
@@ -429,6 +453,8 @@ const AttemptQuizPage = () => {
     } catch (error) {
       console.error('Error submitting quiz:', error);
       toast.error(error.response?.data?.message || 'Error submitting quiz');
+      // Reset submitted state if there's an error
+      setSubmitted(false);
     }
   };
 
@@ -453,7 +479,7 @@ const AttemptQuizPage = () => {
             </h2>
             
             <p className="text-gray-600 dark:text-gray-300 mb-6">
-              Are you sure you want to exit the quiz? Your quiz will be completed at this stage and your current progress will be submitted.
+              Are you sure you want to exit fullscreen mode? You're currently on question {currentQuestionIndex + 1} of {quiz.questions.length}. Exiting fullscreen will submit your quiz with current progress.
             </p>
 
             <div className="flex space-x-4">
@@ -513,23 +539,23 @@ const AttemptQuizPage = () => {
         </div>
       )}
 
-      <div className="max-w-6xl mx-auto p-4">
+      <div className="max-w-6xl mx-auto p-2">
         {quiz.questions.length === 0 && (
-          <div className="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-xl p-2 md:p-6 text-red-700 dark:text-red-300 text-center">
+          <div className="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-xl p-2 text-red-700 dark:text-red-300 text-center">
             <FaTimesCircle className="text-2xl mx-auto mb-2" />
             No questions available for this quiz.
           </div>
         )}
         
         {/* Quiz Header */}
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 p-2 md:p-8 mb-4 md:mb-8">
-          <div className="flex items-center justify-between flex-col md:flex-row mb-0 md:mb-6">
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 p-2 mb-4">
+          <div className="flex items-center justify-between flex-col md:flex-row mb-0">
             <div className="flex items-center space-x-4">
-              <div className="w-12 md:w-16 h-12 md:h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
                 <FaBookOpen className="text-white text-2xl" />
               </div>
               <div>
-                <h1 className="text-lg md:text-3xl font-bold text-gray-800 dark:text-white mb-2">{quiz?.title}</h1>
+                <h1 className="text-lg md:text-2xl font-bold text-gray-800 dark:text-white m-1">{quiz?.title}</h1>
                 <p className="text-gray-600 dark:text-gray-400 flex items-center space-x-2">
                   <FaGraduationCap className="text-purple-500" />
                   <span>{quiz.questions.length} Questions • {quiz.category?.name || 'General Knowledge'}</span>
@@ -552,7 +578,7 @@ const AttemptQuizPage = () => {
                 </div>
                 
                 <button
-                  onClick={isFullscreen ? exitFullscreen : enterFullscreen}
+                  onClick={handleFullscreenButtonClick}
                   className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-xl text-white transition-all duration-300 transform hover:scale-105 shadow-lg"
                   title={isFullscreen ? 'Exit Fullscreen (F11)' : 'Enter Fullscreen (F11)'}
                 >
@@ -605,21 +631,21 @@ const AttemptQuizPage = () => {
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                   <div className="bg-white/60 dark:bg-gray-700/60 rounded-2xl p-2 md:p-6 border border-white/20">
-                    <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
+                    <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
                       {result?.score}
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">Correct Answers</div>
                   </div>
                   
                   <div className="bg-white/60 dark:bg-gray-700/60 rounded-2xl p-2 md:p-6 border border-white/20">
-                    <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                       {result?.scorePercentage}%
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">Success Rate</div>
                   </div>
                   
                   <div className="bg-white/60 dark:bg-gray-700/60 rounded-2xl p-2 md:p-6 border border-white/20">
-                    <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">
+                    <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">
                       {result?.total}
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">Total Questions</div>
@@ -655,7 +681,7 @@ const AttemptQuizPage = () => {
                 <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
                   <FaBrain className="text-white text-2xl" />
                 </div>
-                <h2 className="text-xl md:text-3xl font-bold text-gray-800 dark:text-white">
+                <h2 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
                   Quiz Review
                 </h2>
               </div>
@@ -783,10 +809,10 @@ const AttemptQuizPage = () => {
             <LeaderboardTable leaderboard={leaderboard} currentUser={currentUser} />
           </>
         ) : (
-          <div className="space-y-8">
+          <div className="space-y-4">
             {/* Progress Bar */}
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-2 md:p-6 border border-white/20 shadow-xl">
-              <div className="flex items-center justify-between mb-4">
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-2 border border-white/20 shadow-xl">
+              <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
                     <FaChartLine className="text-white" />
@@ -806,7 +832,7 @@ const AttemptQuizPage = () => {
             </div>
             
             {/* Timer and Controls */}
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-2 md:p-6 border border-white/20 shadow-xl">
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-2 border border-white/20 shadow-xl">
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">
@@ -831,13 +857,13 @@ const AttemptQuizPage = () => {
             </div>
 
             {/* Current Question */}
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-2 md:p-8 border border-white/20 shadow-2xl">
-              <div className="flex items-start space-x-4 mb-8">
-                <div className="hidden md:flex w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl items-center justify-center">
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl py-4 px-2 border border-white/20 shadow-2xl">
+              <div className="flex items-start space-x-4 mb-2">
+                <div className="hidden md:flex w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl items-center justify-center">
                   <span className="text-white font-bold text-lg">{currentQuestionIndex + 1}</span>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg md:text-2xl font-bold text-gray-800 dark:text-white mb-6 leading-relaxed">
+                  <h3 className="text-md md:text-xl font-bold text-gray-800 dark:text-white mb-2 leading-relaxed">
                     {currentQuestion.questionText}
                   </h3>
                   
@@ -850,7 +876,7 @@ const AttemptQuizPage = () => {
                         <div
                           key={j}
                           onClick={() => handleSelect(opt)}
-                          className={`p-2 md:p-6 rounded-2xl border-2 cursor-pointer transition-all duration-300 transform hover:scale-105 ${
+                          className={`p-2 rounded-2xl border-2 cursor-pointer transition-all duration-300 transform hover:scale-105 ${
                             isSelected
                               ? 'bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 border-purple-400 dark:border-purple-500 shadow-lg'
                               : 'bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600 hover:border-purple-300 dark:hover:border-purple-500 hover:shadow-lg'
@@ -890,7 +916,7 @@ const AttemptQuizPage = () => {
               <button
                 onClick={handlePreviousQuestion}
                 disabled={currentQuestionIndex === 0}
-                className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white rounded-2xl hover:from-gray-600 hover:to-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="flex items-center space-x-2 px-2 md:px-6 py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white rounded-2xl hover:from-gray-600 hover:to-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 <FaArrowLeft />
                 <span className="font-medium">Previous</span>
@@ -899,7 +925,7 @@ const AttemptQuizPage = () => {
               <div className="flex space-x-2 md:space-x-4">
                 <button
                   onClick={handleSkipQuestion}
-                  className="px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-2xl hover:from-yellow-600 hover:to-orange-600 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+                  className="px-2 md:px-4 lg:px-6 py-2 md:py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-2xl hover:from-yellow-600 hover:to-orange-600 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
                 >
                   <FaQuestionCircle />
                   <span className="font-medium">Skip</span>

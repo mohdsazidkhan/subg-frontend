@@ -147,7 +147,9 @@ const PerformanceAnalytics = () => {
         </div>
       </div>
     );
+    const isDark = document.documentElement.classList.contains('dark');
 
+    const chartTextColor = isDark ? '#ffffff' : '#000000';
   // Chart data
   const levelLabels = data.levelPerformance?.map((l) => `Level ${l._id}`) || [];
   const levelScores = data.levelPerformance?.map((l) => l.avgScore) || [];
@@ -213,14 +215,14 @@ const PerformanceAnalytics = () => {
       legend: {
         display: false,
         labels: {
-          color: darkMode ? "#ffffff" : "#000000",
+          color: chartTextColor,
         },
       },
     },
     scales: {
       x: {
         ticks: {
-          color: darkMode ? "#ffffff" : "#000000",
+          color: chartTextColor,
         },
         grid: {
           color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
@@ -228,7 +230,7 @@ const PerformanceAnalytics = () => {
       },
       y: {
         ticks: {
-          color: darkMode ? "#ffffff" : "#000000",
+          color: chartTextColor,
         },
         grid: {
           color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
@@ -243,14 +245,14 @@ const PerformanceAnalytics = () => {
       legend: {
         display: false,
         labels: {
-          color: darkMode ? "#ffffff" : "#000000",
+          color: chartTextColor,
         },
       },
     },
     scales: {
       x: {
         ticks: {
-          color: darkMode ? "#ffffff" : "#000000",
+          color: chartTextColor
         },
         grid: {
           color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
@@ -258,7 +260,7 @@ const PerformanceAnalytics = () => {
       },
       y: {
         ticks: {
-          color: darkMode ? "#ffffff" : "#000000",
+          color: chartTextColor,
         },
         grid: {
           color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",

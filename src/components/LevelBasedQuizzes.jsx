@@ -362,15 +362,6 @@ const LevelBasedQuizzes = () => {
             >
               Clear Filters
             </button>
-            {userLevel && (
-              <button
-                onClick={() => setFilters(prev => ({ ...prev, level: userLevel.currentLevel.toString(), page: 1 }))}
-                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition text-sm"
-                title={`Show only Level ${userLevel.currentLevel} quizzes`}
-              >
-                My Level
-              </button>
-            )}
           </div>
         </div>
       </div>

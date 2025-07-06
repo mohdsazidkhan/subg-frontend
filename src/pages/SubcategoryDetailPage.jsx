@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaClock, FaQuestionCircle, FaStar, FaLayerGroup } from 'react-icons/fa';
 import API from '../utils/api';
+import QuizStartModal from '../components/QuizStartModal';
 
 const PAGE_SIZE = 9;
 
@@ -14,6 +15,8 @@ const SubcategoryDetailPage = () => {
   const [error, setError] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [showQuizModal, setShowQuizModal] = useState(false);
+  const [selectedQuiz, setSelectedQuiz] = useState(null);
 
   useEffect(() => {
     fetchSubcategory();
@@ -67,7 +70,21 @@ const SubcategoryDetailPage = () => {
   };
 
   const handleQuizClick = (quizId) => {
-    navigate(`/attempt-quiz/${quizId}`);
+    const quiz = quizzes.find(q => q._id === quizId);
+    setSelectedQuiz(quiz);
+    setShowQuizModal(true);
+  };
+
+  const handleConfirmQuizStart = () => {
+    setShowQuizModal(false);
+    if (selectedQuiz) {
+      navigate(`/attempt-quiz/${selectedQuiz._id}`, { state: { quizData: selectedQuiz } });
+    }
+  };
+
+  const handleCancelQuizStart = () => {
+    setShowQuizModal(false);
+    setSelectedQuiz(null);
   };
 
   return (
@@ -158,6 +175,14 @@ const SubcategoryDetailPage = () => {
           </>
         )}
       </div>
+
+      {/* Quiz Start Confirmation Modal */}
+      <QuizStartModal
+        isOpen={showQuizModal}
+        onClose={handleCancelQuizStart}
+        onConfirm={handleConfirmQuizStart}
+        quiz={selectedQuiz}
+      />
     </div>
   );
 };

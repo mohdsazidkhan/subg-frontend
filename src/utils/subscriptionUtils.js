@@ -204,31 +204,42 @@ export const getCurrentTheme = () => {
     return 'light';
   }
 };
-
+const getSubscriptionText = (subscriptionStatus) => {
+  if(subscriptionStatus === "free") {
+    return "FREE"
+  }else if(subscriptionStatus === "basic") {
+    return "BASIC"
+  }else if(subscriptionStatus === "premium") {
+    return "PREMIUM"
+  }else if(subscriptionStatus === "pro") {
+    return "PRO"
+  }else{
+    return "NO SUBSCRIPTION"
+  }
+}
 /**
  * Get subscription status text with theme-aware styling
  * @param {string} theme - Optional theme override ('dark' or 'light')
  * @returns {Object} Object containing text and styling classes
  */
-export const getSubscriptionStatusTextWithTheme = (theme = null) => {
+export const getSubscriptionStatusTextWithTheme = (subscriptionStatus = null) => {
   try {
-    const currentTheme = theme || getCurrentTheme();
+    const currentTheme = getCurrentTheme();
     const userInfo = localStorage.getItem('userInfo');
     
     if (!userInfo) {
       return {
-        text: 'Free',
+        text: getSubscriptionText(subscriptionStatus),
         textColor: currentTheme === 'dark' ? 'text-blue-300' : 'text-blue-600',
         bgColor: currentTheme === 'dark' ? 'bg-blue-900/30' : 'bg-blue-50',
         borderColor: currentTheme === 'dark' ? 'border-blue-700' : 'border-blue-200',
-        icon: '🆓'
       };
     }
     
     const user = JSON.parse(userInfo);
     if (!user.subscription || user.subscription.status === 'free') {
       return {
-        text: 'Free',
+        text: getSubscriptionText(subscriptionStatus),
         textColor: currentTheme === 'dark' ? 'text-blue-300' : 'text-blue-600',
         bgColor: currentTheme === 'dark' ? 'bg-blue-900/30' : 'bg-blue-50',
         borderColor: currentTheme === 'dark' ? 'border-blue-700' : 'border-blue-200',
