@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import API from '../../utils/api';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
@@ -7,7 +7,8 @@ import { toast } from 'react-toastify';
 import Pagination from '../../components/Pagination';
 import ViewToggle from '../../components/ViewToggle';
 import SearchFilter from '../../components/SearchFilter';
-import { FaTrash, FaEnvelope, FaPhone } from 'react-icons/fa';
+import { FaTrash, FaEnvelope, FaPhone, FaPlus, FaEdit, FaEye, FaEyeSlash, FaList, FaTable } from 'react-icons/fa';
+import { isMobile } from 'react-device-detect';
 
 const StudentsPage = () => {
   const [students, setStudents] = useState([]);
@@ -16,7 +17,7 @@ const StudentsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [pagination, setPagination] = useState({});
-  const [viewMode, setViewMode] = useState('table');
+  const [viewMode, setViewMode] = useState(isMobile ? 'list' : 'table');
   const [filters, setFilters] = useState({
     status: '',
     level: ''
@@ -297,8 +298,8 @@ const StudentsPage = () => {
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         {students.map((student) => (
-          <div key={student._id} className="p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-            <div className="flex items-center justify-between">
+          <div key={student._id} className="p-2 md:p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
               <div className="flex items-center flex-1">
                 <div className="flex-shrink-0 h-12 w-12">
                   <div className="h-12 w-12 rounded-full bg-blue-500 flex items-center justify-center">
@@ -311,7 +312,7 @@ const StudentsPage = () => {
                   <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                     {student.name}
                   </h3>
-                  <div className="mt-1 flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-300">
+                  <div className="mt-1 flex-col md:flex-row flex items-start md:items-center space-x-0 md:space-x-4 text-sm text-gray-600 dark:text-gray-300">
                     <span className="flex items-center">
                       <FaEnvelope className="w-4 h-4 mr-1" />
                       {student.email}
@@ -336,7 +337,7 @@ const StudentsPage = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center space-x-2 ml-4">
+              <div className="flex items-center space-x-0 md:space-x-2 ml-16 md:ml-4">
                 <select
                   value={student.status || 'active'}
                   onChange={(e) => handleStatusChange(student._id, e.target.value)}

@@ -1,13 +1,15 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   MdDashboard, MdCategory, MdQuiz, MdQuestionAnswer, MdPeople,
-  MdAnalytics, MdBarChart, MdTrendingUp, MdClock, MdLogout
+  MdAnalytics, MdBarChart, MdTrendingUp, MdLogout
 } from 'react-icons/md';
 import { isAdmin, hasAdminPrivileges, logAdminAction } from '../utils/adminUtils';
 import { secureLogout } from '../utils/authUtils';
+import { toggleSidebar } from '../store/sidebarSlice';
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.sidebar.isOpen);
   const location = useLocation();
   const navigate = useNavigate();
@@ -15,6 +17,7 @@ const Sidebar = () => {
   if (!isAdmin() || !hasAdminPrivileges()) return null;
 
   const handleNavClick = (page) => {
+    dispatch(toggleSidebar())
     logAdminAction('navigate', page, { timestamp: new Date().toISOString() });
   };
 

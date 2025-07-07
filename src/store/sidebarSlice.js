@@ -1,10 +1,11 @@
 // src/store/sidebarSlice.js
+import { isMobile } from 'react-device-detect';
 import { createSlice } from '@reduxjs/toolkit';
 
 const sidebarSlice = createSlice({
   name: 'sidebar',
   initialState: {
-    isOpen: true,
+    isOpen: isMobile ? false : true,
   },
   reducers: {
     toggleSidebar: (state) => {

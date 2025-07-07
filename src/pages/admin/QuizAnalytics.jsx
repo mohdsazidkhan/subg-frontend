@@ -71,23 +71,7 @@ const QuizAnalytics = () => {
     difficulty: "",
   });
 
-  const getInitialDarkMode = () => {
-    const stored = localStorage.getItem("darkMode");
-    return stored
-      ? stored === "true"
-      : window.matchMedia("(prefers-color-scheme: dark)").matches;
-  };
-  const [darkMode, setDarkMode] = useState(getInitialDarkMode());
 
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("darkMode", "true");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("darkMode", "false");
-    }
-  }, [darkMode]);
 
   useEffect(() => {
     setLoading(true);
@@ -141,7 +125,7 @@ const QuizAnalytics = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center dark:bg-gray-900">
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
       </div>
     );
@@ -149,9 +133,9 @@ const QuizAnalytics = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen p-6 dark:bg-gray-900 dark:text-white">
+      <div className="min-h-screen p-6 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          <div className="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded">
             {error}
           </div>
         </div>
@@ -161,7 +145,7 @@ const QuizAnalytics = () => {
 
   if (!data) {
     return (
-      <div className="min-h-screen p-6 dark:bg-gray-900 dark:text-white">
+      <div className="min-h-screen p-6 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
         <div className="max-w-6xl mx-auto text-center text-gray-500 dark:text-gray-400">
           No data available
         </div>
@@ -206,6 +190,19 @@ const QuizAnalytics = () => {
     ],
   };
 
+  const chartColor = {
+    text: {
+      light: '#000000',
+      dark: '#ffffff'
+    },
+    grid: {
+      light: 'rgba(0, 0, 0, 0.1)',
+      dark: 'rgba(255, 255, 255, 0.1)'
+    }
+  };
+
+  const mode = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+
   const chartOptions = {
     responsive: true,
     plugins: {
@@ -213,12 +210,12 @@ const QuizAnalytics = () => {
     },
     scales: {
       x: {
-        ticks: { color: darkMode ? "#fff" : "#000" },
-        grid: { color: darkMode ? "#333" : "#ccc" },
+        ticks: { color: chartColor.text[mode] },
+        grid: { color: chartColor.grid[mode] },
       },
       y: {
-        ticks: { color: darkMode ? "#fff" : "#000" },
-        grid: { color: darkMode ? "#333" : "#ccc" },
+        ticks: { color: chartColor.text[mode] },
+        grid: { color: chartColor.grid[mode] },
       },
     },
   };
@@ -229,7 +226,7 @@ const QuizAnalytics = () => {
       legend: {
         position: "bottom",
         labels: {
-          color: darkMode ? "#fff" : "#000",
+          color: chartColor.text[mode],
           usePointStyle: true,
           padding: 20,
         },
@@ -241,18 +238,19 @@ const QuizAnalytics = () => {
     <div
       className={`adminPanel ${
         isOpen ? "showPanel" : "hidePanel"
-      } dark:bg-gray-900 dark:text-white`}
+      } bg-white dark:bg-gray-900 text-gray-900 dark:text-white`}
     >
       {user?.role === "admin" && isAdminRoute && <Sidebar />}
       <div className="adminContent p-6 w-full">
         {/* Header with Theme Toggle */}
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl font-bold">Quiz Analytics</h1>
-            <p className="text-gray-400">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Quiz Analytics</h1>
+            <p className="text-gray-600 dark:text-gray-400">
               Insights into performance and trends
             </p>
           </div>
+    
         </div>
 
         {/* Filters */}

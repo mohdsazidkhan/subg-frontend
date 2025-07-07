@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import API from '../../utils/api';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
@@ -7,8 +7,9 @@ import { toast } from 'react-toastify';
 import Pagination from '../../components/Pagination';
 import ViewToggle from '../../components/ViewToggle';
 import SearchFilter from '../../components/SearchFilter';
-import { FaTrash, FaPlus, FaClock, FaStar, FaSpinner } from 'react-icons/fa';
+import { FaTrash, FaPlus, FaClock, FaStar, FaSpinner, FaEdit, FaEye, FaEyeSlash, FaList, FaTable } from 'react-icons/fa';
 import { formatTimeToIST,formatDateToIST } from '../../utils';
+import { isMobile } from 'react-device-detect';
 
 const QuizPage = () => {
   // Form states
@@ -38,7 +39,7 @@ const QuizPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [pagination, setPagination] = useState({});
-  const [viewMode, setViewMode] = useState('table');
+  const [viewMode, setViewMode] = useState(isMobile ? 'list' : 'table');
   const [filters, setFilters] = useState({
     difficulty: '',
     category: '',
@@ -483,7 +484,7 @@ const QuizPage = () => {
               </p>
             </div>
             <button
-              onClick={() => setShowForm(true)}
+              onClick={() => setShowForm(!showForm)}
               className="mt-4 sm:mt-0 inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
             >
               <FaPlus className="w-4 h-4 mr-2" />

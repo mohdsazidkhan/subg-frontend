@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import API from '../../utils/api';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
@@ -7,7 +7,8 @@ import { toast } from 'react-toastify';
 import Pagination from '../../components/Pagination';
 import ViewToggle from '../../components/ViewToggle';
 import SearchFilter from '../../components/SearchFilter';
-import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaPlus, FaEye, FaEyeSlash, FaList, FaTable } from 'react-icons/fa';
+import { isMobile } from 'react-device-detect';
 
 const SubcategoryPage = () => {
   const [subcategories, setSubcategories] = useState([]);
@@ -21,7 +22,7 @@ const SubcategoryPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [pagination, setPagination] = useState({});
-  const [viewMode, setViewMode] = useState('table');
+  const [viewMode, setViewMode] = useState(isMobile ? 'list' : 'table');
   const [showForm, setShowForm] = useState(false);
 
   const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -89,7 +90,7 @@ const SubcategoryPage = () => {
     setName(subcategory.name);
     setCategory(subcategory.category._id || subcategory.category);
     setDescription(subcategory.description || '');
-    setShowForm(true);
+            setShowForm(!showForm);
   };
 
   const handleDelete = async (id) => {
@@ -286,7 +287,7 @@ const SubcategoryPage = () => {
               </p>
             </div>
             <button
-              onClick={() => setShowForm(true)}
+              onClick={() => setShowForm(!showForm)}
               className="mt-4 sm:mt-0 inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
             >
               <FaPlus className="w-4 h-4 mr-2" />

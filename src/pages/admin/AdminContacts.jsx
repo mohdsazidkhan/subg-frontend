@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import Pagination from '../../components/Pagination';
 import ViewToggle from '../../components/ViewToggle';
 import SearchFilter from '../../components/SearchFilter';
+import { isMobile } from 'react-device-detect';
 import { 
   FaUser, 
   FaEnvelope, 
@@ -29,7 +30,7 @@ export default function AdminContacts() {
   const [total, setTotal] = useState(0);
   const [limit, setLimit] = useState(PAGE_LIMIT);
   const [searchTerm, setSearchTerm] = useState('');
-  const [viewMode, setViewMode] = useState('table');
+  const [viewMode, setViewMode] = useState(isMobile ? 'list' : 'table');
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [pagination, setPagination] = useState({});
 

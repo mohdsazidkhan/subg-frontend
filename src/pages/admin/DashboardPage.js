@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
 import { useSelector } from 'react-redux';
 
+
 const DashboardPage = () => {
   const [stats, setStats] = useState({
     categories: 0,

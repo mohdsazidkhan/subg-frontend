@@ -109,25 +109,6 @@ export default function Navbar() {
     </>
   );
 
-  // Hamburger menu for mobile
-  const Hamburger = (
-    <button
-      className="md:hidden flex items-center justify-center p-2 rounded-full 
-             bg-white/80 dark:bg-gray-900/80 
-             shadow-md border border-gray-300 dark:border-gray-700 
-             hover:bg-white dark:hover:bg-gray-800 
-             transition-colors duration-300"
-      onClick={() => setMobileMenu(!mobileMenu)}
-      aria-label="Toggle menu"
-    >
-      {mobileMenu ? (
-        <MdClose className="text-2xl text-gray-800 dark:text-white" />
-      ) : (
-        <MdMenu className="text-2xl text-gray-800 dark:text-white" />
-      )}
-    </button>
-  );
-
   // Main navbar content
   return (
     <nav className="backdrop-blur-xl bg-gradient-to-r from-blue-50/80 via-purple-50/80 to-indigo-50/80 dark:from-gray-900/80 dark:via-blue-900/80 dark:to-purple-900/80 border-b border-white/30 dark:border-gray-800 shadow-xl fixed top-0 left-0 w-full z-50 transition-all">

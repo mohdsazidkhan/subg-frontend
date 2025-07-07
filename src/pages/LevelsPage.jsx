@@ -3,23 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { FaTrophy, FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaArrowLeft, FaAward, FaGem } from 'react-icons/fa';
 import API from '../utils/api';
 
-const levels = [
-  { level: 0, name: 'Zero Level', desc: 'Just registered - Start your journey!', quizzes: 0, plan: 'Free', amount: 0, prize: 0, color: 'from-gray-300 to-gray-400', icon: FaBrain },
-  { level: 1, name: 'Rookie', desc: 'Just getting started – Easy questions', quizzes: 2, plan: 'Free', amount: 0, prize: 0, color: 'from-gray-400 to-gray-500', icon: FaBrain },
-  { level: 2, name: 'Explorer', desc: 'Discover new ideas – Slightly challenging', quizzes: 4, plan: 'Free', amount: 0, prize: 0, color: 'from-blue-400 to-blue-500', icon: FaRocket },
-  { level: 3, name: 'Thinker', desc: 'Test your brain power – Moderate difficulty', quizzes: 8, plan: 'Free', amount: 0, prize: 0, color: 'from-green-400 to-green-500', icon: FaBrain },
-  { level: 4, name: 'Strategist', desc: 'Mix of logic, memory, and speed', quizzes: 16, plan: 'Basic', amount: 99, prize: 0, color: 'from-purple-400 to-purple-500', icon: FaChartLine },
-  { level: 5, name: 'Achiever', desc: 'Cross-topic challenges begin', quizzes: 32, plan: 'Basic', amount: 99, prize: 0, color: 'from-indigo-400 to-indigo-500', icon: FaStar },
-  { level: 6, name: 'Mastermind', desc: 'For those who always aim to win', quizzes: 64, plan: 'Basic', amount: 99, prize: 0, color: 'from-pink-400 to-pink-500', icon: FaBrain },
-  { level: 7, name: 'Champion', desc: 'Beat the timer and the brain', quizzes: 128, plan: 'Premium', amount: 499, prize: 0, color: 'from-yellow-400 to-yellow-500', icon: FaMedal },
-  { level: 8, name: 'Prodigy', desc: 'Only a few reach here – high-level puzzles', quizzes: 256, plan: 'Premium', amount: 499, prize: 0, color: 'from-orange-400 to-orange-500', icon: FaStar },
-  { level: 9, name: 'Quiz Wizard', desc: 'Complex questions across categories', quizzes: 512, plan: 'Premium', amount: 499, prize: 0, color: 'from-red-400 to-red-500', icon: FaBrain },
-  { level: 10, name: 'Legend', desc: 'Final frontier — only the best reach here!', quizzes: 1024, plan: 'Pro', amount: 999, prize: 99999, color: 'from-purple-500 to-pink-500', icon: FaCrown }
-];
-
-const getUserLevel = (highScoreQuizzes) => {
+const getUserLevel = (highScoreQuizzes, levels) => {
   for (let i = levels.length - 1; i >= 0; i--) {
-    if (highScoreQuizzes >= levels[i].quizzes) return levels[i];
+    if (highScoreQuizzes >= levels[i].quizzesRequired) return levels[i];
   }
   return levels[0];
 };
@@ -27,29 +13,36 @@ const getUserLevel = (highScoreQuizzes) => {
 const LevelsPage = () => {
   const navigate = useNavigate();
   const [userLevelData, setUserLevelData] = useState(null);
+  const [levels, setLevels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
+  console.log(userLevelData, 'userLevelData')
   useEffect(() => {
-    const fetchUserLevel = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true);
-        const profileRes = await API.getProfile();
+        const [profileRes, levelsRes] = await Promise.all([
+          API.getProfile(),
+          API.request('/api/levels/all-with-quiz-count')
+        ]);
         setUserLevelData(profileRes);
+        if (levelsRes.success) {
+          setLevels(levelsRes.data);
+        } else {
+          setError('Failed to load levels data');
+        }
       } catch (err) {
-        console.error('Error fetching user level:', err);
-        setError('Failed to load user level data');
+        console.error('Error fetching data:', err);
+        setError('Failed to load data');
       } finally {
         setLoading(false);
       }
     };
-
-    fetchUserLevel();
+    fetchData();
   }, []);
 
-  // Use fresh data from API instead of localStorage
   const highScoreQuizzes = userLevelData?.levelInfo?.progress?.highScoreQuizzes || 0;
-  const userLevel = getUserLevel(highScoreQuizzes);
+  const userLevel = getUserLevel(highScoreQuizzes, levels);
 
   if (loading) {
     return (
@@ -103,8 +96,8 @@ const LevelsPage = () => {
               🎯 Your Current Level
             </h2>
             <div className="flex items-center justify-center space-x-6 mb-6">
-              <div className={`w-12 h-12 md:w-24 md:h-24 bg-gradient-to-r ${userLevel.color} rounded-2xl flex items-center justify-center`}>
-                <userLevel.icon className="text-white text-4xl" />
+              <div className={`w-12 h-12 md:w-24 md:h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center`}>
+                <FaTrophy className="text-white text-4xl" />
               </div>
               <div className="text-left">
                 <div className="text-xl md:text-3xl font-bold text-gray-800 dark:text-white">
@@ -114,13 +107,13 @@ const LevelsPage = () => {
                   Level {userLevel.level}
                 </div>
                 <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  {userLevel.desc}
+                  {userLevel.description}
                 </div>
               </div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
-                {highScoreQuizzes} / {userLevel.quizzes} Quizzes
+                {highScoreQuizzes} / {userLevelData?.levelInfo?.nextLevel?.quizzesRequired} Quizzes
               </div>
               <div className="text-gray-600 dark:text-gray-300">
                 High-score quizzes completed (75%+ score)
@@ -132,9 +125,8 @@ const LevelsPage = () => {
         {/* Levels Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
           {levels.map((lvl) => {
-            const IconComponent = lvl.icon;
             const isCurrentLevel = lvl.level === userLevel.level;
-            const isUnlocked = highScoreQuizzes >= lvl.quizzes;
+            const isUnlocked = highScoreQuizzes >= lvl.quizzesRequired;
             
             return (
               <div
@@ -161,8 +153,8 @@ const LevelsPage = () => {
                 </div>
 
                 {/* Icon */}
-                <div className={`w-16 h-16 bg-gradient-to-r ${lvl.color} rounded-2xl flex items-center justify-center mx-auto mt-6 mb-4`}>
-                  <IconComponent className="text-white text-2xl" />
+                <div className={`w-16 h-16 bg-gradient-to-r from-gray-300 to-gray-400 rounded-2xl flex items-center justify-center mx-auto mt-6 mb-4`}>
+                  {/* You can add icon logic here if needed */}
                 </div>
 
                 {/* Content */}
@@ -172,40 +164,19 @@ const LevelsPage = () => {
                   </h3>
                   
                   <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 text-center">
-                    {lvl.desc}
+                    {lvl.description}
                   </p>
 
                   {/* Stats */}
                   <div className="space-y-2 mb-4">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-500 dark:text-gray-400 text-sm">Required:</span>
-                      <span className="font-semibold text-gray-800 dark:text-white">{lvl.quizzes} quizzes</span>
+                      <span className="font-semibold text-gray-800 dark:text-white">{lvl.quizzesRequired} quizzes</span>
                     </div>
-                    
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-500 dark:text-gray-400 text-sm">Plan:</span>
-                      <span className={`font-semibold ${
-                        lvl.plan === 'Free' ? 'text-green-600' : 
-                        lvl.plan === 'Basic' ? 'text-blue-600' : 
-                        lvl.plan === 'Premium' ? 'text-purple-600' : 'text-orange-600'
-                      }`}>
-                        {lvl.plan}
-                      </span>
+                      <span className="text-gray-500 dark:text-gray-400 text-sm">Available:</span>
+                      <span className="font-semibold text-blue-600">{lvl.quizCount} quizzes</span>
                     </div>
-                    
-                    {lvl.amount > 0 && (
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-500 dark:text-gray-400 text-sm">Amount:</span>
-                        <span className="font-semibold text-gray-800 dark:text-white">₹{lvl.amount}</span>
-                      </div>
-                    )}
-                    
-                    {lvl.prize > 0 && (
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-500 dark:text-gray-400 text-sm">Prize:</span>
-                        <span className="font-semibold text-green-600">₹{lvl.prize}</span>
-                      </div>
-                    )}
                   </div>
 
                   {/* Status */}
