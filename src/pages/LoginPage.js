@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaUser, FaTrophy, FaBrain, FaRocket, FaSignInAlt } from 'react-icons/fa';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +19,7 @@ const LoginPage = () => {
       console.log('🔍 Login process started...');
       
       console.log('📞 Making API call to login...');
-      const response = await API.login({ email, password });
+      const response = await API.login({ identifier, password });
       console.log('📊 Login response:', response);
       
       if(response?.success){
@@ -119,16 +119,16 @@ const LoginPage = () => {
             </div>
 
             <form onSubmit={handleLogin} className="space-y-6">
-              {/* Email Input */}
+              {/* Email or Phone Input */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <FaEnvelope className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  type="email"
-                  placeholder="Email Address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  type="text"
+                  placeholder="Email or Phone"
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
                   required
                   disabled={isLoading}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 disabled:opacity-50"
