@@ -23,28 +23,36 @@ const categoryIcons = {
   Default: FaBook,
 };
 
-const levels = [
-  { level: 1, name: 'Rookie', desc: 'Just getting started – Easy questions', quizzes: 2, plan: 'Free', amount: 0, prize: 0, color: 'from-gray-400 to-gray-500', icon: FaBrain },
-  { level: 2, name: 'Explorer', desc: 'Discover new ideas – Slightly challenging', quizzes: 4, plan: 'Free', amount: 0, prize: 0, color: 'from-blue-400 to-blue-500', icon: FaRocket },
-  { level: 3, name: 'Thinker', desc: 'Test your brain power – Moderate difficulty', quizzes: 6, plan: 'Free', amount: 0, prize: 0, color: 'from-green-400 to-green-500', icon: FaChartLine },
-  { level: 4, name: 'Achiever', desc: 'Prove your skills – Challenging questions', quizzes: 8, plan: 'Premium', amount: 99, prize: 50, color: 'from-purple-400 to-purple-500', icon: FaMedal },
-  { level: 5, name: 'Master', desc: 'Expert level – Very challenging', quizzes: 10, plan: 'Premium', amount: 199, prize: 100, color: 'from-yellow-400 to-yellow-500', icon: FaCrown },
-  { level: 6, name: 'Champion', desc: 'Elite level – Extremely difficult', quizzes: 12, plan: 'Premium', amount: 299, prize: 200, color: 'from-red-400 to-red-500', icon: FaTrophy },
-  { level: 7, name: 'Legend', desc: 'Ultimate challenge – Master level', quizzes: 15, plan: 'Premium', amount: 499, prize: 500, color: 'from-indigo-400 to-indigo-500', icon: FaAward },
-  { level: 8, name: 'Grandmaster', desc: 'Supreme level – Ultimate test', quizzes: 20, plan: 'Premium', amount: 999, prize: 1000, color: 'from-pink-400 to-pink-500', icon: FaGem }
-];
+// Dynamic levels state
+
+
 
 const HomePage = () => {
   const navigate = useNavigate();
   const [homeData, setHomeData] = useState(null);
+  const [levels, setLevels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
-  console.log(homeData,'homeData');
+
   useEffect(() => {
     fetchHomePageData();
+    fetchLevels();
   }, []);
+
+  const fetchLevels = async () => {
+    try {
+      const res = await API.request('/api/levels/all-with-quiz-count');
+      if (res.success) {
+        setLevels(res.data);
+      } else {
+        setLevels([]);
+      }
+    } catch (err) {
+      setLevels([]);
+    }
+  };
 
   const fetchHomePageData = async () => {
     try {
@@ -254,67 +262,46 @@ const HomePage = () => {
           Progress through different difficulty levels and unlock new challenges as you advance your skills
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-          {levels.map((lvl) => {
-            const IconComponent = lvl.icon;
-            return (
-              <Link
-                to={`/level/${lvl.level}`}
-                key={lvl.level}
-                className={`group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border-gray-300 dark:border-gray-600`}
-              >
-                {/* Level Badge */}
-                <div className="absolute -top-3 -right-3">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold bg-blue-500">
-                    {lvl.level}
+          {levels.map((lvl) => (
+            <Link
+              to={`/level/${lvl.level}`}
+              key={lvl.level}
+              className={`group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border-gray-300 dark:border-gray-600`}
+            >
+              {/* Level Badge */}
+              <div className="absolute -top-3 -right-3">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold bg-blue-500">
+                  {lvl.level}
+                </div>
+              </div>
+              {/* Icon (optional, can be improved if backend provides icon info) */}
+              <div className={`w-16 h-16 bg-gradient-to-r from-gray-300 to-gray-400 rounded-2xl flex items-center justify-center mx-auto mt-6 mb-4`}>
+                <FaLayerGroup className="text-white text-2xl" />
+              </div>
+              {/* Content */}
+              <div className="p-6 pt-0">
+                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">
+                  {lvl.name}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 text-center">
+                  {lvl.description}
+                </p>
+                <div className="space-y-2 mb-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-500 dark:text-gray-400 text-sm">Required:</span>
+                    <span className="font-semibold text-gray-800 dark:text-white">{lvl.quizzesRequired} quizzes</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-500 dark:text-gray-400 text-sm">Available:</span>
+                    <span className="font-semibold text-blue-600">{lvl.quizCount}</span>
                   </div>
                 </div>
-                {/* Icon */}
-                <div className={`w-16 h-16 bg-gradient-to-r ${lvl.color} rounded-2xl flex items-center justify-center mx-auto mt-6 mb-4`}>
-                  <IconComponent className="text-white text-2xl" />
+                <div className="text-center py-2 rounded-lg text-sm font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                  View Level
                 </div>
-                {/* Content */}
-                <div className="p-6 pt-0">
-                  <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">
-                    {lvl.name}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 text-center">
-                    {lvl.desc}
-                  </p>
-                  <div className="space-y-2 mb-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-500 dark:text-gray-400 text-sm">Required:</span>
-                      <span className="font-semibold text-gray-800 dark:text-white">{lvl.quizzes} quizzes</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-500 dark:text-gray-400 text-sm">Plan:</span>
-                      <span className={`font-semibold ${
-                        lvl.plan === 'Free' ? 'text-green-600' : 
-                        lvl.plan === 'Basic' ? 'text-blue-600' : 
-                        lvl.plan === 'Premium' ? 'text-purple-600' : 'text-orange-600'
-                      }`}>
-                        {lvl.plan}
-                      </span>
-                    </div>
-                    {lvl.amount > 0 && (
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-500 dark:text-gray-400 text-sm">Amount:</span>
-                        <span className="font-semibold text-gray-800 dark:text-white">₹{lvl.amount}</span>
-                      </div>
-                    )}
-                    {lvl.prize > 0 && (
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-500 dark:text-gray-400 text-sm">Prize:</span>
-                        <span className="font-semibold text-green-600">₹{lvl.prize}</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="text-center py-2 rounded-lg text-sm font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                    View Level
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
 
