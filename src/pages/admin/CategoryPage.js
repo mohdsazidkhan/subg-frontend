@@ -119,6 +119,9 @@ const CategoryPage = () => {
                 Name
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Subcategories
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Description
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -134,6 +137,9 @@ const CategoryPage = () => {
               <tr key={category._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                   {category.name}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                  {category.subcategoryCount}
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-300">
                   {category.description || '-'}
@@ -193,6 +199,9 @@ const CategoryPage = () => {
             <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
               {category.description || 'No description available'}
             </p>
+            <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
+              Subcategories: {category.subcategoryCount}
+            </p>
             <div className="text-xs text-gray-500 dark:text-gray-400">
               Created: {new Date(category.createdAt).toLocaleDateString()}
             </div>
@@ -215,6 +224,9 @@ const CategoryPage = () => {
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 mt-1">
                   {category.description || 'No description available'}
+                </p>
+                <p className="text-gray-600 dark:text-gray-300 mt-1">
+                  Subcategories: {category.subcategoryCount}
                 </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
                   Created: {new Date(category.createdAt).toLocaleDateString()}

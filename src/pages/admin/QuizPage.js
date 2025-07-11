@@ -1,30 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import API from '../../utils/api';
-import { useLocation } from 'react-router-dom';
-import Sidebar from '../../components/Sidebar';
-import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import Pagination from '../../components/Pagination';
-import ViewToggle from '../../components/ViewToggle';
-import SearchFilter from '../../components/SearchFilter';
-import { FaTrash, FaPlus, FaClock, FaStar, FaSpinner, FaEdit, FaEye, FaEyeSlash, FaList, FaTable } from 'react-icons/fa';
-import { formatTimeToIST,formatDateToIST } from '../../utils';
-import { isMobile } from 'react-device-detect';
+import React, { useState, useEffect } from "react";
+import API from "../../utils/api";
+import { useLocation } from "react-router-dom";
+import Sidebar from "../../components/Sidebar";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import Pagination from "../../components/Pagination";
+import ViewToggle from "../../components/ViewToggle";
+import SearchFilter from "../../components/SearchFilter";
+import {
+  FaTrash,
+  FaPlus,
+  FaClock,
+  FaStar,
+  FaSpinner,
+  FaEdit,
+  FaEye,
+  FaEyeSlash,
+  FaList,
+  FaTable,
+} from "react-icons/fa";
+import { formatTimeToIST, formatDateToIST } from "../../utils";
+import { isMobile } from "react-device-detect";
 
 const QuizPage = () => {
   // Form states
-  const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('');
-  const [subcategory, setSubcategory] = useState('');
-  const [totalMarks, setTotalMarks] = useState('');
-  const [timeLimit, setTimeLimit] = useState('');
-  const [description, setDescription] = useState('');
-  const [difficulty, setDifficulty] = useState('beginner');
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [subcategory, setSubcategory] = useState("");
+  const [totalMarks, setTotalMarks] = useState("");
+  const [timeLimit, setTimeLimit] = useState("");
+  const [description, setDescription] = useState("");
+  const [difficulty, setDifficulty] = useState("beginner");
   const [requiredLevel, setRequiredLevel] = useState(1);
   const [recommendedLevel, setRecommendedLevel] = useState(1);
   const [levelRangeMin, setLevelRangeMin] = useState(1);
   const [levelRangeMax, setLevelRangeMax] = useState(10);
-  const [tags, setTags] = useState('');
+  const [tags, setTags] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loadingSubcategories, setLoadingSubcategories] = useState(false);
@@ -35,37 +46,37 @@ const QuizPage = () => {
   const [subcategories, setSubcategories] = useState([]);
   const [filteredSubcategories, setFilteredSubcategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [pagination, setPagination] = useState({});
-  const [viewMode, setViewMode] = useState(isMobile ? 'list' : 'table');
+  const [viewMode, setViewMode] = useState(isMobile ? "list" : "table");
   const [filters, setFilters] = useState({
-    difficulty: '',
-    category: '',
-    isActive: ''
+    difficulty: "",
+    category: "",
+    isActive: "",
   });
 
-  const user = JSON.parse(localStorage.getItem('userInfo'));
+  const user = JSON.parse(localStorage.getItem("userInfo"));
   const location = useLocation();
-  const isAdminRoute = location.pathname.startsWith('/admin');
+  const isAdminRoute = location.pathname.startsWith("/admin");
   const isOpen = useSelector((state) => state.sidebar.isOpen);
 
-  const fetchQuizzes = async (page = 1, search = '', filterParams = {}) => {
+  const fetchQuizzes = async (page = 1, search = "", filterParams = {}) => {
     try {
       setLoading(true);
       const params = {
         page,
         limit: itemsPerPage,
         ...(search && { search }),
-        ...filterParams
+        ...filterParams,
       };
       const response = await API.getAdminQuizzes(params);
       setQuizzes(response.quizzes || response);
       setPagination(response.pagination || {});
     } catch (error) {
-      console.error('Error fetching quizzes:', error);
-      toast.error('Failed to fetch quizzes');
+      console.error("Error fetching quizzes:", error);
+      toast.error("Failed to fetch quizzes");
     } finally {
       setLoading(false);
     }
@@ -76,8 +87,8 @@ const QuizPage = () => {
       const response = await API.getAdminCategories();
       setCategories(response.categories || response);
     } catch (error) {
-      console.error('Error fetching categories:', error);
-      toast.error('Failed to fetch categories');
+      console.error("Error fetching categories:", error);
+      toast.error("Failed to fetch categories");
     }
   };
 
@@ -87,8 +98,8 @@ const QuizPage = () => {
       const response = await API.getAdminSubcategories();
       setSubcategories(response.subcategories || response);
     } catch (error) {
-      console.error('Error fetching subcategories:', error);
-      toast.error('Failed to fetch subcategories');
+      console.error("Error fetching subcategories:", error);
+      toast.error("Failed to fetch subcategories");
     } finally {
       setLoadingSubcategories(false);
     }
@@ -99,14 +110,14 @@ const QuizPage = () => {
       setFilteredSubcategories([]);
       return;
     }
-    
+
     try {
       setLoadingSubcategories(true);
       const response = await API.getSubcategories(categoryId);
       setFilteredSubcategories(response.subcategories || response || []);
     } catch (error) {
-      console.error('Error fetching subcategories by category:', error);
-      toast.error('Failed to fetch subcategories for selected category');
+      console.error("Error fetching subcategories by category:", error);
+      toast.error("Failed to fetch subcategories for selected category");
       setFilteredSubcategories([]);
     } finally {
       setLoadingSubcategories(false);
@@ -122,36 +133,36 @@ const QuizPage = () => {
   // Handle category change
   const handleCategoryChange = (categoryId) => {
     setCategory(categoryId);
-    setSubcategory(''); // Clear subcategory when category changes
+    setSubcategory(""); // Clear subcategory when category changes
     fetchSubcategoriesByCategory(categoryId);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validation
     if (!title.trim()) {
-      toast.error('Quiz title is required');
+      toast.error("Quiz title is required");
       return;
     }
     if (!category) {
-      toast.error('Please select a category');
+      toast.error("Please select a category");
       return;
     }
     if (!subcategory) {
-      toast.error('Please select a subcategory');
+      toast.error("Please select a subcategory");
       return;
     }
     if (!totalMarks || totalMarks <= 0) {
-      toast.error('Total marks must be greater than 0');
+      toast.error("Total marks must be greater than 0");
       return;
     }
     if (!timeLimit || timeLimit <= 0) {
-      toast.error('Time limit must be greater than 0');
+      toast.error("Time limit must be greater than 0");
       return;
     }
     if (parseInt(levelRangeMin) > parseInt(levelRangeMax)) {
-      toast.error('Minimum level cannot be greater than maximum level');
+      toast.error("Minimum level cannot be greater than maximum level");
       return;
     }
 
@@ -168,38 +179,41 @@ const QuizPage = () => {
       recommendedLevel: parseInt(recommendedLevel),
       levelRange: {
         min: parseInt(levelRangeMin),
-        max: parseInt(levelRangeMax)
+        max: parseInt(levelRangeMax),
       },
-      tags: tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0),
-      isActive: true
+      tags: tags
+        .split(",")
+        .map((tag) => tag.trim())
+        .filter((tag) => tag.length > 0),
+      isActive: true,
     };
-    
+
     try {
       await API.createQuiz(payload);
-      toast.success('Quiz created successfully!');
+      toast.success("Quiz created successfully!");
       resetForm();
       setShowForm(false);
       fetchQuizzes(currentPage, searchTerm, filters);
     } catch (err) {
-      toast.error(err.message || 'Failed to create quiz');
+      toast.error(err.message || "Failed to create quiz");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const resetForm = () => {
-    setTitle('');
-    setCategory('');
-    setSubcategory('');
-    setTotalMarks('');
-    setTimeLimit('');
-    setDescription('');
-    setDifficulty('beginner');
+    setTitle("");
+    setCategory("");
+    setSubcategory("");
+    setTotalMarks("");
+    setTimeLimit("");
+    setDescription("");
+    setDifficulty("beginner");
     setRequiredLevel(1);
     setRecommendedLevel(1);
     setLevelRangeMin(1);
     setLevelRangeMax(10);
-    setTags('');
+    setTags("");
     setFilteredSubcategories([]);
   };
 
@@ -209,12 +223,12 @@ const QuizPage = () => {
   };
 
   const handleFilterChange = (key, value) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
+    setFilters((prev) => ({ ...prev, [key]: value }));
     setCurrentPage(1);
   };
 
   const handleClearFilters = () => {
-    setFilters({ difficulty: '', category: '', isActive: '' });
+    setFilters({ difficulty: "", category: "", isActive: "" });
     setCurrentPage(1);
   };
 
@@ -223,52 +237,57 @@ const QuizPage = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this quiz?')) {
+    if (window.confirm("Are you sure you want to delete this quiz?")) {
       try {
         await API.deleteQuiz(id);
-        toast.success('Quiz deleted successfully!');
+        toast.success("Quiz deleted successfully!");
         fetchQuizzes(currentPage, searchTerm, filters);
       } catch (error) {
-        console.error('Error deleting quiz:', error);
-        toast.error('Failed to delete quiz');
+        console.error("Error deleting quiz:", error);
+        toast.error("Failed to delete quiz");
       }
     }
   };
 
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
-      case 'beginner': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
-      case 'intermediate': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
-      case 'advanced': return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200';
-      case 'expert': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
-      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
+      case "beginner":
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+      case "intermediate":
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
+      case "advanced":
+        return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200";
+      case "expert":
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
+      default:
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
     }
   };
 
   const filterOptions = {
     difficulty: {
-      label: 'Difficulty',
+      label: "Difficulty",
       options: [
-        { value: 'beginner', label: 'Beginner' },
-        { value: 'intermediate', label: 'Intermediate' },
-        { value: 'advanced', label: 'Advanced' },
-        { value: 'expert', label: 'Expert' }
-      ]
+        { value: "beginner", label: "Beginner" },
+        { value: "intermediate", label: "Intermediate" },
+        { value: "advanced", label: "Advanced" },
+        { value: "expert", label: "Expert" },
+      ],
     },
     category: {
-      label: 'Category',
-      options: categories.map(cat => ({
+      label: "Category",
+      options: categories.map((cat) => ({
         value: cat._id,
-        label: cat.name
-      }))
+        label: cat.name,
+      })),
     },
     isActive: {
-      label: 'Status',
+      label: "Status",
       options: [
-        { value: 'true', label: 'Active' },
-        { value: 'false', label: 'Inactive' }
-      ]
-    }
+        { value: "true", label: "Active" },
+        { value: "false", label: "Inactive" },
+      ],
+    },
   };
 
   // Table View Component
@@ -283,6 +302,9 @@ const QuizPage = () => {
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Category
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Questions
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Difficulty
@@ -303,10 +325,13 @@ const QuizPage = () => {
           </thead>
           <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {quizzes.map((quiz) => (
-              <tr key={quiz._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+              <tr
+                key={quiz._id}
+                className="hover:bg-gray-50 dark:hover:bg-gray-700"
+              >
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div>
-                    <div className="text-sm font-medium text-gray-900 dark:text-white">
+                    <div className="text-sm md:text-lg font-medium text-gray-900 dark:text-white">
                       {quiz.title}
                     </div>
                     <div className="text-sm text-gray-500 dark:text-gray-300">
@@ -323,7 +348,20 @@ const QuizPage = () => {
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getDifficultyColor(quiz.difficulty)}`}>
+                  <span
+                    className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getDifficultyColor(
+                      quiz.difficulty
+                    )}`}
+                  >
+                    {quiz.questionCount}
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span
+                    className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getDifficultyColor(
+                      quiz.difficulty
+                    )}`}
+                  >
                     {quiz.difficulty}
                   </span>
                 </td>
@@ -342,7 +380,7 @@ const QuizPage = () => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-500 dark:text-gray-300">
-                  {formatDateToIST(quiz.createdAt)}
+                    {formatDateToIST(quiz.createdAt)}
                   </div>
                   <div className="text-sm text-gray-500 dark:text-gray-300">
                     {formatTimeToIST(quiz.createdAt)}
@@ -368,24 +406,39 @@ const QuizPage = () => {
 
   // Card View Component
   const CardView = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-6">
       {quizzes.map((quiz) => (
-        <div key={quiz._id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow">
+        <div
+          key={quiz._id}
+          className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow"
+        >
           <div className="p-3">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white truncate">
+              <h3 className="text-sm md:text-lg font-semibold text-gray-900 dark:text-white">
                 {quiz.title}
               </h3>
-              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getDifficultyColor(quiz.difficulty)}`}>
+              <span
+                className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getDifficultyColor(
+                  quiz.difficulty
+                )}`}
+              >
                 {quiz.difficulty}
               </span>
             </div>
-            
-            <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
-              {quiz.description || 'No description available'}
+
+            <p className="text-gray-600 dark:text-gray-300 text-sm mb-2 line-clamp-3">
+              {quiz.description || "No description available"}
             </p>
-            
-            <div className="space-y-2 mb-4">
+            <p className="text-gray-600 dark:text-gray-300 text-sm mb-2 line-clamp-3">
+              Qustions: <span
+                    className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getDifficultyColor(
+                      quiz.difficulty
+                    )}`}
+                  >
+                    {quiz.questionCount}
+                  </span>
+            </p>
+            <div className="space-y-2 mb-2">
               <div className="flex items-center font-semibold text-sm text-gray-600 dark:text-gray-300">
                 {quiz.category?.name} / {quiz.subcategory?.name}
               </div>
@@ -398,10 +451,11 @@ const QuizPage = () => {
                 {quiz.totalMarks} marks • {quiz.timeLimit} min
               </div>
             </div>
-            
+
             <div className="flex items-center justify-between">
               <div className="text-xs text-gray-500 dark:text-gray-400">
-                {formatDateToIST(quiz.createdAt)} at {formatTimeToIST(quiz.createdAt)}
+                {formatDateToIST(quiz.createdAt)} at{" "}
+                {formatTimeToIST(quiz.createdAt)}
               </div>
               <button
                 onClick={() => handleDelete(quiz._id)}
@@ -421,36 +475,52 @@ const QuizPage = () => {
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         {quizzes.map((quiz) => (
-          <div key={quiz._id} className="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <div className="flex items-center space-x-3 mb-2">
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+          <div
+            key={quiz._id}
+            className="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+          >
+            <div className="flex flex-col md:flex-row items-end md:items-center justify-between">
+              <div className="flex-none md:flex-1">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-sm md:text-lg font-semibold text-gray-900 dark:text-white">
                     {quiz.title}
                   </h3>
-                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getDifficultyColor(quiz.difficulty)}`}>
+                  <span
+                    className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getDifficultyColor(
+                      quiz.difficulty
+                    )}`}
+                  >
                     {quiz.difficulty}
                   </span>
                 </div>
-                <p className="text-gray-600 dark:text-gray-300 mb-3">
-                  {quiz.description || 'No description available'}
+                <p className="text-gray-600 dark:text-gray-300 mb-2">
+                  {quiz.description || "No description available"}
                 </p>
-                <div className="flex items-center space-x-6 text-sm text-gray-600 dark:text-gray-300">
-                  <span className="flex items-center">
-                    <span className="font-medium mr-1">Category:</span>
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-2 line-clamp-3">
+                  Qustions: <span
+                    className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getDifficultyColor(
+                      quiz.difficulty
+                    )}`}
+                  >
+                    {quiz.questionCount}
+                  </span>
+                </p>
+                <div className="space-y-2 mb-2">
+                  <div className="flex items-center font-semibold text-sm text-gray-600 dark:text-gray-300">
                     {quiz.category?.name} / {quiz.subcategory?.name}
-                  </span>
-                  <span className="flex items-center">
-                    <FaStar className="w-4 h-4 mr-1" />
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                    <FaStar className="w-4 h-4 mr-2" />
                     Level {quiz.requiredLevel}-{quiz.recommendedLevel}
-                  </span>
-                  <span className="flex items-center">
-                    <FaClock className="w-4 h-4 mr-1" />
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                    <FaClock className="w-4 h-4 mr-2" />
                     {quiz.totalMarks} marks • {quiz.timeLimit} min
-                  </span>
+                  </div>
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                  Created: {formatDateToIST(quiz.createdAt)} at {formatTimeToIST(quiz.createdAt)}
+                  Created: {formatDateToIST(quiz.createdAt)} at{" "}
+                  {formatTimeToIST(quiz.createdAt)}
                 </p>
               </div>
               <div className="flex items-center space-x-2 ml-4">
@@ -469,8 +539,8 @@ const QuizPage = () => {
   );
 
   return (
-    <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
-      {user?.role === 'admin' && isAdminRoute && <Sidebar />}
+    <div className={`adminPanel ${isOpen ? "showPanel" : "hidePanel"}`}>
+      {user?.role === "admin" && isAdminRoute && <Sidebar />}
       <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
         <div className="mx-auto">
           {/* Header */}
@@ -505,12 +575,11 @@ const QuizPage = () => {
 
           {/* View Toggle */}
           <div className="flex items-center justify-between mb-4">
-            <ViewToggle
-              currentView={viewMode}
-              onViewChange={setViewMode}
-            />
+            <ViewToggle currentView={viewMode} onViewChange={setViewMode} />
             <div className="flex items-center space-x-2">
-              <label className="text-sm text-gray-600 dark:text-gray-400">Show:</label>
+              <label className="text-sm text-gray-600 dark:text-gray-400">
+                Show:
+              </label>
               <select
                 value={itemsPerPage}
                 onChange={(e) => {
@@ -531,7 +600,9 @@ const QuizPage = () => {
           {showForm && (
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6 border border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Add New Quiz</h3>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Add New Quiz
+                </h3>
                 <button
                   onClick={() => {
                     setShowForm(false);
@@ -542,13 +613,15 @@ const QuizPage = () => {
                   ✕
                 </button>
               </div>
-              
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {/* Basic Info */}
                   <div className="space-y-4">
-                    <h4 className="text-md font-semibold border-b pb-2 text-gray-800 dark:text-white">Basic Information</h4>
-                    
+                    <h4 className="text-md font-semibold border-b pb-2 text-gray-800 dark:text-white">
+                      Basic Information
+                    </h4>
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Quiz Title *
@@ -561,7 +634,7 @@ const QuizPage = () => {
                         required
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Description
@@ -574,7 +647,7 @@ const QuizPage = () => {
                         rows="3"
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Tags
@@ -593,8 +666,10 @@ const QuizPage = () => {
 
                   {/* Category & Timing */}
                   <div className="space-y-4">
-                    <h4 className="text-md font-semibold border-b pb-2 text-gray-800 dark:text-white">Category & Timing</h4>
-                    
+                    <h4 className="text-md font-semibold border-b pb-2 text-gray-800 dark:text-white">
+                      Category & Timing
+                    </h4>
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Category *
@@ -613,7 +688,7 @@ const QuizPage = () => {
                         ))}
                       </select>
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Subcategory *
@@ -626,12 +701,11 @@ const QuizPage = () => {
                         disabled={!category || loadingSubcategories}
                       >
                         <option value="">
-                          {!category 
-                            ? 'Select Category First' 
-                            : loadingSubcategories 
-                              ? 'Loading Subcategories...' 
-                              : 'Select Subcategory'
-                          }
+                          {!category
+                            ? "Select Category First"
+                            : loadingSubcategories
+                            ? "Loading Subcategories..."
+                            : "Select Subcategory"}
                         </option>
                         {filteredSubcategories.map((s) => (
                           <option key={s._id} value={s._id}>
@@ -639,21 +713,23 @@ const QuizPage = () => {
                           </option>
                         ))}
                       </select>
-                      
+
                       {loadingSubcategories && (
                         <div className="flex items-center text-sm text-blue-600 dark:text-blue-400 mt-1">
                           <FaSpinner className="animate-spin mr-2" />
                           Loading subcategories...
                         </div>
                       )}
-                      
-                      {category && !loadingSubcategories && filteredSubcategories.length === 0 && (
-                        <div className="text-sm text-orange-600 dark:text-orange-400 mt-1">
-                          No subcategories found for this category
-                        </div>
-                      )}
+
+                      {category &&
+                        !loadingSubcategories &&
+                        filteredSubcategories.length === 0 && (
+                          <div className="text-sm text-orange-600 dark:text-orange-400 mt-1">
+                            No subcategories found for this category
+                          </div>
+                        )}
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Total Marks *
@@ -668,7 +744,7 @@ const QuizPage = () => {
                         required
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Time Limit (minutes) *
@@ -687,8 +763,10 @@ const QuizPage = () => {
 
                   {/* Level Settings */}
                   <div className="space-y-4">
-                    <h4 className="text-md font-semibold border-b pb-2 text-gray-800 dark:text-white">Level Settings</h4>
-                    
+                    <h4 className="text-md font-semibold border-b pb-2 text-gray-800 dark:text-white">
+                      Level Settings
+                    </h4>
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Difficulty *
@@ -705,7 +783,7 @@ const QuizPage = () => {
                         <option value="expert">Expert</option>
                       </select>
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Required Level *
@@ -721,7 +799,7 @@ const QuizPage = () => {
                         required
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Recommended Level *
@@ -737,7 +815,7 @@ const QuizPage = () => {
                         required
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Level Range *
@@ -772,19 +850,21 @@ const QuizPage = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="flex space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                   <button
                     type="submit"
                     disabled={isSubmitting}
                     className={`px-6 py-2 rounded-md transition-colors flex items-center ${
-                      isSubmitting 
-                        ? 'bg-gray-400 text-gray-200 cursor-not-allowed' 
-                        : 'bg-blue-600 text-white hover:bg-blue-700'
+                      isSubmitting
+                        ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+                        : "bg-blue-600 text-white hover:bg-blue-700"
                     }`}
                   >
-                    {isSubmitting && <FaSpinner className="animate-spin mr-2" />}
-                    {isSubmitting ? 'Creating Quiz...' : 'Create Quiz'}
+                    {isSubmitting && (
+                      <FaSpinner className="animate-spin mr-2" />
+                    )}
+                    {isSubmitting ? "Creating Quiz..." : "Create Quiz"}
                   </button>
                   <button
                     type="button"
@@ -809,19 +889,23 @@ const QuizPage = () => {
             </div>
           ) : quizzes.length === 0 ? (
             <div className="text-center py-12">
-              <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">📝</div>
+              <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">
+                📝
+              </div>
               <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
                 No quizzes found
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                {searchTerm ? 'Try adjusting your search terms.' : 'Get started by creating your first quiz.'}
+                {searchTerm
+                  ? "Try adjusting your search terms."
+                  : "Get started by creating your first quiz."}
               </p>
             </div>
           ) : (
             <>
-              {viewMode === 'table' && <TableView />}
-              {viewMode === 'card' && <CardView />}
-              {viewMode === 'list' && <ListView />}
+              {viewMode === "table" && <TableView />}
+              {viewMode === "card" && <CardView />}
+              {viewMode === "list" && <ListView />}
             </>
           )}
 

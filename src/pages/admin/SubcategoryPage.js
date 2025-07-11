@@ -133,6 +133,9 @@ const SubcategoryPage = () => {
                 Name
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Quizzes
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Description
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -151,6 +154,9 @@ const SubcategoryPage = () => {
               <tr key={subcategory._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                   {subcategory.name}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                  {subcategory.quizCount}
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-300">
                   {subcategory.description || '-'}
@@ -216,6 +222,9 @@ const SubcategoryPage = () => {
               </span>
             </div>
             <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
+              Quizzes: {subcategory.quizCount}
+            </p>
+            <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
               {subcategory.description || 'No description available'}
             </p>
             <div className="text-xs text-gray-500 dark:text-gray-400">
@@ -240,6 +249,9 @@ const SubcategoryPage = () => {
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 mt-1">
                   {subcategory.description || 'No description available'}
+                </p>
+                <p className="text-gray-600 dark:text-gray-300 mt-1">
+                  Quizzes: {subcategory.quizCount}
                 </p>
                 <div className="mt-1">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
