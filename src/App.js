@@ -9,6 +9,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage.jsx';
 import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx';
+import ResetPasswordPage from './pages/ResetPasswordPage.jsx';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage.jsx';
 import DashboardPage from './pages/admin/DashboardPage';
@@ -80,6 +81,7 @@ function AppLayout() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/terms" element={<TermsAndConditions />} />

@@ -6,6 +6,12 @@ if (!process.env.REACT_APP_API_URL && process.env.NODE_ENV === 'production') {
 }
 
 class ApiService {
+  async resetPassword(data) {
+    return this.request('/api/auth/reset-password', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
   constructor() {
     this.baseURL = API_BASE_URL;
     console.log('🔧 API Service initialized with base URL:', this.baseURL);
