@@ -16,7 +16,7 @@ const QuestionPage = () => {
   const [questionText, setQuestionText] = useState('');
   const [options, setOptions] = useState(['', '', '', '']);
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(0);
-  const [timeLimit, setTimeLimit] = useState('');
+  const [timeLimit, setTimeLimit] = useState(15);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
@@ -106,11 +106,11 @@ const QuestionPage = () => {
   };
 
   const resetForm = () => {
-    setQuiz('');
     setQuestionText('');
     setOptions(['', '', '', '']);
     setCorrectAnswerIndex(0);
-    setTimeLimit('');
+    setTimeLimit(15);    
+    setEditingId(null);
   };
 
   const handleEdit = (question) => {
@@ -190,6 +190,9 @@ const QuestionPage = () => {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Correct Answer
               </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Time Limit
+              </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Actions
               </th>
@@ -220,6 +223,11 @@ const QuestionPage = () => {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                     {String.fromCharCode(65 + question.correctAnswerIndex)}
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-white">
+                    {question.timeLimit || 'No limit'} seconds
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

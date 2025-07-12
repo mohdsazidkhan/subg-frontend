@@ -27,8 +27,8 @@ const QuizPage = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [subcategory, setSubcategory] = useState("");
-  const [totalMarks, setTotalMarks] = useState("");
-  const [timeLimit, setTimeLimit] = useState("");
+  const [totalMarks, setTotalMarks] = useState(5);
+  const [timeLimit, setTimeLimit] = useState(2);
   const [description, setDescription] = useState("");
   const [difficulty, setDifficulty] = useState("beginner");
   const [requiredLevel, setRequiredLevel] = useState(1);

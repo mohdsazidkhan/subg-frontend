@@ -190,7 +190,7 @@ const HomePage = () => {
                         </div>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {levelData.quizzes.map((quiz) => (
+                          {levelData.quizzes.slice(0, 6).map((quiz) => (
                             <div
                               key={quiz._id}
                               className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700"
@@ -203,13 +203,11 @@ const HomePage = () => {
                                   <FaStar className="text-yellow-500 text-sm" />
                                 )}
                               </div>
-                              
                               {quiz.description && (
                                 <p className="text-gray-600 dark:text-gray-300 text-xs mb-3 line-clamp-2">
                                   {quiz.description}
                                 </p>
                               )}
-                              
                               <div className="space-y-1 mb-3">
                                 <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
                                   <FaClock className="text-xs" />
@@ -225,7 +223,6 @@ const HomePage = () => {
                                   </span>
                                 )}
                               </div>
-                              
                               <button
                                 onClick={() => handleQuizAttempt(quiz)}
                                 className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors duration-300"
