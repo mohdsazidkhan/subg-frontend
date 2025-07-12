@@ -89,6 +89,74 @@ const LevelsPage = () => {
           </p>
         </div>
 
+        
+        {/* Info Cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          {/* Scholarship Info */}
+          <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-3xl shadow-2xl p-2 md:p-8 border border-yellow-200 dark:border-yellow-700">
+            <div className="flex items-center space-x-4 mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center">
+                <FaAward className="text-white text-2xl" />
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
+                Scholarship & Prizes
+              </h3>
+            </div>
+            <div className="space-y-4">
+              <p className="text-gray-700 dark:text-gray-300">
+                Only the top 1–3 ranked users in Level 10 (<span className="font-bold text-orange-600">Legend</span>) win scholarships and prizes!
+              </p>
+              <div className="bg-white/50 dark:bg-gray-800/50 rounded-xl p-4">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-orange-600 mb-2">₹99,999</div>
+                  <div className="text-gray-600 dark:text-gray-300">Maximum Prize Pool</div>
+                </div>
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Based on quiz scores + completion time
+              </p>
+            </div>
+          </div>
+
+          {/* Progression Rules */}
+          <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 rounded-3xl shadow-2xl p-2 md:p-8 border border-blue-200 dark:border-blue-700">
+            <div className="flex items-center space-x-4 mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center">
+                <FaGem className="text-white text-2xl" />
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
+                Progression Rules
+              </h3>
+            </div>
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3">
+                <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mt-0.5">
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+                <p className="text-gray-700 dark:text-gray-300">
+                  Only quizzes with <span className="font-bold text-green-600">75% or higher score</span> count towards level progression
+                </p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mt-0.5">
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+                <p className="text-gray-700 dark:text-gray-300">
+                  Achieve high scores consistently to advance through levels
+                </p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center mt-0.5">
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+                <p className="text-gray-700 dark:text-gray-300">
+                  Focus on quality over quantity - aim for excellence in every quiz!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Current Level Card */}
         <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-2 md:p-8 border border-white/20 mb-8">
           <div className="text-center">
@@ -195,72 +263,6 @@ const LevelsPage = () => {
           })}
         </div>
 
-        {/* Info Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* Scholarship Info */}
-          <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-3xl shadow-2xl p-2 md:p-8 border border-yellow-200 dark:border-yellow-700">
-            <div className="flex items-center space-x-4 mb-6">
-              <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center">
-                <FaAward className="text-white text-2xl" />
-              </div>
-              <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
-                Scholarship & Prizes
-              </h3>
-            </div>
-            <div className="space-y-4">
-              <p className="text-gray-700 dark:text-gray-300">
-                Only the top 1–3 ranked users in Level 10 (<span className="font-bold text-orange-600">Legend</span>) win scholarships and prizes!
-              </p>
-              <div className="bg-white/50 dark:bg-gray-800/50 rounded-xl p-4">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-orange-600 mb-2">₹99,999</div>
-                  <div className="text-gray-600 dark:text-gray-300">Maximum Prize Pool</div>
-                </div>
-              </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Based on quiz scores + completion time
-              </p>
-            </div>
-          </div>
-
-          {/* Progression Rules */}
-          <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 rounded-3xl shadow-2xl p-2 md:p-8 border border-blue-200 dark:border-blue-700">
-            <div className="flex items-center space-x-4 mb-6">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center">
-                <FaGem className="text-white text-2xl" />
-              </div>
-              <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
-                Progression Rules
-              </h3>
-            </div>
-            <div className="space-y-4">
-              <div className="flex items-start space-x-3">
-                <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mt-0.5">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
-                </div>
-                <p className="text-gray-700 dark:text-gray-300">
-                  Only quizzes with <span className="font-bold text-green-600">75% or higher score</span> count towards level progression
-                </p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mt-0.5">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
-                </div>
-                <p className="text-gray-700 dark:text-gray-300">
-                  Achieve high scores consistently to advance through levels
-                </p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center mt-0.5">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
-                </div>
-                <p className="text-gray-700 dark:text-gray-300">
-                  Focus on quality over quantity - aim for excellence in every quiz!
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Back Button */}
         <div className="text-center">

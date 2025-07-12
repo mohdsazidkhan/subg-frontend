@@ -30,12 +30,12 @@ const categoryIcons = {
 const HomePage = () => {
   const navigate = useNavigate();
   const [homeData, setHomeData] = useState(null);
+  const [userLevelData, setUserLevelData] = useState(null);
   const [levels, setLevels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
-
   useEffect(() => {
     fetchHomePageData();
     fetchLevels();
@@ -60,6 +60,7 @@ const HomePage = () => {
       const res = await API.getHomePageData();
       if (res.success) {
         setHomeData(res.data);
+        setUserLevelData(res.userLevel);
       } else {
         setError('Failed to load home page data');
       }
@@ -170,27 +171,37 @@ const HomePage = () => {
         ) : (
           <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20">
                 {homeData?.quizzesByLevel?.length > 0 ? (
-                  <div className="space-y-8">
-                    {homeData.quizzesByLevel.map((levelData) => (
-                      <div key={levelData.level} className="bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-700 dark:to-blue-900/20 rounded-2xl p-6">
+                  (() => {
+                    // Find the user's current level quizzes
+                    // Use userLevel.currentLevel (object) for correct quiz filtering, like /level-quizzes
+                    const userLevelObj = userLevelData;
+                    let currentLevelData = null;
+                    if (userLevelObj && userLevelObj.currentLevel) {
+                      currentLevelData = homeData.quizzesByLevel.find(lvl => lvl.level === userLevelObj.currentLevel);
+                    }
+                    if (!currentLevelData) {
+                      currentLevelData = homeData.quizzesByLevel[0];
+                    }
+                    if (!currentLevelData) return null;
+                    return (
+                      <div className="bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-700 dark:to-blue-900/20 rounded-2xl p-6">
                         <div className="flex items-center justify-between mb-4">
                           <div className="flex items-center gap-3">
-                            <div className={`w-12 h-12 rounded-full ${getLevelColor(levelData.level)} flex items-center justify-center text-white font-bold text-lg`}>
-                              {levelData.level}
+                            <div className={`w-12 h-12 rounded-full ${getLevelColor(currentLevelData.level)} flex items-center justify-center text-white font-bold text-lg`}>
+                              {currentLevelData.level}
                             </div>
                             <div>
                               <h3 className="text-xl font-bold text-gray-800 dark:text-white">
-                                Level {levelData.level}
+                                Level {currentLevelData.level}
                               </h3>
                               <p className="text-gray-600 dark:text-gray-300">
-                                {levelData.quizCount} quizzes available
+                                {currentLevelData.quizCount} quizzes available
                               </p>
                             </div>
                           </div>
                         </div>
-                        
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {levelData.quizzes.slice(0, 6).map((quiz) => (
+                          {currentLevelData.quizzes.slice(0, 6).map((quiz) => (
                             <div
                               key={quiz._id}
                               className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700"
@@ -233,8 +244,8 @@ const HomePage = () => {
                           ))}
                         </div>
                       </div>
-                    ))}
-                  </div>
+                    );
+                  })()
                 ) : (
                   <div className="text-center py-12">
                     <FaQuestionCircle className="text-6xl text-gray-400 mx-auto mb-4" />

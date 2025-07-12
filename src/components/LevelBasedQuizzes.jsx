@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaStar, FaClock, FaQuestionCircle, FaFilter, FaLevelUpAlt } from 'react-icons/fa';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
-import { hasActiveSubscription } from '../utils/subscriptionUtils';
 
 const LevelBasedQuizzes = () => {
   const navigate = useNavigate();
@@ -80,7 +79,6 @@ const LevelBasedQuizzes = () => {
       if (!searchLoading) {
         setLoading(true);
       }
-      
       // Create a clean filters object with only non-empty values
       const cleanFilters = {};
       Object.keys(filters).forEach(key => {
@@ -90,11 +88,15 @@ const LevelBasedQuizzes = () => {
       });
 
       const response = await API.getLevelQuizzes(cleanFilters);
-      
+
       if (response?.success) {
         setQuizzes(response.data);
         setUserLevel(response.userLevel);
         setPagination(response.pagination);
+        // Set default filter to user's current level if not already set
+        if (!filters.level && response.userLevel?.currentLevel) {
+          setFilters(prev => ({ ...prev, level: response.userLevel.currentLevel.toString(), page: 1 }));
+        }
       }
     } catch (error) {
       console.error('Error fetching quizzes:', error);
@@ -408,33 +410,7 @@ const LevelBasedQuizzes = () => {
         </div>
       )}
 
-      {/* Level Stats (when no level filter is active) */}
-      {!filters.level && quizzes.length > 0 && (
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Available by Level:</h3>
-          <div className="flex flex-wrap gap-2">
-            {Array.from(new Set(quizzes.map(q => q.requiredLevel))).sort((a, b) => a - b).map(level => {
-              const levelCount = quizzes.filter(q => q.requiredLevel === level).length;
-              return (
-                <button
-                  key={level}
-                  onClick={() => setFilters(prev => ({ ...prev, level: level.toString(), page: 1 }))}
-                  className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                    level === userLevel?.currentLevel 
-                      ? 'bg-green-100 text-green-800 border-2 border-green-300'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  <div className="flex items-center gap-1">
-                    <div className={`w-2 h-2 rounded-full ${getLevelColor(level)}`}></div>
-                    Level {level} ({levelCount})
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
+      {/* Removed 'Available by Level' filter. Default is user's current level. */}
 
       {/* Quizzes Grid */}
       <div className="mb-8">
@@ -558,17 +534,19 @@ const LevelBasedQuizzes = () => {
                   >
                     View Result
                   </button>
-                ) : (
+                ) : quiz.requiredLevel === userLevel?.currentLevel ? (
                   <button
                     onClick={() => handleAttemptQuiz(quiz)}
-                    disabled={!quiz.attemptStatus.canAttempt}
-                    className={`w-full py-2 px-4 rounded-md font-medium transition ${
-                      quiz.attemptStatus.canAttempt
-                        ? 'bg-blue-600 text-white hover:bg-blue-700'
-                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    }`}
+                    className="w-full py-2 px-4 rounded-md font-medium bg-blue-600 text-white hover:bg-blue-700 transition"
                   >
-                    {quiz.attemptStatus.canAttempt ? 'Start Quiz' : 'Already Attempted'}
+                    Start Quiz
+                  </button>
+                ) : (
+                  <button
+                    disabled
+                    className="w-full py-2 px-4 rounded-md font-medium bg-gray-300 text-gray-500 cursor-not-allowed"
+                  >
+                    Locked
                   </button>
                 )}
               </div>

@@ -54,7 +54,12 @@ function usePageTracking() {
 function AppLayout() {
   const location = useLocation();
   usePageTracking();
-  
+
+  // Scroll to top on route change
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [location.pathname]);
+
   // Check if current path is an admin route
   const isAdminRoute = location.pathname.startsWith('/admin');
 
