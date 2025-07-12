@@ -157,6 +157,7 @@ const LoginPage = () => {
                   {showPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
                 </button>
               {/* Forgot Password Link */}
+              </div>
               <div className="text-right mt-2">
                 <Link
                   to="/forgot-password"
@@ -164,7 +165,6 @@ const LoginPage = () => {
                 >
                   Forgot Password?
                 </Link>
-              </div>
               </div>
 
               {/* Login Button */}
