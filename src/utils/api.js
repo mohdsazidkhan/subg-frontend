@@ -81,6 +81,13 @@ class ApiService {
     });
   }
 
+  async forgotPassword(data) {
+    return this.request('/api/auth/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
   async register(userData) {
     return this.request('/api/auth/register', {
       method: 'POST',

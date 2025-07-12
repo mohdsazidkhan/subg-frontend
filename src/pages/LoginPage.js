@@ -156,6 +156,15 @@ const LoginPage = () => {
                 >
                   {showPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
                 </button>
+              {/* Forgot Password Link */}
+              <div className="text-right mt-2">
+                <Link
+                  to="/forgot-password"
+                  className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-semibold transition-colors"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
               </div>
 
               {/* Login Button */}
