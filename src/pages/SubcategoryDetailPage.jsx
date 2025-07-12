@@ -122,8 +122,11 @@ const SubcategoryDetailPage = () => {
       
       <div className="max-w-5xl mx-auto px-4 py-10">
         {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-600"></div>
+          <div className="flex justify-center items-center h-64 bg-white dark:bg-gray-900">
+            <div className="flex flex-col items-center">
+              <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-600 mb-4"></div>
+              <div className="text-xl text-gray-700 dark:text-gray-200">Loading quizzes...</div>
+            </div>
           </div>
         ) : error ? (
           <div className="text-center text-red-600 font-semibold py-10">{error}</div>

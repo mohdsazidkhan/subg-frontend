@@ -70,8 +70,11 @@ const AdminRoute = ({ children }) => {
 
   if (authState.isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="flex items-center justify-center min-h-screen bg-white dark:bg-gray-900">
+        <div className="flex flex-col items-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-4"></div>
+          <div className="text-lg text-gray-700 dark:text-gray-200">Loading...</div>
+        </div>
       </div>
     );
   }

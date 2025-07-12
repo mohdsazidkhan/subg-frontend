@@ -290,7 +290,8 @@ const SubscriptionPage = () => {
           </div>
           {!razorpayLoaded && (
             <div className="text-center text-gray-600 dark:text-gray-300">
-              Loading payment gateway...
+              <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 inline-block mr-2"></span>
+              <span>Loading payment gateway...</span>
             </div>
           )}
         </div>

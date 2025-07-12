@@ -201,8 +201,11 @@ const LevelBasedQuizzes = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-xl">Loading quizzes...</div>
+      <div className="flex items-center justify-center min-h-screen bg-white dark:bg-gray-900">
+        <div className="flex flex-col items-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+          <div className="text-xl text-gray-700 dark:text-gray-200">Loading quizzes...</div>
+        </div>
       </div>
     );
   }
