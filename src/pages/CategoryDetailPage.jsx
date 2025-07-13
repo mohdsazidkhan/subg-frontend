@@ -126,11 +126,8 @@ const CategoryDetailPage = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
             <h2 className="text-xl sm:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2 sm:gap-3">
               <FaFolder className="text-green-500" />
-              Subcategories
+              Subcategories ({subcategories?.length})
             </h2>
-            <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-              {subcategories.length} subcategories available
-            </div>
           </div>
 
           {subcategoriesLoading ? (
@@ -160,7 +157,7 @@ const CategoryDetailPage = () => {
                     {subcategory.name}
                   </h3>
                   
-                  <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-200">
                     <span>Explore quizzes</span>
                     <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium">
                       Browse

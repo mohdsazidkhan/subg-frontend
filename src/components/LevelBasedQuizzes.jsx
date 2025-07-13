@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FaStar, FaClock, FaQuestionCircle, FaFilter, FaLevelUpAlt } from 'react-icons/fa';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
@@ -24,6 +24,7 @@ const LevelBasedQuizzes = () => {
   const [subcategories, setSubcategories] = useState([]);
   const [pagination, setPagination] = useState({});
   const [user, setUser] = useState(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     fetchCategories();
@@ -98,8 +99,15 @@ const LevelBasedQuizzes = () => {
           setFilters(prev => ({ ...prev, level: response.userLevel.currentLevel.toString(), page: 1 }));
         }
       }
-    } catch (error) {
-      console.error('Error fetching quizzes:', error);
+    } catch (err) {
+      console.log('HomePage Data:', err);
+      // Try to show a more specific error message if available
+      let msg = err?.response?.data?.message || err?.message || err?.toString();
+      if (msg && msg !== '[object Object]') {
+        setError(msg);
+      } else {
+        setError('Failed to load home page data');
+      }
       toast.error('Failed to load quizzes');
     } finally {
       setLoading(false);
@@ -199,6 +207,7 @@ const LevelBasedQuizzes = () => {
     return colors[(level - 1) % colors.length];
   };
 
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-white dark:bg-gray-900">
@@ -211,6 +220,24 @@ const LevelBasedQuizzes = () => {
   }
 
   return (
+    <>
+    {error && error.toLowerCase().includes('subscription') ? (
+      <div className="container mx-auto px-4 py-8">
+           <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 flex flex-col items-center justify-center">
+             <div className="text-center mb-6">
+               <div className="text-red-600 text-3xl mb-2">⚠️</div>
+               <p className="text-red-600 text-lg font-semibold mb-4">{error}</p>
+               <p className="text-gray-600 dark:text-gray-300 mb-4">Subscribe now to unlock all quizzes and levels!</p>
+               <Link
+                 to="/subscription"
+                 className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
+               >
+                 Subscribe Now
+               </Link>
+             </div>
+           </div>
+           </div>
+         ):(
     <div className="container mx-auto px-4 py-8">
       {/* User Level Info */}
       {userLevel && (
@@ -582,7 +609,8 @@ const LevelBasedQuizzes = () => {
           </button>
         </div>
       )}
-    </div>
+    </div>)}
+    </>
   );
 };
 

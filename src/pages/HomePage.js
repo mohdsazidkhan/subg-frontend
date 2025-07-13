@@ -4,7 +4,7 @@ import { FaTrophy, FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaA
 import { FaMagic } from 'react-icons/fa';
 import API from '../utils/api';
 import { hasActiveSubscription } from '../utils/subscriptionUtils';
-import SubscriptionGuard from '../components/SubscriptionGuard';
+
 import QuizStartModal from '../components/QuizStartModal';
 // Level badge icon mapping
 
@@ -76,10 +76,18 @@ const HomePage = () => {
         setHomeData(res.data);
         setUserLevelData(res.userLevel);
       } else {
-        setError('Failed to load home page data');
+        console.log('HomePage Data:', res);
+        setError(res.message || 'Failed to load home page data');
       }
     } catch (err) {
-      setError('Failed to load home page data');
+      console.log('HomePage Data:', err);
+      // Try to show a more specific error message if available
+      let msg = err?.response?.data?.message || err?.message || err?.toString();
+      if (msg && msg !== '[object Object]') {
+        setError(msg);
+      } else {
+        setError('Failed to load home page data');
+      }
     } finally {
       setLoading(false);
     }
@@ -131,7 +139,8 @@ const HomePage = () => {
     );
   }
 
-  if (error) {
+  // Only block the whole page for generic errors, not subscription errors
+  if (error && !error.toLowerCase().includes('subscription')) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 flex items-center justify-center">
         <div className="text-center">
@@ -177,209 +186,252 @@ const HomePage = () => {
           Discover quizzes tailored to your current level and challenge yourself with new questions
         </p>
 
-        {!hasActiveSubscription() ? (
-          <SubscriptionGuard
-            message="Access to quizzes requires an active subscription."
-            showUpgradeButton={true}
-          />
+        {/* Quiz Section: Show subscription required message if error is about subscription */}
+        {(!hasActiveSubscription() || (error && error.toLowerCase().includes('subscription'))) ? (
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 flex flex-col items-center justify-center">
+            <div className="text-center mb-6">
+              <div className="text-red-600 text-3xl mb-2">⚠️</div>
+              <p className="text-red-600 text-lg font-semibold mb-4">{error && error.toLowerCase().includes('subscription') ? error : 'Access to quizzes requires an active subscription.'}</p>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">Subscribe now to unlock all quizzes and levels!</p>
+              <Link
+                to="/subscription"
+                className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
+              >
+                Subscribe Now
+              </Link>
+            </div>
+          </div>
         ) : (
           <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20">
-                {homeData?.quizzesByLevel?.length > 0 ? (
-                  (() => {
-                    // Find the user's current level quizzes
-                    // Use userLevel.currentLevel (object) for correct quiz filtering, like /level-quizzes
-                    const userLevelObj = userLevelData;
-                    let currentLevelData = null;
-                    if (userLevelObj && userLevelObj.currentLevel) {
-                      currentLevelData = homeData.quizzesByLevel.find(lvl => lvl.level === userLevelObj.currentLevel);
-                    }
-                    if (!currentLevelData) {
-                      currentLevelData = homeData.quizzesByLevel[0];
-                    }
-                    if (!currentLevelData) return null;
-                    return (
-                      <div className="bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-700 dark:to-blue-900/20 rounded-2xl p-6">
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="flex items-center gap-3">
-                            <div className={`w-12 h-12 rounded-full ${getLevelColor(currentLevelData.level)} flex items-center justify-center text-white font-bold text-lg`}>
-                              {currentLevelData.level}
-                            </div>
-                            <div>
-                              <h3 className="text-xl font-bold text-gray-800 dark:text-white">
-                                Level {currentLevelData.level}
-                              </h3>
-                              <p className="text-gray-600 dark:text-gray-300">
-                                {currentLevelData.quizCount} quizzes available
-                              </p>
-                            </div>
-                          </div>
+            {homeData?.quizzesByLevel?.length > 0 ? (
+              (() => {
+                // Find the user's current level quizzes
+                // Use userLevel.currentLevel (object) for correct quiz filtering, like /level-quizzes
+                const userLevelObj = userLevelData;
+                let currentLevelData = null;
+                if (userLevelObj && userLevelObj.currentLevel) {
+                  currentLevelData = homeData.quizzesByLevel.find(lvl => lvl.level === userLevelObj.currentLevel);
+                }
+                if (!currentLevelData) {
+                  currentLevelData = homeData.quizzesByLevel[0];
+                }
+                if (!currentLevelData) return null;
+                return (
+                  <div className="bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-700 dark:to-blue-900/20 rounded-2xl p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-12 h-12 rounded-full ${getLevelColor(currentLevelData.level)} flex items-center justify-center text-white font-bold text-lg`}>
+                          {currentLevelData.level}
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {currentLevelData.quizzes.slice(0, 6).map((quiz) => (
-                            <div
-                              key={quiz._id}
-                              className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700"
-                            >
-                              <div className="flex justify-between items-start mb-3">
-                                <h4 className="font-semibold text-gray-800 dark:text-white text-sm">
-                                  {quiz.title}
-                                </h4>
-                                {quiz.isRecommended && (
-                                  <FaStar className="text-yellow-500 text-sm" />
-                                )}
-                              </div>
-                              {quiz.description && (
-                                <p className="text-gray-600 dark:text-gray-300 text-xs mb-3 line-clamp-2">
-                                  {quiz.description}
-                                </p>
-                              )}
-                              <div className="space-y-1 mb-3">
-                                <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
-                                  <FaClock className="text-xs" />
-                                  <span>{quiz.timeLimit || 30} min</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
-                                  <FaQuestionCircle className="text-xs" />
-                                  <span>{quiz.totalMarks || 'Variable'} questions</span>
-                                </div>
-                                {quiz.difficulty && (
-                                  <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(quiz.difficulty)}`}>
-                                    {quiz.difficulty}
-                                  </span>
-                                )}
-                              </div>
-                              <button
-                                onClick={() => handleQuizAttempt(quiz)}
-                                className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors duration-300"
-                              >
-                                Start Quiz
-                              </button>
-                            </div>
-                          ))}
+                        <div>
+                          <h3 className="text-xl font-bold text-gray-800 dark:text-white">
+                            Level {currentLevelData.level}
+                          </h3>
+                          <p className="text-gray-600 dark:text-gray-300">
+                            {currentLevelData.quizCount} quizzes available
+                          </p>
                         </div>
                       </div>
-                    );
-                  })()
-                ) : (
-                  <div className="text-center py-12">
-                    <FaQuestionCircle className="text-6xl text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-600 dark:text-gray-400 text-lg mb-4">
-                      No new quizzes available for your level.
-                    </p>
-                    <p className="text-gray-500 dark:text-gray-500 text-sm">
-                      You've attempted all available quizzes for your current level!
-                    </p>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {currentLevelData.quizzes.slice(0, 6).map((quiz) => (
+                        <div
+                          key={quiz._id}
+                          className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700"
+                        >
+                          <div className="flex justify-between items-start mb-3">
+                            <h4 className="font-semibold text-gray-800 dark:text-white text-sm">
+                              {quiz.title}
+                            </h4>
+                            {quiz.isRecommended && (
+                              <FaStar className="text-yellow-500 text-sm" />
+                            )}
+                          </div>
+                          {quiz.description && (
+                            <p className="text-gray-600 dark:text-gray-300 text-xs mb-3 line-clamp-2">
+                              {quiz.description}
+                            </p>
+                          )}
+                          <div className="space-y-1 mb-3">
+                            <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                              <FaClock className="text-xs" />
+                              <span>{quiz.timeLimit || 30} min</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                              <FaQuestionCircle className="text-xs" />
+                              <span>{quiz.totalMarks || 'Variable'} questions</span>
+                            </div>
+                            {quiz.difficulty && (
+                              <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(quiz.difficulty)}`}>
+                                {quiz.difficulty}
+                              </span>
+                            )}
+                          </div>
+                          <button
+                            onClick={() => handleQuizAttempt(quiz)}
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors duration-300"
+                          >
+                            Start Quiz
+                          </button>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                )}
+                );
+              })()
+            ) : (
+              <div className="text-center py-12">
+                <FaQuestionCircle className="text-6xl text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-600 dark:text-gray-400 text-lg mb-4">
+                  No new quizzes available for your level.
+                </p>
+                <p className="text-gray-500 dark:text-gray-500 text-sm">
+                  You've attempted all available quizzes for your current level!
+                </p>
               </div>
             )}
+          </div>
+        )}
+        {/* ...existing code... */}
       </div>
 
-      {/* Add this section after the Hero Section and before the Navigation Tabs */}
+      {/* All Levels and Categories sections are hidden if subscription is required */}
+      {/* All Levels section is hidden if subscription is required, but Categories section shows Subscribe Now if needed */}
+      {/* All Levels section: always visible, but shows Subscribe Now if subscription required */}
       <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-6 flex items-center gap-2">
           <FaLayerGroup className="text-blue-500" /> All Levels
         </h2>
-        <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-12 max-w-5xl">
-          Progress through different difficulty levels and unlock new challenges as you advance your skills
+        <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-12 max-w-3xl">
+          Browse all available levels and their quizzes
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-          {levels.map((lvl) => (
-            <Link
-              to={`/level/${lvl.level}`}
-              key={lvl.level}
-              className={`group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border-gray-300 dark:border-gray-600`}
-            >
-              {/* Level Badge */}
-              <div className="absolute -top-3 -right-3">
-                <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold bg-blue-500">
-                  {lvl.level}
-                </div>
-              </div>
-              {/* Icon inside gradient circle */}
-              <div className={`w-16 h-16 bg-gradient-to-r from-gray-300 to-gray-400 rounded-2xl flex items-center justify-center mx-auto mt-6 mb-4`}>
-                {(() => {
-                  const BadgeIcon = levelBadgeIcons[lvl.name] || levelBadgeIcons.Default;
-                  return (
-                    <span className="w-16 h-16 flex items-center justify-center rounded-2xl bg-gradient-to-br from-yellow-200 via-yellow-400 to-orange-400 dark:from-blue-700 dark:via-violet-700 dark:to-blue-900 ring-4 ring-yellow-300/40 dark:ring-blue-900/40 shadow-lg">
-                      <BadgeIcon className="text-yellow-500 dark:text-yellow-200 text-3xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
-                    </span>
-                  );
-                })()}
-              </div>
-              {/* Content */}
-              <div className="p-6 pt-0">
-                <h3 className="text-xl font-bold text-gray-800 dark:text-white text-center mb-2">
-                  {lvl.name}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 text-center">
-                  {lvl.description}
-                </p>
-                <div className="space-y-2 mb-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-500 dark:text-gray-400 text-sm">Required:</span>
-                    <span className="font-semibold text-gray-800 dark:text-white">{lvl.quizzesRequired} quizzes</span>
+        {(!hasActiveSubscription() || (error && error.toLowerCase().includes('subscription'))) ? (
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 flex flex-col items-center justify-center">
+            <div className="text-center mb-6">
+              <div className="text-red-600 text-3xl mb-2">⚠️</div>
+              <p className="text-red-600 text-lg font-semibold mb-4">{error && error.toLowerCase().includes('subscription') ? error : 'Access to levels requires an active subscription.'}</p>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">Subscribe now to unlock all quizzes and levels!</p>
+              <Link
+                to="/subscription"
+                className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
+              >
+                Subscribe Now
+              </Link>
+            </div>
+          </div>
+        ) : levels && levels.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+            {levels.filter(level => level.name !== 'Zero Level').map((level, idx) => {
+              const Icon = levelBadgeIcons[level.name] || levelBadgeIcons.Default;
+              return (
+                <div
+                  key={level.level}
+                  className="group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border-gray-300 dark:border-gray-600 p-6"
+                  tabIndex={0}
+                >
+                  {/* Icon */}
+                  <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <Icon className="text-white dark:text-yellow-200 text-2xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-500 dark:text-gray-400 text-sm">Available:</span>
-                    <span className="font-semibold text-blue-600">{lvl.quizCount}</span>
+                  {/* Content */}
+                  <div className="text-center">
+                    <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
+                      {level.name}
+                    </h3>
+                    <div className="text-center py-2 rounded-lg text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">
+                      {level.quizCount} quizzes
+                    </div>
+                  </div>
+                  {/* View Quizzes Button */}
+                  <div className="mt-4 flex justify-center">
+                    <Link
+                      to={`/level/${level.level}`}
+                      className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
+                    >
+                      View Quizzes
+                    </Link>
                   </div>
                 </div>
-                <div className="text-center py-2 rounded-lg text-sm font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                  View Level
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <FaLayerGroup className="text-6xl text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-600 dark:text-gray-400 text-lg mb-4">
+              No levels found.
+            </p>
+          </div>
+        )}
       </div>
+
+      {/* ...removed duplicate Categories section... */}
+
 
       {/* Categories Section */}
       <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-6 flex items-center gap-2">
           <FaBook className="text-blue-500" /> Categories
-                </h2>
+        </h2>
         <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-12 max-w-3xl">
           Explore quizzes by category and find your perfect learning path
         </p>
-        
-                {homeData?.categories?.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-                    {homeData.categories.map((category, idx) => {
-                      const Icon = categoryIcons[category.name] || categoryIcons.Default;
-                      return (
-                        <Link
-                          key={category._id}
-                          to={`/category/${category._id}`}
+        {(!hasActiveSubscription() || (error && error.toLowerCase().includes('subscription'))) ? (
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 flex flex-col items-center justify-center">
+            <div className="text-center mb-6">
+              <div className="text-red-600 text-3xl mb-2">⚠️</div>
+              <p className="text-red-600 text-lg font-semibold mb-4">{error && error.toLowerCase().includes('subscription') ? error : 'Access to categories requires an active subscription.'}</p>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">Subscribe now to unlock all quizzes and levels!</p>
+              <Link
+                to="/subscription"
+                className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
+              >
+                Subscribe Now
+              </Link>
+            </div>
+          </div>
+        ) : homeData && homeData.categories && homeData.categories.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+            {homeData.categories.map((category, idx) => {
+              const Icon = categoryIcons[category.name] || categoryIcons.Default;
+              return (
+                <Link
+                  key={category._id}
+                  to={`/category/${category._id}`}
                   className={`group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border-gray-300 dark:border-gray-600 p-6`}
-                          tabIndex={0}
-                        >
+                  tabIndex={0}
+                >
                   {/* Icon */}
                   <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <Icon className="text-white dark:text-yellow-200 text-2xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
-                          </div>
+                  </div>
                   {/* Content */}
                   <div className="text-center">
                     <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
-                              {category.name}
-                            </h3>
-                    <div className="text-center py-2 rounded-lg text-sm font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                      View Quizzes
-                          </div>
-                          </div>
-                        </Link>
-                      );
-                    })}
+                      {category.name}
+                    </h3>
+                    <div className="mt-4 flex justify-center">
+                      <Link
+                        to={`/category/${category._id}`}
+                        className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
+                      >
+                        View Quizzes
+                      </Link>
+                    </div>
                   </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <FaBook className="text-6xl text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-600 dark:text-gray-400 text-lg mb-4">
-                      No categories found.
-                    </p>
-                  </div>
-                )}
-              </div>
+                </Link>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <FaBook className="text-6xl text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-600 dark:text-gray-400 text-lg mb-4">
+              No categories found.
+            </p>
+          </div>
+        )}
+      </div>
 
       {/* Quiz Start Confirmation Modal */}
       <QuizStartModal

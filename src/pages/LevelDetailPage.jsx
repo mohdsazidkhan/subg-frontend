@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { FaTrophy, FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaArrowLeft, FaClock, FaQuestionCircle, FaLayerGroup } from 'react-icons/fa';
 import API from '../utils/api';
 import QuizStartModal from '../components/QuizStartModal';
+import { MdFormatListNumbered } from 'react-icons/md';
 
 const levels = [
   { level: 0, name: 'Zero Level', desc: 'Just registered - Start your journey!', quizzes: 0, plan: 'Free', amount: 0, prize: 0, color: 'from-gray-300 to-gray-400', icon: FaBrain },
@@ -178,10 +179,7 @@ const LevelDetailPage = () => {
                     <div className="p-6">
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-lg font-bold text-gray-800 dark:text-white">{quiz.title}</h3>
-                        <div className="flex items-center space-x-2">
-                          <FaClock className="text-gray-400" />
-                          <span className="text-sm text-gray-500 dark:text-gray-400">{quiz.duration} min</span>
-                        </div>
+                        
                       </div>
                       
                       <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">{quiz.description}</p>
@@ -190,12 +188,24 @@ const LevelDetailPage = () => {
                         <div className="flex items-center space-x-4">
                           <div className="flex items-center">
                             <FaQuestionCircle className="mr-1" />
-                            <span>{quiz.questions?.length || 0} questions</span>
+                            <span>{quiz.questionCount || 0} questions</span>
                           </div>
                           <div className="flex items-center">
                             <FaLayerGroup className="mr-1" />
                             <span>{quiz.category?.name || 'N/A'}</span>
                           </div>
+                          <div className="flex items-center">
+                            <FaLayerGroup className="mr-1" />
+                            <span>{quiz.category?.name || 'N/A'}}</span>
+                          </div>
+                          <div className="flex items-center">
+                            <MdFormatListNumbered className="mr-1" />
+                            <span>{quiz.totalMarks || 'N/A'} Marks</span>
+                          </div>
+                          <div className="flex items-center">
+                          <FaClock className="mr-1" />
+                          <span>{quiz.timeLimit} Mins.</span>
+                        </div>
                         </div>
                       </div>
                       
