@@ -170,17 +170,18 @@ const HomePage = () => {
 
       {/* Level-based Quizzes Section */}
       <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
+        <div className="flex items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
-            <FaStar className="text-blue-500" /> Level-based Quizzes
+            <FaStar className="text-blue-500" /> You Level Quizzes
           </h2>
           <Link
             to="/level-quizzes"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base"
           >
             <FaLayerGroup className="text-lg" />
-            View All Level Quizzes
+            View All
           </Link>
+        
         </div>
         <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-12 max-w-4xl">
           Discover quizzes tailored to your current level and challenge yourself with new questions
@@ -188,7 +189,7 @@ const HomePage = () => {
 
         {/* Quiz Section: Show subscription required message if error is about subscription */}
         {(!hasActiveSubscription() || (error && error.toLowerCase().includes('subscription'))) ? (
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 flex flex-col items-center justify-center">
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 flex flex-col items-center justify-center">
             <div className="text-center mb-6">
               <div className="text-red-600 text-3xl mb-2">⚠️</div>
               <p className="text-red-600 text-lg font-semibold mb-4">{error && error.toLowerCase().includes('subscription') ? error : 'Access to quizzes requires an active subscription.'}</p>
@@ -202,7 +203,7 @@ const HomePage = () => {
             </div>
           </div>
         ) : (
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20">
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20">
             {homeData?.quizzesByLevel?.length > 0 ? (
               (() => {
                 // Find the user's current level quizzes
@@ -217,7 +218,7 @@ const HomePage = () => {
                 }
                 if (!currentLevelData) return null;
                 return (
-                  <div className="bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-700 dark:to-blue-900/20 rounded-2xl p-6">
+                  <div className="bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-700 dark:to-blue-900/20 rounded-2xl p-2 md:p-6">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-3">
                         <div className={`w-12 h-12 rounded-full ${getLevelColor(currentLevelData.level)} flex items-center justify-center text-white font-bold text-lg`}>
@@ -306,7 +307,7 @@ const HomePage = () => {
           Browse all available levels and their quizzes
         </p>
         {(!hasActiveSubscription() || (error && error.toLowerCase().includes('subscription'))) ? (
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 flex flex-col items-center justify-center">
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 flex flex-col items-center justify-center">
             <div className="text-center mb-6">
               <div className="text-red-600 text-3xl mb-2">⚠️</div>
               <p className="text-red-600 text-lg font-semibold mb-4">{error && error.toLowerCase().includes('subscription') ? error : 'Access to levels requires an active subscription.'}</p>
@@ -377,7 +378,7 @@ const HomePage = () => {
           Explore quizzes by category and find your perfect learning path
         </p>
         {(!hasActiveSubscription() || (error && error.toLowerCase().includes('subscription'))) ? (
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 flex flex-col items-center justify-center">
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 flex flex-col items-center justify-center">
             <div className="text-center mb-6">
               <div className="text-red-600 text-3xl mb-2">⚠️</div>
               <p className="text-red-600 text-lg font-semibold mb-4">{error && error.toLowerCase().includes('subscription') ? error : 'Access to categories requires an active subscription.'}</p>

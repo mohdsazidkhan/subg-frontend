@@ -123,7 +123,7 @@ const LevelDetailPage = () => {
           </button>
           
           <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-lg">
-            <div className="flex flex-col sm:flex-row items-center sm:items-start mb-4 gap-2 sm:gap-0">
+            <div className="flex  items-center justify-start mb-4 gap-2 sm:gap-0">
               <div className={`p-2 sm:p-3 rounded-full bg-gradient-to-r ${level.color} mr-0 sm:mr-4`}>
                 <level.icon className="text-white text-xl sm:text-2xl" />
               </div>
@@ -176,7 +176,7 @@ const LevelDetailPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {quizzes.map((quiz) => (
                   <div key={quiz._id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
-                    <div className="p-6">
+                    <div className="p-2 md:p-6">
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-lg font-bold text-gray-800 dark:text-white">{quiz.title}</h3>
                         
@@ -185,18 +185,14 @@ const LevelDetailPage = () => {
                       <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">{quiz.description}</p>
                       
                       <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-2 md:space-x-4">
                           <div className="flex items-center">
                             <FaQuestionCircle className="mr-1" />
-                            <span>{quiz.questionCount || 0} questions</span>
+                            <span>{quiz.questionCount || 0} Q's</span>
                           </div>
                           <div className="flex items-center">
                             <FaLayerGroup className="mr-1" />
                             <span>{quiz.category?.name || 'N/A'}</span>
-                          </div>
-                          <div className="flex items-center">
-                            <FaLayerGroup className="mr-1" />
-                            <span>{quiz.category?.name || 'N/A'}}</span>
                           </div>
                           <div className="flex items-center">
                             <MdFormatListNumbered className="mr-1" />

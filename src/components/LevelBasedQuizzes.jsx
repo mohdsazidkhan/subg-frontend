@@ -26,11 +26,19 @@ const LevelBasedQuizzes = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
 
+
+
+  // Only fetch quizzes and categories when relevant filters/search/page change
   useEffect(() => {
     fetchCategories();
     fetchQuizzes();
+    // eslint-disable-next-line
+  }, [filters.category, filters.subcategory, filters.difficulty, filters.level, filters.attempted, filters.search, filters.page]);
+
+  // Only fetch user profile once on mount
+  useEffect(() => {
     fetchUser();
-  }, [filters]);
+  }, []);
 
   // Debounced search effect
   useEffect(() => {
