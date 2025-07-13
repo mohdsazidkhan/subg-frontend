@@ -18,8 +18,27 @@ import {
   FaChartLine,
   FaFire,
   FaBookOpen,
+  FaGem,
+  FaUserGraduate,
+  FaMagic,
 } from 'react-icons/fa';
 import { getSubscriptionStatusTextWithTheme } from '../utils/subscriptionUtils';
+// Level badge icon mapping (same as HomePage)
+const levelBadgeIcons = {
+  'Zero Level': FaUserGraduate,
+  Rookie: FaStar,
+  Explorer: FaRocket,
+  Thinker: FaBrain,
+  Strategist: FaChartLine,
+  Achiever: FaAward,
+  Mastermind: FaGem,
+  Champion: FaTrophy,
+  Prodigy: FaMedal,
+  'Quiz Wizard': FaMagic,
+  Legend: FaCrown,
+  Default: FaStar,
+};
+
 
 const levels = [
   { number: 1, name: 'Rookie', quizzes: 2 },
@@ -258,8 +277,9 @@ const ProfilePage = () => {
                 Level Progression
               </h2>
               <p className="text-gray-600 dark:text-gray-300 text-lg">
-                Your journey from Zero Level to Legend
-              </p>
+            Your journey from Zero Level to Legend
+          </p>
+
             </div>
           </div>
 
@@ -267,7 +287,12 @@ const ProfilePage = () => {
           <div className="text-center mb-8">
             <div className="flex items-center justify-center space-x-6 mb-6">
               <div className="w-12 md:w-24 h-12 md:h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-xl">
-                <FaTrophy className="text-white text-4xl" />
+                {(() => {
+                  const BadgeIcon = levelBadgeIcons[userLevel.name] || levelBadgeIcons.Default;
+                  return (
+                    <BadgeIcon className="text-yellow-500 dark:text-yellow-200 text-3xl md:text-5xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
+                  );
+                })()}
               </div>
               <div className="text-left">
                 <div className="text-xl md:text-4xl font-bold text-gray-800 dark:text-white">
@@ -332,7 +357,12 @@ const ProfilePage = () => {
             <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-3xl p-2 md:p-8 border border-yellow-200 dark:border-yellow-700 hover-scale">
               <div className="flex items-center space-x-4 mb-4">
                 <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center">
-                  <FaRocket className="text-white text-2xl" />
+                  {(() => {
+                    const BadgeIcon = levelBadgeIcons[nextLevel.name] || levelBadgeIcons.Default;
+                    return (
+                      <BadgeIcon className="text-yellow-500 dark:text-yellow-200 text-3xl md:text-5xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
+                    );
+                  })()}
                 </div>
                 <div>
                   <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">Next Level: {nextLevel.name}</h3>

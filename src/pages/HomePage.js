@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaTrophy, FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaAward, FaGem, FaBook, FaTags, FaFlask, FaLaptopCode, FaGlobe, FaCalculator, FaPalette, FaLeaf, FaUserGraduate, FaLayerGroup, FaClock, FaQuestionCircle } from 'react-icons/fa';
+import { FaMagic } from 'react-icons/fa';
 import API from '../utils/api';
-import { toast } from 'react-toastify';
-import { getCurrentUser } from '../utils/authUtils';
-import { hasActiveSubscription, useTheme } from '../utils/subscriptionUtils';
+import { hasActiveSubscription } from '../utils/subscriptionUtils';
 import SubscriptionGuard from '../components/SubscriptionGuard';
 import QuizStartModal from '../components/QuizStartModal';
+// Level badge icon mapping
 
 // Icon mapping for categories
 const categoryIcons = {
@@ -23,7 +23,21 @@ const categoryIcons = {
   Default: FaBook,
 };
 
-// Dynamic levels state
+// Level badge icon mapping
+const levelBadgeIcons = {
+  'Zero Level': FaUserGraduate,
+  Rookie: FaStar,
+  Explorer: FaRocket,
+  Thinker: FaBrain,
+  Strategist: FaChartLine,
+  Achiever: FaAward,
+  Mastermind: FaGem,
+  Champion: FaTrophy,
+  Prodigy: FaMedal,
+  'Quiz Wizard': FaMagic,
+  Legend: FaCrown,
+  Default: FaStar,
+};
 
 
 
@@ -282,13 +296,20 @@ const HomePage = () => {
                   {lvl.level}
                 </div>
               </div>
-              {/* Icon (optional, can be improved if backend provides icon info) */}
+              {/* Icon inside gradient circle */}
               <div className={`w-16 h-16 bg-gradient-to-r from-gray-300 to-gray-400 rounded-2xl flex items-center justify-center mx-auto mt-6 mb-4`}>
-                <FaLayerGroup className="text-white text-2xl" />
+                {(() => {
+                  const BadgeIcon = levelBadgeIcons[lvl.name] || levelBadgeIcons.Default;
+                  return (
+                    <span className="w-16 h-16 flex items-center justify-center rounded-2xl bg-gradient-to-br from-yellow-200 via-yellow-400 to-orange-400 dark:from-blue-700 dark:via-violet-700 dark:to-blue-900 ring-4 ring-yellow-300/40 dark:ring-blue-900/40 shadow-lg">
+                      <BadgeIcon className="text-yellow-500 dark:text-yellow-200 text-3xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
+                    </span>
+                  );
+                })()}
               </div>
               {/* Content */}
               <div className="p-6 pt-0">
-                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">
+                <h3 className="text-xl font-bold text-gray-800 dark:text-white text-center mb-2">
                   {lvl.name}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 text-center">
@@ -335,7 +356,7 @@ const HomePage = () => {
                         >
                   {/* Icon */}
                   <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <Icon className="text-white text-2xl" />
+                    <Icon className="text-white dark:text-yellow-200 text-2xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
                           </div>
                   {/* Content */}
                   <div className="text-center">

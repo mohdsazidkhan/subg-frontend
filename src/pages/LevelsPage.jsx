@@ -1,7 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaTrophy, FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaArrowLeft, FaAward, FaGem } from 'react-icons/fa';
+import { FaUserGraduate, FaMagic } from 'react-icons/fa';
 import API from '../utils/api';
+// Level badge icon mapping (same as HomePage)
+const levelBadgeIcons = {
+  'Zero Level': FaUserGraduate,
+  Rookie: FaStar,
+  Explorer: FaRocket,
+  Thinker: FaBrain,
+  Strategist: FaChartLine,
+  Achiever: FaAward,
+  Mastermind: FaGem,
+  Champion: FaTrophy,
+  Prodigy: FaMedal,
+  'Quiz Wizard': FaMagic,
+  Legend: FaCrown,
+  Default: FaStar,
+};
+
 
 const getUserLevel = (highScoreQuizzes, levels) => {
   for (let i = levels.length - 1; i >= 0; i--) {
@@ -165,7 +182,12 @@ const LevelsPage = () => {
             </h2>
             <div className="flex items-center justify-center space-x-6 mb-6">
               <div className={`w-12 h-12 md:w-24 md:h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center`}>
-                <FaTrophy className="text-white text-4xl" />
+                {(() => {
+                  const BadgeIcon = levelBadgeIcons[userLevel.name] || levelBadgeIcons.Default;
+                  return (
+                    <BadgeIcon className="text-yellow-500 dark:text-yellow-200 text-3xl md:text-5xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
+                  );
+                })()}
               </div>
               <div className="text-left">
                 <div className="text-xl md:text-3xl font-bold text-gray-800 dark:text-white">
@@ -221,8 +243,13 @@ const LevelsPage = () => {
                 </div>
 
                 {/* Icon */}
-                <div className={`w-16 h-16 bg-gradient-to-r from-gray-300 to-gray-400 rounded-2xl flex items-center justify-center mx-auto mt-6 mb-4`}>
-                  {/* You can add icon logic here if needed */}
+                <div className="w-12 h-12 md:w-24 md:h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mt-6 mb-4">
+                  {(() => {
+                    const BadgeIcon = levelBadgeIcons[lvl.name] || levelBadgeIcons.Default;
+                    return (
+                      <BadgeIcon className="text-yellow-500 dark:text-yellow-200 text-3xl md:text-5xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
+                    );
+                  })()}
                 </div>
 
                 {/* Content */}
