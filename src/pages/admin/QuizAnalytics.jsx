@@ -360,59 +360,6 @@ const QuizAnalytics = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {/* Total Quizzes */}
-          <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex items-center">
-              <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-600">
-                <FaQuestionCircle className="w-6 h-6 text-blue-600 dark:text-white" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Total Quizzes
-                </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {data.overview?.totalQuizzes?.toLocaleString() || 0}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Total Attempts */}
-          <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex items-center">
-              <div className="p-3 rounded-full bg-green-100 dark:bg-green-600">
-                <FaClock className="w-6 h-6 text-green-600 dark:text-white" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Total Attempts
-                </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {data.overview?.totalAttempts?.toLocaleString() || 0}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Average Score */}
-          <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex items-center">
-              <div className="p-3 rounded-full bg-yellow-100 dark:bg-yellow-600">
-                <FaStar className="w-6 h-6 text-yellow-600 dark:text-white" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Average Score
-                </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {data.overview?.avgScore?.toFixed(1) || 0}%
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Category Bar Chart */}

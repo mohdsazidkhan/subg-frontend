@@ -94,7 +94,7 @@ const SubcategoryDetailPage = () => {
         <div className="bg-gradient-to-r from-purple-500 via-blue-500 to-green-600 text-white py-12 sm:py-16 px-4 sm:px-6 shadow-2xl">
           <div className="max-w-5xl mx-auto text-center">
             <div className="mb-4">
-              <h1 className="text-3xl sm:text-5xl font-bold mb-4 drop-shadow-lg animate-fade-in">
+              <h1 className="text-2xl sm:text-5xl font-bold mb-4 drop-shadow-lg animate-fade-in">
                 {subcategory.name}
               </h1>
               {subcategory.category && (

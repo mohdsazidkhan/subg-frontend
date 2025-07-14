@@ -158,7 +158,7 @@ const HomePage = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-indigo-600/20"></div>
         <div className="relative container mx-auto px-2 sm:px-4 py-10 sm:py-16">
           <div className="text-center">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-gray-800 dark:text-white mb-2 sm:mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl xl:text-6xl font-bold text-gray-800 dark:text-white mb-2 sm:mb-4">
               Welcome to SUBG Quiz! 🎯
             </h1>
             <p className="text-base sm:text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-4 sm:mb-8 max-w-3xl mx-auto">
@@ -226,11 +226,8 @@ const HomePage = () => {
                         </div>
                         <div>
                           <h3 className="text-xl font-bold text-gray-800 dark:text-white">
-                            Level {currentLevelData.level}
+                            Level {currentLevelData.level} ({currentLevelData.quizCount})
                           </h3>
-                          <p className="text-gray-600 dark:text-gray-300">
-                            {currentLevelData.quizCount} quizzes available
-                          </p>
                         </div>
                       </div>
                     </div>

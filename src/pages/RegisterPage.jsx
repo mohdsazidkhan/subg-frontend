@@ -99,7 +99,7 @@ const RegisterPage = () => {
         {/* Left Side - Quiz Platform Info */}
         <div className="hidden lg:block space-y-8">
           <div className="text-center lg:text-left">
-            <h1 className="text-4xl lg:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-4">
+            <h1 className="text-4xl lg:text-6xl font-bold text-transparent mb-4 text-black dark:text-gray-100">
               Join the Quiz Revolution! 🚀
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">

@@ -98,7 +98,7 @@ const CategoryDetailPage = () => {
         <div className="bg-gradient-to-r from-green-500 via-blue-500 to-purple-600 text-white py-12 sm:py-16 px-4 sm:px-6 shadow-2xl">
           <div className="max-w-5xl mx-auto text-center">
             <div className="mb-4">
-              <h1 className="text-3xl sm:text-5xl font-bold mb-4 drop-shadow-lg animate-fade-in">
+              <h1 className="text-2xl sm:text-5xl font-bold mb-4 drop-shadow-lg animate-fade-in">
                 {category.name}
               </h1>
               {category.description && (
@@ -174,11 +174,8 @@ const CategoryDetailPage = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
             <h2 className="text-xl sm:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2 sm:gap-3">
               <FaStar className="text-blue-500" />
-              Quizzes
+              Quizzes ({quizzes.length})
             </h2>
-            <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-              {quizzes.length} quizzes available
-            </div>
           </div>
 
           {loading ? (
@@ -197,7 +194,7 @@ const CategoryDetailPage = () => {
                 {quizzes.map((quiz) => (
                   <div key={quiz._id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-t-4 border-green-400 hover:border-blue-500 cursor-pointer flex flex-col justify-between">
                     <div>
-                      <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-2 flex items-center gap-2">
+                      <h2 className="text-md md:text-xl font-bold text-gray-800 dark:text-white mb-2 flex items-center gap-2">
                         {quiz.title} {quiz.isRecommended && <FaStar className="text-yellow-400" />}
                       </h2>
                       {quiz.description && <p className="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">{quiz.description}</p>}
@@ -226,13 +223,31 @@ const CategoryDetailPage = () => {
                   </div>
                 ))}
               </div>
-              {/* Pagination */}
-              <div className="flex justify-center gap-1 sm:gap-2 mt-2 sm:mt-4">
-                <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="px-2 sm:px-4 py-1 sm:py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-semibold disabled:opacity-50 text-xs sm:text-base">Prev</button>
+              {/* Pagination - Responsive */}
+              <div className="flex flex-wrap justify-center gap-1 sm:gap-2 mt-2 sm:mt-4 w-full">
+                <button
+                  onClick={() => setPage(p => Math.max(1, p - 1))}
+                  disabled={page === 1}
+                  className="px-2 sm:px-4 py-1 sm:py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-semibold disabled:opacity-50 text-xs sm:text-base"
+                >
+                  Prev
+                </button>
                 {[...Array(totalPages)].map((_, idx) => (
-                  <button key={idx} onClick={() => setPage(idx + 1)} className={`px-2 sm:px-4 py-1 sm:py-2 rounded-lg font-semibold text-xs sm:text-base ${page === idx + 1 ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200'}`}>{idx + 1}</button>
+                  <button
+                    key={idx}
+                    onClick={() => setPage(idx + 1)}
+                    className={`px-2 sm:px-4 py-1 sm:py-2 rounded-lg font-semibold text-xs sm:text-base ${page === idx + 1 ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200'}`}
+                  >
+                    {idx + 1}
+                  </button>
                 ))}
-                <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="px-2 sm:px-4 py-1 sm:py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-semibold disabled:opacity-50 text-xs sm:text-base">Next</button>
+                <button
+                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                  disabled={page === totalPages}
+                  className="px-2 sm:px-4 py-1 sm:py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-semibold disabled:opacity-50 text-xs sm:text-base"
+                >
+                  Next
+                </button>
               </div>
             </>
           )}
