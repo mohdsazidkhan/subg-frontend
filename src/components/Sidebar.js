@@ -69,10 +69,9 @@ const Sidebar = () => {
           <span>Contacts</span>
         </Link>
       </nav>
-
+      <hr/>
       {/* Analytics Section */}
-      <div className="mt-8">
-        <h3 className="text-sm font-semibold mb-2 px-2 text-gray-500 dark:text-gray-300 uppercase tracking-wide">Analytics</h3>
+      <div className="mt-2 pb-4">
         <nav className="space-y-2">
           <Link to="/admin/analytics/dashboard" onClick={() => handleNavClick('analytics-dashboard')} className={getActiveClass('/admin/analytics/dashboard')}>
             <MdBarChart className="text-xl" />
@@ -100,19 +99,9 @@ const Sidebar = () => {
           </Link>
         </nav>
       </div>
-
-      {/* Admin Info Card */}
-      <div className="flex-1">
-        <div className="mt-8 p-4 bg-gray-100 dark:bg-gray-800 rounded-md shadow">
-          <h3 className="text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">Admin Info</h3>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            Secure admin panel access only
-          </p>
-        </div>
-      </div>
-
+      <hr/>
       {/* Logout Button */}
-      <div className="p-4 mt-auto">
+      <div className="mt-2 p-4">
         <button
           onClick={() => secureLogout(navigate)}
           className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-semibold shadow-md transition-all duration-200 text-white text-sm bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800"

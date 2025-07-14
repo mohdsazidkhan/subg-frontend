@@ -272,7 +272,7 @@ const PerformanceAnalytics = () => {
   return (
     <div className={`adminPanel ${isOpen ? "showPanel" : "hidePanel"}`}>
   {user?.role === "admin" && isAdminRoute && <Sidebar />}
-  <div className="adminContent p-6 w-full text-gray-900 dark:text-white">
+  <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
     {/* Header */}
     <div className="mb-8">
       <h1 className="text-3xl font-bold mb-2">Performance Analytics</h1>
@@ -389,7 +389,7 @@ const PerformanceAnalytics = () => {
     </div>
 
     {/* Score Trend */}
-    <div className="rounded-xl border p-6 shadow-lg mb-8 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+    <div className="rounded-xl border p-2 md:p-6 shadow-lg mb-4 md:mb-8 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
       <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
         Score Trend Over Time
       </h3>
@@ -406,7 +406,7 @@ const PerformanceAnalytics = () => {
         Top Performers
       </h3>
       <div className="overflow-x-auto">
-        <table className="min-w-full">
+        <table className="min-w-[1000px]">
           <thead>
             <tr className="border-b border-gray-200 dark:border-gray-700">
               {["Rank", "Name", "Level", "High Score Quizzes", "Avg Score"].map((label, i) => (

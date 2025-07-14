@@ -298,7 +298,7 @@ const FinancialAnalytics = () => {
   return (
     <div className={`adminPanel ${isOpen ? "showPanel" : "hidePanel"}`}>
       {user?.role === "admin" && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-6 w-full text-gray-900 dark:text-white">
+      <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
@@ -446,7 +446,7 @@ const FinancialAnalytics = () => {
             Top Revenue Plans
           </h3>
           <div className="overflow-x-auto">
-            <table className="min-w-full">
+            <table className="min-w-[1000px]">
               <thead>
                 <tr className="border-b border-gray-200 dark:border-gray-700">
                   {["Rank", "Plan", "Total Revenue", "Count", "Avg Amount"].map(

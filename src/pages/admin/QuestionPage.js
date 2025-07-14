@@ -175,7 +175,7 @@ const QuestionPage = () => {
   const TableView = () => (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <table className="min-w-[1600px] divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -316,11 +316,11 @@ const QuestionPage = () => {
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         {questions.map((question) => (
-          <div key={question._id} className="p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-            <div className="flex items-start justify-between">
+          <div key={question._id} className="p-2 md:p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+            <div className="flex-col md:flex-row flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center space-x-3 mb-3">
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                  <h3 className="text-md md:text-lg font-medium text-gray-900 dark:text-white">
                     {question.questionText}
                   </h3>
                   <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
@@ -354,7 +354,7 @@ const QuestionPage = () => {
                   Time Limit: {question.timeLimit || 'No limit'} seconds
                 </p>
               </div>
-              <div className="flex items-center space-x-2 ml-4">
+              <div className="flex items-center space-x-2 ml-0 md:ml-4">
                 <button
                   onClick={() => handleEdit(question)}
                   className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 p-2 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/20"
@@ -550,7 +550,7 @@ const QuestionPage = () => {
           ) : questions.length === 0 ? (
             <div className="text-center py-12">
               <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">❓</div>
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+              <h3 className="text-md md:text-lg font-medium text-gray-900 dark:text-white mb-2">
                 No questions found
               </h3>
               <p className="text-gray-600 dark:text-gray-400">

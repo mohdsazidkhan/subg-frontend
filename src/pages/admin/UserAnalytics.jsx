@@ -196,7 +196,7 @@ const UserAnalytics = () => {
   return (
     <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'} bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white`}>
       {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-6 w-full">
+      <div className="adminContent p-2 md:p-6 w-full">
         <h1 className="text-3xl font-bold mb-2">User Analytics</h1>
         <p className="text-gray-600 dark:text-gray-400 mb-4">Detailed insights into user behavior, growth, and performance</p>
 

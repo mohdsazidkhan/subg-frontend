@@ -241,7 +241,7 @@ const QuizAnalytics = () => {
       } bg-white dark:bg-gray-900 text-gray-900 dark:text-white`}
     >
       {user?.role === "admin" && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-6 w-full">
+      <div className="adminContent p-2 md:p-6 w-full">
         {/* Header with Theme Toggle */}
         <div className="flex justify-between items-center mb-6">
           <div>
@@ -254,7 +254,7 @@ const QuizAnalytics = () => {
         </div>
 
         {/* Filters */}
-        <div className="rounded-xl border p-6 shadow-lg mb-8 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <div className="rounded-xl border p-2 md:p-6 shadow-lg mb-4 md:mb-8 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
               <FaFilter className="w-4 h-4 text-gray-600 dark:text-gray-400" />
@@ -408,7 +408,7 @@ const QuizAnalytics = () => {
               </h3>
             </div>
             <div className="overflow-x-auto">
-              <table className="min-w-full">
+              <table className="min-w-[1000px]">
                 <thead>
                   <tr className="border-b border-gray-200 dark:border-gray-700">
                     <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
@@ -464,7 +464,7 @@ const QuizAnalytics = () => {
               </h3>
             </div>
             <div className="overflow-x-auto">
-              <table className="min-w-full">
+              <table className="min-w-[1000px]">
                 <thead>
                   <tr className="border-b border-gray-200 dark:border-gray-700">
                     <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">

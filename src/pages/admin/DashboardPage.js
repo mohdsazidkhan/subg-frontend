@@ -135,10 +135,10 @@ const DashboardPage = () => {
   return (
     <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
       {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-6 w-full text-gray-900 dark:text-white">
+      <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+        <div className="mb-4 md:mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
             📊 Admin Dashboard
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
@@ -147,20 +147,20 @@ const DashboardPage = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-4 md:mb-8">
           {cards.map((card) => (
             <Link key={card.title} to={card.link} className="group">
-              <div className={`relative overflow-hidden rounded-xl p-6 transition-all duration-300 hover:scale-105 hover:shadow-lg ${card.bgColor} ${card.darkBgColor} border border-gray-200 dark:border-gray-700`}>
+              <div className={`relative overflow-hidden rounded-xl p-2 md:p-6 transition-all duration-300 hover:scale-105 hover:shadow-lg ${card.bgColor} ${card.darkBgColor} border border-gray-200 dark:border-gray-700`}>
                 {/* Background Pattern */}
                 <div className={`absolute top-0 right-0 w-20 h-20 rounded-full ${card.color} opacity-10 -translate-y-10 translate-x-10`}></div>
                 
                 {/* Content */}
                 <div className="relative z-10">
                   <div className="flex items-center justify-between mb-4">
-                    <div className={`text-3xl ${card.textColor} dark:text-white`}>
+                    <div className={`text-4xl md:text-5xl ${card.textColor} dark:text-white`}>
                       {card.icon}
                     </div>
-                    <div className={`w-12 h-12 rounded-full ${card.color} flex items-center justify-center`}>
+                    <div className={`w-12 md:w-16 h-12 rounded-lg ${card.color} flex items-center justify-center`}>
                       <span className="text-white font-bold text-lg">
                         {card.count}
                       </span>
@@ -177,7 +177,7 @@ const DashboardPage = () => {
                   
                   {/* Hover Arrow */}
                   <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-gray-600 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
@@ -188,20 +188,12 @@ const DashboardPage = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-2 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
             🚀 Quick Actions
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-            <Link to="/admin/quizzes" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 hover:from-blue-100 hover:to-blue-200 dark:hover:from-blue-800/30 dark:hover:to-blue-700/30 transition-all duration-300">
-              <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center mr-3">
-                <span className="text-white text-lg">🎯</span>
-              </div>
-              <div>
-                <h3 className="font-medium text-gray-900 dark:text-white">Create Quiz</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Add New Quiz Content</p>
-              </div>
-            </Link>
+            
             
             <Link to="/admin/categories" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 hover:from-green-100 hover:to-green-200 dark:hover:from-green-800/30 dark:hover:to-green-700/30 transition-all duration-300">
               <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center mr-3">
@@ -222,6 +214,16 @@ const DashboardPage = () => {
                 <p className="text-sm text-gray-600 dark:text-gray-400">Add New Subcategoy Content</p>
               </div>
             </Link>
+
+            <Link to="/admin/quizzes" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 hover:from-blue-100 hover:to-blue-200 dark:hover:from-blue-800/30 dark:hover:to-blue-700/30 transition-all duration-300">
+              <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center mr-3">
+                <span className="text-white text-lg">🎯</span>
+              </div>
+              <div>
+                <h3 className="font-medium text-gray-900 dark:text-white">Create Quiz</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Add New Quiz Content</p>
+              </div>
+            </Link>
             
             <Link to="/admin/questions" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 hover:from-orange-100 hover:to-orange-200 dark:hover:from-orange-800/30 dark:hover:to-orange-700/30 transition-all duration-300">
               <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center mr-3">
@@ -233,16 +235,6 @@ const DashboardPage = () => {
               </div>
             </Link>
             
-            <Link to="/admin/live-quiz" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900/20 dark:to-pink-800/20 hover:from-pink-100 hover:to-pink-200 dark:hover:from-pink-800/30 dark:hover:to-pink-700/30 transition-all duration-300">
-              <div className="w-10 h-10 bg-pink-500 rounded-lg flex items-center justify-center mr-3">
-                <span className="text-white text-lg">🎮</span>
-              </div>
-              <div>
-                <h3 className="font-medium text-gray-900 dark:text-white">Live Quiz</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Manage Live Quiz Sessions</p>
-              </div>
-            </Link>
-            
             <Link to="/admin/students" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 hover:from-purple-100 hover:to-purple-200 dark:hover:from-purple-800/30 dark:hover:to-purple-700/30 transition-all duration-300">
               <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center mr-3">
                 <span className="text-white text-lg">👥</span>
@@ -250,6 +242,16 @@ const DashboardPage = () => {
               <div>
                 <h3 className="font-medium text-gray-900 dark:text-white">Manage Students</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Manage Students Content</p>
+              </div>
+            </Link>
+
+            <Link to="/admin/contacts" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900/20 dark:to-pink-800/20 hover:from-pink-100 hover:to-pink-200 dark:hover:from-pink-800/30 dark:hover:to-pink-700/30 transition-all duration-300">
+              <div className="w-10 h-10 bg-pink-500 rounded-lg flex items-center justify-center mr-3">
+                <span className="text-white text-lg">👥</span>
+              </div>
+              <div>
+                <h3 className="font-medium text-gray-900 dark:text-white">Contact List</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">View Contactst Queries</p>
               </div>
             </Link>
           </div>
