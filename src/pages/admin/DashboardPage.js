@@ -160,7 +160,7 @@ const DashboardPage = () => {
                     <div className={`text-4xl md:text-5xl ${card.textColor} dark:text-white`}>
                       {card.icon}
                     </div>
-                    <div className={`w-12 md:w-16 h-12 rounded-lg ${card.color} flex items-center justify-center`}>
+                    <div className={`w-16 h-12 rounded-lg ${card.color} flex items-center justify-center`}>
                       <span className="text-white font-bold text-lg">
                         {card.count}
                       </span>
