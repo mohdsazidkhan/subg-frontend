@@ -201,19 +201,23 @@ const LoginPage = () => {
               </div>
 
               {/* Quick Stats */}
-              <div className="mt-8 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-700 dark:to-gray-600 rounded-xl border border-blue-200 dark:border-gray-600">
-                <div className="grid grid-cols-3 gap-4 text-center">
+              <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-700 dark:to-gray-600 rounded-xl border border-blue-200 dark:border-gray-600">
+                <div className="grid grid-cols-4 gap-4 text-center">
                   <div>
                     <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">10+</div>
-                    <div className="text-xs text-gray-600 dark:text-gray-300">Levels</div>
+                    <div className="text-xs text-gray-600 dark:text-gray-300">Categories</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">100+</div>
+                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">100+</div>
+                    <div className="text-xs text-gray-600 dark:text-gray-300">Subcategories</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">4000+</div>
                     <div className="text-xs text-gray-600 dark:text-gray-300">Quizzes</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">24/7</div>
-                    <div className="text-xs text-gray-600 dark:text-gray-300">Available</div>
+                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">20000+</div>
+                    <div className="text-xs text-gray-600 dark:text-gray-300">Questions</div>
                   </div>
                 </div>
               </div>
