@@ -370,7 +370,7 @@ const AttemptQuizPage = () => {
         
         // Initialize answers array
         setAnswers(new Array(quizRes.questions.length).fill(null));
-        
+
         // Load quiz-specific leaderboard
         try {
           const leaderboardRes = await API.getQuizLeaderboard(actualQuizId);
@@ -692,7 +692,6 @@ const AttemptQuizPage = () => {
                   const correctAnswer = question.options[question.correctAnswerIndex];
                   const isCorrect = userAnswer === correctAnswer;
                   const isSkipped = userAnswer === 'SKIP';
-                  
                   return (
                     <div key={index} className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 rounded-2xl p-2 md:p-6 border border-gray-200 dark:border-gray-600 shadow-lg">
                       <div className="flex items-start space-x-4 mb-6">
