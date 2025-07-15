@@ -694,7 +694,7 @@ const AttemptQuizPage = () => {
                   const isSkipped = userAnswer === 'SKIP';
                   return (
                     <div key={index} className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 rounded-2xl p-2 md:p-6 border border-gray-200 dark:border-gray-600 shadow-lg">
-                      <div className="flex items-start space-x-4 mb-6">
+                      <div className="flex items-start space-x-0 md:space-x-4 mb-6">
                         <div className={`hidden md:flex w-12 h-12 rounded-2xl items-center justify-center text-white text-lg font-bold shadow-lg ${
                           isSkipped ? 'bg-gradient-to-r from-gray-400 to-gray-500' :
                           isCorrect ? 'bg-gradient-to-r from-green-400 to-green-500' : 'bg-gradient-to-r from-red-400 to-red-500'
@@ -703,7 +703,7 @@ const AttemptQuizPage = () => {
                         </div>
                         <div className="flex-1">
                           <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
-                            Question {index + 1}: {question.questionText}
+                            {index + 1}: {question.questionText}
                           </h3>
                           
                           <div className="space-y-3 mb-6">
