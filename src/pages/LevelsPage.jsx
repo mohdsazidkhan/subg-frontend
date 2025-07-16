@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaTrophy, FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaArrowLeft, FaAward, FaGem } from 'react-icons/fa';
 import { FaUserGraduate, FaMagic } from 'react-icons/fa';
 import API from '../utils/api';
+import levelColors from '../config/levelColors';
 // Level badge icon mapping (same as HomePage)
 const levelBadgeIcons = {
   'Zero Level': FaUserGraduate,
@@ -217,17 +218,19 @@ const LevelsPage = () => {
           {levels.map((lvl) => {
             const isCurrentLevel = lvl.level === userLevel.level;
             const isUnlocked = highScoreQuizzes >= lvl.quizzesRequired;
-            
+            // Level color mapping with dark/light mode support
+            const idx = (lvl.level - 1) % levelColors.light.length;
+            const cardBg = `bg-gradient-to-br ${levelColors.light[idx]} dark:${levelColors.dark[idx]}`;
             return (
               <div
                 key={lvl.level}
-                className={`group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 ${
+                className={`group relative rounded-2xl shadow-xl border-2 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 ${
                   isCurrentLevel 
                     ? 'border-blue-500 shadow-blue-500/25' 
                     : isUnlocked 
                       ? 'border-green-500 shadow-green-500/25' 
                       : 'border-gray-300 dark:border-gray-600'
-                }`}
+                } ${cardBg}`}
               >
                 {/* Level Badge */}
                 <div className="absolute -top-3 -right-3">
@@ -265,11 +268,11 @@ const LevelsPage = () => {
                   {/* Stats */}
                   <div className="space-y-2 mb-4">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-500 dark:text-gray-400 text-sm">Required:</span>
+                      <span className="text-gray-500 dark:text-gray-200 text-sm">Required:</span>
                       <span className="font-semibold text-gray-800 dark:text-white">{lvl.quizzesRequired} quizzes</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-500 dark:text-gray-400 text-sm">Available:</span>
+                      <span className="text-gray-500 dark:text-gray-200 text-sm">Available:</span>
                       <span className="font-semibold text-blue-600">{lvl.quizCount} quizzes</span>
                     </div>
                   </div>

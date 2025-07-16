@@ -27,6 +27,8 @@ import { FaMagic } from "react-icons/fa";
 import API from "../utils/api";
 import { hasActiveSubscription } from "../utils/subscriptionUtils";
 import QuizStartModal from "../components/QuizStartModal";
+import levelColors from "../config/levelColors";
+import categoryColors from "../config/categoryColors";
 // Level badge icon mapping
 
 // Icon mapping for categories
@@ -59,6 +61,20 @@ const levelBadgeIcons = {
   Legend: FaCrown,
   Default: FaStar,
 };
+
+// Level play count info for display in All Levels section (with plan/amount/prize)
+const levelsInfo = [
+  { level: 1, quizzes: 2, plan: 'Free', amount: 0, prize: 0 },
+  { level: 2, quizzes: 4, plan: 'Free', amount: 0, prize: 0 },
+  { level: 3, quizzes: 8, plan: 'Free', amount: 0, prize: 0 },
+  { level: 4, quizzes: 16, plan: 'Basic', amount: 99, prize: 0 },
+  { level: 5, quizzes: 32, plan: 'Basic', amount: 99, prize: 0 },
+  { level: 6, quizzes: 64, plan: 'Basic', amount: 99, prize: 0 },
+  { level: 7, quizzes: 128, plan: 'Premium', amount: 499, prize: 0 },
+  { level: 8, quizzes: 256, plan: 'Premium', amount: 499, prize: 0 },
+  { level: 9, quizzes: 512, plan: 'Premium', amount: 499, prize: 0 },
+  { level: 10, quizzes: 1024, plan: 'Pro', amount: 999, prize: 99999 },
+];
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -197,10 +213,31 @@ const HomePage = () => {
         <div className="relative container mx-auto px-2 sm:px-4 py-10 sm:py-16 flex flex-col items-center">
           <div className="text-center">
             <h1 className="text-3xl sm:text-5xl md:text-6xl xl:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:text-white mb-4 drop-shadow-lg animate-fade-in">
-              Welcome to <span className="inline-block animate-bounce text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500">SUBG Quiz!</span> <span className="inline-block">🎯</span>
+              Welcome to{" "}
+              <span className="inline-block animate-bounce text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500">
+                SUBG Quiz!
+              </span>{" "}
+              <span className="inline-block">🎯</span>
             </h1>
             <p className="text-base sm:text-xl lg:text-2xl text-gray-700 dark:text-gray-200 mb-4 sm:mb-8 max-w-3xl mx-auto animate-fade-in delay-100">
-              Explore quizzes by <span className="font-bold text-blue-600 dark:text-blue-300">level</span>, <span className="font-bold text-purple-600 dark:text-purple-300">category</span>, or <span className="font-bold text-indigo-600 dark:text-indigo-300">subcategory</span>. <br className="hidden sm:block" />Only <span className="font-semibold text-green-600 dark:text-green-400">new quizzes</span> you haven't attempted are shown!
+              Explore quizzes by{" "}
+              <span className="font-bold text-blue-600 dark:text-blue-300">
+                level
+              </span>
+              ,{" "}
+              <span className="font-bold text-purple-600 dark:text-purple-300">
+                category
+              </span>
+              , or{" "}
+              <span className="font-bold text-indigo-600 dark:text-indigo-300">
+                subcategory
+              </span>
+              . <br className="hidden sm:block" />
+              Only{" "}
+              <span className="font-semibold text-green-600 dark:text-green-400">
+                new quizzes
+              </span>{" "}
+              you haven't attempted are shown!
             </p>
           </div>
         </div>
@@ -215,235 +252,244 @@ const HomePage = () => {
           Level Progression System
         </h1>
         <p className="text-lg md:text-2xl text-gray-700 dark:text-gray-200 font-medium">
-          Journey from <span className="font-bold text-blue-600 dark:text-blue-300">Zero Level</span> to <span className="font-bold text-purple-600 dark:text-purple-300">Legend</span> through <span className="font-bold text-green-600 dark:text-green-400">11 exciting levels</span>
+          Journey from{" "}
+          <span className="font-bold text-blue-600 dark:text-blue-300">
+            Zero Level
+          </span>{" "}
+          to{" "}
+          <span className="font-bold text-purple-600 dark:text-purple-300">
+            Legend
+          </span>{" "}
+          through{" "}
+          <span className="font-bold text-green-600 dark:text-green-400">
+            11 exciting levels
+          </span>
         </p>
       </div>
 
-      
-
-      {/* All Levels and Categories sections are hidden if subscription is required */} 
+      {/* All Levels and Categories sections are hidden if subscription is required */}
       <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8 z-10">
         {/* Info Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        {/* Scholarship Info */}
-        <div className="bg-gradient-to-br from-yellow-50 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-3xl shadow-2xl p-2 md:p-8 border border-yellow-200 dark:border-yellow-700 hover:scale-[1.03] hover:shadow-yellow-200/40 transition-all duration-300">
-          <div className="flex items-center space-x-4 mb-6">
-            <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center">
-              <FaAward className="text-white text-2xl" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          {/* Scholarship Info */}
+          <div className="bg-gradient-to-br from-yellow-50 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-3xl shadow-2xl p-2 md:p-8 border border-yellow-200 dark:border-yellow-700 hover:scale-[1.03] hover:shadow-yellow-200/40 transition-all duration-300">
+            <div className="flex items-center space-x-4 mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center">
+                <FaAward className="text-white text-2xl" />
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
+                Scholarship & Prizes
+              </h3>
             </div>
-            <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
-              Scholarship & Prizes
-            </h3>
-          </div>
-          <div className="space-y-4">
-            <p className="text-gray-700 dark:text-gray-300">
-              Only the top 1–3 ranked users in Level 10 (
-              <span className="font-bold text-orange-600">Legend</span>) win
-              scholarships and prizes!
-            </p>
-            <div className="bg-white/50 dark:bg-gray-800/50 rounded-xl p-4">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-orange-600 mb-2">
-                  ₹99,999
+            <div className="space-y-4">
+              <p className="text-gray-700 dark:text-gray-300">
+                Only the top 1–3 ranked users in Level 10 (
+                <span className="font-bold text-orange-600">Legend</span>) win
+                scholarships and prizes!
+              </p>
+              <div className="bg-white/50 dark:bg-gray-800/50 rounded-xl p-4">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-orange-600 mb-2">
+                    ₹99,999
+                  </div>
+                  <div className="text-gray-600 dark:text-gray-300">
+                    Maximum Prize Pool
+                  </div>
                 </div>
-                <div className="text-gray-600 dark:text-gray-300">
-                  Maximum Prize Pool
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Based on quiz scores + completion time
+              </p>
+            </div>
+          </div>
+
+          {/* Progression Rules */}
+          <div className="bg-gradient-to-br from-blue-50 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-3xl shadow-2xl p-2 md:p-8 border border-blue-200 dark:border-blue-700 hover:scale-[1.03] hover:shadow-blue-200/40 transition-all duration-300">
+            <div className="flex items-center space-x-4 mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center">
+                <FaGem className="text-white text-2xl" />
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
+                Progression Rules
+              </h3>
+            </div>
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3">
+                <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mt-0.5">
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
                 </div>
+                <p className="text-gray-700 dark:text-gray-300">
+                  Only quizzes with{" "}
+                  <span className="font-bold text-green-600">
+                    75% or higher score
+                  </span>{" "}
+                  count towards level progression
+                </p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mt-0.5">
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+                <p className="text-gray-700 dark:text-gray-300">
+                  Achieve high scores consistently to advance through levels
+                </p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center mt-0.5">
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+                <p className="text-gray-700 dark:text-gray-300">
+                  Focus on quality over quantity - aim for excellence in every
+                  quiz!
+                </p>
               </div>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Based on quiz scores + completion time
-            </p>
           </div>
         </div>
 
-        {/* Progression Rules */}
-        <div className="bg-gradient-to-br from-blue-50 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-3xl shadow-2xl p-2 md:p-8 border border-blue-200 dark:border-blue-700 hover:scale-[1.03] hover:shadow-blue-200/40 transition-all duration-300">
-          <div className="flex items-center space-x-4 mb-6">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center">
-              <FaGem className="text-white text-2xl" />
-            </div>
-            <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
-              Progression Rules
-            </h3>
+        {/* Level-based Quizzes Section */}
+        <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8 z-10">
+          <div className="flex items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
+              <FaStar className="text-blue-500" />Your Quizzes
+            </h2>
+            <Link
+              to="/level-quizzes"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base"
+            >
+              <FaLayerGroup className="text-lg" />
+              View All
+            </Link>
           </div>
-          <div className="space-y-4">
-            <div className="flex items-start space-x-3">
-              <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mt-0.5">
-                <div className="w-2 h-2 bg-white rounded-full"></div>
-              </div>
-              <p className="text-gray-700 dark:text-gray-300">
-                Only quizzes with{" "}
-                <span className="font-bold text-green-600">
-                  75% or higher score
-                </span>{" "}
-                count towards level progression
-              </p>
-            </div>
-            <div className="flex items-start space-x-3">
-              <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mt-0.5">
-                <div className="w-2 h-2 bg-white rounded-full"></div>
-              </div>
-              <p className="text-gray-700 dark:text-gray-300">
-                Achieve high scores consistently to advance through levels
-              </p>
-            </div>
-            <div className="flex items-start space-x-3">
-              <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center mt-0.5">
-                <div className="w-2 h-2 bg-white rounded-full"></div>
-              </div>
-              <p className="text-gray-700 dark:text-gray-300">
-                Focus on quality over quantity - aim for excellence in every
-                quiz!
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+          <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-12 max-w-4xl">
+            Discover quizzes tailored to your current level and challenge yourself
+            with new questions
+          </p>
 
-      {/* Level-based Quizzes Section */}
-      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8 z-10">
-        <div className="flex items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
-            <FaStar className="text-blue-500" />Your Quizzes
-          </h2>
-          <Link
-            to="/level-quizzes"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base"
-          >
-            <FaLayerGroup className="text-lg" />
-            View All
-          </Link>
-        </div>
-        <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-12 max-w-4xl">
-          Discover quizzes tailored to your current level and challenge yourself
-          with new questions
-        </p>
-
-        {/* Quiz Section: Show subscription required message if error is about subscription */}
-        {!hasActiveSubscription() ||
-        (error && error.toLowerCase().includes("subscription")) ? (
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 flex flex-col items-center justify-center animate-fade-in">
-            <div className="text-center mb-6">
-              <div className="text-red-600 text-3xl mb-2">⚠️</div>
-              <p className="text-red-600 text-lg font-semibold mb-4">
-                {error && error.toLowerCase().includes("subscription")
-                  ? error
-                  : "Access to quizzes requires an active subscription."}
-              </p>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Subscribe now to unlock all quizzes and levels!
-              </p>
-              <Link
-                to="/subscription"
-                className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
-              >
-                Subscribe Now
-              </Link>
+          {/* Quiz Section: Show subscription required message if error is about subscription */}
+          {!hasActiveSubscription() ||
+          (error && error.toLowerCase().includes("subscription")) ? (
+            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 flex flex-col items-center justify-center animate-fade-in">
+              <div className="text-center mb-6">
+                <div className="text-red-600 text-3xl mb-2">⚠️</div>
+                <p className="text-red-600 text-lg font-semibold mb-4">
+                  {error && error.toLowerCase().includes("subscription")
+                    ? error
+                    : "Access to quizzes requires an active subscription."}
+                </p>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  Subscribe now to unlock all quizzes and levels!
+                </p>
+                <Link
+                  to="/subscription"
+                  className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
+                >
+                  Subscribe Now
+                </Link>
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 animate-fade-in">
-            {homeData?.quizzesByLevel?.length > 0 ? (
-              (() => {
-                // Find the user's current level quizzes
-                // Use userLevel.currentLevel (object) for correct quiz filtering, like /level-quizzes
-                const userLevelObj = userLevelData;
-                let currentLevelData = null;
-                if (userLevelObj && userLevelObj.currentLevel) {
-                  currentLevelData = homeData.quizzesByLevel.find(
-                    (lvl) => lvl.level === userLevelObj.currentLevel
-                  );
-                }
-                if (!currentLevelData) {
-                  currentLevelData = homeData.quizzesByLevel[0];
-                }
-                if (!currentLevelData) return null;
-                return (
-                  <div className="bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-700 dark:to-blue-900/20 rounded-2xl p-2 md:p-6 shadow-lg">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`w-12 h-12 rounded-full ${getLevelColor(
-                            currentLevelData.level
-                          )} flex items-center justify-center text-white font-bold text-lg`}
-                        >
-                          {currentLevelData.level}
-                        </div>
-                        <div>
-                          <h3 className="text-xl font-bold text-gray-800 dark:text-white">
-                            Level {currentLevelData.level} (
-                            {currentLevelData.quizCount})
-                          </h3>
+          ) : (
+            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 animate-fade-in">
+              {homeData?.quizzesByLevel?.length > 0 ? (
+                (() => {
+                  // Find the user's current level quizzes
+                  // Use userLevel.currentLevel (object) for correct quiz filtering, like /level-quizzes
+                  const userLevelObj = userLevelData;
+                  let currentLevelData = null;
+                  if (userLevelObj && userLevelObj.currentLevel) {
+                    currentLevelData = homeData.quizzesByLevel.find(
+                      (lvl) => lvl.level === userLevelObj.currentLevel
+                    );
+                  }
+                  if (!currentLevelData) {
+                    currentLevelData = homeData.quizzesByLevel[0];
+                  }
+                  if (!currentLevelData) return null;
+                  return (
+                    <div className="bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-700 dark:to-blue-900/20 rounded-2xl p-2 md:p-6 shadow-lg">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={`w-12 h-12 rounded-full ${getLevelColor(
+                              currentLevelData.level
+                            )} flex items-center justify-center text-white font-bold text-lg`}
+                          >
+                            {currentLevelData.level}
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-bold text-gray-800 dark:text-white">
+                              Level {currentLevelData.level} (
+                              {currentLevelData.quizCount})
+                            </h3>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {currentLevelData.quizzes.slice(0, 6).map((quiz) => (
-                        <div
-                          key={quiz._id}
-                          className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700"
-                        >
-                          <div className="flex justify-between items-start mb-3">
-                            <h4 className="font-semibold text-gray-800 dark:text-white text-sm">
-                              {quiz.title}
-                            </h4>
-                            {quiz.isRecommended && (
-                              <FaStar className="text-yellow-500 text-sm" />
-                            )}
-                          </div>
-                          {quiz.description && (
-                            <p className="text-gray-600 dark:text-gray-300 text-xs mb-3 line-clamp-2">
-                              {quiz.description}
-                            </p>
-                          )}
-                          <div className="space-y-1 mb-3">
-                            <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
-                              <FaClock className="text-xs" />
-                              <span>{quiz.timeLimit || 30} min</span>
-                            </div>
-                            <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
-                              <FaQuestionCircle className="text-xs" />
-                              <span>
-                                {quiz.totalMarks || "Variable"} questions
-                              </span>
-                            </div>
-                            {quiz.difficulty && (
-                              <span
-                                className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(
-                                  quiz.difficulty
-                                )}`}
-                              >
-                                {quiz.difficulty}
-                              </span>
-                            )}
-                          </div>
-                          <button
-                            onClick={() => handleQuizAttempt(quiz)}
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors duration-300"
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {currentLevelData.quizzes.slice(0, 6).map((quiz) => (
+                          <div
+                            key={quiz._id}
+                            className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700"
                           >
-                            Start Quiz
-                          </button>
-                        </div>
-                      ))}
+                            <div className="flex justify-between items-start mb-3">
+                              <h4 className="font-semibold text-gray-800 dark:text-white text-sm">
+                                {quiz.title}
+                              </h4>
+                              {quiz.isRecommended && (
+                                <FaStar className="text-yellow-500 text-sm" />
+                              )}
+                            </div>
+                            {quiz.description && (
+                              <p className="text-gray-600 dark:text-gray-300 text-xs mb-3 line-clamp-2">
+                                {quiz.description}
+                              </p>
+                            )}
+                            <div className="space-y-1 mb-3">
+                              <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                                <FaClock className="text-xs" />
+                                <span>{quiz.timeLimit || 30} min</span>
+                              </div>
+                              <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                                <FaQuestionCircle className="text-xs" />
+                                <span>
+                                  {quiz.totalMarks || "Variable"} questions
+                                </span>
+                              </div>
+                              {quiz.difficulty && (
+                                <span
+                                  className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(
+                                    quiz.difficulty
+                                  )}`}
+                                >
+                                  {quiz.difficulty}
+                                </span>
+                              )}
+                            </div>
+                            <button
+                              onClick={() => handleQuizAttempt(quiz)}
+                              className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors duration-300"
+                            >
+                              Start Quiz
+                            </button>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                );
-              })()
-            ) : (
-              <div className="text-center py-12">
-                <FaQuestionCircle className="text-6xl text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-600 dark:text-gray-400 text-lg mb-4">
-                  No new quizzes available for your level.
-                </p>
-                <p className="text-gray-500 dark:text-gray-500 text-sm">
-                  You've attempted all available quizzes for your current level!
-                </p>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+                  );
+                })()
+              ) : (
+                <div className="text-center py-12">
+                  <FaQuestionCircle className="text-6xl text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-600 dark:text-gray-400 text-lg mb-4">
+                    No new quizzes available for your level.
+                  </p>
+                  <p className="text-gray-500 dark:text-gray-500 text-sm">
+                    You've attempted all available quizzes for your current level!
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-6 flex items-center gap-2">
           <FaLayerGroup className="text-blue-500" /> All Levels
         </h2>
@@ -472,39 +518,60 @@ const HomePage = () => {
             </div>
           </div>
         ) : levels && levels.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {levels
               .filter((level) => level.name !== "Zero Level")
-              .map((level, idx) => {
-                const Icon =
-                  levelBadgeIcons[level.name] || levelBadgeIcons.Default;
+              .map((level, i) => {
+                const Icon = levelBadgeIcons[level.name] || levelBadgeIcons.Default;
+                const levelInfo = levelsInfo.find((info) => info.level === level.level);
+                const playCount = levelInfo ? levelInfo.quizzes : 0;
+                // level.level is 1-based, so index = level.level - 1
+                const idx = (level.level - 1) % levelColors.light.length;
+                const cardBg = `bg-gradient-to-br ${levelColors.light[idx]} dark:${levelColors.dark[idx]}`;
                 return (
                   <div
                     key={level.level}
-                    className="group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border-gray-300 dark:border-gray-600 p-6 hover:shadow-blue-200/40"
-                    tabIndex={0}
+                    className={`rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-gray-200 dark:border-gray-700 group flex flex-col h-full ${cardBg}`}
                   >
-                    {/* Icon */}
-                    <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <Icon className="text-white dark:text-yellow-200 text-2xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
-                    </div>
-                    {/* Content */}
-                    <div className="text-center">
-                      <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
-                        {level.name}
-                      </h3>
-                      <div className="text-center py-2 rounded-lg text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">
-                        {level.quizCount} quizzes
+                    <div className="flex items-center justify-center mt-6">
+                      <div className={`p-3 rounded-full bg-gradient-to-r from-blue-400 to-blue-500`}>
+                        <Icon className="text-white text-2xl" />
                       </div>
                     </div>
-                    {/* View Quizzes Button */}
-                    <div className="mt-4 flex justify-center">
-                      <Link
-                        to={`/level/${level.level}`}
-                        className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
-                      >
-                        View Quizzes
-                      </Link>
+                    <div className="p-4 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-1 text-center">{level.name}</h3>
+                        <p className="text-gray-600 dark:text-gray-300 text-sm text-center mb-2">{level.desc || ''}</p>
+                        <div className="grid grid-cols-2 gap-2 mb-2">
+                          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center">
+                            <div className="text-lg font-bold text-blue-600">{level.quizCount}</div>
+                            <div className="text-xs text-gray-600 dark:text-gray-300">Quizzes</div>
+                          </div>
+                          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center">
+                            <div className="text-lg font-bold text-green-600">{level.plan ? level.plan : (levelInfo && levelInfo.plan) ? levelInfo.plan : '-'}</div>
+                            <div className="text-xs text-gray-600 dark:text-gray-300">Plan</div>
+                          </div>
+                          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center">
+                            <div className="text-lg font-bold text-purple-600">₹{level.amount || (levelInfo && levelInfo.amount) || 0}</div>
+                            <div className="text-xs text-gray-600 dark:text-gray-300">Amount</div>
+                          </div>
+                          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center">
+                            <div className="text-lg font-bold text-yellow-600">₹{level.prize || (levelInfo && levelInfo.prize) || 0}</div>
+                            <div className="text-xs text-gray-600 dark:text-gray-300">Prize</div>
+                          </div>
+                        </div>
+                        <div className="text-xs text-gray-500 dark:text-gray-200 text-center mb-2">
+                          Need {playCount} plays to master
+                        </div>
+                      </div>
+                      <div className="mt-4 flex justify-center">
+                        <Link
+                          to={`/level/${level.level}`}
+                          className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
+                        >
+                          View Quizzes
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 );
@@ -519,8 +586,6 @@ const HomePage = () => {
           </div>
         )}
       </div>
-
-      {/* ...removed duplicate Categories section... */}
 
       {/* Categories Section */}
       <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
@@ -556,13 +621,14 @@ const HomePage = () => {
           homeData.categories.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             {homeData.categories.map((category, idx) => {
-              const Icon =
-                categoryIcons[category.name] || categoryIcons.Default;
+              const Icon = categoryIcons[category.name] || categoryIcons.Default;
+              // Category card background gradient (light/dark)
+              const cardBg = `bg-gradient-to-br ${categoryColors.light[idx % categoryColors.light.length]} dark:${categoryColors.dark[idx % categoryColors.dark.length]}`;
               return (
                 <Link
                   key={category._id}
                   to={`/category/${category._id}`}
-                  className={`group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border-gray-300 dark:border-gray-600 p-6 hover:shadow-purple-200/40`}
+                  className={`group relative ${cardBg} backdrop-blur-sm rounded-2xl shadow-xl border-2 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border-gray-300 dark:border-gray-600 p-6 hover:shadow-purple-200/40`}
                   tabIndex={0}
                 >
                   {/* Icon */}
@@ -652,7 +718,6 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };
