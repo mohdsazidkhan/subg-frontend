@@ -408,7 +408,7 @@ const QuizAnalytics = () => {
               </h3>
             </div>
             <div className="overflow-x-auto">
-              <table className="min-w-[1000px]">
+              <table className="w-[1000px] md:w-full">
                 <thead>
                   <tr className="border-b border-gray-200 dark:border-gray-700">
                     <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
@@ -464,7 +464,7 @@ const QuizAnalytics = () => {
               </h3>
             </div>
             <div className="overflow-x-auto">
-              <table className="min-w-[1000px]">
+              <table className="w-[1000px] md:w-full">
                 <thead>
                   <tr className="border-b border-gray-200 dark:border-gray-700">
                     <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">

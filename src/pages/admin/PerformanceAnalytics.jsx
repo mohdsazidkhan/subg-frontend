@@ -406,7 +406,7 @@ const PerformanceAnalytics = () => {
         Top Performers
       </h3>
       <div className="overflow-x-auto">
-        <table className="min-w-[1000px]">
+        <table className="w-[1000px] md:w-full">
           <thead>
             <tr className="border-b border-gray-200 dark:border-gray-700">
               {["Rank", "Name", "Level", "High Score Quizzes", "Avg Score"].map((label, i) => (

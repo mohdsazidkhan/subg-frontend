@@ -208,7 +208,7 @@ const DashboardAnalytics = () => {
           <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg">
             <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
             <div className="overflow-x-auto">
-              <table className="min-w-[1000px]">
+              <table className="w-[1000px] md:w-full">
                 <thead>
                   <tr className="border-b border-gray-200 dark:border-gray-700">
                     <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">User</th>
@@ -241,7 +241,7 @@ const DashboardAnalytics = () => {
           <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg">
             <h3 className="text-lg font-semibold mb-4">Top Users</h3>
             <div className="overflow-x-auto">
-              <table className="min-w-[1000px]">
+              <table className="w-[1000px] md:w-full">
                 <thead>
                   <tr className="border-b border-gray-200 dark:border-gray-700">
                     <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Name</th>
