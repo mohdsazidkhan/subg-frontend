@@ -261,7 +261,7 @@ const LevelsPage = () => {
                     {lvl.name}
                   </h3>
                   
-                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 text-center">
+                  <p className="text-gray-800 dark:text-white text-sm mb-4 text-center">
                     {lvl.description}
                   </p>
 
@@ -273,7 +273,7 @@ const LevelsPage = () => {
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-500 dark:text-gray-200 text-sm">Available:</span>
-                      <span className="font-semibold text-blue-600">{lvl.quizCount} quizzes</span>
+                      <span className="font-semibold text-black dark:text-yellow-600">{lvl.quizCount} quizzes</span>
                     </div>
                   </div>
 

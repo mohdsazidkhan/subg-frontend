@@ -64,16 +64,16 @@ const levelBadgeIcons = {
 
 // Level play count info for display in All Levels section (with plan/amount/prize)
 const levelsInfo = [
-  { level: 1, quizzes: 2, plan: 'Free', amount: 0, prize: 0 },
-  { level: 2, quizzes: 4, plan: 'Free', amount: 0, prize: 0 },
-  { level: 3, quizzes: 8, plan: 'Free', amount: 0, prize: 0 },
-  { level: 4, quizzes: 16, plan: 'Basic', amount: 99, prize: 0 },
-  { level: 5, quizzes: 32, plan: 'Basic', amount: 99, prize: 0 },
-  { level: 6, quizzes: 64, plan: 'Basic', amount: 99, prize: 0 },
-  { level: 7, quizzes: 128, plan: 'Premium', amount: 499, prize: 0 },
-  { level: 8, quizzes: 256, plan: 'Premium', amount: 499, prize: 0 },
-  { level: 9, quizzes: 512, plan: 'Premium', amount: 499, prize: 0 },
-  { level: 10, quizzes: 1024, plan: 'Pro', amount: 999, prize: 99999 },
+  { level: 1, quizzes: 2, plan: "Free", amount: 0, prize: 0 },
+  { level: 2, quizzes: 4, plan: "Free", amount: 0, prize: 0 },
+  { level: 3, quizzes: 8, plan: "Free", amount: 0, prize: 0 },
+  { level: 4, quizzes: 16, plan: "Basic", amount: 99, prize: 0 },
+  { level: 5, quizzes: 32, plan: "Basic", amount: 99, prize: 0 },
+  { level: 6, quizzes: 64, plan: "Basic", amount: 99, prize: 0 },
+  { level: 7, quizzes: 128, plan: "Premium", amount: 499, prize: 0 },
+  { level: 8, quizzes: 256, plan: "Premium", amount: 499, prize: 0 },
+  { level: 9, quizzes: 512, plan: "Premium", amount: 499, prize: 0 },
+  { level: 10, quizzes: 1024, plan: "Pro", amount: 999, prize: 99999 },
 ];
 
 const HomePage = () => {
@@ -351,7 +351,8 @@ const HomePage = () => {
         <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8 z-10">
           <div className="flex items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
-              <FaStar className="text-blue-500" />Your Quizzes
+              <FaStar className="text-blue-500" />
+              Your Quizzes
             </h2>
             <Link
               to="/level-quizzes"
@@ -362,8 +363,8 @@ const HomePage = () => {
             </Link>
           </div>
           <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-12 max-w-4xl">
-            Discover quizzes tailored to your current level and challenge yourself
-            with new questions
+            Discover quizzes tailored to your current level and challenge
+            yourself with new questions
           </p>
 
           {/* Quiz Section: Show subscription required message if error is about subscription */}
@@ -483,7 +484,8 @@ const HomePage = () => {
                     No new quizzes available for your level.
                   </p>
                   <p className="text-gray-500 dark:text-gray-500 text-sm">
-                    You've attempted all available quizzes for your current level!
+                    You've attempted all available quizzes for your current
+                    level!
                   </p>
                 </div>
               )}
@@ -522,8 +524,11 @@ const HomePage = () => {
             {levels
               .filter((level) => level.name !== "Zero Level")
               .map((level, i) => {
-                const Icon = levelBadgeIcons[level.name] || levelBadgeIcons.Default;
-                const levelInfo = levelsInfo.find((info) => info.level === level.level);
+                const Icon =
+                  levelBadgeIcons[level.name] || levelBadgeIcons.Default;
+                const levelInfo = levelsInfo.find(
+                  (info) => info.level === level.level
+                );
                 const playCount = levelInfo ? levelInfo.quizzes : 0;
                 // level.level is 1-based, so index = level.level - 1
                 const idx = (level.level - 1) % levelColors.light.length;
@@ -534,33 +539,65 @@ const HomePage = () => {
                     className={`rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-gray-200 dark:border-gray-700 group flex flex-col h-full ${cardBg}`}
                   >
                     <div className="flex items-center justify-center mt-6">
-                      <div className={`p-3 rounded-full bg-gradient-to-r from-blue-400 to-blue-500`}>
+                      <div
+                        className={`p-3 rounded-full bg-gradient-to-r from-blue-400 to-blue-500`}
+                      >
                         <Icon className="text-white text-2xl" />
                       </div>
                     </div>
                     <div className="p-4 flex-1 flex flex-col justify-between">
                       <div>
-                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-1 text-center">{level.name}</h3>
-                        <p className="text-gray-600 dark:text-gray-300 text-sm text-center mb-2">{level.desc || ''}</p>
+                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-1 text-center">
+                          {level.name}
+                        </h3>
+                        <p className="text-gray-600 dark:text-gray-300 text-sm text-center mb-2">
+                          {level.desc || ""}
+                        </p>
                         <div className="grid grid-cols-2 gap-2 mb-2">
                           <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center">
-                            <div className="text-lg font-bold text-blue-600">{level.quizCount}</div>
-                            <div className="text-xs text-gray-600 dark:text-gray-300">Quizzes</div>
+                            <div className="text-lg font-bold text-blue-600">
+                              {level.quizCount}
+                            </div>
+                            <div className="text-xs text-gray-600 dark:text-gray-300">
+                              Quizzes
+                            </div>
                           </div>
                           <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center">
-                            <div className="text-lg font-bold text-green-600">{level.plan ? level.plan : (levelInfo && levelInfo.plan) ? levelInfo.plan : '-'}</div>
-                            <div className="text-xs text-gray-600 dark:text-gray-300">Plan</div>
+                            <div className="text-lg font-bold text-green-600">
+                              {level.plan
+                                ? level.plan
+                                : levelInfo && levelInfo.plan
+                                ? levelInfo.plan
+                                : "-"}
+                            </div>
+                            <div className="text-xs text-gray-600 dark:text-gray-300">
+                              Plan
+                            </div>
                           </div>
                           <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center">
-                            <div className="text-lg font-bold text-purple-600">₹{level.amount || (levelInfo && levelInfo.amount) || 0}</div>
-                            <div className="text-xs text-gray-600 dark:text-gray-300">Amount</div>
+                            <div className="text-lg font-bold text-purple-600">
+                              ₹
+                              {level.amount ||
+                                (levelInfo && levelInfo.amount) ||
+                                0}
+                            </div>
+                            <div className="text-xs text-gray-600 dark:text-gray-300">
+                              Amount
+                            </div>
                           </div>
                           <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center">
-                            <div className="text-lg font-bold text-yellow-600">₹{level.prize || (levelInfo && levelInfo.prize) || 0}</div>
-                            <div className="text-xs text-gray-600 dark:text-gray-300">Prize</div>
+                            <div className="text-lg font-bold text-yellow-600">
+                              ₹
+                              {level.prize ||
+                                (levelInfo && levelInfo.prize) ||
+                                0}
+                            </div>
+                            <div className="text-xs text-gray-600 dark:text-gray-300">
+                              Prize
+                            </div>
                           </div>
                         </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-200 text-center mb-2">
+                        <div className="text-xs text-gray-900 dark:text-white text-center mb-2 drop-shadow-sm">
                           Need {playCount} plays to master
                         </div>
                       </div>
@@ -621,9 +658,12 @@ const HomePage = () => {
           homeData.categories.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             {homeData.categories.map((category, idx) => {
-              const Icon = categoryIcons[category.name] || categoryIcons.Default;
+              const Icon =
+                categoryIcons[category.name] || categoryIcons.Default;
               // Category card background gradient (light/dark)
-              const cardBg = `bg-gradient-to-br ${categoryColors.light[idx % categoryColors.light.length]} dark:${categoryColors.dark[idx % categoryColors.dark.length]}`;
+              const cardBg = `bg-gradient-to-br ${
+                categoryColors.light[idx % categoryColors.light.length]
+              } dark:${categoryColors.dark[idx % categoryColors.dark.length]}`;
               return (
                 <Link
                   key={category._id}
@@ -684,36 +724,56 @@ const HomePage = () => {
               <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
                 <FaBook className="text-white text-3xl animate-bounce-slow" />
               </div>
-              <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">10+</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Categories</div>
+              <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">
+                10+
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                Categories
+              </div>
             </div>
             <div className="flex flex-col items-center group">
               <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
                 <FaLayerGroup className="text-white text-3xl animate-spin-slow" />
               </div>
-              <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">100+</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Subcategories</div>
+              <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">
+                100+
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                Subcategories
+              </div>
             </div>
             <div className="flex flex-col items-center group">
               <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
                 <FaStar className="text-white text-3xl animate-pulse-slow" />
               </div>
-              <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">4K+</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Quizzes</div>
+              <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">
+                4K+
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                Quizzes
+              </div>
             </div>
             <div className="flex flex-col items-center group">
               <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
                 <FaQuestionCircle className="text-white text-3xl animate-wiggle" />
               </div>
-              <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">20K+</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Questions</div>
+              <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">
+                20K+
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                Questions
+              </div>
             </div>
             <div className="flex flex-col items-center group">
               <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-green-500 rounded-full flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
                 <FaUserCircle className="text-white text-3xl animate-float" />
               </div>
-              <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">1K+</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Students</div>
+              <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">
+                1K+
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                Students
+              </div>
             </div>
           </div>
         </div>
