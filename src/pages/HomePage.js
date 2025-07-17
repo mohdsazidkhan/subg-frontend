@@ -77,10 +77,13 @@ const levelsInfo = [
 ];
 
 const HomePage = () => {
+  // Check if user is logged in
+  const isLoggedIn = !!localStorage.getItem('token');
   const navigate = useNavigate();
   const [homeData, setHomeData] = useState(null);
   const [userLevelData, setUserLevelData] = useState(null);
   const [levels, setLevels] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showQuizModal, setShowQuizModal] = useState(false);
@@ -88,6 +91,7 @@ const HomePage = () => {
   useEffect(() => {
     fetchHomePageData();
     fetchLevels();
+    fetchCategories();
   }, []);
 
   const fetchLevels = async () => {
@@ -127,6 +131,20 @@ const HomePage = () => {
       setLoading(false);
     }
   };
+
+  const fetchCategories = async () => {
+    try {
+      // Use the new public API endpoint for categories
+      const res = await API.request('/api/public/categories');
+      if (res.success && Array.isArray(res.data)) {
+        setCategories(res.data);
+      } else {
+        setCategories([]);
+      }
+    } catch (err) {
+      setCategories([]);
+    }
+  }
 
   const handleQuizAttempt = (quiz) => {
     setSelectedQuiz(quiz);
@@ -189,8 +207,8 @@ const HomePage = () => {
     );
   }
 
-  // Only block the whole page for generic errors, not subscription errors
-  if (error && !error.toLowerCase().includes("subscription")) {
+  // Only block the whole page for generic errors, not subscription errors or 'Not authorized' (allow public homepage)
+  if (error && !error.toLowerCase().includes("subscription") && error.toLowerCase() !== "not authorized") {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 flex items-center justify-center">
         <div className="text-center">
@@ -367,9 +385,24 @@ const HomePage = () => {
             yourself with new questions
           </p>
 
-          {/* Quiz Section: Show subscription required message if error is about subscription */}
-          {!hasActiveSubscription() ||
-          (error && error.toLowerCase().includes("subscription")) ? (
+          {/* Quiz Section: Show login required if not logged in, else show quizzes or subscription message */}
+          {!isLoggedIn ? (
+            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 flex flex-col items-center justify-center animate-fade-in">
+              <div className="text-center mb-6">
+                <div className="text-blue-600 text-3xl mb-2">🔒</div>
+                <p className="text-blue-600 text-lg font-semibold mb-4">
+                  Login to view your quizzes
+                </p>
+                <Link
+                  to="/login"
+                  className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
+                >
+                  Login
+                </Link>
+              </div>
+            </div>
+          ) : (!hasActiveSubscription() ||
+          (error && error.toLowerCase().includes("subscription"))) ? (
             <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 flex flex-col items-center justify-center animate-fade-in">
               <div className="text-center mb-6">
                 <div className="text-red-600 text-3xl mb-2">⚠️</div>
@@ -498,28 +531,7 @@ const HomePage = () => {
         <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-12 max-w-3xl">
           Browse all available levels and their quizzes
         </p>
-        {!hasActiveSubscription() ||
-        (error && error.toLowerCase().includes("subscription")) ? (
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 flex flex-col items-center justify-center animate-fade-in">
-            <div className="text-center mb-6">
-              <div className="text-red-600 text-3xl mb-2">⚠️</div>
-              <p className="text-red-600 text-lg font-semibold mb-4">
-                {error && error.toLowerCase().includes("subscription")
-                  ? error
-                  : "Access to levels requires an active subscription."}
-              </p>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Subscribe now to unlock all quizzes and levels!
-              </p>
-              <Link
-                to="/subscription"
-                className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
-              >
-                Subscribe Now
-              </Link>
-            </div>
-          </div>
-        ) : levels && levels.length > 0 ? (
+        {levels && levels.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {levels
               .filter((level) => level.name !== "Zero Level")
@@ -632,38 +644,11 @@ const HomePage = () => {
         <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-12 max-w-3xl">
           Explore quizzes by category and find your perfect learning path
         </p>
-        {!hasActiveSubscription() ||
-        (error && error.toLowerCase().includes("subscription")) ? (
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 flex flex-col items-center justify-center">
-            <div className="text-center mb-6">
-              <div className="text-red-600 text-3xl mb-2">⚠️</div>
-              <p className="text-red-600 text-lg font-semibold mb-4">
-                {error && error.toLowerCase().includes("subscription")
-                  ? error
-                  : "Access to categories requires an active subscription."}
-              </p>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Subscribe now to unlock all quizzes and levels!
-              </p>
-              <Link
-                to="/subscription"
-                className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
-              >
-                Subscribe Now
-              </Link>
-            </div>
-          </div>
-        ) : homeData &&
-          homeData.categories &&
-          homeData.categories.length > 0 ? (
+        {categories && categories.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-            {homeData.categories.map((category, idx) => {
-              const Icon =
-                categoryIcons[category.name] || categoryIcons.Default;
-              // Category card background gradient (light/dark)
-              const cardBg = `bg-gradient-to-br ${
-                categoryColors.light[idx % categoryColors.light.length]
-              } dark:${categoryColors.dark[idx % categoryColors.dark.length]}`;
+            {categories.map((category, idx) => {
+              const Icon = categoryIcons[category.name] || categoryIcons.Default;
+              const cardBg = `bg-gradient-to-br ${categoryColors.light[idx % categoryColors.light.length]} dark:${categoryColors.dark[idx % categoryColors.dark.length]}`;
               return (
                 <Link
                   key={category._id}

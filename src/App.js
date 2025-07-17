@@ -89,8 +89,8 @@ function AppLayout() {
             <Route path="/refund" element={<RefundPolicy />} />
             <Route path="/contact" element={<ContactUs />} />
 
-            {/* Protected Routes */}
-            <Route path="/" element={<StudentRoute><HomePage /></StudentRoute>} />
+            {/* Public Homepage Route */}
+            <Route path="/" element={<HomePage />} />
             <Route path="/profile" element={<StudentRoute><ProfilePage /></StudentRoute>} />
             <Route path="/attempt-quiz/:quizId" element={<StudentRoute><AttemptQuizPage /></StudentRoute>} />
             <Route path="/subscription" element={<StudentRoute><SubscriptionPage /></StudentRoute>} />
