@@ -273,12 +273,12 @@ const LevelsPage = () => {
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-500 dark:text-gray-200 text-sm">Available:</span>
-                      <span className="font-semibold text-black dark:text-yellow-600">{lvl.quizCount} quizzes</span>
+                      <span className="font-semibold text-black dark:text-yellow-400">{lvl.quizCount} quizzes</span>
                     </div>
                   </div>
 
                   {/* Status */}
-                  <div className={`text-center py-2 rounded-lg text-sm font-semibold ${
+                  <div className={`text-center py-2 rounded-lg text-sm font-semibold shadow-md ${
                     isCurrentLevel 
                       ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' 
                       : isUnlocked 
