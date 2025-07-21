@@ -220,7 +220,7 @@ const LevelsPage = () => {
             const isUnlocked = highScoreQuizzes >= lvl.quizzesRequired;
             // Level color mapping with dark/light mode support
             const idx = (lvl.level - 1) % levelColors.light.length;
-            const cardBg = `bg-gradient-to-br ${levelColors.light[idx]} dark:${levelColors.dark[idx]}`;
+            const cardBg = `${levelColors.light[idx]} dark:${levelColors.dark[idx]}`;
             return (
               <div
                 key={lvl.level}

@@ -544,7 +544,7 @@ const HomePage = () => {
                 const playCount = levelInfo ? levelInfo.quizzes : 0;
                 // level.level is 1-based, so index = level.level - 1
                 const idx = (level.level - 1) % levelColors.light.length;
-                const cardBg = `bg-gradient-to-br ${levelColors.light[idx]} dark:${levelColors.dark[idx]}`;
+                const cardBg = `${levelColors.light[idx]} dark:${levelColors.dark[idx]}`;
                 return (
                   <div
                     key={level.level}
@@ -566,7 +566,7 @@ const HomePage = () => {
                           {level.desc || ""}
                         </p>
                         <div className="grid grid-cols-2 gap-2 mb-2">
-                          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center">
+                          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center shadow-sm">
                             <div className="text-lg font-bold text-blue-600">
                               {level.quizCount}
                             </div>
@@ -574,7 +574,7 @@ const HomePage = () => {
                               Quizzes
                             </div>
                           </div>
-                          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center">
+                          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center shadow-sm">
                             <div className="text-lg font-bold text-green-600">
                               {level.plan
                                 ? level.plan
@@ -586,7 +586,7 @@ const HomePage = () => {
                               Plan
                             </div>
                           </div>
-                          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center">
+                          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center shadow-sm">
                             <div className="text-lg font-bold text-purple-600">
                               ₹
                               {level.amount ||
@@ -597,7 +597,7 @@ const HomePage = () => {
                               Amount
                             </div>
                           </div>
-                          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center">
+                          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center shadow-sm">
                             <div className="text-lg font-bold text-yellow-600">
                               ₹
                               {level.prize ||
