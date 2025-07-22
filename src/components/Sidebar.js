@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   MdDashboard, MdCategory, MdQuiz, MdQuestionAnswer, MdPeople,
-  MdAnalytics, MdBarChart, MdTrendingUp, MdLogout
+  MdAnalytics, MdBarChart, MdTrendingUp, MdLogout, MdAccountBalance
 } from 'react-icons/md';
 import { isAdmin, hasAdminPrivileges, logAdminAction } from '../utils/adminUtils';
 import { secureLogout } from '../utils/authUtils';
@@ -67,6 +67,11 @@ const Sidebar = () => {
         <Link to="/admin/contacts" onClick={() => handleNavClick('contacts')} className={getActiveClass('/admin/contacts')}>
           <MdPeople className="text-xl" />
           <span>Contacts</span>
+        </Link>
+
+        <Link to="/admin/bank-details" onClick={() => handleNavClick('bank-details')} className={getActiveClass('/admin/bank-details')}>
+          <MdAccountBalance className="text-xl" />
+          <span>Bank Details</span>
         </Link>
       </nav>
       <hr/>

@@ -21,6 +21,14 @@ import {
   FaGem,
   FaUserGraduate,
   FaMagic,
+  FaUniversity,
+  FaSave,
+  FaMoneyCheckAlt,
+  FaEdit,
+  FaCheckCircle,
+  FaBuilding,
+  FaKey,
+  FaPlus
 } from 'react-icons/fa';
 import { getSubscriptionStatusTextWithTheme } from '../utils/subscriptionUtils';
 // Level badge icon mapping (same as HomePage)
@@ -58,7 +66,18 @@ const ProfilePage = () => {
   const [student, setStudent] = useState(null);
   const [playedQuizzes, setPlayedQuizzes] = useState([]);
   const [error, setError] = useState('');
-  console.log(student, 'student')
+  const [bankDetails, setBankDetails] = useState(null);
+  const [showBankForm, setShowBankForm] = useState(false);
+  const [bankFormData, setBankFormData] = useState({
+    accountHolderName: '',
+    accountNumber: '',
+    bankName: '',
+    ifscCode: '',
+    branchName: ''
+  });
+  const [bankFormErrors, setBankFormErrors] = useState({});
+  const [isSaving, setIsSaving] = useState(false);
+  const [bankDetailsSaved, setBankDetailsSaved] = useState(false);
   useEffect(() => {
     const fetchProfileAndQuizzes = async () => {
       try {
@@ -70,6 +89,27 @@ const ProfilePage = () => {
         } catch (quizErr) {
           setPlayedQuizzes([]); // Still show profile even if quizzes fail
         }
+        
+        // Check if user is eligible for bank details
+        if (isEligibleForBankDetails(profileRes)) {
+          try {
+            const bankRes = await API.getBankDetails();
+            if (bankRes.success && bankRes.bankDetail) {
+              setBankDetails(bankRes.bankDetail);
+              // Pre-fill form data with existing bank details
+              setBankFormData({
+                accountHolderName: bankRes.bankDetail.accountHolderName,
+                accountNumber: bankRes.bankDetail.accountNumber,
+                bankName: bankRes.bankDetail.bankName,
+                ifscCode: bankRes.bankDetail.ifscCode,
+                branchName: bankRes.bankDetail.branchName
+              });
+            }
+          } catch (bankErr) {
+            // It's okay if bank details don't exist yet
+            console.log('No bank details found or error fetching them:', bankErr);
+          }
+        }
       } catch (err) {
         console.error('Profile fetch error:', err);
         handleAuthError(err, navigate);
@@ -79,11 +119,103 @@ const ProfilePage = () => {
 
     fetchProfileAndQuizzes();
   }, [navigate]);
+  
+  // Check if user is eligible for bank details (level 10 or pro subscription)
+  const isEligibleForBankDetails = (user) => {
+    if (!user) return false;
+    
+    const isLevelTen = user.levelInfo?.currentLevel?.number === 10;
+    const isProPlan = user.subscriptionStatus === 'pro';
+    
+    return isLevelTen || isProPlan;
+  };
+  
+  // Handle bank form input changes
+  const handleBankFormChange = (e) => {
+    const { name, value } = e.target;
+    setBankFormData({
+      ...bankFormData,
+      [name]: value
+    });
+    
+    // Clear error for this field when user types
+    if (bankFormErrors[name]) {
+      setBankFormErrors({
+        ...bankFormErrors,
+        [name]: ''
+      });
+    }
+  };
+  
+  // Validate bank form
+  const validateBankForm = () => {
+    const errors = {};
+    
+    if (!bankFormData.accountHolderName.trim()) {
+      errors.accountHolderName = 'Account holder name is required';
+    }
+    
+    if (!bankFormData.accountNumber.trim()) {
+      errors.accountNumber = 'Account number is required';
+    } else if (!/^\d{9,18}$/.test(bankFormData.accountNumber.trim())) {
+      errors.accountNumber = 'Please enter a valid account number (9-18 digits)';
+    }
+    
+    if (!bankFormData.bankName.trim()) {
+      errors.bankName = 'Bank name is required';
+    }
+    
+    if (!bankFormData.ifscCode.trim()) {
+      errors.ifscCode = 'IFSC code is required';
+    } else if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(bankFormData.ifscCode.trim())) {
+      errors.ifscCode = 'Please enter a valid IFSC code (e.g., SBIN0123456)';
+    }
+    
+    if (!bankFormData.branchName.trim()) {
+      errors.branchName = 'Branch name is required';
+    }
+    
+    setBankFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+  
+  // Submit bank details
+  const handleBankFormSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateBankForm()) {
+      return;
+    }
+    
+    setIsSaving(true);
+    
+    try {
+      const response = await API.saveBankDetails(bankFormData);
+      
+      if (response.success) {
+        setBankDetails(response.bankDetail);
+        setShowBankForm(false);
+        setBankDetailsSaved(true);
+        
+        // Show success message temporarily
+        setTimeout(() => {
+          setBankDetailsSaved(false);
+        }, 3000);
+      }
+    } catch (error) {
+      console.error('Error saving bank details:', error);
+      setBankFormErrors({
+        ...bankFormErrors,
+        general: error.message || 'Failed to save bank details. Please try again.'
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const showResult = (quiz) => {
     navigate("/quiz-result", {state: {quizResult: quiz}})
   }
-  console.log(student, 'student')
   // Use new backend level structure
   const userLevel = student?.levelInfo?.currentLevel || { number: 0, name: 'Zero Level' };
   const nextLevel = student?.levelInfo?.nextLevel;
@@ -402,6 +534,263 @@ const ProfilePage = () => {
             </button>
           </div>
         </div>
+
+        {/* Bank Details Card - Only shown for eligible users (level 10 or pro subscription) */}
+        {isEligibleForBankDetails(student) && (
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 md:p-8 border border-white/30 mb-16 hover-lift">
+            <div className="flex items-center space-x-4 mb-8">
+              <div className="w-20 h-20 bg-gradient-to-r from-teal-500 via-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
+                <FaUniversity className="text-white text-3xl" />
+              </div>
+              <div>
+                <h2 className="text-xl md:text-4xl font-bold text-gray-800 dark:text-white">
+                  Bank Details
+                </h2>
+                <p className="text-gray-600 dark:text-gray-300 text-lg">
+                  {bankDetails ? 'Your banking information' : 'Add your bank account information'}
+                </p>
+              </div>
+            </div>
+
+            {/* Success Message */}
+            {bankDetailsSaved && (
+              <div className="mb-6 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded-xl p-4 text-green-700 dark:text-green-300 flex items-center">
+                <FaCheckCircle className="mr-2" /> Bank details saved successfully!
+              </div>
+            )}
+
+            {/* Bank Details Display */}
+            {bankDetails && !showBankForm ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-3 md:p-6 border border-blue-200 dark:border-blue-700 hover-scale">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center">
+                      <FaUser className="text-white text-xl" />
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Account Holder</span>
+                      <p className="text-lg md:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.accountHolderName}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl p-3 md:p-6 border border-purple-200 dark:border-purple-700 hover-scale">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                      <FaMoneyCheckAlt className="text-white text-xl" />
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Account Number</span>
+                      <p className="text-lg md:text-2xl font-bold text-gray-800 dark:text-white">
+                        {bankDetails.accountNumber.replace(/(\d{4})/g, '$1 ').trim()}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/30 dark:to-teal-900/30 rounded-2xl p-3 md:p-6 border border-green-200 dark:border-green-700 hover-scale">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-500 rounded-xl flex items-center justify-center">
+                      <FaUniversity className="text-white text-xl" />
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Bank Name</span>
+                      <p className="text-lg md:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.bankName}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-2xl p-3 md:p-6 border border-yellow-200 dark:border-yellow-700 hover-scale">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center">
+                      <FaBuilding className="text-white text-xl" />
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Branch</span>
+                      <p className="text-lg md:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.branchName}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/30 dark:to-pink-900/30 rounded-2xl p-3 md:p-6 border border-red-200 dark:border-red-700 hover-scale md:col-span-2">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-pink-500 rounded-xl flex items-center justify-center">
+                      <FaKey className="text-white text-xl" />
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">IFSC Code</span>
+                      <p className="text-lg md:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.ifscCode}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+            {/* Bank Details Form */}
+            {showBankForm ? (
+              <form onSubmit={handleBankFormSubmit} className="space-y-6 mb-8">
+                {bankFormErrors.general && (
+                  <div className="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-xl p-4 text-red-700 dark:text-red-300">
+                    {bankFormErrors.general}
+                  </div>
+                )}
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="block text-gray-700 dark:text-gray-300 font-medium">
+                      Account Holder Name
+                    </label>
+                    <input
+                      type="text"
+                      name="accountHolderName"
+                      value={bankFormData.accountHolderName}
+                      onChange={handleBankFormChange}
+                      className={`w-full px-4 py-3 rounded-xl border ${
+                        bankFormErrors.accountHolderName 
+                          ? 'border-red-500 dark:border-red-700' 
+                          : 'border-gray-300 dark:border-gray-600'
+                      } bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                      placeholder="Enter account holder name"
+                    />
+                    {bankFormErrors.accountHolderName && (
+                      <p className="text-red-500 text-sm mt-1">{bankFormErrors.accountHolderName}</p>
+                    )}
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className="block text-gray-700 dark:text-gray-300 font-medium">
+                      Account Number
+                    </label>
+                    <input
+                      type="text"
+                      name="accountNumber"
+                      value={bankFormData.accountNumber}
+                      onChange={handleBankFormChange}
+                      className={`w-full px-4 py-3 rounded-xl border ${
+                        bankFormErrors.accountNumber 
+                          ? 'border-red-500 dark:border-red-700' 
+                          : 'border-gray-300 dark:border-gray-600'
+                      } bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                      placeholder="Enter account number"
+                    />
+                    {bankFormErrors.accountNumber && (
+                      <p className="text-red-500 text-sm mt-1">{bankFormErrors.accountNumber}</p>
+                    )}
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className="block text-gray-700 dark:text-gray-300 font-medium">
+                      Bank Name
+                    </label>
+                    <input
+                      type="text"
+                      name="bankName"
+                      value={bankFormData.bankName}
+                      onChange={handleBankFormChange}
+                      className={`w-full px-4 py-3 rounded-xl border ${
+                        bankFormErrors.bankName 
+                          ? 'border-red-500 dark:border-red-700' 
+                          : 'border-gray-300 dark:border-gray-600'
+                      } bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                      placeholder="Enter bank name"
+                    />
+                    {bankFormErrors.bankName && (
+                      <p className="text-red-500 text-sm mt-1">{bankFormErrors.bankName}</p>
+                    )}
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className="block text-gray-700 dark:text-gray-300 font-medium">
+                      IFSC Code
+                    </label>
+                    <input
+                      type="text"
+                      name="ifscCode"
+                      value={bankFormData.ifscCode}
+                      onChange={handleBankFormChange}
+                      className={`w-full px-4 py-3 rounded-xl border ${
+                        bankFormErrors.ifscCode 
+                          ? 'border-red-500 dark:border-red-700' 
+                          : 'border-gray-300 dark:border-gray-600'
+                      } bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                      placeholder="Enter IFSC code"
+                    />
+                    {bankFormErrors.ifscCode && (
+                      <p className="text-red-500 text-sm mt-1">{bankFormErrors.ifscCode}</p>
+                    )}
+                  </div>
+                  
+                  <div className="space-y-2 md:col-span-2">
+                    <label className="block text-gray-700 dark:text-gray-300 font-medium">
+                      Branch Name
+                    </label>
+                    <input
+                      type="text"
+                      name="branchName"
+                      value={bankFormData.branchName}
+                      onChange={handleBankFormChange}
+                      className={`w-full px-4 py-3 rounded-xl border ${
+                        bankFormErrors.branchName 
+                          ? 'border-red-500 dark:border-red-700' 
+                          : 'border-gray-300 dark:border-gray-600'
+                      } bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                      placeholder="Enter branch name"
+                    />
+                    {bankFormErrors.branchName && (
+                      <p className="text-red-500 text-sm mt-1">{bankFormErrors.branchName}</p>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="flex justify-end space-x-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowBankForm(false)}
+                    className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isSaving}
+                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-all duration-300 flex items-center space-x-2"
+                  >
+                    {isSaving ? (
+                      <>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                        <span>Saving...</span>
+                      </>
+                    ) : (
+                      <>
+                        <FaSave className="text-sm" />
+                        <span>Save Bank Details</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="text-center">
+                <button
+                  onClick={() => setShowBankForm(true)}
+                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-all duration-300 flex items-center space-x-2 mx-auto"
+                >
+                  {bankDetails ? (
+                    <>
+                      <FaEdit className="text-sm" />
+                      <span>Edit Bank Details</span>
+                    </>
+                  ) : (
+                    <>
+                      <FaPlus className="text-sm" />
+                      <span>Add Bank Details</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Enhanced Quiz History Card */}
         <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 md:p-8 border border-white/30">

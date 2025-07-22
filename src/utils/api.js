@@ -375,6 +375,12 @@ class ApiService {
     return this.request(`/api/admin/analytics/levels?${queryString}`);
   }
 
+  // Admin Bank Details
+  async getAdminBankDetails(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/admin/bank-details?${queryString}`);
+  }
+
   // Subscription endpoints
   async getSubscriptionStatus(userId) {
     return this.request(`/api/subscription/status/${userId}`);
@@ -396,6 +402,23 @@ class ApiService {
       method: 'POST',
       body: JSON.stringify(verificationData)
     });
+  }
+
+  // Bank Details endpoints
+  async saveBankDetails(bankData) {
+    return this.request('/api/bank-details', {
+      method: 'POST',
+      body: JSON.stringify(bankData)
+    });
+  }
+
+  async getBankDetails() {
+    return this.request('/api/bank-details/my-details');
+  }
+
+  async getAllBankDetails(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/bank-details?${queryString}`);
   }
 }
 
