@@ -27,8 +27,6 @@ import { FaMagic } from "react-icons/fa";
 import API from "../utils/api";
 import { hasActiveSubscription } from "../utils/subscriptionUtils";
 import QuizStartModal from "../components/QuizStartModal";
-import levelColors from "../config/levelColors";
-import categoryColors from "../config/categoryColors";
 // Level badge icon mapping
 
 // Icon mapping for categories
@@ -423,7 +421,7 @@ const HomePage = () => {
               </div>
             </div>
           ) : (
-            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 animate-fade-in">
+            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 border border-white/20 animate-fade-in">
               {homeData?.quizzesByLevel?.length > 0 ? (
                 (() => {
                   // Find the user's current level quizzes
@@ -542,13 +540,11 @@ const HomePage = () => {
                   (info) => info.level === level.level
                 );
                 const playCount = levelInfo ? levelInfo.quizzes : 0;
-                // level.level is 1-based, so index = level.level - 1
-                const idx = (level.level - 1) % levelColors.light.length;
-                const cardBg = `${levelColors.light[idx]} dark:${levelColors.dark[idx]}`;
+                const cardBg = `bg-gradient-to-t from-blue-50 to-purple-50 dark:from-gray-800/50 dark:to-gray-900/20`;
                 return (
                   <div
                     key={level.level}
-                    className={`rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-gray-200 dark:border-gray-700 group flex flex-col h-full ${cardBg}`}
+                    className={`rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-blue-500 group flex flex-col h-full ${cardBg}`}
                   >
                     <div className="flex items-center justify-center mt-6">
                       <div
@@ -566,7 +562,7 @@ const HomePage = () => {
                           {level.desc || ""}
                         </p>
                         <div className="grid grid-cols-2 gap-2 mb-2">
-                          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center shadow-sm">
+                          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center shadow-lg">
                             <div className="text-lg font-bold text-blue-600">
                               {level.quizCount}
                             </div>
@@ -574,7 +570,7 @@ const HomePage = () => {
                               Quizzes
                             </div>
                           </div>
-                          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center shadow-sm">
+                          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center shadow-lg">
                             <div className="text-lg font-bold text-green-600">
                               {level.plan
                                 ? level.plan
@@ -586,7 +582,7 @@ const HomePage = () => {
                               Plan
                             </div>
                           </div>
-                          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center shadow-sm">
+                          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center shadow-lg">
                             <div className="text-lg font-bold text-purple-600">
                               ₹
                               {level.amount ||
@@ -597,7 +593,7 @@ const HomePage = () => {
                               Amount
                             </div>
                           </div>
-                          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 text-center shadow-sm">
+                          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center shadow-lg">
                             <div className="text-lg font-bold text-yellow-600">
                               ₹
                               {level.prize ||
@@ -648,12 +644,12 @@ const HomePage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             {categories.map((category, idx) => {
               const Icon = categoryIcons[category.name] || categoryIcons.Default;
-              const cardBg = `bg-gradient-to-br ${categoryColors.light[idx % categoryColors.light.length]} dark:${categoryColors.dark[idx % categoryColors.dark.length]}`;
+              const cardBg = `bg-gradient-to-b from-purple-50 to-blue-50 dark:from-gray-800/20 dark:to-gray-900/50`;
               return (
                 <Link
                   key={category._id}
                   to={`/category/${category._id}`}
-                  className={`group relative ${cardBg} backdrop-blur-sm rounded-2xl shadow-xl border-2 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border-gray-300 dark:border-gray-600 p-6 hover:shadow-purple-200/40`}
+                  className={`group relative ${cardBg} backdrop-blur-sm rounded-2xl shadow-xl border transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border-gray-300 dark:border-blue-400 p-6 hover:shadow-purple-200/40`}
                   tabIndex={0}
                 >
                   {/* Icon */}

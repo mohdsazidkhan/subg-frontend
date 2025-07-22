@@ -369,7 +369,7 @@ const StudentsPage = () => {
           {/* Header */}
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Manage Students
+              Manage Students ({pagination.total})
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mt-1">
               View and manage student accounts, levels, and status

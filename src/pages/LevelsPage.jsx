@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { FaTrophy, FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaArrowLeft, FaAward, FaGem } from 'react-icons/fa';
 import { FaUserGraduate, FaMagic } from 'react-icons/fa';
 import API from '../utils/api';
-import levelColors from '../config/levelColors';
 // Level badge icon mapping (same as HomePage)
 const levelBadgeIcons = {
   'Zero Level': FaUserGraduate,
@@ -182,11 +181,11 @@ const LevelsPage = () => {
               🎯 Your Current Level
             </h2>
             <div className="flex items-center justify-center space-x-6 mb-6">
-              <div className={`w-12 h-12 md:w-24 md:h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center`}>
+              <div className={`w-12 h-12 md:w-24 md:h-24 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-500 dark:to-purple-500 rounded-2xl flex items-center justify-center`}>
                 {(() => {
                   const BadgeIcon = levelBadgeIcons[userLevel.name] || levelBadgeIcons.Default;
                   return (
-                    <BadgeIcon className="text-yellow-500 dark:text-yellow-200 text-3xl md:text-5xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
+                    <BadgeIcon className="text-blue-600 dark:text-yellow-200 text-3xl md:text-5xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
                   );
                 })()}
               </div>
@@ -218,9 +217,9 @@ const LevelsPage = () => {
           {levels.map((lvl) => {
             const isCurrentLevel = lvl.level === userLevel.level;
             const isUnlocked = highScoreQuizzes >= lvl.quizzesRequired;
-            // Level color mapping with dark/light mode support
-            const idx = (lvl.level - 1) % levelColors.light.length;
-            const cardBg = `${levelColors.light[idx]} dark:${levelColors.dark[idx]}`;
+            const cardBg = `bg-gradient-to-br 
+  from-blue-50 to-purple-50
+  dark:from-gray-800 dark:via-gray-900 dark:to-black`;
             return (
               <div
                 key={lvl.level}
@@ -246,11 +245,11 @@ const LevelsPage = () => {
                 </div>
 
                 {/* Icon */}
-                <div className="w-12 h-12 md:w-24 md:h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mt-6 mb-4">
+                <div className="w-12 h-12 md:w-24 md:h-24 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-500 dark:to-purple-500 rounded-2xl flex items-center justify-center mx-auto mt-6 mb-4">
                   {(() => {
                     const BadgeIcon = levelBadgeIcons[lvl.name] || levelBadgeIcons.Default;
                     return (
-                      <BadgeIcon className="text-yellow-500 dark:text-yellow-200 text-3xl md:text-5xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
+                      <BadgeIcon className="text-blue-600 dark:text-yellow-200 text-3xl md:text-5xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
                     );
                   })()}
                 </div>
@@ -273,7 +272,7 @@ const LevelsPage = () => {
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-500 dark:text-gray-200 text-sm">Available:</span>
-                      <span className="font-semibold text-black dark:text-yellow-400">{lvl.quizCount} quizzes</span>
+                      <span className="font-semibold text-black dark:text-orange-200">{lvl.quizCount} quizzes</span>
                     </div>
                   </div>
 
@@ -283,7 +282,7 @@ const LevelsPage = () => {
                       ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' 
                       : isUnlocked 
                         ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
-                        : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300'
+                        : 'bg-red-100 text-gray-600 dark:bg-purple-700 dark:text-purple-300'
                   }`}>
                     {isCurrentLevel ? 'Current Level' : isUnlocked ? 'Unlocked' : 'Locked'}
                   </div>
