@@ -539,7 +539,7 @@ const HomePage = () => {
                             </div>
                             <button
                               onClick={() => handleQuizAttempt(quiz)}
-                              className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors duration-300"
+                              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
                             >
                               Start Quiz
                             </button>

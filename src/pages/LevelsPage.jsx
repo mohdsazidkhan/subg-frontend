@@ -98,9 +98,9 @@ const LevelsPage = () => {
           <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
             <FaTrophy className="text-white text-3xl" />
           </div>
-          <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-4">
-            Level Progression System
-          </h1>
+         <h1 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:text-white mb-2 sm:mb-4 drop-shadow-lg">
+          Level Progression System
+        </h1>
           <p className="text-lg md:text-2xl text-gray-700 dark:text-gray-200 font-medium">
           Journey from{" "}
           <span className="font-bold text-blue-600 dark:text-blue-300">
