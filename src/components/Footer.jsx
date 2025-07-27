@@ -5,6 +5,7 @@ import config from '../config/appConfig';
 export default function Footer() {
   const legalLinks = config.LEGAL;
   return (
+    <>
     <footer className="w-full bg-gray-100 dark:bg-gray-900 text-center py-6 border-t border-gray-200 dark:border-gray-700 mt-10 transition-colors duration-300">
       <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-600 dark:text-gray-300">
         <Link to="/about" className="hover:underline">About Us</Link>
@@ -22,5 +23,9 @@ export default function Footer() {
         Made with ❤️ by {config.APP_AUTHOR}
       </p>
     </footer>
+    <div className="fixed bottom-0 left-0 w-full bg-red-600 text-white text-sm sm:text-base font-medium text-center py-1 z-50 shadow-lg">
+  💡 <span className="font-semibold">Note:</span> Payment options are not live yet. You can currently play <span className="font-bold">Levels 0 to 3</span> for free!
+</div>
+    </>
   );
 }
