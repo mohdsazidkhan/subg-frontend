@@ -76,7 +76,7 @@ const levelsInfo = [
 
 const HomePage = () => {
   // Check if user is logged in
-  const isLoggedIn = !!localStorage.getItem('token');
+  const isLoggedIn = !!localStorage.getItem("token");
   const navigate = useNavigate();
   const [homeData, setHomeData] = useState(null);
   const [userLevelData, setUserLevelData] = useState(null);
@@ -133,7 +133,7 @@ const HomePage = () => {
   const fetchCategories = async () => {
     try {
       // Use the new public API endpoint for categories
-      const res = await API.request('/api/public/categories');
+      const res = await API.request("/api/public/categories");
       if (res.success && Array.isArray(res.data)) {
         setCategories(res.data);
       } else {
@@ -142,7 +142,7 @@ const HomePage = () => {
     } catch (err) {
       setCategories([]);
     }
-  }
+  };
 
   const handleQuizAttempt = (quiz) => {
     setSelectedQuiz(quiz);
@@ -206,7 +206,11 @@ const HomePage = () => {
   }
 
   // Only block the whole page for generic errors, not subscription errors or 'Not authorized' (allow public homepage)
-  if (error && !error.toLowerCase().includes("subscription") && error.toLowerCase() !== "not authorized") {
+  if (
+    error &&
+    !error.toLowerCase().includes("subscription") &&
+    error.toLowerCase() !== "not authorized"
+  ) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 flex items-center justify-center">
         <div className="text-center">
@@ -228,13 +232,26 @@ const HomePage = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10 pointer-events-none" />
         <div className="relative container mx-auto px-2 sm:px-4 py-10 sm:py-16 flex flex-col items-center">
           <div className="text-center">
-            <h1 className="text-3xl sm:text-5xl md:text-6xl xl:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:text-white mb-4 drop-shadow-lg animate-fade-in">
-              Welcome to{" "}
+            <h1 className="flex-col md:flex-row justify-center md:justify-items-start flex flex-wrap items-center gap-2 text-3xl sm:text-5xl md:text-6xl xl:text-7xl font-extrabold mb-4 drop-shadow-lg animate-fade-in">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:text-white">
+                Welcome to
+              </span>
               <span className="inline-block animate-bounce text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500">
                 SUBG Quiz!
-              </span>{" "}
-              <span className="inline-block">🎯</span>
+              </span>
+              <span
+                className="inline-block"
+                style={{
+                  color: "initial",
+                  background: "none",
+                  WebkitBackgroundClip: "unset",
+                  WebkitTextFillColor: "initial",
+                }}
+              >
+                🎯
+              </span>
             </h1>
+
             <p className="text-base sm:text-xl lg:text-2xl text-gray-700 dark:text-gray-200 mb-4 sm:mb-8 max-w-3xl mx-auto animate-fade-in delay-100">
               Explore quizzes by{" "}
               <span className="font-bold text-blue-600 dark:text-blue-300">
@@ -255,6 +272,9 @@ const HomePage = () => {
               </span>{" "}
               you haven't attempted are shown!
             </p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 mb-4 drop-shadow-lg animate-fade-in">
+              Student Unknown's Battle Ground Quiz!
+            </h2>
           </div>
         </div>
       </div>
@@ -313,8 +333,11 @@ const HomePage = () => {
                   </div>
                 </div>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Based on quiz scores + completion time
+              <p className="text-gray-700 dark:text-gray-300">
+                <span className="font-semibold text-yellow-600 dark:text-yellow-400">
+                  Complete a full year of active participation
+                </span>{" "}
+                to unlock special rewards and bonus prizes!
               </p>
             </div>
           </div>
@@ -359,6 +382,24 @@ const HomePage = () => {
                   quiz!
                 </p>
               </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center mt-0.5">
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+                <p className="text-gray-700 dark:text-gray-300">
+                  Every year, your progress resets to encourage fresh learning
+                  and growth
+                </p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-6 h-6 bg-pink-500 rounded-full flex items-center justify-center mt-0.5">
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+                <p className="text-gray-700 dark:text-gray-300">
+                  Complete a full year of active participation to win exciting
+                  prizes!
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -399,8 +440,8 @@ const HomePage = () => {
                 </Link>
               </div>
             </div>
-          ) : (!hasActiveSubscription() ||
-          (error && error.toLowerCase().includes("subscription"))) ? (
+          ) : !hasActiveSubscription() ||
+            (error && error.toLowerCase().includes("subscription")) ? (
             <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 flex flex-col items-center justify-center animate-fade-in">
               <div className="text-center mb-6">
                 <div className="text-red-600 text-3xl mb-2">⚠️</div>
@@ -643,7 +684,8 @@ const HomePage = () => {
         {categories && categories.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             {categories.map((category, idx) => {
-              const Icon = categoryIcons[category.name] || categoryIcons.Default;
+              const Icon =
+                categoryIcons[category.name] || categoryIcons.Default;
               const cardBg = `bg-gradient-to-b from-purple-50 to-blue-50 dark:from-gray-800/20 dark:to-gray-900/50`;
               return (
                 <Link

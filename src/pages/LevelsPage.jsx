@@ -101,9 +101,20 @@ const LevelsPage = () => {
           <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-4">
             Level Progression System
           </h1>
-          <p className="text-md md:text-xl text-gray-600 dark:text-gray-300">
-            Journey from Zero Level to Legend through 11 exciting levels
-          </p>
+          <p className="text-lg md:text-2xl text-gray-700 dark:text-gray-200 font-medium">
+          Journey from{" "}
+          <span className="font-bold text-blue-600 dark:text-blue-300">
+            Zero Level
+          </span>{" "}
+          to{" "}
+          <span className="font-bold text-purple-600 dark:text-purple-300">
+            Legend
+          </span>{" "}
+          through{" "}
+          <span className="font-bold text-green-600 dark:text-green-400">
+            11 exciting levels
+          </span>
+        </p>
         </div>
 
         
@@ -129,8 +140,11 @@ const LevelsPage = () => {
                   <div className="text-gray-600 dark:text-gray-300">Maximum Prize Pool</div>
                 </div>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Based on quiz scores + completion time
+               <p className="text-gray-700 dark:text-gray-300">
+                <span className="font-semibold text-yellow-600 dark:text-yellow-400">
+                  Complete a full year of active participation
+                </span>{" "}
+                to unlock special rewards and bonus prizes!
               </p>
             </div>
           </div>
@@ -168,6 +182,24 @@ const LevelsPage = () => {
                 </div>
                 <p className="text-gray-700 dark:text-gray-300">
                   Focus on quality over quantity - aim for excellence in every quiz!
+                </p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center mt-0.5">
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+                <p className="text-gray-700 dark:text-gray-300">
+                  Every year, your progress resets to encourage fresh learning
+                  and growth
+                </p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-6 h-6 bg-pink-500 rounded-full flex items-center justify-center mt-0.5">
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+                <p className="text-gray-700 dark:text-gray-300">
+                  Complete a full year of active participation to win exciting
+                  prizes!
                 </p>
               </div>
             </div>
