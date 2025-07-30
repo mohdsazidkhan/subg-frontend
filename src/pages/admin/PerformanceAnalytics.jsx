@@ -66,7 +66,7 @@ const PerformanceAnalytics = () => {
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("darkMode") === "true"
   );
-
+  console.log(data, 'data');
   useEffect(() => {
     setLoading(true);
     const params = new URLSearchParams(filters).toString();
@@ -154,8 +154,7 @@ const PerformanceAnalytics = () => {
   const levelLabels = data.levelPerformance?.map((l) => `Level ${l._id}`) || [];
   const levelScores = data.levelPerformance?.map((l) => l.avgScore) || [];
   const levelUsers = data.levelPerformance?.map((l) => l.userCount) || [];
-  const scoreTrendLabels =
-    data.scoreTrend?.map((s) => `${s._id.year}-${s._id.month}`) || [];
+  const scoreTrendLabels = data.scoreTrend?.map((s) => `${s._id.year}-${s._id.month}`) || [];
 
   const levelScoreBarData = {
     labels: levelLabels,
@@ -413,7 +412,7 @@ const PerformanceAnalytics = () => {
               Top Performers
             </h3>
             <div className="bg-blue-100 dark:bg-blue-900/30 px-3 py-2 rounded-lg">
-              <span className="text-blue-800 dark:text-blue-200 font-semibold text-xl">
+              <span className="text-blue-800 dark:text-blue-200 font-semibold text-md">
                 Total: {data.topPerformers?.length}
               </span>
             </div>
@@ -426,8 +425,12 @@ const PerformanceAnalytics = () => {
                     "Rank",
                     "Name",
                     "Level",
+                    "Subscription",
+                    "Total Quizzes",
+                    "Total Questions",
                     "High Score Quizzes",
-                    "Avg Score",
+                    "Avg. Score",
+                    "Total Score",
                   ].map((label, i) => (
                     <th
                       key={i}
@@ -464,13 +467,25 @@ const PerformanceAnalytics = () => {
                         {p.name || "Unknown"}
                       </td>
                       <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                        {p.level?.currentLevel || 0}
+                        {p.level ? `${p.level.levelName} - ${p.level.currentLevel}` : "N/A"}
+                      </td>
+                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300 uppercase">
+                        {p?.subscriptionStatus || "Free"}
+                      </td>
+                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
+                        {p.level?.quizzesPlayed || 0}
+                      </td>
+                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
+                        {p.level?.quizzesPlayed * 5 || 0}
                       </td>
                       <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
                         {p.level?.highScoreQuizzes || 0}
                       </td>
                       <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
                         {p.level?.averageScore?.toFixed(2) || "0.00"}
+                      </td>
+                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
+                        {p.level?.totalScore?.toFixed(2) || "0.00"}
                       </td>
                     </tr>
                   ))
