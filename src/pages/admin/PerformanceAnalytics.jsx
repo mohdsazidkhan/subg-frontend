@@ -66,7 +66,7 @@ const PerformanceAnalytics = () => {
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("darkMode") === "true"
   );
-  console.log(data, 'data');
+  console.log(data, "data");
   useEffect(() => {
     setLoading(true);
     const params = new URLSearchParams(filters).toString();
@@ -154,7 +154,7 @@ const PerformanceAnalytics = () => {
   const levelLabels = data.levelPerformance?.map((l) => `Level ${l._id}`) || [];
   const levelScores = data.levelPerformance?.map((l) => l.avgScore) || [];
   const levelUsers = data.levelPerformance?.map((l) => l.userCount) || [];
-  const scoreTrendLabels = data.scoreTrend?.map((s) => `${s._id.year}-${s._id.month}`) || [];
+  const scoreTrendLabels = data.scoreDistribution?.map((s) => `${s._id}`) || [];
 
   const levelScoreBarData = {
     labels: levelLabels,
@@ -194,8 +194,18 @@ const PerformanceAnalytics = () => {
     labels: scoreTrendLabels,
     datasets: [
       {
+        label: "User Count",
+        data: data.scoreDistribution?.map((s) => s.count) || [],
+        borderColor: darkMode ? "rgba(0, 18, 129, 1)" : "rgba(0, 18, 129, 1)",
+        backgroundColor: darkMode
+          ? "rgba(0, 18, 129, 0.2)"
+          : "rgba(0, 18, 129, 0.2)",
+        fill: true,
+        tension: 0.4,
+      },
+      {
         label: "Average Score",
-        data: data.scoreTrend?.map((s) => s.avgScore) || [],
+        data: data.scoreDistribution?.map((s) => s.avgScore) || [],
         borderColor: darkMode
           ? "rgba(16, 185, 129, 1)"
           : "rgba(16, 185, 129, 1)",
@@ -467,7 +477,9 @@ const PerformanceAnalytics = () => {
                         {p.name || "Unknown"}
                       </td>
                       <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                        {p.level ? `${p.level.levelName} - ${p.level.currentLevel}` : "N/A"}
+                        {p.level
+                          ? `${p.level.levelName} - ${p.level.currentLevel}`
+                          : "N/A"}
                       </td>
                       <td className="py-3 px-4 text-gray-600 dark:text-gray-300 uppercase">
                         {p?.subscriptionStatus || "Free"}
@@ -496,6 +508,77 @@ const PerformanceAnalytics = () => {
                       className="text-center py-8 text-gray-500 dark:text-gray-400"
                     >
                       No performers found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Category Performance */}
+        <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700 mt-4">
+          <div className="flex justify-between items-center space-x-2">
+            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+              Category Performance
+            </h3>
+            <div className="bg-blue-100 dark:bg-blue-900/30 px-3 py-2 rounded-lg">
+              <span className="text-blue-800 dark:text-blue-200 font-semibold text-md">
+                Total: {data?.categoryPerformance.length}
+              </span>
+            </div>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-[1000px] md:w-full">
+              <thead>
+                <tr className="border-b border-gray-200 dark:border-gray-700">
+                  {[
+                    "#",
+                    "Category",
+                    "Attempts",
+                    "Avg. Score",
+                    "Completion Rate",
+                  ].map((label, i) => (
+                    <th
+                      key={i}
+                      className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300"
+                    >
+                      {label}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {data?.categoryPerformance.length > 0 ? (
+                  data?.categoryPerformance.map((item, i) => (
+                    <tr
+                      key={i}
+                      className="border-b transition-colors border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700"
+                    >
+                      <td className="py-3 px-4 text-gray-900 dark:text-white">
+                        {i + 1}
+                      </td>
+                      <td className="py-3 px-4 text-gray-900 dark:text-white">
+                        {item._id[0]}
+                      </td>
+                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
+                        {item.attemptCount}
+                      </td>
+                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
+                        {item.avgScore.toFixed(2)}
+                      </td>
+                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
+                        {(item.completionRate * 100).toFixed(0)}%
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="5"
+                      className="text-center py-8 text-gray-500 dark:text-gray-400"
+                    >
+                      No category data found
                     </td>
                   </tr>
                 )}

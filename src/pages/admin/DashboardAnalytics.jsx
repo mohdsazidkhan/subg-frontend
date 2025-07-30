@@ -246,7 +246,8 @@ const DashboardAnalytics = () => {
                   <tr className="border-b border-gray-200 dark:border-gray-700">
                     <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Name</th>
                     <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Level</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">High Scores</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">High Scores Quizzes</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Total Quizzes</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -254,8 +255,9 @@ const DashboardAnalytics = () => {
                     data.topUsers.map((u, i) => (
                       <tr key={i} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                         <td className="py-3 px-4">{u.name || 'Unknown'}</td>
-                        <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{u.level?.currentLevel || 0}</td>
+                        <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{u.level?.levelName} - {u.level?.currentLevel || 0}</td>
                         <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{u.level?.highScoreQuizzes || 0}</td>
+                        <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{u.level?.quizzesPlayed || 0}</td>
                       </tr>
                     ))
                   ) : (
