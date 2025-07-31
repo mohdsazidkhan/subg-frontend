@@ -86,6 +86,7 @@ const HomePage = () => {
   const [error, setError] = useState("");
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
+  console.log(userLevelData, "userLevelData");
   useEffect(() => {
     fetchHomePageData();
     fetchLevels();
@@ -409,7 +410,7 @@ const HomePage = () => {
           <div className="flex items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
               <FaStar className="text-blue-500" />
-              Your Quizzes
+              Level {userLevelData?.levelName} ({userLevelData?.currentLevel}) Quizzes
             </h2>
             <Link
               to="/level-quizzes"
@@ -466,7 +467,6 @@ const HomePage = () => {
               {homeData?.quizzesByLevel?.length > 0 ? (
                 (() => {
                   // Find the user's current level quizzes
-                  // Use userLevel.currentLevel (object) for correct quiz filtering, like /level-quizzes
                   const userLevelObj = userLevelData;
                   let currentLevelData = null;
                   if (userLevelObj && userLevelObj.currentLevel) {
@@ -480,23 +480,6 @@ const HomePage = () => {
                   if (!currentLevelData) return null;
                   return (
                     <div className="bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-700 dark:to-blue-900/20 rounded-2xl p-2 md:p-6 shadow-lg">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-3">
-                          <div
-                            className={`w-12 h-12 rounded-full ${getLevelColor(
-                              currentLevelData.level
-                            )} flex items-center justify-center text-white font-bold text-lg`}
-                          >
-                            {currentLevelData.level}
-                          </div>
-                          <div>
-                            <h3 className="text-xl font-bold text-gray-800 dark:text-white">
-                              Level {currentLevelData.level} (
-                              {currentLevelData.quizCount})
-                            </h3>
-                          </div>
-                        </div>
-                      </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {currentLevelData.quizzes.slice(0, 6).map((quiz) => (
                           <div
@@ -570,11 +553,11 @@ const HomePage = () => {
         <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-12 max-w-3xl">
           Browse all available levels and their quizzes
         </p>
-        {levels && levels.length > 0 ? (
+        {levels && levels?.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {levels
-              .filter((level) => level.name !== "Zero Level")
-              .map((level, i) => {
+              ?.filter((level) => level.name !== "Zero Level")
+              ?.map((level, i) => {
                 const Icon =
                   levelBadgeIcons[level.name] || levelBadgeIcons.Default;
                 const levelInfo = levelsInfo.find(
@@ -650,14 +633,35 @@ const HomePage = () => {
                           Need {playCount} plays to master
                         </div>
                       </div>
-                      <div className="mt-4 flex justify-center">
-                        <Link
-                          to={`/level/${level.level}`}
-                          className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
-                        >
-                          View Quizzes
-                        </Link>
-                      </div>
+                      {userLevelData?.currentLevel === level?.level && (
+                        <div className="mt-4 flex justify-center">
+                          <Link
+                            to={`/level/${level.level}`}
+                            className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
+                          >
+                            View Quizzes
+                          </Link>
+                        </div>
+                      )}
+                      {userLevelData?.currentLevel > level?.level && (
+                        <div className="mt-4 flex justify-center">
+                          <button
+                            className="cursor-default inline-block bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg text-base"
+                          >
+                            Completed
+                          </button>
+                        </div>
+                      )}
+                      {userLevelData?.currentLevel < level?.level && (
+                        <div className="mt-4 flex justify-center">
+                          <button
+                            disabled
+                            className="inline-block bg-gray-400 text-white font-semibold py-2 px-6 rounded-xl shadow-md text-base cursor-not-allowed opacity-60"
+                          >
+                            Locked
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 );
@@ -681,9 +685,9 @@ const HomePage = () => {
         <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-12 max-w-3xl">
           Explore quizzes by category and find your perfect learning path
         </p>
-        {categories && categories.length > 0 ? (
+        {categories && categories?.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-            {categories.map((category, idx) => {
+            {categories?.map((category, idx) => {
               const Icon =
                 categoryIcons[category.name] || categoryIcons.Default;
               const cardBg = `bg-gradient-to-b from-purple-50 to-blue-50 dark:from-gray-800/20 dark:to-gray-900/50`;

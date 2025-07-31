@@ -392,7 +392,7 @@ const LevelBasedQuizzes = () => {
             </select>
           </div>
 
-          <div className="flex items-end gap-2">
+          <div className="flex justify-end gap-2 items-center mt-2">
             <button
               onClick={() => {
                 setFilters({ category: '', subcategory: '', difficulty: '', level: '', attempted: '', search: '', page: 1 });
