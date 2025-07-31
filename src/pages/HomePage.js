@@ -410,7 +410,7 @@ const HomePage = () => {
           <div className="flex items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
               <FaStar className="text-blue-500" />
-              Level {userLevelData?.levelName} ({userLevelData?.currentLevel}) Quizzes
+              Your Quizzes
             </h2>
             <Link
               to="/level-quizzes"
@@ -469,9 +469,9 @@ const HomePage = () => {
                   // Find the user's current level quizzes
                   const userLevelObj = userLevelData;
                   let currentLevelData = null;
-                  if (userLevelObj && userLevelObj.currentLevel) {
+                  if (userLevelObj && (userLevelObj.currentLevel + 1)) {
                     currentLevelData = homeData.quizzesByLevel.find(
-                      (lvl) => lvl.level === userLevelObj.currentLevel
+                      (lvl) => lvl.level === (userLevelObj.currentLevel + 1)
                     );
                   }
                   if (!currentLevelData) {
@@ -580,7 +580,7 @@ const HomePage = () => {
                     <div className="p-4 flex-1 flex flex-col justify-between">
                       <div>
                         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-1 text-center">
-                          {level.name}
+                          Level {level?.level} - {level.name} 
                         </h3>
                         <p className="text-gray-600 dark:text-gray-300 text-sm text-center mb-2">
                           {level.desc || ""}
@@ -633,7 +633,7 @@ const HomePage = () => {
                           Need {playCount} plays to master
                         </div>
                       </div>
-                      {userLevelData?.currentLevel === level?.level && (
+                      {(userLevelData?.currentLevel + 1) === level?.level && (
                         <div className="mt-4 flex justify-center">
                           <Link
                             to={`/level/${level.level}`}
@@ -643,7 +643,7 @@ const HomePage = () => {
                           </Link>
                         </div>
                       )}
-                      {userLevelData?.currentLevel > level?.level && (
+                      {(userLevelData?.currentLevel + 1) > level?.level && (
                         <div className="mt-4 flex justify-center">
                           <button
                             className="cursor-default inline-block bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg text-base"
@@ -652,7 +652,7 @@ const HomePage = () => {
                           </button>
                         </div>
                       )}
-                      {userLevelData?.currentLevel < level?.level && (
+                      {(userLevelData?.currentLevel + 1) < level?.level && (
                         <div className="mt-4 flex justify-center">
                           <button
                             disabled
