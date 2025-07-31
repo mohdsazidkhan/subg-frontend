@@ -20,8 +20,12 @@ const LeaderboardTable = ({ leaderboard, currentUser }) => {
       <div className="text-center py-8">
         <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl p-2 md:p-8 border border-purple-200 dark:border-purple-700">
           <FaTrophy className="text-4xl text-purple-500 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">No Leaderboard Yet</h3>
-          <p className="text-gray-500 dark:text-gray-400">Be the first to complete this quiz and claim the top spot!</p>
+          <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            No Leaderboard Yet
+          </h3>
+          <p className="text-gray-500 dark:text-gray-400">
+            Be the first to complete this quiz and claim the top spot!
+          </p>
         </div>
       </div>
     );
@@ -33,93 +37,120 @@ const LeaderboardTable = ({ leaderboard, currentUser }) => {
         <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center">
           <FaTrophy className="text-white text-xl" />
         </div>
-        <h3 className="text-2xl font-bold text-gray-800 dark:text-white">Leaderboard</h3>
+        <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
+          Leaderboard
+        </h3>
       </div>
-      
+
       <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[30rem]">
             <thead className="bg-gradient-to-r from-purple-500 to-pink-500">
               <tr>
-                <th className="py-2 md:py-4 px-2 md:px-6 text-white font-semibold text-center">Rank</th>
-                <th className="py-2 md:py-4 px-2 md:px-6 text-white font-semibold text-left">Student</th>
-                <th className="py-2 md:py-4 px-2 md:px-6 text-white font-semibold text-center">Score</th>
-                <th className="py-2 md:py-4 px-2 md:px-6 text-white font-semibold text-center">Attempted At</th>
+                <th className="py-2 md:py-4 px-2 md:px-6 text-white font-semibold text-center">
+                  Rank
+                </th>
+                <th className="py-2 md:py-4 px-2 md:px-6 text-white font-semibold text-left">
+                  Student
+                </th>
+                <th className="py-2 md:py-4 px-2 md:px-6 text-white font-semibold text-center">
+                  Score
+                </th>
+                <th className="py-2 md:py-4 px-2 md:px-6 text-white font-semibold text-center">
+                  Attempted At
+                </th>
               </tr>
             </thead>
             <tbody>
-              {leaderboard?.map(({ rank, studentName, studentId, score, attemptedAt }, index) => {
-                const isCurrentUser = studentId === currentUser?.id;
-                const isTopThree = rank <= 3;
-                
-                return (
-                  <tr
-                    key={rank}
-                    className={`transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 ${
-                      isCurrentUser ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 border-l-4 border-blue-500' : ''
-                    }`}
-                  >
-                    <td className="py-2 md:py-4 px-2 md:px-6 text-center">
-                      <div className="flex items-center justify-center">
-                        {isTopThree ? (
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold ${
-                            rank === 1 ? 'bg-gradient-to-r from-yellow-400 to-orange-500' :
-                            rank === 2 ? 'bg-gradient-to-r from-gray-400 to-gray-500' :
-                            'bg-gradient-to-r from-amber-600 to-yellow-600'
-                          }`}>
-                            {rank === 1 ? <FaCrown className="text-sm" /> : rank}
-                          </div>
-                        ) : (
-                          <span className="text-gray-600 dark:text-gray-400 font-medium">{rank}</span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="py-2 md:py-4 px-2 md:px-6">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
-                          {studentName?.charAt(0)?.toUpperCase() || 'A'}
-                        </div>
-                        <div>
-                          <div className="font-semibold text-gray-800 dark:text-white">
-                            {studentName || 'Anonymous'}
-                          </div>
-                          {isCurrentUser && (
-                            <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">
-                              You
+              {leaderboard?.map(
+                (
+                  { rank, studentName, studentId, score, attemptedAt },
+                  index
+                ) => {
+                  const isCurrentUser = studentId === currentUser?.id;
+                  const isTopThree = rank <= 3;
+
+                  return (
+                    <tr
+                      key={rank}
+                      className={`transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 ${
+                        isCurrentUser
+                          ? "bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 border-l-4 border-blue-500"
+                          : ""
+                      }`}
+                    >
+                      <td className="py-2 md:py-4 px-2 md:px-6 text-center">
+                        <div className="flex items-center justify-center">
+                          {isTopThree ? (
+                            <div
+                              className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold ${
+                                rank === 1
+                                  ? "bg-gradient-to-r from-yellow-400 to-orange-500"
+                                  : rank === 2
+                                  ? "bg-gradient-to-r from-gray-400 to-gray-500"
+                                  : "bg-gradient-to-r from-amber-600 to-yellow-600"
+                              }`}
+                            >
+                              {rank === 1 ? (
+                                <FaCrown className="text-sm" />
+                              ) : (
+                                rank
+                              )}
                             </div>
+                          ) : (
+                            <span className="text-gray-600 dark:text-gray-400 font-medium">
+                              {rank}
+                            </span>
                           )}
                         </div>
-                      </div>
-                    </td>
-                    <td className="py-2 md:py-4 px-2 md:px-6 text-center">
-                      <div className="flex items-center justify-center">
-                        <span className="text-lg font-bold text-gray-800 dark:text-white">
-                          {score || 0}%
-                        </span>
-                      </div>
-                    </td>
-                    <td className="py-2 md:py-4 px-2 md:px-6 text-center text-sm text-gray-500 dark:text-gray-400">
-                      {(() => {
-                        try {
-                          const date = new Date(attemptedAt);
-                          if (isNaN(date.getTime())) {
-                            return 'N/A';
+                      </td>
+                      <td className="py-2 md:py-4 px-2 md:px-6">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+                            {studentName?.charAt(0)?.toUpperCase() || "A"}
+                          </div>
+                          <div>
+                            <div className="font-semibold text-gray-800 dark:text-white">
+                              {studentName || "Anonymous"}
+                            </div>
+                            {isCurrentUser && (
+                              <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">
+                                You
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-2 md:py-4 px-2 md:px-6 text-center">
+                        <div className="flex items-center justify-center">
+                          <span className="text-lg font-bold text-gray-800 dark:text-white">
+                            {score || 0}%
+                          </span>
+                        </div>
+                      </td>
+                      <td className="py-2 md:py-4 px-2 md:px-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                        {(() => {
+                          try {
+                            const date = new Date(attemptedAt);
+                            if (isNaN(date.getTime())) {
+                              return "N/A";
+                            }
+                            return date.toLocaleString("en-IN", {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            });
+                          } catch (error) {
+                            return "N/A";
                           }
-                          return date.toLocaleString('en-IN', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          });
-                        } catch (error) {
-                          return 'N/A';
-                        }
-                      })()}
-                    </td>
-                  </tr>
-                );
-              })}
+                        })()}
+                      </td>
+                    </tr>
+                  );
+                }
+              )}
             </tbody>
           </table>
         </div>
@@ -138,20 +169,20 @@ const QuizResult = () => {
   const [quiz, setQuiz] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
-console.log(quiz,"quizResult");
+  console.log(location.state, "actualQuizId");
   useEffect(() => {
     async function fetchResult() {
       let quizId = null;
-      
-      if (location.state?.quizResult) {
-        const actualQuizId = location.state?.quizResult?.quiz?._id || quizId;
+      if (location.state?.quizResult || location.state?.quizId) {
+        const actualQuizId =
+          location.state?.quizResult?.quiz?._id || location.state?.quizId;
         const quizRes = await API.getQuizById(actualQuizId);
         setQuiz(quizRes);
-         // Initialize answers array
-        setAnswers(location.state.quizResult.answers);
-        setQuizResult(location.state.quizResult);
+        // Initialize answers array
+        setAnswers(location?.state?.quizResult?.answers);
+        setQuizResult(location?.state?.quizResult);
         const leaderboardRes = await API.getQuizLeaderboard(actualQuizId);
-        setLeaderboard(leaderboardRes.leaderboard || []);
+        setLeaderboard(leaderboardRes?.leaderboard || []);
         setLoading(false);
         return;
       }
@@ -279,7 +310,7 @@ console.log(quiz,"quizResult");
             </div>
 
             <div className="text-2xl text-gray-700 dark:text-gray-300 mb-2">
-              Correct Answers: {quizResult?.score} 
+              Correct Answers: {quizResult?.score}
             </div>
 
             <div className="text-lg text-gray-600 dark:text-gray-400">
@@ -374,153 +405,162 @@ console.log(quiz,"quizResult");
           </div>
 
           <div className="space-y-6">
-            {quiz.questions.map((question, index) => {
-              const userAnswer = answers[index]?.answer;
-              const correctAnswer = question.options[question.correctAnswerIndex];
-              console.log(userAnswer,correctAnswer,'correctAnswer');
-              const isCorrect = userAnswer === correctAnswer;
-              const isSkipped = userAnswer === "SKIP";
-              return (
-                <div
-                  key={index}
-                  className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 rounded-2xl p-2 md:p-6 border border-gray-200 dark:border-gray-600 shadow-lg"
-                >
-                  <div className="flex items-start space-x-0 md:space-x-4 mb-6">
+            {Array.isArray(quiz?.questions) && quiz.questions.length > 0 ? (
+              <>
+                {quiz.questions.map((question, index) => {
+                  const userAnswer = (Array.isArray(answers) && answers?.[index]?.answer) || "SKIP";
+                  const correctAnswer =
+                    question?.options?.[question.correctAnswerIndex];
+                  const isCorrect = userAnswer === correctAnswer;
+                  const isSkipped = userAnswer === "SKIP";
+
+                  return (
                     <div
-                      className={`hidden md:flex w-12 h-12 rounded-2xl items-center justify-center text-white text-lg font-bold shadow-lg ${
-                        isSkipped
-                          ? "bg-gradient-to-r from-gray-400 to-gray-500"
-                          : isCorrect
-                          ? "bg-gradient-to-r from-green-400 to-green-500"
-                          : "bg-gradient-to-r from-red-400 to-red-500"
-                      }`}
+                      key={index}
+                      className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 rounded-2xl p-2 md:p-6 border border-gray-200 dark:border-gray-600 shadow-lg"
                     >
-                      {isSkipped ? (
-                        <FaQuestionCircle />
-                      ) : isCorrect ? (
-                        <FaCheck />
-                      ) : (
-                        <FaTimes />
-                      )}
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
-                        {index + 1}: {question.questionText}
-                      </h3>
+                      <div className="flex items-start space-x-0 md:space-x-4 mb-6">
+                        <div
+                          className={`hidden md:flex w-12 h-12 rounded-2xl items-center justify-center text-white text-lg font-bold shadow-lg ${
+                            isSkipped
+                              ? "bg-gradient-to-r from-gray-400 to-gray-500"
+                              : isCorrect
+                              ? "bg-gradient-to-r from-green-400 to-green-500"
+                              : "bg-gradient-to-r from-red-400 to-red-500"
+                          }`}
+                        >
+                          {isSkipped ? (
+                            <FaQuestionCircle />
+                          ) : isCorrect ? (
+                            <FaCheck />
+                          ) : (
+                            <FaTimes />
+                          )}
+                        </div>
 
-                      <div className="space-y-3 mb-6">
-                        {question.options.map((option, optIndex) => {
-                          const isUserChoice = option === userAnswer;
-                          const isCorrectOption = option === correctAnswer;
-                          const optionLetter = String.fromCharCode(
-                            65 + optIndex
-                          );
+                        <div className="flex-1">
+                          <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+                            {index + 1}: {question?.questionText}
+                          </h3>
 
-                          return (
-                            <div
-                              key={optIndex}
-                              className={`p-4 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 ${
-                                isCorrectOption
-                                  ? "bg-gradient-to-r from-green-100 to-green-50 dark:from-green-900/30 dark:to-green-800/30 border-green-300 dark:border-green-600 shadow-lg"
-                                  : isUserChoice && !isCorrectOption
-                                  ? "bg-gradient-to-r from-red-100 to-red-50 dark:from-red-900/30 dark:to-red-800/30 border-red-300 dark:border-red-600 shadow-lg"
-                                  : "bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-500 hover:border-purple-300 dark:hover:border-purple-500"
-                              }`}
-                            >
-                              <div className="flex items-center space-x-4">
+                          <div className="space-y-3 mb-6">
+                            {question?.options?.map((option, optIndex) => {
+                              const isUserChoice = option === userAnswer;
+                              const isCorrectOption = option === correctAnswer;
+                              const optionLetter = String.fromCharCode(
+                                65 + optIndex
+                              );
+
+                              return (
                                 <div
-                                  className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold ${
+                                  key={optIndex}
+                                  className={`p-4 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 ${
                                     isCorrectOption
-                                      ? "bg-gradient-to-r from-green-500 to-green-600"
+                                      ? "bg-gradient-to-r from-green-100 to-green-50 dark:from-green-900/30 dark:to-green-800/30 border-green-300 dark:border-green-600 shadow-lg"
                                       : isUserChoice && !isCorrectOption
-                                      ? "bg-gradient-to-r from-red-500 to-red-600"
-                                      : "bg-gradient-to-r from-gray-400 to-gray-500"
+                                      ? "bg-gradient-to-r from-red-100 to-red-50 dark:from-red-900/30 dark:to-red-800/30 border-red-300 dark:border-red-600 shadow-lg"
+                                      : "bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-500 hover:border-purple-300 dark:hover:border-purple-500"
                                   }`}
                                 >
-                                  {optionLetter}
+                                  <div className="flex items-center space-x-4">
+                                    <div
+                                      className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold ${
+                                        isCorrectOption
+                                          ? "bg-gradient-to-r from-green-500 to-green-600"
+                                          : isUserChoice && !isCorrectOption
+                                          ? "bg-gradient-to-r from-red-500 to-red-600"
+                                          : "bg-gradient-to-r from-gray-400 to-gray-500"
+                                      }`}
+                                    >
+                                      {optionLetter}
+                                    </div>
+                                    <span
+                                      className={`font-medium text-lg ${
+                                        isCorrectOption
+                                          ? "text-green-800 dark:text-green-200"
+                                          : isUserChoice && !isCorrectOption
+                                          ? "text-red-800 dark:text-red-200"
+                                          : "text-gray-700 dark:text-gray-300"
+                                      }`}
+                                    >
+                                      {option}
+                                    </span>
+                                    {isCorrectOption && (
+                                      <FaCheckCircle className="text-green-600 text-xl" />
+                                    )}
+                                    {isUserChoice && !isCorrectOption && (
+                                      <FaTimesCircle className="text-red-600 text-xl" />
+                                    )}
+                                  </div>
                                 </div>
+                              );
+                            })}
+                          </div>
+
+                          <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-600">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                              <div className="flex items-center space-x-2">
+                                <span className="font-semibold text-gray-600 dark:text-gray-400">
+                                  Your Answer:
+                                </span>
                                 <span
-                                  className={`font-medium text-lg ${
-                                    isCorrectOption
-                                      ? "text-green-800 dark:text-green-200"
-                                      : isUserChoice && !isCorrectOption
-                                      ? "text-red-800 dark:text-red-200"
-                                      : "text-gray-700 dark:text-gray-300"
+                                  className={`font-medium ${
+                                    isSkipped
+                                      ? "text-gray-500"
+                                      : isCorrect
+                                      ? "text-green-600 dark:text-green-400"
+                                      : "text-red-600 dark:text-red-400"
                                   }`}
                                 >
-                                  {option}
+                                  {isSkipped
+                                    ? "Skipped"
+                                    : userAnswer || "Not answered"}
                                 </span>
-                                {isCorrectOption && (
-                                  <FaCheckCircle className="text-green-600 text-xl" />
-                                )}
-                                {isUserChoice && !isCorrectOption && (
-                                  <FaTimesCircle className="text-red-600 text-xl" />
-                                )}
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <span className="font-semibold text-gray-600 dark:text-gray-400">
+                                  Correct Answer:
+                                </span>
+                                <span className="font-medium text-green-600 dark:text-green-400">
+                                  {correctAnswer}
+                                </span>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <span className="font-semibold text-gray-600 dark:text-gray-400">
+                                  Status:
+                                </span>
+                                <span
+                                  className={`font-medium ${
+                                    isSkipped
+                                      ? "text-gray-500"
+                                      : isCorrect
+                                      ? "text-green-600 dark:text-green-400"
+                                      : "text-red-600 dark:text-red-400"
+                                  }`}
+                                >
+                                  {isSkipped
+                                    ? "Skipped"
+                                    : isCorrect
+                                    ? "Correct"
+                                    : "Incorrect"}
+                                </span>
                               </div>
                             </div>
-                          );
-                        })}
-                      </div>
-
-                      {/* Answer Summary */}
-                      <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-600">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                          <div className="flex items-center space-x-2">
-                            <span className="font-semibold text-gray-600 dark:text-gray-400">
-                              Your Answer:
-                            </span>
-                            <span
-                              className={`font-medium ${
-                                isSkipped
-                                  ? "text-gray-500"
-                                  : isCorrect
-                                  ? "text-green-600 dark:text-green-400"
-                                  : "text-red-600 dark:text-red-400"
-                              }`}
-                            >
-                              {isSkipped
-                                ? "Skipped"
-                                : userAnswer || "Not answered"}
-                            </span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <span className="font-semibold text-gray-600 dark:text-gray-400">
-                              Correct Answer:
-                            </span>
-                            <span className="font-medium text-green-600 dark:text-green-400">
-                              {correctAnswer}
-                            </span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <span className="font-semibold text-gray-600 dark:text-gray-400">
-                              Status:
-                            </span>
-                            <span
-                              className={`font-medium ${
-                                isSkipped
-                                  ? "text-gray-500"
-                                  : isCorrect
-                                  ? "text-green-600 dark:text-green-400"
-                                  : "text-red-600 dark:text-red-400"
-                              }`}
-                            >
-                              {isSkipped
-                                ? "Skipped"
-                                : isCorrect
-                                ? "Correct"
-                                : "Incorrect"}
-                            </span>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              );
-            })}
+                  );
+                })}
+              </>
+            ) : (
+              <div className="text-center text-gray-500 dark:text-gray-300 mt-6">
+                No Questions Found!
+              </div>
+            )}
           </div>
         </div>
-        
+
         <LeaderboardTable leaderboard={leaderboard} currentUser={currentUser} />
 
         {/* Action Buttons */}

@@ -862,10 +862,11 @@ const ProfilePage = () => {
                     </div>
                   </div>
                   
-                  <div className="flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors font-semibold">
+                  <div className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 dark:from-blue-500 dark:to-purple-500 dark:hover:from-blue-600 dark:hover:to-purple-600 text-white dark:text-white px-4 md:px-8 py-2 md:py-4 rounded-2xl transition-all duration-300 font-bold text-lg transform hover:scale-105 shadow-lg hover:shadow-xl dark:shadow-blue-500/25 hover:dark:shadow-blue-500/40 flex items-center justify-center space-x-3 mx-auto">
                     <span className="text-base">View Result</span>
                     <FaArrowRight className="ml-2 text-sm" />
                   </div>
+                  
                 </div>
               ))}
             </div>

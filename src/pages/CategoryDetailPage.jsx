@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaClock, FaQuestionCircle, FaStar, FaLayerGroup, FaFolder, FaArrowRight } from 'react-icons/fa';
 import API from '../utils/api';
@@ -19,7 +19,7 @@ const CategoryDetailPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
-
+  console.log(quizzes, 'quizzes');
   useEffect(() => {
     fetchCategory();
     fetchSubcategories();
