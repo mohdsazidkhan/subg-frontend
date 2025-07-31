@@ -505,7 +505,7 @@ const ProfilePage = () => {
                 Need <span className="font-bold text-green-600 text-lg md:text-xl">{quizzesToNextLevel}</span> more high-score quizzes (75%+) to unlock Level {nextLevel.number}.
               </p>
               <div className="text-gray-600 dark:text-gray-400 text-sm">
-                Required: {nextLevel.quizzesRequired} high-score quizzes
+                Required: {nextLevel.quizzesRequired} total high-score quizzes
               </div>
             </div>
           ) : (

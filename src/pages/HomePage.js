@@ -237,7 +237,7 @@ const HomePage = () => {
                 Welcome to
               </span>
               <span className="inline-block animate-bounce text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500">
-                SUBG Quiz!
+                SUBG QUIZ!
               </span>
               <span
                 className="inline-block"
