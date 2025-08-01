@@ -248,6 +248,11 @@ class ApiService {
     return this.request(`/api/admin/quizzes?${queryString}`);
   }
 
+  async getAdminAllQuizzes(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/admin/allquizzes?${queryString}`);
+  }
+
   async createQuiz(quizData) {
     return this.request('/api/admin/quizzes', {
       method: 'POST',

@@ -278,6 +278,10 @@ const PerformanceAnalytics = () => {
     },
   };
 
+  const sortedCategory = (data) => {
+    return data.sort((a, b) => b.attemptCount - a.attemptCount);
+  }
+
   return (
     <div className={`adminPanel ${isOpen ? "showPanel" : "hidePanel"}`}>
       {user?.role === "admin" && isAdminRoute && <Sidebar />}
@@ -549,8 +553,8 @@ const PerformanceAnalytics = () => {
                 </tr>
               </thead>
               <tbody>
-                {data?.categoryPerformance.length > 0 ? (
-                  data?.categoryPerformance.map((item, i) => (
+                {data?.categoryPerformance?.length > 0 ? (
+                  sortedCategory(data?.categoryPerformance)?.map((item, i) => (
                     <tr
                       key={i}
                       className="border-b transition-colors border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700"

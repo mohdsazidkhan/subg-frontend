@@ -60,7 +60,7 @@ const QuestionPage = () => {
 
   const fetchQuizzes = async () => {
     try {
-      const response = await API.getAdminQuizzes();
+      const response = await API.getAdminAllQuizzes();
       setQuizzes(response.quizzes || response);
     } catch (error) {
       console.error('Error fetching quizzes:', error);
