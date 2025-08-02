@@ -80,7 +80,7 @@ const LevelDetailPage = () => {
   const handleConfirmQuizStart = () => {
     setShowQuizModal(false);
     if (selectedQuiz) {
-      navigate(`/attempt-quiz/${selectedQuiz._id}`, { state: { quizData: selectedQuiz } });
+      navigate(`/attempt-quiz/${selectedQuiz._id}`, { state: { quizData: selectedQuiz, fromPage : "level-detail", levelNumber } });
     }
   };
 
@@ -112,13 +112,6 @@ const LevelDetailPage = () => {
       <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
         {/* Header */}
         <div className="mb-6 sm:mb-8">
-          <button 
-            onClick={() => { navigate(-1); }}
-            className="flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white mb-2 sm:mb-4 transition-colors text-sm sm:text-base"
-          >
-            <FaArrowLeft className="mr-2" />
-            Back
-          </button>
           
           <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-lg">
             <div className="flex  items-center justify-start mb-4 gap-2 sm:gap-0">
@@ -126,7 +119,7 @@ const LevelDetailPage = () => {
                 <level.icon className="text-white text-xl sm:text-2xl" />
               </div>
               <div>
-                <h1 className="text-xl sm:text-3xl font-bold text-gray-800 dark:text-white">{level.name}</h1>
+                <h1 className="text-xl sm:text-3xl font-bold text-gray-800 dark:text-white">Level {levelNumber} - {level.name}</h1>
                 <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base">{level.desc}</p>
               </div>
             </div>
@@ -154,7 +147,16 @@ const LevelDetailPage = () => {
 
         {/* Quizzes Section */}
         <div className="mb-6 sm:mb-8">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-6">Quizzes for Level {levelNumber}</h2>
+          <div className="flex flex-row items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">Level {levelNumber} Quizzes</h2>
+           <button
+              onClick={() => navigate("/")}
+              className="px-3 md:px-4 py-1 md:py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+            >
+              <FaArrowLeft />
+              <span>Go Back</span>
+            </button>
+          </div>
           
           {loading ? (
             <div className="text-center py-6 sm:py-8">

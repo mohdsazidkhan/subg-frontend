@@ -154,7 +154,7 @@ const HomePage = () => {
     setShowQuizModal(false);
     if (selectedQuiz) {
       navigate(`/attempt-quiz/${selectedQuiz._id}`, {
-        state: { quizData: selectedQuiz },
+        state: { quizData: selectedQuiz, fromPage: "home"},
       });
     }
   };

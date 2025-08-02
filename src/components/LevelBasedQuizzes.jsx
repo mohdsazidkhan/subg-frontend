@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { FaStar, FaClock, FaQuestionCircle, FaFilter, FaLevelUpAlt } from 'react-icons/fa';
+import { FaStar, FaClock, FaQuestionCircle, FaFilter, FaLevelUpAlt, FaArrowLeft } from 'react-icons/fa';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
 
@@ -171,7 +171,7 @@ const LevelBasedQuizzes = () => {
       return;
     }
 
-    navigate(`/attempt-quiz/${quiz._id}`, { state: { quizData: quiz } });
+    navigate(`/attempt-quiz/${quiz._id}`, { state: { quizData: quiz, fromPage : "level-quizzes"} });
   };
 
   const getDifficultyColor = (difficulty) => {
@@ -452,13 +452,22 @@ const LevelBasedQuizzes = () => {
 
       {/* Quizzes Grid */}
       <div className="mb-8">
-        <h2 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-6">
+<div className="flex flex-row items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
+        <h2 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
           {filters.level 
-            ? `Quizzes for Level ${filters.level} - ${getLevelName(parseInt(filters.level))}`
-            : 'Quizzes for Your Level'
+            ? `Level ${filters.level} - ${getLevelName(parseInt(filters.level))} Quizzes`
+            : 'Your Level Quizzes'
           }
         </h2>
 
+        <button
+          onClick={() => navigate("/")}
+          className="px-3 md:px-4 py-1 md:py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+        >
+          <FaArrowLeft />
+          <span>Go Back</span>
+        </button>
+</div>
         {quizzes.length === 0 && !searchLoading ? (
           <div className="text-center py-12">
             <FaQuestionCircle className="text-6xl text-gray-400 mx-auto mb-4" />

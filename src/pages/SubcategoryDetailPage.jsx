@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FaClock, FaQuestionCircle, FaStar, FaLayerGroup } from 'react-icons/fa';
+import { FaClock, FaQuestionCircle, FaStar, FaLayerGroup, FaFolder, FaArrowLeft, FaQuestion } from 'react-icons/fa';
 import API from '../utils/api';
 import QuizStartModal from '../components/QuizStartModal';
 
@@ -78,7 +78,7 @@ const SubcategoryDetailPage = () => {
   const handleConfirmQuizStart = () => {
     setShowQuizModal(false);
     if (selectedQuiz) {
-      navigate(`/attempt-quiz/${selectedQuiz._id}`, { state: { quizData: selectedQuiz } });
+      navigate(`/attempt-quiz/${selectedQuiz._id}`, { state: { quizData: selectedQuiz, fromPage: "subcategory" } });
     }
   };
 
@@ -134,6 +134,19 @@ const SubcategoryDetailPage = () => {
           <div className="text-center text-gray-500 font-medium py-10">No quizzes found for this subcategory.</div>
         ) : (
           <>
+          <div className="flex flex-row items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
+            <h2 className="text-xl sm:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2 sm:gap-3">
+              <FaQuestionCircle className="text-green-500" />
+              Quizzes ({quizzes?.length})
+            </h2>
+            <button
+                onClick={() => navigate(-1)}
+                className="px-3 md:px-4 py-1 md:py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+              >
+                <FaArrowLeft />
+                <span>Go Back</span>
+              </button>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-10">
               {quizzes.map((quiz) => (
                 <div key={quiz._id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-t-4 border-purple-400 hover:border-blue-500 cursor-pointer flex flex-col justify-between">

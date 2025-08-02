@@ -14,13 +14,8 @@ import {
   FaTrophy, 
   FaStar, 
   FaRocket, 
-  FaLightbulb,
   FaChartLine,
-  FaMedal,
   FaCrown,
-  FaFire,
-  FaHeart,
-  FaEye,
   FaCheck,
   FaTimes,
   FaQuestionCircle,
@@ -28,7 +23,8 @@ import {
   FaGraduationCap,
   FaExpand,
   FaCompress,
-  FaExclamationTriangle
+  FaExclamationTriangle,
+  FaHome
 } from 'react-icons/fa';
 
 const LeaderboardTable = ({ leaderboard, currentUser }) => {
@@ -165,7 +161,7 @@ const AttemptQuizPage = () => {
   const location = useLocation();
   const quizData = location.state?.quizData;
   const [loading, setLoading] = useState(true);
-
+  console.log(quizData, 'quizData');
   // Fullscreen functions
   const enterFullscreen = async () => {
     try {
@@ -463,6 +459,22 @@ const AttemptQuizPage = () => {
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
+  console.log(location.state?.fromPage, 'location.state?.fromPage');
+  const handleBack = () => {
+    if(location.state?.fromPage === "category"){
+      navigate(`/${location.state?.fromPage}/${quizData?.category?._id}`)
+    }else if(location.state?.fromPage === "subcategory"){
+      navigate(`/${location.state?.fromPage}/${quizData?.subcategory?._id}`)
+    }else if(location.state?.fromPage === "level-quizzes"){
+      navigate(`/level-quizzes`)
+    }else if(location.state?.fromPage === "level-detail"){
+      navigate(`/level/${location.state?.levelNumber}`)
+    }else if(location.state?.fromPage === "home"){
+      navigate(`/level/${location.state?.levelNumber}`)
+    }else{
+      navigate(`/`)
+    }
+  }
 
   // Exit confirmation modal
   if (showExitConfirm) {
@@ -562,7 +574,7 @@ const AttemptQuizPage = () => {
                 </p>
               </div>
             </div>
-            
+
             {/* Fullscreen indicator */}
             {!submitted && (
               <div className="flex items-center space-x-3">
@@ -790,18 +802,25 @@ const AttemptQuizPage = () => {
             {/* Action Buttons */}
             <div className="flex justify-center space-x-2 md:space-x-6 mb-4 md:mb-8">
               <button
-                onClick={() => navigate('/')}
+                onClick={() => navigate("/")}
                 className="px-4 md:px-8 py-2 md:py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
               >
-                <FaBookOpen />
-                <span>Take Another Quiz</span>
+                <FaHome />
+                <span>Home</span>
               </button>
               <button
                 onClick={() => navigate('/profile')}
                 className="px-4 md:px-8 py-2 md:py-4 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-2xl hover:from-green-600 hover:to-teal-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
               >
                 <FaChartLine />
-                <span>View Profile</span>
+                <span>Profile</span>
+              </button>
+              <button
+                onClick={() => handleBack()}
+                className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+              >
+                <FaArrowLeft />
+                <span>Back</span>
               </button>
             </div>
             

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FaClock, FaQuestionCircle, FaStar, FaLayerGroup, FaFolder, FaArrowRight } from 'react-icons/fa';
+import { FaClock, FaQuestionCircle, FaStar, FaLayerGroup, FaFolder, FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 import API from '../utils/api';
 import QuizStartModal from '../components/QuizStartModal';
 
@@ -78,7 +78,7 @@ const CategoryDetailPage = () => {
   const handleConfirmQuizStart = () => {
     setShowQuizModal(false);
     if (selectedQuiz) {
-      navigate(`/attempt-quiz/${selectedQuiz._id}`, { state: { quizData: selectedQuiz } });
+      navigate(`/attempt-quiz/${selectedQuiz._id}`, { state: { quizData: selectedQuiz, fromPage: "category" } });
     }
   };
 
@@ -123,11 +123,18 @@ const CategoryDetailPage = () => {
 
         {/* Subcategories Section */}
         <div className="mb-8 sm:mb-12">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
+          <div className="flex items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
             <h2 className="text-xl sm:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2 sm:gap-3">
               <FaFolder className="text-green-500" />
               Subcategories ({subcategories?.length})
             </h2>
+            <button
+                onClick={() => navigate("/")}
+                className="px-3 md:px-4 py-1 md:py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+              >
+                <FaArrowLeft />
+                <span>Go Back</span>
+              </button>
           </div>
 
           {subcategoriesLoading ? (
