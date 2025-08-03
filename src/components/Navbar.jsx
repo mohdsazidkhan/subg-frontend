@@ -12,7 +12,7 @@ import {
 } from "react-icons/md";
 import { toggleSidebar } from "../store/sidebarSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { BsPersonCircle } from "react-icons/bs";
+import { BsPersonCircle, BsSearch } from "react-icons/bs";
 import { secureLogout, getCurrentUser } from "../utils/authUtils";
 import { hasActiveSubscription } from "../utils/subscriptionUtils";
 import { isAdmin, hasAdminPrivileges } from "../utils/adminUtils";
@@ -51,6 +51,13 @@ export default function Navbar() {
   // Navbar links for students
   const studentLinks = (
     <>
+      <Link
+        title="Search"
+        to="/search"
+        className="rounded-full bg-gradient-to-r from-orange-500 to-yellow-500 p-2 shadow-lg hover:scale-105 transition-transform border-2 border-white dark:border-gray-800"
+      >
+        <BsSearch className="text-xl text-white" />
+      </Link>
       <Link
         title={hasActiveSubscription() ? "My Subscription" : "Subscribe Now"}
         to="/subscription"

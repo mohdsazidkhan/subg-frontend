@@ -46,6 +46,7 @@ import LevelDetailPage from './pages/LevelDetailPage';
 import AdminContacts from './pages/admin/AdminContacts';
 import AdminBankDetails from './pages/admin/AdminBankDetails';
 import ReactGA from 'react-ga4';
+import SearchPage from './pages/SearchPage.jsx';
 
 function usePageTracking() {
   const location = useLocation();
@@ -92,6 +93,7 @@ function AppLayout() {
 
             {/* Public Homepage Route */}
             <Route path="/" element={<HomePage />} />
+            <Route path="/search" element={<SearchPage />} />
             <Route path="/profile" element={<StudentRoute><ProfilePage /></StudentRoute>} />
             <Route path="/attempt-quiz/:quizId" element={<StudentRoute><AttemptQuizPage /></StudentRoute>} />
             <Route path="/subscription" element={<StudentRoute><SubscriptionPage /></StudentRoute>} />

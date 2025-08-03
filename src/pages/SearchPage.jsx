@@ -1,0 +1,245 @@
+import { useEffect, useState } from "react";
+import {useNavigate} from "react-router-dom";
+import API from "../utils/api";
+import QuizStartModal from "../components/QuizStartModal";
+
+const SearchPage = () => {
+  const navigate = useNavigate();
+  const [query, setQuery] = useState("History");
+  const [quizzes, setQuizzes] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [showQuizModal, setShowQuizModal] = useState(false);
+  const [selectedQuiz, setSelectedQuiz] = useState(null);
+
+  const limit = 12;
+
+  const fetchData = async () => {
+    let searchQuery = query || "history";
+    try {
+      setLoading(true);
+      const res = await API.searchAll({
+        query: searchQuery,
+        page: currentPage,
+        limit,
+      });
+      if (res.success) {
+        setQuizzes(res.quizzes);
+        setCategories(res.categories);
+        setSubcategories(res.subcategories);
+        setTotalPages(res.totalPages);
+      }
+    } catch (err) {
+      console.error("Search failed:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setCurrentPage(1);
+    fetchData();
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [currentPage]);
+
+  const handleQuizAttempt = (quiz) => {
+    setSelectedQuiz(quiz);
+    setShowQuizModal(true);
+  };
+
+  const handleCancelQuizStart = () => {
+    setShowQuizModal(false);
+    setSelectedQuiz(null);
+  };
+
+  const handleConfirmQuizStart = () => {
+    setShowQuizModal(false);
+    if (selectedQuiz) {
+      navigate(`/attempt-quiz/${selectedQuiz._id}`, {
+        state: { quizData: selectedQuiz, fromPage: "search"},
+      });
+    }
+  };
+
+  return (
+    <div className="p-4 max-w-5xl mx-auto">
+      <form onSubmit={handleSearch} className="flex items-center gap-2 mb-6">
+        <input
+          type="text"
+          className="p-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white rounded w-full"
+          placeholder="Search quizzes, categories, subcategories..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button
+          type="submit"
+          className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded shadow hover:opacity-90"
+        >
+          Search
+        </button>
+      </form>
+
+      {loading ? (
+        <p className="text-center text-gray-600 dark:text-gray-300">
+          Loading...
+        </p>
+      ) : (
+        <>
+          {/* Categories */}
+          
+          <div className="mt-8">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">
+              Categories
+            </h2>
+            {categories.length === 0 ? (
+              <p className="text-gray-500 dark:text-gray-400">
+                No category found.
+              </p>
+            ) : (
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {categories.map((cat) => (
+                  <div
+                    key={cat._id}
+                    onClick={()=>navigate(`/category/${cat?._id}`)}
+                    className="border cursor-pointer border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow"
+                  >
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                      {cat.name}
+                    </h3>
+                    {cat.description && (
+                      <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                        {cat.description}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Subcategories */}
+          <div className="mt-8">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">
+              Subcategories
+            </h2>
+            {subcategories.length === 0 ? (
+              <p className="text-gray-500 dark:text-gray-400">
+                No subcategory found.
+              </p>
+            ) : (
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {subcategories.map((sub) => (
+                  <div
+                    key={sub._id}
+                    onClick={()=>navigate(`/subcategory/${sub?._id}`)}
+                    className="border cursor-pointer border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow"
+                  >
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                      {sub.name}
+                    </h3>
+                    {sub.description && (
+                      <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                        {sub.description}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Quizzes */}
+          <div className="mt-4">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">
+              Quizzes
+            </h2>
+            {quizzes.length === 0 ? (
+              <p className="text-gray-500 dark:text-gray-400">
+                No quizzes found.
+              </p>
+            ) : (
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xxl:grid-cols-3 xxl:grid-cols-4 gap-4">
+                {quizzes.map((quiz) => (
+                  <div
+                    key={quiz._id}
+                    className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow"
+                  >
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                      {quiz.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Category:{" "}
+                      <span className="font-medium">
+                        {quiz.category?.name || "N/A"}
+                      </span>{" "}
+                      | Subcategory:{" "}
+                      <span className="font-medium">
+                        {quiz.subcategory?.name || "N/A"}
+                      </span>
+                    </p>
+                    <button
+                      onClick={() => handleQuizAttempt(quiz)}
+                      className="mt-2 w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
+                    >
+                      Start Quiz
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Pagination */}
+          <div className="flex justify-center mt-10 space-x-2">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+              className="px-3 py-1 rounded border text-sm font-medium border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 text-black dark:text-white disabled:opacity-50"
+            >
+              Prev
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentPage(i + 1)}
+                className={`px-3 py-1 rounded text-sm font-medium border ${
+                  currentPage === i + 1
+                    ? "bg-blue-600 text-white border-blue-600"
+                    : "border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+              className="px-3 py-1 rounded border text-sm font-medium border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 text-black dark:text-white disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+
+          {/* Quiz Start Confirmation Modal */}
+          {showQuizModal &&
+            <QuizStartModal
+              isOpen={showQuizModal}
+              onClose={handleCancelQuizStart}
+              onConfirm={handleConfirmQuizStart}
+              quiz={selectedQuiz}
+            />
+          }
+        </>
+      )}
+    </div>
+  );
+};
+
+export default SearchPage;

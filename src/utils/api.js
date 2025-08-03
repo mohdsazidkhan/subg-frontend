@@ -105,6 +105,11 @@ class ApiService {
     return this.request('/api/student/profile');
   }
 
+  async searchAll({ query = '', page = 1, limit = 12 }) {
+    const searchQuery = new URLSearchParams({ query, page, limit }).toString();
+    return this.request(`/api/search?${searchQuery}`);
+  }
+
   // Quiz methods
   async getQuizzes(params = {}) {
     return this.request('/api/student/quizzes', { params });
