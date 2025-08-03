@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import API from "../utils/api";
 import QuizStartModal from "../components/QuizStartModal";
 
 const SearchPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [query, setQuery] = useState("History");
   const [quizzes, setQuizzes] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -49,6 +50,34 @@ const SearchPage = () => {
     fetchData();
   }, [currentPage]);
 
+  useEffect(()=>{
+    if(location.state?.searchQuery){
+      setQuery(location.state?.searchQuery);
+      fetchDataBack(location.state?.searchQuery)
+    }
+  },[location])
+
+  const fetchDataBack = async (searchQuery) =>{
+      try {
+        setLoading(true);
+        const res = await API.searchAll({
+          query: searchQuery,
+          page: currentPage,
+          limit,
+        });
+        if (res.success) {
+          setQuizzes(res.quizzes);
+          setCategories(res.categories);
+          setSubcategories(res.subcategories);
+          setTotalPages(res.totalPages);
+        }
+      } catch (err) {
+        console.error("Search failed:", err);
+      } finally {
+        setLoading(false);
+      }
+  }
+
   const handleQuizAttempt = (quiz) => {
     setSelectedQuiz(quiz);
     setShowQuizModal(true);
@@ -63,7 +92,7 @@ const SearchPage = () => {
     setShowQuizModal(false);
     if (selectedQuiz) {
       navigate(`/attempt-quiz/${selectedQuiz._id}`, {
-        state: { quizData: selectedQuiz, fromPage: "search"},
+        state: { quizData: selectedQuiz, fromPage: "search", searchQuery: query},
       });
     }
   };

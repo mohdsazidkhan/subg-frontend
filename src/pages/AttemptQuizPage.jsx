@@ -472,7 +472,7 @@ const AttemptQuizPage = () => {
     }else if(location.state?.fromPage === "home"){
       navigate(`/level/${location.state?.levelNumber}`)
     }else if(location.state?.fromPage === "search"){
-      navigate(`/search`)
+      navigate(`/search`, {state: {searchQuery: location.state?.searchQuery}})
     }else{
       navigate(`/`)
     }
