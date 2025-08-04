@@ -27,6 +27,7 @@ import { FaMagic } from "react-icons/fa";
 import API from "../utils/api";
 import { hasActiveSubscription } from "../utils/subscriptionUtils";
 import QuizStartModal from "../components/QuizStartModal";
+import { BsSearch } from "react-icons/bs";
 // Level badge icon mapping
 
 // Icon mapping for categories
@@ -83,6 +84,7 @@ const HomePage = () => {
   const [levels, setLevels] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState("");
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
@@ -222,6 +224,11 @@ const HomePage = () => {
     );
   }
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate("/search", {state:{searchQuery}})
+  };
+
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 overflow-x-hidden">
       {/* Decorative Background Blobs */}
@@ -229,56 +236,79 @@ const HomePage = () => {
       <div className="absolute top-1/2 right-0 w-80 h-80 bg-gradient-to-tr from-purple-400/20 to-pink-300/10 rounded-full blur-3xl z-0 animate-pulse-slow" />
       <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-gradient-to-tl from-indigo-300/20 to-blue-200/10 rounded-full blur-3xl z-0 animate-pulse-slow" />
       {/* Hero Section */}
-      <div className="relative overflow-hidden z-10">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10 pointer-events-none" />
-        <div className="relative container mx-auto px-2 sm:px-4 py-10 sm:py-16 flex flex-col items-center">
-          <div className="text-center">
-            <h1 className="flex-col md:flex-row justify-center md:justify-items-start flex flex-wrap items-center gap-2 text-3xl sm:text-5xl md:text-6xl xl:text-7xl font-extrabold mb-4 drop-shadow-lg animate-fade-in">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:text-white">
-                Welcome to
-              </span>
-              <span className="inline-block animate-bounce text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500">
-                SUBG QUIZ!
-              </span>
-              <span
-                className="inline-block"
-                style={{
-                  color: "initial",
-                  background: "none",
-                  WebkitBackgroundClip: "unset",
-                  WebkitTextFillColor: "initial",
-                }}
-              >
-                🎯
-              </span>
-            </h1>
+<div className="relative overflow-hidden z-10">
+  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10 pointer-events-none" />
+  <div className="relative container mx-auto px-2 sm:px-4 py-10 sm:py-16 flex flex-col items-center">
+    <div className="text-center">
+      <h1 className="flex-col md:flex-row justify-center md:justify-items-start flex flex-wrap items-center gap-2 text-3xl sm:text-5xl md:text-6xl xl:text-7xl font-extrabold mb-4 drop-shadow-lg animate-fade-in">
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:text-white">
+          Welcome to
+        </span>
+        <span className="inline-block animate-bounce text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500">
+          SUBG QUIZ!
+        </span>
+        <span
+          className="inline-block"
+          style={{
+            color: "initial",
+            background: "none",
+            WebkitBackgroundClip: "unset",
+            WebkitTextFillColor: "initial",
+          }}
+        >
+          🎯
+        </span>
+      </h1>
 
-            <p className="text-base sm:text-xl lg:text-2xl text-gray-700 dark:text-gray-200 mb-4 sm:mb-8 max-w-3xl mx-auto animate-fade-in delay-100">
-              Explore quizzes by{" "}
-              <span className="font-bold text-blue-600 dark:text-blue-300">
-                level
-              </span>
-              ,{" "}
-              <span className="font-bold text-purple-600 dark:text-purple-300">
-                category
-              </span>
-              , or{" "}
-              <span className="font-bold text-indigo-600 dark:text-indigo-300">
-                subcategory
-              </span>
-              . <br className="hidden sm:block" />
-              Only{" "}
-              <span className="font-semibold text-green-600 dark:text-green-400">
-                new quizzes
-              </span>{" "}
-              you haven't attempted are shown!
-            </p>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 mb-4 drop-shadow-lg animate-fade-in">
-              Student Unknown's Battle Ground Quiz!
-            </h2>
-          </div>
-        </div>
+      <p className="text-base sm:text-xl lg:text-2xl text-gray-700 dark:text-gray-200 mb-4 sm:mb-8 max-w-3xl mx-auto animate-fade-in delay-100">
+        Explore quizzes by{" "}
+        <span className="font-bold text-blue-600 dark:text-blue-300">
+          level
+        </span>
+        ,{" "}
+        <span className="font-bold text-purple-600 dark:text-purple-300">
+          category
+        </span>
+        , or{" "}
+        <span className="font-bold text-indigo-600 dark:text-indigo-300">
+          subcategory
+        </span>
+        . <br className="hidden sm:block" />
+        Only{" "}
+        <span className="font-semibold text-green-600 dark:text-green-400">
+          new quizzes
+        </span>{" "}
+        you haven't attempted are shown!
+      </p>
+
+      {/* Search Box */}
+      {isLoggedIn &&
+      <div className="flex justify-center w-full mb-8 animate-fade-in delay-150">
+          <form onSubmit={handleSearch} className="relative w-full max-w-md">
+          <input
+            type="text"
+            placeholder="Search quizzes, categories, subcategories..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full py-3 pl-5 pr-12 rounded-full shadow-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+          />
+          <button
+            type="submit"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 text-white bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full hover:scale-105 transition"
+          >
+            <BsSearch className="text-xl text-white" />
+          </button>
+          </form>
       </div>
+      }
+
+      <h2 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 mb-4 drop-shadow-lg animate-fade-in">
+        Student Unknown's Battle Ground Quiz!
+      </h2>
+    </div>
+  </div>
+</div>
+
 
       {/* Hero Section */}
       <div className="text-center mb-12 mt-12 z-10">

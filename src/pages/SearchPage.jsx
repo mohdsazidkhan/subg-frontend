@@ -6,7 +6,7 @@ import QuizStartModal from "../components/QuizStartModal";
 const SearchPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [query, setQuery] = useState("History");
+  const [query, setQuery] = useState("");
   const [quizzes, setQuizzes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -19,7 +19,7 @@ const SearchPage = () => {
   const limit = 12;
 
   const fetchData = async () => {
-    let searchQuery = query || "history";
+    let searchQuery = query;
     try {
       setLoading(true);
       const res = await API.searchAll({
@@ -47,7 +47,9 @@ const SearchPage = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    if(query !== ""){
+      fetchData();
+    }
   }, [currentPage]);
 
   useEffect(()=>{
