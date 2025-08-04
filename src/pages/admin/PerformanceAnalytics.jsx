@@ -19,6 +19,9 @@ import {
   FaStar,
   FaDownload,
   FaFilter,
+  FaTh,
+  FaList,
+  FaTable,
 } from "react-icons/fa";
 import Sidebar from "../../components/Sidebar";
 import { useLocation } from "react-router-dom";
@@ -55,6 +58,7 @@ function exportCSV(data, filename) {
 }
 
 const PerformanceAnalytics = () => {
+  const [viewMode, setViewMode] = useState("table");
   const user = JSON.parse(localStorage.getItem("userInfo"));
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
@@ -420,19 +424,46 @@ const PerformanceAnalytics = () => {
         </div>
 
         {/* Top Performers */}
-        <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-          <div className="flex justify-between items-center space-x-2">
-            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-              Top Performers
-            </h3>
-            <div className="bg-blue-100 dark:bg-blue-900/30 px-3 py-2 rounded-lg">
-              <span className="text-blue-800 dark:text-blue-200 font-semibold text-md">
-                Total: {data.topPerformers?.length}
-              </span>
-            </div>
+      <div className="space-y-6">
+      {/* Toggle View Buttons */}
+      <div className="flex justify-end gap-2">
+        <button
+          onClick={() => setViewMode("table")}
+          className={`p-2 rounded ${viewMode === "table" ? "bg-blue-600 text-white" : "bg-gray-200 dark:bg-gray-700 dark:text-white"}`}
+        >
+          <FaTable />
+        </button>
+        <button
+          onClick={() => setViewMode("list")}
+          className={`p-2 rounded ${viewMode === "list" ? "bg-blue-600 text-white" : "bg-gray-200 dark:bg-gray-700 dark:text-white"}`}
+        >
+          <FaList />
+        </button>
+        <button
+          onClick={() => setViewMode("grid")}
+          className={`p-2 rounded ${viewMode === "grid" ? "bg-blue-600 text-white" : "bg-gray-200 dark:bg-gray-700 dark:text-white"}`}
+        >
+          <FaTh />
+        </button>
+      </div>
+
+      {/* Top Performers */}
+      <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+            Top Performers
+          </h3>
+          <div className="bg-blue-100 dark:bg-blue-900/30 px-3 py-2 rounded-lg">
+            <span className="text-blue-800 dark:text-blue-200 font-semibold text-md">
+              Total: {data.topPerformers?.length}
+            </span>
           </div>
+        </div>
+
+        {viewMode === "table" && (
           <div className="overflow-x-auto">
-            <table className="w-[1000px] md:w-full">
+            <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-200 dark:border-gray-700">
                   {[
@@ -446,151 +477,210 @@ const PerformanceAnalytics = () => {
                     "Avg. Score",
                     "Total Score",
                   ].map((label, i) => (
-                    <th
-                      key={i}
-                      className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300"
-                    >
+                    <th key={i} className="py-3 px-4 text-left text-gray-600 dark:text-gray-300 font-medium">
                       {label}
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {data.topPerformers?.length > 0 ? (
-                  data.topPerformers.map((p, i) => (
-                    <tr
-                      key={i}
-                      className="border-b transition-colors border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700"
-                    >
-                      <td className="py-3 px-4">
-                        <span
-                          className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium ${
-                            i === 0
-                              ? "bg-yellow-100 text-yellow-800"
-                              : i === 1
-                              ? "bg-gray-100 text-gray-800"
-                              : i === 2
-                              ? "bg-orange-100 text-orange-800"
-                              : "bg-blue-100 text-blue-800"
-                          }`}
-                        >
-                          {i + 1}
-                        </span>
-                      </td>
-                      <td className="py-3 px-4 text-gray-900 dark:text-white">
-                        {p.name || "Unknown"}
-                      </td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                        {p.level
-                          ? `${p.level.levelName} - ${p.level.currentLevel}`
-                          : "N/A"}
-                      </td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300 uppercase">
-                        {p?.subscriptionStatus || "Free"}
-                      </td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                        {p.level?.quizzesPlayed || 0}
-                      </td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                        {p.level?.quizzesPlayed * 5 || 0}
-                      </td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                        {p.level?.highScoreQuizzes || 0}
-                      </td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                        {p.level?.averageScore?.toFixed(2) || "0.00"}
-                      </td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                        {p.level?.totalScore?.toFixed(2) || "0.00"}
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td
-                      colSpan="5"
-                      className="text-center py-8 text-gray-500 dark:text-gray-400"
-                    >
-                      No performers found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* Category Performance */}
-        <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700 mt-4">
-          <div className="flex justify-between items-center space-x-2">
-            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-              Category Performance
-            </h3>
-            <div className="bg-blue-100 dark:bg-blue-900/30 px-3 py-2 rounded-lg">
-              <span className="text-blue-800 dark:text-blue-200 font-semibold text-md">
-                Total: {data?.categoryPerformance.length}
-              </span>
-            </div>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-[1000px] md:w-full">
-              <thead>
-                <tr className="border-b border-gray-200 dark:border-gray-700">
-                  {[
-                    "#",
-                    "Category",
-                    "Attempts",
-                    "Avg. Score",
-                    "Completion Rate",
-                  ].map((label, i) => (
-                    <th
-                      key={i}
-                      className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300"
-                    >
-                      {label}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {data?.categoryPerformance?.length > 0 ? (
-                  sortedCategory(data?.categoryPerformance)?.map((item, i) => (
-                    <tr
-                      key={i}
-                      className="border-b transition-colors border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700"
-                    >
-                      <td className="py-3 px-4 text-gray-900 dark:text-white">
+                {data.topPerformers?.map((p, i) => (
+                  <tr
+                    key={i}
+                    className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+                  >
+                    <td className="py-3 px-4">
+                      <span
+                        className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium ${
+                          i === 0
+                            ? "bg-yellow-100 text-yellow-800"
+                            : i === 1
+                            ? "bg-gray-100 text-gray-800"
+                            : i === 2
+                            ? "bg-orange-100 text-orange-800"
+                            : "bg-blue-100 text-blue-800"
+                        }`}
+                      >
                         {i + 1}
-                      </td>
-                      <td className="py-3 px-4 text-gray-900 dark:text-white">
-                        {item._id[0]}
-                      </td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                        {item.attemptCount}
-                      </td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                        {item.avgScore.toFixed(2)}
-                      </td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                        {(item.completionRate * 100).toFixed(0)}%
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td
-                      colSpan="5"
-                      className="text-center py-8 text-gray-500 dark:text-gray-400"
-                    >
-                      No category data found
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 text-gray-900 dark:text-white">{p.name || "Unknown"}</td>
+                    <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
+                      {p.level ? `${p.level.levelName} - ${p.level.currentLevel}` : "N/A"}
+                    </td>
+                    <td className="py-3 px-4 text-gray-600 dark:text-gray-300 uppercase">
+                      {p?.subscriptionStatus || "Free"}
+                    </td>
+                    <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
+                      {p.level?.quizzesPlayed || 0}
+                    </td>
+                    <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
+                      {p.level?.quizzesPlayed * 5 || 0}
+                    </td>
+                    <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
+                      {p.level?.highScoreQuizzes || 0}
+                    </td>
+                    <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
+                      {p.level?.averageScore?.toFixed(2) || "0.00"}
+                    </td>
+                    <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
+                      {p.level?.totalScore?.toFixed(2) || "0.00"}
                     </td>
                   </tr>
-                )}
+                ))}
               </tbody>
             </table>
           </div>
+        )}
+
+        {viewMode === "list" && (
+          <div className="space-y-4">
+            {data.topPerformers?.map((p, i) => (
+              <div
+                key={i}
+                className="flex flex-col md:flex-row justify-between p-4 rounded-lg border dark:border-gray-600 bg-gray-50 dark:bg-gray-700"
+              >
+                <div className="flex items-center gap-4">
+                  <span
+                    className={`w-8 h-8 text-sm flex items-center justify-center rounded-full font-semibold ${
+                      i === 0
+                        ? "bg-yellow-100 text-yellow-800"
+                        : i === 1
+                        ? "bg-gray-100 text-gray-800"
+                        : i === 2
+                        ? "bg-orange-100 text-orange-800"
+                        : "bg-blue-100 text-blue-800"
+                    }`}
+                  >
+                    {i + 1}
+                  </span>
+                  <div>
+                    <p className="text-gray-900 dark:text-white font-medium">
+                      {p.name || "Unknown"}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                      {p.level?.levelName || "No Level"}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-300 mt-2 md:mt-0">
+                  Score: {p.level?.totalScore?.toFixed(2) || "0.00"} | Quizzes:{" "}
+                  {p.level?.quizzesPlayed || 0}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {viewMode === "grid" && (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {data.topPerformers?.map((p, i) => (
+              <div
+                key={i}
+                className="p-4 rounded-lg border dark:border-gray-600 bg-gray-50 dark:bg-gray-700"
+              >
+                <div className="flex items-center gap-4 mb-2">
+                  <span
+                    className={`w-8 h-8 text-sm flex items-center justify-center rounded-full font-semibold ${
+                      i === 0
+                        ? "bg-yellow-100 text-yellow-800"
+                        : i === 1
+                        ? "bg-gray-100 text-gray-800"
+                        : i === 2
+                        ? "bg-orange-100 text-orange-800"
+                        : "bg-blue-100 text-blue-800"
+                    }`}
+                  >
+                    {i + 1}
+                  </span>
+                  <div>
+                    <p className="text-gray-900 dark:text-white font-medium">{p.name || "Unknown"}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                      {p.level?.levelName || "No Level"}
+                    </p>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                  Quizzes: {p.level?.quizzesPlayed || 0} | High Score: {p.level?.highScoreQuizzes || 0}
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                  Avg Score: {p.level?.averageScore?.toFixed(2) || "0.00"}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+
+
+      </div>
+      </div>
+      <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          Category Performance
+        </h3>
+        <div className="flex items-center gap-4">
+          <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 font-semibold px-3 py-2 rounded-lg">
+            Total: {data?.categoryPerformance?.length}
+          </span>
+          
         </div>
       </div>
+
+      {viewMode === "table" ? (
+        <div className="overflow-x-auto">
+          <table className="w-[1000px] md:w-full">
+            <thead>
+              <tr className="border-b border-gray-200 dark:border-gray-700">
+                {["#", "Category", "Attempts", "Avg. Score", "Completion Rate"].map((label, i) => (
+                  <th key={i} className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
+                    {label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {sortedCategory(data?.categoryPerformance)?.map((item, i) => (
+                <tr
+                  key={i}
+                  className="border-b transition-colors border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700"
+                >
+                  <td className="py-3 px-4 text-gray-900 dark:text-white">{i + 1}</td>
+                  <td className="py-3 px-4 text-gray-900 dark:text-white">{item._id[0]}</td>
+                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{item.attemptCount}</td>
+                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{item.avgScore.toFixed(2)}</td>
+                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{(item.completionRate * 100).toFixed(0)}%</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {sortedCategory(data?.categoryPerformance)?.map((item, i) => (
+            <div
+              key={i}
+              className="p-4 border rounded-lg shadow bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700"
+            >
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+                {item._id[0]}
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                <span className="font-medium">Attempts:</span> {item.attemptCount}
+              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                <span className="font-medium">Avg. Score:</span> {item.avgScore.toFixed(2)}
+              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                <span className="font-medium">Completion Rate:</span> {(item.completionRate * 100).toFixed(0)}%
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+      </div>
+     
     </div>
   );
 };
