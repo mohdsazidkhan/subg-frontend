@@ -46,10 +46,10 @@ export default function AdminBankDetails() {
   const debouncedSearch = useDebounce(searchTerm, 1000); // 1s delay
 
   useEffect(() => {
-    fetchBankDetails(debouncedSearch, page, limit, searchTerm);
-  }, [debouncedSearch, page, limit, searchTerm]);
+    fetchBankDetails(page, limit, debouncedSearch);
+  }, [debouncedSearch, page, limit]);
 
-  const fetchBankDetails = async (page, limit, search = "") => {
+  const fetchBankDetails = async (page = 1, limit = 10, search = "") => {
     setLoading(true);
     setError(null);
     try {

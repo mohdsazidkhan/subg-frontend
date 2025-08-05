@@ -320,6 +320,17 @@ class ApiService {
     return this.request(`/api/admin/students?${queryString}`);
   }
 
+  async getAdminContacts(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/admin/contacts?${queryString}`);
+  }
+
+  async deleteContact(id) {
+    return this.request(`/api/admin/contacts/${id}`, {
+      method: 'DELETE'
+    });
+  }
+
   async updateStudent(id, studentData) {
     return this.request(`/api/admin/students/${id}`, {
       method: 'PUT',

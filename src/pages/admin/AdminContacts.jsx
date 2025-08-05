@@ -11,17 +11,11 @@ import { isMobile } from 'react-device-detect';
 import { 
   FaUser, 
   FaEnvelope, 
-  FaRegCalendarAlt, 
-  FaCommentDots, 
-  FaEye, 
+  FaRegCalendarAlt,
   FaTrash, 
-  FaPhone,
-  FaMapMarkerAlt
 } from 'react-icons/fa';
 import useDebounce from '../../utils/useDebounce';
-
-const API_URL = getConfig('API_URL') + '/api/contacts';
-const PAGE_LIMIT = 10;
+import API from '../../utils/api';
 
 export default function AdminContacts() {
   const [contacts, setContacts] = useState([]);
@@ -29,7 +23,7 @@ export default function AdminContacts() {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const [limit, setLimit] = useState(PAGE_LIMIT);
+  const [limit, setLimit] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState(isMobile ? 'list' : 'table');
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -43,35 +37,24 @@ export default function AdminContacts() {
   const debouncedSearch = useDebounce(searchTerm, 1000); // 1s delay
 
   useEffect(() => {
-    fetchContacts(debouncedSearch, page, limit, searchTerm);
-  }, [debouncedSearch, page, limit, searchTerm]);
+    fetchContacts(page, limit, debouncedSearch);
+  }, [debouncedSearch, page, limit]);
+  
 
-  const fetchContacts = async (page, limit, search = '') => {
+  const fetchContacts = async (currentpage = 1, limit = 10, search = '') => {
     setLoading(true);
     setError(null);
     try {
       const params = new URLSearchParams({
-        page: page.toString(),
+        page: currentpage.toString(),
         limit: limit.toString(),
         ...(search && { search })
       });
-      
-      const res = await fetch(`${API_URL}?${params}`);
-      const data = await res.json();
-      if (data.success) {
-        setContacts(data.contacts);
-        setTotal(data.total);
-        setLimit(data.limit);
-        setPagination({
-          currentPage: page,
-          totalPages: Math.ceil(data.total / limit),
-          total: data.total,
-          hasNextPage: page < Math.ceil(data.total / limit),
-          hasPrevPage: page > 1
-        });
-      } else {
-        setError('Failed to fetch contacts');
-      }
+
+      const response = await API.getAdminContacts(params);
+      setContacts(response.contacts || response);
+      setPagination(response.pagination || {});
+
     } catch (err) {
       setError('Failed to fetch contacts');
     }
@@ -81,13 +64,7 @@ export default function AdminContacts() {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this contact?')) {
       try {
-        const res = await fetch(`${API_URL}/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        
+        const res = await API.getAdminContacts(id)
         if (res.ok) {
           toast.success('Contact deleted successfully!');
           fetchContacts(page, limit, searchTerm);

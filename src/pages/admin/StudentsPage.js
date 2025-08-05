@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import API from '../../utils/api';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
@@ -7,8 +7,9 @@ import { toast } from 'react-toastify';
 import Pagination from '../../components/Pagination';
 import ViewToggle from '../../components/ViewToggle';
 import SearchFilter from '../../components/SearchFilter';
-import { FaTrash, FaEnvelope, FaPhone, FaPlus, FaEdit, FaEye, FaEyeSlash, FaList, FaTable } from 'react-icons/fa';
+import { FaTrash, FaEnvelope, FaPhone } from 'react-icons/fa';
 import { isMobile } from 'react-device-detect';
+import useDebounce from "../../utils/useDebounce";
 
 const StudentsPage = () => {
   const [students, setStudents] = useState([]);
@@ -48,9 +49,12 @@ const StudentsPage = () => {
     }
   };
 
+  const debouncedSearch = useDebounce(searchTerm, 1000);
+
   useEffect(() => {
-    fetchStudents(currentPage, searchTerm, filters);
-  }, [currentPage, searchTerm, itemsPerPage, filters]);
+    fetchStudents(debouncedSearch, currentPage, itemsPerPage, filters);
+  }, [debouncedSearch, currentPage, itemsPerPage, filters]);
+
 
   const handleSearch = (value) => {
     setSearchTerm(value);

@@ -326,7 +326,7 @@ const PerformanceAnalytics = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {[
             {
               icon: FaChartLine,
@@ -376,7 +376,7 @@ const PerformanceAnalytics = () => {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
 
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
