@@ -9,6 +9,7 @@ import ViewToggle from '../../components/ViewToggle';
 import SearchFilter from '../../components/SearchFilter';
 import { FaEdit, FaTrash, FaPlus, FaQuestion, FaCheck, FaEye, FaEyeSlash, FaList, FaTable } from 'react-icons/fa';
 import { isMobile } from 'react-device-detect';
+import useDebounce from '../../utils/useDebounce';
 
 const QuestionPage = () => {
   // Form states
@@ -67,10 +68,15 @@ const QuestionPage = () => {
     }
   };
 
-  useEffect(() => {
-    fetchQuizzes();
-    fetchQuestions(currentPage, searchTerm, filters);
-  }, [currentPage, searchTerm, itemsPerPage, filters]);
+  const debouncedSearch = useDebounce(searchTerm, 1000); // 1s delay
+
+    useEffect(() => {
+      fetchQuizzes();
+    }, []);
+
+    useEffect(() => {
+    fetchQuestions(currentPage, debouncedSearch, filters, itemsPerPage);
+  }, [currentPage, debouncedSearch, filters, itemsPerPage]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -430,6 +436,10 @@ const QuestionPage = () => {
                 <option value={10}>10</option>
                 <option value={20}>20</option>
                 <option value={50}>50</option>
+                <option value={100}>100</option>
+                <option value={250}>250</option>
+                <option value={500}>500</option>
+                <option value={1000}>1000</option>
               </select>
             </div>
           </div>

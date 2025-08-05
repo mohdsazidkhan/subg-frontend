@@ -22,6 +22,7 @@ import {
   FaCrown,
   FaUserTag,
 } from "react-icons/fa";
+import useDebounce from "../../utils/useDebounce";
 
 const PAGE_LIMIT = 10;
 
@@ -42,10 +43,11 @@ export default function AdminBankDetails() {
   const isAdminRoute = location.pathname.startsWith("/admin");
   const isOpen = useSelector((state) => state.sidebar.isOpen);
 
+  const debouncedSearch = useDebounce(searchTerm, 1000); // 1s delay
+
   useEffect(() => {
-    fetchBankDetails(page, limit, searchTerm);
-    // eslint-disable-next-line
-  }, [page, limit, searchTerm]);
+    fetchBankDetails(debouncedSearch, page, limit, searchTerm);
+  }, [debouncedSearch, page, limit, searchTerm]);
 
   const fetchBankDetails = async (page, limit, search = "") => {
     setLoading(true);
@@ -452,6 +454,10 @@ export default function AdminBankDetails() {
                 <option value={10}>10</option>
                 <option value={20}>20</option>
                 <option value={50}>50</option>
+                <option value={100}>100</option>
+                <option value={250}>250</option>
+                <option value={500}>500</option>
+                <option value={1000}>1000</option>
               </select>
             </div>
           </div>

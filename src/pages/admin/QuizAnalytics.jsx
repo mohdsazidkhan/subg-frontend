@@ -172,6 +172,23 @@ const QuizAnalytics = () => {
     ],
   };
 
+  const levelLabels = data.levelStats?.map((l) => l._id || "Unknown") || [];
+  const levelCounts = data.levelStats?.map((l) => l.count) || [];
+
+  const levelBarData = {
+    labels: levelLabels,
+    datasets: [
+      {
+        label: "Quizzes",
+        data: levelCounts,
+        backgroundColor: "rgba(251, 191, 36, 0.7)",
+        borderColor: "rgba(251, 191, 36, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+
   const difficultyPieData = {
     labels: difficultyLabels,
     datasets: [
@@ -361,7 +378,7 @@ const QuizAnalytics = () => {
         </div>
 
         {/* Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
           {/* Category Bar Chart */}
           <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
             <div className="flex items-center mb-4">
@@ -379,6 +396,23 @@ const QuizAnalytics = () => {
             )}
           </div>
 
+          {/* Level Bar Chart */}
+        <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+          <div className="flex items-center mb-4">
+            <FaChartBar className="w-5 h-5 mr-2 text-yellow-600 dark:text-yellow-400" />
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              Level Stats
+            </h3>
+          </div>
+          {levelLabels.length > 0 ? (
+            <Bar data={levelBarData} options={chartOptions} />
+          ) : (
+            <div className="h-64 flex items-center justify-center text-gray-400 dark:text-gray-500">
+              No data available
+            </div>
+          )}
+        </div>
+
           {/* Difficulty Pie Chart */}
           <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
             <div className="flex items-center mb-4">
@@ -395,7 +429,11 @@ const QuizAnalytics = () => {
               </div>
             )}
           </div>
+
+
         </div>
+
+        
 
         {/* Tables */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

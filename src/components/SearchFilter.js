@@ -1,5 +1,4 @@
-import React from 'react';
-import { FaSearch, FaFilter, FaTimes } from 'react-icons/fa';
+import { FaSearch, FaTimes } from 'react-icons/fa';
 
 const SearchFilter = ({ 
   searchTerm, 
@@ -10,6 +9,7 @@ const SearchFilter = ({
   filterOptions = {},
   placeholder = "Search..." 
 }) => {
+
   const hasActiveFilters = Object.values(filters).some(value => value && value !== '');
 
   return (

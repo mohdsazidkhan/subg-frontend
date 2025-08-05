@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import API from '../../utils/api';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
@@ -7,8 +7,9 @@ import { toast } from 'react-toastify';
 import Pagination from '../../components/Pagination';
 import ViewToggle from '../../components/ViewToggle';
 import SearchFilter from '../../components/SearchFilter';
-import { FaEdit, FaTrash, FaPlus, FaEye, FaEyeSlash, FaList, FaTable } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 import { isMobile } from 'react-device-detect';
+import useDebounce from '../../utils/useDebounce';
 
 const CategoryPage = () => {
   const [categories, setCategories] = useState([]);
@@ -47,9 +48,11 @@ const CategoryPage = () => {
     }
   };
 
+  const debouncedSearch = useDebounce(searchTerm, 1000); // Debounce search term
+
   useEffect(() => {
-    fetchCategories(currentPage, searchTerm);
-  }, [currentPage, searchTerm, itemsPerPage]);
+    fetchCategories(currentPage, debouncedSearch, itemsPerPage);
+  }, [currentPage, debouncedSearch, itemsPerPage]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -304,6 +307,10 @@ const CategoryPage = () => {
                 <option value={10}>10</option>
                 <option value={20}>20</option>
                 <option value={50}>50</option>
+                <option value={100}>100</option>
+                <option value={250}>250</option>
+                <option value={500}>500</option>
+                <option value={1000}>1000</option>
               </select>
             </div>
           </div>

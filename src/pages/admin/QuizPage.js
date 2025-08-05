@@ -13,14 +13,10 @@ import {
   FaClock,
   FaStar,
   FaSpinner,
-  FaEdit,
-  FaEye,
-  FaEyeSlash,
-  FaList,
-  FaTable,
 } from "react-icons/fa";
 import { formatTimeToIST, formatDateToIST } from "../../utils";
 import { isMobile } from "react-device-detect";
+import useDebounce from "../../utils/useDebounce";
 
 const QuizPage = () => {
   // Form states
@@ -54,9 +50,11 @@ const QuizPage = () => {
   const [filters, setFilters] = useState({
     difficulty: "",
     category: "",
+    subcategory: "",
     isActive: "",
+    requiredLevel: ""
   });
-
+  console.log(category, 'categorycategory');
   const user = JSON.parse(localStorage.getItem("userInfo"));
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
@@ -106,14 +104,15 @@ const QuizPage = () => {
   };
 
   const fetchSubcategoriesByCategory = async (categoryId) => {
+   
     if (!categoryId) {
       setFilteredSubcategories([]);
       return;
     }
-
     try {
       setLoadingSubcategories(true);
       const response = await API.getSubcategories(categoryId);
+      
       setFilteredSubcategories(response.subcategories || response || []);
     } catch (error) {
       console.error("Error fetching subcategories by category:", error);
@@ -124,14 +123,22 @@ const QuizPage = () => {
     }
   };
 
+ 
+  const debouncedSearch = useDebounce(searchTerm, 1000);
+
   useEffect(() => {
     fetchCategories();
     fetchSubcategories();
-    fetchQuizzes(currentPage, searchTerm, filters);
-  }, [currentPage, searchTerm, itemsPerPage, filters]);
+  }, []); 
+
+  useEffect(() => {
+    fetchQuizzes(currentPage, debouncedSearch, filters);
+  }, [currentPage, debouncedSearch, filters]);
+
 
   // Handle category change
   const handleCategoryChange = (categoryId) => {
+     console.log(categoryId,'categoryId');
     setCategory(categoryId);
     setSubcategory(""); // Clear subcategory when category changes
     fetchSubcategoriesByCategory(categoryId);
@@ -228,7 +235,7 @@ const QuizPage = () => {
   };
 
   const handleClearFilters = () => {
-    setFilters({ difficulty: "", category: "", isActive: "" });
+    setFilters({ difficulty: "", category: "", subcategory: "", isActive: "", requiredLevel: "" });
     setCurrentPage(1);
   };
 
@@ -592,6 +599,10 @@ const QuizPage = () => {
                 <option value={10}>10</option>
                 <option value={20}>20</option>
                 <option value={50}>50</option>
+                <option value={100}>100</option>
+                <option value={250}>250</option>
+                <option value={500}>500</option>
+                <option value={1000}>1000</option>
               </select>
             </div>
           </div>
@@ -681,7 +692,7 @@ const QuizPage = () => {
                         required
                       >
                         <option value="">Select Category</option>
-                        {categories.map((c) => (
+                        {categories?.map((c) => (
                           <option key={c._id} value={c._id}>
                             {c.name}
                           </option>

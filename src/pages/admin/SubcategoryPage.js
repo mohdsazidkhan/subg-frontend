@@ -9,6 +9,7 @@ import ViewToggle from '../../components/ViewToggle';
 import SearchFilter from '../../components/SearchFilter';
 import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 import { isMobile } from 'react-device-detect';
+import useDebounce from '../../utils/useDebounce';
 
 const SubcategoryPage = () => {
   const [subcategories, setSubcategories] = useState([]);
@@ -58,10 +59,15 @@ const SubcategoryPage = () => {
     }
   };
 
-  useEffect(() => {
-    fetchCategories();
-    fetchSubcategories(currentPage, searchTerm);
-  }, [currentPage, searchTerm, itemsPerPage]);
+const debouncedSearch = useDebounce(searchTerm, 1000);
+
+useEffect(() => {
+  fetchCategories(); 
+}, []);
+
+useEffect(() => {
+  fetchSubcategories(currentPage, debouncedSearch, itemsPerPage);
+}, [currentPage, debouncedSearch, itemsPerPage]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -334,6 +340,10 @@ const SubcategoryPage = () => {
                 <option value={10}>10</option>
                 <option value={20}>20</option>
                 <option value={50}>50</option>
+                <option value={100}>100</option>
+                <option value={250}>250</option>
+                <option value={500}>500</option>
+                <option value={1000}>1000</option>
               </select>
             </div>
           </div>
