@@ -93,6 +93,17 @@ const DashboardPage = () => {
       bgColor: 'bg-red-50',
       darkBgColor: 'dark:bg-red-900/20'
     },
+    {
+      title: 'Bank Details',
+      count: stats.bankDetails,
+      link: '/admin/bank-details',
+      icon: '🏦',
+      color: 'bg-blue-500',
+      textColor: 'text-blue-500',
+      bgColor: 'bg-blue-50',
+      darkBgColor: 'dark:bg-blue-900/20'
+    }
+
   ];
 
   const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -147,7 +158,7 @@ const DashboardPage = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-4 md:mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-4 md:mb-8">
           {cards.map((card) => (
             <Link key={card.title} to={card.link} className="group">
               <div className={`relative overflow-hidden rounded-xl p-2 md:p-6 transition-all duration-300 hover:scale-105 hover:shadow-lg ${card.bgColor} ${card.darkBgColor} border border-gray-200 dark:border-gray-700`}>

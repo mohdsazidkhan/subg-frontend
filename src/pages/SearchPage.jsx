@@ -19,7 +19,7 @@ const SearchPage = () => {
   const limit = 12;
 
   const fetchData = async () => {
-    let searchQuery = query;
+    let searchQuery = query?.trim();
     try {
       setLoading(true);
       const res = await API.searchAll({

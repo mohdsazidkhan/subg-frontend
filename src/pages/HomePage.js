@@ -226,7 +226,7 @@ const HomePage = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    navigate("/search", {state:{searchQuery}})
+    navigate("/search", {state:{searchQuery: searchQuery?.trim()}})
   };
 
   return (

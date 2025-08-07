@@ -29,31 +29,32 @@ const StudentsPage = () => {
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isOpen = useSelector((state) => state.sidebar.isOpen);
 
-  const fetchStudents = async (page = 1, search = '', filterParams = {}) => {
-    try {
-      setLoading(true);
-      const params = {
-        page,
-        limit: itemsPerPage,
-        ...(search && { search }),
-        ...filterParams
-      };
-      const response = await API.getAdminStudents(params);
-      setStudents(response.students || response);
-      setPagination(response.pagination || {});
-    } catch (error) {
-      console.error('Error fetching students:', error);
-      toast.error('Failed to fetch students');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const fetchStudents = async (page = 1, search = '', filterParams = {}, limit = itemsPerPage) => {
+  try {
+    setLoading(true);
+    const params = {
+      page,
+      limit,
+      ...(search && { search }),
+      ...filterParams
+    };
+    const response = await API.getAdminStudents(params);
+    setStudents(response.students || response);
+    setPagination(response.pagination || {});
+  } catch (error) {
+    console.error('Error fetching students:', error);
+    toast.error('Failed to fetch students');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const debouncedSearch = useDebounce(searchTerm, 1000);
 
-  useEffect(() => {
-    fetchStudents(debouncedSearch, currentPage, itemsPerPage, filters);
-  }, [debouncedSearch, currentPage, itemsPerPage, filters]);
+useEffect(() => {
+  fetchStudents(currentPage, debouncedSearch, filters, itemsPerPage);
+}, [currentPage, debouncedSearch, filters, itemsPerPage]);
 
 
   const handleSearch = (value) => {
@@ -411,6 +412,10 @@ const StudentsPage = () => {
                 <option value={10}>10</option>
                 <option value={20}>20</option>
                 <option value={50}>50</option>
+                <option value={100}>100</option>
+                <option value={250}>250</option>
+                <option value={500}>500</option>
+                <option value={1000}>1000</option>
               </select>
             </div>
           </div>
