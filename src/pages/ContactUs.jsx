@@ -1,12 +1,43 @@
-import { useState, useEffect } from 'react';
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaClock, FaPaperPlane, FaHeadset, FaComments, FaRocket } from 'react-icons/fa';
+import { useState } from "react";
+import {
+  FaEnvelope,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaClock,
+  FaPaperPlane,
+  FaHeadset,
+  FaComments,
+  FaRocket,
+} from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  FaYoutube,
+  FaLinkedinIn,
+  FaWhatsapp,
+  FaDiscord,
+  FaTelegramPlane,
+} from "react-icons/fa";
+
+// Define social links from .env
+const socialLinks = [
+  { icon: <FaFacebookF />, url: process.env.REACT_APP_FACEBOOK_URL },
+  { icon: <FaTwitter />, url: process.env.REACT_APP_TWITTER_URL },
+  { icon: <FaInstagram />, url: process.env.REACT_APP_INSTAGRAM_URL },
+  { icon: <FaYoutube />, url: process.env.REACT_APP_YOUTUBE_URL },
+  { icon: <FaLinkedinIn />, url: process.env.REACT_APP_LINKEDIN_URL },
+  { icon: <FaWhatsapp />, url: process.env.REACT_APP_WHATSAPP_URL },
+  { icon: <FaDiscord />, url: process.env.REACT_APP_DISCORD_URL },
+  { icon: <FaTelegramPlane />, url: process.env.REACT_APP_TELEGRAM_URL },
+];
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
   const [status, setStatus] = useState(null);
 
@@ -14,39 +45,39 @@ const ContactUs = () => {
     e.preventDefault();
     setStatus(null);
     try {
-      const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const API_BASE_URL =
+        process.env.REACT_APP_API_URL || "http://localhost:5000";
       const response = await fetch(`${API_BASE_URL}/api/contacts`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          message: `Subject: ${formData.subject}\n${formData.message}`
-        })
+          message: `Subject: ${formData.subject}\n${formData.message}`,
+        }),
       });
       const data = await response.json();
       if (data.success) {
-        setStatus('success');
-        setFormData({ name: '', email: '', subject: '', message: '' });
+        setStatus("success");
+        setFormData({ name: "", email: "", subject: "", message: "" });
       } else {
-        setStatus('error');
+        setStatus("error");
       }
     } catch (error) {
-      setStatus('error');
+      setStatus("error");
     }
   };
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900">
       <div className="container mx-auto px-4 py-8 mt-16">
-        
         {/* Hero Section */}
         <div className="text-center mb-12">
           <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -56,27 +87,31 @@ const ContactUs = () => {
             Get in Touch
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Have questions about our quiz platform? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+            Have questions about our quiz platform? We'd love to hear from you.
+            Send us a message and we'll respond as soon as possible.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          
           {/* Contact Information */}
           <div className="space-y-8">
             <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl px-2 py-4 md:p-8 border border-white/20">
               <h2 className="text-xl md:text-3xl font-bold text-gray-800 dark:text-white mb-6">
                 Contact Information
               </h2>
-              
+
               <div className="space-y-6">
                 <div className="flex items-center space-x-4 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 rounded-2xl border border-blue-200 dark:border-blue-700">
                   <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
                     <FaEnvelope className="text-white text-xl" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-800 dark:text-white">Email</h3>
-                    <p className="text-gray-600 dark:text-gray-300">subgquiz@gmail.com</p>
+                    <h3 className="font-semibold text-gray-800 dark:text-white">
+                      Email
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      subgquiz@gmail.com
+                    </p>
                   </div>
                 </div>
 
@@ -85,8 +120,12 @@ const ContactUs = () => {
                     <FaPhone className="text-white text-xl" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-800 dark:text-white">Phone</h3>
-                    <p className="text-gray-600 dark:text-gray-300">+91 7678 13 1912</p>
+                    <h3 className="font-semibold text-gray-800 dark:text-white">
+                      Phone
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      +91 7678 13 1912
+                    </p>
                   </div>
                 </div>
 
@@ -95,8 +134,12 @@ const ContactUs = () => {
                     <FaMapMarkerAlt className="text-white text-xl" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-800 dark:text-white">Address</h3>
-                    <p className="text-gray-600 dark:text-gray-300">Badarpur, Delhi, India</p>
+                    <h3 className="font-semibold text-gray-800 dark:text-white">
+                      Address
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      Badarpur, Delhi, India
+                    </p>
                   </div>
                 </div>
 
@@ -105,8 +148,12 @@ const ContactUs = () => {
                     <FaClock className="text-white text-xl" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-800 dark:text-white">Business Hours</h3>
-                    <p className="text-gray-600 dark:text-gray-300">Mon - Fri: 9:00 AM - 9:00 PM</p>
+                    <h3 className="font-semibold text-gray-800 dark:text-white">
+                      Business Hours
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      Mon - Fri: 9:00 AM - 9:00 PM
+                    </p>
                   </div>
                 </div>
               </div>
@@ -122,7 +169,8 @@ const ContactUs = () => {
                   Need Immediate Help?
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  Our support team is available 24/7 to assist you with any questions or issues.
+                  Our support team is available 24/7 to assist you with any
+                  questions or issues.
                 </p>
                 <button className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105">
                   Live Chat Support
@@ -203,11 +251,15 @@ const ContactUs = () => {
                 />
               </div>
 
-              {status === 'success' && (
-                <div className="text-green-600 dark:text-green-400 font-semibold">Message sent successfully!</div>
+              {status === "success" && (
+                <div className="text-green-600 dark:text-green-400 font-semibold">
+                  Message sent successfully!
+                </div>
               )}
-              {status === 'error' && (
-                <div className="text-red-600 dark:text-red-400 font-semibold">Failed to send message. Please try again.</div>
+              {status === "error" && (
+                <div className="text-red-600 dark:text-red-400 font-semibold">
+                  Failed to send message. Please try again.
+                </div>
               )}
 
               <button
@@ -218,6 +270,23 @@ const ContactUs = () => {
                 <span>Send Message</span>
               </button>
             </form>
+            <div className="mt-8 flex flex-wrap justify-center items-center gap-4">
+              {socialLinks.map((item, index) => (
+                <a
+                  key={index}
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={new URL(item.url).hostname}
+                  className="w-11 h-11 rounded-full text-white flex items-center justify-center text-xl 
+           shadow-lg transition-all duration-300 transform hover:scale-110 hover:rotate-3
+           bg-gradient-to-bl from-blue-500 to-purple-500 
+           dark:from-gray-700 dark:to-gray-900 hover:shadow-2xl"
+                >
+                  {item.icon}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -227,27 +296,33 @@ const ContactUs = () => {
             <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <FaRocket className="text-white text-2xl" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Fast Response</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">
+              Fast Response
+            </h3>
             <p className="text-gray-600 dark:text-gray-300">
               Get quick responses to your queries within 24 hours
             </p>
           </div>
-          
+
           <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
             <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <FaHeadset className="text-white text-2xl" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">24/7 Support</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">
+              24/7 Support
+            </h3>
             <p className="text-gray-600 dark:text-gray-300">
               Round-the-clock customer support for all your needs
             </p>
           </div>
-          
+
           <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
             <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <FaComments className="text-white text-2xl" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Expert Team</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">
+              Expert Team
+            </h3>
             <p className="text-gray-600 dark:text-gray-300">
               Experienced professionals ready to help you succeed
             </p>

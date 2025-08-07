@@ -38,9 +38,14 @@
   color: #6b7280;
   margin-bottom: 1.5rem;
 }
-
+body{
+  padding-bottom: 20px;
+}
 /* Responsive design for admin panel */
 @media (max-width: 768px) {
+  body{
+    padding-bottom: 40px;
+  }
   .appContainer.has-sidebar {
     margin-left: 0;
   }

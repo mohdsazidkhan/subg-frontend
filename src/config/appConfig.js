@@ -9,10 +9,10 @@ const config = {
   BACKEND_URL: process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000',
 
   // Application Configuration
-  APP_NAME: process.env.REACT_APP_APP_NAME || 'SUBG Quiz',
+  APP_NAME: process.env.REACT_APP_APP_NAME || 'SUBG QUIZ',
   APP_VERSION: process.env.REACT_APP_APP_VERSION || '1.0.0',
   APP_DESCRIPTION: process.env.REACT_APP_APP_DESCRIPTION || 'Quiz Platform',
-  APP_AUTHOR: process.env.REACT_APP_APP_AUTHOR || 'SUBG Team',
+  APP_AUTHOR: process.env.REACT_APP_APP_AUTHOR || 'SUBG TEAM',
 
   // Security Configuration
   SECURITY_LEVEL: process.env.REACT_APP_SECURITY_LEVEL || 'high',
@@ -88,13 +88,13 @@ const config = {
 
   // Quiz Configuration
   QUIZ_CONFIG: {
-    DEFAULT_TIME_LIMIT: parseInt(process.env.REACT_APP_DEFAULT_QUIZ_TIME_LIMIT) || 30, // minutes
-    MAX_QUESTIONS_PER_QUIZ: parseInt(process.env.REACT_APP_MAX_QUESTIONS_PER_QUIZ) || 50,
+    DEFAULT_TIME_LIMIT: parseInt(process.env.REACT_APP_DEFAULT_QUIZ_TIME_LIMIT) || 5, // minutes
+    MAX_QUESTIONS_PER_QUIZ: parseInt(process.env.REACT_APP_MAX_QUESTIONS_PER_QUIZ) || 10,
     MIN_QUESTIONS_PER_QUIZ: parseInt(process.env.REACT_APP_MIN_QUESTIONS_PER_QUIZ) || 5,
     PASSING_SCORE: parseInt(process.env.REACT_APP_PASSING_SCORE) || 60, // percentage
     SHOW_RESULTS_IMMEDIATELY: process.env.REACT_APP_SHOW_RESULTS_IMMEDIATELY === 'true',
     ALLOW_RETAKES: process.env.REACT_APP_ALLOW_RETAKES === 'true',
-    MAX_RETAKES: parseInt(process.env.REACT_APP_MAX_RETAKES) || 3
+    MAX_RETAKES: parseInt(process.env.REACT_APP_MAX_RETAKES) || 1
   },
 
   // UI Configuration
@@ -107,19 +107,10 @@ const config = {
 
   // Contact Information
   CONTACT: {
-    EMAIL: process.env.REACT_APP_CONTACT_EMAIL || 'support@subgquiz.com',
-    PHONE: process.env.REACT_APP_CONTACT_PHONE || '+91-9876543210',
+    EMAIL: process.env.REACT_APP_CONTACT_EMAIL || 'subgquiz@gmail.com',
+    PHONE: process.env.REACT_APP_CONTACT_PHONE || '+91-7678131912',
     ADDRESS: process.env.REACT_APP_CONTACT_ADDRESS || 'Delhi, India',
     WEBSITE: process.env.REACT_APP_WEBSITE_URL || 'https://subgquiz.com'
-  },
-
-  // Social Media Links
-  SOCIAL_MEDIA: {
-    FACEBOOK: process.env.REACT_APP_FACEBOOK_URL || 'https://facebook.com/subgquizz',
-    TWITTER: process.env.REACT_APP_TWITTER_URL || 'https://twitter.com/subgquiz',
-    INSTAGRAM: process.env.REACT_APP_INSTAGRAM_URL || 'https://instagram.com/subgquiz',
-    YOUTUBE: process.env.REACT_APP_YOUTUBE_URL || 'https://youtube.com/subgquiz',
-    LINKEDIN: process.env.REACT_APP_LINKEDIN_URL || 'https://www.linkedin.com/company/subgquiz'
   },
 
   // Legal Information
@@ -190,10 +181,6 @@ export const getSubscriptionPlan = (planName) => {
 
 export const getContactInfo = () => {
   return config.CONTACT;
-};
-
-export const getSocialMediaLinks = () => {
-  return config.SOCIAL_MEDIA;
 };
 
 export const getLegalLinks = () => {

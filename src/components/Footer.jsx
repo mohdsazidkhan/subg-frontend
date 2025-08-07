@@ -6,8 +6,8 @@ export default function Footer() {
   const legalLinks = config.LEGAL;
   return (
     <>
-    <footer className="w-full bg-gray-100 dark:bg-gray-900 text-center py-6 border-t border-gray-200 dark:border-gray-700 mt-10 transition-colors duration-300">
-      <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-600 dark:text-gray-300">
+    <footer className="w-full bg-gray-100 dark:bg-gray-900 text-center p-4 md:py-6 border-t border-gray-200 dark:border-gray-700 mt-10 transition-colors duration-300">
+      <div className="flex flex-wrap justify-center gap-3 md:gap-6 text-sm text-gray-600 dark:text-gray-300">
         <Link to="/about" className="hover:underline">About Us</Link>
         <Link to="/how-it-works" className="hover:underline">How It Works</Link>
         <Link to={legalLinks.TERMS} className="hover:underline">Terms & Conditions</Link>
