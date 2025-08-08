@@ -18,66 +18,78 @@ class ApiService {
   }
 
   async request(endpoint, options = {}) {
-    const url = `${this.baseURL}${endpoint}`;
-    const token = localStorage.getItem('token');
-    
-    console.log(`🌐 API Request: ${options.method || 'GET'} ${url}`);
-    console.log('🔑 Token:', token ? 'Present' : 'Missing');
-    
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }),
-        ...options.headers,
-      },
-      ...options,
-    };
+  const url = `${this.baseURL}${endpoint}`;
+  const token = localStorage.getItem('token');
+  
+  console.log(`🌐 API Request: ${options.method || 'GET'} ${url}`);
+  console.log('🔑 Token:', token ? 'Present' : 'Missing');
+  
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }),
+      ...options.headers,
+    },
+    ...options,
+  };
 
-    try {
-      const response = await fetch(url, config);
-      console.log(`📡 Response status: ${response.status}`);
-      
-      let data;
-      const contentType = response.headers.get('content-type');
-      if (contentType && contentType.includes('application/json')) {
-        data = await response.json();
-      } else {
-        data = await response.text();
+  try {
+    const response = await fetch(url, config);
+    console.log(`📡 Response status: ${response.status}`);
+    
+    let data;
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      data = await response.json();
+    } else {
+      data = await response.text();
+    }
+    console.log('📦 Response data:', data);
+    
+    if (!response.ok) {
+      console.error('❌ API Error:', data);
+
+      // ✅ Handle Unauthorized: Clear storage and redirect
+      if (response.status === 401) {
+        localStorage.clear();
+        window.location.href = '/login'; // Or use navigate('/login') if in React Router
+        return; // Stop further execution
       }
-      console.log('📦 Response data:', data);
-      
-      if (!response.ok) {
-        console.error('❌ API Error:', data);
-        const error = new Error();
-        error.response = { status: response.status, data };
-        error.message = data.message || data.error || `HTTP ${response.status}: ${response.statusText}`;
-        throw error;
-      }
-      
-      return data;
-    } catch (error) {
-      console.error('💥 API Error:', error);
-      
-      // If it's already an error with response data, re-throw it
-      if (error.response) {
-        throw error;
-      }
-      
-      // Handle network errors
-      if (error.name === 'TypeError' && error.message.includes('fetch')) {
-        const networkError = new Error('Network error: Unable to connect to server. Please check your internet connection.');
-        networkError.isNetworkError = true;
-        throw networkError;
-      }
-      
-      // Handle other errors
-      if (!error.message) {
-        error.message = 'An unexpected error occurred. Please try again.';
-      }
-      
+
+      const error = new Error();
+      error.response = { status: response.status, data };
+      error.message = data.message || data.error || `HTTP ${response.status}: ${response.statusText}`;
       throw error;
     }
+    
+    return data;
+  } catch (error) {
+    
+    console.error('💥 API Error:', error);
+    
+    if (error.response?.status === 401) {
+      localStorage.clear();
+      window.location.href = '/login';
+      return;
+    }
+
+    if (error.response) {
+      throw error;
+    }
+    
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      const networkError = new Error('Network error: Unable to connect to server. Please check your internet connection.');
+      networkError.isNetworkError = true;
+      throw networkError;
+    }
+    
+    if (!error.message) {
+      error.message = 'An unexpected error occurred. Please try again.';
+    }
+    
+    throw error;
   }
+}
 
   // Auth endpoints
   async login(credentials) {
