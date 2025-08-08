@@ -8,15 +8,15 @@ import { MdFormatListNumbered } from 'react-icons/md';
 const levels = [
   { level: 0, name: 'Zero Level', desc: 'Just registered - Start your journey!', quizzes: 0, plan: 'Free', amount: 0, prize: 0, color: 'from-gray-300 to-gray-400', icon: FaBrain },
   { level: 1, name: 'Rookie', desc: 'Just getting started – Easy questions', quizzes: 2, plan: 'Free', amount: 0, prize: 0, color: 'from-gray-400 to-gray-500', icon: FaBrain },
-  { level: 2, name: 'Explorer', desc: 'Discover new ideas – Slightly challenging', quizzes: 4, plan: 'Free', amount: 0, prize: 0, color: 'from-blue-400 to-blue-500', icon: FaRocket },
+  { level: 2, name: 'Explorer', desc: 'Discover new ideas – Slightly challenging', quizzes: 4, plan: 'Free', amount: 0, prize: 0, color: 'from-yellow-400 to-yellow-500', icon: FaRocket },
   { level: 3, name: 'Thinker', desc: 'Test your brain power – Moderate difficulty', quizzes: 8, plan: 'Free', amount: 0, prize: 0, color: 'from-green-400 to-green-500', icon: FaBrain },
-  { level: 4, name: 'Strategist', desc: 'Mix of logic, memory, and speed', quizzes: 16, plan: 'Basic', amount: 99, prize: 0, color: 'from-purple-400 to-purple-500', icon: FaChartLine },
+  { level: 4, name: 'Strategist', desc: 'Mix of logic, memory, and speed', quizzes: 16, plan: 'Basic', amount: 99, prize: 0, color: 'from-red-400 to-red-500', icon: FaChartLine },
   { level: 5, name: 'Achiever', desc: 'Cross-topic challenges begin', quizzes: 32, plan: 'Basic', amount: 99, prize: 0, color: 'from-indigo-400 to-indigo-500', icon: FaStar },
   { level: 6, name: 'Mastermind', desc: 'For those who always aim to win', quizzes: 64, plan: 'Basic', amount: 99, prize: 0, color: 'from-pink-400 to-pink-500', icon: FaBrain },
   { level: 7, name: 'Champion', desc: 'Beat the timer and the brain', quizzes: 128, plan: 'Premium', amount: 499, prize: 0, color: 'from-yellow-400 to-yellow-500', icon: FaMedal },
   { level: 8, name: 'Prodigy', desc: 'Only a few reach here – high-level puzzles', quizzes: 256, plan: 'Premium', amount: 499, prize: 0, color: 'from-orange-400 to-orange-500', icon: FaStar },
   { level: 9, name: 'Quiz Wizard', desc: 'Complex questions across categories', quizzes: 512, plan: 'Premium', amount: 499, prize: 0, color: 'from-red-400 to-red-500', icon: FaBrain },
-  { level: 10, name: 'Legend', desc: 'Final frontier — only the best reach here!', quizzes: 1024, plan: 'Pro', amount: 999, prize: 99999, color: 'from-purple-500 to-pink-500', icon: FaCrown }
+  { level: 10, name: 'Legend', desc: 'Final frontier — only the best reach here!', quizzes: 1024, plan: 'Pro', amount: 999, prize: 99999, color: 'from-red-500 to-yellow-500', icon: FaCrown }
 ];
 
 const LevelDetailPage = () => {
@@ -126,7 +126,7 @@ const LevelDetailPage = () => {
             
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
               <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 sm:p-4">
-                <div className="text-lg sm:text-2xl font-bold text-blue-600">{level.quizzes}</div>
+                <div className="text-lg sm:text-2xl font-bold text-yellow-600">{level.quizzes}</div>
                 <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Quizzes</div>
               </div>
               <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 sm:p-4">
@@ -134,7 +134,7 @@ const LevelDetailPage = () => {
                 <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Plan</div>
               </div>
               <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 sm:p-4">
-                <div className="text-lg sm:text-2xl font-bold text-purple-600">₹{level.amount}</div>
+                <div className="text-lg sm:text-2xl font-bold text-red-600">₹{level.amount}</div>
                 <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Amount</div>
               </div>
               <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 sm:p-4">
@@ -151,7 +151,7 @@ const LevelDetailPage = () => {
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">Level {levelNumber} Quizzes</h2>
            <button
               onClick={() => navigate("/")}
-              className="px-3 md:px-4 py-1 md:py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+              className="px-3 md:px-4 py-1 md:py-2 bg-gradient-to-r from-yellow-500 to-red-600 text-white rounded-2xl hover:from-yellow-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
             >
               <FaArrowLeft />
               <span>Go Back</span>
@@ -160,7 +160,7 @@ const LevelDetailPage = () => {
           
           {loading ? (
             <div className="text-center py-6 sm:py-8">
-              <div className="animate-spin rounded-full h-8 sm:h-12 w-8 sm:w-12 border-b-2 border-blue-600 mx-auto"></div>
+              <div className="animate-spin rounded-full h-8 sm:h-12 w-8 sm:w-12 border-b-2 border-yellow-600 mx-auto"></div>
               <p className="mt-2 sm:mt-4 text-gray-600 dark:text-gray-300 text-sm sm:text-base">Loading quizzes...</p>
             </div>
           ) : error ? (
@@ -207,14 +207,14 @@ const LevelDetailPage = () => {
                       
                       {quiz.attemptStatus?.hasAttempted ? (
                         <button
-                          className="w-full bg-gradient-to-r from-gray-500 to-blue-500 hover:from-blue-500 hover:to-gray-500 text-white font-semibold py-2 rounded-xl transition-all duration-300 shadow-md"
+                          className="w-full bg-gradient-to-r from-gray-500 to-yellow-500 hover:from-yellow-500 hover:to-gray-500 text-white font-semibold py-2 rounded-xl transition-all duration-300 shadow-md"
                           onClick={() => navigate('/quiz-result', { state: { quizId: quiz._id } })}
                         >
                           View Result
                         </button>
                       ) : (
                         <button
-                          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-purple-600 hover:to-blue-500 text-white font-semibold py-2 rounded-xl transition-all duration-300 shadow-md"
+                          className="w-full bg-gradient-to-r from-yellow-500 to-red-600 hover:from-red-600 hover:to-yellow-500 text-white font-semibold py-2 rounded-xl transition-all duration-300 shadow-md"
                           onClick={() => handleQuizClick(quiz._id)}
                         >
                           Start Quiz
@@ -230,7 +230,7 @@ const LevelDetailPage = () => {
                 <div className="flex justify-center mt-8">
                   <button 
                     onClick={() => setPage(p => p + 1)}
-                    className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    className="bg-yellow-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors"
                   >
                     Load More
                   </button>

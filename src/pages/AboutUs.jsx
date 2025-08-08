@@ -7,15 +7,15 @@ const AboutUs = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900">
+  <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900">
       <div className="container mx-auto px-4 py-8 mt-16">
         
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="w-24 h-24 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
             <FaTrophy className="text-white text-3xl" />
           </div>
-          <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-600 via-red-600 to-yellow-700 bg-clip-text text-transparent mb-4">
             About SUBG QUIZ
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
@@ -47,7 +47,7 @@ const AboutUs = () => {
           {/* Features Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center mb-4">
                 <FaBrain className="text-white text-xl" />
               </div>
               <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Skill-Based Learning</h3>
@@ -77,7 +77,7 @@ const AboutUs = () => {
             </div>
 
             <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center mb-4">
                 <FaGraduationCap className="text-white text-xl" />
               </div>
               <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Diverse Topics</h3>
@@ -97,7 +97,7 @@ const AboutUs = () => {
             </div>
 
             <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-              <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center mb-4">
                 <FaLightbulb className="text-white text-xl" />
               </div>
               <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Smart Learning</h3>
@@ -110,7 +110,7 @@ const AboutUs = () => {
           {/* Company Info */}
           <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 mb-12">
             <div className="flex items-center space-x-4 mb-6">
-              <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-2xl flex items-center justify-center">
                 <FaShieldAlt className="text-white text-2xl" />
               </div>
               <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
@@ -163,12 +163,12 @@ const AboutUs = () => {
 
           {/* Call to Action */}
           <div className="text-center">
-            <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl p-8 text-white">
+            <div className="bg-gradient-to-r from-yellow-500 to-red-500 rounded-3xl p-8 text-white">
               <h2 className="text-3xl font-bold mb-4">Ready to Start Your Quiz Journey?</h2>
               <p className="text-xl mb-6 opacity-90">
                 Join thousands of learners who are already turning their knowledge into success
               </p>
-              <button className="bg-white text-blue-600 px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
+              <button className="bg-white text-yellow-600 px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
                 Get Started Today
               </button>
             </div>

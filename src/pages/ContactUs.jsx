@@ -76,14 +76,14 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900">
+  <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900">
       <div className="container mx-auto px-4 py-8 mt-16">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="w-24 h-24 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
             <FaComments className="text-white text-3xl" />
           </div>
-          <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-600 via-red-600 to-yellow-700 bg-clip-text text-transparent mb-4">
             Get in Touch
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
@@ -101,8 +101,8 @@ const ContactUs = () => {
               </h2>
 
               <div className="space-y-6">
-                <div className="flex items-center space-x-4 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 rounded-2xl border border-blue-200 dark:border-blue-700">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
+                <div className="flex items-center space-x-4 p-4 bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl border border-yellow-200 dark:border-yellow-700">
+                  <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center">
                     <FaEnvelope className="text-white text-xl" />
                   </div>
                   <div>
@@ -143,8 +143,8 @@ const ContactUs = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl border border-purple-200 dark:border-purple-700">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                <div className="flex items-center space-x-4 p-4 bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl border border-yellow-200 dark:border-yellow-700">
+                  <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center">
                     <FaClock className="text-white text-xl" />
                   </div>
                   <div>
@@ -162,7 +162,7 @@ const ContactUs = () => {
             {/* Quick Support */}
             <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-yellow-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <FaHeadset className="text-white text-2xl" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
@@ -172,7 +172,7 @@ const ContactUs = () => {
                   Our support team is available 24/7 to assist you with any
                   questions or issues.
                 </p>
-                <button className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105">
+                <button className="bg-gradient-to-r from-green-500 to-yellow-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-600 hover:to-yellow-600 transition-all duration-300 transform hover:scale-105">
                   Live Chat Support
                 </button>
               </div>
@@ -182,7 +182,7 @@ const ContactUs = () => {
           {/* Contact Form */}
           <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl px-2 py-4 md:p-8 border border-white/20">
             <div className="flex items-center space-x-4 mb-6">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-2xl flex items-center justify-center">
                 <FaPaperPlane className="text-white text-2xl" />
               </div>
               <h2 className="text-xl md:text-3xl font-bold text-gray-800 dark:text-white">
@@ -216,7 +216,7 @@ const ContactUs = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-300"
                   placeholder="Enter your email address"
                 />
               </div>
@@ -264,7 +264,7 @@ const ContactUs = () => {
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
+                className="w-full bg-gradient-to-r from-yellow-500 to-red-500 text-white py-3 px-6 rounded-xl font-semibold hover:from-yellow-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
               >
                 <FaPaperPlane className="text-sm" />
                 <span>Send Message</span>
@@ -280,7 +280,7 @@ const ContactUs = () => {
                   title={new URL(item.url).hostname}
                   className="w-11 h-11 rounded-full text-white flex items-center justify-center text-xl 
            shadow-lg transition-all duration-300 transform hover:scale-110 hover:rotate-3
-           bg-gradient-to-bl from-blue-500 to-purple-500 
+           bg-gradient-to-bl from-yellow-500 to-red-500 
            dark:from-gray-700 dark:to-gray-900 hover:shadow-2xl"
                 >
                   {item.icon}
@@ -293,7 +293,7 @@ const ContactUs = () => {
         {/* Features Section */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <FaRocket className="text-white text-2xl" />
             </div>
             <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">

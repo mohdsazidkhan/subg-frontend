@@ -185,8 +185,8 @@ const LevelBasedQuizzes = () => {
   };
 
   const getLevelMatchColor = (levelMatch) => {
-    if (levelMatch.exact) return 'bg-blue-100 text-blue-800';
-    if (levelMatch.withinRange) return 'bg-purple-100 text-purple-800';
+  if (levelMatch.exact) return 'bg-yellow-100 text-yellow-800';
+  if (levelMatch.withinRange) return 'bg-red-100 text-red-800';
     return 'bg-gray-100 text-gray-800';
   };
 
@@ -208,9 +208,8 @@ const LevelBasedQuizzes = () => {
 
   const getLevelColor = (level) => {
     const colors = [
-      'bg-blue-500', 'bg-green-500', 'bg-yellow-500', 'bg-orange-500', 
-      'bg-red-500', 'bg-purple-500', 'bg-pink-500', 'bg-indigo-500',
-      'bg-teal-500', 'bg-cyan-500'
+      'bg-yellow-500', 'bg-green-500', 'bg-orange-500', 'bg-red-500', 
+      'bg-pink-500', 'bg-indigo-500', 'bg-teal-500', 'bg-cyan-500', 'bg-yellow-600', 'bg-red-600'
     ];
     return colors[(level - 1) % colors.length];
   };
@@ -220,7 +219,7 @@ const LevelBasedQuizzes = () => {
     return (
       <div className="flex items-center justify-center min-h-screen bg-white dark:bg-gray-900">
         <div className="flex flex-col items-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-600 mb-4"></div>
           <div className="text-xl text-gray-700 dark:text-gray-200">Loading quizzes...</div>
         </div>
       </div>
@@ -238,7 +237,7 @@ const LevelBasedQuizzes = () => {
                <p className="text-gray-600 dark:text-gray-300 mb-4">Subscribe now to unlock all quizzes and levels!</p>
                <Link
                  to="/subscription"
-                 className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
+                 className="inline-block bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
                >
                  Subscribe Now
                </Link>
@@ -249,13 +248,13 @@ const LevelBasedQuizzes = () => {
     <div className="container mx-auto px-4 py-8">
       {/* User Level Info */}
       {userLevel && (
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg p-2 md:p-6 mb-4 md:mb-8">
+  <div className="bg-gradient-to-r from-yellow-500 to-red-600 text-white rounded-lg p-2 md:p-6 mb-4 md:mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-xl md:text-2xl font-bold mb-2">
                 Level {userLevel.currentLevel} - {userLevel.levelName}
               </h2>
-              <p className="text-blue-100">
+              <p className="text-yellow-100">
                 Progress to next level: {userLevel.progress}%
               </p>
             </div>
@@ -263,7 +262,7 @@ const LevelBasedQuizzes = () => {
               <FaLevelUpAlt className="text-4xl text-yellow-300" />
             </div>
           </div>
-          <div className="mt-4 w-full bg-blue-400 rounded-full h-2">
+          <div className="mt-4 w-full bg-yellow-400 rounded-full h-2">
             <div 
               className="bg-yellow-300 h-2 rounded-full transition-all duration-300"
               style={{ width: `${userLevel.progress}%` }}
@@ -462,7 +461,7 @@ const LevelBasedQuizzes = () => {
 
         <button
           onClick={() => navigate("/")}
-          className="px-3 md:px-4 py-1 md:py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+          className="px-3 md:px-4 py-1 md:py-2 bg-gradient-to-r from-yellow-500 to-red-600 text-white rounded-2xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
         >
           <FaArrowLeft />
           <span>Go Back</span>
@@ -584,7 +583,7 @@ const LevelBasedQuizzes = () => {
                 ) : quiz.requiredLevel === userLevel?.currentLevel ? (
                   <button
                     onClick={() => handleAttemptQuiz(quiz)}
-                    className="w-full py-2 px-4 rounded-md font-medium bg-blue-600 text-white hover:bg-blue-700 transition"
+                    className="w-full py-2 px-4 rounded-md font-medium bg-orange-600 text-white hover:bg-orange-700 transition"
                   >
                     Start Quiz
                   </button>

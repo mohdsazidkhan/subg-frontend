@@ -111,7 +111,7 @@ const SearchPage = () => {
         />
         <button
           type="submit"
-          className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded shadow hover:opacity-90"
+          className="bg-gradient-to-r from-yellow-500 to-red-600 text-white px-4 py-2 rounded shadow hover:opacity-90"
         >
           Search
         </button>
@@ -217,7 +217,7 @@ const SearchPage = () => {
                     </p>
                     <button
                       onClick={() => handleQuizAttempt(quiz)}
-                      className="mt-2 w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
+                      className="mt-2 w-full bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
                     >
                       Start Quiz
                     </button>
@@ -242,7 +242,7 @@ const SearchPage = () => {
                 onClick={() => setCurrentPage(i + 1)}
                 className={`px-3 py-1 rounded text-sm font-medium border ${
                   currentPage === i + 1
-                    ? "bg-blue-600 text-white border-blue-600"
+                    ? "bg-yellow-600 text-white border-yellow-600"
                     : "border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                 }`}
               >

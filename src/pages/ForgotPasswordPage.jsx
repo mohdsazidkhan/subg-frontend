@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
-import { FaEnvelope, FaLock, FaArrowLeft } from 'react-icons/fa';
+import { FaEnvelope, FaArrowLeft } from 'react-icons/fa';
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
@@ -29,10 +29,10 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 flex items-center justify-center min-h-screen p-2 md:p-4">
+  <div className="bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-yellow-900 dark:to-red-900 flex items-center justify-center min-h-screen p-2 md:p-4">
       <div className="w-full max-w-md bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20">
         <div className="mb-6 flex items-center gap-2">
-          <Link to="/login" className="text-blue-600 hover:underline flex items-center gap-1">
+          <Link to="/login" className="text-yellow-600 hover:underline flex items-center gap-1">
             <FaArrowLeft /> Back to Login
           </Link>
         </div>
@@ -53,7 +53,7 @@ const ForgotPasswordPage = () => {
                 <input
                   id="email"
                   type="email"
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100"
                   placeholder="Enter your email"
                   value={email}
                   onChange={e => setEmail(e.target.value?.toLowerCase())}
@@ -64,7 +64,7 @@ const ForgotPasswordPage = () => {
             </div>
             <button
               type="submit"
-              className="w-full py-3 px-6 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 shadow-lg hover:shadow-xl"
+              className="w-full py-3 px-6 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 bg-gradient-to-r from-yellow-500 to-red-500 hover:from-yellow-600 hover:to-red-600 shadow-lg hover:shadow-xl"
               disabled={isLoading}
             >
               {isLoading ? (

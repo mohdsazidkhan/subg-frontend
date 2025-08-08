@@ -562,7 +562,7 @@ const QuizPage = () => {
             </div>
             <button
               onClick={() => setShowForm(!showForm)}
-              className="mt-4 sm:mt-0 inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+              className="mt-4 sm:mt-0 inline-flex items-center px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition-colors"
             >
               <FaPlus className="w-4 h-4 mr-2" />
               Add Quiz
@@ -651,7 +651,7 @@ const QuizPage = () => {
                         Description
                       </label>
                       <textarea
-                        className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
                         placeholder="Enter quiz description"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
@@ -726,7 +726,7 @@ const QuizPage = () => {
                       </select>
 
                       {loadingSubcategories && (
-                        <div className="flex items-center text-sm text-blue-600 dark:text-blue-400 mt-1">
+                        <div className="flex items-center text-sm text-yellow-600 dark:text-yellow-400 mt-1">
                           <FaSpinner className="animate-spin mr-2" />
                           Loading subcategories...
                         </div>
@@ -869,7 +869,7 @@ const QuizPage = () => {
                     className={`px-6 py-2 rounded-md transition-colors flex items-center ${
                       isSubmitting
                         ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-                        : "bg-blue-600 text-white hover:bg-blue-700"
+                        : "bg-yellow-600 text-white hover:bg-yellow-700"
                     }`}
                   >
                     {isSubmitting && (
@@ -896,7 +896,7 @@ const QuizPage = () => {
           {/* Content */}
           {loading ? (
             <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500"></div>
             </div>
           ) : quizzes.length === 0 ? (
             <div className="text-center py-12">

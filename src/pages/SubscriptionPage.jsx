@@ -213,9 +213,9 @@ const SubscriptionPage = () => {
   const getPlanGradient = (planName) => {
     switch (planName.toLowerCase()) {
       case 'basic':
-        return 'from-blue-500 via-blue-600 to-indigo-600';
+        return 'from-yellow-500 via-yellow-600 to-red-600';
       case 'premium':
-        return 'from-purple-500 via-purple-600 to-pink-600';
+        return 'from-red-500 via-red-600 to-pink-600';
       case 'pro':
         return 'from-orange-500 via-red-500 to-pink-600';
       default:
@@ -278,10 +278,10 @@ const SubscriptionPage = () => {
 
   if (loading || !razorpayLoaded) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-slate-900 dark:to-indigo-900">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-yellow-50 to-red-100 dark:from-gray-900 dark:via-yellow-900 dark:to-red-900">
         <div className="container mx-auto px-4 py-8 mt-16">
           <div className="animate-pulse">
-            <div className="h-16 bg-gradient-to-r from-blue-200 to-purple-200 dark:from-blue-800 dark:to-purple-800 rounded-2xl w-1/3 mb-12 mx-auto"></div>
+            <div className="h-16 bg-gradient-to-r from-yellow-200 to-red-200 dark:from-yellow-800 dark:to-red-800 rounded-2xl w-1/3 mb-12 mx-auto"></div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
               {[1, 2, 3].map(i => (
                 <div key={i} className="h-96 bg-white/50 dark:bg-gray-800/50 rounded-3xl backdrop-blur-sm"></div>
@@ -290,7 +290,7 @@ const SubscriptionPage = () => {
           </div>
           {!razorpayLoaded && (
             <div className="text-center text-gray-600 dark:text-gray-300">
-              <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 inline-block mr-2"></span>
+              <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-yellow-600 inline-block mr-2"></span>
               <span>Loading payment gateway...</span>
             </div>
           )}
@@ -300,12 +300,12 @@ const SubscriptionPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-slate-900 dark:to-indigo-900 relative overflow-hidden">
+  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-yellow-50 to-red-100 dark:from-gray-900 dark:via-yellow-900 dark:to-red-900 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-40 sm:w-80 h-40 sm:h-80 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
+  <div className="absolute -top-40 -right-40 w-40 sm:w-80 h-40 sm:h-80 bg-gradient-to-br from-yellow-400/20 to-red-400/20 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute -bottom-40 -left-40 w-40 sm:w-80 h-40 sm:h-80 bg-gradient-to-tr from-indigo-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 sm:w-96 h-48 sm:h-96 bg-gradient-to-r from-green-400/10 to-blue-400/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 sm:w-96 h-48 sm:h-96 bg-gradient-to-r from-green-400/10 to-yellow-400/10 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
 
       <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8 mt-0 md:mt-16 relative z-10">
@@ -313,10 +313,10 @@ const SubscriptionPage = () => {
         {/* Hero Section */}
         <div className="text-center mb-10 sm:mb-16 subscription-hero">
           <div className="relative inline-block mb-6 sm:mb-8">
-            <div className="w-20 sm:w-32 h-20 sm:h-32 bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 rounded-full flex items-center justify-center mx-auto shadow-2xl floating-animation">
+            <div className="w-20 sm:w-32 h-20 sm:h-32 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto shadow-2xl floating-animation">
               <FaWallet className="text-white text-2xl sm:text-4xl" />
             </div>
-            <div className="absolute -top-2 -right-2 w-6 sm:w-8 h-6 sm:h-8 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center animate-bounce">
+            <div className="absolute -top-2 -right-2 w-6 sm:w-8 h-6 sm:h-8 bg-gradient-to-r from-green-400 to-yellow-500 rounded-full flex items-center justify-center animate-bounce">
               <FaCrown className="text-white text-xs sm:text-sm" />
             </div>
           </div>
@@ -333,7 +333,7 @@ const SubscriptionPage = () => {
           <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-2xl p-2 py-4 md:p-8 border border-white/30 mb-16 hover-lift">
             <div className="flex items-center justify-between mb-8 flex-col md:flex-row">
               <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
+                <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
                   <FaShieldAlt className="text-white text-3xl" />
                 </div>
                 <div>
@@ -347,7 +347,7 @@ const SubscriptionPage = () => {
               </div>
               <button
                 onClick={() => { navigate('/levels'); }}
-                className=" mt-4 md:mt-0 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 dark:from-blue-500 dark:to-purple-500 dark:hover:from-blue-600 dark:hover:to-purple-600 text-white dark:text-white px-6 py-3 rounded-2xl transition-all duration-300 font-semibold transform hover:scale-105 shadow-lg hover:shadow-xl dark:shadow-blue-500/25 hover:dark:shadow-blue-500/40"
+                className=" mt-4 md:mt-0 bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 dark:from-yellow-500 dark:to-red-500 dark:hover:from-yellow-600 dark:hover:to-red-600 text-white dark:text-white px-6 py-3 rounded-2xl transition-all duration-300 font-semibold transform hover:scale-105 shadow-lg hover:shadow-xl dark:shadow-yellow-500/25 hover:dark:shadow-yellow-500/40"
               >
                 <span className="flex items-center space-x-2">
                   <FaTrophy className="text-sm" />
@@ -357,9 +357,9 @@ const SubscriptionPage = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-3 md:p-6 border border-blue-200 dark:border-blue-700 hover-scale">
+              <div className="bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl p-3 md:p-6 border border-yellow-200 dark:border-yellow-700 hover-scale">
                 <div className="flex items-center space-x-4 mb-0 md:mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center">
                     <FaCrown className="text-white text-xl" />
                   </div>
                   <div>
@@ -387,9 +387,9 @@ const SubscriptionPage = () => {
                 </div>
               </div>
               
-              <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl p-3 md:p-6 border border-purple-200 dark:border-purple-700 hover-scale">
+              <div className="bg-gradient-to-r from-red-50 to-yellow-50 dark:from-red-900/30 dark:to-yellow-900/30 rounded-2xl p-3 md:p-6 border border-red-200 dark:border-red-700 hover-scale">
                 <div className="flex items-center space-x-4 mb-0 md:mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-yellow-500 rounded-xl flex items-center justify-center">
                     <FaBookOpen className="text-white text-xl" />
                   </div>
                   <div>
@@ -522,7 +522,7 @@ const SubscriptionPage = () => {
                       </div>
                     </div>
                     <div className="mb-2">
-                      <span className="text-6xl font-bold bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
+                      <span className="text-6xl font-bold bg-gradient-to-r from-green-600 via-yellow-600 to-red-600 bg-clip-text text-transparent">
                         ₹{plan.price}
                       </span>
                       <span className="text-gray-600 dark:text-gray-300 text-lg">/year</span>
@@ -567,7 +567,7 @@ const SubscriptionPage = () => {
                       className={`w-full py-4 px-6 rounded-2xl font-bold text-white dark:text-white transition-all duration-300 transform hover:scale-105 shadow-lg group-hover:shadow-3xl ${
                         isCurrentPlan 
                           ? 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 dark:from-green-400 dark:to-emerald-400 dark:hover:from-green-500 dark:hover:to-emerald-500 cursor-not-allowed opacity-75' 
-                          : `bg-gradient-to-r ${gradient} hover:shadow-2xl dark:shadow-blue-500/25 hover:dark:shadow-blue-500/40`
+                          : `bg-gradient-to-r ${gradient} hover:shadow-2xl dark:shadow-yellow-500/25 hover:dark:shadow-yellow-500/40`
                       }`}
                     >
                       <span className="flex items-center justify-center space-x-2">
@@ -608,7 +608,7 @@ const SubscriptionPage = () => {
                 icon: FaInfinity,
                 title: 'Unlimited Access',
                 description: 'Access all premium quizzes and features without any restrictions',
-                gradient: 'from-blue-500 to-indigo-500'
+                gradient: 'from-yellow-500 to-red-500'
               },
               {
                 icon: FaTrophy,
@@ -626,7 +626,7 @@ const SubscriptionPage = () => {
                 icon: FaChartLine,
                 title: 'Advanced Analytics',
                 description: 'Track your progress with detailed performance insights',
-                gradient: 'from-purple-500 to-pink-500'
+                gradient: 'from-red-500 to-yellow-500'
               }
             ].map((benefit, index) => (
               <div 
@@ -651,7 +651,7 @@ const SubscriptionPage = () => {
         {transactions.length > 0 && (
           <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/30 mb-16 hover-lift">
             <div className="flex items-center space-x-4 mb-8">
-              <div className="w-20 h-20 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
+              <div className="w-20 h-20 bg-gradient-to-r from-red-500 via-yellow-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
                 <FaHistory className="text-white text-3xl" />
               </div>
               <div>
@@ -706,7 +706,7 @@ const SubscriptionPage = () => {
         )}
 
         {/* Call to Action */}
-        <div className="text-center bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 rounded-3xl p-6 sm:p-12 text-white shadow-2xl hover-lift">
+  <div className="text-center bg-gradient-to-r from-yellow-600 via-red-600 to-pink-600 rounded-3xl p-6 sm:p-12 text-white shadow-2xl hover-lift">
           <h2 className="text-2xl sm:text-4xl font-bold mb-2 sm:mb-4">
             Ready to Start Your Journey?
           </h2>
@@ -715,7 +715,7 @@ const SubscriptionPage = () => {
           </p>
           <button
             onClick={() => document.getElementById('plans-section')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-white dark:bg-gray-100 text-blue-600 dark:text-blue-700 font-bold py-2 sm:py-4 px-4 sm:px-8 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-200 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl dark:shadow-gray-500/25 hover:dark:shadow-gray-500/40"
+            className="bg-white dark:bg-gray-100 text-yellow-600 dark:text-yellow-700 font-bold py-2 sm:py-4 px-4 sm:px-8 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-200 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl dark:shadow-yellow-500/25 hover:dark:shadow-yellow-500/40"
           >
             Choose Your Plan Now
           </button>

@@ -31,8 +31,8 @@ const LeaderboardTable = ({ leaderboard, currentUser }) => {
   if (!leaderboard || leaderboard?.length === 0) {
     return (
       <div className="text-center py-8">
-        <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl p-2 md:p-8 border border-purple-200 dark:border-purple-700">
-          <FaTrophy className="text-4xl text-purple-500 mx-auto mb-4" />
+        <div className="bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/20 dark:to-red-900/20 rounded-2xl p-2 md:p-8 border border-yellow-200 dark:border-red-700">
+          <FaTrophy className="text-4xl text-yellow-500 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">No Leaderboard Yet</h3>
           <p className="text-gray-500 dark:text-gray-400">Be the first to complete this quiz and claim the top spot!</p>
         </div>
@@ -52,7 +52,7 @@ const LeaderboardTable = ({ leaderboard, currentUser }) => {
       <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[30rem]">
-            <thead className="bg-gradient-to-r from-purple-500 to-pink-500">
+            <thead className="bg-gradient-to-r from-yellow-500 to-red-500">
               <tr>
                 <th className="py-2 md:py-4 px-2 md:px-6 text-white font-semibold text-center">Rank</th>
                 <th className="py-2 md:py-4 px-2 md:px-6 text-white font-semibold text-left">Student</th>
@@ -69,7 +69,7 @@ const LeaderboardTable = ({ leaderboard, currentUser }) => {
                   <tr
                     key={rank}
                     className={`transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 ${
-                      isCurrentUser ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 border-l-4 border-blue-500' : ''
+                      isCurrentUser ? 'bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 border-l-4 border-yellow-500' : ''
                     }`}
                   >
                     <td className="py-2 md:py-4 px-2 md:px-6 text-center">
@@ -89,7 +89,7 @@ const LeaderboardTable = ({ leaderboard, currentUser }) => {
                     </td>
                     <td className="py-2 md:py-4 px-2 md:px-6">
                       <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+                        <div className="w-10 h-10 bg-gradient-to-r from-yellow-500 to-red-600 rounded-full flex items-center justify-center text-white font-semibold">
                           {studentName?.charAt(0)?.toUpperCase() || 'A'}
                         </div>
                         <div>
@@ -97,7 +97,7 @@ const LeaderboardTable = ({ leaderboard, currentUser }) => {
                             {studentName || 'Anonymous'}
                           </div>
                           {isCurrentUser && (
-                            <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">
+                            <div className="text-xs text-yellow-600 dark:text-yellow-400 font-medium">
                               You
                             </div>
                           )}

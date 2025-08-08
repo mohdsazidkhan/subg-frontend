@@ -181,12 +181,12 @@ const HomePage = () => {
 
   const getLevelColor = (level) => {
     const colors = [
-      "bg-blue-500",
+  "bg-yellow-500",
       "bg-green-500",
       "bg-yellow-500",
       "bg-orange-500",
       "bg-red-500",
-      "bg-purple-500",
+  "bg-red-500",
       "bg-pink-500",
       "bg-indigo-500",
       "bg-teal-500",
@@ -197,9 +197,9 @@ const HomePage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 flex items-center justify-center">
+  <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-yellow-600 mx-auto mb-4"></div>
           <p className="text-xl text-gray-600 dark:text-gray-300">
             Loading your quiz dashboard...
           </p>
@@ -215,7 +215,7 @@ const HomePage = () => {
     error.toLowerCase() !== "not authorized"
   ) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 flex items-center justify-center">
+  <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 flex items-center justify-center">
         <div className="text-center">
           <div className="text-red-600 text-xl mb-4">⚠️</div>
           <p className="text-red-600 text-lg">{error}</p>
@@ -230,18 +230,18 @@ const HomePage = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 overflow-x-hidden">
+  <div className="relative min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 overflow-x-hidden">
       {/* Decorative Background Blobs */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-gradient-to-br from-blue-300/30 to-purple-300/20 rounded-full blur-3xl z-0 animate-pulse-slow" />
-      <div className="absolute top-1/2 right-0 w-80 h-80 bg-gradient-to-tr from-purple-400/20 to-pink-300/10 rounded-full blur-3xl z-0 animate-pulse-slow" />
-      <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-gradient-to-tl from-indigo-300/20 to-blue-200/10 rounded-full blur-3xl z-0 animate-pulse-slow" />
+  <div className="absolute -top-32 -left-32 w-96 h-96 bg-gradient-to-br from-yellow-300/30 to-red-300/20 rounded-full blur-3xl z-0 animate-pulse-slow" />
+  <div className="absolute top-1/2 right-0 w-80 h-80 bg-gradient-to-tr from-red-400/20 to-pink-300/10 rounded-full blur-3xl z-0 animate-pulse-slow" />
+  <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-gradient-to-tl from-indigo-300/20 to-yellow-200/10 rounded-full blur-3xl z-0 animate-pulse-slow" />
       {/* Hero Section */}
 <div className="relative overflow-hidden z-10">
-  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10 pointer-events-none" />
+  <div className="absolute inset-0 bg-gradient-to-r from-yellow-600/10 via-red-600/10 to-indigo-600/10 pointer-events-none" />
   <div className="relative container mx-auto px-2 sm:px-4 py-10 sm:py-16 flex flex-col items-center">
     <div className="text-center">
       <h1 className="flex-col md:flex-row justify-center md:justify-items-start flex flex-wrap items-center gap-2 text-3xl sm:text-5xl md:text-6xl xl:text-7xl font-extrabold mb-4 drop-shadow-lg animate-fade-in">
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:text-white">
+  <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-indigo-600 dark:text-white">
           Welcome to
         </span>
         <span className="inline-block animate-bounce text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500">
@@ -262,11 +262,11 @@ const HomePage = () => {
 
       <p className="text-base sm:text-xl lg:text-2xl text-gray-700 dark:text-gray-200 mb-4 sm:mb-8 max-w-3xl mx-auto animate-fade-in delay-100">
         Explore quizzes by{" "}
-        <span className="font-bold text-blue-600 dark:text-blue-300">
+  <span className="font-bold text-yellow-600 dark:text-yellow-300">
           level
         </span>
         ,{" "}
-        <span className="font-bold text-purple-600 dark:text-purple-300">
+  <span className="font-bold text-red-600 dark:text-red-300">
           category
         </span>
         , or{" "}
@@ -290,11 +290,11 @@ const HomePage = () => {
             placeholder="Search quizzes, categories, subcategories..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full py-3 pl-5 pr-12 rounded-full shadow-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+            className="w-full py-3 pl-5 pr-12 rounded-full shadow-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition"
           />
           <button
             type="submit"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 text-white bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full hover:scale-105 transition"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 text-white bg-gradient-to-r from-red-500 to-indigo-600 rounded-full hover:scale-105 transition"
           >
             <BsSearch className="text-xl text-white" />
           </button>
@@ -312,19 +312,19 @@ const HomePage = () => {
 
       {/* Hero Section */}
       <div className="text-center mb-12 mt-12 z-10">
-        <div className="w-16 md:w-28 h-16 md:h-28 bg-gradient-to-tr from-blue-500 via-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl animate-float">
+  <div className="w-16 md:w-28 h-16 md:h-28 bg-gradient-to-tr from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl animate-float">
           <FaTrophy className="text-white text-4xl drop-shadow-lg" />
         </div>
-        <h1 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:text-white mb-2 sm:mb-4 drop-shadow-lg">
+  <h1 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-indigo-600 dark:text-white mb-2 sm:mb-4 drop-shadow-lg">
           Level Progression System
         </h1>
         <p className="text-lg md:text-2xl text-gray-700 dark:text-gray-200 font-medium">
           Journey from{" "}
-          <span className="font-bold text-blue-600 dark:text-blue-300">
+    <span className="font-bold text-yellow-600 dark:text-yellow-300">
             Zero Level
           </span>{" "}
           to{" "}
-          <span className="font-bold text-purple-600 dark:text-purple-300">
+    <span className="font-bold text-red-600 dark:text-red-300">
             Legend
           </span>{" "}
           through{" "}
@@ -374,9 +374,9 @@ const HomePage = () => {
           </div>
 
           {/* Progression Rules */}
-          <div className="bg-gradient-to-br from-blue-50 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-3xl shadow-2xl p-2 md:p-8 border border-blue-200 dark:border-blue-700 hover:scale-[1.03] hover:shadow-blue-200/40 transition-all duration-300">
+          <div className="bg-gradient-to-br from-yellow-50 to-red-100 dark:from-yellow-900/30 dark:to-red-900/30 rounded-3xl shadow-2xl p-2 md:p-8 border border-yellow-200 dark:border-yellow-700 hover:scale-[1.03] hover:shadow-yellow-200/40 transition-all duration-300">
             <div className="flex items-center space-x-4 mb-6">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-2xl flex items-center justify-center">
                 <FaGem className="text-white text-2xl" />
               </div>
               <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
@@ -397,7 +397,7 @@ const HomePage = () => {
                 </p>
               </div>
               <div className="flex items-start space-x-3">
-                <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mt-0.5">
+                <div className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center mt-0.5">
                   <div className="w-2 h-2 bg-white rounded-full"></div>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300">
@@ -405,7 +405,7 @@ const HomePage = () => {
                 </p>
               </div>
               <div className="flex items-start space-x-3">
-                <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center mt-0.5">
+                <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center mt-0.5">
                   <div className="w-2 h-2 bg-white rounded-full"></div>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300">
@@ -439,12 +439,12 @@ const HomePage = () => {
         <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8 z-10">
           <div className="flex items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
-              <FaStar className="text-blue-500" />
+              <FaStar className="text-yellow-500" />
               Your Quizzes
             </h2>
             <Link
               to="/level-quizzes"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base"
             >
               <FaLayerGroup className="text-lg" />
               View All
@@ -459,13 +459,13 @@ const HomePage = () => {
           {!isLoggedIn ? (
             <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 flex flex-col items-center justify-center animate-fade-in">
               <div className="text-center mb-6">
-                <div className="text-blue-600 text-3xl mb-2">🔒</div>
-                <p className="text-blue-600 text-lg font-semibold mb-4">
+                <div className="text-yellow-600 text-3xl mb-2">🔒</div>
+                <p className="text-yellow-600 text-lg font-semibold mb-4">
                   Login to view your quizzes
                 </p>
                 <Link
                   to="/login"
-                  className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
+                  className="inline-block bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
                 >
                   Login
                 </Link>
@@ -486,7 +486,7 @@ const HomePage = () => {
                 </p>
                 <Link
                   to="/subscription"
-                  className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
+                  className="inline-block bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
                 >
                   Subscribe Now
                 </Link>
@@ -509,7 +509,7 @@ const HomePage = () => {
                   }
                   if (!currentLevelData) return null;
                   return (
-                    <div className="bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-700 dark:to-blue-900/20 rounded-2xl p-2 md:p-6 shadow-lg">
+                    <div className="bg-gradient-to-r from-gray-50 to-yellow-50 dark:from-gray-700 dark:to-yellow-900/20 rounded-2xl p-2 md:p-6 shadow-lg">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {currentLevelData.quizzes.slice(0, 6).map((quiz) => (
                           <div
@@ -552,7 +552,7 @@ const HomePage = () => {
                             </div>
                             <button
                               onClick={() => handleQuizAttempt(quiz)}
-                              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
+                              className="w-full bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
                             >
                               Start Quiz
                             </button>
@@ -578,7 +578,7 @@ const HomePage = () => {
           )}
         </div>
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-6 flex items-center gap-2">
-          <FaLayerGroup className="text-blue-500" /> All Levels
+          <FaLayerGroup className="text-yellow-500" /> All Levels
         </h2>
         <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-12 max-w-3xl">
           Browse all available levels and their quizzes
@@ -594,15 +594,15 @@ const HomePage = () => {
                   (info) => info.level === level.level
                 );
                 const playCount = levelInfo ? levelInfo.quizzes : 0;
-                const cardBg = `bg-gradient-to-t from-blue-50 to-purple-50 dark:from-gray-800/50 dark:to-gray-900/20`;
+                const cardBg = `bg-gradient-to-t from-yellow-50 to-red-50 dark:from-gray-800/50 dark:to-gray-900/20`;
                 return (
                   <div
                     key={level.level}
-                    className={`rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-blue-500 group flex flex-col h-full ${cardBg}`}
+                    className={`rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-yellow-500 group flex flex-col h-full ${cardBg}`}
                   >
                     <div className="flex items-center justify-center mt-6">
                       <div
-                        className={`p-3 rounded-full bg-gradient-to-r from-blue-400 to-blue-500`}
+                        className={`p-3 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500`}
                       >
                         <Icon className="text-white text-2xl" />
                       </div>
@@ -617,7 +617,7 @@ const HomePage = () => {
                         </p>
                         <div className="grid grid-cols-2 gap-2 mb-2">
                           <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center shadow-lg">
-                            <div className="text-lg font-bold text-blue-600">
+                            <div className="text-lg font-bold text-yellow-600">
                               {level.quizCount}
                             </div>
                             <div className="text-xs text-gray-600 dark:text-gray-300">
@@ -637,7 +637,7 @@ const HomePage = () => {
                             </div>
                           </div>
                           <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center shadow-lg">
-                            <div className="text-lg font-bold text-purple-600">
+                            <div className="text-lg font-bold text-red-600">
                               ₹
                               {level.amount ||
                                 (levelInfo && levelInfo.amount) ||
@@ -667,7 +667,7 @@ const HomePage = () => {
                         <div className="mt-4 flex justify-center">
                           <Link
                             to={`/level/${level.level}`}
-                            className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
+                            className="inline-block bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
                           >
                             View Quizzes
                           </Link>
@@ -676,7 +676,7 @@ const HomePage = () => {
                       {(userLevelData?.currentLevel + 1) > level?.level && (
                         <div className="mt-4 flex justify-center">
                           <button
-                            className="cursor-default inline-block bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg text-base"
+                            className="cursor-default inline-block bg-gradient-to-r from-green-600 to-orange-600 hover:from-red-700 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg text-base"
                           >
                             Completed
                           </button>
@@ -710,7 +710,7 @@ const HomePage = () => {
       {/* Categories Section */}
       <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-6 flex items-center gap-2">
-          <FaBook className="text-blue-500" /> Categories
+          <FaBook className="text-yellow-500" /> Categories
         </h2>
         <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-12 max-w-3xl">
           Explore quizzes by category and find your perfect learning path
@@ -720,7 +720,7 @@ const HomePage = () => {
             {categories?.map((category, idx) => {
               const Icon =
                 categoryIcons[category.name] || categoryIcons.Default;
-              const cardBg = `bg-gradient-to-b from-purple-50 to-blue-50 dark:from-gray-800/20 dark:to-gray-900/50`;
+              const cardBg = `bg-gradient-to-b from-red-50 to-yellow-50 dark:from-gray-800/20 dark:to-gray-900/50`;
               return (
                 <Link
                   key={category._id}
@@ -729,7 +729,7 @@ const HomePage = () => {
                   tabIndex={0}
                 >
                   {/* Icon */}
-                  <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-16 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <Icon className="text-white dark:text-yellow-200 text-2xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
                   </div>
                   {/* Content */}
@@ -740,7 +740,7 @@ const HomePage = () => {
                     <div className="mt-4 flex justify-center">
                       <Link
                         to={`/category/${category._id}`}
-                        className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
+                        className="inline-block bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
                       >
                         View Quizzes
                       </Link>
@@ -770,15 +770,15 @@ const HomePage = () => {
 
       {/* Platform Stats Section */}
       <div className="container mx-auto px-2 sm:px-4 py-8 z-10">
-        <div className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-gray-800 dark:to-blue-900/30 rounded-3xl shadow-2xl p-6 md:p-10 border border-blue-200 dark:border-blue-700 flex flex-col items-center relative overflow-hidden">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:text-white mb-6 flex items-center gap-2 drop-shadow-lg">
+  <div className="bg-gradient-to-r from-yellow-100 to-red-100 dark:from-gray-800 dark:to-yellow-900/30 rounded-3xl shadow-2xl p-6 md:p-10 border border-yellow-200 dark:border-yellow-700 flex flex-col items-center relative overflow-hidden">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-indigo-600 dark:text-white mb-6 flex items-center gap-2 drop-shadow-lg">
             Platform Stats
           </h2>
-          <div className="absolute -top-10 right-10 w-32 h-32 bg-gradient-to-br from-blue-300/30 to-purple-300/20 rounded-full blur-2xl z-0 animate-pulse-slow" />
+          <div className="absolute -top-10 right-10 w-32 h-32 bg-gradient-to-br from-yellow-300/30 to-red-300/20 rounded-full blur-2xl z-0 animate-pulse-slow" />
           <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tl from-indigo-300/20 to-blue-200/10 rounded-full blur-2xl z-0 animate-pulse-slow" />
           <div className="relative grid grid-cols-2 sm:grid-cols-5 gap-6 w-full max-w-3xl z-10">
             <div className="flex flex-col items-center group">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
+              <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
                 <FaBook className="text-white text-3xl animate-bounce-slow" />
               </div>
               <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">

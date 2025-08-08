@@ -48,10 +48,10 @@ const DashboardPage = () => {
       count: stats.categories, 
       link: '/admin/categories',
       icon: '📚',
-      color: 'bg-blue-500',
-      textColor: 'text-blue-500',
-      bgColor: 'bg-blue-50',
-      darkBgColor: 'dark:bg-blue-900/20'
+  color: 'bg-yellow-500',
+  textColor: 'text-yellow-500',
+  bgColor: 'bg-yellow-50',
+  darkBgColor: 'dark:bg-yellow-900/20'
     },
     { 
       title: 'Subcategories', 
@@ -68,10 +68,10 @@ const DashboardPage = () => {
       count: stats.quizzes, 
       link: '/admin/quizzes',
       icon: '🎯',
-      color: 'bg-purple-500',
-      textColor: 'text-purple-500',
-      bgColor: 'bg-purple-50',
-      darkBgColor: 'dark:bg-purple-900/20'
+  color: 'bg-red-500',
+  textColor: 'text-red-500',
+  bgColor: 'bg-red-50',
+  darkBgColor: 'dark:bg-red-900/20'
     },
     { 
       title: 'Questions', 
@@ -98,10 +98,10 @@ const DashboardPage = () => {
       count: stats.bankDetails,
       link: '/admin/bank-details',
       icon: '🏦',
-      color: 'bg-blue-500',
-      textColor: 'text-blue-500',
-      bgColor: 'bg-blue-50',
-      darkBgColor: 'dark:bg-blue-900/20'
+  color: 'bg-yellow-500',
+  textColor: 'text-yellow-500',
+  bgColor: 'bg-yellow-50',
+  darkBgColor: 'dark:bg-yellow-900/20'
     }
 
   ];
@@ -118,7 +118,7 @@ const DashboardPage = () => {
         <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
           <div className="flex items-center justify-center h-64">
             <div className="flex items-center space-x-3">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-500"></div>
               <div className="text-lg">Loading dashboard statistics...</div>
             </div>
           </div>
@@ -226,8 +226,8 @@ const DashboardPage = () => {
               </div>
             </Link>
 
-            <Link to="/admin/quizzes" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 hover:from-blue-100 hover:to-blue-200 dark:hover:from-blue-800/30 dark:hover:to-blue-700/30 transition-all duration-300">
-              <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center mr-3">
+            <Link to="/admin/quizzes" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-yellow-50 to-yellow-100 dark:from-yellow-900/20 dark:to-yellow-800/20 hover:from-yellow-100 hover:to-yellow-200 dark:hover:from-yellow-800/30 dark:hover:to-yellow-700/30 transition-all duration-300">
+              <div className="w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center mr-3">
                 <span className="text-white text-lg">🎯</span>
               </div>
               <div>
@@ -246,8 +246,8 @@ const DashboardPage = () => {
               </div>
             </Link>
             
-            <Link to="/admin/students" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 hover:from-purple-100 hover:to-purple-200 dark:hover:from-purple-800/30 dark:hover:to-purple-700/30 transition-all duration-300">
-              <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center mr-3">
+            <Link to="/admin/students" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 hover:from-red-100 hover:to-red-200 dark:hover:from-red-800/30 dark:hover:to-red-700/30 transition-all duration-300">
+              <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center mr-3">
                 <span className="text-white text-lg">👥</span>
               </div>
               <div>

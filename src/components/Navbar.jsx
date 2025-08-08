@@ -77,7 +77,7 @@ export default function Navbar() {
       <Link
         title="My Profile"
         to="/profile"
-        className="rounded-full bg-gradient-to-r from-blue-500 to-purple-500 p-1 shadow-lg hover:scale-105 transition-transform border-2 border-white dark:border-gray-800"
+        className="rounded-full bg-gradient-to-r from-yellow-500 to-red-500 p-1 shadow-lg hover:scale-105 transition-transform border-2 border-white dark:border-gray-800"
       >
         <BsPersonCircle className="text-2xl text-white" />
       </Link>
@@ -102,14 +102,14 @@ export default function Navbar() {
       <Link
         to="/login"
         title="Login"
-        className="px-4 py-2 rounded-xl font-semibold flex items-center gap-2 shadow-md transition-all duration-200 text-white text-sm bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 scale-95 hover:scale-100"
+        className="px-4 py-2 rounded-xl font-semibold flex items-center gap-2 shadow-md transition-all duration-200 text-white text-sm bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 scale-95 hover:scale-100"
       >
         <MdPerson4 /> Login
       </Link>
       <Link
         title="Register"
         to="/register"
-        className="px-4 py-2 rounded-xl font-semibold flex items-center gap-2 shadow-md transition-all duration-200 text-white text-sm bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 scale-95 hover:scale-100"
+        className="px-4 py-2 rounded-xl font-semibold flex items-center gap-2 shadow-md transition-all duration-200 text-white text-sm bg-gradient-to-r from-pink-500 to-red-600 hover:from-pink-600 hover:to-red-700 scale-95 hover:scale-100"
       >
         <MdPersonAdd /> Register
       </Link>
@@ -118,7 +118,7 @@ export default function Navbar() {
 
   // Main navbar content
   return (
-    <nav className="backdrop-blur-xl bg-gradient-to-r from-blue-50/80 via-purple-50/80 to-indigo-50/80 dark:from-gray-900/80 dark:via-blue-900/80 dark:to-purple-900/80 border-b border-white/30 dark:border-gray-800 shadow-xl fixed top-0 left-0 w-full z-50 transition-all">
+  <nav className="backdrop-blur-xl bg-gradient-to-r from-yellow-50/80 via-red-50/80 to-yellow-100/80 dark:from-gray-900/80 dark:via-yellow-900/80 dark:to-red-900/80 border-b border-white/30 dark:border-gray-800 shadow-xl fixed top-0 left-0 w-full z-50 transition-all">
       <div className="container-fluid mx-auto px-4 sm:px-4 flex justify-between items-center h-16 relative">
         {/* Logo */}
         <Link
@@ -141,7 +141,7 @@ export default function Navbar() {
             onClick={toggleTheme}
             aria-label="Toggle Dark Mode"
             title={theme === "dark" ? "Light Mode" : "Dark Mode"}
-            className="rounded-full p-2 bg-gradient-to-r from-yellow-400 to-yellow-600 dark:from-blue-700 dark:to-purple-700 shadow-lg border-2 border-white dark:border-gray-800 hover:scale-110 transition-all duration-200"
+            className="rounded-full p-2 bg-gradient-to-r from-yellow-400 to-yellow-600 dark:from-yellow-700 dark:to-red-700 shadow-lg border-2 border-white dark:border-gray-800 hover:scale-110 transition-all duration-200"
           >
             {theme === "dark" ? (
               <MdLightMode className="text-white text-xl" />
@@ -180,7 +180,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenu && (
-        <div className="md:hidden absolute top-20 left-0 w-full bg-gradient-to-br from-blue-50/95 via-purple-50/95 to-indigo-50/95 dark:from-gray-900/95 dark:via-blue-900/95 dark:to-purple-900/95 shadow-2xl border-b border-white/30 dark:border-gray-800 animate-fade-in-down z-40">
+  <div className="md:hidden absolute top-20 left-0 w-full bg-gradient-to-br from-yellow-50/95 via-red-50/95 to-yellow-100/95 dark:from-gray-900/95 dark:via-yellow-900/95 dark:to-red-900/95 shadow-2xl border-b border-white/30 dark:border-gray-800 animate-fade-in-down z-40">
           <div className="flex flex-col items-center gap-4 py-6">
             {user ? (
               <>

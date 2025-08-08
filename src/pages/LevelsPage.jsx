@@ -63,9 +63,9 @@ const LevelsPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-yellow-600 mx-auto mb-4"></div>
           <p className="text-xl text-gray-600 dark:text-gray-300">Loading level data...</p>
         </div>
       </div>
@@ -74,13 +74,13 @@ const LevelsPage = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 flex items-center justify-center">
         <div className="text-center">
           <div className="text-red-600 text-4xl mb-4">⚠️</div>
           <p className="text-red-600 text-xl">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="mt-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-2 rounded-xl font-semibold hover:from-blue-600 hover:to-purple-600 transition-all duration-300"
+            className="mt-4 bg-gradient-to-r from-yellow-500 to-red-500 text-white px-6 py-2 rounded-xl font-semibold hover:from-yellow-600 hover:to-red-600 transition-all duration-300"
           >
             Try Again
           </button>
@@ -90,24 +90,24 @@ const LevelsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900">
+  <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900">
       <div className="container mx-auto px-4 py-8 mt-16">
         
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
+    <div className="w-24 h-24 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
             <FaTrophy className="text-white text-3xl" />
           </div>
-         <h1 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:text-white mb-2 sm:mb-4 drop-shadow-lg">
+         <h1 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 via-red-600 to-yellow-600 dark:text-white mb-2 sm:mb-4 drop-shadow-lg">
           Level Progression System
         </h1>
           <p className="text-lg md:text-2xl text-gray-700 dark:text-gray-200 font-medium">
           Journey from{" "}
-          <span className="font-bold text-blue-600 dark:text-blue-300">
+          <span className="font-bold text-yellow-600 dark:text-yellow-300">
             Zero Level
           </span>{" "}
           to{" "}
-          <span className="font-bold text-purple-600 dark:text-purple-300">
+          <span className="font-bold text-red-600 dark:text-red-300">
             Legend
           </span>{" "}
           through{" "}
@@ -150,9 +150,9 @@ const LevelsPage = () => {
           </div>
 
           {/* Progression Rules */}
-          <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 rounded-3xl shadow-2xl p-2 md:p-8 border border-blue-200 dark:border-blue-700">
+          <div className="bg-gradient-to-br from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-3xl shadow-2xl p-2 md:p-8 border border-yellow-200 dark:border-yellow-700">
             <div className="flex items-center space-x-4 mb-6">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-2xl flex items-center justify-center">
                 <FaGem className="text-white text-2xl" />
               </div>
               <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
@@ -169,7 +169,7 @@ const LevelsPage = () => {
                 </p>
               </div>
               <div className="flex items-start space-x-3">
-                <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mt-0.5">
+                <div className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center mt-0.5">
                   <div className="w-2 h-2 bg-white rounded-full"></div>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300">
@@ -177,7 +177,7 @@ const LevelsPage = () => {
                 </p>
               </div>
               <div className="flex items-start space-x-3">
-                <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center mt-0.5">
+                <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center mt-0.5">
                   <div className="w-2 h-2 bg-white rounded-full"></div>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300">
@@ -250,14 +250,14 @@ const LevelsPage = () => {
             const isCurrentLevel = lvl.level === userLevel.level;
             const isUnlocked = highScoreQuizzes >= lvl.quizzesRequired;
             const cardBg = `bg-gradient-to-br 
-  from-blue-50 to-purple-50
+  from-yellow-50 to-red-50
   dark:from-gray-800 dark:via-gray-900 dark:to-black`;
             return (
               <div
                 key={lvl.level}
                 className={`group relative rounded-2xl shadow-xl border-2 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 ${
                   isCurrentLevel 
-                    ? 'border-blue-500 shadow-blue-500/25' 
+                    ? 'border-yellow-500 shadow-yellow-500/25' 
                     : isUnlocked 
                       ? 'border-green-500 shadow-green-500/25' 
                       : 'border-gray-300 dark:border-gray-600'
@@ -267,7 +267,7 @@ const LevelsPage = () => {
                 <div className="absolute -top-3 -right-3">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${
                     isCurrentLevel 
-                      ? 'bg-blue-500' 
+                      ? 'bg-yellow-500' 
                       : isUnlocked 
                         ? 'bg-green-500' 
                         : 'bg-gray-400'
@@ -277,11 +277,11 @@ const LevelsPage = () => {
                 </div>
 
                 {/* Icon */}
-                <div className="w-12 h-12 md:w-24 md:h-24 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-500 dark:to-purple-500 rounded-2xl flex items-center justify-center mx-auto mt-6 mb-4">
+                <div className="w-12 h-12 md:w-24 md:h-24 bg-gradient-to-r from-yellow-100 to-red-100 dark:from-yellow-500 dark:to-red-500 rounded-2xl flex items-center justify-center mx-auto mt-6 mb-4">
                   {(() => {
                     const BadgeIcon = levelBadgeIcons[lvl.name] || levelBadgeIcons.Default;
                     return (
-                      <BadgeIcon className="text-blue-600 dark:text-yellow-200 text-3xl md:text-5xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
+                      <BadgeIcon className="text-yellow-600 dark:text-yellow-200 text-3xl md:text-5xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
                     );
                   })()}
                 </div>
@@ -311,10 +311,10 @@ const LevelsPage = () => {
                   {/* Status */}
                   <div className={`text-center py-2 rounded-lg text-sm font-semibold shadow-md ${
                     isCurrentLevel 
-                      ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' 
+                      ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' 
                       : isUnlocked 
                         ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
-                        : 'bg-red-100 text-gray-600 dark:bg-purple-700 dark:text-purple-300'
+                        : 'bg-red-100 text-gray-600 dark:bg-red-700 dark:text-red-300'
                   }`}>
                     {isCurrentLevel ? 'Current Level' : isUnlocked ? 'Unlocked' : 'Locked'}
                   </div>
@@ -328,7 +328,7 @@ const LevelsPage = () => {
         {/* Back Button */}
         <div className="text-center">
           <button
-            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-semibold transform hover:scale-105 flex items-center space-x-2 mx-auto"
+            className="bg-gradient-to-r from-yellow-600 to-red-600 text-white px-8 py-3 rounded-xl hover:from-yellow-700 hover:to-red-700 transition-all duration-300 font-semibold transform hover:scale-105 flex items-center space-x-2 mx-auto"
             onClick={() => {
               navigate(-1);
             }}

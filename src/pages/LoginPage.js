@@ -55,7 +55,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 flex items-center justify-center p-2 md:p-4">
+  <div className="bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 flex items-center justify-center p-2 md:p-4">
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         
         {/* Left Side - Quiz Platform Info */}
@@ -72,7 +72,7 @@ const LoginPage = () => {
           {/* Feature Cards */}
           <div className="space-y-6">
             <div className="flex items-center space-x-4 p-6 bg-white/80 dark:bg-gray-800/80 rounded-xl backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-              <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
+              <div className="p-3 bg-gradient-to-r from-yellow-500 to-red-500 rounded-lg">
                 <FaBrain className="text-white text-2xl" />
               </div>
               <div>
@@ -107,7 +107,7 @@ const LoginPage = () => {
         <div className="w-full max-w-md mx-auto">
           <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-2xl px-2 py-4 md:p-8 border border-white/20">
             <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaSignInAlt className="text-white text-2xl" />
               </div>
               <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
@@ -131,7 +131,7 @@ const LoginPage = () => {
                   onChange={(e) => setIdentifier(e.target.value?.toLowerCase())}
                   required
                   disabled={isLoading}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 disabled:opacity-50"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-300 disabled:opacity-50"
                 />
               </div>
 
@@ -147,7 +147,7 @@ const LoginPage = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   disabled={isLoading}
-                  className="w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 disabled:opacity-50"
+                  className="w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-300 disabled:opacity-50"
                 />
                 <button
                   type="button"
@@ -161,7 +161,7 @@ const LoginPage = () => {
               <div className="text-right mt-2">
                 <Link
                   to="/forgot-password"
-                  className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-semibold transition-colors"
+                  className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 text-sm font-semibold transition-colors"
                 >
                   Forgot Password?
                 </Link>
@@ -174,7 +174,7 @@ const LoginPage = () => {
                 className={`w-full py-3 px-6 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 ${
                   isLoading
                     ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 shadow-lg hover:shadow-xl'
+                    : 'bg-gradient-to-r from-yellow-500 to-red-500 hover:from-yellow-600 hover:to-red-600 shadow-lg hover:shadow-xl'
                 }`}
               >
                 {isLoading ? (
@@ -193,7 +193,7 @@ const LoginPage = () => {
                   Don't have an account?{' '}
                   <Link 
                     to="/register" 
-                    className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold transition-colors"
+                    className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 font-semibold transition-colors"
                   >
                     Create Account
                   </Link>
@@ -201,10 +201,10 @@ const LoginPage = () => {
               </div>
 
               {/* Quick Stats */}
-              <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-700 dark:to-gray-600 rounded-xl border border-blue-200 dark:border-gray-600">
+              <div className="mt-4 p-4 bg-gradient-to-r from-yellow-50 to-red-50 dark:from-gray-700 dark:to-gray-600 rounded-xl border border-yellow-200 dark:border-gray-600">
                 <div className="grid grid-cols-4 gap-4 text-center">
                   <div>
-                    <div className="text-md md:text-2xl font-bold text-blue-600 dark:text-blue-400">10+</div>
+                    <div className="text-md md:text-2xl font-bold text-yellow-600 dark:text-yellow-400">10+</div>
                     <div className="text-xs text-gray-600 dark:text-gray-300">Categories</div>
                   </div>
                   <div>
@@ -212,11 +212,11 @@ const LoginPage = () => {
                     <div className="text-xs text-gray-600 dark:text-gray-300">Subcategories</div>
                   </div>
                   <div>
-                    <div className="text-md md:text-2xl font-bold text-purple-600 dark:text-purple-400">4K+</div>
+                    <div className="text-md md:text-2xl font-bold text-red-600 dark:text-red-400">4K+</div>
                     <div className="text-xs text-gray-600 dark:text-gray-300">Quizzes</div>
                   </div>
                   <div>
-                    <div className="text-md md:text-2xl font-bold text-blue-600 dark:text-blue-400">20K+</div>
+                    <div className="text-md md:text-2xl font-bold text-yellow-600 dark:text-yellow-400">20K+</div>
                     <div className="text-xs text-gray-600 dark:text-gray-300">Questions</div>
                   </div>
                 </div>

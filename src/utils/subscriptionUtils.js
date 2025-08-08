@@ -230,9 +230,9 @@ export const getSubscriptionStatusTextWithTheme = (subscriptionStatus = null) =>
     if (!userInfo) {
       return {
         text: getSubscriptionText(subscriptionStatus),
-        textColor: currentTheme === 'dark' ? 'text-blue-300' : 'text-blue-600',
-        bgColor: currentTheme === 'dark' ? 'bg-blue-900/30' : 'bg-blue-50',
-        borderColor: currentTheme === 'dark' ? 'border-blue-700' : 'border-blue-200',
+                textColor: currentTheme === 'dark' ? 'text-yellow-300' : 'text-yellow-600',
+  bgColor: currentTheme === 'dark' ? 'bg-yellow-900/30' : 'bg-yellow-50',
+  borderColor: currentTheme === 'dark' ? 'border-yellow-700' : 'border-yellow-200',
       };
     }
     
@@ -240,9 +240,9 @@ export const getSubscriptionStatusTextWithTheme = (subscriptionStatus = null) =>
     if (!user.subscription || user.subscription.status === 'free') {
       return {
         text: getSubscriptionText(subscriptionStatus),
-        textColor: currentTheme === 'dark' ? 'text-blue-300' : 'text-blue-600',
-        bgColor: currentTheme === 'dark' ? 'bg-blue-900/30' : 'bg-blue-50',
-        borderColor: currentTheme === 'dark' ? 'border-blue-700' : 'border-blue-200',
+                textColor: currentTheme === 'dark' ? 'text-yellow-300' : 'text-yellow-600',
+  bgColor: currentTheme === 'dark' ? 'bg-yellow-900/30' : 'bg-yellow-50',
+  borderColor: currentTheme === 'dark' ? 'border-yellow-700' : 'border-yellow-200',
         icon: '🆓'
       };
     }
