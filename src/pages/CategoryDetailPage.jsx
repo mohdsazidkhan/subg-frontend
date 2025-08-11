@@ -92,10 +92,10 @@ const CategoryDetailPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900">
+  <div className="min-h-screen bg-gradient-to-br from-green-50 via-yellow-50 to-red-50 dark:from-gray-900 dark:via-yellow-900 dark:to-red-900">
       {/* Hero Section with Category Name and Description */}
       {category && (
-        <div className="bg-gradient-to-r from-green-500 via-blue-500 to-purple-600 text-white py-12 sm:py-16 px-4 sm:px-6 shadow-2xl">
+  <div className="bg-gradient-to-r from-green-500 via-yellow-500 to-red-600 text-white py-12 sm:py-16 px-4 sm:px-6 shadow-2xl">
           <div className="max-w-5xl mx-auto text-center">
             <div className="mb-4">
               <h1 className="text-2xl sm:text-5xl font-bold mb-4 drop-shadow-lg animate-fade-in">
@@ -130,7 +130,7 @@ const CategoryDetailPage = () => {
             </h2>
             <button
                 onClick={() => navigate("/")}
-                className="px-3 md:px-4 py-1 md:py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+                className="px-3 md:px-4 py-1 md:py-2 bg-gradient-to-r from-yellow-500 to-red-600 text-white rounded-2xl hover:from-yellow-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
               >
                 <FaArrowLeft />
                 <span>Go Back</span>
@@ -150,14 +150,14 @@ const CategoryDetailPage = () => {
               {subcategories.map((subcategory) => (
                 <div 
                   key={subcategory._id} 
-                  className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-t-4 border-green-400 hover:border-blue-500 cursor-pointer group"
+                  className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-t-4 border-green-400 hover:border-yellow-500 cursor-pointer group"
                   onClick={() => handleSubcategoryClick(subcategory._id)}
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl flex items-center justify-center">
+                    <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-yellow-500 rounded-xl flex items-center justify-center">
                       <FaFolder className="text-white text-xl" />
                     </div>
-                    <FaArrowRight className="text-gray-400 group-hover:text-blue-500 transition-colors" />
+                    <FaArrowRight className="text-gray-400 group-hover:text-yellow-500 transition-colors" />
                   </div>
                   
                   <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2">
@@ -180,7 +180,7 @@ const CategoryDetailPage = () => {
         <div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
             <h2 className="text-xl sm:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2 sm:gap-3">
-              <FaStar className="text-blue-500" />
+              <FaStar className="text-yellow-500" />
               Quizzes ({quizzes.length})
             </h2>
           </div>
@@ -199,7 +199,7 @@ const CategoryDetailPage = () => {
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 mb-6 sm:mb-10">
                 {quizzes.map((quiz) => (
-                  <div key={quiz._id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-t-4 border-green-400 hover:border-blue-500 cursor-pointer flex flex-col justify-between">
+                  <div key={quiz._id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-t-4 border-green-400 hover:border-yellow-500 cursor-pointer flex flex-col justify-between">
                     <div>
                       <h2 className="text-md md:text-xl font-bold text-gray-800 dark:text-white mb-2 flex items-center gap-2">
                         {quiz.title} {quiz.isRecommended && <FaStar className="text-yellow-400" />}
@@ -209,19 +209,19 @@ const CategoryDetailPage = () => {
                         <span className="flex items-center gap-1"><FaClock /> {quiz.timeLimit || 30} min</span>
                         <span className="flex items-center gap-1"><FaQuestionCircle /> {quiz.totalMarks || 'Variable'} Qs</span>
                         <span className="flex items-center gap-1"><FaLayerGroup /> Level {quiz.requiredLevel}</span>
-                        {quiz.difficulty && <span className="px-2 py-1 rounded-full bg-blue-100 text-blue-700 font-semibold">{quiz.difficulty}</span>}
+                        {quiz.difficulty && <span className="px-2 py-1 rounded-full bg-yellow-100 text-yellow-700 font-semibold">{quiz.difficulty}</span>}
                       </div>
                     </div>
                     {quiz.attemptStatus?.hasAttempted ? (
                       <button
-                        className="mt-4 w-full bg-gradient-to-r from-gray-500 to-blue-500 hover:from-blue-500 hover:to-gray-500 text-white font-semibold py-2 rounded-xl transition-all duration-300 shadow-md"
+                        className="mt-4 w-full bg-gradient-to-r from-gray-500 to-yellow-500 hover:from-yellow-500 hover:to-gray-500 text-white font-semibold py-2 rounded-xl transition-all duration-300 shadow-md"
                         onClick={() => navigate('/quiz-result', { state: { quizId: quiz._id } })}
                       >
                         View Result
                       </button>
                     ) : (
                       <button
-                        className="mt-4 w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-blue-500 hover:to-green-500 text-white font-semibold py-2 rounded-xl transition-all duration-300 shadow-md"
+                        className="mt-4 w-full bg-gradient-to-r from-green-500 to-yellow-500 hover:from-yellow-500 hover:to-green-500 text-white font-semibold py-2 rounded-xl transition-all duration-300 shadow-md"
                         onClick={() => handleQuizClick(quiz._id)}
                       >
                         Start Quiz
@@ -243,7 +243,7 @@ const CategoryDetailPage = () => {
                   <button
                     key={idx}
                     onClick={() => setPage(idx + 1)}
-                    className={`px-2 sm:px-4 py-1 sm:py-2 rounded-lg font-semibold text-xs sm:text-base ${page === idx + 1 ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200'}`}
+                    className={`px-2 sm:px-4 py-1 sm:py-2 rounded-lg font-semibold text-xs sm:text-base ${page === idx + 1 ? 'bg-yellow-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200'}`}
                   >
                     {idx + 1}
                   </button>
