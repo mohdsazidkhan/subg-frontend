@@ -241,9 +241,9 @@ const HomePage = () => {
   <div className="relative container mx-auto px-2 sm:px-4 py-10 sm:py-16 flex flex-col items-center">
     <div className="text-center">
       <h1 className="flex-col md:flex-row justify-center md:justify-items-start flex flex-wrap items-center gap-2 text-3xl sm:text-5xl md:text-6xl xl:text-7xl font-extrabold mb-4 drop-shadow-lg animate-fade-in">
-  <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-indigo-600 dark:text-white">
+  <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 dark:text-white">
           Welcome to
-        </span>
+        </span>{" "}
         <span className="inline-block animate-bounce text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500">
           SUBG QUIZ!
         </span>
@@ -294,7 +294,7 @@ const HomePage = () => {
           />
           <button
             type="submit"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 text-white bg-gradient-to-r from-red-500 to-indigo-600 rounded-full hover:scale-105 transition"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 text-white bg-gradient-to-r from-yellow-500 to-red-600 rounded-full hover:scale-105 transition"
           >
             <BsSearch className="text-xl text-white" />
           </button>
