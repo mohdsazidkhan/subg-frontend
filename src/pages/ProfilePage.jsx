@@ -795,9 +795,8 @@ const ProfilePage = () => {
               <span>View All Levels</span>
             </button>
           </div>
-        </div>
-        {/* Enhanced Quiz History Card */}
-        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 md:p-8 border border-white/30">
+          {/* Enhanced Quiz History Card */}
+        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 md:p-8 border border-white/30 mt-2 md:mt-6">
           <div className="flex items-center space-x-4 mb-8">
             <div className="w-12 md:w-20 h-12 md:h-20 bg-gradient-to-r from-red-500 via-yellow-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
               <FaBrain className="text-white text-3xl" />
@@ -875,87 +874,10 @@ const ProfilePage = () => {
               </div>
             )}
           </div>
+        </div>
+        
         </div>
 
-        {/* Enhanced Quiz History Card */}
-        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 md:p-8 border border-white/30">
-          <div className="flex items-center space-x-4 mb-8">
-            <div className="w-12 md:w-20 h-12 md:h-20 bg-gradient-to-r from-red-500 via-yellow-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
-              <FaBrain className="text-white text-3xl" />
-            </div>
-            <div>
-              <h2 className="text-xl md:text-4xl font-bold text-gray-800 dark:text-white">
-                Quiz History
-              </h2>
-              <p className="text-gray-600 dark:text-gray-300 text-md md:text-lg">
-                Your quiz attempts and achievements
-              </p>
-            </div>
-          </div>
-          
-          {playedQuizzes?.length === 0 ? (
-            <div className="text-center py-4 md:py-16">
-              <div className="w-24 h-24 bg-gradient-to-r from-gray-300 to-gray-400 rounded-full flex items-center justify-center mx-auto mb-6">
-                <FaBrain className="text-white text-4xl" />
-              </div>
-              <p className="text-gray-600 dark:text-gray-400 text-xl font-semibold mb-2">No quizzes played yet.</p>
-              <p className="text-gray-500 dark:text-gray-500 text-lg">Start your quiz journey today!</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-8">
-              {playedQuizzes?.map((item, idx) => (
-                <div 
-                  key={item._id || idx} 
-                  onClick={() => showResult(item)}
-                  className="group cursor-pointer bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700/50 dark:to-gray-600/50 rounded-3xl p-2 md:p-8 border border-gray-200 dark:border-gray-600 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-4 hover:scale-105 hover-lift"
-                >
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="w-12 md:w-16 h-12 md:h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg">
-                        <FaMedal className="text-white text-2xl" />
-                      </div>
-                      <div className={`px-4 py-2 rounded-full text-sm font-bold ${
-                        item.scorePercentage >= 75
-                          ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
-                          : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                      }`}>
-                        {item.scorePercentage >= 75 ? '✅ High Score' : '📝 Completed'}
-                      </div>
-                    </div>
-                  
-                    <h3 className="font-bold text-gray-800 dark:text-white mb-4 text-lg md:text-xl">
-                      {item.quizTitle || 'Untitled Quiz'}
-                    </h3>
-                  
-                    <div className="space-y-3 text-base mb-6">
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-600 dark:text-gray-400">Score:</span>
-                        <span className="font-bold text-gray-800 dark:text-white text-lg">{item.scorePercentage}%</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-600 dark:text-gray-400">Correct:</span>
-                        <span className="font-bold text-gray-800 dark:text-white">{item.score}</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-600 dark:text-gray-400">Category:</span>
-                        <span className="font-bold text-yellow-600 dark:text-yellow-400">{item.categoryName}</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-600 dark:text-gray-400">Date:</span>
-                        <span className="font-bold text-gray-800 dark:text-white">
-                          {new Date(item.attemptedAt).toLocaleDateString()}
-                        </span>
-                      </div>
-                    </div>
-                  
-                    <div className="bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 dark:from-yellow-500 dark:to-red-500 dark:hover:from-yellow-600 dark:hover:to-red-600 text-white dark:text-white px-4 md:px-8 py-2 md:py-4 rounded-2xl transition-all duration-300 font-bold text-lg transform hover:scale-105 shadow-lg hover:shadow-xl dark:shadow-yellow-500/25 hover:dark:shadow-yellow-500/40 flex items-center justify-center space-x-3 mx-auto">
-                      <span className="text-base">View Result</span>
-                      <FaArrowRight className="ml-2 text-sm" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
     </>
   );
 }

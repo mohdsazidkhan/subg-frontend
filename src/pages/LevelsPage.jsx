@@ -213,11 +213,11 @@ const LevelsPage = () => {
               🎯 Your Current Level
             </h2>
             <div className="flex items-center justify-center space-x-6 mb-6">
-              <div className={`w-12 h-12 md:w-24 md:h-24 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-500 dark:to-purple-500 rounded-2xl flex items-center justify-center`}>
+              <div className={`w-12 h-12 md:w-24 md:h-24 bg-gradient-to-r from-yellow-100 to-red-100 dark:from-yellow-500 dark:to-red-500 rounded-2xl flex items-center justify-center`}>
                 {(() => {
                   const BadgeIcon = levelBadgeIcons[userLevel.name] || levelBadgeIcons.Default;
                   return (
-                    <BadgeIcon className="text-blue-600 dark:text-yellow-200 text-3xl md:text-5xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
+                    <BadgeIcon className="text-red-600 dark:text-white text-3xl md:text-5xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
                   );
                 })()}
               </div>
@@ -234,7 +234,7 @@ const LevelsPage = () => {
               </div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+              <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mb-2">
                 {highScoreQuizzes} / {userLevelData?.levelInfo?.nextLevel?.quizzesRequired} Quizzes
               </div>
               <div className="text-gray-600 dark:text-gray-300">
