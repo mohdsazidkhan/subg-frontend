@@ -275,7 +275,7 @@ const ProfilePage = () => {
           </p>
         </div>
 
-        {/* Enhanced Profile Details Card */}
+  {/* Enhanced Profile Details Card */}
         <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 sm:p-8 border border-white/30 mb-10 sm:mb-16 hover-lift">
           <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
             <div className="w-14 sm:w-20 h-14 sm:h-20 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
@@ -292,6 +292,72 @@ const ProfilePage = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+            {/* Reward Center Referral Section */}
+            <div className="md:col-span-2">
+              <div className="bg-gradient-to-br from-purple-900/80 to-pink-700/80 rounded-3xl p-6 md:p-10 shadow-xl border-2 border-purple-300/30 relative overflow-hidden mb-8">
+
+                <div className="flex flex-col md:flex-row md:items-center md:space-x-8 space-y-4 md:space-y-0">
+                  <div className="flex-1 flex flex-col items-center justify-center">
+                    <span className="text-white text-sm font-medium mb-1">Invite Friends to Get Bonus</span>
+                    <div className="flex items-center space-x-2 mb-2">
+                      <span className="text-xl md:text-2xl font-bold text-white bg-purple-700/80 px-2 py-2 rounded-lg tracking-widest select-all border-2 border-purple-300 shadow">{student.referralCode}</span>
+                      <button
+                        className="px-3 py-2 bg-yellow-400 text-yellow-900 font-bold rounded-lg shadow hover:bg-yellow-500 transition"
+                        onClick={() => {navigator.clipboard.writeText(student.referralCode);}}
+                        title="Copy Code"
+                      >Copy</button>
+                      <button
+                        className="px-3 py-2 bg-white/80 text-purple-700 font-bold rounded-lg shadow hover:bg-white transition"
+                        onClick={() => {window.open(`https://wa.me/?text=Join%20SUBG%20Quiz!%20Use%20my%20referral%20code%20${student.referralCode}%20to%20register%20and%20get%20rewards!%20https://subgquiz.com/register`, '_blank')}}
+                        title="Share on WhatsApp"
+                      >Share</button>
+                    </div>
+                  </div>
+                  <div className="flex-1 flex flex-col items-center justify-center">
+                    <span className="text-white text-sm font-medium mb-1">Referrals Joined</span>
+                    <div className="text-3xl font-bold text-yellow-300 bg-yellow-900/30 px-6 py-2 rounded-lg border-2 border-yellow-400 shadow">{student.referralCount || 0}</div>
+                  </div>
+                </div>
+                {/* Progress Bar */}
+                <div className="mt-6">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-white text-xs font-semibold">Progress</span>
+                    <span className="text-yellow-200 text-xs font-semibold">{student.referralCount || 0}/100</span>
+                  </div>
+                  <div className="w-full bg-purple-200/30 rounded-full h-4 overflow-hidden">
+                    <div
+                      className="bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-700 h-4 rounded-full transition-all duration-700 shadow-lg"
+                      style={{ width: `${Math.min((student.referralCount || 0),100)}%` }}
+                    ></div>
+                  </div>
+                  <div className="flex justify-between mt-2 text-xs text-white font-semibold">
+                    
+                    <span className="flex flex-col items-center">
+                      <span className="bg-green-400 text-green-900 px-2 py-1 rounded-full font-bold">BASIC - ₹99</span>
+                      <span>10 Users</span>
+                    </span>
+                    <span className="flex flex-col items-center">
+                      <span className="bg-blue-400 text-blue-900 px-2 py-1 rounded-full font-bold">PREMIUM - ₹499</span>
+                      <span>50 Users</span>
+                    </span>
+                    <span className="flex flex-col items-center">
+                      <span className="bg-pink-400 text-pink-900 px-2 py-1 rounded-full font-bold">PRO - ₹999</span>
+                      <span>100 Users</span>
+                    </span>
+                  </div>
+                </div>
+                <div className="mt-6 flex justify-center">
+                  <button
+                    className="px-8 py-3 bg-gradient-to-r from-yellow-400 to-pink-500 text-white font-bold rounded-2xl shadow-lg hover:from-yellow-500 hover:to-pink-600 transition text-lg"
+                    onClick={() => {navigator.clipboard.writeText(student.referralCode);}}
+                  >Invite Friends</button>
+                </div>
+                <div className="mt-4 text-xs text-white/80 text-center">
+                  Refer friends and unlock paid subscriptions automatically on milestones!<br/>
+                  10 referrals = ₹99 BASIC plan, 50 = ₹499 PREMIUM plan, 100 = ₹999 PRO plan.
+                </div>
+              </div>
+            </div>
             <div className="space-y-6">
               <div className="bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl p-3 md:p-6 border border-yellow-200 dark:border-yellow-700 hover-scale">
                 <div className="flex items-center space-x-4">

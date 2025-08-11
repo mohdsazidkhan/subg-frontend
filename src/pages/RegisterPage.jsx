@@ -12,6 +12,7 @@ const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [referralCode, setReferralCode] = useState("");
   const navigate = useNavigate();
 
   const checkPasswordStrength = (password) => {
@@ -66,7 +67,8 @@ const RegisterPage = () => {
         name,
         email,
         phone,
-        password
+        password,
+        ...(referralCode && { referredBy: referralCode })
       });
       console.log(response, 'registerregister')
       if(response.success){
@@ -262,6 +264,21 @@ const RegisterPage = () => {
                     </span>
                   </div>
                 )}
+              </div>
+
+              {/* Referral Code Input */}
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <span className="text-gray-400 font-bold">#</span>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Referral Code (optional)"
+                  value={referralCode}
+                  onChange={e => setReferralCode(e.target.value.toUpperCase())}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-300 tracking-widest uppercase"
+                  maxLength={8}
+                />
               </div>
 
               {/* Register Button */}
