@@ -31,6 +31,7 @@ import {
   FaPlus
 } from 'react-icons/fa';
 import { getSubscriptionStatusTextWithTheme } from '../utils/subscriptionUtils';
+import ShareComponent from '../components/ShareComponent';
 // Level badge icon mapping (same as HomePage)
 const levelBadgeIcons = {
   'Zero Level': FaUserGraduate,
@@ -243,7 +244,9 @@ const ProfilePage = () => {
           <p className="text-xl text-gray-600 dark:text-gray-300">Loading your profile...</p>
         </div>
       </div>
-    );
+  );
+  
+  
 
   return (
   <>
@@ -298,24 +301,8 @@ const ProfilePage = () => {
 
                 <div className="flex flex-col md:flex-row md:items-center md:space-x-8 space-y-4 md:space-y-0">
                   <div className="flex-1 flex flex-col items-center justify-center">
-                    <span className="text-white text-sm font-medium mb-1">Invite Friends to Get Bonus</span>
-                    <div className="flex items-center space-x-2 mb-2">
-                      <span className="text-xl md:text-2xl font-bold text-white bg-purple-700/80 px-2 py-2 rounded-lg tracking-widest select-all border-2 border-purple-300 shadow">{student.referralCode}</span>
-                      <button
-                        className="px-3 py-2 bg-yellow-400 text-yellow-900 font-bold rounded-lg shadow hover:bg-yellow-500 transition"
-                        onClick={() => {navigator.clipboard.writeText(student.referralCode);}}
-                        title="Copy Code"
-                      >Copy</button>
-                      <button
-                        className="px-3 py-2 bg-white/80 text-purple-700 font-bold rounded-lg shadow hover:bg-white transition"
-                        onClick={() => {window.open(`https://wa.me/?text=Join%20SUBG%20Quiz!%20Use%20my%20referral%20code%20${student.referralCode}%20to%20register%20and%20get%20rewards!%20https://subgquiz.com/register`, '_blank')}}
-                        title="Share on WhatsApp"
-                      >Share</button>
-                    </div>
-                  </div>
-                  <div className="flex-1 flex flex-col items-center justify-center">
                     <span className="text-white text-sm font-medium mb-1">Referrals Joined</span>
-                    <div className="text-3xl font-bold text-yellow-300 bg-yellow-900/30 px-6 py-2 rounded-lg border-2 border-yellow-400 shadow">{student.referralCount || 0}</div>
+                    <div className="text-xl md:text-3xl font-bold text-yellow-300 bg-yellow-900/30 px-6 py-2 rounded-lg border-2 border-yellow-400 shadow">{student.referralCount || 0}</div>
                   </div>
                 </div>
                 {/* Progress Bar */}
@@ -346,11 +333,20 @@ const ProfilePage = () => {
                     </span>
                   </div>
                 </div>
-                <div className="mt-6 flex justify-center">
-                  <button
-                    className="px-8 py-3 bg-gradient-to-r from-yellow-400 to-pink-500 text-white font-bold rounded-2xl shadow-lg hover:from-yellow-500 hover:to-pink-600 transition text-lg"
-                    onClick={() => {navigator.clipboard.writeText(student.referralCode);}}
-                  >Invite Friends</button>
+                <div className="mt-6 flex justify-center flex-col items-center">
+                    <span className="text-white text-sm font-medium mb-1">Invite Friends to Get Bonus</span>
+                    <div className="flex items-center space-x-2 mb-2">
+                      <span className="text-xl md:text-2xl font-bold text-white bg-purple-700/80 px-2 py-2 rounded-lg tracking-widest select-all border-2 border-purple-300 shadow">{student.referralCode}</span>
+                      <button
+                        className="px-3 py-2 bg-yellow-400 text-yellow-900 font-bold rounded-lg shadow hover:bg-yellow-500 transition"
+                        onClick={() => {navigator.clipboard.writeText(student.referralCode);}}
+                        title="Copy Code"
+                      >Copy</button>
+                    </div>
+                    <ShareComponent
+                      url={window.location.origin}
+                      text={`Check out my referral code: ${student.referralCode} Join and get free subcription!`}
+                    />
                 </div>
                 <div className="mt-4 text-xs text-white/80 text-center">
                   Refer friends and unlock paid subscriptions automatically on milestones!<br/>

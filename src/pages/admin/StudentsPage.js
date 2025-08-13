@@ -152,6 +152,12 @@ useEffect(() => {
                 Level
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Referral Code
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Referral Count
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Status
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -191,6 +197,16 @@ useEffect(() => {
                   </div>
                   <div className="text-sm text-gray-500 dark:text-gray-300">
                     {getLevelName(student.level?.currentLevel || 1)}
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                    {student.referralCode || 'N/A'}
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-gray-800 dark:bg-gray-900 dark:text-white">
+                    {student.referralCount || 0}
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -274,7 +290,19 @@ useEffect(() => {
                 Joined: {new Date(student.createdAt).toLocaleDateString()}
               </div>
             </div>
-            
+            <div className="mt-4">
+            <div className="flex items-center justify-between">
+                <div>Ref. Code: </div>
+                  <div className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                    {student.referralCode || 'N/A'}
+                  </div>
+          
+                <div>Ref. Count: </div>
+                  <div className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-gray-800 dark:bg-gray-900 dark:text-white">
+                    {student.referralCount || 0}
+                  </div>
+                </div>
+             </div>
             <div className="mt-4 flex items-center justify-between">
               <select
                 value={student.status || 'active'}
@@ -303,7 +331,7 @@ useEffect(() => {
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         {students.map((student) => (
-          <div key={student._id} className="p-2 md:p-2 md:p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          <div key={student._id} className="p-2 md:p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
               <div className="flex items-center flex-1">
                 <div className="flex-shrink-0 h-12 w-12">
@@ -313,6 +341,7 @@ useEffect(() => {
                     </span>
                   </div>
                 </div>
+                
                 <div className="ml-4 flex-1">
                   <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                     {student.name}
@@ -335,6 +364,15 @@ useEffect(() => {
                     </span>
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusBadge(student.status)}`}>
                       {student.status || 'active'}
+                    </span>
+                  </div>
+                  <div className="mt-2 flex items-center space-x-4">
+                
+                    <span className="text-sm text-gray-600 dark:text-gray-300">
+                      Ref. Code: {student.referralCode || 'N/A'}
+                    </span>
+                    <span className="text-sm text-gray-600 dark:text-gray-300">
+                      Ref. Count: {student.referralCount || 0}
                     </span>
                   </div>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
@@ -360,6 +398,7 @@ useEffect(() => {
                 </button>
               </div>
             </div>
+            
           </div>
         ))}
       </div>
