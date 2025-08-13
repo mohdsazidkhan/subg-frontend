@@ -225,7 +225,13 @@ const ProfilePage = () => {
   const quizzesToNextLevel = student?.levelInfo?.progress?.highScoreQuizzesToNextLevel || 0;
   const progressPercentage = student?.levelInfo?.progress?.progressPercentage || 0;
   const highScoreRate = student?.levelInfo?.stats?.highScoreRate || 0;
-
+  const message = `Refer friends and unlock paid subscriptions automatically on milestones!
+10 referrals = ₹99 BASIC plan,
+50 = ₹499 PREMIUM plan,
+100 = ₹999 PRO plan.
+Check out my referral code: 
+${student?.referralCode}
+Join and get free subscription!`
   if (error)
     return (
   <div className="min-h-screen bg-gradient-to-br from-slate-50 via-yellow-50 to-red-100 dark:from-gray-900 dark:via-slate-900 dark:to-red-900 flex items-center justify-center">
@@ -345,9 +351,7 @@ const ProfilePage = () => {
                     </div>
                     <ShareComponent
                       url={window.location.origin}
-                      text={`Refer friends and unlock paid subscriptions automatically on milestones!
-                  10 referrals = ₹99 BASIC plan, 50 = ₹499 PREMIUM plan, 100 = ₹999 PRO plan.
-                  Check out my referral code: ${student.referralCode} Join and get free subscription!`}
+                      text={message}
                     />
                 </div>
                 <div className="mt-4 text-xs text-white/80 text-center">
