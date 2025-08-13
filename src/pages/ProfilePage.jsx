@@ -345,7 +345,9 @@ const ProfilePage = () => {
                     </div>
                     <ShareComponent
                       url={window.location.origin}
-                      text={`Check out my referral code: ${student.referralCode} Join and get free subcription!`}
+                      text={`Refer friends and unlock paid subscriptions automatically on milestones!
+                  10 referrals = ₹99 BASIC plan, 50 = ₹499 PREMIUM plan, 100 = ₹999 PRO plan.
+                  Check out my referral code: ${student.referralCode} Join and get free subscription!`}
                     />
                 </div>
                 <div className="mt-4 text-xs text-white/80 text-center">
