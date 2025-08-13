@@ -225,13 +225,15 @@ const ProfilePage = () => {
   const quizzesToNextLevel = student?.levelInfo?.progress?.highScoreQuizzesToNextLevel || 0;
   const progressPercentage = student?.levelInfo?.progress?.progressPercentage || 0;
   const highScoreRate = student?.levelInfo?.stats?.highScoreRate || 0;
-  const message = `Refer friends and unlock paid subscriptions automatically on milestones!
-10 referrals = ₹99 BASIC plan,
-50 = ₹499 PREMIUM plan,
-100 = ₹999 PRO plan.
-Check out my referral code: 
-${student?.referralCode}
-Join and get free subscription!`
+const message =
+  "Refer friends and unlock paid subscriptions automatically on milestones!\n" +
+  "10 referrals = ₹99 BASIC plan,\n" +
+  "50 = ₹499 PREMIUM plan,\n" +
+  "100 = ₹999 PRO plan.\n" +
+  "Check out my referral code:\n" +
+  `${student?.referralCode}\n` +
+  "Join and get free subscription!";
+
   if (error)
     return (
   <div className="min-h-screen bg-gradient-to-br from-slate-50 via-yellow-50 to-red-100 dark:from-gray-900 dark:via-slate-900 dark:to-red-900 flex items-center justify-center">
@@ -326,15 +328,15 @@ Join and get free subscription!`
                   <div className="flex justify-between mt-2 text-xs text-white font-semibold">
                     
                     <span className="flex flex-col items-center">
-                      <span className="bg-green-400 text-green-900 px-2 py-1 rounded-full font-bold">BASIC - ₹99</span>
+                      <span className="bg-green-400 text-green-900 px-2 py-1 rounded-full font-bold text-center">BASIC - ₹99</span>
                       <span>10 Users</span>
                     </span>
                     <span className="flex flex-col items-center">
-                      <span className="bg-blue-400 text-blue-900 px-2 py-1 rounded-full font-bold">PREMIUM - ₹499</span>
+                      <span className="bg-blue-400 text-blue-900 px-2 py-1 rounded-full font-bold text-center">PREMIUM - ₹499</span>
                       <span>50 Users</span>
                     </span>
                     <span className="flex flex-col items-center">
-                      <span className="bg-pink-400 text-pink-900 px-2 py-1 rounded-full font-bold">PRO - ₹999</span>
+                      <span className="bg-pink-400 text-pink-900 px-2 py-1 rounded-full font-bold text-center">PRO - ₹999</span>
                       <span>100 Users</span>
                     </span>
                   </div>
