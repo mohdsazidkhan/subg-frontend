@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
@@ -95,13 +95,13 @@ const RegisterPage = () => {
   };
 
   return (
-  <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 flex items-center justify-center p-2 md:p-4">
+    <div className="min-h-screen flex items-center justify-center p-2 md:p-4 bg-subg-light dark:bg-subg-dark">
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         
         {/* Left Side - Quiz Platform Info */}
         <div className="hidden lg:block space-y-8">
           <div className="text-center lg:text-left">
-            <h1 className="text-4xl lg:text-6xl font-bold text-transparent mb-4 text-black dark:text-gray-100">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-gray-800 dark:text-gray-100">
               Join the Quiz Revolution! 🚀
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
@@ -309,7 +309,7 @@ const RegisterPage = () => {
                     to="/login" 
                     className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 font-semibold transition-colors"
                   >
-                    Sign In
+                    Login
                   </Link>
                 </p>
               </div>

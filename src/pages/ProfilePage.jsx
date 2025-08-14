@@ -258,7 +258,7 @@ const message =
 
   return (
   <>
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-yellow-50 to-red-100 dark:from-gray-900 dark:via-yellow-900 dark:to-red-900 relative overflow-hidden">
+    <div className="min-h-screen bg-subg-light dark:bg-subg-dark relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-40 sm:w-80 h-40 sm:h-80 bg-gradient-to-br from-yellow-400/20 to-red-400/20 rounded-full blur-3xl animate-pulse"></div>
@@ -278,7 +278,7 @@ const message =
               <FaCrown className="text-white text-xs sm:text-sm" />
             </div>
           </div>
-          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-bold gradient-text-animation mb-4 sm:mb-6">
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-bold text-gray-600 dark:text-gray-100 mb-4 sm:mb-6">
             {student.name?.split(' ')[0]}'s Profile
           </h1>
           <p className="text-base sm:text-xl lg:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -305,7 +305,7 @@ const message =
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
             {/* Reward Center Referral Section */}
             <div className="md:col-span-2">
-              <div className="bg-gradient-to-br from-purple-900/80 to-pink-700/80 rounded-3xl p-6 md:p-10 shadow-xl border-2 border-purple-300/30 relative overflow-hidden mb-8">
+              <div className="bg-gradient-to-br from-red-900/50 to-yellow-700/50 rounded-3xl p-6 md:p-10 shadow-xl border-2 border-purple-300/30 relative overflow-hidden mb-8">
 
                 <div className="flex flex-col md:flex-row md:items-center md:space-x-8 space-y-4 md:space-y-0">
                   <div className="flex-1 flex flex-col items-center justify-center">
@@ -344,7 +344,7 @@ const message =
                 <div className="mt-6 flex justify-center flex-col items-center">
                     <span className="text-white text-sm font-medium mb-1">Invite Friends to Get Bonus</span>
                     <div className="flex items-center space-x-2 mb-2">
-                      <span className="text-xl md:text-2xl font-bold text-white bg-purple-700/80 px-2 py-2 rounded-lg tracking-widest select-all border-2 border-purple-300 shadow">{student.referralCode}</span>
+                      <span className="text-xl md:text-2xl font-bold text-white bg-gray-700/80 px-2 py-2 rounded-lg tracking-widest select-all border-2 border-purple-300 shadow">{student.referralCode}</span>
                       <button
                         className="px-3 py-2 bg-yellow-400 text-yellow-900 font-bold rounded-lg shadow hover:bg-yellow-500 transition"
                         onClick={() => {navigator.clipboard.writeText(student.referralCode);}}

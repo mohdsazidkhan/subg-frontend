@@ -3,7 +3,7 @@ import LevelBasedQuizzes from '../components/LevelBasedQuizzes';
 
 const LevelBasedQuizzesPage = () => {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
       <LevelBasedQuizzes />
     </div>
   );

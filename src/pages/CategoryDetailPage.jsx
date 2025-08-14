@@ -92,10 +92,10 @@ const CategoryDetailPage = () => {
   };
 
   return (
-  <div className="min-h-screen bg-gradient-to-br from-green-50 via-yellow-50 to-red-50 dark:from-gray-900 dark:via-yellow-900 dark:to-red-900">
+  <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
       {/* Hero Section with Category Name and Description */}
       {category && (
-  <div className="bg-gradient-to-r from-green-500 via-yellow-500 to-red-600 text-white py-12 sm:py-16 px-4 sm:px-6 shadow-2xl">
+  <div className="bg-gradient-to-r from-green-800 via-yellow-800 to-red-800 text-white py-12 sm:py-16 px-4 sm:px-6 shadow-2xl">
           <div className="max-w-5xl mx-auto text-center">
             <div className="mb-4">
               <h1 className="text-2xl sm:text-5xl font-bold mb-4 drop-shadow-lg animate-fade-in">

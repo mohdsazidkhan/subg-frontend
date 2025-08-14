@@ -20,6 +20,12 @@ class ApiService {
   async request(endpoint, options = {}) {
   const url = `${this.baseURL}${endpoint}`;
   const token = localStorage.getItem('token');
+  const publicPaths = ['/login', '/register', '/forgot-password'];
+  if (!token && !publicPaths.includes(window.location.pathname)) {
+    localStorage.clear();
+    window.location.href = '/login'; // Or use navigate('/login') if using React Router
+    return; // Stop further execution
+  }
   
   console.log(`🌐 API Request: ${options.method || 'GET'} ${url}`);
   console.log('🔑 Token:', token ? 'Present' : 'Missing');

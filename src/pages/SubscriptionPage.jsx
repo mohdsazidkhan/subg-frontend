@@ -278,7 +278,7 @@ const SubscriptionPage = () => {
 
   if (loading || !razorpayLoaded) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-yellow-50 to-red-100 dark:from-gray-900 dark:via-yellow-900 dark:to-red-900">
+      <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
         <div className="container mx-auto px-4 py-8 mt-16">
           <div className="animate-pulse">
             <div className="h-16 bg-gradient-to-r from-yellow-200 to-red-200 dark:from-yellow-800 dark:to-red-800 rounded-2xl w-1/3 mb-12 mx-auto"></div>
@@ -300,7 +300,7 @@ const SubscriptionPage = () => {
   }
 
   return (
-  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-yellow-50 to-red-100 dark:from-gray-900 dark:via-yellow-900 dark:to-red-900 relative overflow-hidden">
+  <div className="min-h-screen bg-subg-light dark:bg-subg-dark relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
   <div className="absolute -top-40 -right-40 w-40 sm:w-80 h-40 sm:h-80 bg-gradient-to-br from-yellow-400/20 to-red-400/20 rounded-full blur-3xl animate-pulse"></div>
@@ -320,7 +320,7 @@ const SubscriptionPage = () => {
               <FaCrown className="text-white text-xs sm:text-sm" />
             </div>
           </div>
-          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-bold gradient-text-animation mb-4 sm:mb-6">
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-bold text-gray-600 dark:text-gray-100 mb-4 sm:mb-6">
             Unlock Your Potential
           </h1>
           <p className="text-base sm:text-xl lg:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -347,7 +347,7 @@ const SubscriptionPage = () => {
               </div>
               <button
                 onClick={() => { navigate('/levels'); }}
-                className=" mt-4 md:mt-0 bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 dark:from-yellow-500 dark:to-red-500 dark:hover:from-yellow-600 dark:hover:to-red-600 text-white dark:text-white px-6 py-3 rounded-2xl transition-all duration-300 font-semibold transform hover:scale-105 shadow-lg hover:shadow-xl dark:shadow-yellow-500/25 hover:dark:shadow-yellow-500/40"
+                className="mt-4 md:mt-0 bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 dark:from-yellow-500 dark:to-red-500 dark:hover:from-yellow-600 dark:hover:to-red-600 text-white dark:text-white px-6 py-3 rounded-2xl transition-all duration-300 font-semibold transform hover:scale-105 shadow-lg hover:shadow-xl dark:shadow-yellow-500/25 hover:dark:shadow-yellow-500/40"
               >
                 <span className="flex items-center space-x-2">
                   <FaTrophy className="text-sm" />
@@ -706,16 +706,16 @@ const SubscriptionPage = () => {
         )}
 
         {/* Call to Action */}
-  <div className="text-center bg-gradient-to-r from-yellow-600 via-red-600 to-pink-600 rounded-3xl p-6 sm:p-12 text-white shadow-2xl hover-lift">
-          <h2 className="text-2xl sm:text-4xl font-bold mb-2 sm:mb-4">
+        <div className="text-center bg-gradient-to-r from-yellow-200 via-red-200 to-pink-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 rounded-3xl p-6 sm:p-12 text-white shadow-2xl hover-lift">
+          <h2 className="text-2xl sm:text-4xl font-bold mb-2 sm:mb-4 text-gray-800 dark:text-white">
             Ready to Start Your Journey?
           </h2>
-          <p className="text-base sm:text-xl mb-4 sm:mb-8 opacity-90">
+          <p className="text-base sm:text-xl mb-4 sm:mb-8 text-gray-600 dark:text-white">
             Join thousands of learners who have already upgraded their experience
           </p>
           <button
             onClick={() => document.getElementById('plans-section')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-white dark:bg-gray-100 text-yellow-600 dark:text-yellow-700 font-bold py-2 sm:py-4 px-4 sm:px-8 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-200 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl dark:shadow-yellow-500/25 hover:dark:shadow-yellow-500/40"
+            className="bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 dark:from-yellow-500 dark:to-red-500 dark:hover:from-yellow-600 dark:hover:to-red-600 text-white dark:text-white px-6 py-3 rounded-2xl transition-all duration-300 font-semibold transform hover:scale-105 shadow-lg hover:shadow-xl dark:shadow-yellow-500/25 hover:dark:shadow-yellow-500/40"
           >
             Choose Your Plan Now
           </button>

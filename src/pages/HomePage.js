@@ -98,7 +98,7 @@ const HomePage = () => {
   const fetchLevels = async () => {
     try {
       const res = await API.request("/api/levels/all-with-quiz-count");
-      if (res.success) {
+      if (res?.success) {
         setLevels(res.data);
       } else {
         setLevels([]);
@@ -112,7 +112,7 @@ const HomePage = () => {
     try {
       setLoading(true);
       const res = await API.getHomePageData();
-      if (res.success) {
+      if (res?.success) {
         setHomeData(res.data);
         setUserLevelData(res.userLevel);
       } else {
@@ -137,7 +137,7 @@ const HomePage = () => {
     try {
       // Use the new public API endpoint for categories
       const res = await API.request("/api/public/categories");
-      if (res.success && Array.isArray(res.data)) {
+      if (res?.success && Array.isArray(res.data)) {
         setCategories(res.data);
       } else {
         setCategories([]);
@@ -197,9 +197,9 @@ const HomePage = () => {
 
   if (loading) {
     return (
-  <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 flex items-center justify-center">
+  <div className="min-h-screen bg-subg-light dark:bg-subg-dark flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-yellow-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-2 border-gray-500 mx-auto mb-4"></div>
           <p className="text-xl text-gray-600 dark:text-gray-300">
             Loading your quiz dashboard...
           </p>
@@ -230,7 +230,7 @@ const HomePage = () => {
   };
 
   return (
-  <div className="relative min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 overflow-x-hidden">
+  <div className="relative min-h-screen bg-subg-light dark:bg-subg-dark overflow-x-hidden">
       {/* Decorative Background Blobs */}
   <div className="absolute -top-32 -left-32 w-96 h-96 bg-gradient-to-br from-yellow-300/30 to-red-300/20 rounded-full blur-3xl z-0 animate-pulse-slow" />
   <div className="absolute top-1/2 right-0 w-80 h-80 bg-gradient-to-tr from-red-400/20 to-pink-300/10 rounded-full blur-3xl z-0 animate-pulse-slow" />
@@ -738,12 +738,10 @@ const HomePage = () => {
                       {category.name}
                     </h3>
                     <div className="mt-4 flex justify-center">
-                      <Link
-                        to={`/category/${category._id}`}
-                        className="inline-block bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
+                      <span className="inline-block bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
                       >
                         View Quizzes
-                      </Link>
+                      </span>
                     </div>
                   </div>
                 </Link>

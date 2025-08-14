@@ -118,7 +118,7 @@ export default function Navbar() {
 
   // Main navbar content
   return (
-  <nav className="backdrop-blur-xl bg-gradient-to-r from-yellow-50/80 via-red-50/80 to-yellow-100/80 dark:from-gray-900/80 dark:via-yellow-900/80 dark:to-red-900/80 border-b border-white/30 dark:border-gray-400 shadow-xl fixed top-0 left-0 w-full z-50 transition-all">
+  <nav className="bg-subg-light dark:bg-subg-dark shadow-xl fixed top-0 left-0 w-full z-50 border-b dark:border-gray-500 duration-300 transition-all">
       <div className="container-fluid mx-auto px-4 sm:px-4 flex justify-between items-center h-16 relative">
         {/* Logo */}
         <Link
@@ -141,7 +141,7 @@ export default function Navbar() {
             onClick={toggleTheme}
             aria-label="Toggle Dark Mode"
             title={theme === "dark" ? "Light Mode" : "Dark Mode"}
-            className="rounded-full p-2 bg-gradient-to-r from-yellow-400 to-yellow-600 dark:from-yellow-700 dark:to-red-700 shadow-lg border-2 border-gray-400 dark:border-gray-200 hover:scale-110 transition-all duration-200"
+            className="rounded-full p-2 bg-gradient-to-r from-yellow-400 to-yellow-600 dark:from-yellow-700 dark:to-red-700 shadow-lg hover:scale-110 transition-all duration-200"
           >
             {theme === "dark" ? (
               <MdLightMode className="text-white text-xl" />

@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
-import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaUser, FaTrophy, FaBrain, FaRocket, FaSignInAlt } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaTrophy, FaBrain, FaRocket, FaSignInAlt } from 'react-icons/fa';
 
 const LoginPage = () => {
   const [identifier, setIdentifier] = useState('');
@@ -55,13 +55,13 @@ const LoginPage = () => {
   };
 
   return (
-  <div className="bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 flex items-center justify-center p-2 md:p-4">
+  <div className="bg-subg-light dark:bg-subg-dark flex items-center justify-center p-2 md:p-4">
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         
         {/* Left Side - Quiz Platform Info */}
         <div className="hidden lg:block space-y-8">
           <div className="text-center lg:text-left">
-            <h1 className="text-4xl lg:text-6xl font-bold text-transparent mb-4 text-black dark:text-gray-100">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-gray-800 dark:text-gray-100">
               Welcome Back! 🎯
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
@@ -114,7 +114,7 @@ const LoginPage = () => {
                 Welcome Back
               </h2>
               <p className="text-gray-600 dark:text-gray-300">
-                Sign in to continue your quiz adventure!
+                Login to continue your quiz adventure!
               </p>
             </div>
 
@@ -180,10 +180,10 @@ const LoginPage = () => {
                 {isLoading ? (
                   <div className="flex items-center justify-center">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    Signing In...
+                    Logining In...
                   </div>
                 ) : (
-                  'Sign In'
+                  'Login'
                 )}
               </button>
 
@@ -195,7 +195,7 @@ const LoginPage = () => {
                     to="/register" 
                     className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 font-semibold transition-colors"
                   >
-                    Create Account
+                    Register
                   </Link>
                 </p>
               </div>

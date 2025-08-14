@@ -612,7 +612,7 @@ const LevelBasedQuizzes = () => {
             Previous
           </button>
           
-          <span className="px-4 py-2 text-gray-700">
+          <span className="px-4 py-2 text-gray-400">
             Page {pagination.currentPage} of {pagination.totalPages}
           </span>
           

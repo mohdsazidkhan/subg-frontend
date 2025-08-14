@@ -6,6 +6,10 @@ module.exports = {
   darkMode: 'class', // Add this line to enable class-based dark mode
   theme: {
     extend: {
+      backgroundImage: {
+      'subg-light': 'linear-gradient(45deg, #f1c7c7, #ede6d0)',
+      'subg-dark': 'linear-gradient(45deg, #493b3b, #45433d)',
+      },
       boxShadow: {
         '3xl': '0 35px 60px -12px rgba(0, 0, 0, 0.25)',
         '4xl': '0 45px 80px -15px rgba(0, 0, 0, 0.3)',

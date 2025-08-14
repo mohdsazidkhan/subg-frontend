@@ -90,7 +90,7 @@ const LevelsPage = () => {
   }
 
   return (
-  <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900">
+  <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
       <div className="container mx-auto px-4 py-8 mt-16">
         
         {/* Hero Section */}

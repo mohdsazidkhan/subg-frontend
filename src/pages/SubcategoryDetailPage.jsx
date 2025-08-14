@@ -88,10 +88,10 @@ const SubcategoryDetailPage = () => {
   };
 
   return (
-  <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-green-50 dark:from-gray-900 dark:via-red-900 dark:to-green-900">
+  <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
       {/* Hero Section with Subcategory Name and Description */}
       {subcategory && (
-  <div className="bg-gradient-to-r from-yellow-500 via-red-500 to-green-600 text-white py-12 sm:py-16 px-4 sm:px-6 shadow-2xl">
+        <div className="bg-gradient-to-r from-yellow-800 via-red-800 to-green-800 text-white py-12 sm:py-16 px-4 sm:px-6 shadow-2xl">
           <div className="max-w-5xl mx-auto text-center">
             <div className="mb-4">
               <h1 className="text-2xl sm:text-5xl font-bold mb-4 drop-shadow-lg animate-fade-in">
