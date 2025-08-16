@@ -156,7 +156,7 @@ const HomePage = () => {
     setShowQuizModal(false);
     if (selectedQuiz) {
       navigate(`/attempt-quiz/${selectedQuiz._id}`, {
-        state: { quizData: selectedQuiz, fromPage: "home"},
+        state: { quizData: selectedQuiz, fromPage: "home" },
       });
     }
   };
@@ -181,7 +181,7 @@ const HomePage = () => {
 
   if (loading) {
     return (
-  <div className="min-h-screen bg-subg-light dark:bg-subg-dark flex items-center justify-center">
+      <div className="min-h-screen bg-subg-light dark:bg-subg-dark flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-2 border-gray-500 mx-auto mb-4"></div>
           <p className="text-xl text-gray-600 dark:text-gray-300">
@@ -199,7 +199,7 @@ const HomePage = () => {
     error.toLowerCase() !== "not authorized"
   ) {
     return (
-  <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 flex items-center justify-center">
         <div className="text-center">
           <div className="text-red-600 text-xl mb-4">⚠️</div>
           <p className="text-red-600 text-lg">{error}</p>
@@ -210,105 +210,285 @@ const HomePage = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    navigate("/search", {state:{searchQuery: searchQuery?.trim()}})
+    navigate("/search", { state: { searchQuery: searchQuery?.trim() } });
   };
 
   return (
-  <div className="relative min-h-screen bg-subg-light dark:bg-subg-dark overflow-x-hidden">
+    <div className="relative min-h-screen bg-subg-light dark:bg-subg-dark overflow-x-hidden">
       {/* Decorative Background Blobs */}
-  <div className="absolute -top-32 -left-32 w-96 h-96 bg-gradient-to-br from-yellow-300/30 to-red-300/20 rounded-full blur-3xl z-0 animate-pulse-slow" />
-  <div className="absolute top-1/2 right-0 w-80 h-80 bg-gradient-to-tr from-red-400/20 to-pink-300/10 rounded-full blur-3xl z-0 animate-pulse-slow" />
-  <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-gradient-to-tl from-indigo-300/20 to-yellow-200/10 rounded-full blur-3xl z-0 animate-pulse-slow" />
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-gradient-to-br from-yellow-300/30 to-red-300/20 rounded-full blur-3xl z-0 animate-pulse-slow" />
+      <div className="absolute top-1/2 right-0 w-80 h-80 bg-gradient-to-tr from-red-400/20 to-pink-300/10 rounded-full blur-3xl z-0 animate-pulse-slow" />
+      <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-gradient-to-tl from-indigo-300/20 to-yellow-200/10 rounded-full blur-3xl z-0 animate-pulse-slow" />
       {/* Hero Section */}
-<div className="relative overflow-hidden z-10">
-  <div className="absolute inset-0 bg-gradient-to-r from-yellow-600/10 via-red-600/10 to-indigo-600/10 pointer-events-none" />
-  <div className="relative container mx-auto px-2 sm:px-4 py-10 sm:py-16 flex flex-col items-center">
-    <div className="text-center">
-      <h1 className="flex-col md:flex-row justify-center md:justify-items-start flex flex-wrap items-center gap-2 text-3xl sm:text-5xl md:text-6xl xl:text-7xl font-extrabold mb-4 drop-shadow-lg animate-fade-in">
-  <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 dark:text-white">
-          Welcome to
-        </span>{" "}
-        <span className="inline-block animate-bounce text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500">
-          SUBG QUIZ!
-        </span>
-        <span
-          className="inline-block"
-          style={{
-            color: "initial",
-            background: "none",
-            WebkitBackgroundClip: "unset",
-            WebkitTextFillColor: "initial",
-          }}
-        >
-          🎯
-        </span>
-      </h1>
+      <div className="relative overflow-hidden z-10">
+        <div className="absolute inset-0 bg-gradient-to-r from-yellow-600/10 via-red-600/10 to-indigo-600/10 pointer-events-none" />
+        <div className="relative container mx-auto px-2 sm:px-4 py-10 sm:py-16 flex flex-col items-center">
+          <div className="text-center">
+            <h1 className="flex-col md:flex-row justify-center md:justify-items-start flex flex-wrap items-center gap-2 text-3xl sm:text-5xl md:text-6xl xl:text-7xl font-extrabold mb-4 drop-shadow-lg animate-fade-in">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 dark:text-white">
+                Welcome to
+              </span>{" "}
+              <span className="inline-block animate-bounce text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500">
+                SUBG QUIZ!
+              </span>
+              <span
+                className="inline-block"
+                style={{
+                  color: "initial",
+                  background: "none",
+                  WebkitBackgroundClip: "unset",
+                  WebkitTextFillColor: "initial",
+                }}
+              >
+                🎯
+              </span>
+            </h1>
 
-      <p className="text-base sm:text-xl lg:text-2xl text-gray-700 dark:text-gray-200 mb-4 sm:mb-8 max-w-3xl mx-auto animate-fade-in delay-100">
-        Explore quizzes by{" "}
-  <span className="font-bold text-yellow-600 dark:text-yellow-300">
-          level
-        </span>
-        ,{" "}
-  <span className="font-bold text-red-600 dark:text-red-300">
-          category
-        </span>
-        , or{" "}
-        <span className="font-bold text-indigo-600 dark:text-indigo-300">
-          subcategory
-        </span>
-        . <br className="hidden sm:block" />
-        Only{" "}
-        <span className="font-semibold text-green-600 dark:text-green-400">
-          new quizzes
-        </span>{" "}
-        you haven't attempted are shown!
-      </p>
+            <p className="text-base sm:text-xl lg:text-2xl text-gray-700 dark:text-gray-200 mb-4 sm:mb-8 max-w-3xl mx-auto animate-fade-in delay-100">
+              Explore quizzes by{" "}
+              <span className="font-bold text-yellow-600 dark:text-yellow-300">
+                level
+              </span>
+              ,{" "}
+              <span className="font-bold text-red-600 dark:text-red-300">
+                category
+              </span>
+              , or{" "}
+              <span className="font-bold text-indigo-600 dark:text-indigo-300">
+                subcategory
+              </span>
+              . <br className="hidden sm:block" />
+              Only{" "}
+              <span className="font-semibold text-green-600 dark:text-green-400">
+                new quizzes
+              </span>{" "}
+              you haven't attempted are shown!
+            </p>
 
-      {/* Search Box */}
-      {isLoggedIn &&
-      <div className="flex justify-center w-full mb-8 animate-fade-in delay-150">
-          <form onSubmit={handleSearch} className="relative w-full max-w-md">
-          <input
-            type="text"
-            placeholder="Search quizzes, categories, subcategories..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full py-3 pl-5 pr-12 rounded-full shadow-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition"
-          />
-          <button
-            type="submit"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 text-white bg-gradient-to-r from-yellow-500 to-red-600 rounded-full hover:scale-105 transition"
-          >
-            <BsSearch className="text-xl text-white" />
-          </button>
-          </form>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 mb-4 drop-shadow-lg animate-fade-in">
+              Student Unknown's Battle Ground Quiz!
+            </h2>
+
+            {/* Search Box */}
+            {isLoggedIn && (
+              <div className="flex justify-center w-full mb-8 animate-fade-in delay-150">
+                <form
+                  onSubmit={handleSearch}
+                  className="relative w-full max-w-md"
+                >
+                  <input
+                    type="text"
+                    placeholder="Search quizzes, categories, subcategories..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full py-3 pl-5 pr-12 rounded-full shadow-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition"
+                  />
+                  <button
+                    type="submit"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 text-white bg-gradient-to-r from-yellow-500 to-red-600 rounded-full hover:scale-105 transition"
+                  >
+                    <BsSearch className="text-xl text-white" />
+                  </button>
+                </form>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-      }
 
-      <h2 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 mb-4 drop-shadow-lg animate-fade-in">
-        Student Unknown's Battle Ground Quiz!
-      </h2>
-    </div>
-  </div>
-</div>
+      <div className="container mx-auto px-2 sm:px-4 py-8 z-10">
+        <div className="bg-gradient-to-br from-purple-50 to-red-100 dark:from-purple-900/90 dark:to-red-900/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 md:p-4 xl:p-10 border-2 border-purple-300/30 relative overflow-hidden">
+          {/* Decorative elements */}
+          <div className="absolute -top-10 right-10 w-32 h-32 bg-gradient-to-br from-yellow-300/30 to-red-300/20 rounded-full blur-2xl z-0 animate-pulse-slow" />
+          <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tl from-indigo-300/20 to-blue-200/10 rounded-full blur-2xl z-0 animate-pulse-slow" />
 
+          <div className="relative z-10 text-center mb-8">
+            <div className="w-20 h-20 bg-gradient-to-tr from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl animate-float">
+              <FaStar className="text-white text-4xl drop-shadow-lg" />
+            </div>
+            <h2 className="text-2xl md:text-3xl xl:text-4xl font-extrabold text-gray-800 dark:text-white mb-4 drop-shadow-lg">
+              🎁 Referral Rewards System
+            </h2>
+            <p className="text-lg md:text-xl text-gray-700 dark:text-yellow-200 font-medium max-w-3xl mx-auto">
+              Invite friends and unlock{" "}
+              <span className="font-bold text-yellow-600 dark:text-yellow-300">
+                premium subscriptions
+              </span>{" "}
+              automatically!
+            </p>
+          </div>
+
+          {/* Referral Benefits Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-gradient-to-br from-yellow-100 to-orange-200 dark:from-yellow-600/30 dark:to-orange-600/30 rounded-2xl p-6 border-2 border-yellow-400/50 text-center hover:scale-105 transition-transform duration-300">
+              <div className="text-4xl mb-3">🎯</div>
+              <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
+                10 Referrals
+              </h3>
+              <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-300 mb-2">
+                ₹99 BASIC Plan
+              </div>
+              <p className="text-yellow-700 dark:text-yellow-200 text-sm">
+                1 Year Free Subscription
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-red-100 to-pink-200 dark:from-red-600/30 dark:to-pink-600/30 rounded-2xl p-6 border-2 border-red-400/50 text-center hover:scale-105 transition-transform duration-300">
+              <div className="text-4xl mb-3">🚀</div>
+              <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
+                50 Referrals
+              </h3>
+              <div className="text-2xl font-bold text-red-600 dark:text-red-300 mb-2">
+                ₹499 PREMIUM Plan
+              </div>
+              <p className="text-red-700 dark:text-red-200 text-sm">
+                1 Year Free Subscription
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-100 to-indigo-200 dark:from-purple-600/30 dark:to-indigo-600/30 rounded-2xl p-6 border-2 border-purple-400/50 text-center hover:scale-105 transition-transform duration-300">
+              <div className="text-4xl mb-3">👑</div>
+              <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
+                100 Referrals
+              </h3>
+              <div className="text-2xl font-bold text-purple-600 dark:text-purple-300 mb-2">
+                ₹999 PRO Plan
+              </div>
+              <p className="text-purple-700 dark:text-purple-200 text-sm">
+                1 Year Free Subscription
+              </p>
+            </div>
+          </div>
+
+          {/* How It Works */}
+          <div className="bg-gray-100 dark:bg-white/10 rounded-2xl p-6 mb-8">
+            <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center">
+              How It Works
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <span className="text-white font-bold text-lg">1</span>
+                </div>
+                <p className="text-gray-700 dark:text-yellow-200 text-sm">
+                  Sign up and get your unique referral code
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <span className="text-white font-bold text-lg">2</span>
+                </div>
+                <p className="text-gray-700 dark:text-red-200 text-sm">
+                  Share your code with friends
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <span className="text-white font-bold text-lg">3</span>
+                </div>
+                <p className="text-gray-700 dark:text-purple-200 text-sm">
+                  Friends join using your code
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <span className="text-white font-bold text-lg">4</span>
+                </div>
+                <p className="text-gray-700 dark:text-green-200 text-sm">
+                  Unlock rewards at milestones!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Call to Action */}
+          <div className="text-center">
+            {!isLoggedIn ? (
+              <div className="space-y-4">
+                <p className="text-gray-700 dark:text-yellow-200 text-lg font-medium">
+                  Ready to start earning rewards?
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link
+                    to="/register"
+                    className="inline-block bg-gradient-to-r from-yellow-500 to-red-600 hover:from-yellow-600 hover:to-red-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
+                  >
+                    🚀 Join Now & Get Referral Code
+                  </Link>
+                  <Link
+                    to="/login"
+                    className="inline-block bg-white/30 hover:bg-white/40 text-gray-800 dark:text-white font-semibold py-4 px-8 rounded-xl border-2 border-white/30 hover:border-white/50 transition-all duration-300 text-lg"
+                  >
+                    🔑 Already have an account? Login
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <p className="text-gray-700 dark:text-yellow-200 text-lg font-medium">
+                  You're already part of the referral system!
+                </p>
+                <Link
+                  to="/profile"
+                  className="inline-block bg-gradient-to-r from-yellow-500 to-red-600 hover:from-yellow-600 hover:to-red-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
+                >
+                  📱 View Your Referral Code
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Additional Info */}
+          <div className="mt-8 text-center">
+            <p className="text-gray-700 dark:text-white/80 text-sm">
+              💡 <strong>Pro Tip:</strong> Share your referral code on social
+              media, WhatsApp groups, and with classmates to reach milestones
+              faster!
+            </p>
+          </div>
+
+          {/* Referral Code Preview */}
+          {!isLoggedIn && (
+            <div className="mt-6 bg-gray-100 dark:bg-white/10 rounded-2xl p-6 border border-gray-300 dark:border-white/20">
+              <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-3">
+                What Your Referral Code Will Look Like:
+              </h4>
+              <div className="flex items-center justify-center space-x-3 mb-3">
+                <div className="bg-gradient-to-r from-yellow-400 to-red-500 text-yellow-900 font-mono font-bold px-4 py-2 rounded-lg tracking-widest border-2 border-yellow-300 shadow-lg">
+                  ABC123XY
+                </div>
+                <button
+                  className="px-3 py-2 bg-yellow-400 text-yellow-900 font-bold rounded-lg shadow hover:bg-yellow-500 transition"
+                  onClick={() => navigator.clipboard.writeText("ABC123XY")}
+                  title="Copy Example Code"
+                >
+                  Copy
+                </button>
+              </div>
+              <p className="text-gray-700 dark:text-yellow-200 text-sm">
+                📱 <strong>Example:</strong> When friends join using your code,
+                you both get benefits!
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* Hero Section */}
       <div className="text-center mb-12 mt-12 z-10">
-  <div className="w-16 md:w-28 h-16 md:h-28 bg-gradient-to-tr from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl animate-float">
+        <div className="w-16 md:w-28 h-16 md:h-28 bg-gradient-to-tr from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl animate-float">
           <FaTrophy className="text-white text-4xl drop-shadow-lg" />
         </div>
-  <h1 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-indigo-600 dark:text-white mb-2 sm:mb-4 drop-shadow-lg">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-indigo-600 dark:text-white mb-2 sm:mb-4 drop-shadow-lg">
           Level Progression System
         </h1>
         <p className="text-lg md:text-2xl text-gray-700 dark:text-gray-200 font-medium">
           Journey from{" "}
-    <span className="font-bold text-yellow-600 dark:text-yellow-300">
+          <span className="font-bold text-yellow-600 dark:text-yellow-300">
             Zero Level
           </span>{" "}
           to{" "}
-    <span className="font-bold text-red-600 dark:text-red-300">
+          <span className="font-bold text-red-600 dark:text-red-300">
             Legend
           </span>{" "}
           through{" "}
@@ -483,9 +663,9 @@ const HomePage = () => {
                   // Find the user's current level quizzes
                   const userLevelObj = userLevelData;
                   let currentLevelData = null;
-                  if (userLevelObj && (userLevelObj.currentLevel + 1)) {
+                  if (userLevelObj && userLevelObj.currentLevel + 1) {
                     currentLevelData = homeData.quizzesByLevel.find(
-                      (lvl) => lvl.level === (userLevelObj.currentLevel + 1)
+                      (lvl) => lvl.level === userLevelObj.currentLevel + 1
                     );
                   }
                   if (!currentLevelData) {
@@ -594,7 +774,7 @@ const HomePage = () => {
                     <div className="p-4 flex-1 flex flex-col justify-between">
                       <div>
                         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-1 text-center">
-                          Level {level?.level} - {level.name} 
+                          Level {level?.level} - {level.name}
                         </h3>
                         <p className="text-gray-600 dark:text-gray-300 text-sm text-center mb-2">
                           {level.desc || ""}
@@ -647,7 +827,7 @@ const HomePage = () => {
                           Need {playCount} plays to master
                         </div>
                       </div>
-                      {(userLevelData?.currentLevel + 1) === level?.level && (
+                      {userLevelData?.currentLevel + 1 === level?.level && (
                         <div className="mt-4 flex justify-center">
                           <Link
                             to={`/level/${level.level}`}
@@ -657,16 +837,14 @@ const HomePage = () => {
                           </Link>
                         </div>
                       )}
-                      {(userLevelData?.currentLevel + 1) > level?.level && (
+                      {userLevelData?.currentLevel + 1 > level?.level && (
                         <div className="mt-4 flex justify-center">
-                          <button
-                            className="cursor-default inline-block bg-gradient-to-r from-green-600 to-orange-600 hover:from-red-700 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg text-base"
-                          >
+                          <button className="cursor-default inline-block bg-gradient-to-r from-green-600 to-orange-600 hover:from-red-700 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg text-base">
                             Completed
                           </button>
                         </div>
                       )}
-                      {(userLevelData?.currentLevel + 1) < level?.level && (
+                      {userLevelData?.currentLevel + 1 < level?.level && (
                         <div className="mt-4 flex justify-center">
                           <button
                             disabled
@@ -722,8 +900,7 @@ const HomePage = () => {
                       {category.name}
                     </h3>
                     <div className="mt-4 flex justify-center">
-                      <span className="inline-block bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
-                      >
+                      <span className="inline-block bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base">
                         View Quizzes
                       </span>
                     </div>
@@ -752,7 +929,7 @@ const HomePage = () => {
 
       {/* Platform Stats Section */}
       <div className="container mx-auto px-2 sm:px-4 py-8 z-10">
-  <div className="bg-gradient-to-r from-yellow-100 to-red-100 dark:from-gray-800 dark:to-yellow-900/30 rounded-3xl shadow-2xl p-6 md:p-10 border border-yellow-200 dark:border-yellow-700 flex flex-col items-center relative overflow-hidden">
+        <div className="bg-gradient-to-r from-yellow-100 to-red-100 dark:from-gray-800 dark:to-yellow-900/30 rounded-3xl shadow-2xl p-6 md:p-10 border border-yellow-200 dark:border-yellow-700 flex flex-col items-center relative overflow-hidden">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-indigo-600 dark:text-white mb-6 flex items-center gap-2 drop-shadow-lg">
             Platform Stats
           </h2>
@@ -804,7 +981,7 @@ const HomePage = () => {
               </div>
             </div>
             <div className="flex flex-col items-center group">
-              <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-green-500 rounded-full flex items-center justify-center mb-2 shadow-lg">
+              <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-green-500 rounded-full flex items-center justify-center mb-2">
                 <FaUserCircle className="text-white text-3xl animate-float" />
               </div>
               <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">

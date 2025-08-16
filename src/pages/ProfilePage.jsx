@@ -226,13 +226,13 @@ const ProfilePage = () => {
   const progressPercentage = student?.levelInfo?.progress?.progressPercentage || 0;
   const highScoreRate = student?.levelInfo?.stats?.highScoreRate || 0;
 const message =
-  "Refer friends and unlock paid subscriptions automatically on milestones!\n" +
+  "Refer with your friends and unlock paid subscriptions automatically on milestones!\n" +
   "10 referrals = ₹99 BASIC plan,\n" +
-  "50 = ₹499 PREMIUM plan,\n" +
-  "100 = ₹999 PRO plan.\n" +
-  "Check out my referral code:\n" +
+  "50 referrals = ₹499 PREMIUM plan,\n" +
+  "100 referrals = ₹999 PRO plan.\n" +
+  "Check out my Referral Code:\n" +
   `${student?.referralCode}\n` +
-  "Join and get free subscription!";
+  "Join and get Paid Subscriptions Free!";
 
   if (error)
     return (
@@ -286,7 +286,7 @@ const message =
           </p>
         </div>
 
-  {/* Enhanced Profile Details Card */}
+        {/* Enhanced Profile Details Card */}
         <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 sm:p-8 border border-white/30 mb-10 sm:mb-16 hover-lift">
           <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
             <div className="w-14 sm:w-20 h-14 sm:h-20 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
@@ -302,67 +302,7 @@ const message =
             </div>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
-            {/* Reward Center Referral Section */}
-            <div className="lg:col-span-2">
-              <div className="bg-gradient-to-br from-red-900/50 to-yellow-700/50 rounded-3xl p-6 lg:p-10 shadow-xl border-2 border-purple-300/30 relative overflow-hidden mb-8">
-
-                <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-8 space-y-4 lg:space-y-0">
-                  <div className="flex-1 flex flex-col items-center justify-center">
-                    <span className="text-white text-sm font-medium mb-1">Referrals Joined</span>
-                    <div className="text-xl lg:text-3xl font-bold text-yellow-300 bg-yellow-900/30 px-6 py-2 rounded-lg border-2 border-yellow-400 shadow">{student.referralCount || 0}</div>
-                  </div>
-                </div>
-                {/* Progress Bar */}
-                <div className="mt-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-white text-xs font-semibold">Progress</span>
-                    <span className="text-yellow-200 text-xs font-semibold">{student.referralCount || 0}/100</span>
-                  </div>
-                  <div className="w-full bg-purple-200/30 rounded-full h-4 overflow-hidden">
-                    <div
-                      className="bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-700 h-4 rounded-full transition-all duration-700 shadow-lg"
-                      style={{ width: `${Math.min((student.referralCount || 0),100)}%` }}
-                    ></div>
-                  </div>
-                  <div className="flex justify-between mt-2 text-xs text-white font-semibold">
-                    
-                    <span className="flex flex-col items-center">
-                      <span className="bg-green-400 text-green-900 px-2 py-1 rounded-full font-bold text-center">BASIC - ₹99</span>
-                      <span>10 Users</span>
-                    </span>
-                    <span className="flex flex-col items-center">
-                      <span className="bg-blue-400 text-blue-900 px-2 py-1 rounded-full font-bold text-center">PREMIUM - ₹499</span>
-                      <span>50 Users</span>
-                    </span>
-                    <span className="flex flex-col items-center">
-                      <span className="bg-pink-400 text-pink-900 px-2 py-1 rounded-full font-bold text-center">PRO - ₹999</span>
-                      <span>100 Users</span>
-                    </span>
-                  </div>
-                </div>
-                <div className="mt-6 flex justify-center flex-col items-center">
-                    <span className="text-white text-sm font-medium mb-1">Invite Friends to Get Bonus</span>
-                    <div className="flex items-center space-x-2 mb-2">
-                      <span className="text-xl lg:text-2xl font-bold text-white bg-gray-700/80 px-2 py-2 rounded-lg tracking-widest select-all border-2 border-purple-300 shadow">{student.referralCode}</span>
-                      <button
-                        className="px-3 py-2 bg-yellow-400 text-yellow-900 font-bold rounded-lg shadow hover:bg-yellow-500 transition"
-                        onClick={() => {navigator.clipboard.writeText(student.referralCode);}}
-                        title="Copy Code"
-                      >Copy</button>
-                    </div>
-                    <ShareComponent
-                      url={window.location.origin}
-                      text={message}
-                    />
-                </div>
-                <div className="mt-4 text-xs text-white/80 text-center">
-                  Refer friends and unlock paid subscriptions automatically on milestones!<br/>
-                  10 referrals = ₹99 BASIC plan, 50 = ₹499 PREMIUM plan, 100 = ₹999 PRO plan.
-                </div>
-              </div>
-            </div>
-            <div className="space-y-6">
+            <div className="space-y-6 mb-6 md:mb-0">
               <div className="bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl p-3 lg:p-6 border border-yellow-200 dark:border-yellow-700 hover-scale">
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center">
@@ -418,7 +358,7 @@ const message =
                     })()}
                   </div>
                 </div>
-              </div>
+            </div>
               
               {student.subscription?.isActive && (
                 <>
@@ -453,7 +393,6 @@ const message =
              
               
             </div>
-          </div>
 
           <div className="mt-6 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 rounded-2xl p-3 lg:p-6 border border-emerald-200 dark:border-emerald-700 hover-scale">
                 <div className="flex items-center space-x-4">
@@ -462,7 +401,7 @@ const message =
                   </div>
                   <div>
                     <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Achievement Badges</span>
-                    <p className="text-md lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+                    <p className="text-md lg:text-xl xl:text-2xl font-bold text-gray-800 dark:text-white">
                       {student.badges && student.badges.length > 0
                         ? student.badges.join(', ')
                         : 'No badges yet'}
@@ -472,10 +411,155 @@ const message =
               </div>
 
         </div>
+        <div className="my-6 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-gray-900 dark:to-gray-900 rounded-2xl p-3 lg:p-6 border border-emerald-200 dark:border-emerald-700 hover-scale">
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
+    {/* Reward Center Referral Section */}
+    <div className="lg:col-span-2">
+      <div className="bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-100 dark:from-pink-900/90 dark:via-purple-900/90 dark:to-indigo-900/90 backdrop-blur-xl rounded-3xl p-2 md:p-4 lg:p-10 shadow-2xl border border-pink-400/40 dark:border-pink-300/30 relative overflow-hidden mb-8 group hover:scale-[1.02] transition-all duration-500">
+        
+        {/* Animated Background Elements */}
+        <div className="absolute -top-20 -right-20 w-40 h-40 bg-gradient-to-br from-yellow-300/30 to-orange-400/30 rounded-full blur-3xl animate-pulse-slow" />
+        <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-gradient-to-tr from-cyan-300/30 to-blue-400/30 rounded-full blur-3xl animate-pulse-slow" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-r from-green-300/20 to-emerald-400/20 rounded-full blur-2xl animate-float" />
+        
+        {/* Header Section */}
+        <div className="relative z-10 text-center mb-8">
+          <div className="w-12 lg:w-20 h-12 lg:h-20 bg-gradient-to-tr from-yellow-300 via-orange-400 to-red-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl animate-float group-hover:scale-110 transition-transform duration-300">
+            <span className="text-3xl">🎁</span>
+          </div>
+          <h3 className="text-2xl lg:text-3xl font-extrabold text-gray-800 dark:text-white mb-3 drop-shadow-lg">
+            Referral Rewards Center
+          </h3>
+          <p className="text-gray-700 dark:text-yellow-200 text-lg font-medium">
+            Invite friends and unlock premium subscriptions automatically!
+          </p>
+        </div>
+
+        {/* Stats and Progress Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {/* Current Stats */}
+          <div className="bg-white/50 dark:bg-black/25 backdrop-blur-sm rounded-2xl p-2 md:p-4 lg:p-6 border border-white/25 dark:border-white/15">
+            <div className="text-center">
+              <div className="text-4xl lg:text-5xl font-bold text-yellow-700 dark:text-yellow-300 mb-2 animate-pulse">
+                {student.referralCount || 0}
+              </div>
+              <div className="text-gray-800 dark:text-white font-semibold text-lg mb-4">
+                Referrals Joined
+              </div>
+              
+              {/* Progress Bar */}
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-gray-700 dark:text-white text-sm font-medium">Progress to Next Milestone</span>
+                  <span className="text-yellow-700 dark:text-yellow-300 text-sm font-bold">
+                    {student.referralCount || 0}/100
+                  </span>
+                </div>
+                <div className="w-full bg-gray-200 dark:bg-black/40 rounded-full h-3 overflow-hidden">
+                  <div
+                    className="bg-gradient-to-r from-yellow-300 via-orange-400 to-red-500 h-3 rounded-full transition-all duration-1000 ease-out shadow-lg"
+                    style={{ width: `${Math.min((student.referralCount || 0), 100)}%` }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Milestone Rewards */}
+          <div className="bg-white/50 dark:bg-black/25 backdrop-blur-sm rounded-2xl p-2 md:p-4 lg:p-6 border border-white/25 dark:border-white/15">
+            <h4 className="text-gray-800 dark:text-white font-bold text-lg mb-4 text-center">Milestone Rewards</h4>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-gradient-to-r from-emerald-100 to-green-200 dark:from-emerald-400/25 dark:to-green-500/25 rounded-xl border border-emerald-300/40">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-bold">10</span>
+                  </div>
+                  <span className="text-gray-800 dark:text-white font-medium"> Referrals - BASIC Plan</span>
+                </div>
+                <span className="text-emerald-800 dark:text-emerald-300 font-bold">₹99</span>
+              </div>
+              
+              <div className="flex items-center justify-between p-3 bg-gradient-to-r from-blue-100 to-indigo-200 dark:from-blue-400/25 dark:to-indigo-500/25 rounded-xl border border-blue-300/40">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-bold">50</span>
+                  </div>
+                  <span className="text-gray-800 dark:text-white font-medium"> Referrals - PREMIUM Plan</span>
+                </div>
+                <span className="text-blue-800 dark:text-blue-300 font-bold">₹499</span>
+              </div>
+              
+              <div className="flex items-center justify-between p-3 bg-gradient-to-r from-purple-100 to-pink-200 dark:from-purple-400/25 dark:to-pink-500/25 rounded-xl border border-purple-300/40">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-bold">100</span>
+                  </div>
+                  <span className="text-gray-800 dark:text-white font-medium"> Referrals - PRO Plan</span>
+                </div>
+                <span className="text-purple-800 dark:text-purple-300 font-bold">₹999</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Referral Code Section */}
+        <div className="bg-gradient-to-r from-yellow-100 via-orange-100 to-red-100 dark:from-yellow-500/25 dark:via-orange-500/25 dark:to-red-500/25 rounded-2xl p-2 md:p-4 lg:p-6 border border-yellow-300/40 dark:border-yellow-400/30 mb-6">
+          <div className="text-center">
+            <h4 className="text-gray-800 dark:text-white font-bold text-xl mb-4 flex items-center justify-center gap-2">
+              <span className="text-2xl">🔑</span>
+              Your Unique Referral Code
+            </h4>
+            
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
+              <div className="bg-gradient-to-r from-yellow-300 to-orange-400 text-yellow-900 dark:text-yellow-900 font-mono font-bold px-6 py-3 rounded-xl tracking-widest border-2 border-yellow-200 dark:border-yellow-300 shadow-lg text-lg lg:text-xl select-all">
+                {student.referralCode}
+              </div>
+              <button
+                className="px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2"
+                onClick={() => {
+                  navigator.clipboard.writeText(student.referralCode);
+                }}
+                title="Copy Referral Code"
+              >
+                <span>📋</span>
+                Copy Code
+              </button>
+            </div>
+            
+            <p className="text-gray-700 dark:text-yellow-200 text-sm">
+              💡 Share this code with friends to start earning rewards!
+            </p>
+          </div>
+        </div>
+
+        {/* Share Section */}
+        <div className="text-center">
+          <h4 className="text-gray-800 dark:text-white font-bold text-lg mb-4">Share Your Referral Code</h4>
+          <ShareComponent
+            url={window.location.origin}
+            text={message}
+          />
+        </div>
+
+        {/* Footer Info */}
+        <div className="mt-6 text-center">
+          <p className="text-gray-800 dark:text-white/90 text-sm leading-relaxed">
+            🚀 <strong>Pro Tip:</strong> Share your referral code on social media, WhatsApp groups, and with classmates to reach milestones faster! 
+            <br />
+            <span className="text-yellow-700 dark:text-yellow-300 font-medium">
+              Every referral brings you closer to premium features!
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
         {/* Bank Details Card - Only shown for eligible users (level 10 or pro subscription) */}
         {isEligibleForBankDetails(student) && (
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 lg:p-8 border border-white/30 mb-16 hover-lift">
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 lg:p-8 border border-white/30 my-6 hover-lift">
             <div className="flex items-center space-x-4 mb-8">
               <div className="w-12 lg:w-20 h-12 lg:h-20 bg-gradient-to-r from-teal-500 via-yellow-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
                 <FaUniversity className="text-white text-3xl" />
@@ -500,6 +584,7 @@ const message =
             {/* Bank Details Display */}
             {bankDetails && !showBankForm ? (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-3 lg:p-6 border border-blue-200 dark:border-blue-700 hover-scale">
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center">

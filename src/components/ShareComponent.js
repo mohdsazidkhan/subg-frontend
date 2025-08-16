@@ -12,20 +12,6 @@ import {
   FaSms,
 } from "react-icons/fa";
 
-const TooltipIcon = ({ children, label, color }) => (
-  <div className="relative group flex items-center justify-center">
-    <span
-      className="text-2xl cursor-pointer transition-transform transform hover:scale-110"
-      style={{ color }}
-    >
-      {children}
-    </span>
-    <div className="absolute bottom-full mb-2 hidden group-hover:block whitespace-nowrap bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-      {label}
-    </div>
-  </div>
-);
-
 const ShareComponent = ({ url, text, imageUrl }) => {
   const encodedUrl = encodeURIComponent(url);
   const encodedText = encodeURIComponent(text);
@@ -58,9 +44,9 @@ const ShareComponent = ({ url, text, imageUrl }) => {
     <div>
       <div className="flex justify-center space-x-4 mt-2">
         {isMobile ? (
-          <span className="text-white text-sm font-medium mb-1">and</span>
+          <span className="text-gray-800 dark:text-white  text-sm font-medium mb-1">and</span>
         ) : (
-          <span className="text-white text-sm font-medium mb-1">Share On</span>
+          <span className="text-gray-800 dark:text-white text-sm font-medium mb-1">Share On</span>
         )}
       </div>
 
@@ -79,66 +65,68 @@ const ShareComponent = ({ url, text, imageUrl }) => {
               href={`https://wa.me/?text=${encodedText}%0A${encodedUrl}`}
               target="_blank"
               rel="noopener noreferrer"
+              className="text-2xl cursor-pointer transition-transform transform hover:scale-110"
+              style={{ color: "#25D366" }}
             >
-              <TooltipIcon label="WhatsApp" color="#25D366">
-                <FaWhatsapp />
-              </TooltipIcon>
+              <FaWhatsapp />
             </a>
 
             <a
               href={`https://t.me/share/url?text=${telegramTextFirst}`}
               target="_blank"
               rel="noopener noreferrer"
+              className="text-2xl cursor-pointer transition-transform transform hover:scale-110"
+              style={{ color: "#0088cc" }}
             >
-              <TooltipIcon label="Telegram" color="#0088cc">
-                <FaTelegramPlane />
-              </TooltipIcon>
+              <FaTelegramPlane />
             </a>
 
-            <button onClick={handleInstagramShare}>
-              <TooltipIcon label="Instagram" color="#E1306C">
-                <FaInstagram />
-              </TooltipIcon>
+            <button 
+              onClick={handleInstagramShare}
+              className="text-2xl cursor-pointer transition-transform transform hover:scale-110"
+              style={{ color: "#E1306C" }}
+            >
+              <FaInstagram />
             </button>
 
             <a
               href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
               target="_blank"
               rel="noopener noreferrer"
+              className="text-2xl cursor-pointer transition-transform transform hover:scale-110"
+              style={{ color: "#3b5998" }}
             >
-              <TooltipIcon label="Facebook" color="#3b5998">
-                <FaFacebook />
-              </TooltipIcon>
+              <FaFacebook />
             </a>
 
             <a
               href={`https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`}
               target="_blank"
               rel="noopener noreferrer"
+              className="text-2xl cursor-pointer transition-transform transform hover:scale-110"
+              style={{ color: "#1DA1F2" }}
             >
-              <TooltipIcon label="Twitter / X" color="#1DA1F2">
-                <FaTwitter />
-              </TooltipIcon>
+              <FaTwitter />
             </a>
 
             <a
               href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
               target="_blank"
               rel="noopener noreferrer"
+              className="text-2xl cursor-pointer transition-transform transform hover:scale-110"
+              style={{ color: "#0077b5" }}
             >
-              <TooltipIcon label="LinkedIn" color="#0077b5">
-                <FaLinkedin />
-              </TooltipIcon>
+              <FaLinkedin />
             </a>
 
             <a
               href={`https://www.reddit.com/submit?url=${encodedUrl}&title=${encodedText}`}
               target="_blank"
               rel="noopener noreferrer"
+              className="text-2xl cursor-pointer transition-transform transform hover:scale-110"
+              style={{ color: "#FF4500" }}
             >
-              <TooltipIcon label="Reddit" color="#FF4500">
-                <FaReddit />
-              </TooltipIcon>
+              <FaReddit />
             </a>
 
             <a
@@ -147,10 +135,10 @@ const ShareComponent = ({ url, text, imageUrl }) => {
               )}&description=${encodedText}`}
               target="_blank"
               rel="noopener noreferrer"
+              className="text-2xl cursor-pointer transition-transform transform hover:scale-110"
+              style={{ color: "#E60023" }}
             >
-              <TooltipIcon label="Pinterest" color="#E60023">
-                <FaPinterest />
-              </TooltipIcon>
+              <FaPinterest />
             </a>
 
             <a
@@ -159,20 +147,20 @@ const ShareComponent = ({ url, text, imageUrl }) => {
               )}&body=${encodedText}%20${encodedUrl}`}
               target="_blank"
               rel="noopener noreferrer"
+              className="text-2xl cursor-pointer transition-transform transform hover:scale-110"
+              style={{ color: "#D44638" }}
             >
-              <TooltipIcon label="Email" color="#D44638">
-                <FaEnvelope />
-              </TooltipIcon>
+              <FaEnvelope />
             </a>
 
             <a
               href={`sms:?&body=${encodedText}%20${encodedUrl}`}
               target="_blank"
               rel="noopener noreferrer"
+              className="text-2xl cursor-pointer transition-transform transform hover:scale-110"
+              style={{ color: "#34B7F1" }}
             >
-              <TooltipIcon label="SMS" color="#34B7F1">
-                <FaSms />
-              </TooltipIcon>
+              <FaSms />
             </a>
           </>
         )}
