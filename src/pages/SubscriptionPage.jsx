@@ -441,7 +441,7 @@ const SubscriptionPage = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-8">
             {getSubscriptionPlans().map((plan, index) => {
               const IconComponent = getPlanIcon(plan.name);
               const gradient = getPlanGradient(plan.name);

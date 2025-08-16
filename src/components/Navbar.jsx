@@ -54,7 +54,7 @@ export default function Navbar() {
       <Link
         title="Search"
         to="/search"
-        className="rounded-full bg-gradient-to-r from-orange-500 to-yellow-500 p-2 shadow-lg hover:scale-105 transition-transform border-2 border-gray-400 dark:border-gray-200"
+        className="rounded-full bg-gradient-to-r from-orange-500 to-yellow-500 p-2 shadow-lg hover:scale-105 transition-transform "
       >
         <BsSearch className="text-xl text-white" />
       </Link>
@@ -77,7 +77,7 @@ export default function Navbar() {
       <Link
         title="My Profile"
         to="/profile"
-        className="rounded-full bg-gradient-to-r from-yellow-500 to-red-500 p-1 shadow-lg hover:scale-105 transition-transform border-2 border-gray-400 dark:border-gray-200"
+        className="rounded-full bg-gradient-to-r from-yellow-500 to-red-500 p-1 shadow-lg hover:scale-105 transition-transform"
       >
         <BsPersonCircle className="text-2xl text-white" />
       </Link>

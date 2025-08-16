@@ -21,11 +21,11 @@ class ApiService {
   const url = `${this.baseURL}${endpoint}`;
   const token = localStorage.getItem('token');
   const publicPaths = ['/login', '/register', '/forgot-password'];
-  if (!token && !publicPaths.includes(window.location.pathname)) {
-    localStorage.clear();
-    window.location.href = '/login'; // Or use navigate('/login') if using React Router
-    return; // Stop further execution
-  }
+  // if (!token && !publicPaths.includes(window.location.pathname)) {
+  //   localStorage.clear();
+  //   window.location.href = '/login'; // Or use navigate('/login') if using React Router
+  //   return; // Stop further execution
+  // }
   
   console.log(`🌐 API Request: ${options.method || 'GET'} ${url}`);
   console.log('🔑 Token:', token ? 'Present' : 'Missing');
@@ -53,14 +53,14 @@ class ApiService {
     console.log('📦 Response data:', data);
     
     if (!response.ok) {
-      console.error('❌ API Error:', data);
+      console.error('❌ API Error1:', response);
 
       // ✅ Handle Unauthorized: Clear storage and redirect
-      if (response.status === 401) {
-        localStorage.clear();
-        window.location.href = '/login'; // Or use navigate('/login') if in React Router
-        return; // Stop further execution
-      }
+      // if (response.status === 401) {
+      //   localStorage.clear();
+      //   window.location.href = '/login'; // Or use navigate('/login') if in React Router
+      //   return; // Stop further execution
+      // }
 
       const error = new Error();
       error.response = { status: response.status, data };
@@ -71,13 +71,13 @@ class ApiService {
     return data;
   } catch (error) {
     
-    console.error('💥 API Error:', error);
+    console.error('💥 API Error2:', error);
     
-    if (error.response?.status === 401) {
-      localStorage.clear();
-      window.location.href = '/login';
-      return;
-    }
+    // if (error.response?.status === 401) {
+    //   localStorage.clear();
+    //   window.location.href = '/login';
+    //   return;
+    // }
 
     if (error.response) {
       throw error;

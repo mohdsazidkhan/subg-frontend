@@ -7,7 +7,7 @@ const AboutUs = () => {
   }, []);
 
   return (
-  <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900">
+  <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
       <div className="container mx-auto px-4 py-8 mt-16">
         
         {/* Hero Section */}
@@ -163,12 +163,12 @@ const AboutUs = () => {
 
           {/* Call to Action */}
           <div className="text-center">
-            <div className="bg-gradient-to-r from-yellow-500 to-red-500 rounded-3xl p-8 text-white">
-              <h2 className="text-3xl font-bold mb-4">Ready to Start Your Quiz Journey?</h2>
-              <p className="text-xl mb-6 opacity-90">
+            <div className="bg-gradient-to-r from-yellow-100 to-red-100 dark:from-yellow-800 dark:to-red-800 rounded-3xl p-8 text-white">
+              <h2 className="text-3xl font-bold mb-4 text-gray-800 dark:text-white">Ready to Start Your Quiz Journey?</h2>
+              <p className="text-xl mb-6 opacity-90 text-gray-800 dark:text-white">
                 Join thousands of learners who are already turning their knowledge into success
               </p>
-              <button className="bg-white text-yellow-600 px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
+              <button className="bg-white text-gray-700 dark:text-red-600  px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
                 Get Started Today
               </button>
             </div>

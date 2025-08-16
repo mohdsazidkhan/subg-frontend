@@ -179,22 +179,6 @@ const HomePage = () => {
     }
   };
 
-  const getLevelColor = (level) => {
-    const colors = [
-  "bg-yellow-500",
-      "bg-green-500",
-      "bg-yellow-500",
-      "bg-orange-500",
-      "bg-red-500",
-  "bg-red-500",
-      "bg-pink-500",
-      "bg-indigo-500",
-      "bg-teal-500",
-      "bg-cyan-500",
-    ];
-    return colors[(level - 1) % colors.length];
-  };
-
   if (loading) {
     return (
   <div className="min-h-screen bg-subg-light dark:bg-subg-dark flex items-center justify-center">
@@ -777,7 +761,7 @@ const HomePage = () => {
           <div className="relative grid grid-cols-2 sm:grid-cols-5 gap-6 w-full max-w-3xl z-10">
             <div className="flex flex-col items-center group">
               <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <FaBook className="text-white text-3xl animate-bounce-slow" />
+                <FaBook className="text-white text-3xl animate-float" />
               </div>
               <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">
                 10+
@@ -788,7 +772,7 @@ const HomePage = () => {
             </div>
             <div className="flex flex-col items-center group">
               <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <FaLayerGroup className="text-white text-3xl animate-spin-slow" />
+                <FaLayerGroup className="text-white text-3xl animate-float" />
               </div>
               <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">
                 100+
@@ -799,7 +783,7 @@ const HomePage = () => {
             </div>
             <div className="flex flex-col items-center group">
               <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <FaStar className="text-white text-3xl animate-pulse-slow" />
+                <FaStar className="text-white text-3xl animate-float" />
               </div>
               <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">
                 4K+
@@ -810,7 +794,7 @@ const HomePage = () => {
             </div>
             <div className="flex flex-col items-center group">
               <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <FaQuestionCircle className="text-white text-3xl animate-wiggle" />
+                <FaQuestionCircle className="text-white text-3xl animate-float" />
               </div>
               <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">
                 20K+
@@ -820,7 +804,7 @@ const HomePage = () => {
               </div>
             </div>
             <div className="flex flex-col items-center group">
-              <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-green-500 rounded-full flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
+              <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-green-500 rounded-full flex items-center justify-center mb-2 shadow-lg">
                 <FaUserCircle className="text-white text-3xl animate-float" />
               </div>
               <div className="text-3xl font-extrabold text-gray-800 dark:text-white animate-count">
