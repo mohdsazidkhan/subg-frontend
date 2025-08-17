@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import API from '../../utils/api';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import Pagination from '../../components/Pagination';
 import ViewToggle from '../../components/ViewToggle';
 import SearchFilter from '../../components/SearchFilter';
-import { FaEdit, FaTrash, FaPlus, FaQuestion, FaCheck, FaEye, FaEyeSlash, FaList, FaTable } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaPlus, FaCheck } from 'react-icons/fa';
 import { isMobile } from 'react-device-detect';
 import useDebounce from '../../utils/useDebounce';
 
@@ -39,7 +39,7 @@ const QuestionPage = () => {
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isOpen = useSelector((state) => state.sidebar.isOpen);
 
-  const fetchQuestions = async (page = 1, search = '', filterParams = {}) => {
+  const fetchQuestions = useCallback(async (page = 1, search = '', filterParams = {}) => {
     try {
       setLoading(true);
       const params = {
@@ -57,26 +57,26 @@ const QuestionPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [itemsPerPage]);
 
-  const fetchQuizzes = async () => {
+  const fetchQuizzes = useCallback(async () => {
     try {
       const response = await API.getAdminAllQuizzes();
       setQuizzes(response.quizzes || response);
     } catch (error) {
       console.error('Error fetching quizzes:', error);
     }
-  };
+  }, []);
 
   const debouncedSearch = useDebounce(searchTerm, 1000); // 1s delay
 
     useEffect(() => {
       fetchQuizzes();
-    }, []);
+    }, [fetchQuizzes]);
 
     useEffect(() => {
     fetchQuestions(currentPage, debouncedSearch, filters, itemsPerPage);
-  }, [currentPage, debouncedSearch, filters, itemsPerPage]);
+  }, [currentPage, debouncedSearch, filters, itemsPerPage, fetchQuestions]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

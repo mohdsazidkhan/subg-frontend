@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FaStar, FaClock, FaQuestionCircle, FaFilter, FaLevelUpAlt, FaArrowLeft } from 'react-icons/fa';
 import API from '../utils/api';
@@ -35,39 +35,16 @@ const LevelBasedQuizzes = () => {
     // eslint-disable-next-line
   }, [filters.category, filters.subcategory, filters.difficulty, filters.level, filters.attempted, filters.search, filters.page]);
 
-  // Only fetch user profile once on mount
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
-  // Debounced search effect
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setSearchLoading(true);
-      setFilters(prev => ({
-        ...prev,
-        search: searchInput,
-        page: 1 // Reset to first page when search changes
-      }));
-    }, 500); // 500ms delay
-
-    return () => clearTimeout(timeoutId);
-  }, [searchInput]);
-
-  useEffect(() => {
-    fetchSubcategories();
-  }, [filters.category]);
-
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
       const response = await API.getCategories();
       setCategories(response);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
-  };
+  }, []);
 
-  const fetchSubcategories = async () => {
+  const fetchSubcategories = useCallback(async () => {
     try {
       // Only fetch subcategories if a category is selected
       if (filters.category) {
@@ -80,9 +57,9 @@ const LevelBasedQuizzes = () => {
       console.error('Error fetching subcategories:', error);
       setSubcategories([]);
     }
-  };
+  }, [filters.category]);
 
-  const fetchQuizzes = async () => {
+  const fetchQuizzes = useCallback(async () => {
     try {
       // Only show main loading on initial load, not on search
       if (!searchLoading) {
@@ -121,16 +98,41 @@ const LevelBasedQuizzes = () => {
       setLoading(false);
       setSearchLoading(false);
     }
-  };
+  }, [filters, searchLoading]);
 
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     try {
       const response = await API.getProfile();
       setUser(response);
     } catch (error) {
       console.error('Error fetching user:', error);
     }
-  };
+  }, []);
+
+  // Only fetch user profile once on mount
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+
+  // Debounced search effect
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setSearchLoading(true);
+      setFilters(prev => ({
+        ...prev,
+        search: searchInput,
+        page: 1 // Reset to first page when search changes
+      }));
+    }, 500); // 500ms delay
+
+    return () => clearTimeout(timeoutId);
+  }, [searchInput]);
+
+  useEffect(() => {
+    fetchSubcategories();
+  }, [fetchSubcategories]);
+
+
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => {

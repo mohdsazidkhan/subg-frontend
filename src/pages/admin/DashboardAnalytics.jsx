@@ -11,10 +11,11 @@ import {
   ArcElement
 } from 'chart.js';
 import config from '../../config/appConfig';
-import { FaUsers, FaChartBar, FaMoneyBillWave, FaTrophy, FaClock, FaStar } from 'react-icons/fa';
+import { FaUsers, FaChartBar, FaMoneyBillWave, FaTrophy, FaClock, FaStar, FaUser, FaBook, FaCalendarAlt, FaMedal, FaCrown, FaAward } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Sidebar from '../../components/Sidebar';
+
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
@@ -39,6 +40,8 @@ const DashboardAnalytics = () => {
       .then(res => res.json())
       .then(res => {
         if (res.success) {
+          console.log('Dashboard Data:', res.data);
+          console.log('Top Users:', res.data?.topUsers);
           setData(res.data);
         } else {
           setError(res.message || 'Failed to load dashboard analytics');
@@ -56,6 +59,19 @@ const DashboardAnalytics = () => {
 
   const chartTextColor = isDark ? '#ffffff' : '#000000';
   const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+
+  // Helper function to convert Tailwind gradient classes to CSS colors
+  const getGradientColors = (gradientClass) => {
+    const gradientMap = {
+      'from-blue-500 to-indigo-600': '#3b82f6, #4f46e5',
+      'from-green-500 to-emerald-600': '#10b981, #059669',
+      'from-yellow-500 to-orange-600': '#eab308, #ea580c',
+      'from-purple-500 to-pink-600': '#8b5cf6, #db2777',
+      'from-indigo-500 to-blue-600': '#6366f1, #2563eb',
+      'from-pink-500 to-rose-600': '#ec4899, #e11d48'
+    };
+    return gradientMap[gradientClass] || '#3b82f6, #4f46e5';
+  };
 
   const levelLabels = data?.levelDistribution?.map(l => `Level ${l._id}`) || [];
   const levelCounts = data?.levelDistribution?.map(l => l.count) || [];
@@ -158,24 +174,61 @@ const DashboardAnalytics = () => {
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
           {[
-            { label: 'Total Users', icon: <FaUsers />, value: data.overview?.totalUsers, color: 'blue' },
-            { label: 'Total Quizzes', icon: <FaChartBar />, value: data.overview?.totalQuizzes, color: 'green' },
-            { label: 'Total Revenue', icon: <FaMoneyBillWave />, value: `₹${data.overview?.totalRevenue}`, color: 'yellow' },
-            { label: 'Active Users', icon: <FaTrophy />, value: data.overview?.activeUsers, color: 'purple' },
-            { label: 'Total Attempts', icon: <FaClock />, value: data.overview?.totalAttempts, color: 'indigo' },
-            { label: 'Subscriptions', icon: <FaStar />, value: data.overview?.totalSubscriptions, color: 'pink' },
+            { 
+              label: 'Total Users', 
+              icon: <FaUsers />, 
+              value: data.overview?.totalUsers, 
+              gradient: 'from-blue-500 to-indigo-600'
+            },
+            { 
+              label: 'Total Quizzes', 
+              icon: <FaChartBar />, 
+              value: data.overview?.totalQuizzes, 
+              gradient: 'from-green-500 to-emerald-600'
+            },
+            { 
+              label: 'Total Revenue', 
+              icon: <FaMoneyBillWave />, 
+              value: `₹${data.overview?.totalRevenue}`, 
+              gradient: 'from-yellow-500 to-orange-600'
+            },
+            { 
+              label: 'Active Users', 
+              icon: <FaTrophy />, 
+              value: data.overview?.activeUsers, 
+              gradient: 'from-purple-500 to-pink-600'
+            },
+            { 
+              label: 'Total Attempts', 
+              icon: <FaClock />, 
+              value: data.overview?.totalAttempts, 
+              color: 'indigo',
+              gradient: 'from-indigo-500 to-blue-600',
+              bgGradient: 'from-indigo-50 to-blue-50',
+              darkBgGradient: 'from-indigo-900/20 to-blue-900/20'
+            },
+            { 
+              label: 'Subscriptions', 
+              icon: <FaStar />, 
+              value: data.overview?.totalSubscriptions, 
+              gradient: 'from-pink-500 to-rose-600'
+            },
           ].map((stat, i) => (
-            <div key={i} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-2 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="flex items-center">
-                <div className={`p-2 rounded-full bg-${stat.color}-100 dark:bg-${stat.color}-600`}>
-                  {React.cloneElement(stat.icon, { className: `w-4 h-4 text-${stat.color}-600 dark:text-white` })}
+            <div key={i} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 group">
+              <div className="flex flex-col items-center text-center">
+                <div className={`w-16 h-16 bg-gradient-to-r ${stat.gradient} rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:shadow-xl transition-all duration-300`}>
+                  {React.cloneElement(stat.icon, { className: 'w-8 h-8 text-white' })}
                 </div>
-                <div className="ml-2">
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{stat.label}</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                <div className="text-center">
+                  <p className="text-sm font-semibold mb-2 uppercase tracking-wide text-gray-600 dark:text-gray-300">{stat.label}</p>
+                  <p className="text-3xl font-bold bg-gradient-to-r bg-clip-text text-transparent" style={{
+                    backgroundImage: `linear-gradient(to right, ${getGradientColors(stat.gradient)})`
+                  }}>
                     {stat.value?.toLocaleString() || 0}
                   </p>
                 </div>
+                {/* Animated border effect */}
+                <div className={`w-full h-1 bg-gradient-to-r ${stat.gradient} rounded-full mt-4 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500`}></div>
               </div>
             </div>
           ))}
@@ -206,29 +259,89 @@ const DashboardAnalytics = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Recent Activity */}
           <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg">
-            <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-xl flex items-center justify-center">
+                <span className="text-2xl">📊</span>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">Recent Activity</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Latest user quiz attempts and activities</p>
+              </div>
+            </div>
+            
             <div className="overflow-x-auto">
               <table className="w-[1000px] md:w-full">
                 <thead>
-                  <tr className="border-b border-gray-200 dark:border-gray-700">
-                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">User</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Quiz</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Date</th>
+                  <tr className="border-b-2 border-blue-200 dark:border-blue-700">
+                    <th className="text-left py-4 px-4 font-bold text-blue-800 dark:text-blue-200 text-lg">
+                      <div className="flex items-center gap-2">
+                        <FaUser className="text-blue-600 dark:text-blue-400" />
+                        User
+                      </div>
+                    </th>
+                    <th className="text-left py-4 px-4 font-bold text-blue-800 dark:text-blue-200 text-lg">
+                      <div className="flex items-center gap-2">
+                        <FaBook className="text-blue-600 dark:text-blue-400" />
+                        Quiz
+                      </div>
+                    </th>
+                    <th className="text-left py-4 px-4 font-bold text-blue-800 dark:text-blue-200 text-lg">
+                      <div className="flex items-center gap-2">
+                        <FaCalendarAlt className="text-blue-600 dark:text-blue-400" />
+                        Date
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {data.recentActivity?.length > 0 ? (
                     data.recentActivity.map((a, i) => (
-                      <tr key={i} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                        <td className="py-3 px-4">{a.user?.name || 'Unknown'}</td>
-                        <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{a.quiz?.title || 'Unknown Quiz'}</td>
-                        <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{new Date(a.attemptedAt).toLocaleDateString()}</td>
+                      <tr 
+                        key={i} 
+                        className="border-b border-gray-200 dark:border-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 dark:hover:from-blue-900/10 dark:hover:to-indigo-900/10 transition-all duration-200 group"
+                      >
+                        <td className="py-4 px-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg flex items-center justify-center">
+                              <FaUser className="text-blue-600 dark:text-blue-400 text-sm" />
+                            </div>
+                            <span className="font-semibold text-gray-900 dark:text-white">
+                              {a.user?.name || 'Unknown'}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-lg flex items-center justify-center">
+                              <FaBook className="text-green-600 dark:text-green-400 text-sm" />
+                            </div>
+                            <span title={a.quiz?.title} className="text-gray-600 dark:text-gray-300 font-medium">
+                              {a.quiz?.title ? 
+                                (a.quiz.title.length > 20 ? `${a.quiz.title.substring(0, 20)}...` : a.quiz.title)
+                                : 'Unknown Quiz'
+                              }
+                            </span>
+                          </div>
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-lg flex items-center justify-center">
+                              <FaCalendarAlt className="text-purple-600 dark:text-purple-400 text-sm" />
+                            </div>
+                            <span className="text-gray-600 dark:text-gray-300 font-medium">
+                              {new Date(a.attemptedAt).toLocaleDateString()}
+                            </span>
+                          </div>
+                        </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
                       <td colSpan="3" className="text-center py-8 text-gray-500 dark:text-gray-400">
-                        No recent activity
+                        <div className="flex flex-col items-center gap-2">
+                          <span className="text-4xl">📝</span>
+                          <span>No recent activity</span>
+                        </div>
                       </td>
                     </tr>
                   )}
@@ -238,32 +351,148 @@ const DashboardAnalytics = () => {
           </div>
 
           {/* Top Users */}
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg">
-            <h3 className="text-lg font-semibold mb-4">Top Users</h3>
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-lg">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-xl flex items-center justify-center">
+                <span className="text-xl">🏆</span>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">Top Users</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Best performing users by level and scores</p>
+              </div>
+            </div>
+            
             <div className="overflow-x-auto">
-              <table className="w-[1000px] md:w-full">
+              <table className="w-full min-w-full table-auto text-sm md:text-base">
                 <thead>
-                  <tr className="border-b border-gray-200 dark:border-gray-700">
-                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Name</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Level</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">High Scores Quizzes</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Total Quizzes</th>
+                  <tr className="border-b-2 border-yellow-200 dark:border-yellow-700">
+                    <th className="text-left py-3 px-2 font-bold text-yellow-800 dark:text-yellow-200 text-sm w-[15%]">
+                      <div className="flex items-center gap-1">
+                        <FaMedal className="text-yellow-600 dark:text-yellow-400 text-sm" />
+                        Rank
+                      </div>
+                    </th>
+                    <th className="text-left py-3 px-2 font-bold text-yellow-800 dark:text-yellow-200 text-sm w-[25%]">
+                      <div className="flex items-center gap-1">
+                        <FaUser className="text-yellow-600 dark:text-yellow-400 text-sm" />
+                        Name
+                      </div>
+                    </th>
+                    <th className="text-left py-3 px-2 font-bold text-yellow-800 dark:text-yellow-200 text-sm w-[20%]">
+                      <div className="flex items-center gap-1">
+                        <FaTrophy className="text-yellow-600 dark:text-yellow-400 text-sm" />
+                        Level
+                      </div>
+                    </th>
+                    <th className="text-left py-3 px-2 font-bold text-yellow-800 dark:text-yellow-200 text-sm w-[20%]">
+                      <div className="flex items-center gap-1">
+                        <FaAward className="text-yellow-600 dark:text-yellow-400 text-sm" />
+                        High Scores
+                      </div>
+                    </th>
+                    <th className="text-left py-2 font-bold text-yellow-800 dark:text-yellow-200 text-sm w-[20%]">
+                      <div className="flex items-center gap-1">
+                        <FaChartBar className="text-yellow-600 dark:text-yellow-400 text-sm" />
+                        Total Quizzes
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {data.topUsers?.length > 0 ? (
                     data.topUsers.map((u, i) => (
-                      <tr key={i} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                        <td className="py-3 px-4">{u.name || 'Unknown'}</td>
-                        <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{u.level?.levelName} - {u.level?.currentLevel || 0}</td>
-                        <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{u.level?.highScoreQuizzes || 0}</td>
-                        <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{u.level?.quizzesPlayed || 0}</td>
+                      <tr 
+                        key={i} 
+                        className={`border-b transition-all duration-200 border-gray-200 hover:bg-gradient-to-r hover:from-yellow-50 hover:to-orange-50 dark:border-gray-700 dark:hover:from-yellow-900/10 dark:hover:to-orange-900/10 group ${
+                          i === 0 ? "bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20" :
+                          i === 1 ? "bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20" :
+                          i === 2 ? "bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20" : ""
+                        }`}
+                      >
+                        <td className="py-3 px-2">
+                          <div className="flex items-center gap-2">
+                            <span className={`w-8 h-8 text-sm flex items-center justify-center rounded-full font-bold ${
+                              i === 0 ? "bg-gradient-to-r from-yellow-400 to-orange-500 text-white shadow-lg" :
+                              i === 1 ? "bg-gradient-to-r from-gray-400 to-slate-500 text-white shadow-md" :
+                              i === 2 ? "bg-gradient-to-r from-orange-400 to-amber-500 text-white shadow-md" :
+                              "bg-gradient-to-r from-blue-400 to-indigo-500 text-white"
+                            }`}>
+                              {i === 0 ? <FaCrown className="text-sm" /> : i === 1 ? "🥈" : i === 2 ? "🥉" : i + 1}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="py-3 px-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg flex items-center justify-center">
+                              <FaUser className="text-blue-600 dark:text-blue-400 text-xs" />
+                            </div>
+                            <span className="font-semibold text-gray-900 dark:text-white text-sm">
+                              {u.name || 'Unknown'}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="py-3 px-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-lg flex items-center justify-center">
+                              <FaTrophy className="text-purple-600 dark:text-purple-400 text-xs" />
+                            </div>
+                            <div>
+                              <div className="font-semibold text-gray-900 dark:text-white text-sm">
+                                {u.level?.levelName || 'No Level'}
+                              </div>
+                              <div className="text-xs text-gray-500 dark:text-gray-400">
+                                Level {u.level?.currentLevel || 0}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="py-3 px-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-lg flex items-center justify-center">
+                              <FaAward className="text-green-600 dark:text-green-400 text-xs" />
+                            </div>
+                            <div className="bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-lg">
+                              <div className="text-center">
+                                <div className="text-sm font-bold text-green-800 dark:text-green-200">
+                                  {(() => {
+                                    console.log('User:', u.name, 'Level Data:', u.level, 'High Score:', u.level?.highScoreQuizzes);
+                                    return u.level?.highScoreQuizzes || 0;
+                                  })()}
+                                </div>
+                                <div className="text-xs text-green-600 dark:text-green-400">
+                                  High Scores
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </td>
+                        <td className="py-3 px-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 bg-gradient-to-r from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 rounded-lg flex items-center justify-center">
+                              <FaChartBar className="text-orange-600 dark:text-orange-400 text-xs" />
+                            </div>
+                            <div className="bg-orange-100 dark:bg-orange-900/30 px-2 py-1 rounded-lg">
+                              <div className="text-center">
+                                <div className="text-sm font-bold text-orange-800 dark:text-orange-200">
+                                  {u.level?.quizzesPlayed || 0}
+                                </div>
+                                <div className="text-xs text-orange-600 dark:text-orange-400">
+                                  Total Quizzes
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="3" className="text-center py-8 text-gray-500 dark:text-gray-400">
-                        No users found
+                      <td colSpan="5" className="text-center py-8 text-gray-500 dark:text-gray-400">
+                        <div className="flex flex-col items-center gap-2">
+                          <span className="text-4xl">👥</span>
+                          <span>No users found</span>
+                        </div>
                       </td>
                     </tr>
                   )}

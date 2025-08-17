@@ -294,7 +294,7 @@ const HomePage = () => {
 
       {/* Referral System Section - Visible to all users */}
       <div className="container mx-auto px-2 sm:px-4 py-8 z-10">
-        <div className="bg-gradient-to-br from-purple-50 to-red-100 dark:from-purple-900/90 dark:to-red-900/90 rounded-3xl shadow-2xl p-2 md:p-4 xl:p-10 border-2 border-purple-300/30">
+        <div className="rounded-3xl shadow-2xl p-2 md:p-4 xl:p-10 border-2 border-purple-300/30">
           <div className="text-center mb-8">
             <div className="w-20 h-20 bg-gradient-to-tr from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl animate-float">
               <FaStar className="text-white text-4xl drop-shadow-lg" />

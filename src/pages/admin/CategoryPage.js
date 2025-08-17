@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import API from '../../utils/api';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
@@ -29,7 +29,7 @@ const CategoryPage = () => {
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isOpen = useSelector((state) => state.sidebar.isOpen);
 
-  const fetchCategories = async (page = 1, search = '') => {
+  const fetchCategories = useCallback(async (page = 1, search = '') => {
     try {
       setLoading(true);
       const params = {
@@ -46,13 +46,13 @@ const CategoryPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [itemsPerPage]);
 
   const debouncedSearch = useDebounce(searchTerm, 1000); // Debounce search term
 
   useEffect(() => {
     fetchCategories(currentPage, debouncedSearch, itemsPerPage);
-  }, [currentPage, debouncedSearch, itemsPerPage]);
+  }, [currentPage, debouncedSearch, itemsPerPage, fetchCategories]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -259,7 +259,74 @@ const CategoryPage = () => {
   return (
     <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
       {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
+      <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
+        {/* Enhanced Header */}
+        <div className="mb-6 md:mb-8">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-16 h-16 bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-2xl flex items-center justify-center">
+              <span className="text-3xl">📚</span>
+            </div>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+                Category Management
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400 text-lg">
+                Create, edit, and manage quiz categories and their content
+              </p>
+            </div>
+          </div>
+          
+          {/* Stats Overview */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 p-4 rounded-xl border border-yellow-200 dark:border-yellow-600">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
+                  <span className="text-yellow-600 dark:text-yellow-400 text-lg">📚</span>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-yellow-800 dark:text-yellow-200">
+                    {pagination.total || 0}
+                  </div>
+                  <div className="text-sm text-yellow-600 dark:text-yellow-400 font-medium">
+                    Total Categories
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-4 rounded-xl border border-green-200 dark:border-green-600">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                  <span className="text-green-600 dark:text-green-400 text-lg">📂</span>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-green-800 dark:text-green-200">
+                    {categories.reduce((sum, cat) => sum + (cat.subcategoryCount || 0), 0)}
+                  </div>
+                  <div className="text-sm text-green-600 dark:text-green-400 font-medium">
+                    Total Subcategories
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-4 rounded-xl border border-blue-200 dark:border-blue-600">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                  <span className="text-blue-600 dark:text-blue-400 text-lg">🎯</span>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-blue-800 dark:text-blue-200">
+                    {categories.reduce((sum, cat) => sum + (cat.quizCount || 0), 0)}
+                  </div>
+                  <div className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                    Total Quizzes
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="mx-auto">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">

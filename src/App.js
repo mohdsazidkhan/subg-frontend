@@ -64,9 +64,6 @@ function AppLayout() {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }, [location.pathname]);
 
-  // Check if current path is an admin route
-  const isAdminRoute = location.pathname.startsWith('/admin');
-
   return (
     <ErrorBoundary>
       {/* Navbar always shows */}
@@ -126,7 +123,7 @@ function AppLayout() {
           </Routes>
           
           {/* Footer only shows on non-admin pages */}
-          {!isAdminRoute && <Footer />}
+          {!location.pathname.startsWith('/admin') && <Footer />}
         </>
       </div>
     </ErrorBoundary>

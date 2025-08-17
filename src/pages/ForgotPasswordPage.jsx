@@ -29,7 +29,7 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-  <div className="bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-yellow-900 dark:to-red-900 flex items-center justify-center min-h-screen p-2 md:p-4">
+  <div className="bg-subg-light dark:bg-subg-dark flex items-center justify-center min-h-screen p-2 md:p-4">
       <div className="w-full max-w-md bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20">
         <div className="mb-6 flex items-center gap-2">
           <Link to="/login" className="text-yellow-600 hover:underline flex items-center gap-1">

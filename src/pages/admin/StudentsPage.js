@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import API from '../../utils/api';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
@@ -29,7 +29,7 @@ const StudentsPage = () => {
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isOpen = useSelector((state) => state.sidebar.isOpen);
 
-  const fetchStudents = async (page = 1, search = '', filterParams = {}, limit = itemsPerPage) => {
+  const fetchStudents = useCallback(async (page = 1, search = '', filterParams = {}, limit = itemsPerPage) => {
   try {
     setLoading(true);
     const params = {
@@ -47,14 +47,14 @@ const StudentsPage = () => {
   } finally {
     setLoading(false);
   }
-};
+}, [itemsPerPage]);
 
 
   const debouncedSearch = useDebounce(searchTerm, 1000);
 
 useEffect(() => {
   fetchStudents(currentPage, debouncedSearch, filters, itemsPerPage);
-}, [currentPage, debouncedSearch, filters, itemsPerPage]);
+}, [currentPage, debouncedSearch, filters, itemsPerPage, fetchStudents]);
 
 
   const handleSearch = (value) => {
@@ -408,19 +408,93 @@ useEffect(() => {
   return (
     <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
       {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
-        <div className="mx-auto">
-          {/* Header */}
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Manage Students ({pagination.total})
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">
-              View and manage student accounts, levels, and status
-            </p>
+      <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
+        {/* Enhanced Header */}
+        <div className="mb-6 md:mb-8">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl flex items-center justify-center">
+              <span className="text-3xl">👥</span>
+            </div>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+                Student Management
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400 text-lg">
+                Manage and monitor student accounts, performance, and engagement
+              </p>
+            </div>
           </div>
+          
+          {/* Stats Overview */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-4 rounded-xl border border-blue-200 dark:border-blue-600">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                  <span className="text-blue-600 dark:text-blue-400 text-lg">📊</span>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-blue-800 dark:text-blue-200">
+                    {pagination.total || 0}
+                  </div>
+                  <div className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                    Total Students
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-4 rounded-xl border border-green-200 dark:border-green-600">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                  <span className="text-green-600 dark:text-green-400 text-lg">✅</span>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-green-800 dark:text-green-200">
+                    {students.filter(s => s.status === 'active').length}
+                  </div>
+                  <div className="text-sm text-green-600 dark:text-green-400 font-medium">
+                    Active Students
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 p-4 rounded-xl border border-yellow-200 dark:border-yellow-600">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
+                  <span className="text-yellow-600 dark:text-yellow-400 text-lg">📈</span>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-yellow-800 dark:text-yellow-200">
+                    {students.filter(s => s.level?.currentLevel >= 5).length}
+                  </div>
+                  <div className="text-sm text-yellow-600 dark:text-yellow-400 font-medium">
+                    Advanced Level
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 p-4 rounded-xl border border-purple-200 dark:border-purple-600">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                  <span className="text-purple-600 dark:text-purple-400 text-lg">💎</span>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-purple-800 dark:text-purple-200">
+                    {students.filter(s => s.subscriptionStatus === 'pro' || s.subscriptionStatus === 'premium').length}
+                  </div>
+                  <div className="text-sm text-purple-600 dark:text-purple-400 font-medium">
+                    Premium Users
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-          {/* Search and Filters */}
+        {/* Search and Filters */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
           <SearchFilter
             searchTerm={searchTerm}
             onSearchChange={handleSearch}
@@ -432,7 +506,7 @@ useEffect(() => {
           />
 
           {/* View Toggle */}
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mt-4">
             <ViewToggle
               currentView={viewMode}
               onViewChange={setViewMode}
@@ -458,41 +532,41 @@ useEffect(() => {
               </select>
             </div>
           </div>
-
-          {/* Content */}
-          {loading ? (
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-            </div>
-          ) : students.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">👥</div>
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                No students found
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                {searchTerm ? 'Try adjusting your search terms.' : 'No students have registered yet.'}
-              </p>
-            </div>
-          ) : (
-            <>
-              {viewMode === 'table' && <TableView />}
-              {viewMode === 'card' && <CardView />}
-              {viewMode === 'list' && <ListView />}
-            </>
-          )}
-
-          {/* Pagination */}
-          {pagination.totalPages > 1 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={pagination.totalPages}
-              onPageChange={handlePageChange}
-              totalItems={pagination.total}
-              itemsPerPage={itemsPerPage}
-            />
-          )}
         </div>
+
+        {/* Content */}
+        {loading ? (
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+          </div>
+        ) : students.length === 0 ? (
+          <div className="text-center py-12">
+            <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">👥</div>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+              No students found
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              {searchTerm ? 'Try adjusting your search terms.' : 'No students have registered yet.'}
+            </p>
+          </div>
+        ) : (
+          <>
+            {viewMode === 'table' && <TableView />}
+            {viewMode === 'card' && <CardView />}
+            {viewMode === 'list' && <ListView />}
+          </>
+        )}
+
+        {/* Pagination */}
+        {pagination.totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={pagination.totalPages}
+            onPageChange={handlePageChange}
+            totalItems={pagination.total}
+            itemsPerPage={itemsPerPage}
+          />
+        )}
       </div>
     </div>
   );

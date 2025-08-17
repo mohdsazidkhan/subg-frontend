@@ -19,6 +19,21 @@ const levelBadgeIcons = {
   Default: FaStar,
 };
 
+// Fallback levels data if API fails
+const fallbackLevels = [
+  { _id: 1, levelName: 'Zero Level', quizzesRequired: 0, quizCount: 0, description: 'Starting point for all users' },
+  { _id: 2, levelName: 'Rookie', quizzesRequired: 2, quizCount: 0, description: 'Begin your quiz journey' },
+  { _id: 3, levelName: 'Explorer', quizzesRequired: 4, quizCount: 0, description: 'Discover new challenges' },
+  { _id: 4, levelName: 'Thinker', quizzesRequired: 8, quizCount: 0, description: 'Develop critical thinking' },
+  { _id: 5, levelName: 'Strategist', quizzesRequired: 16, quizCount: 0, description: 'Master quiz strategies' },
+  { _id: 6, levelName: 'Achiever', quizzesRequired: 32, quizCount: 0, description: 'Reach new heights' },
+  { _id: 7, levelName: 'Mastermind', quizzesRequired: 64, quizCount: 0, description: 'Become a quiz expert' },
+  { _id: 8, levelName: 'Champion', quizzesRequired: 128, quizCount: 0, description: 'Compete with the best' },
+  { _id: 9, levelName: 'Prodigy', quizzesRequired: 256, quizCount: 0, description: 'Show exceptional talent' },
+  { _id: 10, levelName: 'Quiz Wizard', quizzesRequired: 512, quizCount: 0, description: 'Master of all quizzes' },
+  { _id: 11, levelName: 'Legend', quizzesRequired: 1024, quizCount: 0, description: 'Achieve legendary status' }
+];
+
 
 const getUserLevel = (highScoreQuizzes, levels) => {
   for (let i = levels.length - 1; i >= 0; i--) {
@@ -36,21 +51,34 @@ const LevelsPage = () => {
   console.log(userLevelData, 'userLevelData')
   useEffect(() => {
     const fetchData = async () => {
+      let profileRes = null;
       try {
         setLoading(true);
-        const [profileRes, levelsRes] = await Promise.all([
+        const [profileResult, levelsRes] = await Promise.all([
           API.getProfile(),
-          API.request('/api/levels/all-with-quiz-count')
+          API.getAllLevels()
         ]);
+        profileRes = profileResult;
         setUserLevelData(profileRes);
         if (levelsRes.success) {
           setLevels(levelsRes.data);
         } else {
-          setError('Failed to load levels data');
+          console.warn('Using fallback levels data due to API failure');
+          setLevels(fallbackLevels);
         }
       } catch (err) {
         console.error('Error fetching data:', err);
-        setError('Failed to load data');
+        console.error('Error details:', {
+          message: err.message,
+          response: err.response,
+          stack: err.stack
+        });
+        console.warn('Using fallback levels data due to error');
+        setLevels(fallbackLevels);
+        // Only set error if profile also fails
+        if (!profileRes) {
+          setError(`Failed to load profile data: ${err.message || 'Unknown error'}`);
+        }
       } finally {
         setLoading(false);
       }
@@ -72,7 +100,7 @@ const LevelsPage = () => {
     );
   }
 
-  if (error) {
+  if (error && levels.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 flex items-center justify-center">
         <div className="text-center">

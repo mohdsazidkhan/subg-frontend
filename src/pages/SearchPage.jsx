@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import API from "../utils/api";
 import QuizStartModal from "../components/QuizStartModal";
@@ -18,7 +18,7 @@ const SearchPage = () => {
 
   const limit = 12;
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     let searchQuery = query?.trim();
     try {
       setLoading(true);
@@ -38,7 +38,7 @@ const SearchPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [query, currentPage, limit]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -46,20 +46,7 @@ const SearchPage = () => {
     fetchData();
   };
 
-  useEffect(() => {
-    if(query !== ""){
-      fetchData();
-    }
-  }, [currentPage]);
-
-  useEffect(()=>{
-    if(location.state?.searchQuery){
-      setQuery(location.state?.searchQuery);
-      fetchDataBack(location.state?.searchQuery)
-    }
-  },[location])
-
-  const fetchDataBack = async (searchQuery) =>{
+  const fetchDataBack = useCallback(async (searchQuery) =>{
       try {
         setLoading(true);
         const res = await API.searchAll({
@@ -69,7 +56,7 @@ const SearchPage = () => {
         });
         if (res.success) {
           setQuizzes(res.quizzes);
-          setCategories(res.categories);
+          setCategories(res.subcategories);
           setSubcategories(res.subcategories);
           setTotalPages(res.totalPages);
         }
@@ -78,7 +65,20 @@ const SearchPage = () => {
       } finally {
         setLoading(false);
       }
-  }
+  }, [currentPage, limit])
+
+  useEffect(() => {
+    if(query !== ""){
+      fetchData();
+    }
+  }, [currentPage, query, fetchData]);
+
+  useEffect(()=>{
+    if(location.state?.searchQuery){
+      setQuery(location.state?.searchQuery);
+      fetchDataBack(location.state?.searchQuery)
+    }
+  },[location, fetchDataBack])
 
   const handleQuizAttempt = (quiz) => {
     setSelectedQuiz(quiz);

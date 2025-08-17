@@ -1,4 +1,3 @@
-import React from 'react';
 import LevelBasedQuizzes from '../components/LevelBasedQuizzes';
 
 const LevelBasedQuizzesPage = () => {

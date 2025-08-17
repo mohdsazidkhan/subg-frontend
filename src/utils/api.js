@@ -6,109 +6,76 @@ if (!process.env.REACT_APP_API_URL && process.env.NODE_ENV === 'production') {
 }
 
 class ApiService {
-  async resetPassword(data) {
-    return this.request('/api/auth/reset-password', {
-      method: 'POST',
-      body: JSON.stringify(data)
-    });
-  }
   constructor() {
     this.baseURL = API_BASE_URL;
     console.log('🔧 API Service initialized with base URL:', this.baseURL);
   }
 
   async request(endpoint, options = {}) {
-  const url = `${this.baseURL}${endpoint}`;
-  const token = localStorage.getItem('token');
-  const publicPaths = ['/login', '/register', '/forgot-password'];
-  // if (!token && !publicPaths.includes(window.location.pathname)) {
-  //   localStorage.clear();
-  //   window.location.href = '/login'; // Or use navigate('/login') if using React Router
-  //   return; // Stop further execution
-  // }
-  
-  console.log(`🌐 API Request: ${options.method || 'GET'} ${url}`);
-  console.log('🔑 Token:', token ? 'Present' : 'Missing');
-  
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token && { Authorization: `Bearer ${token}` }),
-      ...options.headers,
-    },
-    ...options,
-  };
-
-  try {
-    const response = await fetch(url, config);
-    console.log(`📡 Response status: ${response.status}`);
+    const url = `${this.baseURL}${endpoint}`;
+    const token = localStorage.getItem('token');
     
-    let data;
-    const contentType = response.headers.get('content-type');
-    if (contentType && contentType.includes('application/json')) {
-      data = await response.json();
-    } else {
-      data = await response.text();
-    }
-    console.log('📦 Response data:', data);
+    console.log(`🌐 API Request: ${options.method || 'GET'} ${url}`);
+    console.log('🔑 Token:', token ? 'Present' : 'Missing');
     
-    if (!response.ok) {
-      console.error('❌ API Error1:', response);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }),
+        ...options.headers,
+      },
+      ...options,
+    };
 
-      // ✅ Handle Unauthorized: Clear storage and redirect
-      // if (response.status === 401) {
-      //   localStorage.clear();
-      //   window.location.href = '/login'; // Or use navigate('/login') if in React Router
-      //   return; // Stop further execution
-      // }
+    try {
+      const response = await fetch(url, config);
+      console.log(`📡 Response status: ${response.status}`);
+      
+      let data;
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
+      } else {
+        data = await response.text();
+      }
+      console.log('📦 Response data:', data);
+      
+      if (!response.ok) {
+        console.error('❌ API Error1:', response);
 
-      const error = new Error();
-      error.response = { status: response.status, data };
-      error.message = data.message || data.error || `HTTP ${response.status}: ${response.statusText}`;
+        const error = new Error();
+        error.response = { status: response.status, data };
+        error.message = data.message || data.error || `HTTP ${response.status}: ${response.statusText}`;
+        throw error;
+      }
+      
+      return data;
+    } catch (error) {
+      console.error('💥 API Error2:', error);
+      
+      if (error.response) {
+        throw error;
+      }
+      
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        const networkError = new Error('Network error: Unable to connect to server. Please check your internet connection.');
+        networkError.isNetworkError = true;
+        throw networkError;
+      }
+      
+      if (!error.message) {
+        error.message = 'An unexpected error occurred. Please try again.';
+      }
+      
       throw error;
     }
-    
-    return data;
-  } catch (error) {
-    
-    console.error('💥 API Error2:', error);
-    
-    // if (error.response?.status === 401) {
-    //   localStorage.clear();
-    //   window.location.href = '/login';
-    //   return;
-    // }
-
-    if (error.response) {
-      throw error;
-    }
-    
-    if (error.name === 'TypeError' && error.message.includes('fetch')) {
-      const networkError = new Error('Network error: Unable to connect to server. Please check your internet connection.');
-      networkError.isNetworkError = true;
-      throw networkError;
-    }
-    
-    if (!error.message) {
-      error.message = 'An unexpected error occurred. Please try again.';
-    }
-    
-    throw error;
   }
-}
 
-  // Auth endpoints
+  // ===== AUTH ENDPOINTS =====
   async login(credentials) {
     return this.request('/api/auth/login', {
       method: 'POST',
       body: JSON.stringify(credentials)
-    });
-  }
-
-  async forgotPassword(data) {
-    return this.request('/api/auth/forgot-password', {
-      method: 'POST',
-      body: JSON.stringify(data)
     });
   }
 
@@ -119,18 +86,36 @@ class ApiService {
     });
   }
 
+  async forgotPassword(data) {
+    return this.request('/api/auth/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async resetPassword(data) {
+    return this.request('/api/auth/reset-password', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  // ===== STUDENT ENDPOINTS =====
   async getProfile() {
     return this.request('/api/student/profile');
   }
 
-  async searchAll({ query = '', page = 1, limit = 12 }) {
-    const searchQuery = new URLSearchParams({ query, page, limit }).toString();
-    return this.request(`/api/search?${searchQuery}`);
+  async getQuizLeaderboard(quizId) {
+    return this.request(`/api/student/leaderboard/quiz/${quizId}`);
   }
 
-  // Quiz methods
-  async getQuizzes(params = {}) {
-    return this.request('/api/student/quizzes', { params });
+  // ===== QUIZ ENDPOINTS =====
+  async getCategories() {
+    return this.request('/api/student/categories');
+  }
+
+  async getSubcategories(categoryId) {
+    return this.request(`/api/student/subcategories?category=${categoryId}`);
   }
 
   async getQuizById(id) {
@@ -148,11 +133,7 @@ class ApiService {
     return this.request(`/api/student/quizzes/${quizId}/result`);
   }
 
-  // Level-based quiz methods
-  async getHomePageLevelQuizzes(params = {}) {
-    return this.request('/api/levels/home-quizzes', { params });
-  }
-
+  // ===== LEVEL-BASED QUIZ ENDPOINTS =====
   async getHomePageData() {
     return this.request('/api/student/homepage-data');
   }
@@ -162,16 +143,8 @@ class ApiService {
     return this.request(`/api/levels/quizzes?${queryString}`);
   }
 
-  async getUserLevel() {
-    return this.request('/api/levels/user-level');
-  }
-
-  async getLevelProgress() {
-    return this.request('/api/levels/progress');
-  }
-
-  async getQuizHistory(params = {}) {
-    return this.request('/api/levels/history', { params });
+  async getAllLevels() {
+    return this.request('/api/levels/all-with-quiz-count');
   }
 
   async getLevelBasedQuizzes(params = {}) {
@@ -179,43 +152,65 @@ class ApiService {
     return this.request(`/api/student/quizzes/level-based?${queryString}`);
   }
 
-  async getRecommendedQuizzes(params = {}) {
-    const queryString = new URLSearchParams(params).toString();
-    return this.request(`/api/student/quizzes/recommended?${queryString}`);
+  async getQuizHistory(params = {}) {
+    return this.request('/api/levels/history', { params });
   }
 
-  async getQuizDifficultyDistribution() {
-    return this.request('/api/student/quizzes/difficulty-distribution');
+  // ===== SEARCH ENDPOINTS =====
+  async searchAll({ query = '', page = 1, limit = 12 }) {
+    const searchQuery = new URLSearchParams({ query, page, limit }).toString();
+    return this.request(`/api/search?${searchQuery}`);
   }
 
-  async getCategories() {
-    return this.request('/api/student/categories');
+  // ===== SUBSCRIPTION ENDPOINTS =====
+  async getSubscriptionStatus(userId) {
+    return this.request(`/api/subscription/status/${userId}`);
   }
 
-  async getSubcategories(categoryId) {
-    return this.request(`/api/student/subcategories?category=${categoryId}`);
+  async getSubscriptionTransactions(userId) {
+    return this.request(`/api/subscription/transactions/${userId}`);
   }
 
-  async getWallet() {
-    return this.request('/api/student/wallet');
-  }
-
-  async getLeaderboard() {
-    return this.request('/api/student/leaderboard');
-  }
-
-  async getQuizLeaderboard(quizId) {
-    return this.request(`/api/student/leaderboard/quiz/${quizId}`);
-  }
-
-  async updateProfile(profileData) {
-    return this.request('/api/profile', {
-      method: 'PUT',
-      body: JSON.stringify(profileData)
+  async createSubscriptionOrder(orderData) {
+    return this.request('/api/subscription/create-order', {
+      method: 'POST',
+      body: JSON.stringify(orderData)
     });
   }
 
-  // Admin endpoints
+  async verifySubscription(verificationData) {
+    return this.request('/api/subscription/verify', {
+      method: 'POST',
+      body: JSON.stringify(verificationData)
+    });
+  }
+
+  // ===== BANK DETAILS ENDPOINTS =====
+  async saveBankDetails(bankData) {
+    return this.request('/api/bank-details', {
+      method: 'POST',
+      body: JSON.stringify(bankData)
+    });
+  }
+
+  async getBankDetails() {
+    return this.request('/api/bank-details/my-details');
+  }
+
+  // ===== ADMIN ENDPOINTS =====
+  async getAdminStats() {
+    console.log('🔍 Calling getAdminStats...');
+    try {
+      const result = await this.request('/api/admin/stats');
+      console.log('✅ getAdminStats result:', result);
+      return result;
+    } catch (error) {
+      console.error('❌ getAdminStats error:', error);
+      throw error;
+    }
+  }
+
+  // Categories
   async getAdminCategories(params = {}) {
     const queryString = new URLSearchParams(params).toString();
     return this.request(`/api/admin/categories?${queryString}`);
@@ -241,6 +236,7 @@ class ApiService {
     });
   }
 
+  // Subcategories
   async getAdminSubcategories(params = {}) {
     const queryString = new URLSearchParams(params).toString();
     return this.request(`/api/admin/subcategories?${queryString}`);
@@ -266,6 +262,7 @@ class ApiService {
     });
   }
 
+  // Quizzes
   async getAdminQuizzes(params = {}) {
     const queryString = new URLSearchParams(params).toString();
     return this.request(`/api/admin/quizzes?${queryString}`);
@@ -296,6 +293,7 @@ class ApiService {
     });
   }
 
+  // Questions
   async getAdminQuestions(params = {}) {
     const queryString = new URLSearchParams(params).toString();
     return this.request(`/api/admin/questions?${queryString}`);
@@ -321,32 +319,10 @@ class ApiService {
     });
   }
 
-  async getAdminStats() {
-    console.log('🔍 Calling getAdminStats...');
-    try {
-      const result = await this.request('/api/admin/stats');
-      console.log('✅ getAdminStats result:', result);
-      return result;
-    } catch (error) {
-      console.error('❌ getAdminStats error:', error);
-      throw error;
-    }
-  }
-
+  // Students
   async getAdminStudents(params = {}) {
     const queryString = new URLSearchParams(params).toString();
     return this.request(`/api/admin/students?${queryString}`);
-  }
-
-  async getAdminContacts(params = {}) {
-    const queryString = new URLSearchParams(params).toString();
-    return this.request(`/api/admin/contacts?${queryString}`);
-  }
-
-  async deleteContact(id) {
-    return this.request(`/api/admin/contacts/${id}`, {
-      method: 'DELETE'
-    });
   }
 
   async updateStudent(id, studentData) {
@@ -362,6 +338,19 @@ class ApiService {
     });
   }
 
+  // Contacts
+  async getAdminContacts(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/admin/contacts?${queryString}`);
+  }
+
+  async deleteContact(id) {
+    return this.request(`/api/admin/contacts/${id}`, {
+      method: 'DELETE'
+    });
+  }
+
+  // Badges
   async assignBadge(studentId, badge) {
     return this.request('/api/admin/assign-badge', {
       method: 'POST',
@@ -369,95 +358,10 @@ class ApiService {
     });
   }
 
-  // Live Quiz endpoints
-  async createLiveQuiz(quizData) {
-    return this.request('/api/admin/live-quiz/create', {
-      method: 'POST',
-      body: JSON.stringify(quizData)
-    });
-  }
-
-  async startLiveQuiz(id) {
-    return this.request(`/api/admin/live-quiz/start/${id}`, {
-      method: 'PATCH'
-    });
-  }
-
-  async endLiveQuiz(id) {
-    return this.request(`/api/admin/live-quiz/end/${id}`, {
-      method: 'PATCH'
-    });
-  }
-
-  async getAllLiveQuizzes() {
-    return this.request('/api/live-quizzes/all');
-  }
-
-  // Analytics endpoints
-  async getDashboardAnalytics(params = {}) {
-    const queryString = new URLSearchParams(params).toString();
-    return this.request(`/api/analytics/dashboard?${queryString}`);
-  }
-
-  async getUserAnalytics(params = {}) {
-    const queryString = new URLSearchParams(params).toString();
-    return this.request(`/api/analytics/users?${queryString}`);
-  }
-
-  async getQuizAnalytics(params = {}) {
-    const queryString = new URLSearchParams(params).toString();
-    return this.request(`/api/analytics/quizzes?${queryString}`);
-  }
-
-  async getLevelAnalytics(params = {}) {
-    const queryString = new URLSearchParams(params).toString();
-    return this.request(`/api/admin/analytics/levels?${queryString}`);
-  }
-
   // Admin Bank Details
   async getAdminBankDetails(params = {}) {
     const queryString = new URLSearchParams(params).toString();
     return this.request(`/api/admin/bank-details?${queryString}`);
-  }
-
-  // Subscription endpoints
-  async getSubscriptionStatus(userId) {
-    return this.request(`/api/subscription/status/${userId}`);
-  }
-
-  async getSubscriptionTransactions(userId) {
-    return this.request(`/api/subscription/transactions/${userId}`);
-  }
-
-  async createSubscriptionOrder(orderData) {
-    return this.request('/api/subscription/create-order', {
-      method: 'POST',
-      body: JSON.stringify(orderData)
-    });
-  }
-
-  async verifySubscription(verificationData) {
-    return this.request('/api/subscription/verify', {
-      method: 'POST',
-      body: JSON.stringify(verificationData)
-    });
-  }
-
-  // Bank Details endpoints
-  async saveBankDetails(bankData) {
-    return this.request('/api/bank-details', {
-      method: 'POST',
-      body: JSON.stringify(bankData)
-    });
-  }
-
-  async getBankDetails() {
-    return this.request('/api/bank-details/my-details');
-  }
-
-  async getAllBankDetails(params = {}) {
-    const queryString = new URLSearchParams(params).toString();
-    return this.request(`/api/bank-details?${queryString}`);
   }
 }
 

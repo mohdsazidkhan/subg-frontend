@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
@@ -152,7 +152,7 @@ const AttemptQuizPage = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(30);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
+  //const [selectedOption, setSelectedOption] = useState(null);
   const [showConfetti, setShowConfetti] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
@@ -182,7 +182,7 @@ const AttemptQuizPage = () => {
     }
   };
 
-  const exitFullscreen = async () => {
+  const exitFullscreen = useCallback(async () => {
     try {
       if (document.exitFullscreen) {
         await document.exitFullscreen();
@@ -195,9 +195,9 @@ const AttemptQuizPage = () => {
     } catch (error) {
       console.error('Error exiting fullscreen:', error);
     }
-  };
+  }, []);
 
-  const handleFullscreenChange = () => {
+  const handleFullscreenChange = useCallback(() => {
     const isFullscreenNow = !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
     setIsFullscreen(isFullscreenNow);
     
@@ -206,7 +206,7 @@ const AttemptQuizPage = () => {
     if (!isFullscreenNow && !submitted && quiz && !showExitConfirm && currentQuestionIndex < quiz.questions.length - 1) {
       setShowExitConfirm(true);
     }
-  };
+  }, [submitted, quiz, showExitConfirm, currentQuestionIndex]);
 
   const handleExitConfirm = (confirmed) => {
     setShowExitConfirm(false);
@@ -266,7 +266,7 @@ const AttemptQuizPage = () => {
       document.removeEventListener('msfullscreenchange', handleFullscreenChange);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [submitted, quiz, isFullscreen]);
+  }, [submitted, quiz, isFullscreen, currentQuestionIndex, handleFullscreenChange, exitFullscreen]);
 
   // Enter fullscreen when quiz starts
   useEffect(() => {
@@ -318,6 +318,54 @@ const AttemptQuizPage = () => {
     };
   }, [submitted, quiz]);
 
+  const handleSubmit = useCallback(async () => {
+    try {
+      setIsTimerRunning(false);
+      // Set submitted to true before exiting fullscreen to prevent exit confirmation
+      setSubmitted(true);
+      
+      // Exit fullscreen when submitting
+      if (isFullscreen) {
+        await exitFullscreen();
+      }
+      
+      const actualQuizId = quizData?._id || quizId;
+      const res = await API.submitQuiz(actualQuizId, answers);
+      setResult(res);
+      
+      if (res.scorePercentage >= 80) {
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 3000);
+      }
+
+      try {
+        const leaderboardRes = await API.getQuizLeaderboard(actualQuizId);
+        setLeaderboard(leaderboardRes.leaderboard || []);
+      } catch (leaderboardError) {
+        console.log('Leaderboard not available:', leaderboardError);
+        setLeaderboard([]);
+      }
+    } catch (error) {
+      console.error('Error submitting quiz:', error);
+      toast.error(error.response?.data?.message || 'Error submitting quiz');
+      // Reset submitted state if there's an error
+      setSubmitted(false);
+    }
+  }, [quizData, quizId, answers, isFullscreen, exitFullscreen]);
+
+  const handleSkipQuestion = useCallback(() => {
+    const updated = [...answers];
+    updated[currentQuestionIndex] = 'SKIP';
+    setAnswers(updated);
+    
+    if (currentQuestionIndex < quiz.questions.length - 1) {
+      setCurrentQuestionIndex(prev => prev + 1);
+    } else {
+      handleSubmit();
+    }
+  }, [currentQuestionIndex, quiz?.questions?.length, answers, handleSubmit]);
+
+
   // Timer effect
   useEffect(() => {
     let interval = null;
@@ -333,7 +381,7 @@ const AttemptQuizPage = () => {
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [isTimerRunning, timeLeft]);
+  }, [isTimerRunning, timeLeft, handleSkipQuestion]);
 
   // Start timer when question changes
   useEffect(() => {
@@ -342,7 +390,7 @@ const AttemptQuizPage = () => {
       const questionTime = question.timeLimit || 30;
       setTimeLeft(questionTime);
       setIsTimerRunning(true);
-      setSelectedOption(null);
+      //setSelectedOption(null);
     }
   }, [currentQuestionIndex, quiz]);
 
@@ -387,24 +435,15 @@ const AttemptQuizPage = () => {
   }, [quizId, quizData]);
 
   const handleSelect = (option) => {
-    setSelectedOption(option);
+    //setSelectedOption(option);
     const updated = [...answers];
     updated[currentQuestionIndex] = option;
     setAnswers(updated);
   };
 
-  const handleSkipQuestion = () => {
-    const updated = [...answers];
-    updated[currentQuestionIndex] = 'SKIP';
-    setAnswers(updated);
-    
-    if (currentQuestionIndex < quiz.questions.length - 1) {
-      setCurrentQuestionIndex(prev => prev + 1);
-    } else {
-      handleSubmit();
-    }
-  };
+  
 
+  
   const handleNextQuestion = () => {
     if (currentQuestionIndex < quiz.questions.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1);
@@ -416,41 +455,6 @@ const AttemptQuizPage = () => {
   const handlePreviousQuestion = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(prev => prev - 1);
-    }
-  };
-
-  const handleSubmit = async () => {
-    try {
-      setIsTimerRunning(false);
-      // Set submitted to true before exiting fullscreen to prevent exit confirmation
-      setSubmitted(true);
-      
-      // Exit fullscreen when submitting
-      if (isFullscreen) {
-        await exitFullscreen();
-      }
-      
-      const actualQuizId = quizData?._id || quizId;
-      const res = await API.submitQuiz(actualQuizId, answers);
-      setResult(res);
-      
-      if (res.scorePercentage >= 80) {
-        setShowConfetti(true);
-        setTimeout(() => setShowConfetti(false), 3000);
-      }
-
-      try {
-        const leaderboardRes = await API.getQuizLeaderboard(actualQuizId);
-        setLeaderboard(leaderboardRes.leaderboard || []);
-      } catch (leaderboardError) {
-        console.log('Leaderboard not available:', leaderboardError);
-        setLeaderboard([]);
-      }
-    } catch (error) {
-      console.error('Error submitting quiz:', error);
-      toast.error(error.response?.data?.message || 'Error submitting quiz');
-      // Reset submitted state if there's an error
-      setSubmitted(false);
     }
   };
 

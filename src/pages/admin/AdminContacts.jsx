@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { getConfig } from '../../config/appConfig';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
 import { useSelector } from 'react-redux';
@@ -22,8 +21,8 @@ export default function AdminContacts() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
-  const [limit, setLimit] = useState(10);
+  // const [total, setTotal] = useState(0);
+  // const [limit, setLimit] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState(isMobile ? 'list' : 'table');
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -37,8 +36,8 @@ export default function AdminContacts() {
   const debouncedSearch = useDebounce(searchTerm, 1000); // 1s delay
 
   useEffect(() => {
-    fetchContacts(page, limit, debouncedSearch);
-  }, [debouncedSearch, page, limit]);
+    fetchContacts(page, 10, debouncedSearch);
+  }, [debouncedSearch, page]);
   
 
   const fetchContacts = async (currentpage = 1, limit = 10, search = '') => {
@@ -67,7 +66,7 @@ export default function AdminContacts() {
         const res = await API.getAdminContacts(id)
         if (res.ok) {
           toast.success('Contact deleted successfully!');
-          fetchContacts(page, limit, searchTerm);
+          fetchContacts(page, 10, searchTerm);
         } else {
           toast.error('Failed to delete contact');
         }

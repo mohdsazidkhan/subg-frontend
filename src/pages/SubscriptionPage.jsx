@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import API from '../utils/api';
 import config from '../config/appConfig';
 import { 
-  FaCreditCard, 
+  // FaCreditCard, 
   FaWallet, 
   FaHistory, 
   FaCheckCircle, 
@@ -20,11 +20,11 @@ import {
   FaLock,
   FaUnlock,
   FaCalendarAlt,
-  FaClock,
+  // FaClock,
   FaBolt,
   FaUsers,
   FaBookOpen,
-  FaMedal,
+  // FaMedal,
   FaFire,
   FaGift,
   FaCheckDouble,
@@ -39,7 +39,7 @@ const SubscriptionPage = () => {
   const [subscription, setSubscription] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedPlan, setSelectedPlan] = useState(null);
+  // const [selectedPlan, setSelectedPlan] = useState(null);
   const [hoveredPlan, setHoveredPlan] = useState(null);
   const [razorpayLoaded, setRazorpayLoaded] = useState(false);
   const navigate = useNavigate();

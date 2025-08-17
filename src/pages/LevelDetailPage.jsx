@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaArrowLeft, FaClock, FaQuestionCircle, FaLayerGroup } from 'react-icons/fa';
 import API from '../utils/api';
@@ -22,27 +22,19 @@ const levels = [
 const LevelDetailPage = () => {
   const { levelNumber } = useParams();
   const navigate = useNavigate();
-  const [levelInfo, setLevelInfo] = useState(null);
+  // const [levelInfo, setLevelInfo] = useState(null);
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [userLevel, setUserLevel] = useState(null);
+  // const [userLevel, setUserLevel] = useState(null);
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
 
   const level = levels.find(lvl => lvl.level === Number(levelNumber));
 
-  useEffect(() => {
-    if (level) {
-      setLevelInfo(level);
-      fetchQuizzes();
-      fetchUserLevel();
-    }
-  }, [levelNumber, page]);
-
-  const fetchQuizzes = async () => {
+  const fetchQuizzes = useCallback(async () => {
     try {
       setLoading(true);
       const res = await API.getLevelBasedQuizzes({ level: levelNumber, page, limit: 9 });
@@ -58,18 +50,26 @@ const LevelDetailPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [levelNumber, page]);
 
-  const fetchUserLevel = async () => {
-    try {
-      const res = await API.getProfile();
-      if (res.success) {
-        setUserLevel(res.data);
-      }
-    } catch (err) {
-      console.error('Failed to fetch user level:', err);
+  // const fetchUserLevel = useCallback(async () => {
+  //   try {
+  //     const res = await API.getProfile();
+  //     if (res.success) {
+  //       setUserLevel(res.data);
+  //     }
+  //   } catch (err) {
+  //     console.error('Failed to fetch user level:', err);
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    if (level) {
+      // setLevelInfo(level);
+      fetchQuizzes();
+      // fetchUserLevel();
     }
-  };
+  }, [level, levelNumber, page, fetchQuizzes]);
 
   const handleQuizClick = (quizId) => {
     const quiz = quizzes.find(q => q._id === quizId);

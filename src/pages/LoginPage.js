@@ -105,8 +105,8 @@ const LoginPage = () => {
 
         {/* Right Side - Login Form */}
         <div className="w-full max-w-md mx-auto">
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-2xl px-2 py-4 md:p-8 border border-white/20">
-            <div className="text-center mb-8">
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-2xl px-2 py-4 lg:py-5 lg:px-6 border border-white/20">
+            <div className="text-center mb-4">
               <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaSignInAlt className="text-white text-2xl" />
               </div>
@@ -158,7 +158,7 @@ const LoginPage = () => {
                 </button>
               {/* Forgot Password Link */}
               </div>
-              <div className="text-right mt-2">
+              <div className="text-right">
                 <Link
                   to="/forgot-password"
                   className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 text-sm font-semibold transition-colors"
@@ -201,7 +201,7 @@ const LoginPage = () => {
               </div>
 
               {/* Quick Stats */}
-              <div className="mt-4 p-4 bg-gradient-to-r from-yellow-50 to-red-50 dark:from-gray-700 dark:to-gray-600 rounded-xl border border-yellow-200 dark:border-gray-600">
+              <div className="mt-2 p-4 bg-gradient-to-r from-yellow-50 to-red-50 dark:from-gray-700 dark:to-gray-600 rounded-xl border border-yellow-200 dark:border-gray-600">
                 <div className="grid grid-cols-4 gap-4 text-center">
                   <div>
                     <div className="text-md md:text-2xl font-bold text-yellow-600 dark:text-yellow-400">10+</div>

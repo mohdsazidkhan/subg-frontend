@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import API from '../../utils/api';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
@@ -31,7 +31,7 @@ const SubcategoryPage = () => {
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isOpen = useSelector((state) => state.sidebar.isOpen);
 
-  const fetchSubcategories = async (page = 1, search = '') => {
+  const fetchSubcategories = useCallback(async (page = 1, search = '') => {
     try {
       setLoading(true);
       const params = {
@@ -48,7 +48,7 @@ const SubcategoryPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [itemsPerPage]);
 
   const fetchCategories = async () => {
     try {
@@ -67,7 +67,7 @@ useEffect(() => {
 
 useEffect(() => {
   fetchSubcategories(currentPage, debouncedSearch, itemsPerPage);
-}, [currentPage, debouncedSearch, itemsPerPage]);
+}, [currentPage, debouncedSearch, itemsPerPage, fetchSubcategories]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

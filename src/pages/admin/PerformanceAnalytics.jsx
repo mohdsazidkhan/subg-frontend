@@ -13,10 +13,10 @@ import {
 } from "chart.js";
 import config from "../../config/appConfig";
 import {
-  FaTrophy,
-  FaChartLine,
-  FaUsers,
-  FaStar,
+  // FaTrophy,
+  // FaChartLine,
+  // FaUsers,
+  // FaStar,
   FaDownload,
   FaFilter,
   FaTh,
@@ -67,7 +67,7 @@ const PerformanceAnalytics = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filters, setFilters] = useState({ period: "month" });
-  const [darkMode, setDarkMode] = useState(
+  const [darkMode] = useState(
     localStorage.getItem("darkMode") === "true"
   );
   console.log(data, "data");
@@ -98,6 +98,25 @@ const PerformanceAnalytics = () => {
 
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
+  };
+
+  const getSortedTopPerformers = () => {
+    if (!data?.topPerformers) return [];
+    
+    const performers = [...data.topPerformers];
+    
+    switch (filters.sortBy) {
+      case 'highScores':
+        return performers.sort((a, b) => (b.level?.highScoreQuizzes || 0) - (a.level?.highScoreQuizzes || 0));
+      case 'avgScore':
+        return performers.sort((a, b) => (b.level?.averageScore || 0) - (a.level?.averageScore || 0));
+      case 'totalScore':
+        return performers.sort((a, b) => (b.level?.totalScore || 0) - (a.level?.totalScore || 0));
+      case 'quizzesPlayed':
+        return performers.sort((a, b) => (b.level?.quizzesPlayed || 0) - (a.level?.quizzesPlayed || 0));
+      default:
+        return performers;
+    }
   };
 
   const handleExport = () => {
@@ -314,6 +333,18 @@ const PerformanceAnalytics = () => {
                 <option value="quarter">Last 3 months</option>
                 <option value="year">Last 12 months</option>
               </select>
+              
+              <select
+                name="sortBy"
+                value={filters.sortBy || 'highScores'}
+                onChange={handleFilterChange}
+                className="px-4 py-2 border rounded-lg bg-white text-gray-900 border-gray-300 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="highScores">Sort by High Scores</option>
+                <option value="avgScore">Sort by Average Score</option>
+                <option value="totalScore">Sort by Total Score</option>
+                <option value="quizzesPlayed">Sort by Quizzes Played</option>
+              </select>
             </div>
             <button
               onClick={handleExport}
@@ -425,6 +456,86 @@ const PerformanceAnalytics = () => {
 
         {/* Top Performers */}
       <div className="space-y-6">
+      {/* High Scores Summary */}
+      <div className="rounded-xl border p-6 shadow-lg bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-green-200 dark:border-green-700">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+              <span className="text-2xl">🏆</span>
+            </div>
+            <h3 className="text-xl font-bold text-green-800 dark:text-green-200">
+              High Scores Overview
+            </h3>
+          </div>
+          
+          {/* Top High Score Achiever */}
+          {getSortedTopPerformers().length > 0 && (
+            <div className="bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 px-4 py-2 rounded-lg border border-yellow-200 dark:border-yellow-600">
+              <div className="text-center">
+                <div className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
+                  🥇 Top Achiever
+                </div>
+                <div className="text-lg font-bold text-yellow-800 dark:text-yellow-200">
+                  {getSortedTopPerformers()[0]?.name || "Unknown"}
+                </div>
+                <div className="text-xs text-yellow-600 dark:text-yellow-400">
+                  {getSortedTopPerformers()[0]?.level?.highScoreQuizzes || 0} High Scores
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-green-200 dark:border-green-600">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                {getSortedTopPerformers().reduce((sum, p) => sum + (p.level?.highScoreQuizzes || 0), 0)}
+              </div>
+              <div className="text-sm text-green-600 dark:text-green-400 font-medium">
+                Total High Scores
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-green-200 dark:border-green-600">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                {getSortedTopPerformers().filter(p => (p.level?.highScoreQuizzes || 0) > 0).length || 0}
+              </div>
+              <div className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                Students with High Scores
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-green-200 dark:border-green-600">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                {getSortedTopPerformers().length > 0 ? 
+                  (getSortedTopPerformers().reduce((sum, p) => sum + (p.level?.highScoreQuizzes || 0), 0) / getSortedTopPerformers().length).toFixed(1) : 
+                  "0.0"
+                }
+              </div>
+              <div className="text-sm text-purple-600 dark:text-purple-400 font-medium">
+                Avg High Scores per Student
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-green-200 dark:border-green-600">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+                {getSortedTopPerformers().reduce((sum, p) => sum + (p.level?.quizzesPlayed || 0), 0)}
+              </div>
+              <div className="text-sm text-orange-600 dark:text-orange-400 font-medium">
+                Total Quizzes Attempted
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Toggle View Buttons */}
       <div className="flex justify-end gap-2">
         <button
@@ -453,10 +564,18 @@ const PerformanceAnalytics = () => {
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
             Top Performers
+            {filters.sortBy && (
+              <span className="ml-2 text-sm font-normal text-gray-500 dark:text-gray-400">
+                (Sorted by {filters.sortBy === 'highScores' ? 'High Scores' : 
+                           filters.sortBy === 'avgScore' ? 'Average Score' :
+                           filters.sortBy === 'totalScore' ? 'Total Score' :
+                           filters.sortBy === 'quizzesPlayed' ? 'Quizzes Played' : 'High Scores'})
+              </span>
+            )}
           </h3>
           <div className="bg-blue-100 dark:bg-blue-900/30 px-3 py-2 rounded-lg">
             <span className="text-blue-800 dark:text-blue-200 font-semibold text-md">
-              Total: {data.topPerformers?.length}
+              Total: {getSortedTopPerformers().length}
             </span>
           </div>
         </div>
@@ -465,69 +584,212 @@ const PerformanceAnalytics = () => {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-200 dark:border-gray-700">
-                  {[
-                    "Rank",
-                    "Name",
-                    "Level",
-                    "Subscription",
-                    "Total Quizzes",
-                    "Total Questions",
-                    "High Score Quizzes",
-                    "Avg. Score",
-                    "Total Score",
-                  ].map((label, i) => (
-                    <th key={i} className="py-3 px-4 text-left text-gray-600 dark:text-gray-300 font-medium">
-                      {label}
-                    </th>
-                  ))}
+                <tr className="border-b-2 border-blue-200 dark:border-blue-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
+                  <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">🏆</span>
+                      Rank
+                    </div>
+                  </th>
+                  <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">👤</span>
+                      Student
+                    </div>
+                  </th>
+                  <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">📈</span>
+                      Level
+                    </div>
+                  </th>
+                  <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">💎</span>
+                      Subscription
+                    </div>
+                  </th>
+                  <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">📚</span>
+                      Quizzes
+                    </div>
+                  </th>
+                  <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">❓</span>
+                      Questions
+                    </div>
+                  </th>
+                  <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">⭐</span>
+                      High Scores
+                    </div>
+                  </th>
+                  <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">🎯</span>
+                      Avg. Score
+                    </div>
+                  </th>
+                  <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">🏅</span>
+                      Total Score
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {data.topPerformers?.map((p, i) => (
-                  <tr
-                    key={i}
-                    className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
-                  >
-                    <td className="py-3 px-4">
-                      <span
-                        className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium ${
-                          i === 0
-                            ? "bg-yellow-100 text-yellow-800"
-                            : i === 1
-                            ? "bg-gray-100 text-gray-800"
-                            : i === 2
-                            ? "bg-orange-100 text-orange-800"
-                            : "bg-blue-100 text-blue-800"
-                        }`}
-                      >
-                        {i + 1}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 text-gray-900 dark:text-white">{p.name || "Unknown"}</td>
-                    <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                      {p.level ? `${p.level.levelName} - ${p.level.currentLevel}` : "N/A"}
-                    </td>
-                    <td className="py-3 px-4 text-gray-600 dark:text-gray-300 uppercase">
-                      {p?.subscriptionStatus || "Free"}
-                    </td>
-                    <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                      {p.level?.quizzesPlayed || 0}
-                    </td>
-                    <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                      {p.level?.quizzesPlayed * 5 || 0}
-                    </td>
-                    <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                      {p.level?.highScoreQuizzes || 0}
-                    </td>
-                    <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                      {p.level?.averageScore?.toFixed(2) || "0.00"}
-                    </td>
-                    <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                      {p.level?.totalScore?.toFixed(2) || "0.00"}
-                    </td>
-                  </tr>
-                ))}
+                {getSortedTopPerformers()?.map((p, i) => {
+                  // Performance rating based on high scores and average score
+                  // const getPerformanceRating = (highScores, avgScore) => {
+                  //   if (highScores >= 5 && avgScore >= 80) return { level: 'Elite', color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-100 dark:bg-purple-900/30', icon: '👑' };
+                  //   if (highScores >= 3 && avgScore >= 75) return { level: 'Excellent', color: 'text-green-600 dark:text-green-400', bg: 'bg-green-100 dark:bg-green-900/30', icon: '🌟' };
+                  //   if (highScores >= 2 && avgScore >= 70) return { level: 'Good', color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-100 dark:bg-blue-900/30', icon: '👍' };
+                  //   if (highScores >= 1 && avgScore >= 65) return { level: 'Average', color: 'text-yellow-600 dark:text-yellow-400', bg: 'bg-yellow-100 dark:bg-yellow-900/30', icon: '⚡' };
+                  //   return { level: 'Rising', color: 'text-orange-600 dark:text-orange-400', bg: 'bg-orange-100 dark:bg-orange-900/30', icon: '📈' };
+                  // };
+                  
+                  // const performance = getPerformanceRating(p.level?.highScoreQuizzes || 0, p.level?.averageScore || 0);
+                  
+                  return (
+                    <tr
+                      key={i}
+                      className={`border-b transition-all duration-200 border-gray-200 hover:shadow-lg group ${
+                        i === 0 ? "bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/10 dark:to-orange-900/10" :
+                        i === 1 ? "bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-900/10 dark:to-slate-900/10" :
+                        i === 2 ? "bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/10 dark:to-amber-900/10" :
+                        "hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 dark:hover:from-blue-900/10 dark:hover:to-indigo-900/10"
+                      }`}
+                    >
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg ${
+                            i === 0 ? "bg-gradient-to-r from-yellow-400 to-orange-500" :
+                            i === 1 ? "bg-gradient-to-r from-gray-400 to-slate-500" :
+                            i === 2 ? "bg-gradient-to-r from-orange-400 to-amber-500" :
+                            "bg-gradient-to-r from-blue-400 to-indigo-500"
+                          }`}>
+                            {i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : i + 1}
+                          </div>
+                          {i < 3 && (
+                            <div className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                              {i === 0 ? "Champion" : i === 1 ? "Runner-up" : "3rd Place"}
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center">
+                            <span className="text-xl text-blue-600 dark:text-blue-400">
+                              {p.name?.charAt(0)?.toUpperCase() || "?"}
+                            </span>
+                          </div>
+                          <div>
+                            <div className="font-bold text-gray-900 dark:text-white text-lg">
+                              {p.name || "Unknown"}
+                            </div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                              {p.email || "No email"}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-10 h-10 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-lg flex items-center justify-center">
+                            <span className="text-green-600 dark:text-green-400 text-sm">📈</span>
+                          </div>
+                          <div>
+                            <div className="font-semibold text-gray-900 dark:text-white">
+                              {p.level?.levelName || "No Level"}
+                            </div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                              Level {p.level?.currentLevel || 0}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <div className={`px-3 py-2 rounded-lg font-semibold text-sm ${
+                            p?.subscriptionStatus === 'pro' ? "bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-600" :
+                            p?.subscriptionStatus === 'premium' ? "bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 text-purple-800 dark:text-purple-200 border border-purple-200 dark:border-purple-600" :
+                            p?.subscriptionStatus === 'basic' ? "bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-600" :
+                            "bg-gradient-to-r from-gray-100 to-slate-100 dark:from-gray-900/30 dark:to-slate-900/30 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-600"
+                          }`}>
+                          {p?.subscriptionStatus?.toUpperCase() || "FREE"}
+                        </div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-10 h-10 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg flex items-center justify-center">
+                            <span className="text-blue-600 dark:text-blue-400 text-sm">📚</span>
+                          </div>
+                          <span className="font-bold text-gray-900 dark:text-white text-lg">
+                            {p.level?.quizzesPlayed || 0}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-10 h-10 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-lg flex items-center justify-center">
+                            <span className="text-purple-600 dark:text-purple-400 text-sm">❓</span>
+                          </div>
+                          <span className="font-bold text-gray-900 dark:text-white text-lg">
+                            {(p.level?.quizzesPlayed || 0) * 5}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-10 h-10 bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-lg flex items-center justify-center">
+                            <span className="text-yellow-600 dark:text-yellow-400 text-sm">⭐</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-gray-900 dark:text-white text-lg">
+                              {p.level?.highScoreQuizzes || 0}
+                            </span>
+                            {(p.level?.highScoreQuizzes || 0) > 0 && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200">
+                                🏆
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-10 h-10 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-lg flex items-center justify-center">
+                            <span className="text-green-600 dark:text-green-400 text-sm">🎯</span>
+                          </div>
+                          <span className={`font-bold text-lg ${
+                            (p.level?.averageScore || 0) >= 80 ? 'text-green-600 dark:text-green-400' :
+                            (p.level?.averageScore || 0) >= 70 ? 'text-blue-600 dark:text-blue-400' :
+                            (p.level?.averageScore || 0) >= 60 ? 'text-yellow-600 dark:text-yellow-400' :
+                            'text-red-600 dark:text-red-400'
+                          }`}>
+                            {p.level?.averageScore?.toFixed(2) || "0.00"}%
+                          </span>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-10 h-10 bg-gradient-to-r from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 rounded-lg flex items-center justify-center">
+                            <span className="text-orange-600 dark:text-orange-400 text-sm">🏅</span>
+                          </div>
+                          <span className="font-bold text-gray-900 dark:text-white text-lg">
+                            {p.level?.totalScore?.toFixed(2) || "0.00"}
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -535,10 +797,18 @@ const PerformanceAnalytics = () => {
 
         {viewMode === "list" && (
           <div className="space-y-4">
-            {data.topPerformers?.map((p, i) => (
+            {getSortedTopPerformers()?.map((p, i) => (
               <div
                 key={i}
-                className="flex flex-col md:flex-row justify-between p-4 rounded-lg border dark:border-gray-600 bg-gray-50 dark:bg-gray-700"
+                className={`flex flex-col md:flex-row justify-between p-4 rounded-lg border dark:border-gray-600 transition-all duration-200 ${
+                  i === 0 
+                    ? "bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-yellow-200 dark:border-yellow-600 shadow-lg" 
+                    : i === 1 
+                    ? "bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20 border-gray-200 dark:border-gray-600 shadow-md"
+                    : i === 2 
+                    ? "bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 border-orange-200 dark:border-orange-600 shadow-md"
+                    : "bg-gray-50 dark:bg-gray-700"
+                }`}
               >
                 <div className="flex items-center gap-4">
                   <span
@@ -552,7 +822,7 @@ const PerformanceAnalytics = () => {
                         : "bg-blue-100 text-blue-800"
                     }`}
                   >
-                    {i + 1}
+                    {i === 0 ? "👑" : i + 1}
                   </span>
                   <div>
                     <p className="text-gray-900 dark:text-white font-medium">
@@ -563,9 +833,40 @@ const PerformanceAnalytics = () => {
                     </p>
                   </div>
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-300 mt-2 md:mt-0">
-                  Score: {p.level?.totalScore?.toFixed(2) || "0.00"} | Quizzes:{" "}
-                  {p.level?.quizzesPlayed || 0}
+                <div className="flex flex-col md:flex-row gap-4 mt-2 md:mt-0">
+                  {/* High Score Highlight */}
+                  <div className="bg-green-100 dark:bg-green-900/30 px-3 py-2 rounded-lg">
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-green-800 dark:text-green-200">
+                        {p.level?.highScoreQuizzes || 0}
+                      </div>
+                      <div className="text-xs text-green-600 dark:text-green-400">
+                        High Scores
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Score Details */}
+                  <div className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">Total Score:</span>
+                      <span className="text-blue-600 dark:text-blue-400 font-bold">
+                        {p.level?.totalScore?.toFixed(2) || "0.00"}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">Avg Score:</span>
+                      <span className="text-purple-600 dark:text-purple-400 font-bold">
+                        {p.level?.averageScore?.toFixed(2) || "0.00"}%
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">Quizzes:</span>
+                      <span className="text-orange-600 dark:text-orange-400 font-bold">
+                        {p.level?.quizzesPlayed || 0}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
@@ -574,12 +875,20 @@ const PerformanceAnalytics = () => {
 
         {viewMode === "grid" && (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {data.topPerformers?.map((p, i) => (
+            {getSortedTopPerformers()?.map((p, i) => (
               <div
                 key={i}
-                className="p-4 rounded-lg border dark:border-gray-600 bg-gray-50 dark:bg-gray-700"
+                className={`p-4 rounded-lg border dark:border-gray-600 hover:shadow-lg transition-all duration-200 ${
+                  i === 0 
+                    ? "bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-yellow-200 dark:border-yellow-600 shadow-lg" 
+                    : i === 1 
+                    ? "bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20 border-gray-200 dark:border-gray-600 shadow-md"
+                    : i === 2 
+                    ? "bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 border-orange-200 dark:border-orange-600 shadow-md"
+                    : "bg-gray-50 dark:bg-gray-700"
+                }`}
               >
-                <div className="flex items-center gap-4 mb-2">
+                <div className="flex items-center gap-4 mb-3">
                   <span
                     className={`w-8 h-8 text-sm flex items-center justify-center rounded-full font-semibold ${
                       i === 0
@@ -591,7 +900,7 @@ const PerformanceAnalytics = () => {
                         : "bg-blue-100 text-blue-800"
                     }`}
                   >
-                    {i + 1}
+                    {i === 0 ? "👑" : i + 1}
                   </span>
                   <div>
                     <p className="text-gray-900 dark:text-white font-medium">{p.name || "Unknown"}</p>
@@ -600,12 +909,40 @@ const PerformanceAnalytics = () => {
                     </p>
                   </div>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
-                  Quizzes: {p.level?.quizzesPlayed || 0} | High Score: {p.level?.highScoreQuizzes || 0}
-                </p>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
-                  Avg Score: {p.level?.averageScore?.toFixed(2) || "0.00"}
-                </p>
+                
+                {/* High Score Badge */}
+                <div className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 p-3 rounded-lg mb-3 border border-green-200 dark:border-green-700">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-green-800 dark:text-green-200">
+                      {p.level?.highScoreQuizzes || 0}
+                    </div>
+                    <div className="text-sm font-medium text-green-600 dark:text-green-400">
+                      🏆 High Score Quizzes
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Performance Stats */}
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600 dark:text-gray-400">Total Quizzes:</span>
+                    <span className="font-semibold text-blue-600 dark:text-blue-400">
+                      {p.level?.quizzesPlayed || 0}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600 dark:text-gray-400">Avg Score:</span>
+                    <span className="font-semibold text-purple-600 dark:text-purple-400">
+                      {p.level?.averageScore?.toFixed(2) || "0.00"}%
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600 dark:text-gray-400">Total Score:</span>
+                    <span className="font-semibold text-orange-600 dark:text-orange-400">
+                      {p.level?.totalScore?.toFixed(2) || "0.00"}
+                    </span>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -615,15 +952,32 @@ const PerformanceAnalytics = () => {
       </div>
       </div>
       <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-          Category Performance
-        </h3>
+      <div className="flex justify-between items-center mb-6">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-xl flex items-center justify-center">
+            <span className="text-2xl">📊</span>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+              Category Performance
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Performance metrics across different quiz categories
+            </p>
+          </div>
+        </div>
         <div className="flex items-center gap-4">
-          <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 font-semibold px-3 py-2 rounded-lg">
-            Total: {data?.categoryPerformance?.length}
-          </span>
+          <div className="bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 px-4 py-2 rounded-lg border border-purple-200 dark:border-purple-600">
+            <span className="text-purple-800 dark:text-purple-200 font-semibold text-md">
+              Total Categories: {data?.categoryPerformance?.length || 0}
+            </span>
+          </div>
           
+          <div className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 px-4 py-2 rounded-lg border border-blue-200 dark:border-blue-600">
+            <span className="text-blue-800 dark:text-blue-200 font-semibold text-md">
+              Total Attempts: {data?.categoryPerformance?.reduce((sum, cat) => sum + (cat.attemptCount || 0), 0) || 0}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -631,51 +985,248 @@ const PerformanceAnalytics = () => {
         <div className="overflow-x-auto">
           <table className="w-[1000px] md:w-full">
             <thead>
-              <tr className="border-b border-gray-200 dark:border-gray-700">
-                {["#", "Category", "Attempts", "Avg. Score", "Completion Rate"].map((label, i) => (
-                  <th key={i} className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
-                    {label}
-                  </th>
-                ))}
+              <tr className="border-b-2 border-purple-200 dark:border-purple-700">
+                <th className="text-left py-4 px-4 font-bold text-purple-800 dark:text-purple-200 text-lg">
+                  #
+                </th>
+                <th className="text-left py-4 px-4 font-bold text-purple-800 dark:text-purple-200 text-lg">
+                  Category
+                </th>
+                <th className="text-left py-4 px-4 font-bold text-purple-800 dark:text-purple-200 text-lg">
+                  Attempts
+                </th>
+                <th className="text-left py-4 px-4 font-bold text-purple-800 dark:text-purple-200 text-lg">
+                  Avg. Score
+                </th>
+                <th className="text-left py-4 px-4 font-bold text-purple-800 dark:text-purple-200 text-lg">
+                  Completion Rate
+                </th>
+                <th className="text-left py-4 px-4 font-bold text-purple-800 dark:text-purple-200 text-lg">
+                  Performance
+                </th>
               </tr>
             </thead>
             <tbody>
-              {sortedCategory(data?.categoryPerformance)?.map((item, i) => (
-                <tr
-                  key={i}
-                  className="border-b transition-colors border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700"
-                >
-                  <td className="py-3 px-4 text-gray-900 dark:text-white">{i + 1}</td>
-                  <td className="py-3 px-4 text-gray-900 dark:text-white">{item._id[0]}</td>
-                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{item.attemptCount}</td>
-                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{item.avgScore.toFixed(2)}</td>
-                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">{(item.completionRate * 100).toFixed(0)}%</td>
-                </tr>
-              ))}
+              {sortedCategory(data?.categoryPerformance)?.map((item, i) => {
+                const completionRate = (item.completionRate * 100);
+                const avgScore = item.avgScore;
+                
+                // Performance rating based on score and completion
+                const getPerformanceRating = (score, completion) => {
+                  if (score >= 80 && completion >= 80) return { level: 'Excellent', color: 'text-green-600 dark:text-green-400', bg: 'bg-green-100 dark:bg-green-900/30', icon: '🌟' };
+                  if (score >= 70 && completion >= 70) return { level: 'Good', color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-100 dark:bg-blue-900/30', icon: '👍' };
+                  if (score >= 60 && completion >= 60) return { level: 'Average', color: 'text-yellow-600 dark:text-yellow-400', bg: 'bg-yellow-100 dark:bg-yellow-900/30', icon: '⚡' };
+                  return { level: 'Needs Improvement', color: 'text-red-600 dark:text-red-400', bg: 'bg-red-100 dark:bg-red-900/30', icon: '📈' };
+                };
+                
+                const performance = getPerformanceRating(avgScore, completionRate);
+                
+                return (
+                  <tr
+                    key={i}
+                    className="border-b transition-all duration-200 border-gray-200 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 dark:border-gray-700 dark:hover:from-purple-900/10 dark:hover:to-pink-900/10 group"
+                  >
+                    <td className="py-4 px-4">
+                      <div className="flex items-center gap-3">
+                        <span className={`w-8 h-8 text-sm flex items-center justify-center rounded-full font-bold ${
+                          i === 0 ? "bg-gradient-to-r from-yellow-400 to-orange-500 text-white" :
+                          i === 1 ? "bg-gradient-to-r from-gray-400 to-slate-500 text-white" :
+                          i === 2 ? "bg-gradient-to-r from-orange-400 to-amber-500 text-white" :
+                          "bg-gradient-to-r from-purple-400 to-pink-500 text-white"
+                        }`}>
+                          {i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : i + 1}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-lg flex items-center justify-center">
+                          <span className="text-lg">📚</span>
+                        </div>
+                        <div>
+                          <div className="font-semibold text-gray-900 dark:text-white text-lg">
+                            {item._id[0]}
+                          </div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">
+                            Category #{i + 1}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                          <span className="text-blue-600 dark:text-blue-400 text-sm">📊</span>
+                        </div>
+                        <span className="font-semibold text-gray-900 dark:text-white text-lg">
+                          {item.attemptCount.toLocaleString()}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                          <span className="text-green-600 dark:text-green-400 text-sm">🎯</span>
+                        </div>
+                        <span className={`font-bold text-lg ${
+                          avgScore >= 80 ? 'text-green-600 dark:text-green-400' :
+                          avgScore >= 70 ? 'text-blue-600 dark:text-blue-400' :
+                          avgScore >= 60 ? 'text-yellow-600 dark:text-yellow-400' :
+                          'text-red-600 dark:text-red-400'
+                        }`}>
+                          {avgScore.toFixed(1)}%
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                          <span className="text-purple-600 dark:text-purple-400 text-sm">✅</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="font-semibold text-gray-900 dark:text-white">
+                              {completionRate.toFixed(0)}%
+                            </span>
+                          </div>
+                          <div className="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                            <div 
+                              className={`h-2 rounded-full transition-all duration-300 ${
+                                completionRate >= 80 ? 'bg-green-500' :
+                                completionRate >= 70 ? 'bg-blue-500' :
+                                completionRate >= 60 ? 'bg-yellow-500' :
+                                'bg-red-500'
+                              }`}
+                              style={{ width: `${completionRate}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg ${performance.bg} border border-current`}>
+                        <span className={performance.color}>{performance.icon}</span>
+                        <span className={`font-semibold ${performance.color}`}>
+                          {performance.level}
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
       ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {sortedCategory(data?.categoryPerformance)?.map((item, i) => (
-            <div
-              key={i}
-              className="p-4 border rounded-lg shadow bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700"
-            >
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
-                {item._id[0]}
-              </h4>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                <span className="font-medium">Attempts:</span> {item.attemptCount}
-              </p>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                <span className="font-medium">Avg. Score:</span> {item.avgScore.toFixed(2)}
-              </p>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                <span className="font-medium">Completion Rate:</span> {(item.completionRate * 100).toFixed(0)}%
-              </p>
-            </div>
-          ))}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sortedCategory(data?.categoryPerformance)?.map((item, i) => {
+            const completionRate = (item.completionRate * 100);
+            const avgScore = item.avgScore;
+            
+            const getPerformanceRating = (score, completion) => {
+              if (score >= 80 && completion >= 80) return { level: 'Excellent', color: 'text-green-600 dark:text-green-400', bg: 'bg-green-100 dark:bg-green-900/30', icon: '🌟' };
+              if (score >= 70 && completion >= 70) return { level: 'Good', color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-100 dark:bg-blue-900/30', icon: '👍' };
+              if (score >= 60 && completion >= 60) return { level: 'Average', color: 'text-yellow-600 dark:text-yellow-400', bg: 'bg-yellow-100 dark:bg-yellow-900/30', icon: '⚡' };
+              return { level: 'Needs Improvement', color: 'text-red-600 dark:text-red-400', bg: 'bg-red-100 dark:bg-red-900/30', icon: '📈' };
+            };
+            
+            const performance = getPerformanceRating(avgScore, completionRate);
+            
+            return (
+              <div
+                key={i}
+                className={`p-6 border rounded-xl shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl ${
+                  i === 0 ? "bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-yellow-200 dark:border-yellow-600" :
+                  i === 1 ? "bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20 border-gray-200 dark:border-gray-600" :
+                  i === 2 ? "bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 border-orange-200 dark:border-orange-600" :
+                  "bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700"
+                }`}
+              >
+                {/* Header with Rank */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-xl flex items-center justify-center">
+                      <span className="text-2xl">📚</span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-900 dark:text-white text-lg">
+                        {item._id[0]}
+                      </h4>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Category #{i + 1}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <span className={`w-10 h-10 text-lg flex items-center justify-center rounded-full font-bold ${
+                    i === 0 ? "bg-gradient-to-r from-yellow-400 to-orange-500 text-white" :
+                    i === 1 ? "bg-gradient-to-r from-gray-400 to-slate-500 text-white" :
+                    i === 2 ? "bg-gradient-to-r from-orange-400 to-amber-500 text-white" :
+                    "bg-gradient-to-r from-purple-400 to-pink-500 text-white"
+                  }`}>
+                    {i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : i + 1}
+                  </span>
+                </div>
+                
+                {/* Performance Badge */}
+                <div className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg ${performance.bg} border border-current mb-4`}>
+                  <span className={performance.color}>{performance.icon}</span>
+                  <span className={`font-semibold ${performance.color}`}>
+                    {performance.level}
+                  </span>
+                </div>
+                
+                {/* Stats Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg border border-blue-200 dark:border-blue-700">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-blue-600 dark:text-blue-400">📊</span>
+                      <span className="text-xs font-medium text-blue-600 dark:text-blue-400">Attempts</span>
+                    </div>
+                    <div className="text-xl font-bold text-blue-800 dark:text-blue-200">
+                      {item.attemptCount.toLocaleString()}
+                    </div>
+                  </div>
+                  
+                  <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg border border-green-200 dark:border-green-700">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-green-600 dark:text-green-400">🎯</span>
+                      <span className="text-xs font-medium text-green-600 dark:text-green-400">Avg Score</span>
+                    </div>
+                    <div className={`text-xl font-bold ${
+                      avgScore >= 80 ? 'text-green-600 dark:text-green-400' :
+                      avgScore >= 70 ? 'text-blue-600 dark:text-blue-400' :
+                      avgScore >= 60 ? 'text-yellow-600 dark:text-yellow-400' :
+                      'text-red-600 dark:text-red-400'
+                    }`}>
+                      {avgScore.toFixed(1)}%
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Completion Rate */}
+                <div className="mt-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Completion Rate</span>
+                    <span className="font-semibold text-gray-900 dark:text-white">
+                      {completionRate.toFixed(0)}%
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                    <div 
+                      className={`h-3 rounded-full transition-all duration-300 ${
+                        completionRate >= 80 ? 'bg-green-500' :
+                        completionRate >= 70 ? 'bg-blue-500' :
+                        completionRate >= 60 ? 'bg-yellow-500' :
+                        'bg-red-500'
+                      }`}
+                      style={{ width: `${completionRate}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

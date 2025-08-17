@@ -1,4 +1,3 @@
-import React from 'react';
 import { FaList, FaTh, FaTable } from 'react-icons/fa';
 
 const ViewToggle = ({ currentView, onViewChange, views = ['list', 'card', 'table'] }) => {

@@ -22,8 +22,8 @@ import {
   FaTrophy,
   FaClock,
   FaStar,
-  FaSun,
-  FaMoon,
+  // FaSun,
+  // FaMoon,
 } from "react-icons/fa";
 import config from "../../config/appConfig";
 import Sidebar from "../../components/Sidebar";

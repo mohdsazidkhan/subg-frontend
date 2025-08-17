@@ -12,7 +12,7 @@ import {
   FaStar, 
   FaBrain, 
   FaRocket, 
-  FaCalendarAlt, 
+  // FaCalendarAlt, 
   FaAward, 
   FaArrowRight,
   FaChartLine,
@@ -49,18 +49,18 @@ const levelBadgeIcons = {
 };
 
 
-const levels = [
-  { number: 1, name: 'Rookie', quizzes: 2 },
-  { number: 2, name: 'Explorer', quizzes: 4 },
-  { number: 3, name: 'Thinker', quizzes: 8 },
-  { number: 4, name: 'Strategist', quizzes: 16 },
-  { number: 5, name: 'Achiever', quizzes: 32 },
-  { number: 6, name: 'Mastermind', quizzes: 64 },
-  { number: 7, name: 'Champion', quizzes: 128 },
-  { number: 8, name: 'Prodigy', quizzes: 256 },
-  { number: 9, name: 'Quiz Wizard', quizzes: 512 },
-  { number: 10, name: 'Legend', quizzes: 1024 }
-];
+// const levels = [
+//   { number: 1, name: 'Rookie', quizzes: 2 },
+//   { number: 2, name: 'Explorer', quizzes: 4 },
+//   { number: 3, name: 'Thinker', quizzes: 8 },
+//   { number: 4, name: 'Strategist', quizzes: 16 },
+//   { number: 5, name: 'Achiever', quizzes: 32 },
+//   { number: 6, name: 'Mastermind', quizzes: 64 },
+//   { number: 7, name: 'Champion', quizzes: 64 },
+//   { number: 8, name: 'Prodigy', quizzes: 256 },
+//   { number: 9, name: 'Quiz Wizard', quizzes: 512 },
+//   { number: 10, name: 'Legend', quizzes: 1024 }
+// ];
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -107,8 +107,16 @@ const ProfilePage = () => {
               });
             }
           } catch (bankErr) {
-            // It's okay if bank details don't exist yet
-            console.log('No bank details found or error fetching them:', bankErr);
+            // Check if it's a 404 error (no bank details yet) vs other errors
+            if (bankErr.response && bankErr.response.status === 404) {
+              // User doesn't have bank details yet - this is normal
+              console.log('No bank details found yet - user can add them');
+              setBankDetails(null);
+            } else {
+              // Actual error occurred
+              console.error('Error fetching bank details:', bankErr);
+              // Don't show error to user since bank details are optional
+            }
           }
         }
       } catch (err) {
@@ -302,8 +310,8 @@ const message =
             </div>
           </div>
           
-            <div className="space-y-6 mb-6 md:mb-0">
-              <div className="bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl p-3 lg:p-6 border border-yellow-200 dark:border-yellow-700 hover-scale">
+            <div className="space-y-6 mb-6">
+              <div className="bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl p-3 lg:p-6 border border-yellow-200 dark:border-yellow-700">
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center">
                     <FaUser className="text-white text-xl" />
@@ -315,7 +323,7 @@ const message =
                 </div>
               </div>
               
-              <div className="bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/30 dark:to-teal-900/30 rounded-2xl p-3 lg:p-6 border border-green-200 dark:border-green-700 hover-scale">
+              <div className="bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/30 dark:to-teal-900/30 rounded-2xl p-3 lg:p-6 border border-green-200 dark:border-green-700">
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-500 rounded-xl flex items-center justify-center">
                     <FaEnvelope className="text-white text-xl" />
@@ -326,11 +334,10 @@ const message =
                   </div>
                 </div>
               </div>
-              
             </div>
 
             <div className="space-y-6">
-               <div className="bg-gradient-to-r from-red-50 to-yellow-50 dark:from-red-900/30 dark:to-yellow-900/30 rounded-2xl p-3 lg:p-6 border border-red-200 dark:border-red-700 hover-scale">
+               <div className="bg-gradient-to-r from-red-50 to-yellow-50 dark:from-red-900/30 dark:to-yellow-900/30 rounded-2xl p-3 lg:p-6 border border-red-200 dark:border-red-700">
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
                     <FaPhone className="text-white text-xl" />
@@ -341,7 +348,7 @@ const message =
                   </div>
                 </div>
               </div>
-              <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-2xl p-3 lg:p-6 border border-yellow-200 dark:border-yellow-700 hover-scale">
+              <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-2xl p-3 lg:p-6 border border-yellow-200 dark:border-yellow-700">
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center">
                     <FaCrown className="text-white text-xl" />
@@ -362,7 +369,7 @@ const message =
               
               {student.subscription?.isActive && (
                 <>
-                  <div className="bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl p-3 lg:p-6 border border-yellow-200 dark:border-yellow-700 hover-scale">
+                  <div className="bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl p-3 lg:p-6 border border-yellow-200 dark:border-yellow-700">
                     <div className="flex items-center space-x-4">
                       <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center">
                         <FaStar className="text-white text-xl" />
@@ -394,7 +401,7 @@ const message =
               
             </div>
 
-          <div className="mt-6 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 rounded-2xl p-3 lg:p-6 border border-emerald-200 dark:border-emerald-700 hover-scale">
+            <div className="mt-6 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 rounded-2xl p-3 lg:p-6 border border-emerald-200 dark:border-emerald-700">
                 <div className="flex items-center space-x-4">
                   <div className="min-h-12 min-w-12 w-12 h-12 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl flex items-center justify-center">
                     <FaAward className="text-white text-xl" />
@@ -411,7 +418,7 @@ const message =
               </div>
 
         </div>
-        <div className="my-6 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-gray-900 dark:to-gray-900 rounded-2xl p-3 lg:p-6 border border-emerald-200 dark:border-emerald-700 hover-scale">
+        <div className="my-6 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-gray-900 dark:to-gray-900 rounded-2xl p-3 lg:p-6 border border-emerald-200 dark:border-emerald-700">
   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
     {/* Reward Center Referral Section */}
     <div className="lg:col-span-2">

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import Pagination from "../../components/Pagination";
 import ViewToggle from "../../components/ViewToggle";
 import SearchFilter from "../../components/SearchFilter";
@@ -13,8 +12,6 @@ import {
   FaEnvelope,
   FaRegCalendarAlt,
   FaUniversity,
-  FaEye,
-  FaTrash,
   FaPhone,
   FaCreditCard,
   FaBuilding,
@@ -31,7 +28,7 @@ export default function AdminBankDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
+ // const [total, setTotal] = useState(0);
   const [limit, setLimit] = useState(PAGE_LIMIT);
   const [searchTerm, setSearchTerm] = useState("");
   const [viewMode, setViewMode] = useState(isMobile ? "list" : "table");
@@ -62,7 +59,7 @@ export default function AdminBankDetails() {
       const data = await API.getAdminBankDetails(params);
       if (data.success) {
         setBankDetails(data.bankDetails);
-        setTotal(data.pagination.total);
+        // setTotal(data.pagination.total);
         setLimit(data.pagination.limit);
         setPagination({
           currentPage: data.pagination.page,
@@ -72,10 +69,17 @@ export default function AdminBankDetails() {
           hasPrevPage: data.pagination.hasPrev,
         });
       } else {
-        setError("Failed to fetch bank details");
+        setError(data.message || "Failed to fetch bank details");
       }
     } catch (err) {
-      setError("Failed to fetch bank details");
+      console.error('Error fetching bank details:', err);
+      if (err.response) {
+        setError(`Failed to fetch bank details: ${err.response.status} - ${err.response.data?.message || 'Unknown error'}`);
+      } else if (err.message) {
+        setError(`Failed to fetch bank details: ${err.message}`);
+      } else {
+        setError("Failed to fetch bank details");
+      }
     }
     setLoading(false);
   };

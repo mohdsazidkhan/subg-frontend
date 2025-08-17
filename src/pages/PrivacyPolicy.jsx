@@ -1,5 +1,3 @@
-import React from 'react';
-
 const PrivacyPolicy = () => (
   <div className="max-w-3xl mx-auto px-4 py-10 text-gray-800 dark:text-gray-200 transition-colors duration-300">
     <h1 className="text-3xl font-semibold mb-4 text-gray-900 dark:text-white">
