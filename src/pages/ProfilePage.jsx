@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import API from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 import { handleAuthError } from '../utils/authUtils';
+import { toast } from 'react-toastify';
 import { 
   FaUser, 
   FaEnvelope, 
@@ -69,6 +70,17 @@ const ProfilePage = () => {
   const [error, setError] = useState('');
   const [bankDetails, setBankDetails] = useState(null);
   const [showBankForm, setShowBankForm] = useState(false);
+  
+  // Edit Profile State
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [editProfileData, setEditProfileData] = useState({
+    name: '',
+    email: '',
+    phone: ''
+  });
+  const [editProfileErrors, setEditProfileErrors] = useState({});
+  const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
+  
   const [bankFormData, setBankFormData] = useState({
     accountHolderName: '',
     accountNumber: '',
@@ -200,25 +212,105 @@ const ProfilePage = () => {
     
     try {
       const response = await API.saveBankDetails(bankFormData);
-      
       if (response.success) {
         setBankDetails(response.bankDetail);
         setShowBankForm(false);
         setBankDetailsSaved(true);
-        
-        // Show success message temporarily
-        setTimeout(() => {
-          setBankDetailsSaved(false);
-        }, 3000);
+        // Show success message
+        toast.success('Bank details saved successfully!');
       }
-    } catch (error) {
-      console.error('Error saving bank details:', error);
-      setBankFormErrors({
-        ...bankFormErrors,
-        general: error.message || 'Failed to save bank details. Please try again.'
-      });
+    } catch (err) {
+      console.error('Error saving bank details:', err);
+      toast.error(err.response?.data?.message || 'Failed to save bank details');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  // Edit Profile Functions
+  const handleEditProfile = () => {
+    setEditProfileData({
+      name: student.name || '',
+      email: student.email || '',
+      phone: student.phone || ''
+    });
+    setEditProfileErrors({});
+    setIsEditingProfile(true);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditingProfile(false);
+    setEditProfileData({
+      name: '',
+      email: '',
+      phone: ''
+    });
+    setEditProfileErrors({});
+  };
+
+  const handleEditProfileChange = (e) => {
+    const { name, value } = e.target;
+    setEditProfileData({
+      ...editProfileData,
+      [name]: value
+    });
+    
+    // Clear error for this field when user types
+    if (editProfileErrors[name]) {
+      setEditProfileErrors({
+        ...editProfileErrors,
+        [name]: ''
+      });
+    }
+  };
+
+  const validateEditProfile = () => {
+    const errors = {};
+    
+    if (!editProfileData.name.trim()) {
+      errors.name = 'Name is required';
+    }
+    
+    if (!editProfileData.email.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(editProfileData.email.trim())) {
+      errors.email = 'Please enter a valid email address';
+    }
+    
+    if (!editProfileData.phone.trim()) {
+      errors.phone = 'Phone number is required';
+    } else if (!/^[0-9]{10}$/.test(editProfileData.phone.trim())) {
+      errors.phone = 'Phone number must be exactly 10 digits';
+    }
+    
+    setEditProfileErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    
+    if (!validateEditProfile()) {
+      return;
+    }
+    
+    setIsUpdatingProfile(true);
+    
+    try {
+      const response = await API.updateProfile(editProfileData);
+      if (response.success) {
+        setStudent(response.user);
+        setIsEditingProfile(false);
+        toast.success('Profile updated successfully!');
+        
+        // Update localStorage with new user info
+        localStorage.setItem('userInfo', JSON.stringify(response.user));
+      }
+    } catch (err) {
+      console.error('Error updating profile:', err);
+      toast.error(err.response?.data?.message || 'Failed to update profile');
+    } finally {
+      setIsUpdatingProfile(false);
     }
   };
 
@@ -300,7 +392,7 @@ const message =
             <div className="w-14 sm:w-20 h-14 sm:h-20 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
               <FaUser className="text-white text-xl sm:text-3xl" />
             </div>
-            <div className='text-center sm:text-left'>
+            <div className='text-center sm:text-left flex-1'>
               <h2 className="text-2xl sm:text-4xl font-bold text-gray-800 dark:text-white">
                 Profile Details
               </h2>
@@ -308,98 +400,221 @@ const message =
                 Your personal information and account status
               </p>
             </div>
+            {!isEditingProfile && (
+              <button
+                onClick={handleEditProfile}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-lg"
+              >
+                <FaEdit className="text-sm" />
+                <span>Edit Profile</span>
+              </button>
+            )}
           </div>
           
-            <div className="space-y-6 mb-6">
-              <div className="bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl p-3 lg:p-6 border border-yellow-200 dark:border-yellow-700">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center">
-                    <FaUser className="text-white text-xl" />
-                  </div>
-                  <div>
-                    <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Full Name</span>
-                    <p className="text-md lg:text-2xl font-bold text-gray-800 dark:text-white">{student.name}</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/30 dark:to-teal-900/30 rounded-2xl p-3 lg:p-6 border border-green-200 dark:border-green-700">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-500 rounded-xl flex items-center justify-center">
-                    <FaEnvelope className="text-white text-xl" />
-                  </div>
-                  <div>
-                    <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Email Address</span>
-                    <p className=" text-md lg:text-2xl font-bold text-gray-800 dark:text-white">{student.email}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-               <div className="bg-gradient-to-r from-red-50 to-yellow-50 dark:from-red-900/30 dark:to-yellow-900/30 rounded-2xl p-3 lg:p-6 border border-red-200 dark:border-red-700">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
-                    <FaPhone className="text-white text-xl" />
-                  </div>
-                  <div>
-                    <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Phone Number</span>
-                    <p className="text-md lg:text-2xl font-bold text-gray-800 dark:text-white">{student.phone}</p>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-2xl p-3 lg:p-6 border border-yellow-200 dark:border-yellow-700">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center">
-                    <FaCrown className="text-white text-xl" />
-                  </div>
-                  <div>
-                    <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Subscription Status</span>
-                    {(() => {
-                      const statusInfo = getSubscriptionStatusTextWithTheme(student.subscriptionStatus);
-                      return (
-                        <div className={`text-xl font-bold ${statusInfo.textColor}`}>
-                          {statusInfo.text}
-                          </div>
-                        );
-                    })()}
-                  </div>
-                </div>
-            </div>
-              
-              {student.subscription?.isActive && (
-                <>
-                  <div className="bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl p-3 lg:p-6 border border-yellow-200 dark:border-yellow-700">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center">
-                        <FaStar className="text-white text-xl" />
-                      </div>
-                      <div>
-                        <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Current Plan</span>
-                        {(() => {
-                          const statusInfo = getSubscriptionStatusTextWithTheme(student.subscriptionStatus);
-                          return (
-                            <>
-                              <span className={`text-2xl font-bold ${statusInfo.textColor}`}>
-                                {statusInfo.text}
-                              </span>
-                            </>
-                          );
-                        })()}
-                      </div>
-                      <div>
-                        <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Expires On</span>
-                        <p className="text-md sm:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
-                          {new Date(student.subscription?.expiresAt).toLocaleDateString()}
-                        </p>
-                      </div>
+          {/* Profile Information - Show either details or edit form */}
+          {!isEditingProfile ? (
+            // Show Profile Details
+            <>
+              <div className="space-y-6 mb-6">
+                <div className="bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl p-3 lg:p-6 border border-yellow-200 dark:border-yellow-700">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center">
+                      <FaUser className="text-white text-xl" />
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Full Name</span>
+                      <p className="text-md lg:text-2xl font-bold text-gray-800 dark:text-white">{student.name}</p>
                     </div>
                   </div>
-                </>
-              )}
-             
-              
+                </div>
+                
+                <div className="bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/30 dark:to-teal-900/30 rounded-2xl p-3 lg:p-6 border border-green-200 dark:border-green-700">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-500 rounded-xl flex items-center justify-center">
+                      <FaEnvelope className="text-white text-xl" />
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Email Address</span>
+                      <p className=" text-md lg:text-2xl font-bold text-gray-800 dark:text-white">{student.email}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                 <div className="bg-gradient-to-r from-red-50 to-yellow-50 dark:from-red-900/30 dark:to-yellow-900/30 rounded-2xl p-3 lg:p-6 border border-red-200 dark:border-red-700">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                      <FaPhone className="text-white text-xl" />
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Phone Number</span>
+                      <p className="text-md lg:text-2xl font-bold text-gray-800 dark:text-white">{student.phone}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-2xl p-3 lg:p-6 border border-yellow-200 dark:border-yellow-700">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center">
+                      <FaCrown className="text-white text-xl" />
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Subscription Status</span>
+                      {(() => {
+                        const statusInfo = getSubscriptionStatusTextWithTheme(student.subscriptionStatus);
+                        return (
+                          <div className={`text-xl font-bold ${statusInfo.textColor}`}>
+                            {statusInfo.text}
+                            </div>
+                          );
+                      })()}
+                    </div>
+                  </div>
+              </div>
+                
+                {student.subscription?.isActive && (
+                  <>
+                    <div className="bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl p-3 lg:p-6 border border-yellow-200 dark:border-yellow-700">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center">
+                          <FaStar className="text-white text-xl" />
+                        </div>
+                        <div>
+                          <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Current Plan</span>
+                          {(() => {
+                            const statusInfo = getSubscriptionStatusTextWithTheme(student.subscriptionStatus);
+                            return (
+                              <>
+                                <span className={`text-2xl font-bold ${statusInfo.textColor}`}>
+                                  {statusInfo.text}
+                                </span>
+                              </>
+                            );
+                          })()}
+                        </div>
+                        <div>
+                          <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Expires On</span>
+                          <p className="text-md sm:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+                            {new Date(student.subscription?.expiresAt).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+               
+                
+              </div>
+            </>
+          ) : (
+            // Show Edit Profile Form
+            <div className="space-y-6">
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-6 border border-blue-200 dark:border-blue-700">
+                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 flex items-center space-x-2">
+                  <FaEdit className="text-blue-500" />
+                  <span>Edit Profile Information</span>
+                </h3>
+                
+                <form onSubmit={handleUpdateProfile} className="space-y-4">
+                  {/* Name Field */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Full Name
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={editProfileData.name}
+                      onChange={handleEditProfileChange}
+                      className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300 ${
+                        editProfileErrors.name 
+                          ? 'border-red-500 focus:ring-red-500' 
+                          : 'border-gray-300 dark:border-gray-600'
+                      }`}
+                      placeholder="Enter your full name"
+                    />
+                    {editProfileErrors.name && (
+                      <p className="text-red-500 text-sm mt-1">{editProfileErrors.name}</p>
+                    )}
+                  </div>
+
+                  {/* Email Field */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={editProfileData.email}
+                      onChange={handleEditProfileChange}
+                      className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300 ${
+                        editProfileErrors.email 
+                          ? 'border-red-500 focus:ring-red-500' 
+                          : 'border-gray-300 dark:border-gray-600'
+                      }`}
+                      placeholder="Enter your email address"
+                    />
+                    {editProfileErrors.email && (
+                      <p className="text-red-500 text-sm mt-1">{editProfileErrors.email}</p>
+                    )}
+                  </div>
+
+                  {/* Phone Field */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={editProfileData.phone}
+                      onChange={handleEditProfileChange}
+                      className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300 ${
+                        editProfileErrors.phone 
+                          ? 'border-red-500 focus:ring-red-500' 
+                          : 'border-gray-300 dark:border-gray-600'
+                      }`}
+                      placeholder="Enter your phone number (10 digits)"
+                    />
+                    {editProfileErrors.phone && (
+                      <p className="text-red-500 text-sm mt-1">{editProfileErrors.phone}</p>
+                    )}
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex space-x-4 pt-4">
+                    <button
+                      type="submit"
+                      disabled={isUpdatingProfile}
+                      className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
+                    >
+                      {isUpdatingProfile ? (
+                        <>
+                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                          <span>Updating...</span>
+                        </>
+                      ) : (
+                        <>
+                          <FaSave />
+                          <span>Update Profile</span>
+                        </>
+                      )}
+                    </button>
+                    
+                    <button
+                      type="button"
+                      onClick={handleCancelEdit}
+                      disabled={isUpdatingProfile}
+                      className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
+                    >
+                      <span>Cancel</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
+          )}
 
             <div className="mt-6 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 rounded-2xl p-3 lg:p-6 border border-emerald-200 dark:border-emerald-700">
                 <div className="flex items-center space-x-4">

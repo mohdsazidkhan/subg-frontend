@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
-import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaTrophy, FaBrain, FaRocket, FaSignInAlt } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaTrophy, FaBrain, FaRocket, FaSignInAlt, FaGoogle } from 'react-icons/fa';
 
 const LoginPage = () => {
   const [identifier, setIdentifier] = useState('');
@@ -10,6 +11,53 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Google OAuth Login
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (response) => {
+      try {
+        console.log('🔍 Google OAuth process started...');
+        
+        // Get user info from Google
+        const userInfo = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: `Bearer ${response.access_token}` }
+        }).then(res => res.json());
+        
+        console.log('📊 Google user info:', userInfo);
+        
+        // Send to backend for authentication
+        const authResponse = await API.googleAuth({
+          googleId: userInfo.sub,
+          email: userInfo.email,
+          name: userInfo.name,
+          picture: userInfo.picture
+        });
+        
+        if (authResponse.success) {
+          console.log('✅ Google login successful, processing user data...');
+          
+          localStorage.setItem('userInfo', JSON.stringify(authResponse.user));
+          localStorage.setItem('token', authResponse.token);
+          
+          if (authResponse.user.role === 'admin') {
+            console.log('🚀 Redirecting to admin dashboard...');
+            navigate('/admin/dashboard');
+          } else {
+            console.log('🚀 Redirecting to student profile...');
+            navigate('/');
+          }
+          toast.success(authResponse.message || 'Google login successful!');
+        }
+      } catch (error) {
+        console.error('❌ Google login error:', error);
+        toast.error(error.response?.data?.message || 'Google login failed. Please try again.');
+      }
+    },
+    onError: (error) => {
+      console.error('❌ Google OAuth error:', error);
+      toast.error('Google login failed. Please try again.');
+    }
+  });
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -105,123 +153,113 @@ const LoginPage = () => {
 
         {/* Right Side - Login Form */}
         <div className="w-full max-w-md mx-auto">
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-2xl px-2 py-4 lg:py-5 lg:px-6 border border-white/20">
-            <div className="text-center mb-4">
-              <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaSignInAlt className="text-white text-2xl" />
-              </div>
-              <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
-                Welcome Back
-              </h2>
-              <p className="text-gray-600 dark:text-gray-300">
-                Login to continue your quiz adventure!
-              </p>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">Welcome Back!</h2>
+              <p className="text-gray-600 dark:text-gray-400">Sign in to continue your quiz journey</p>
             </div>
 
+            {/* Google Login Button */}
+            <button
+              onClick={() => googleLogin()}
+              className="w-full bg-white border-2 border-gray-300 rounded-xl px-6 py-4 text-gray-700 font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 flex items-center justify-center space-x-3 mb-6 shadow-sm hover:shadow-md"
+            >
+              <FaGoogle className="text-red-500 text-xl" />
+              <span>Continue with Google</span>
+            </button>
+
+            {/* Divider */}
+            <div className="relative mb-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">or continue with email</span>
+              </div>
+            </div>
+
+            {/* Existing Login Form */}
             <form onSubmit={handleLogin} className="space-y-6">
-              {/* Email or Phone Input */}
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaEnvelope className="h-5 w-5 text-gray-400" />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Email or Phone
+                </label>
+                <div className="relative">
+                  <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                    placeholder="Enter your email or phone"
+                    required
+                  />
                 </div>
-                <input
-                  type="text"
-                  placeholder="Email or Phone"
-                  value={identifier}
-                  onChange={(e) => setIdentifier(e.target.value?.toLowerCase())}
-                  required
-                  disabled={isLoading}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-300 disabled:opacity-50"
-                />
               </div>
 
-              {/* Password Input */}
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaLock className="h-5 w-5 text-gray-400" />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Password
+                </label>
+                <div className="relative">
+                  <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                    placeholder="Enter your password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
                 </div>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  disabled={isLoading}
-                  className="w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-300 disabled:opacity-50"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-500 transition-colors"
-                >
-                  {showPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
-                </button>
-              {/* Forgot Password Link */}
               </div>
-              <div className="text-right">
+
+              <div className="flex items-center justify-between">
                 <Link
                   to="/forgot-password"
-                  className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 text-sm font-semibold transition-colors"
+                  className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
                 >
-                  Forgot Password?
+                  Forgot password?
                 </Link>
               </div>
 
-              {/* Login Button */}
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full py-3 px-6 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 ${
-                  isLoading
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-yellow-500 to-red-500 hover:from-yellow-600 hover:to-red-600 shadow-lg hover:shadow-xl'
-                }`}
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
               >
                 {isLoading ? (
-                  <div className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    Logining In...
-                  </div>
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    <span>Signing in...</span>
+                  </>
                 ) : (
-                  'Login'
+                  <>
+                    <FaSignInAlt />
+                    <span>Sign In</span>
+                  </>
                 )}
               </button>
-
-              {/* Register Link */}
-              <div className="text-center">
-                <p className="text-gray-600 dark:text-gray-300">
-                  Don't have an account?{' '}
-                  <Link 
-                    to="/register" 
-                    className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 font-semibold transition-colors"
-                  >
-                    Register
-                  </Link>
-                </p>
-              </div>
-
-              {/* Quick Stats */}
-              <div className="mt-2 p-4 bg-gradient-to-r from-yellow-50 to-red-50 dark:from-gray-700 dark:to-gray-600 rounded-xl border border-yellow-200 dark:border-gray-600">
-                <div className="grid grid-cols-4 gap-4 text-center">
-                  <div>
-                    <div className="text-md md:text-2xl font-bold text-yellow-600 dark:text-yellow-400">10+</div>
-                    <div className="text-xs text-gray-600 dark:text-gray-300">Categories</div>
-                  </div>
-                  <div>
-                    <div className="text-md md:text-2xl font-bold text-green-600 dark:text-green-400">100+</div>
-                    <div className="text-xs text-gray-600 dark:text-gray-300">Subcategories</div>
-                  </div>
-                  <div>
-                    <div className="text-md md:text-2xl font-bold text-red-600 dark:text-red-400">4K+</div>
-                    <div className="text-xs text-gray-600 dark:text-gray-300">Quizzes</div>
-                  </div>
-                  <div>
-                    <div className="text-md md:text-2xl font-bold text-yellow-600 dark:text-yellow-400">20K+</div>
-                    <div className="text-xs text-gray-600 dark:text-gray-300">Questions</div>
-                  </div>
-                </div>
-              </div>
             </form>
+
+            <div className="mt-6 text-center">
+              <p className="text-gray-600 dark:text-gray-400">
+                Don't have an account?{' '}
+                <Link
+                  to="/register"
+                  className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-semibold transition-colors"
+                >
+                  Sign up here
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>

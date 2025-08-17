@@ -86,6 +86,20 @@ class ApiService {
     });
   }
 
+  async googleAuth(googleData) {
+    return this.request('/api/auth/google', {
+      method: 'POST',
+      body: JSON.stringify(googleData)
+    });
+  }
+
+  async updateProfile(profileData) {
+    return this.request('/api/auth/update-profile', {
+      method: 'PUT',
+      body: JSON.stringify(profileData)
+    });
+  }
+
   async forgotPassword(data) {
     return this.request('/api/auth/forgot-password', {
       method: 'POST',

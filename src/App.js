@@ -47,6 +47,7 @@ import AdminContacts from './pages/admin/AdminContacts';
 import AdminBankDetails from './pages/admin/AdminBankDetails';
 import ReactGA from 'react-ga4';
 import SearchPage from './pages/SearchPage.jsx';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function usePageTracking() {
   const location = useLocation();
@@ -133,9 +134,11 @@ function AppLayout() {
 export default function App() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <AppLayout />
-      </BrowserRouter>
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || "your-google-client-id"}>
+        <BrowserRouter>
+          <AppLayout />
+        </BrowserRouter>
+      </GoogleOAuthProvider>
     </Provider>
   );
 }
