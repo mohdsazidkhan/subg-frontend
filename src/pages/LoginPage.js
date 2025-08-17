@@ -10,6 +10,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [referralCode, setReferralCode] = useState('');
   const navigate = useNavigate();
 
   // Google OAuth Login
@@ -25,12 +26,13 @@ const LoginPage = () => {
         
         console.log('📊 Google user info:', userInfo);
         
-        // Send to backend for authentication
+        // Send to backend for authentication with referral code
         const authResponse = await API.googleAuth({
           googleId: userInfo.sub,
           email: userInfo.email,
           name: userInfo.name,
-          picture: userInfo.picture
+          picture: userInfo.picture,
+          ...(referralCode && { referralCode: referralCode.toUpperCase() })
         });
         
         if (authResponse.success) {
@@ -153,10 +155,31 @@ const LoginPage = () => {
 
         {/* Right Side - Login Form */}
         <div className="w-full max-w-md mx-auto">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 login-form-container">
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">Welcome Back!</h2>
               <p className="text-gray-600 dark:text-gray-400">Sign in to continue your quiz journey</p>
+            </div>
+
+            {/* Referral Code Input */}
+            <div className="mb-6 referral-code-input">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Referral Code (optional)
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 font-bold">#</span>
+                <input
+                  type="text"
+                  value={referralCode}
+                  onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300 tracking-widest uppercase"
+                  placeholder="Enter referral code"
+                  maxLength={8}
+                />
+              </div>
+              <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 referral-code-help-text">
+                Have a friend's referral code? Enter it here to get started with Google sign-in!
+              </p>
             </div>
 
             {/* Google Login Button */}
