@@ -215,10 +215,6 @@ const HomePage = () => {
 
   return (
     <div className="relative min-h-screen bg-subg-light dark:bg-subg-dark overflow-x-hidden">
-      {/* Decorative Background Blobs */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-gradient-to-br from-yellow-300/30 to-red-300/20 rounded-full blur-3xl z-0 animate-pulse-slow" />
-      <div className="absolute top-1/2 right-0 w-80 h-80 bg-gradient-to-tr from-red-400/20 to-pink-300/10 rounded-full blur-3xl z-0 animate-pulse-slow" />
-      <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-gradient-to-tl from-indigo-300/20 to-yellow-200/10 rounded-full blur-3xl z-0 animate-pulse-slow" />
       {/* Hero Section */}
       <div className="relative overflow-hidden z-10">
         <div className="absolute inset-0 bg-gradient-to-r from-yellow-600/10 via-red-600/10 to-indigo-600/10 pointer-events-none" />
@@ -296,13 +292,10 @@ const HomePage = () => {
         </div>
       </div>
 
+      {/* Referral System Section - Visible to all users */}
       <div className="container mx-auto px-2 sm:px-4 py-8 z-10">
-        <div className="bg-gradient-to-br from-purple-50 to-red-100 dark:from-purple-900/90 dark:to-red-900/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 md:p-4 xl:p-10 border-2 border-purple-300/30 relative overflow-hidden">
-          {/* Decorative elements */}
-          <div className="absolute -top-10 right-10 w-32 h-32 bg-gradient-to-br from-yellow-300/30 to-red-300/20 rounded-full blur-2xl z-0 animate-pulse-slow" />
-          <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tl from-indigo-300/20 to-blue-200/10 rounded-full blur-2xl z-0 animate-pulse-slow" />
-
-          <div className="relative z-10 text-center mb-8">
+        <div className="bg-gradient-to-br from-purple-50 to-red-100 dark:from-purple-900/90 dark:to-red-900/90 rounded-3xl shadow-2xl p-2 md:p-4 xl:p-10 border-2 border-purple-300/30">
+          <div className="text-center mb-8">
             <div className="w-20 h-20 bg-gradient-to-tr from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl animate-float">
               <FaStar className="text-white text-4xl drop-shadow-lg" />
             </div>
@@ -378,7 +371,7 @@ const HomePage = () => {
                 <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-3">
                   <span className="text-white font-bold text-lg">2</span>
                 </div>
-                <p className="text-gray-700 dark:text-red-200 text-sm">
+                <p className="text-gray-700 dark:text-yellow-200 text-sm">
                   Share your code with friends
                 </p>
               </div>
@@ -386,7 +379,7 @@ const HomePage = () => {
                 <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
                   <span className="text-white font-bold text-lg">3</span>
                 </div>
-                <p className="text-gray-700 dark:text-purple-200 text-sm">
+                <p className="text-gray-700 dark:text-yellow-200 text-sm">
                   Friends join using your code
                 </p>
               </div>
@@ -394,7 +387,7 @@ const HomePage = () => {
                 <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-3">
                   <span className="text-white font-bold text-lg">4</span>
                 </div>
-                <p className="text-gray-700 dark:text-green-200 text-sm">
+                <p className="text-gray-700 dark:text-yellow-200 text-sm">
                   Unlock rewards at milestones!
                 </p>
               </div>
