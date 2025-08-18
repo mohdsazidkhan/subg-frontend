@@ -3,17 +3,33 @@ const TermsAndConditions = () => (
     <h1 className="text-3xl font-semibold mb-4 text-gray-900 dark:text-white">
       Terms & Conditions
     </h1>
+
     <p className="mb-4">
-      By using <strong>SUBG QUIZ</strong>, you agree to follow our rules and play fairly. You must be at least <strong>18 years old</strong> to use this platform. All quizzes are based on skill, and your participation is completely voluntary.
+      By using <strong>SUBG QUIZ</strong>, you agree to participate fairly and follow all platform rules. You must be at least <strong>18 years old</strong> to register and play.
     </p>
+
     <p className="mb-4">
-      Any attempt to cheat, use bots, or manipulate the system will result in a <strong>permanent ban</strong>. We're committed to providing a fair and transparent experience for everyone.
+      SUBG QUIZ is a <strong>skill-based quiz platform</strong>. Success depends on your knowledge, accuracy, and speed. All participation is voluntary.
     </p>
+
     <p className="mb-4">
-      Once you join a quiz, the entry fee is <strong>non-refundable</strong>, so please read the rules carefully before participating.
+      We offer 4 subscription plans: Free, Basic, Premium, and Pro — each with access to different quiz levels. Once subscribed, all fees are <strong>non-refundable</strong>, regardless of performance or disqualification.
     </p>
+
+    <p className="mb-4">
+      Rewards are given only to the <strong>Top 3 users on the Level 10 leaderboard</strong> at the end of the season. The total prize amount of ₹99,999 is divided in a <strong>3:2:1 ratio</strong> among Rank 1, 2, and 3.
+    </p>
+
+    <p className="mb-4">
+      To claim the Level 10 prize, users must complete at least <strong>1024 quizzes within a year</strong> and rank in the Top 3. Users who do not meet these criteria will not be eligible for any reward.
+    </p>
+
+    <p className="mb-4">
+      Any attempt to cheat, use automated tools, impersonate others, or manipulate the system will lead to an immediate and permanent ban. We monitor all activity to maintain fairness.
+    </p>
+
     <p>
-      We reserve the right to change our terms, quiz rules, entry fees, and reward structure at any time. By continuing to use SUBG QUIZ, you accept these updates automatically.
+      We reserve the right to update our terms, quiz rules, leaderboard conditions, subscription pricing, or reward structure at any time without prior notice. By continuing to use SUBG QUIZ, you agree to accept all such updates automatically.
     </p>
   </div>
 );
