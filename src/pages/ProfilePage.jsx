@@ -73,7 +73,7 @@ const ProfilePage = () => {
   const [showBankForm, setShowBankForm] = useState(false);
   
   // Get rewards data
-  const { rewards: rewardsData } = useRewards();
+  const { rewards: rewardsData, loading: rewardsLoading, error: rewardsError } = useRewards();
   
   // Edit Profile State
   const [isEditingProfile, setIsEditingProfile] = useState(false);
@@ -1136,19 +1136,19 @@ const message =
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-2xl border border-purple-200 dark:border-purple-600">
                   <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">
-                    {rewardsData?.locked?.length || 0}
+                    {rewardsLoading ? '...' : (rewardsData?.locked?.length || 0)}
                   </div>
                   <div className="text-sm text-gray-600 dark:text-gray-300">Locked Rewards</div>
                 </div>
                 <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-2xl border border-blue-200 dark:border-blue-600">
                   <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
-                    {rewardsData?.unlocked?.length || 0}
+                    {rewardsLoading ? '...' : (rewardsData?.unlocked?.length || 0)}
                   </div>
                   <div className="text-sm text-gray-600 dark:text-gray-300">Unlocked Rewards</div>
                 </div>
                 <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-2xl border border-green-200 dark:border-green-600">
                   <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
-                    ₹{rewardsData?.claimableRewards?.toLocaleString() || '0'}
+                    {rewardsLoading ? '...' : `₹${rewardsData?.claimableRewards?.toLocaleString() || '0'}`}
                   </div>
                   <div className="text-sm text-gray-600 dark:text-gray-300">Total Claimable</div>
                 </div>

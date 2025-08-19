@@ -6,6 +6,7 @@ const RewardsDashboard = () => {
   const [rewards, setRewards] = useState(null);
   const [loading, setLoading] = useState(true);
   const [claiming, setClaiming] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchRewards();
@@ -14,34 +15,82 @@ const RewardsDashboard = () => {
   const fetchRewards = async () => {
     try {
       setLoading(true);
+      setError(null);
       const response = await API.getUserRewards();
+      
+      // Validate response structure
+      if (!response || typeof response !== 'object') {
+        throw new Error('Invalid response format from server');
+      }
+      
       setRewards(response);
     } catch (error) {
       console.error('Error fetching rewards:', error);
-      toast.error('Failed to fetch rewards');
+      setError(error.response?.data?.message || 'Failed to fetch rewards');
+      toast.error('Failed to fetch rewards. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   const claimReward = async (rewardId) => {
+    if (!rewardId) {
+      toast.error('Invalid reward ID');
+      return;
+    }
+
     try {
       setClaiming(true);
       const response = await API.claimReward(rewardId);
-      toast.success(response.message);
-      fetchRewards(); // Refresh rewards
+      
+      if (response && response.message) {
+        toast.success(response.message);
+        // Refresh rewards after successful claim
+        await fetchRewards();
+      } else {
+        toast.success('Reward claimed successfully!');
+        await fetchRewards();
+      }
     } catch (error) {
       console.error('Error claiming reward:', error);
-      toast.error(error.response?.data?.message || 'Failed to claim reward');
+      const errorMessage = error.response?.data?.message || 'Failed to claim reward';
+      toast.error(errorMessage);
     } finally {
       setClaiming(false);
     }
+  };
+
+  const handleWithdraw = async () => {
+    if (!rewards?.claimableRewards || rewards.claimableRewards <= 0) {
+      toast.error('No rewards available for withdrawal');
+      return;
+    }
+    
+    toast.info('Withdrawal functionality coming soon!');
   };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center p-8">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center p-8">
+        <div className="text-6xl mb-4">❌</div>
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+          Error Loading Rewards
+        </h3>
+        <p className="text-gray-500 dark:text-gray-400 mb-4">{error}</p>
+        <button 
+          onClick={fetchRewards}
+          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          Try Again
+        </button>
       </div>
     );
   }
@@ -54,12 +103,14 @@ const RewardsDashboard = () => {
     );
   }
 
+  // Safely destructure with fallbacks
   const { 
     locked = [], 
     unlocked = [], 
     claimed = [], 
     claimableRewards = 0, 
-    quizProgress = { current: 0, required: 1024, percentage: 0 } 
+    quizProgress = { current: 0, required: 1024, percentage: 0 },
+    canUnlock = false
   } = rewards;
 
   return (
@@ -80,12 +131,19 @@ const RewardsDashboard = () => {
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
             <div 
               className="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
-              style={{ width: `${quizProgress?.percentage || 0}%` }}
+              style={{ width: `${Math.min(quizProgress?.percentage || 0, 100)}%` }}
             ></div>
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
             Complete 1024 high-score quizzes (75%+) to unlock rewards
           </p>
+          {canUnlock && (
+            <div className="mt-2 p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
+              <p className="text-xs text-green-700 dark:text-green-300 font-medium">
+                🎉 You meet all requirements! Rewards can now be unlocked.
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Claimable Rewards */}
@@ -100,7 +158,10 @@ const RewardsDashboard = () => {
                   ₹{claimableRewards.toLocaleString()}
                 </p>
               </div>
-              <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
+              <button 
+                onClick={handleWithdraw}
+                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+              >
                 Withdraw
               </button>
             </div>
@@ -112,8 +173,8 @@ const RewardsDashboard = () => {
           <div className="mb-6">
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-3">🔒 Locked Rewards</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {locked && locked.map((reward) => (
-                <div key={reward?._id || Math.random()} className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+              {locked.map((reward) => (
+                <div key={reward?._id || `locked-${reward?.level}`} className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium text-yellow-800 dark:text-yellow-300">
                       Level {reward?.level || 'N/A'}
@@ -139,8 +200,8 @@ const RewardsDashboard = () => {
           <div className="mb-6">
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-3">✅ Unlocked Rewards</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {unlocked && unlocked.map((reward) => (
-                <div key={reward?._id || Math.random()} className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+              {unlocked.map((reward) => (
+                <div key={reward?._id || `unlocked-${reward?.level}`} className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium text-blue-800 dark:text-blue-300">
                       Level {reward?.level || 'N/A'}
@@ -170,8 +231,8 @@ const RewardsDashboard = () => {
           <div className="mb-6">
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-3">🎉 Claimed Rewards</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {claimed && claimed.map((reward) => (
-                <div key={reward?._id || Math.random()} className="bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+              {claimed.map((reward) => (
+                <div key={reward?._id || `claimed-${reward?.level}`} className="bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
                       Level {reward?.level || 'N/A'}
