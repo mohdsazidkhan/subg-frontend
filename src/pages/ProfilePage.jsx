@@ -3,6 +3,7 @@ import API from '../utils/api';
 import { useNavigate, Link } from 'react-router-dom';
 import { handleAuthError } from '../utils/authUtils';
 import { toast } from 'react-toastify';
+import { useRewards } from '../hooks/useRewards';
 import { 
   FaUser, 
   FaEnvelope, 
@@ -70,6 +71,9 @@ const ProfilePage = () => {
   const [error, setError] = useState('');
   const [bankDetails, setBankDetails] = useState(null);
   const [showBankForm, setShowBankForm] = useState(false);
+  
+  // Get rewards data
+  const { rewards: rewardsData } = useRewards();
   
   // Edit Profile State
   const [isEditingProfile, setIsEditingProfile] = useState(false);
@@ -1131,34 +1135,240 @@ const message =
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-2xl border border-purple-200 dark:border-purple-600">
-                  <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">0</div>
+                  <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">
+                    {rewardsData?.locked?.length || 0}
+                  </div>
                   <div className="text-sm text-gray-600 dark:text-gray-300">Locked Rewards</div>
                 </div>
                 <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-2xl border border-blue-200 dark:border-blue-600">
-                  <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">0</div>
+                  <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                    {rewardsData?.unlocked?.length || 0}
+                  </div>
                   <div className="text-sm text-gray-600 dark:text-gray-300">Unlocked Rewards</div>
                 </div>
                 <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-2xl border border-green-200 dark:border-green-600">
-                  <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">₹0</div>
+                  <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
+                    ₹{rewardsData?.claimableRewards?.toLocaleString() || '0'}
+                  </div>
                   <div className="text-sm text-gray-600 dark:text-gray-300">Total Claimable</div>
                 </div>
               </div>
             </div>
+            
+            {/* Locked Rewards Details */}
+            {rewardsData?.locked && rewardsData.locked.length > 0 && (
+              <div className="mt-6">
+                <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
+                  <span className="text-2xl">🔒</span>
+                  Locked Rewards Details
+                </h4>
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {rewardsData.locked.map((reward) => (
+                    <div key={reward?._id || Math.random()} className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-yellow-800 dark:text-yellow-300">
+                          Level {reward?.level || 'N/A'}
+                        </span>
+                        <span className="text-xs text-yellow-600 dark:text-yellow-400">
+                          {reward?.dateLocked ? new Date(reward.dateLocked).toLocaleDateString() : 'N/A'}
+                        </span>
+                      </div>
+                      <p className="text-2xl font-bold text-yellow-700 dark:text-yellow-300 mb-2">
+                        ₹{(reward?.amount || 0).toLocaleString()}
+                      </p>
+                      <p className="text-xs text-yellow-600 dark:text-yellow-400">
+                        Complete Level 10 in Top 3 + 1024 high-score quizzes (75%+) to unlock
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Unlocked Rewards Details */}
+            {rewardsData?.unlocked && rewardsData.unlocked.length > 0 && (
+              <div className="mt-6">
+                <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
+                  <span className="text-2xl">✅</span>
+                  Unlocked Rewards Details
+                </h4>
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {rewardsData.unlocked.map((reward) => (
+                    <div key={reward?._id || Math.random()} className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-blue-800 dark:text-blue-300">
+                          Level {reward?.level || 'N/A'}
+                        </span>
+                        <span className="text-xs text-blue-600 dark:text-blue-400">
+                          {reward?.dateUnlocked ? new Date(reward.dateUnlocked).toLocaleDateString() : 'N/A'}
+                        </span>
+                      </div>
+                      <p className="text-2xl font-bold text-blue-700 dark:text-blue-300 mb-3">
+                        ₹{(reward?.amount || 0).toLocaleString()}
+                      </p>
+                      <p className="text-xs text-blue-600 dark:text-blue-400 mb-3">
+                        Ready to claim! Click the button below to claim your reward.
+                      </p>
+                      <button
+                        onClick={() => navigate('/rewards')}
+                        className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                      >
+                        Claim on Rewards Page
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Claimed Rewards Details */}
+            {rewardsData?.claimed && rewardsData.claimed.length > 0 && (
+              <div className="mt-6">
+                <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
+                  <span className="text-2xl">🎉</span>
+                  Claimed Rewards Details
+                </h4>
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {rewardsData.claimed.map((reward) => (
+                    <div key={reward?._id || Math.random()} className="bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                          Level {reward?.level || 'N/A'}
+                        </span>
+                        <span className="text-xs text-gray-600 dark:text-gray-400">
+                          {reward?.dateClaimed ? new Date(reward.dateClaimed).toLocaleDateString() : 'N/A'}
+                        </span>
+                      </div>
+                      <p className="text-2xl font-bold text-gray-700 dark:text-gray-200 mb-2">
+                        ₹{(reward?.amount || 0).toLocaleString()}
+                      </p>
+                      <div className="text-xs text-green-600 dark:text-green-400 font-medium">
+                        ✓ Claimed
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Quiz Progress for Rewards */}
+            {rewardsData?.quizProgress && (
+              <div className="mt-6">
+                <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
+                  <span className="text-2xl">📊</span>
+                  Quiz Progress for Rewards
+                </h4>
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-6 border border-blue-200 dark:border-blue-700">
+                  <div className="mb-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Quiz Progress: {rewardsData.quizProgress?.current || 0} / {rewardsData.quizProgress?.required || 1024}
+                      </span>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        {Math.round(rewardsData.quizProgress?.percentage || 0)}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                      <div 
+                        className="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
+                        style={{ width: `${rewardsData.quizProgress?.percentage || 0}%` }}
+                      ></div>
+                    </div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                      Complete 1024 high-score quizzes (75%+) to unlock rewards
+                    </p>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-xl border border-blue-200 dark:border-blue-600">
+                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
+                        {rewardsData.quizProgress?.current || 0}
+                      </div>
+                      <div className="text-sm text-gray-600 dark:text-gray-300">Completed</div>
+                    </div>
+                    <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-xl border border-blue-200 dark:border-blue-600">
+                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
+                        {rewardsData.quizProgress?.required - (rewardsData.quizProgress?.current || 0)}
+                      </div>
+                      <div className="text-sm text-gray-600 dark:text-gray-300">Remaining</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Requirements Info */}
+            <div className="mt-6">
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-2">📋 Rewards & Unlock Terms</h4>
+                <ul className="text-sm text-blue-700 dark:text-blue-300 space-y-1">
+                  <li>• Level 6: Top 1–3 rank prize ₹990 (locked)</li>
+                  <li>• Level 9: Top 1–3 rank prize ₹9,980 (locked)</li>
+                  <li>• Level 10: Top 1–3 rank prize ₹99,999 split 3:2:1</li>
+                  <li>• Unlock requirement: Level 10 Top 3 + 1024 high-score quizzes (75%+)</li>
+                  <li>• Final payout = 3:2:1 share of ₹99,999 + Level 6 + Level 9 prizes</li>
+                </ul>
+              </div>
+            </div>
           </div>
 
-          {/* Enhanced Progress Bar */}
-          <div className="mb-8">
-            <div className="flex justify-between items-center mb-4">
-              <span className="text-gray-700 dark:text-gray-300 font-bold text-lg">Progress to Next Level</span>
-              <span className="text-gray-600 dark:text-gray-400 font-semibold text-lg">{progressPercentage}%</span>
+                      {/* Enhanced Progress Bar */}
+            <div className="mb-8">
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-gray-700 dark:text-gray-300 font-bold text-lg">Progress to Next Level</span>
+                <span className="text-gray-600 dark:text-gray-400 font-semibold text-lg">
+                  {nextLevel ? Math.round((highScoreQuizzes / nextLevel.quizzesRequired) * 100) : 100}%
+                </span>
+              </div>
+              
+              {/* Progress Summary Cards */}
+              {nextLevel && (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                  <div className="text-center p-4 bg-green-50 dark:bg-green-900/30 rounded-xl border border-green-200 dark:border-green-700">
+                    <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-1">
+                      {highScoreQuizzes}
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-300">High Score Quizzes</div>
+                    <div className="text-xs text-green-600 dark:text-green-400 font-medium">Completed</div>
+                  </div>
+                  
+                  <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/30 rounded-xl border border-blue-200 dark:border-blue-700">
+                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
+                      {nextLevel.quizzesRequired}
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-300">Total Required</div>
+                    <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">For Next Level</div>
+                  </div>
+                  
+                  <div className="text-center p-4 bg-yellow-50 dark:bg-yellow-900/30 rounded-xl border border-yellow-200 dark:border-yellow-700">
+                    <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mb-1">
+                      {Math.max(0, nextLevel.quizzesRequired - highScoreQuizzes)}
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-300">Quizzes Left</div>
+                    <div className="text-xs text-yellow-600 dark:text-yellow-400 font-medium">To Complete</div>
+                  </div>
+                </div>
+              )}
+              
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6 overflow-hidden shadow-inner">
+                <div
+                  className="bg-gradient-to-r from-yellow-500 via-purple-500 to-red-500 h-6 rounded-full transition-all duration-1000 ease-out shadow-lg"
+                  style={{ 
+                    width: `${nextLevel ? Math.min((highScoreQuizzes / nextLevel.quizzesRequired) * 100, 100) : 100}%` 
+                  }}
+                ></div>
+              </div>
+              
+              {nextLevel && (
+                <div className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+                  <span className="font-semibold">{highScoreQuizzes}</span> / <span className="font-semibold">{nextLevel.quizzesRequired}</span> high-score quizzes completed
+                  <br />
+                  <span className="text-yellow-600 dark:text-yellow-400 font-medium">
+                    {Math.max(0, nextLevel.quizzesRequired - highScoreQuizzes)} more needed for Level {nextLevel.number}
+                  </span>
+                </div>
+              )}
             </div>
-            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6 overflow-hidden shadow-inner">
-              <div
-                className="bg-gradient-to-r from-yellow-500 via-purple-500 to-red-500 h-6 rounded-full transition-all duration-1000 ease-out shadow-lg"
-                style={{ width: `${progressPercentage}%` }}
-              ></div>
-            </div>
-          </div>
 
           {/* Enhanced Next Level Info */}
           {nextLevel ? (
@@ -1178,10 +1388,13 @@ const message =
                 </div>
               </div>
               <p className="text-gray-600 dark:text-gray-300 mb-4 text-lg">
-                Need <span className="font-bold text-green-600 text-lg lg:text-xl">{quizzesToNextLevel}</span> more high-score quizzes (75%+) to unlock Level {nextLevel.number}.
+                Need <span className="font-bold text-green-600 text-lg lg:text-xl">{Math.max(0, nextLevel.quizzesRequired - highScoreQuizzes)}</span> more high-score quizzes (75%+) to unlock Level {nextLevel.number}.
               </p>
               <div className="text-gray-600 dark:text-gray-400 text-sm">
-                Required: {nextLevel.quizzesRequired} total high-score quizzes
+                Progress: <span className="font-semibold text-blue-600">{highScoreQuizzes}</span> / <span className="font-semibold text-blue-600">{nextLevel.quizzesRequired}</span> high-score quizzes completed
+              </div>
+              <div className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                Required: {nextLevel.quizzesRequired} total high-score quizzes (75%+ score)
               </div>
             </div>
           ) : (
