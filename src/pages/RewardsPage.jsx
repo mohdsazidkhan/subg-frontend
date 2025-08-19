@@ -37,18 +37,18 @@ const RewardsPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-6xl mx-auto px-6 py-4">
+        <div className="max-w-6xl mx-auto px-2 md:px-6 py-2 md:py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">🏆 Rewards</h1>
-              <p className="text-gray-600 dark:text-gray-300 mt-1">
+              <h1 className="text-xl md:text-3xl font-bold text-gray-900 dark:text-white">🏆 Rewards</h1>
+              <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base mt-1">
                 Track your progress and claim your earned rewards
               </p>
             </div>
             {rewards && (
               <div className="text-right">
                 <div className="text-sm text-gray-500 dark:text-gray-300">Total Claimable</div>
-                <div className="text-2xl font-bold text-green-600 dark:text-green-300">
+                <div className="text-xl md:text-2xl font-bold text-green-600 dark:text-green-300">
                   ₹{rewards.claimableRewards?.toLocaleString() || '0'}
                 </div>
               </div>
