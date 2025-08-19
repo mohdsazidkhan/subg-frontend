@@ -43,8 +43,10 @@ import PerformanceAnalytics from './pages/admin/PerformanceAnalytics';
 import CategoryDetailPage from './pages/CategoryDetailPage';
 import SubcategoryDetailPage from './pages/SubcategoryDetailPage';
 import LevelDetailPage from './pages/LevelDetailPage';
+import RewardsPage from './pages/RewardsPage';
 import AdminContacts from './pages/admin/AdminContacts';
 import AdminBankDetails from './pages/admin/AdminBankDetails';
+import AdminRewards from './pages/admin/AdminRewards.jsx';
 import ReactGA from 'react-ga4';
 import SearchPage from './pages/SearchPage.jsx';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -98,6 +100,7 @@ function AppLayout() {
             <Route path="/quiz-result" element={<StudentRoute><QuizResult /></StudentRoute>} />
             <Route path="/levels" element={<StudentRoute><LevelsPage /></StudentRoute>} />
             <Route path="/level-quizzes" element={<StudentRoute><LevelBasedQuizzesPage /></StudentRoute>} />
+            <Route path="/rewards" element={<StudentRoute><RewardsPage /></StudentRoute>} />
             <Route path="/category/:categoryId" element={<StudentRoute><CategoryDetailPage /></StudentRoute>} />
             <Route path="/subcategory/:subcategoryId" element={<StudentRoute><SubcategoryDetailPage /></StudentRoute>} />
             <Route path="/level/:levelNumber" element={<StudentRoute><LevelDetailPage /></StudentRoute>} />
@@ -111,6 +114,7 @@ function AppLayout() {
             <Route path="/admin/students" element={<AdminRoute><StudentPage /></AdminRoute>} />
             <Route path="/admin/contacts" element={<AdminRoute><AdminContacts /></AdminRoute>} />
             <Route path="/admin/bank-details" element={<AdminRoute><AdminBankDetails /></AdminRoute>} />
+            <Route path="/admin/rewards" element={<AdminRoute><AdminRewards /></AdminRoute>} />
             
             {/* Analytics Admin Routes */}
             <Route path="/admin/analytics/dashboard" element={<AdminRoute><DashboardAnalytics /></AdminRoute>} />

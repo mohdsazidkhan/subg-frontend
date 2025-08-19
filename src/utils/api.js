@@ -377,6 +377,37 @@ class ApiService {
     const queryString = new URLSearchParams(params).toString();
     return this.request(`/api/admin/bank-details?${queryString}`);
   }
+
+  // ===== REWARDS ENDPOINTS =====
+  async getUserRewards() {
+    return this.request('/api/rewards/user/rewards');
+  }
+
+  async claimReward(rewardId) {
+    return this.request('/api/rewards/user/claim-reward', {
+      method: 'POST',
+      body: JSON.stringify({ rewardId })
+    });
+  }
+
+  async lockReward(userId, level) {
+    return this.request('/api/rewards/lock-reward', {
+      method: 'POST',
+      body: JSON.stringify({ userId, level })
+    });
+  }
+
+  async processLevel10Leaderboard() {
+    return this.request('/api/rewards/admin/process-level10-leaderboard', {
+      method: 'POST'
+    });
+  }
+
+  // ===== ADMIN REWARDS =====
+  async getAdminRewardUsers(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/rewards/admin/users?${queryString}`);
+  }
 }
 
 const API = new ApiService();

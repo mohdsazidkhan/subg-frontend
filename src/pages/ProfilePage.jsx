@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import API from '../utils/api';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { handleAuthError } from '../utils/authUtils';
 import { toast } from 'react-toastify';
 import { 
@@ -1107,6 +1107,43 @@ const message =
               <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">High Scores</div>
             </div>
           </div>
+          </div>
+
+          {/* Rewards Section */}
+          <div className="mb-8">
+            <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/30 dark:to-blue-900/30 rounded-3xl p-6 border border-purple-200 dark:border-purple-700">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center">
+                    <span className="text-2xl">🏆</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-800 dark:text-white">Rewards & Achievements</h3>
+                    <p className="text-gray-600 dark:text-gray-300">Track your progress and unlock rewards</p>
+                  </div>
+                </div>
+                <Link
+                  to="/rewards"
+                  className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-white font-semibold rounded-xl transition-all duration-200 hover:scale-105 shadow-lg"
+                >
+                  View Rewards
+                </Link>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-2xl border border-purple-200 dark:border-purple-600">
+                  <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">0</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">Locked Rewards</div>
+                </div>
+                <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-2xl border border-blue-200 dark:border-blue-600">
+                  <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">0</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">Unlocked Rewards</div>
+                </div>
+                <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-2xl border border-green-200 dark:border-green-600">
+                  <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">₹0</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">Total Claimable</div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Enhanced Progress Bar */}

@@ -165,7 +165,8 @@ const LevelsPage = () => {
               <div className="bg-white/50 dark:bg-gray-800/50 rounded-xl p-4">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-orange-600 mb-2">₹99,999</div>
-                  <div className="text-gray-600 dark:text-gray-300">Maximum Prize Pool</div>
+                  <div className="text-gray-600 dark:text-gray-300">Level 10 Top 3 prize split 3:2:1</div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">Final payout includes Level 6 (₹990) + Level 9 (₹9,980) if locked</div>
                 </div>
               </div>
                <p className="text-gray-700 dark:text-gray-300">

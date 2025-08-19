@@ -68,10 +68,10 @@ const levelsInfo = [
   { level: 3, quizzes: 8, plan: "Free", amount: 0, prize: 0 },
   { level: 4, quizzes: 16, plan: "Basic", amount: 99, prize: 0 },
   { level: 5, quizzes: 32, plan: "Basic", amount: 99, prize: 0 },
-  { level: 6, quizzes: 64, plan: "Basic", amount: 99, prize: 0 },
+  { level: 6, quizzes: 64, plan: "Basic", amount: 99, prize: 990 },
   { level: 7, quizzes: 128, plan: "Premium", amount: 499, prize: 0 },
   { level: 8, quizzes: 256, plan: "Premium", amount: 499, prize: 0 },
-  { level: 9, quizzes: 512, plan: "Premium", amount: 499, prize: 0 },
+  { level: 9, quizzes: 512, plan: "Premium", amount: 499, prize: 9980 },
   { level: 10, quizzes: 1024, plan: "Pro", amount: 999, prize: 99999 },
 ];
 
@@ -517,7 +517,10 @@ const HomePage = () => {
                     ₹99,999
                   </div>
                   <div className="text-gray-600 dark:text-gray-300">
-                    Maximum Prize Pool
+                    Level 10 Top 3 prize split 3:2:1
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                    Final payout includes Level 6 (₹990) + Level 9 (₹9,980) if locked
                   </div>
                 </div>
               </div>
@@ -806,13 +809,10 @@ const HomePage = () => {
                           </div>
                           <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center shadow-lg">
                             <div className="text-lg font-bold text-yellow-600">
-                              ₹
-                              {level.prize ||
-                                (levelInfo && levelInfo.prize) ||
-                                0}
+                              ₹{level.prize || (levelInfo && levelInfo.prize) || 0}
                             </div>
                             <div className="text-xs text-gray-600 dark:text-gray-300">
-                              Prize
+                              Prize {level.level === 6 ? '(Top 1–3)' : level.level === 9 ? '(Top 1–3)' : level.level === 10 ? '(Top 1–3, 3:2:1)' : ''}
                             </div>
                           </div>
                         </div>

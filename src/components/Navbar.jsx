@@ -59,6 +59,14 @@ export default function Navbar() {
         <BsSearch className="text-xl text-white" />
       </Link>
       <Link
+        title="Rewards"
+        to="/rewards"
+        className="px-4 py-2 rounded-xl font-semibold flex items-center gap-2 shadow-md transition-all duration-200 text-white text-sm bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 scale-95 hover:scale-100"
+      >
+        <span className="text-lg">🏆</span>
+        <span className="hidden sm:inline">Rewards</span>
+      </Link>
+      <Link
         title={hasActiveSubscription() ? "My Subscription" : "Subscribe Now"}
         to="/subscription"
         className={`px-4 py-2 rounded-xl font-semibold flex items-center gap-2 shadow-md transition-all duration-200 text-white text-sm bg-gradient-to-r ${
@@ -137,6 +145,14 @@ export default function Navbar() {
 
         {/* Desktop Links */}
         <div className="flex items-center gap-2 md:gap-4">
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setMobileMenu(!mobileMenu)}
+            className="md:hidden rounded-full p-2 bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-700 hover:to-gray-900 shadow-lg hover:scale-110 transition-all duration-200"
+          >
+            {mobileMenu ? <MdClose className="text-white text-xl" /> : <MdMenu className="text-white text-xl" />}
+          </button>
+          
           <button
             onClick={toggleTheme}
             aria-label="Toggle Dark Mode"
