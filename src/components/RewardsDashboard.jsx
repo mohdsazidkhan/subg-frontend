@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import API from '../utils/api';
 import { toast } from 'react-hot-toast';
+import AnnualRewardsInfo from './AnnualRewardsInfo';
 
 const RewardsDashboard = () => {
   const [rewards, setRewards] = useState(null);
@@ -173,8 +174,8 @@ const RewardsDashboard = () => {
           <div className="mb-4 sm:mb-6">
             <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3">🔒 Locked Rewards</h3>
             <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-              {locked.map((reward) => (
-                <div key={reward?._id || `locked-${reward?.level}`} className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 sm:p-4">
+              {locked.map((reward, index) => (
+                <div key={reward?._id || `locked-${reward?.level}-${index}`} className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 sm:p-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs sm:text-sm font-medium text-yellow-800 dark:text-yellow-300">
                       Level {reward?.level || 'N/A'}
@@ -200,8 +201,8 @@ const RewardsDashboard = () => {
           <div className="mb-4 sm:mb-6">
             <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3">✅ Unlocked Rewards</h3>
             <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-              {unlocked.map((reward) => (
-                <div key={reward?._id || `unlocked-${reward?.level}`} className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 sm:p-4">
+              {unlocked.map((reward, index) => (
+                <div key={reward?._id || `unlocked-${reward?.level}-${index}`} className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 sm:p-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs sm:text-sm font-medium text-blue-800 dark:text-blue-300">
                       Level {reward?.level || 'N/A'}
@@ -231,8 +232,8 @@ const RewardsDashboard = () => {
           <div className="mb-4 sm:mb-6">
             <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3">🎉 Claimed Rewards</h3>
             <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-              {claimed.map((reward) => (
-                <div key={reward?._id || `claimed-${reward?.level}`} className="bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-700 rounded-lg p-3 sm:p-4">
+              {claimed.map((reward, index) => (
+                <div key={reward?._id || `claimed-${reward?.level}-${index}`} className="bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-700 rounded-lg p-3 sm:p-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs sm:text-sm font-medium text-gray-800 dark:text-gray-200">
                       Level {reward?.level || 'N/A'}
@@ -267,16 +268,7 @@ const RewardsDashboard = () => {
         )}
 
         {/* Requirements Info */}
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 sm:p-4 mt-4 sm:mt-6">
-          <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-2 text-sm sm:text-base">📋 Rewards & Unlock Terms</h4>
-          <ul className="text-xs sm:text-sm text-blue-700 dark:text-blue-300 space-y-1">
-            <li>• Level 6: Top 1–3 rank prize ₹990 (locked)</li>
-            <li>• Level 9: Top 1–3 rank prize ₹9,980 (locked)</li>
-            <li>• Level 10: Top 1–3 rank prize ₹99,999 split 3:2:1</li>
-            <li>• Unlock requirement: Level 10 Top 3 + 1024 high-score quizzes (75%+)</li>
-            <li>• Final payout = 3:2:1 share of ₹99,999 + Level 6 + Level 9 prizes</li>
-          </ul>
-        </div>
+        <AnnualRewardsInfo className="mt-4 sm:mt-6" />
       </div>
     </div>
   );

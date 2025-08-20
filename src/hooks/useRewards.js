@@ -98,9 +98,9 @@ export const useRewards = () => {
 
   const getRewardAmount = useCallback((level) => {
     const rewardAmounts = {
-      6: 990,
-      9: 9980,
-      10: 99999
+      6: 990,      // August 1: Level 6 Top 3
+      9: 9980,     // December 1: Level 9 Top 3
+      10: 99999    // March 31: Level 10 Top 3 (3:2:1 split)
     };
     return rewardAmounts[level] || 0;
   }, []);

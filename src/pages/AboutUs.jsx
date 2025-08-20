@@ -105,6 +105,16 @@ const AboutUs = () => {
                 Adaptive difficulty levels and personalized quiz recommendations.
               </p>
             </div>
+
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl flex items-center justify-center mb-4">
+                <FaTrophy className="text-white text-xl" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Annual Rewards</h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Annual rewards system with ₹990 (Level 6), ₹9,980 (Level 9), and ₹99,999 pool (Level 10) for Top 3 performers.
+              </p>
+            </div>
           </div>
 
           {/* Company Info */}

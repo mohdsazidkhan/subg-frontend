@@ -4,6 +4,7 @@ import { FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaArrowLeft, 
 import API from '../utils/api';
 import QuizStartModal from '../components/QuizStartModal';
 import { MdFormatListNumbered } from 'react-icons/md';
+import AnnualRewardsInfo from '../components/AnnualRewardsInfo';
 
 const levels = [
   { level: 0, name: 'Zero Level', desc: 'Just registered - Start your journey!', quizzes: 0, plan: 'Free', amount: 0, prize: 0, color: 'from-gray-300 to-gray-400', icon: FaBrain },
@@ -142,16 +143,7 @@ const LevelDetailPage = () => {
                 <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Prize</div>
               </div>
               {/* Rewards Terms for Visibility */}
-              <div className="mt-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
-                <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-1 text-sm">Rewards & Terms</h4>
-                <ul className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
-                  <li>• Level 6: Top 1–3 rank prize ₹990 (locked)</li>
-                  <li>• Level 9: Top 1–3 rank prize ₹9,980 (locked)</li>
-                  <li>• Level 10: Top 1–3 rank prize ₹99,999 split 3:2:1</li>
-                  <li>• Unlock: Level 10 Top 3 + 1024 high-score quizzes (75%+)</li>
-                  <li>• Final payout = 3:2:1 share + Level 6 + Level 9</li>
-                </ul>
-              </div>
+              <AnnualRewardsInfo compact={true} />
             </div>
           </div>
         </div>

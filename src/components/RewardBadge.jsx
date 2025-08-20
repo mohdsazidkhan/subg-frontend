@@ -37,9 +37,9 @@ const RewardBadge = ({ level, status, className = '' }) => {
 
   const getRewardAmount = (level) => {
     switch (level) {
-      case 6: return '₹990';
-      case 9: return '₹9,980';
-      case 10: return '₹99,999';
+      case 6: return '₹990 (Aug 1)';
+      case 9: return '₹9,980 (Dec 1)';
+      case 10: return '₹99,999 (Mar 31)';
       default: return '';
     }
   };

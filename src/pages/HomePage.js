@@ -812,7 +812,7 @@ const HomePage = () => {
                               ₹{level.prize || (levelInfo && levelInfo.prize) || 0}
                             </div>
                             <div className="text-xs text-gray-600 dark:text-gray-300">
-                              Prize {level.level === 6 ? '(Top 1–3)' : level.level === 9 ? '(Top 1–3)' : level.level === 10 ? '(Top 1–3, 3:2:1)' : ''}
+                              Prize {level.level === 6 ? '(Aug 1: Top 1–3)' : level.level === 9 ? '(Dec 1: Top 1–3)' : level.level === 10 ? '(Mar 31: Top 1–3, 3:2:1)' : ''}
                             </div>
                           </div>
                         </div>

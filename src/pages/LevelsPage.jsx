@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaTrophy, FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaArrowLeft, FaAward, FaGem } from 'react-icons/fa';
 import { FaUserGraduate, FaMagic } from 'react-icons/fa';
 import API from '../utils/api';
+import AnnualRewardsInfo from '../components/AnnualRewardsInfo';
 // Level badge icon mapping (same as HomePage)
 const levelBadgeIcons = {
   'Zero Level': FaUserGraduate,
@@ -233,6 +234,11 @@ const LevelsPage = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Annual Rewards Information */}
+        <div className="mb-8">
+          <AnnualRewardsInfo />
         </div>
 
         {/* Current Level Card */}

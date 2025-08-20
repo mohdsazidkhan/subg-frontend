@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
 import { FaUser, FaEnvelope, FaPhone, FaLock, FaEye, FaEyeSlash, FaTrophy, FaBrain, FaRocket } from 'react-icons/fa';
+import AnnualRewardsInfo from '../components/AnnualRewardsInfo';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
@@ -126,8 +127,8 @@ const RegisterPage = () => {
                 <FaTrophy className="text-white text-2xl" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Win Badges & Rewards</h3>
-                <p className="text-gray-600 dark:text-gray-300">Earn badges and climb the leaderboard</p>
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Annual Rewards System</h3>
+                <p className="text-gray-600 dark:text-gray-300">Earn ₹990 (Level 6), ₹9,980 (Level 9), and ₹99,999 pool (Level 10)</p>
               </div>
             </div>
 
@@ -140,6 +141,11 @@ const RegisterPage = () => {
                 <p className="text-gray-600 dark:text-gray-300">Participate in real-time quiz battles</p>
               </div>
             </div>
+          </div>
+
+          {/* Annual Rewards Information */}
+          <div className="mt-8">
+            <AnnualRewardsInfo compact={true} />
           </div>
         </div>
 

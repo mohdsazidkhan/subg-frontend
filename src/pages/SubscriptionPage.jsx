@@ -34,6 +34,7 @@ import {
   FaTags
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import AnnualRewardsInfo from '../components/AnnualRewardsInfo';
 
 const SubscriptionPage = () => {
   const [subscription, setSubscription] = useState(null);
@@ -612,8 +613,8 @@ const SubscriptionPage = () => {
               },
               {
                 icon: FaTrophy,
-                title: 'Exclusive Rewards',
-                description: 'Earn special badges and recognition for your achievements',
+                title: 'Annual Rewards',
+                description: 'Earn ₹990 (Level 6), ₹9,980 (Level 9), and ₹99,999 pool (Level 10) for Top 3 performers',
                 gradient: 'from-yellow-500 to-orange-500'
               },
               {
@@ -645,6 +646,11 @@ const SubscriptionPage = () => {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Annual Rewards Information */}
+        <div className="mb-16">
+          <AnnualRewardsInfo />
         </div>
 
         {/* Transaction History */}

@@ -31,6 +31,11 @@ const HowItWorks = () => (
       </li>
 
       <li>
+        <strong>Annual Rewards System:</strong>  
+        Top 3 performers at Level 6 (₹990), Level 9 (₹9,980), and Level 10 (₹99,999 pool) earn rewards on August 1, December 1, and March 31 respectively.
+      </li>
+
+      <li>
         <strong>Track Progress:</strong>  
         Monitor your performance, view detailed analytics, and track your improvement over time.
       </li>

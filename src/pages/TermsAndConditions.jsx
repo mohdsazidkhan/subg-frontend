@@ -18,12 +18,12 @@ const TermsAndConditions = () => (
 
     <div className="mb-4 space-y-2">
       <p>
-        Rewards are based on Top 3 leaderboard ranks at specific levels:
+        <strong>Annual Rewards System:</strong> Rewards are processed annually based on Top 3 leaderboard ranks:
       </p>
       <ul className="list-disc pl-6 space-y-1">
-        <li><strong>Level 6</strong>: Top 1–3 rank prize ₹990 (locked reward)</li>
-        <li><strong>Level 9</strong>: Top 1–3 rank prize ₹9,980 (locked reward)</li>
-        <li><strong>Level 10</strong>: Top 1–3 rank prize ₹99,999 split in a <strong>3:2:1</strong> ratio</li>
+        <li><strong>August 1:</strong> Level 6 Top 1–3 rank prizes ₹990 each (locked)</li>
+        <li><strong>December 1:</strong> Level 9 Top 1–3 rank prizes ₹9,980 each (locked)</li>
+        <li><strong>March 31:</strong> Level 10 Top 1–3 rank prizes unlocked + ₹99,999 pool split 3:2:1</li>
       </ul>
       <p>
         Final payout for Level 10 Top 3 = the user’s share of ₹99,999 (3:2:1) <strong>plus</strong> any locked prizes from Level 6 and Level 9, subject to eligibility and unlock requirements.
@@ -31,7 +31,7 @@ const TermsAndConditions = () => (
     </div>
 
     <p className="mb-4">
-      To claim prizes, users must complete at least <strong>1024 quizzes within a year</strong> and rank in the Top 3 on the <strong>Level 10</strong> leaderboard. Locked prizes from Level 6 and Level 9 are unlocked together only when the Level 10 conditions are met.
+      To unlock all rewards, users must complete at least <strong>1024 high-score quizzes (75%+)</strong> and rank in the Top 3 on the <strong>Level 10</strong> leaderboard by March 31st. All locked prizes from Level 6 and Level 9 are unlocked simultaneously when Level 10 conditions are met.
     </p>
 
     <p className="mb-4">
