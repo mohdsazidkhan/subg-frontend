@@ -5,7 +5,7 @@ const TermsAndConditions = () => (
     </h1>
 
     <p className="mb-4">
-      By using <strong>SUBG QUIZ</strong>, you agree to participate fairly and follow all platform rules. You must be at least <strong>18 years old</strong> to register and play.
+      By using <strong>SUBG QUIZ</strong>, you agree to participate fairly and follow all platform rules. You must be at least <strong>14 years old</strong> to register and play.
     </p>
 
     <p className="mb-4">
