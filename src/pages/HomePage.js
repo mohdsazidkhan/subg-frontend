@@ -22,6 +22,7 @@ import {
   FaClock,
   FaQuestionCircle,
   FaUserCircle,
+  FaLevelUpAlt,
 } from "react-icons/fa";
 import { FaMagic } from "react-icons/fa";
 import API from "../utils/api";
@@ -497,7 +498,7 @@ const HomePage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
           {/* Scholarship Info */}
           <div className="bg-gradient-to-br from-yellow-50 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 border border-yellow-200 dark:border-yellow-700 hover:scale-[1.02] sm:hover:scale-[1.03] hover:shadow-yellow-200/40 transition-all duration-300">
-            <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-4 sm:mb-6">
+            <div className="flex items-center justify-start gap-4 mb-4 sm:mb-6">
               <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl sm:rounded-2xl flex items-center justify-center">
                 <FaAward className="text-white text-lg sm:text-xl md:text-2xl" />
               </div>
@@ -535,7 +536,7 @@ const HomePage = () => {
 
           {/* Progression Rules */}
           <div className="bg-gradient-to-br from-yellow-50 to-red-100 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 border border-yellow-200 dark:border-yellow-700 hover:scale-[1.02] sm:hover:scale-[1.03] hover:shadow-yellow-200/40 transition-all duration-300">
-            <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-4 sm:mb-6">
+            <div className="flex items-center justify-start gap-4 mb-4 sm:mb-6">
               <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl sm:rounded-2xl flex items-center justify-center">
                 <FaGem className="text-white text-lg sm:text-xl md:text-2xl" />
               </div>
@@ -597,7 +598,7 @@ const HomePage = () => {
 
         {/* Level-based Quizzes Section */}
         <div className="container mx-auto px-0 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 z-10">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
+          <div className="flex items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
             <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
               <FaStar className="text-yellow-500 text-lg sm:text-xl md:text-2xl" />
               Your Quizzes
@@ -610,7 +611,7 @@ const HomePage = () => {
               View All
             </Link>
           </div>
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 md:mb-8 lg:mb-12 max-w-3xl sm:max-w-4xl px-4 sm:px-0">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 md:mb-8 lg:mb-12 max-w-3xl sm:max-w-4xl px-0">
             Discover quizzes tailored to your current level and challenge
             yourself with new questions
           </p>
@@ -931,10 +932,21 @@ const HomePage = () => {
           <div className="relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6 w-full max-w-4xl z-10">
             <div className="flex flex-col items-center group">
               <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <FaLevelUpAlt className="text-white text-xl sm:text-2xl md:text-3xl animate-float" />
+              </div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-extrabold text-gray-800 dark:text-white animate-count">
+                10
+              </div>
+              <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 text-center">
+                Levels
+              </div>
+            </div>
+            <div className="flex flex-col items-center group">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
                 <FaBook className="text-white text-xl sm:text-2xl md:text-3xl animate-float" />
               </div>
               <div className="text-xl sm:text-2xl md:text-3xl font-extrabold text-gray-800 dark:text-white animate-count">
-                10+
+                12
               </div>
               <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 text-center">
                 Categories
@@ -973,7 +985,7 @@ const HomePage = () => {
                 Questions
               </div>
             </div>
-            <div className="flex flex-col items-center group col-span-2 sm:col-span-1">
+            <div className="flex flex-col items-center group">
               <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-r from-pink-500 to-green-500 rounded-full flex items-center justify-center mb-2">
                 <FaUserCircle className="text-white text-xl sm:text-2xl md:text-3xl animate-float" />
               </div>

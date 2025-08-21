@@ -1,16 +1,16 @@
 import { FaList, FaTh, FaTable } from 'react-icons/fa';
 
-const ViewToggle = ({ currentView, onViewChange, views = ['list', 'card', 'table'] }) => {
+const ViewToggle = ({ currentView, onViewChange, views = ['table', 'list', 'grid'] }) => {
   const viewIcons = {
+    table: FaTable,
     list: FaList,
-    card: FaTh,
-    table: FaTable
+    grid: FaTh
   };
 
   const viewLabels = {
+    table: 'Table',
     list: 'List',
-    card: 'Card',
-    table: 'Table'
+    grid: 'Grid'
   };
 
   return (

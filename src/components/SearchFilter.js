@@ -37,7 +37,7 @@ const SearchFilter = ({
                 key={key}
                 value={filters[key] || ''}
                 onChange={(e) => onFilterChange(key, e.target.value)}
-                className="px-2 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-xs sm:text-sm md:text-base transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-500"
+                className="px-2 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 max-w-full border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-xs sm:text-sm md:text-base transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-500"
               >
                 <option value="">{options.label || key}</option>
                 {options.options.map((option) => (

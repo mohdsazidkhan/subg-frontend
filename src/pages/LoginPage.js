@@ -185,10 +185,10 @@ const LoginPage = () => {
             {/* Google Login Button */}
             <button
               onClick={() => googleLogin()}
-              className="w-full bg-white border-2 border-gray-300 rounded-xl px-6 py-4 text-gray-700 font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 flex items-center justify-center space-x-3 mb-6 shadow-sm hover:shadow-md"
+              className="w-full bg-white border-2 border-gray-300 rounded-xl px-6 py-3 text-gray-700 font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 flex items-center justify-center space-x-3 mb-6 shadow-sm hover:shadow-md"
             >
               <FaGoogle className="text-red-500 text-xl" />
-              <span>Continue with Google</span>
+              <span>Sign In with Google</span>
             </button>
 
             {/* Divider */}
@@ -256,7 +256,7 @@ const LoginPage = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
+                className="w-full bg-gradient-to-r from-red-600 to-yellow-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-red-700 hover:to-yellow-700 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
               >
                 {isLoading ? (
                   <>

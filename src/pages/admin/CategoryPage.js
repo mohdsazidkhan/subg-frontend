@@ -262,90 +262,30 @@ const CategoryPage = () => {
       <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
         {/* Enhanced Header */}
         <div className="mb-6 md:mb-8">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-16 h-16 bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-2xl flex items-center justify-center">
-              <span className="text-3xl">📚</span>
-            </div>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-                Category Management
+              <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-white">
+                Manage Categories ({pagination.total})
               </h1>
               <p className="text-gray-600 dark:text-gray-400 text-lg">
                 Create, edit, and manage quiz categories and their content
               </p>
             </div>
-          </div>
-          
-          {/* Stats Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 p-4 rounded-xl border border-yellow-200 dark:border-yellow-600">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
-                  <span className="text-yellow-600 dark:text-yellow-400 text-lg">📚</span>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-yellow-800 dark:text-yellow-200">
-                    {pagination.total || 0}
-                  </div>
-                  <div className="text-sm text-yellow-600 dark:text-yellow-400 font-medium">
-                    Total Categories
-                  </div>
-                </div>
-              </div>
-            </div>
             
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-4 rounded-xl border border-green-200 dark:border-green-600">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                  <span className="text-green-600 dark:text-green-400 text-lg">📂</span>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-green-800 dark:text-green-200">
-                    {categories.reduce((sum, cat) => sum + (cat.subcategoryCount || 0), 0)}
-                  </div>
-                  <div className="text-sm text-green-600 dark:text-green-400 font-medium">
-                    Total Subcategories
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-4 rounded-xl border border-blue-200 dark:border-blue-600">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
-                  <span className="text-blue-600 dark:text-blue-400 text-lg">🎯</span>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-blue-800 dark:text-blue-200">
-                    {categories.reduce((sum, cat) => sum + (cat.quizCount || 0), 0)}
-                  </div>
-                  <div className="text-sm text-blue-600 dark:text-blue-400 font-medium">
-                    Total Quizzes
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="mx-auto">
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Manage Categories ({pagination.total})
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 mt-1">
-                Create, edit, and manage quiz categories
-              </p>
-            </div>
             <button
               onClick={() => setShowForm(!showForm)}
-              className="mt-4 sm:mt-0 inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+              className="mt-4 sm:mt-0 flex justify-center items-center px-4 py-2 
+              bg-gradient-to-r from-yellow-500 to-red-500 text-white 
+              dark:from-yellow-600 dark:to-red-700 
+              rounded-md hover:brightness-110 
+              transition-colors"
             >
               <FaPlus className="w-4 h-4 mr-2" />
               Add Category
             </button>
           </div>
+        </div>
+        <div className="mx-auto">
 
           {/* Search and Filters */}
           <SearchFilter
@@ -359,6 +299,7 @@ const CategoryPage = () => {
             <ViewToggle
               currentView={viewMode}
               onViewChange={setViewMode}
+              views={['table', 'list', 'grid']}
             />
             <div className="flex items-center space-x-2">
               <label className="text-sm text-gray-600 dark:text-gray-400">Show:</label>
@@ -451,7 +392,7 @@ const CategoryPage = () => {
           ) : (
             <>
               {viewMode === 'table' && <TableView />}
-              {viewMode === 'card' && <CardView />}
+              {viewMode === 'grid' && <CardView />}
               {viewMode === 'list' && <ListView />}
             </>
           )}

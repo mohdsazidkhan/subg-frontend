@@ -548,91 +548,33 @@ const QuizPage = () => {
   return (
     <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
       {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
+        <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
         {/* Enhanced Header */}
         <div className="mb-6 md:mb-8">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-16 h-16 bg-gradient-to-r from-red-100 to-yellow-100 dark:from-red-900/30 dark:to-yellow-900/30 rounded-2xl flex items-center justify-center">
-              <span className="text-3xl">🎯</span>
-            </div>
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-                Quiz Management
-              </h1>
-              <p className="text-gray-600 dark:text-gray-400 text-lg">
-                Create, edit, and manage quizzes with questions and difficulty levels
-              </p>
-            </div>
-          </div>
-          
-          {/* Stats Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-            <div className="bg-gradient-to-r from-red-50 to-yellow-50 dark:from-red-900/20 dark:to-yellow-900/20 p-4 rounded-xl border border-red-200 dark:border-red-600">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
-                  <span className="text-red-600 dark:text-red-400 text-lg">🎯</span>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-red-800 dark:text-red-200">
-                    {pagination.total || 0}
-                  </div>
-                  <div className="text-sm text-red-600 dark:text-red-400 font-medium">
-                    Total Quizzes
-                  </div>
-                </div>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+              <div>
+                <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-white">
+                  Quiz Management ({pagination.total})
+                </h1>
+                <p className="text-gray-600 dark:text-gray-400 text-lg">
+                  Create, edit, and manage quizzes with questions and difficulty levels
+                </p>
               </div>
-            </div>
             
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-4 rounded-xl border border-blue-200 dark:border-blue-600">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
-                  <span className="text-blue-600 dark:text-blue-400 text-lg">📚</span>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-blue-800 dark:text-blue-200">
-                    {quizzes.filter(q => q.isActive).length}
-                  </div>
-                  <div className="text-sm text-blue-600 dark:text-blue-400 font-medium">
-                    Active Quizzes
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-4 rounded-xl border border-green-200 dark:border-green-600">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                  <span className="text-green-600 dark:text-green-400 text-lg">⭐</span>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-green-800 dark:text-green-200">
-                    {quizzes.filter(q => q.difficulty === 'advanced').length}
-                  </div>
-                  <div className="text-sm text-green-600 dark:text-green-400 font-medium">
-                    Advanced Level
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 p-4 rounded-xl border border-purple-200 dark:border-purple-600">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
-                  <span className="text-purple-600 dark:text-purple-400 text-lg">⏱️</span>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-purple-800 dark:text-purple-200">
-                    {quizzes.reduce((sum, q) => sum + (q.timeLimit || 0), 0)}
-                  </div>
-                  <div className="text-sm text-purple-600 dark:text-purple-400 font-medium">
-                    Total Time (min)
-                  </div>
-                </div>
-              </div>
-            </div>
+              <button
+                onClick={() => setShowForm(!showForm)}
+                className="mt-4 sm:mt-0 flex justify-center items-center px-4 py-2 
+                bg-gradient-to-r from-yellow-500 to-red-500 text-white 
+                dark:from-yellow-600 dark:to-red-700 
+                rounded-md hover:brightness-110 
+                transition-colors"
+              >
+                <FaPlus className="w-4 h-4 mr-2" />
+                Add Quiz
+              </button>
+              
           </div>
         </div>
-
         {/* Search and Filters */}
         <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
           <SearchFilter
@@ -650,6 +592,7 @@ const QuizPage = () => {
             <ViewToggle
               currentView={viewMode}
               onViewChange={setViewMode}
+              views={['table', 'list', 'grid']}
             />
             <div className="flex items-center justify-end space-x-2">
             <div className="flex items-center space-x-2">
@@ -674,13 +617,6 @@ const QuizPage = () => {
                 <option value={1000}>1000</option>
               </select>
             </div>
-            <button
-              onClick={() => setShowForm(!showForm)}
-              className="inline-flex items-center px-4 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all duration-200 shadow-lg hover:shadow-xl"
-            >
-              <FaPlus className="w-4 h-4 mr-2" />
-              Add Quiz
-            </button>
             </div>
           </div>
         </div>
@@ -994,7 +930,7 @@ const QuizPage = () => {
           ) : (
             <>
               {viewMode === "table" && <TableView />}
-              {viewMode === "card" && <CardView />}
+              {viewMode === "grid" && <CardView />}
               {viewMode === "list" && <ListView />}
             </>
           )}

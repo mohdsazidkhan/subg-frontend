@@ -441,7 +441,11 @@ export default function AdminBankDetails() {
 
           {/* View Toggle */}
           <div className="flex items-center justify-between mb-4">
-            <ViewToggle currentView={viewMode} onViewChange={setViewMode} />
+            <ViewToggle 
+              currentView={viewMode} 
+              onViewChange={setViewMode} 
+              views={['table', 'list', 'grid']}
+            />
             <div className="flex items-center space-x-2">
               <label className="text-sm text-gray-600 dark:text-gray-400">
                 Show:
@@ -496,7 +500,7 @@ export default function AdminBankDetails() {
           ) : (
             <>
               {viewMode === "table" && <TableView />}
-              {viewMode === "card" && <CardView />}
+              {viewMode === "grid" && <CardView />}
               {viewMode === "list" && <ListView />}
             </>
           )}

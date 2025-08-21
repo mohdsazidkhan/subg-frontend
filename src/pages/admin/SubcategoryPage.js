@@ -306,8 +306,11 @@ useEffect(() => {
             </div>
             <button
               onClick={() => setShowForm(!showForm)}
-              className="mt-4 sm:mt-0 inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-            >
+              className="mt-4 sm:mt-0 flex justify-center items-center px-4 py-2 
+              bg-gradient-to-r from-yellow-500 to-red-500 text-white 
+              dark:from-yellow-600 dark:to-red-700 
+              rounded-md hover:brightness-110 
+              transition-colors"            >
               <FaPlus className="w-4 h-4 mr-2" />
               Add Subcategory
             </button>
@@ -325,6 +328,7 @@ useEffect(() => {
             <ViewToggle
               currentView={viewMode}
               onViewChange={setViewMode}
+              views={['table', 'list', 'grid']}
             />
             <div className="flex items-center space-x-2">
               <label className="text-sm text-gray-600 dark:text-gray-400">Show:</label>
@@ -436,7 +440,7 @@ useEffect(() => {
           ) : (
             <>
               {viewMode === 'table' && <TableView />}
-              {viewMode === 'card' && <CardView />}
+              {viewMode === 'grid' && <CardView />}
               {viewMode === 'list' && <ListView />}
             </>
           )}

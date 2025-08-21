@@ -320,7 +320,7 @@ const PerformanceAnalytics = () => {
         {/* Filters and Export */}
         <div className="border p-6 rounded-xl shadow-lg mb-8 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
               <FaFilter className="w-5 h-5 text-gray-600 dark:text-gray-300" />
               <select
                 name="period"
@@ -355,59 +355,6 @@ const PerformanceAnalytics = () => {
             </button>
           </div>
         </div>
-
-        {/* Stats Cards */}
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {[
-            {
-              icon: FaChartLine,
-              label: "Overall Average Score",
-              value: `${data.overview?.overallAvgScore?.toFixed(2) || "0.00"}`,
-              iconBg: "bg-blue-100 dark:bg-blue-600",
-              iconColor: "text-blue-600 dark:text-white",
-            },
-            {
-              icon: FaTrophy,
-              label: "Total High Scores",
-              value: data.overview?.totalHighScores?.toLocaleString() || 0,
-              iconBg: "bg-green-100 dark:bg-green-600",
-              iconColor: "text-green-600 dark:text-white",
-            },
-            {
-              icon: FaUsers,
-              label: "Active Users",
-              value: data.overview?.activeUsers?.toLocaleString() || 0,
-              iconBg: "bg-purple-100 dark:bg-purple-600",
-              iconColor: "text-purple-600 dark:text-white",
-            },
-            {
-              icon: FaStar,
-              label: "Avg Quiz Attempts",
-              value: data.overview?.avgQuizAttempts?.toFixed(1) || "0.0",
-              iconBg: "bg-yellow-100 dark:bg-yellow-600",
-              iconColor: "text-yellow-600 dark:text-white",
-            },
-          ].map((item, idx) => (
-            <div
-              key={idx}
-              className="rounded-xl border p-6 shadow-lg hover:shadow-xl transition-shadow bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700"
-            >
-              <div className="flex items-center">
-                <div className={`p-3 rounded-full ${item.iconBg}`}>
-                  <item.icon className={`w-6 h-6 ${item.iconColor}`} />
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                    {item.label}
-                  </p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {item.value}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div> */}
 
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
@@ -458,7 +405,7 @@ const PerformanceAnalytics = () => {
       <div className="space-y-6">
       {/* High Scores Summary */}
       <div className="rounded-xl border p-6 shadow-lg bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-green-200 dark:border-green-700">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
               <span className="text-2xl">🏆</span>
@@ -470,7 +417,7 @@ const PerformanceAnalytics = () => {
           
           {/* Top High Score Achiever */}
           {getSortedTopPerformers().length > 0 && (
-            <div className="bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 px-4 py-2 rounded-lg border border-yellow-200 dark:border-yellow-600">
+            <div className="mt-4 md:mt-0 bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 px-4 py-2 rounded-lg border border-yellow-200 dark:border-yellow-600">
               <div className="text-center">
                 <div className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
                   🥇 Top Achiever
@@ -643,17 +590,7 @@ const PerformanceAnalytics = () => {
               </thead>
               <tbody>
                 {getSortedTopPerformers()?.map((p, i) => {
-                  // Performance rating based on high scores and average score
-                  // const getPerformanceRating = (highScores, avgScore) => {
-                  //   if (highScores >= 5 && avgScore >= 80) return { level: 'Elite', color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-100 dark:bg-purple-900/30', icon: '👑' };
-                  //   if (highScores >= 3 && avgScore >= 75) return { level: 'Excellent', color: 'text-green-600 dark:text-green-400', bg: 'bg-green-100 dark:bg-green-900/30', icon: '🌟' };
-                  //   if (highScores >= 2 && avgScore >= 70) return { level: 'Good', color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-100 dark:bg-blue-900/30', icon: '👍' };
-                  //   if (highScores >= 1 && avgScore >= 65) return { level: 'Average', color: 'text-yellow-600 dark:text-yellow-400', bg: 'bg-yellow-100 dark:bg-yellow-900/30', icon: '⚡' };
-                  //   return { level: 'Rising', color: 'text-orange-600 dark:text-orange-400', bg: 'bg-orange-100 dark:bg-orange-900/30', icon: '📈' };
-                  // };
-                  
-                  // const performance = getPerformanceRating(p.level?.highScoreQuizzes || 0, p.level?.averageScore || 0);
-                  
+
                   return (
                     <tr
                       key={i}
@@ -952,8 +889,8 @@ const PerformanceAnalytics = () => {
       </div>
       </div>
       <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
+        <div className="flex mb-4 md:mb-0 items-center gap-3">
           <div className="w-12 h-12 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-xl flex items-center justify-center">
             <span className="text-2xl">📊</span>
           </div>

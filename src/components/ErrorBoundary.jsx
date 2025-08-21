@@ -26,7 +26,12 @@ class ErrorBoundary extends React.Component {
   };
 
   handleGoHome = () => {
-    window.location.href = '/';
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if(userInfo?.role === 'admin'){
+      window.location.href = '/admin/dashboard';
+    }else{
+      window.location.href = '/';
+    }
   };
 
   render() {

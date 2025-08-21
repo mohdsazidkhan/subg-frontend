@@ -25,6 +25,8 @@ export default function AdminContacts() {
   // const [limit, setLimit] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState(isMobile ? 'list' : 'table');
+  
+
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [pagination, setPagination] = useState({});
 
@@ -304,6 +306,7 @@ export default function AdminContacts() {
             <ViewToggle
               currentView={viewMode}
               onViewChange={setViewMode}
+              views={['table', 'list', 'grid']}
             />
             <div className="flex items-center space-x-2">
               <label className="text-sm text-gray-600 dark:text-gray-400">Show:</label>
@@ -353,11 +356,11 @@ export default function AdminContacts() {
               </p>
             </div>
           ) : (
-            <>
-              {viewMode === 'table' && <TableView />}
-              {viewMode === 'card' && <CardView />}
-              {viewMode === 'list' && <ListView />}
-            </>
+                         <>
+               {viewMode === 'table' && <TableView />}
+               {viewMode === 'grid' && <CardView />}
+               {viewMode === 'list' && <ListView />}
+             </>
           )}
 
           {/* Pagination */}
