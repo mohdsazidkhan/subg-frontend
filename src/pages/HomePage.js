@@ -596,7 +596,7 @@ const HomePage = () => {
         </div>
 
         {/* Level-based Quizzes Section */}
-        <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 z-10">
+        <div className="container mx-auto px-0 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 z-10">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
             <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
               <FaStar className="text-yellow-500 text-lg sm:text-xl md:text-2xl" />
@@ -740,11 +740,11 @@ const HomePage = () => {
         <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4 md:mb-6 flex items-center gap-2">
           <FaLayerGroup className="text-yellow-500 text-lg sm:text-xl md:text-2xl" /> All Levels
         </h2>
-        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 md:mb-8 lg:mb-12 max-w-2xl sm:max-w-3xl px-4 sm:px-0">
+        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 md:mb-8 lg:mb-12 max-w-2xl sm:max-w-3xl px-0">
           Browse all available levels and their quizzes
         </p>
         {levels && levels?.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 px-4 sm:px-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 px-0">
             {levels
               ?.filter((level) => level.name !== "Zero Level")
               ?.map((level, i) => {
@@ -867,11 +867,11 @@ const HomePage = () => {
         <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4 md:mb-6 flex items-center gap-2">
           <FaBook className="text-yellow-500 text-lg sm:text-xl md:text-2xl" /> Categories
         </h2>
-        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 md:mb-8 lg:mb-12 max-w-2xl sm:max-w-3xl px-4 sm:px-0">
+        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 md:mb-8 lg:mb-12 max-w-2xl sm:max-w-3xl px-0">
           Explore quizzes by category and find your perfect learning path
         </p>
         {categories && categories?.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 px-4 sm:px-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 px-0">
             {categories?.map((category, idx) => {
               const Icon =
                 categoryIcons[category.name] || categoryIcons.Default;
