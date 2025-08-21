@@ -49,21 +49,21 @@ const Pagination = ({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white dark:bg-gray-800 px-4 py-3 border-t border-gray-200 dark:border-gray-700 mt-2 md:mt-4">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 bg-white dark:bg-gray-800 px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-t border-gray-200 dark:border-gray-700 mt-2 md:mt-4 shadow-sm">
       {showInfo && (
-        <div className="text-sm text-gray-700 dark:text-gray-300">
+        <div className="text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300 text-center sm:text-left">
           Showing {startItem} to {endItem} of {totalItems} results
         </div>
       )}
       
-      <div className="flex items-center space-x-1">
+      <div className="flex items-center space-x-1 sm:space-x-2">
         {/* Previous Button */}
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-2 text-sm font-medium text-gray-500 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2.5 text-xs sm:text-sm md:text-base font-medium text-gray-500 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 disabled:hover:scale-100"
         >
-          <FaChevronLeft className="w-4 h-4" />
+          <FaChevronLeft className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" />
         </button>
 
         {/* Page Numbers */}
@@ -72,11 +72,11 @@ const Pagination = ({
             key={index}
             onClick={() => typeof page === 'number' && onPageChange(page)}
             disabled={page === '...'}
-            className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+            className={`px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2.5 text-xs sm:text-sm md:text-base font-medium rounded-md transition-all duration-200 hover:scale-105 ${
               page === currentPage
-                ? 'bg-yellow-600 text-white border border-yellow-600'
+                ? 'bg-yellow-600 text-white border border-yellow-600 shadow-md'
                 : page === '...'
-                ? 'text-gray-400 cursor-default'
+                ? 'text-gray-400 cursor-default hover:scale-100'
                 : 'text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600'
             }`}
           >
@@ -88,9 +88,9 @@ const Pagination = ({
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-3 py-2 text-sm font-medium text-gray-500 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2.5 text-xs sm:text-sm md:text-base font-medium text-gray-500 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 disabled:hover:scale-100"
         >
-          <FaChevronRight className="w-4 h-4" />
+          <FaChevronRight className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" />
         </button>
       </div>
     </div>

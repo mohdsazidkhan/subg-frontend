@@ -52,3 +52,6 @@ const AnnualRewardsInfo = ({ compact = false, className = '' }) => {
 
 export default AnnualRewardsInfo;
 
+
+
+
