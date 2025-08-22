@@ -1,10 +1,8 @@
-import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaTrophy, FaBrain, FaShieldAlt, FaUsers, FaRocket, FaStar, FaAward, FaGraduationCap, FaLightbulb, FaHeart } from 'react-icons/fa';
 
 const AboutUs = () => {
-  useEffect(() => {
-    // logUserActivity('page_view', { page: 'AboutUs' });
-  }, []);
+  const navigate = useNavigate();
 
   return (
   <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
@@ -40,7 +38,7 @@ const AboutUs = () => {
               <strong>SUBG QUIZ</strong> is a revolutionary skill-based quiz platform where your knowledge can win you exciting rewards. We believe that learning should be engaging, rewarding, and accessible to everyone. Whether you're a trivia lover, competitive learner, or just looking to test your skills, SUBG QUIZ offers an unparalleled experience.
             </p>
             <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
-              We host daily quiz challenges on various topics like general knowledge, sports, entertainment, science, technology, and more. Our platform is designed to make learning fun while providing real rewards for your intellectual achievements.
+              We host level based quiz challenges on various topics like general knowledge, sports, entertainment, science, technology, and more. Our platform is designed to make learning fun while providing real rewards for your intellectual achievements.
             </p>
           </div>
 
@@ -62,7 +60,7 @@ const AboutUs = () => {
               </div>
               <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Real Rewards</h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Earn points, badges, and real rewards based on your performance and accuracy.
+                Earn real rewards based on your performance and accuracy.
               </p>
             </div>
 
@@ -70,9 +68,9 @@ const AboutUs = () => {
               <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-4">
                 <FaUsers className="text-white text-xl" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Live Competitions</h3>
+              <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Quiz Competitions</h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Participate in real-time quiz battles and compete with players worldwide.
+                Participate in quiz battles and compete with players worldwide.
               </p>
             </div>
 
@@ -92,7 +90,7 @@ const AboutUs = () => {
               </div>
               <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Premium Features</h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Subscribe to premium plans for exclusive quizzes and advanced features.
+                Subscribe to premium plans for exclusive level based quizzes and advanced features.
               </p>
             </div>
 
@@ -135,7 +133,7 @@ const AboutUs = () => {
                   What sets us apart is that we are <strong>100% skill-based</strong> — no gambling or luck involved. Every win is earned through your performance and knowledge. We promote fairness, data privacy, and responsible play.
                 </p>
                 <p className="text-gray-700 dark:text-gray-300">
-                  We are a <strong>UDYAM-registered Indian MSME</strong> led by <strong>Mohd Sazid Khan</strong>, committed to making learning both exciting and rewarding for everyone.
+                  We are a <strong>UDYAM registered</strong> led by <strong>Mohd Sazid Khan</strong>, committed to making learning both exciting and rewarding for everyone.
                 </p>
               </div>
               
@@ -178,7 +176,7 @@ const AboutUs = () => {
               <p className="text-xl mb-6 opacity-90 text-gray-800 dark:text-white">
                 Join thousands of learners who are already turning their knowledge into success
               </p>
-              <button className="bg-white text-gray-700 dark:text-red-600  px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
+              <button onClick={()=>navigate('/')} className="bg-white text-gray-700 dark:text-red-600  px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
                 Get Started Today
               </button>
             </div>

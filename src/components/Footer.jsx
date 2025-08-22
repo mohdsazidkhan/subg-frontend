@@ -20,7 +20,7 @@ export default function Footer() {
         Version {config.APP_VERSION}
       </p>
       <p className="mt-1 text-xs text-gray-800 dark:text-gray-400">
-        Made with ❤️ by {config.APP_AUTHOR}
+        Designed & Developed by <a target='_blank' rel='noreferrer' href='https://mohdsazidkhan.com'>{config.APP_AUTHOR}</a>
       </p>
     </footer>
     <div className="fixed bottom-0 left-0 w-full bg-red-600 text-white text-sm sm:text-base font-medium text-center py-1 z-50 shadow-lg">

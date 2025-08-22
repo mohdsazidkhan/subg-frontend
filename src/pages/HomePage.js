@@ -929,7 +929,7 @@ const HomePage = () => {
           </h2>
           <div className="absolute -top-10 right-10 w-32 h-32 bg-gradient-to-br from-yellow-300/30 to-red-300/20 rounded-full blur-2xl z-0 animate-pulse-slow" />
           <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tl from-indigo-300/20 to-blue-200/10 rounded-full blur-2xl z-0 animate-pulse-slow" />
-          <div className="relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6 w-full max-w-4xl z-10">
+          <div className="relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 sm:gap-6 w-full max-w-4xl z-10">
             <div className="flex flex-col items-center group">
               <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
                 <FaLevelUpAlt className="text-white text-xl sm:text-2xl md:text-3xl animate-float" />

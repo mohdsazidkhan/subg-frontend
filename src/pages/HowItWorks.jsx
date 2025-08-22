@@ -36,8 +36,8 @@ const HowItWorks = () => (
       </li>
     </ol>
 
-    <p className="mt-6 text-sm text-gray-600 dark:text-gray-400">
-      Note: SUBG QUIZ is a <strong>100% skill-based platform</strong>. There is no gambling, betting, or chance involved. Only knowledge, accuracy, and speed decide your rewards.
+    <p className="mt-6 text-sm text-orange-400 font-bold">
+      Note: SUBG QUIZ is a 100% skill-based platform. There is no gambling, betting, or chance involved. Only knowledge, accuracy, and speed decide your rewards.
     </p>
   </div>
 );

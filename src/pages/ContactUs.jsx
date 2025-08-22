@@ -110,7 +110,7 @@ const ContactUs = () => {
                       Email
                     </h3>
                     <p className="text-gray-600 dark:text-gray-300">
-                      subgquiz@gmail.com
+                      support@mohdsazidkhan.com
                     </p>
                   </div>
                 </div>

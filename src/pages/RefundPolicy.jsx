@@ -65,7 +65,7 @@ const RefundPolicy = () => (
 
     <h2 className="text-xl font-semibold mt-6 mb-2 text-gray-900 dark:text-white">8) Contact Us</h2>
     <p>
-      Need help with a payment or subscription? Contact <strong>support@subgquiz.com</strong> with your registered email/phone and order details.
+      Need help with a payment or subscription? Contact <strong>support@mohdsazidkhan.com</strong> with your registered email/phone and order details.
     </p>
   </div>
 );

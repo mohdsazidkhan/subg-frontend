@@ -102,9 +102,9 @@ const PrivacyPolicy = () => (
       We may update this policy to reflect product, legal, or security changes. The updated version will be posted here with a revised date. Continued use of SUBG QUIZ after updates constitutes acceptance of the revised policy.
     </p>
 
-    <h2 className="text-xl font-semibold mt-6 mb-2 text-gray-900 dark:text-white">10) Contact Us</h2>
+    <h2 className="text-xl font-semibold mt-6 mb-2 text-gray-900 dark:text-white">8) Contact Us</h2>
     <p>
-      For privacy questions or requests, please contact: <strong>support@subgquiz.com</strong>
+      For privacy questions or requests, please contact: <strong>support@mohdsazidkhan.com</strong>
     </p>
   </div>
 );
