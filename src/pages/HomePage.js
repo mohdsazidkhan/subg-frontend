@@ -294,179 +294,9 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Referral System Section - Visible to all users */}
+      {/* Top Performers Section */}
       <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
-        <div className="rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 border-2 border-purple-300/30">
-          <div className="text-center mb-6 sm:mb-8 md:mb-10">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-tr from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-xl sm:shadow-2xl animate-float">
-              <FaStar className="text-white text-2xl sm:text-3xl md:text-4xl drop-shadow-lg" />
-            </div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-800 dark:text-white mb-3 sm:mb-4 md:mb-6 drop-shadow-lg">
-              🎁 Referral Rewards System
-            </h2>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 dark:text-yellow-200 font-medium max-w-2xl sm:max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-0">
-              Invite friends and unlock{" "}
-              <span className="font-bold text-yellow-600 dark:text-yellow-300">
-                premium subscriptions
-              </span>{" "}
-              automatically!
-            </p>
-          </div>
-
-          {/* Referral Benefits Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
-            <div className="bg-gradient-to-br from-yellow-100 to-orange-200 dark:from-yellow-600/30 dark:to-orange-600/30 rounded-xl sm:rounded-2xl p-4 sm:p-6 border-2 border-yellow-400/50 text-center hover:scale-105 transition-transform duration-300">
-              <div className="text-2xl sm:text-3xl md:text-4xl mb-2 sm:mb-3">🎯</div>
-              <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-800 dark:text-white mb-1 sm:mb-2">
-                10 Referrals
-              </h3>
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-yellow-600 dark:text-yellow-300 mb-1 sm:mb-2">
-                ₹99 BASIC Plan
-              </div>
-              <p className="text-yellow-700 dark:text-yellow-200 text-xs sm:text-sm">
-                1 Year Free Subscription
-              </p>
-            </div>
-
-            <div className="bg-gradient-to-br from-red-100 to-pink-200 dark:from-red-600/30 dark:to-pink-600/30 rounded-xl sm:rounded-2xl p-4 sm:p-6 border-2 border-red-400/50 text-center hover:scale-105 transition-transform duration-300">
-              <div className="text-2xl sm:text-3xl md:text-4xl mb-2 sm:mb-3">🚀</div>
-              <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-800 dark:text-white mb-1 sm:mb-2">
-                50 Referrals
-              </h3>
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-red-600 dark:text-red-300 mb-1 sm:mb-2">
-                ₹499 PREMIUM Plan
-              </div>
-              <p className="text-red-700 dark:text-red-200 text-xs sm:text-sm">
-                1 Year Free Subscription
-              </p>
-            </div>
-
-            <div className="bg-gradient-to-br from-purple-100 to-indigo-200 dark:from-purple-600/30 dark:to-indigo-600/30 rounded-xl sm:rounded-2xl p-4 sm:p-6 border-2 border-purple-400/50 text-center hover:scale-105 transition-transform duration-300 sm:col-span-2 md:col-span-1">
-              <div className="text-2xl sm:text-3xl md:text-4xl mb-2 sm:mb-3">👑</div>
-              <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-800 dark:text-white mb-1 sm:mb-2">
-                100 Referrals
-              </h3>
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-purple-600 dark:text-purple-300 mb-1 sm:mb-2">
-                ₹999 PRO Plan
-              </div>
-              <p className="text-purple-700 dark:text-purple-200 text-xs sm:text-sm">
-                1 Year Free Subscription
-              </p>
-            </div>
-          </div>
-
-          {/* How It Works */}
-          <div className="bg-gray-100 dark:bg-white/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8">
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4 text-center">
-              How It Works
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-              <div className="text-center">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3">
-                  <span className="text-white font-bold text-sm sm:text-base md:text-lg">1</span>
-                </div>
-                <p className="text-gray-700 dark:text-yellow-200 text-xs sm:text-sm">
-                  Sign up and get your unique referral code
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3">
-                  <span className="text-white font-bold text-sm sm:text-base md:text-lg">2</span>
-                </div>
-                <p className="text-gray-700 dark:text-yellow-200 text-xs sm:text-sm">
-                  Share your code with friends
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3">
-                  <span className="text-white font-bold text-sm sm:text-base md:text-lg">3</span>
-                </div>
-                <p className="text-gray-700 dark:text-yellow-200 text-xs sm:text-sm">
-                  Friends join using your code
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3">
-                  <span className="text-white font-bold text-sm sm:text-base md:text-lg">4</span>
-                </div>
-                <p className="text-gray-700 dark:text-yellow-200 text-xs sm:text-sm">
-                  Unlock rewards at milestones!
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Call to Action */}
-          <div className="text-center">
-            {!isLoggedIn ? (
-              <div className="space-y-3 sm:space-y-4">
-                <p className="text-gray-700 dark:text-yellow-200 text-sm sm:text-base md:text-lg font-medium">
-                  Ready to start earning rewards?
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-                  <Link
-                    to="/register"
-                    className="inline-block bg-gradient-to-r from-yellow-500 to-red-600 hover:from-yellow-600 hover:to-red-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base md:text-lg"
-                  >
-                    🚀 Join Now & Get Referral Code
-                  </Link>
-                  <Link
-                    to="/login"
-                    className="inline-block bg-white/30 hover:bg-white/40 text-gray-800 dark:text-white font-semibold py-3 sm:py-4 px-6 sm:px-8 rounded-xl border-2 border-white/30 hover:border-white/50 transition-all duration-300 text-sm sm:text-base md:text-lg"
-                  >
-                    🔑 Already have an account? Login
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-3 sm:space-y-4">
-                <p className="text-gray-700 dark:text-yellow-200 text-sm sm:text-base md:text-lg font-medium">
-                  You're already part of the referral system!
-                </p>
-                <Link
-                  to="/profile"
-                  className="inline-block bg-gradient-to-r from-yellow-500 to-red-600 hover:from-yellow-600 hover:to-red-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base md:text-lg"
-                >
-                  📱 View Your Referral Code
-                </Link>
-              </div>
-            )}
-          </div>
-
-          {/* Additional Info */}
-          <div className="mt-8 text-center">
-            <p className="text-gray-700 dark:text-white/80 text-sm">
-              💡 <strong>Pro Tip:</strong> Share your referral code on social
-              media, WhatsApp groups, and with classmates to reach milestones
-              faster!
-            </p>
-          </div>
-
-          {/* Referral Code Preview */}
-          {!isLoggedIn && (
-            <div className="mt-6 bg-gray-100 dark:bg-white/10 rounded-2xl p-6 border border-gray-300 dark:border-white/20">
-              <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-3">
-                What Your Referral Code Will Look Like:
-              </h4>
-              <div className="flex items-center justify-center space-x-3 mb-3">
-                <div className="bg-gradient-to-r from-yellow-400 to-red-500 text-yellow-900 font-mono font-bold px-4 py-2 rounded-lg tracking-widest border-2 border-yellow-300 shadow-lg">
-                  ABC123XY
-                </div>
-                <button
-                  className="px-3 py-2 bg-yellow-400 text-yellow-900 font-bold rounded-lg shadow hover:bg-yellow-500 transition"
-                  onClick={() => navigator.clipboard.writeText("ABC123XY")}
-                  title="Copy Example Code"
-                >
-                  Copy
-                </button>
-              </div>
-              <p className="text-gray-700 dark:text-yellow-200 text-sm">
-                📱 <strong>Example:</strong> When friends join using your code,
-                you both get benefits!
-              </p>
-            </div>
-          )}
-        </div>
+        <TopPerformers />
       </div>
 
       {/* Hero Section */}
@@ -922,11 +752,7 @@ const HomePage = () => {
         quiz={selectedQuiz}
       />
 
-      {/* Top Performers Section */}
-      <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
-        <TopPerformers />
-      </div>
-
+    
       {/* Platform Stats Section */}
       <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
         <div className="bg-gradient-to-r from-yellow-100 to-red-100 dark:from-gray-800 dark:to-yellow-900/30 rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 lg:p-10 border border-yellow-200 dark:border-yellow-700 flex flex-col items-center relative overflow-hidden">
@@ -1003,6 +829,181 @@ const HomePage = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+       {/* Referral System Section - Visible to all users */}
+       <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
+        <div className="rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 border-2 border-purple-300/30">
+          <div className="text-center mb-6 sm:mb-8 md:mb-10">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-tr from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-xl sm:shadow-2xl animate-float">
+              <FaStar className="text-white text-2xl sm:text-3xl md:text-4xl drop-shadow-lg" />
+            </div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-800 dark:text-white mb-3 sm:mb-4 md:mb-6 drop-shadow-lg">
+              🎁 Referral Rewards System
+            </h2>
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 dark:text-yellow-200 font-medium max-w-2xl sm:max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-0">
+              Invite friends and unlock{" "}
+              <span className="font-bold text-yellow-600 dark:text-yellow-300">
+                premium subscriptions
+              </span>{" "}
+              automatically!
+            </p>
+          </div>
+
+          {/* Referral Benefits Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+            <div className="bg-gradient-to-br from-yellow-100 to-orange-200 dark:from-yellow-600/30 dark:to-orange-600/30 rounded-xl sm:rounded-2xl p-4 sm:p-6 border-2 border-yellow-400/50 text-center hover:scale-105 transition-transform duration-300">
+              <div className="text-2xl sm:text-3xl md:text-4xl mb-2 sm:mb-3">🎯</div>
+              <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-800 dark:text-white mb-1 sm:mb-2">
+                10 Referrals
+              </h3>
+              <div className="text-lg sm:text-xl md:text-2xl font-bold text-yellow-600 dark:text-yellow-300 mb-1 sm:mb-2">
+                ₹99 BASIC Plan
+              </div>
+              <p className="text-yellow-700 dark:text-yellow-200 text-xs sm:text-sm">
+                1 Year Free Subscription
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-red-100 to-pink-200 dark:from-red-600/30 dark:to-pink-600/30 rounded-xl sm:rounded-2xl p-4 sm:p-6 border-2 border-red-400/50 text-center hover:scale-105 transition-transform duration-300">
+              <div className="text-2xl sm:text-3xl md:text-4xl mb-2 sm:mb-3">🚀</div>
+              <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-800 dark:text-white mb-1 sm:mb-2">
+                50 Referrals
+              </h3>
+              <div className="text-lg sm:text-xl md:text-2xl font-bold text-red-600 dark:text-red-300 mb-1 sm:mb-2">
+                ₹499 PREMIUM Plan
+              </div>
+              <p className="text-red-700 dark:text-red-200 text-xs sm:text-sm">
+                1 Year Free Subscription
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-100 to-indigo-200 dark:from-purple-600/30 dark:to-indigo-600/30 rounded-xl sm:rounded-2xl p-4 sm:p-6 border-2 border-purple-400/50 text-center hover:scale-105 transition-transform duration-300 sm:col-span-2 md:col-span-1">
+              <div className="text-2xl sm:text-3xl md:text-4xl mb-2 sm:mb-3">👑</div>
+              <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-800 dark:text-white mb-1 sm:mb-2">
+                100 Referrals
+              </h3>
+              <div className="text-lg sm:text-xl md:text-2xl font-bold text-purple-600 dark:text-purple-300 mb-1 sm:mb-2">
+                ₹999 PRO Plan
+              </div>
+              <p className="text-purple-700 dark:text-purple-200 text-xs sm:text-sm">
+                1 Year Free Subscription
+              </p>
+            </div>
+          </div>
+
+          {/* How It Works */}
+          <div className="bg-gray-100 dark:bg-white/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8">
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4 text-center">
+              How It Works
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+              <div className="text-center">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3">
+                  <span className="text-white font-bold text-sm sm:text-base md:text-lg">1</span>
+                </div>
+                <p className="text-gray-700 dark:text-yellow-200 text-xs sm:text-sm">
+                  Sign up and get your unique referral code
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3">
+                  <span className="text-white font-bold text-sm sm:text-base md:text-lg">2</span>
+                </div>
+                <p className="text-gray-700 dark:text-yellow-200 text-xs sm:text-sm">
+                  Share your code with friends
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3">
+                  <span className="text-white font-bold text-sm sm:text-base md:text-lg">3</span>
+                </div>
+                <p className="text-gray-700 dark:text-yellow-200 text-xs sm:text-sm">
+                  Friends join using your code
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3">
+                  <span className="text-white font-bold text-sm sm:text-base md:text-lg">4</span>
+                </div>
+                <p className="text-gray-700 dark:text-yellow-200 text-xs sm:text-sm">
+                  Unlock rewards at milestones!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Call to Action */}
+          <div className="text-center">
+            {!isLoggedIn ? (
+              <div className="space-y-3 sm:space-y-4">
+                <p className="text-gray-700 dark:text-yellow-200 text-sm sm:text-base md:text-lg font-medium">
+                  Ready to start earning rewards?
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+                  <Link
+                    to="/register"
+                    className="inline-block bg-gradient-to-r from-yellow-500 to-red-600 hover:from-yellow-600 hover:to-red-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base md:text-lg"
+                  >
+                    🚀 Join Now & Get Referral Code
+                  </Link>
+                  <Link
+                    to="/login"
+                    className="inline-block bg-white/30 hover:bg-white/40 text-gray-800 dark:text-white font-semibold py-3 sm:py-4 px-6 sm:px-8 rounded-xl border-2 border-white/30 hover:border-white/50 transition-all duration-300 text-sm sm:text-base md:text-lg"
+                  >
+                    🔑 Already have an account? Login
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-3 sm:space-y-4">
+                <p className="text-gray-700 dark:text-yellow-200 text-sm sm:text-base md:text-lg font-medium">
+                  You're already part of the referral system!
+                </p>
+                <Link
+                  to="/profile"
+                  className="inline-block bg-gradient-to-r from-yellow-500 to-red-600 hover:from-yellow-600 hover:to-red-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base md:text-lg"
+                >
+                  📱 View Your Referral Code
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Additional Info */}
+          <div className="mt-8 text-center">
+            <p className="text-gray-700 dark:text-white/80 text-sm">
+              💡 <strong>Pro Tip:</strong> Share your referral code on social
+              media, WhatsApp groups, and with classmates to reach milestones
+              faster!
+            </p>
+          </div>
+
+          {/* Referral Code Preview */}
+          {!isLoggedIn && (
+            <div className="mt-6 bg-gray-100 dark:bg-white/10 rounded-2xl p-6 border border-gray-300 dark:border-white/20">
+              <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-3">
+                What Your Referral Code Will Look Like:
+              </h4>
+              <div className="flex items-center justify-center space-x-3 mb-3">
+                <div className="bg-gradient-to-r from-yellow-400 to-red-500 text-yellow-900 font-mono font-bold px-4 py-2 rounded-lg tracking-widest border-2 border-yellow-300 shadow-lg">
+                  ABC123XY
+                </div>
+                <button
+                  className="px-3 py-2 bg-yellow-400 text-yellow-900 font-bold rounded-lg shadow hover:bg-yellow-500 transition"
+                  onClick={() => navigator.clipboard.writeText("ABC123XY")}
+                  title="Copy Example Code"
+                >
+                  Copy
+                </button>
+              </div>
+              <p className="text-gray-700 dark:text-yellow-200 text-sm">
+                📱 <strong>Example:</strong> When friends join using your code,
+                you both get benefits!
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
