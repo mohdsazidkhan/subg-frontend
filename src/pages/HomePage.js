@@ -28,6 +28,7 @@ import { FaMagic } from "react-icons/fa";
 import API from "../utils/api";
 import { hasActiveSubscription } from "../utils/subscriptionUtils";
 import QuizStartModal from "../components/QuizStartModal";
+import TopPerformers from "../components/TopPerformers";
 import { BsSearch } from "react-icons/bs";
 // Level badge icon mapping
 
@@ -920,6 +921,11 @@ const HomePage = () => {
         onConfirm={handleConfirmQuizStart}
         quiz={selectedQuiz}
       />
+
+      {/* Top Performers Section */}
+      <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
+        <TopPerformers />
+      </div>
 
       {/* Platform Stats Section */}
       <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">

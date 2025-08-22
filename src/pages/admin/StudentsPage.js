@@ -13,9 +13,6 @@ const StudentsPage = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [pagination, setPagination] = useState({});
   const [viewMode, setViewMode] = useState(isMobile ? 'list' : 'table');
   const [filters, setFilters] = useState({
     status: '',
@@ -27,58 +24,48 @@ const StudentsPage = () => {
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isOpen = useSelector((state) => state.sidebar.isOpen);
 
-  const fetchStudents = useCallback(async (page = 1, search = '', filterParams = {}, limit = itemsPerPage) => {
+  const fetchStudents = useCallback(async (search = '', filterParams = {}) => {
   try {
     setLoading(true);
     const params = {
-      page,
-      limit,
       ...(search && { search }),
       ...filterParams
     };
     const response = await API.getAdminStudents(params);
     setStudents(response.students || response);
-    setPagination(response.pagination || {});
   } catch (error) {
     console.error('Error fetching students:', error);
     toast.error('Failed to fetch students');
   } finally {
     setLoading(false);
   }
-}, [itemsPerPage]);
+}, []);
 
 
   const debouncedSearch = useDebounce(searchTerm, 1000);
 
 useEffect(() => {
-  fetchStudents(currentPage, debouncedSearch, filters, itemsPerPage);
-}, [currentPage, debouncedSearch, filters, itemsPerPage, fetchStudents]);
+  fetchStudents(debouncedSearch, filters);
+}, [debouncedSearch, filters, fetchStudents]);
 
 
   const handleSearch = (value) => {
     setSearchTerm(value);
-    setCurrentPage(1);
   };
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
-    setCurrentPage(1);
   };
 
   const handleClearFilters = () => {
     setFilters({ status: '', level: '' });
-    setCurrentPage(1);
-  };
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
   };
 
   const handleStatusChange = async (studentId, newStatus) => {
     try {
       await API.updateStudent(studentId, { status: newStatus });
       toast.success('Student status updated successfully!');
-      fetchStudents(currentPage, searchTerm, filters);
+      fetchStudents(searchTerm, filters);
     } catch (error) {
       console.error('Error updating student status:', error);
       toast.error('Failed to update student status');
@@ -90,7 +77,7 @@ useEffect(() => {
       try {
         await API.deleteStudent(id);
         toast.success('Student deleted successfully!');
-        fetchStudents(currentPage, searchTerm, filters);
+        fetchStudents(searchTerm, filters);
       } catch (error) {
         console.error('Error deleting student:', error);
         toast.error('Failed to delete student');
@@ -222,9 +209,6 @@ useEffect(() => {
     }
   ];
 
-  // Define actions for ResponsiveTable
-  // All actions are now handled in renderStudentActions function
-
   // Custom render function for student actions that includes status dropdown
   const renderStudentActions = (student) => (
     <div className="flex items-center space-x-2">
@@ -278,7 +262,7 @@ useEffect(() => {
           <div className="flex items-center gap-4 mb-4">
             <div>
               <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-white">
-              Manage Students ({pagination.total || 0})
+              Manage Students ({students.length})
               </h1>
               <p className="text-gray-600 dark:text-gray-400 text-lg">
                 Manage and monitor student accounts, performance, and engagement
@@ -308,8 +292,7 @@ useEffect(() => {
             columns={columns}
             viewModes={['table', 'list', 'grid']}
             defaultView={viewMode}
-            itemsPerPage={itemsPerPage}
-            showPagination={true}
+            showPagination={false}
             showViewToggle={true}
             loading={loading}
             emptyMessage="No students found"

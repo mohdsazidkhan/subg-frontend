@@ -27,12 +27,12 @@ const ResponsiveTable = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPageState, setItemsPerPage] = useState(itemsPerPage);
 
-  // Calculate pagination
+  // Calculate pagination - if pagination is disabled, show all data
   const totalItems = data.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPageState);
-  const startIndex = (currentPage - 1) * itemsPerPageState;
-  const endIndex = startIndex + itemsPerPageState;
-  const currentData = data.slice(startIndex, endIndex);
+  const totalPages = showPagination ? Math.ceil(totalItems / itemsPerPageState) : 1;
+  const startIndex = showPagination ? (currentPage - 1) * itemsPerPageState : 0;
+  const endIndex = showPagination ? startIndex + itemsPerPageState : totalItems;
+  const currentData = showPagination ? data.slice(startIndex, endIndex) : data;
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -404,18 +404,20 @@ const ResponsiveTable = ({
           )}
           
           {/* Items per page selector */}
-          <div className="flex items-center space-x-3 sm:space-x-4">
-            <select
-              value={itemsPerPageState}
-              onChange={handleItemsPerPageChange}
-              className="px-3 py-2 sm:px-4 sm:py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-              <option value={50}>50</option>
-            </select>
-          </div>
+          {showPagination && (
+            <div className="flex items-center space-x-3 sm:space-x-4">
+              <select
+                value={itemsPerPageState}
+                onChange={handleItemsPerPageChange}
+                className="px-3 py-2 sm:px-4 sm:py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+              </select>
+            </div>
+          )}
         </div>
       </div>
 

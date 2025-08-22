@@ -133,12 +133,10 @@ const PerformanceAnalytics = () => {
   if (loading)
     return (
       <div
-        className={`min-h-screen ${
-          darkMode ? "bg-gray-900 text-white" : "bg-gray-50"
-        }`}
+        className={`min-h-screen`}
       >
         <div className="flex items-center justify-center h-screen">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-20 w-20 border-b-2 border-yellow-600"></div>
         </div>
       </div>
     );
@@ -146,9 +144,7 @@ const PerformanceAnalytics = () => {
   if (error)
     return (
       <div
-        className={`min-h-screen ${
-          darkMode ? "bg-gray-900 text-white" : "bg-gray-50"
-        } p-6`}
+        className={`min-h-screen p-6`}
       >
         <div className="max-w-4xl mx-auto">
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
@@ -161,9 +157,7 @@ const PerformanceAnalytics = () => {
   if (!data)
     return (
       <div
-        className={`min-h-screen ${
-          darkMode ? "bg-gray-900 text-white" : "bg-gray-50"
-        } p-6`}
+        className={`min-h-screenp-6`}
       >
         <div className="max-w-4xl mx-auto">
           <div className="text-center text-gray-500">No data available</div>
