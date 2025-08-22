@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FaTable, FaList, FaTh } from 'react-icons/fa';
 import config from '../config/appConfig';
+import { Link } from 'react-router-dom';
 
 const TopPerformers = () => {
   const [viewMode, setViewMode] = useState("table");
@@ -48,9 +49,24 @@ const TopPerformers = () => {
     return performers.sort((a, b) => (b.level?.highScoreQuizzes || 0) - (a.level?.highScoreQuizzes || 0));
   };
 
-  // Don't show anything if user is not logged in
+  // Logged-out state UI
   if (!isLoggedIn) {
-    return null;
+    return (
+      <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white">🏆 Top Performers</h3>
+        </div>
+        <div className="text-center py-10">
+          <p className="text-gray-700 dark:text-gray-300 text-lg mb-4">Login to View Your Rank</p>
+          <Link
+            to="/login"
+            className="inline-flex bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-1.5 sm:py-2 px-4 sm:px-6 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-xs sm:text-sm md:text-base"
+          >
+            Login
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   if (loading) {
