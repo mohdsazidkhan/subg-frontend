@@ -601,11 +601,11 @@ import { Link } from 'react-router-dom';
 
       {/* Extended Competition Zone - When current user is not in top 10 */}
       {data?.surroundingUsers && data.surroundingUsers.length > 0 && !topPerformers.some(p => p.userId === currentUserId) && (
-        <div className="mt-12 p-8 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl border-2 border-purple-300 dark:border-pink-500 shadow-xl relative">
+        <div className="mt-12 p-3 md:p-6lg:p-8 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl border-2 border-purple-300 dark:border-pink-500 shadow-xl relative">
 
           <div className="text-center mb-8">
             <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 flex items-center justify-center gap-3">
-              🎯 Your Competition Zone
+              🎯 Your Can DO This
             </h4>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               You're not in the top 10 yet, but here's your current position and nearby competitors to help you climb up!
