@@ -605,7 +605,7 @@ import { Link } from 'react-router-dom';
 
           <div className="text-center mb-8">
             <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 flex items-center justify-center gap-3">
-              🎯 Your Can DO This
+              🎯 Your Competition Zone
             </h4>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               You're not in the top 10 yet, but here's your current position and nearby competitors to help you climb up!
