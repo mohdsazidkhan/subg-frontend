@@ -172,37 +172,55 @@ import { Link } from 'react-router-dom';
         </div>
       </div>
 
-      {/* Summary Stats */}
-      {data && (
-        <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-            <div>
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                {data.total || 0}
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Total Participants</div>
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-                {data.topPerformers?.length || 0}
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Top 10</div>
-            </div>
-            {data.currentUser && (
-              <div>
-                <div className="text-2xl font-bold text-red-600 dark:text-red-400">
-                  #{data.currentUser.position}
+      {/* Current User Position Section */}
+      {data?.currentUser && (
+        <div className="my-8 p-3 lg:p-6 bg-gradient-to-r from-red-50 to-yellow-50 dark:from-red-900/20 dark:to-yellow-900/20 rounded-xl border-2 border-red-200 dark:border-yellow-600">
+          <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            🎯 Your Current Position
+          </h4>
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-lg">
+            <div className="flex flex-col lg:flex-row items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-red-500 to-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg">
+                  {data.currentUser.position}
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Your Rank</div>
+                <div>
+                  <h5 className="text-xl font-bold text-gray-900 dark:text-white">
+                    {data.currentUser.name}
+                  </h5>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    Level {data.currentUser.level.currentLevel} - {data.currentUser.level.levelName}
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Position #{data.currentUser.position} out of {data.total} students
+                  </p>
+                </div>
               </div>
-            )}
+              <div className="flex gap-4">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                    {data.currentUser.level.highScoreQuizzes}
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">High Scores</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                    {data.currentUser.level.quizzesPlayed}
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">Total Quizzes</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
 
       {/* Table View */}
       {viewMode === "table" && (
-        <div className="overflow-x-auto border-2 border-blue-300 dark:border-indigo-500 rounded-2xl p-6 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-900/10 dark:to-indigo-900/10">
+        <div className="overflow-x-auto border-2 border-blue-300 dark:border-indigo-500 rounded-2xl p-3 lg:p-6 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-900/10 dark:to-indigo-900/10">
+          <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            🎯 Top 10 Performers
+          </h4>
           <table className="w-full">
             <thead>
               <tr className="border-b-2 border-blue-200 dark:border-blue-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
@@ -345,110 +363,12 @@ import { Link } from 'react-router-dom';
         </div>
       )}
 
-      {/* Current User Position Section */}
-      {data?.currentUser && (
-        <div className="mt-8 p-3 lg:p-6 bg-gradient-to-r from-red-50 to-yellow-50 dark:from-red-900/20 dark:to-yellow-900/20 rounded-xl border-2 border-red-200 dark:border-yellow-600">
-          <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-            🎯 Your Current Position
-          </h4>
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-lg">
-            <div className="flex flex-col lg:flex-row items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-red-500 to-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg">
-                  {data.currentUser.position}
-                </div>
-                <div>
-                  <h5 className="text-xl font-bold text-gray-900 dark:text-white">
-                    {data.currentUser.name}
-                  </h5>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    Level {data.currentUser.level.currentLevel} - {data.currentUser.level.levelName}
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Position #{data.currentUser.position} out of {data.total} students
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-                    {data.currentUser.level.highScoreQuizzes}
-                  </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-300">High Scores</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                    {data.currentUser.level.quizzesPlayed}
-                  </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-300">Total Quizzes</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Surrounding Users Section */}
-      {data?.surroundingUsers && data.surroundingUsers.length > 0 && (
-        <div className="mt-8 mb-8">
-          <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-            🔍 Your Competition Zone
-          </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {data.surroundingUsers.map((user, index) => (
-              <div
-                key={user.userId}
-                className={`p-4 rounded-lg border transition-all duration-200 ${
-                  user.isCurrentUser
-                    ? "bg-gradient-to-r from-red-100 to-yellow-100 dark:from-red-800 dark:to-yellow-900 border-red-400 dark:border-yellow-600 shadow-lg"
-                    : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600 hover:shadow-md"
-                }`}
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg ${
-                    user.isCurrentUser
-                      ? "bg-gradient-to-r from-red-500 to-yellow-500"
-                      : "bg-gradient-to-r from-blue-500 to-indigo-500"
-                  }`}>
-                    {user.isCurrentUser ? "👤" : user.position}
-                  </div>
-                  <div>
-                    <h6 className="font-semibold text-gray-900 dark:text-white">
-                      {user.name}
-                      {user.isCurrentUser && (
-                        <span className="ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-200 text-red-900 dark:bg-red-700 dark:text-red-100">
-                          You
-                        </span>
-                      )}
-                    </h6>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">
-                      Level {user.level.currentLevel} - {user.level.levelName}
-                    </p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-2 text-sm">
-                  <div className="text-center bg-gray-50 dark:bg-gray-700 rounded p-2">
-                    <div className="font-bold text-green-600 dark:text-green-400">
-                      {user.level.highScoreQuizzes}
-                    </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">High Scores</div>
-                  </div>
-                  <div className="text-center bg-gray-50 dark:bg-gray-700 rounded p-2">
-                    <div className="font-bold text-blue-600 dark:text-blue-400">
-                      {user.level.quizzesPlayed}
-                    </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">Quizzes</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* List View */}
       {viewMode === "list" && (
-        <div className="space-y-4 border-2 border-blue-300 dark:border-indigo-500 rounded-2xl p-6 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-900/10 dark:to-indigo-900/10">
+        <div className="space-y-4 border-2 border-blue-300 dark:border-indigo-500 rounded-2xl p-3 lg:p-6 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-900/10 dark:to-indigo-900/10">
+          <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            🎯 Top 10 Performers
+          </h4>
           {topPerformers.map((p, i) => (
             <div
               key={i}
@@ -533,7 +453,12 @@ import { Link } from 'react-router-dom';
 
       {/* Grid View */}
       {viewMode === "grid" && (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 border-2 border-blue-300 dark:border-indigo-500 rounded-2xl p-6 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-900/10 dark:to-indigo-900/10">
+        <div className='space-y-4 border-2 border-blue-300 dark:border-indigo-500 rounded-2xl p-3 lg:p-6 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-900/10 dark:to-indigo-900/10'>
+         <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            🎯 Top 10 Performers
+          </h4>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
+         
           {topPerformers.map((p, i) => (
             <div
               key={i}
@@ -611,6 +536,66 @@ import { Link } from 'react-router-dom';
               </div>
             </div>
           ))}
+        </div>
+        </div>
+      )}
+ 
+
+      {/* Surrounding Users Section */}
+      {data?.surroundingUsers && data.surroundingUsers.length > 0 && (
+        <div className="mt-8 mb-8">
+          <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            🔍 Your Competition Zone
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {data.surroundingUsers.map((user, index) => (
+              <div
+                key={user.userId}
+                className={`p-4 rounded-lg border transition-all duration-200 ${
+                  user.isCurrentUser
+                    ? "bg-gradient-to-r from-red-100 to-yellow-100 dark:from-red-800 dark:to-yellow-900 border-red-400 dark:border-yellow-600 shadow-lg"
+                    : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600 hover:shadow-md"
+                }`}
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg ${
+                    user.isCurrentUser
+                      ? "bg-gradient-to-r from-red-500 to-yellow-500"
+                      : "bg-gradient-to-r from-blue-500 to-indigo-500"
+                  }`}>
+                    {user.isCurrentUser ? "👤" : user.position}
+                  </div>
+                  <div>
+                    <h6 className="font-semibold text-gray-900 dark:text-white">
+                      {user.name}
+                      {user.isCurrentUser && (
+                        <span className="ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-200 text-red-900 dark:bg-red-700 dark:text-red-100">
+                          You
+                        </span>
+                      )}
+                    </h6>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                      Level {user.level.currentLevel} - {user.level.levelName}
+                    </p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div className="text-center bg-gray-50 dark:bg-gray-700 rounded p-2">
+                    <div className="font-bold text-green-600 dark:text-green-400">
+                      {user.level.highScoreQuizzes}
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">High Scores</div>
+                  </div>
+                  <div className="text-center bg-gray-50 dark:bg-gray-700 rounded p-2">
+                    <div className="font-bold text-blue-600 dark:text-blue-400">
+                      {user.level.quizzesPlayed}
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Quizzes</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
@@ -716,32 +701,10 @@ import { Link } from 'react-router-dom';
             </div>
           </div>
 
-          {/* Motivation Message */}
-          <div className="text-center">
-            <div className="bg-white/90 dark:bg-gray-800/90 rounded-xl p-6 border-2 border-purple-300 dark:border-purple-500 shadow-lg">
-              <p className="text-purple-700 dark:text-purple-300 font-bold text-lg mb-3">
-                🚀 Keep pushing! You're only <span className="text-2xl text-purple-800 dark:text-purple-200">
-                  {data.currentUser ? data.currentUser.position - 10 : 0} positions
-                </span> away from the top 10!
-              </p>
-              <p className="text-gray-400">
-                Focus on improving your high scores and completing more quizzes to climb the leaderboard.
-              </p>
-            </div>
-          </div>
+
         </div>
       )}
 
-      {/* Border Separator */}
-      {data?.surroundingUsers && data.surroundingUsers.length > 0 && !topPerformers.some(p => p.userId === currentUserId) && (
-        <div className="my-12 flex items-center justify-center">
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-purple-300 dark:via-purple-600 to-transparent"></div>
-          <div className="mx-6 px-4 py-2 bg-purple-100 dark:bg-purple-900/30 rounded-full border-2 border-purple-300 dark:border-purple-600">
-            <span className="text-purple-700 dark:text-purple-300 font-semibold text-sm">🏆 TOP 10 PERFORMERS</span>
-          </div>
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-purple-300 dark:via-purple-600 to-transparent"></div>
-        </div>
-      )}
     </div>
   );
 };
