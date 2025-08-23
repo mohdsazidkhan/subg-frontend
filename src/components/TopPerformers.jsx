@@ -542,7 +542,7 @@ import { Link } from 'react-router-dom';
  
 
       {/* Surrounding Users Section */}
-      {data?.surroundingUsers && data.surroundingUsers.length > 0 && (
+      {data?.surroundingUsers && data.surroundingUsers.length > 0 && topPerformers.some(p => p.userId === currentUserId) && (
         <div className="mt-8 mb-8">
           <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
             🔍 Your Competition Zone
