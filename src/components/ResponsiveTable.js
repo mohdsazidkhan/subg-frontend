@@ -391,38 +391,40 @@ const ResponsiveTable = ({
   return (
     <div className={`space-y-6 sm:space-y-8 ${className}`}>
       {/* Header with view toggle and items per page */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 sm:p-6 shadow-sm">
-        <div className="flex items-center justify-between gap-4">
-          {showViewToggle && (
-            <div className="flex items-center gap-3">
-              <ViewToggle
-                currentView={currentView}
-                onViewChange={handleViewChange}
-                views={viewModes}
-              />
-            </div>
-          )}
-          
-          {/* Items per page selector */}
-          {showPagination && (
-            <div className="flex items-center space-x-3 sm:space-x-4">
-              <select
-                value={itemsPerPageState}
-                onChange={handleItemsPerPageChange}
-                className="px-3 py-2 sm:px-4 sm:py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-              >
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-                <option value={50}>50</option>
-              </select>
-            </div>
-          )}
+      {(showViewToggle || showPagination) && (
+        <div>
+          <div className="flex items-center justify-between gap-4">
+            {showViewToggle && (
+              <div className="flex items-center gap-3">
+                <ViewToggle
+                  currentView={currentView}
+                  onViewChange={handleViewChange}
+                  views={viewModes}
+                />
+              </div>
+            )}
+            
+            {/* Items per page selector */}
+            {showPagination && (
+              <div className="flex items-center space-x-3 sm:space-x-4">
+                <select
+                  value={itemsPerPageState}
+                  onChange={handleItemsPerPageChange}
+                  className="px-3 py-2 sm:px-4 sm:py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                  <option value={50}>50</option>
+                </select>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Content based on view mode */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+      <div className="overflow-hidden">
         {currentView === 'table' && renderTableView()}
         {currentView === 'list' && <div className="p-4 sm:p-6">{renderListView()}</div>}
         {currentView === 'grid' && <div className="p-4 sm:p-6">{renderGridView()}</div>}
@@ -430,7 +432,7 @@ const ResponsiveTable = ({
 
       {/* Pagination */}
       {showPagination && totalPages > 1 && (
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+        <div>
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

@@ -271,8 +271,8 @@ const StudentsPage = () => {
       {user?.role === 'admin' && isAdminRoute && <Sidebar />}
       <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
         {/* Enhanced Header */}
-        <div className="mb-6 md:mb-8">
-          <div className="flex items-center gap-4 mb-4">
+        <div className="mb-4">
+          <div className="flex items-center gap-4 mb-2">
             <div>
               <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-white">
               Manage Students ({pagination.total || students.length})
