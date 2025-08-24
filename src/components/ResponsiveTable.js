@@ -14,6 +14,7 @@ const ResponsiveTable = ({
   showViewToggle = true,
   className = '',
   onRowClick = null,
+  onViewChange = null,
   loading = false,
   emptyMessage = "No data available",
   searchTerm = '',
@@ -41,6 +42,9 @@ const ResponsiveTable = ({
   const handleViewChange = (view) => {
     setCurrentView(view);
     setCurrentPage(1); // Reset to first page when changing view
+    if (onViewChange) {
+      onViewChange(view);
+    }
   };
 
   const handleItemsPerPageChange = (e) => {
@@ -426,8 +430,8 @@ const ResponsiveTable = ({
       {/* Content based on view mode */}
       <div className="overflow-hidden">
         {currentView === 'table' && renderTableView()}
-        {currentView === 'list' && <div className="p-4 sm:p-6">{renderListView()}</div>}
-        {currentView === 'grid' && <div className="p-4 sm:p-6">{renderGridView()}</div>}
+        {currentView === 'list' && <div>{renderListView()}</div>}
+        {currentView === 'grid' && <div>{renderGridView()}</div>}
       </div>
 
       {/* Pagination */}

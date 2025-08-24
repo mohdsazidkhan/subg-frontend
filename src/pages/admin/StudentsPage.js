@@ -291,13 +291,8 @@ const StudentsPage = () => {
           placeholder="Search students by name, email, or phone..."
         />
 
-        {/* View Toggle and Items Per Page */}
-        <div className="flex items-center justify-between mb-4">
-          <ViewToggle
-            currentView={viewMode}
-            onViewChange={setViewMode}
-            views={['table', 'list', 'grid']}
-          />
+        {/* Items Per Page */}
+        <div className="flex items-center justify-end mb-4">
           <div className="flex items-center space-x-2">
             <label className="text-sm text-gray-600 dark:text-gray-400">Show:</label>
             <select
@@ -340,7 +335,7 @@ const StudentsPage = () => {
               viewModes={['table', 'list', 'grid']}
               defaultView={viewMode}
               showPagination={false}
-              showViewToggle={false}
+              showViewToggle={true}
               loading={loading}
               emptyMessage="No students found"
               onRowClick={(student) => {
