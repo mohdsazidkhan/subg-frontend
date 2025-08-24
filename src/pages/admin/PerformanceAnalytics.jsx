@@ -882,7 +882,7 @@ const PerformanceAnalytics = () => {
 
       </div>
       </div>
-      <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+      <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700 mt-8">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
         <div className="flex mb-4 md:mb-0 items-center gap-3">
           <div className="w-12 h-12 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-xl flex items-center justify-center">

@@ -199,7 +199,7 @@ const ResponsiveTable = ({
                       <span className="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                         Ref Code
                       </span>
-                      <div className="w-1 h-1 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                      <div className="w-1 h-1 bg-red-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                     </div>
                     <div className="text-sm sm:text-base text-gray-900 dark:text-gray-100 font-medium">
                       {columns.find(col => col.key === 'referralCode')?.render?.(null, row) || row.referralCode || 'N/A'}
@@ -215,7 +215,7 @@ const ResponsiveTable = ({
                       <span className="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                         Ref Count
                       </span>
-                      <div className="w-1 h-1 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                      <div className="w-1 h-1 bg-red-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                     </div>
                     <div className="text-sm sm:text-base text-gray-900 dark:text-gray-100 font-medium">
                       {columns.find(col => col.key === 'referralCount')?.render?.(null, row) || row.referralCount || '0'}
@@ -228,7 +228,7 @@ const ResponsiveTable = ({
                       <span className="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                         Status
                       </span>
-                      <div className="w-1 h-1 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                      <div className="w-1 h-1 bg-red-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                     </div>
                     <div className="text-sm sm:text-base text-gray-900 dark:text-gray-100 font-medium">
                       {columns.find(col => col.key === 'status')?.render?.(null, row) || (
@@ -268,9 +268,9 @@ const ResponsiveTable = ({
         >
           {/* Card Header with gradient background */}
           <div className="relative mb-4">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-red-50 to-yellow-50 dark:from-red-900/20 dark:to-yellow-900/20 rounded-xl"></div>
             <div className="relative p-4 text-center">
-              <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center shadow-lg">
+              <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-red-500 to-yellow-500 rounded-full flex items-center justify-center shadow-lg">
                 <span className="text-white text-xl font-bold">
                   {row.name?.charAt(0)?.toUpperCase() || 'U'}
                 </span>
@@ -290,7 +290,7 @@ const ResponsiveTable = ({
                   <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                     Level
                   </span>
-                  <div className="w-2 h-2 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                  <div className="w-2 h-2 bg-red-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                 </div>
                 <div className="mt-1 text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
                   {columns.find(col => col.key === 'level')?.render?.(null, row) || row.level?.currentLevel || '1'}
@@ -299,10 +299,10 @@ const ResponsiveTable = ({
               
               <div className="group">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                  <span className="text-xs font-medium text-gray-400 uppercase tracking-wide">
                     Ref Code
                   </span>
-                  <div className="w-2 h-2 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                  <div className="w-2 h-2 bg-red-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                 </div>
                 <div className="mt-1 text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
                   {columns.find(col => col.key === 'referralCode')?.render?.(null, row) || row.referralCode || 'N/A'}
@@ -316,7 +316,7 @@ const ResponsiveTable = ({
                 <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                   Contact
                 </span>
-                <div className="w-2 h-2 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                <div className="w-2 h-2 bg-red-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
               </div>
               <div className="mt-1 text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
                 {columns.find(col => col.key === 'contact')?.render?.(null, row) || row.email || 'No email'}
@@ -330,7 +330,7 @@ const ResponsiveTable = ({
                   <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                     Ref Count
                   </span>
-                  <div className="w-2 h-2 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                  <div className="w-2 h-2 bg-red-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                 </div>
                 <div className="mt-1 text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
                   {columns.find(col => col.key === 'referralCount')?.render?.(null, row) || row.referralCount || '0'}
@@ -342,7 +342,7 @@ const ResponsiveTable = ({
                   <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                     Status
                   </span>
-                  <div className="w-2 h-2 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                  <div className="w-2 h-2 bg-red-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                 </div>
                 <div className="mt-1">
                   {columns.find(col => col.key === 'status')?.render?.(null, row) || (
@@ -372,7 +372,7 @@ const ResponsiveTable = ({
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-b-2 border-red-500"></div>
       </div>
     );
   }
