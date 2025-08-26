@@ -324,7 +324,7 @@ const HomePage = () => {
       </div>
 
       {/* All Levels and Categories sections are hidden if subscription is required */}
-      <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 z-10">
+      <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 z-10 mt-8 sm:mt-12 md:mt-16">
         {/* Info Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
           {/* Scholarship Info */}
@@ -428,7 +428,7 @@ const HomePage = () => {
         </div>
 
         {/* Level-based Quizzes Section */}
-        <div className="container mx-auto px-0">
+        <div className="container mx-auto px-0 mb-6 sm:mb-10 md:mb-12">
           <div className="flex items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
             <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
               <FaStar className="text-yellow-500 text-lg sm:text-xl md:text-2xl" />
