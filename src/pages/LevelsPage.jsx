@@ -270,7 +270,7 @@ const LevelsPage = () => {
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mb-2">
-                {highScoreQuizzes} / {userLevelData?.levelInfo?.nextLevel?.quizzesRequired} Quizzes
+                {highScoreQuizzes} / {userLevelData?.levelInfo?.progress?.quizzesPlayed} Quizzes
               </div>
               <div className="text-gray-600 dark:text-gray-300">
                 High-score quizzes completed (75%+ score)
