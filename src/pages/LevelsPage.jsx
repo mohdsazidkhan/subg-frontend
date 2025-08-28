@@ -92,7 +92,7 @@ const LevelsPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 flex items-center justify-center">
+      <div className="min-h-screen bg-subg-light dark:bg-subg-dark flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-yellow-600 mx-auto mb-4"></div>
           <p className="text-xl text-gray-600 dark:text-gray-300">Loading level data...</p>
@@ -103,7 +103,7 @@ const LevelsPage = () => {
 
   if (error && levels.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 flex items-center justify-center">
+      <div className="min-h-screen bg-subg-light dark:bg-subg-dark flex items-center justify-center">
         <div className="text-center">
           <div className="text-red-600 text-4xl mb-4">⚠️</div>
           <p className="text-red-600 text-xl">{error}</p>
