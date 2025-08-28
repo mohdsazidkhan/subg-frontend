@@ -366,7 +366,7 @@ export const SUBSCRIPTION_PLANS = {
   BASIC: {
     id: 'basic',
     name: 'Basic Plan',
-    price: 99,
+    price: 9,
     duration: '1 month',
     features: [
       'Access to all free quizzes',
@@ -378,8 +378,8 @@ export const SUBSCRIPTION_PLANS = {
   PREMIUM: {
     id: 'premium',
     name: 'Premium Plan',
-    price: 499,
-    duration: '3 months',
+    price: 49,
+    duration: '1 month',
     features: [
       'Access to all quizzes',
       'Priority support',
@@ -391,8 +391,8 @@ export const SUBSCRIPTION_PLANS = {
   PRO: {
     id: 'pro',
     name: 'Pro Plan',
-    price: 999,
-    duration: '6 months',
+    price: 99,
+    duration: '1 month',
     features: [
       'Access to all quizzes',
       'Priority support',

@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { handleAuthError } from '../utils/authUtils';
 import { toast } from 'react-toastify';
 import { useRewards } from '../hooks/useRewards';
-import AnnualRewardsInfo from '../components/AnnualRewardsInfo';
+import MonthlyRewardsInfo from '../components/MonthlyRewardsInfo';
 import { 
   FaUser, 
   FaEnvelope, 
@@ -13,15 +13,12 @@ import {
   FaTrophy, 
   FaMedal, 
   FaStar, 
-  FaBrain, 
-  FaRocket, 
-  // FaCalendarAlt, 
+  FaBrain,  
   FaAward, 
   FaArrowRight,
   FaChartLine,
   FaFire,
   FaBookOpen,
-  FaGem,
   FaUserGraduate,
   FaMagic,
   FaUniversity,
@@ -31,39 +28,27 @@ import {
   FaCheckCircle,
   FaBuilding,
   FaKey,
-  FaPlus
+  FaPlus,
+  FaRocket,
+  FaGem
 } from 'react-icons/fa';
 import { getSubscriptionStatusTextWithTheme } from '../utils/subscriptionUtils';
 import ShareComponent from '../components/ShareComponent';
-// Level badge icon mapping (same as HomePage)
+// Level badge icon mapping
 const levelBadgeIcons = {
-  'Zero Level': FaUserGraduate,
-  Rookie: FaStar,
-  Explorer: FaRocket,
-  Thinker: FaBrain,
-  Strategist: FaChartLine,
-  Achiever: FaAward,
-  Mastermind: FaGem,
-  Champion: FaTrophy,
-  Prodigy: FaMedal,
-  'Quiz Wizard': FaMagic,
-  Legend: FaCrown,
+  'Starter': FaUserGraduate,
+  'Rookie': FaStar,
+  'Explorer': FaRocket,
+  'Thinker': FaBrain,
+  'Strategist': FaChartLine,
+  'Achiever': FaAward,
+  'Mastermind': FaGem,
+  'Champion': FaTrophy,
+  'Prodigy': FaMedal,
+  'Wizard': FaMagic,
+  'Legend': FaCrown,
   Default: FaStar,
 };
-
-
-// const levels = [
-//   { number: 1, name: 'Rookie', quizzes: 2 },
-//   { number: 2, name: 'Explorer', quizzes: 4 },
-//   { number: 3, name: 'Thinker', quizzes: 8 },
-//   { number: 4, name: 'Strategist', quizzes: 16 },
-//   { number: 5, name: 'Achiever', quizzes: 32 },
-//   { number: 6, name: 'Mastermind', quizzes: 64 },
-//   { number: 7, name: 'Champion', quizzes: 64 },
-//   { number: 8, name: 'Prodigy', quizzes: 256 },
-//   { number: 9, name: 'Quiz Wizard', quizzes: 512 },
-//   { number: 10, name: 'Legend', quizzes: 1024 }
-// ];
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -323,7 +308,7 @@ const ProfilePage = () => {
     navigate("/quiz-result", {state: {quizResult: quiz}})
   }
   // Use new backend level structure
-  const userLevel = student?.levelInfo?.currentLevel || { number: 0, name: 'Zero Level' };
+  const userLevel = student?.levelInfo?.currentLevel || { number: 0, name: 'Starter' };
   const nextLevel = student?.levelInfo?.nextLevel;
   const quizzesPlayed = student?.levelInfo?.progress?.quizzesPlayed || 0;
   const highScoreQuizzes = student?.levelInfo?.progress?.highScoreQuizzes || 0;
@@ -332,9 +317,9 @@ const ProfilePage = () => {
   const highScoreRate = student?.levelInfo?.stats?.highScoreRate || 0;
 const message =
   "Refer with your friends and unlock paid subscriptions automatically on milestones!\n" +
-  "10 referrals = ₹99 BASIC plan,\n" +
-  "50 referrals = ₹499 PREMIUM plan,\n" +
-  "100 referrals = ₹999 PRO plan.\n" +
+              "2 referrals = ₹9 BASIC plan,\n" +
+            "5 referrals = ₹49 PREMIUM plan,\n" +
+            "10 referrals = ₹99 PRO plan.\n" +
   "Check out my Referral Code:\n" +
   `${student?.referralCode}\n` +
   "Join and get Paid Subscriptions Free!";
@@ -416,6 +401,22 @@ const message =
             )}
           </div>
           
+          {/* Migration Notice */}
+          <div className="mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-4 border border-blue-200 dark:border-blue-700">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center">
+                <span className="text-xl">🔄</span>
+              </div>
+              <div>
+                <h4 className="text-lg font-semibold text-blue-800 dark:text-blue-300">System Migration Complete!</h4>
+                <p className="text-sm text-blue-600 dark:text-blue-400">
+                  We've successfully migrated from the old yearly system to the new monthly system. 
+                  All users have been reset to Level 0 for a fresh start. Your old progress data is safely stored.
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Profile Information - Show either details or edit form */}
           {!isEditingProfile ? (
             // Show Profile Details
@@ -679,13 +680,13 @@ const message =
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-gray-700 dark:text-white text-sm font-medium">Progress to Next Milestone</span>
                   <span className="text-yellow-700 dark:text-yellow-300 text-sm font-bold">
-                    {student.referralCount || 0}/100
+                    {student.referralCount || 0}/10
                   </span>
                 </div>
                 <div className="w-full bg-gray-200 dark:bg-black/40 rounded-full h-3 overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-yellow-300 via-orange-400 to-red-500 h-3 rounded-full transition-all duration-1000 ease-out shadow-lg"
-                    style={{ width: `${Math.min((student.referralCount || 0), 100)}%` }}
+                    style={{ width: `${Math.min((student.referralCount || 0), 10)}%` }}
                   ></div>
                 </div>
               </div>
@@ -699,31 +700,31 @@ const message =
               <div className="flex items-center justify-between p-3 bg-gradient-to-r from-emerald-100 to-green-200 dark:from-emerald-400/25 dark:to-green-500/25 rounded-xl border border-emerald-300/40">
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-bold">10</span>
+                    <span className="text-white text-sm font-bold">2</span>
                   </div>
                   <span className="text-gray-800 dark:text-white font-medium"> Referrals - BASIC Plan</span>
                 </div>
-                <span className="text-emerald-800 dark:text-emerald-300 font-bold">₹99</span>
+                <span className="text-emerald-800 dark:text-emerald-300 font-bold">₹9</span>
               </div>
               
               <div className="flex items-center justify-between p-3 bg-gradient-to-r from-blue-100 to-indigo-200 dark:from-blue-400/25 dark:to-indigo-500/25 rounded-xl border border-blue-300/40">
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-bold">50</span>
+                    <span className="text-white text-sm font-bold">5</span>
                   </div>
                   <span className="text-gray-800 dark:text-white font-medium"> Referrals - PREMIUM Plan</span>
                 </div>
-                <span className="text-blue-800 dark:text-blue-300 font-bold">₹499</span>
+                <span className="text-blue-800 dark:text-blue-300 font-bold">₹49</span>
               </div>
               
               <div className="flex items-center justify-between p-3 bg-gradient-to-r from-purple-100 to-pink-200 dark:from-purple-400/25 dark:to-pink-500/25 rounded-xl border border-purple-300/40">
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-bold">100</span>
+                    <span className="text-white text-sm font-bold">10</span>
                   </div>
                   <span className="text-gray-800 dark:text-white font-medium"> Referrals - PRO Plan</span>
                 </div>
-                <span className="text-purple-800 dark:text-purple-300 font-bold">₹999</span>
+                <span className="text-purple-800 dark:text-purple-300 font-bold">₹99</span>
               </div>
             </div>
           </div>
@@ -1053,7 +1054,7 @@ const message =
                 Level Progression
               </h2>
               <p className="text-gray-600 dark:text-gray-300 text-lg">
-                Your journey from Zero Level to Legend
+                Your journey from Starter to Legend
               </p>
             </div>
           </div>
@@ -1137,9 +1138,9 @@ const message =
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                 <div className="text-center p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-2xl border border-purple-200 dark:border-purple-600">
                   <div className="text-lg sm:text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">
-                    {rewardsLoading ? '...' : (rewardsData?.locked?.length || 0)}
+                    {rewardsLoading ? '...' : (rewardsData?.monthlyRank || 'N/A')}
                   </div>
-                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Locked Rewards</div>
+                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Monthly Rank</div>
                 </div>
                 <div className="text-center p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-2xl border border-blue-200 dark:border-blue-600">
                   <div className="text-lg sm:text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
@@ -1156,35 +1157,37 @@ const message =
               </div>
             </div>
             
-            {/* Locked Rewards Details */}
-            {rewardsData?.locked && rewardsData.locked.length > 0 && (
-              <div className="mt-4 sm:mt-6">
-                <h4 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3 sm:mb-4 flex items-center gap-2">
-                  <span className="text-xl sm:text-2xl">🔒</span>
-                  Locked Rewards Details
-                </h4>
-                <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                  {rewardsData.locked.map((reward, index) => (
-                    <div key={reward?._id || `locked-${reward?.level}-${index}`} className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 sm:p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs sm:text-sm font-medium text-yellow-800 dark:text-yellow-300">
-                          Level {reward?.level || 'N/A'}
-                        </span>
-                        <span className="text-xs text-yellow-600 dark:text-yellow-400">
-                          {reward?.dateLocked ? new Date(reward.dateLocked).toLocaleDateString() : 'N/A'}
-                        </span>
-                      </div>
-                      <p className="text-lg sm:text-2xl font-bold text-yellow-700 dark:text-yellow-300 mb-2">
-                        ₹{(reward?.amount || 0).toLocaleString()}
-                      </p>
-                      <p className="text-xs text-yellow-600 dark:text-yellow-400">
-                        Complete Level 10 in Top 3 + 1024 high-score quizzes (75%+) to unlock
-                      </p>
+            {/* Monthly Top 3 Info */}
+            <div className="mt-4 sm:mt-6">
+              <h4 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3 sm:mb-4 flex items-center gap-2">
+                <span className="text-xl sm:text-2xl">🏆</span>
+                Monthly Top 3 Rewards
+              </h4>
+              <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4">
+                <div className="text-center">
+                  <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
+                    Every month, the top 3 users with Level 10 and ≥75% accuracy win prizes in 3:2:1 ratio from ₹9,999 total pool!
+                  </p>
+                  <div className="grid grid-cols-3 gap-4 text-center">
+                    <div className="bg-yellow-100 dark:bg-yellow-800/30 rounded-lg p-3">
+                      <div className="text-2xl mb-1">🥇</div>
+                      <div className="text-xs font-semibold text-yellow-800 dark:text-yellow-200">1st Place</div>
+                      <div className="text-lg font-bold text-yellow-700 dark:text-yellow-300">₹4,999</div>
                     </div>
-                  ))}
+                    <div className="bg-gray-100 dark:bg-gray-800/30 rounded-lg p-3">
+                      <div className="text-2xl mb-1">🥈</div>
+                      <div className="text-xs font-semibold text-gray-800 dark:text-gray-200">2nd Place</div>
+                      <div className="text-lg font-bold text-gray-700 dark:text-gray-300">₹3,333</div>
+                    </div>
+                    <div className="bg-orange-100 dark:bg-orange-800/30 rounded-lg p-3">
+                      <div className="text-2xl mb-1">🥉</div>
+                      <div className="text-xs font-semibold text-orange-800 dark:text-orange-200">3rd Place</div>
+                      <div className="text-lg font-bold text-orange-700 dark:text-orange-300">₹1,667</div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            )}
+            </div>
 
             {/* Unlocked Rewards Details */}
             {rewardsData?.unlocked && rewardsData.unlocked.length > 0 && (
@@ -1276,7 +1279,7 @@ const message =
                       ></div>
                     </div>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                      Complete 1024 high-score quizzes (75%+) to unlock rewards
+                      Complete 110 high-score quizzes (75%+) to unlock monthly rewards
                     </p>
                   </div>
 
@@ -1300,7 +1303,7 @@ const message =
 
             {/* Requirements Info */}
             <div className="mt-4 sm:mt-6">
-              <AnnualRewardsInfo />
+              <MonthlyRewardsInfo />
             </div>
           </div>
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRewards } from '../hooks/useRewards';
 import RewardBadge from './RewardBadge';
-import { showRewardLockedNotification, showQuizProgressNotification } from './RewardNotification';
+import { showMonthlyRewardNotification, showQuizProgressNotification } from './RewardNotification';
 
 // Example integration component showing how to use rewards system
 const RewardsIntegration = ({ userId, level, isCompleted, leaderboardPosition }) => {
@@ -12,17 +12,14 @@ const RewardsIntegration = ({ userId, level, isCompleted, leaderboardPosition })
     fetchRewards 
   } = useRewards();
 
-  // Check if user should get a locked reward for completing this level
+  // Check if user reached Level 10 and is eligible for monthly rewards
   React.useEffect(() => {
-    if (isCompleted && [6, 9].includes(level)) {
-      // This would typically be called from the backend when quiz is completed
-      // For demonstration, we'll show how the frontend would handle it
+    if (isCompleted && level === 10) {
       const rewardStatus = checkRewardStatus(level);
       
-      if (rewardStatus === 'locked') {
-        // Show notification for newly locked reward
-        const rewardAmounts = { 6: 990, 9: 9980 };
-        showRewardLockedNotification(level, rewardAmounts[level]);
+      if (rewardStatus === 'monthly') {
+        // Show notification for monthly reward eligibility
+        showQuizProgressNotification(110, 110);
       }
     }
   }, [isCompleted, level, checkRewardStatus]);
@@ -55,10 +52,10 @@ const RewardsIntegration = ({ userId, level, isCompleted, leaderboardPosition })
             </div>
           )}
           
-          {/* Show unlock requirements if rewards are locked */}
-          {rewardStatus === 'locked' && (
+          {/* Show monthly reward info */}
+          {rewardStatus === 'monthly' && (
             <div className="text-sm text-green-700 dark:text-green-300">
-              <p>Unlock when Level 10 Top 3 + 1024 high-score quizzes (75%+). Final payout adds Level 6 (₹990) + Level 9 (₹9,980).</p>
+              <p>🎉 You're eligible for monthly rewards! Maintain Top 3 position with ≥75% accuracy to win ₹9,999.</p>
             </div>
           )}
         </div>
@@ -99,9 +96,9 @@ const RewardsIntegration = ({ userId, level, isCompleted, leaderboardPosition })
             🏆 Top {leaderboardPosition} Position!
           </h4>
           
-          {rewardStatus === 'locked' && (
+          {rewardStatus === 'monthly' && (
             <p className="text-sm text-yellow-700 dark:text-yellow-300">
-              Great job! You're in position to earn rewards.
+              🏆 You're in Top 3! Maintain this position until month end to win ₹9,999.
             </p>
           )}
           

@@ -3,36 +3,36 @@ import { useNavigate } from 'react-router-dom';
 import { FaTrophy, FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaArrowLeft, FaAward, FaGem } from 'react-icons/fa';
 import { FaUserGraduate, FaMagic } from 'react-icons/fa';
 import API from '../utils/api';
-import AnnualRewardsInfo from '../components/AnnualRewardsInfo';
+import MonthlyRewardsInfo from '../components/MonthlyRewardsInfo';
 // Level badge icon mapping (same as HomePage)
 const levelBadgeIcons = {
-  'Zero Level': FaUserGraduate,
-  Rookie: FaStar,
-  Explorer: FaRocket,
-  Thinker: FaBrain,
-  Strategist: FaChartLine,
-  Achiever: FaAward,
-  Mastermind: FaGem,
-  Champion: FaTrophy,
-  Prodigy: FaMedal,
-  'Quiz Wizard': FaMagic,
-  Legend: FaCrown,
+  'Starter': FaUserGraduate,
+  'Rookie': FaStar,
+  'Explorer': FaRocket,
+  'Thinker': FaBrain,
+  'Strategist': FaChartLine,
+  'Achiever': FaAward,
+  'Mastermind': FaGem,
+  'Champion': FaTrophy,
+  'Prodigy': FaMedal,
+  'Wizard': FaMagic,
+  'Legend': FaCrown,
   Default: FaStar,
 };
 
 // Fallback levels data if API fails
 const fallbackLevels = [
-  { _id: 1, levelName: 'Zero Level', quizzesRequired: 0, quizCount: 0, description: 'Starting point for all users' },
-  { _id: 2, levelName: 'Rookie', quizzesRequired: 2, quizCount: 0, description: 'Begin your quiz journey' },
-  { _id: 3, levelName: 'Explorer', quizzesRequired: 4, quizCount: 0, description: 'Discover new challenges' },
-  { _id: 4, levelName: 'Thinker', quizzesRequired: 8, quizCount: 0, description: 'Develop critical thinking' },
-  { _id: 5, levelName: 'Strategist', quizzesRequired: 16, quizCount: 0, description: 'Master quiz strategies' },
-  { _id: 6, levelName: 'Achiever', quizzesRequired: 32, quizCount: 0, description: 'Reach new heights' },
-  { _id: 7, levelName: 'Mastermind', quizzesRequired: 64, quizCount: 0, description: 'Become a quiz expert' },
-  { _id: 8, levelName: 'Champion', quizzesRequired: 128, quizCount: 0, description: 'Compete with the best' },
-  { _id: 9, levelName: 'Prodigy', quizzesRequired: 256, quizCount: 0, description: 'Show exceptional talent' },
-  { _id: 10, levelName: 'Quiz Wizard', quizzesRequired: 512, quizCount: 0, description: 'Master of all quizzes' },
-  { _id: 11, levelName: 'Legend', quizzesRequired: 1024, quizCount: 0, description: 'Achieve legendary status' }
+  { _id: 0, levelName: 'Starter', quizzesRequired: 0, quizCount: 0, description: 'Starting point for all users' },
+  { _id: 1, levelName: 'Rookie', quizzesRequired: 2, quizCount: 0, description: 'Begin your quiz journey' },
+  { _id: 2, levelName: 'Explorer', quizzesRequired: 6, quizCount: 0, description: 'Discover new challenges' },
+  { _id: 3, levelName: 'Thinker', quizzesRequired: 12, quizCount: 0, description: 'Develop critical thinking' },
+  { _id: 4, levelName: 'Strategist', quizzesRequired: 20, quizCount: 0, description: 'Master quiz strategies' },
+  { _id: 5, levelName: 'Achiever', quizzesRequired: 30, quizCount: 0, description: 'Reach new heights' },
+  { _id: 6, levelName: 'Mastermind', quizzesRequired: 42, quizCount: 0, description: 'Become a quiz expert' },
+  { _id: 7, levelName: 'Champion', quizzesRequired: 56, quizCount: 0, description: 'Compete with the best' },
+  { _id: 8, levelName: 'Prodigy', quizzesRequired: 72, quizCount: 0, description: 'Show exceptional talent' },
+  { _id: 9, levelName: 'Wizard', quizzesRequired: 90, quizCount: 0, description: 'Master of all quizzes' },
+  { _id: 10, levelName: 'Legend', quizzesRequired: 110, quizCount: 0, description: 'Achieve legendary status' }
 ];
 
 
@@ -132,9 +132,9 @@ const LevelsPage = () => {
         </h1>
           <p className="text-lg md:text-2xl text-gray-700 dark:text-gray-200 font-medium">
           Journey from{" "}
-          <span className="font-bold text-yellow-600 dark:text-yellow-300">
-            Zero Level
-          </span>{" "}
+                      <span className="font-bold text-yellow-600 dark:text-yellow-300">
+              Starter
+            </span>{" "}
           to{" "}
           <span className="font-bold text-red-600 dark:text-red-300">
             Legend
@@ -167,14 +167,13 @@ const LevelsPage = () => {
                 <div className="text-center">
                   <div className="text-3xl font-bold text-orange-600 mb-2">₹99,999</div>
                   <div className="text-gray-600 dark:text-gray-300">Level 10 Top 3 prize split 3:2:1</div>
-                  <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">Final payout includes Level 6 (₹990) + Level 9 (₹9,980) if locked</div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">Monthly Top 3 at Level 10 with ≥75% accuracy win ₹9,999</div>
                 </div>
               </div>
                <p className="text-gray-700 dark:text-gray-300">
                 <span className="font-semibold text-yellow-600 dark:text-yellow-400">
-                  Complete a full year of active participation
-                </span>{" "}
-                to unlock special rewards and bonus prizes!
+                  Reach Level 10 with high accuracy to qualify for monthly prizes!
+                </span>
               </p>
             </div>
           </div>
@@ -219,7 +218,7 @@ const LevelsPage = () => {
                   <div className="w-2 h-2 bg-white rounded-full"></div>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300">
-                  Every year, your progress resets to encourage fresh learning
+                  Every month, your progress resets to encourage fresh learning
                   and growth
                 </p>
               </div>
@@ -228,17 +227,16 @@ const LevelsPage = () => {
                   <div className="w-2 h-2 bg-white rounded-full"></div>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300">
-                  Complete a full year of active participation to win exciting
-                  prizes!
+                  Reach Level 10 with ≥75% accuracy to win monthly prizes!
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Annual Rewards Information */}
+        {/* Monthly Rewards Information */}
         <div className="mb-8">
-          <AnnualRewardsInfo />
+          <MonthlyRewardsInfo />
         </div>
 
         {/* Current Level Card */}

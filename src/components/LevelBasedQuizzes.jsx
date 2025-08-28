@@ -194,15 +194,16 @@ const LevelBasedQuizzes = () => {
 
   const getLevelName = (level) => {
     const levelNames = {
+      0: 'Starter',
       1: 'Rookie',
-      2: 'Explorer', 
+      2: 'Explorer',
       3: 'Thinker',
       4: 'Strategist',
       5: 'Achiever',
       6: 'Mastermind',
       7: 'Champion',
       8: 'Prodigy',
-      9: 'Quiz Wizard',
+      9: 'Wizard',
       10: 'Legend'
     };
     return levelNames[level] || `Level ${level}`;
@@ -368,7 +369,7 @@ const LevelBasedQuizzes = () => {
               <option value="6">Level 6 - Mastermind</option>
               <option value="7">Level 7 - Champion</option>
               <option value="8">Level 8 - Prodigy</option>
-              <option value="9">Level 9 - Quiz Wizard</option>
+              <option value="9">Level 9 - Wizard</option>
               <option value="10">Level 10 - Legend</option>
             </select>
             {filters.level && (

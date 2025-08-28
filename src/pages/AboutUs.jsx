@@ -108,9 +108,9 @@ const AboutUs = () => {
               <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl flex items-center justify-center mb-4">
                 <FaTrophy className="text-white text-xl" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Annual Rewards</h3>
+              <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Monthly Rewards</h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Annual rewards system with ₹990 (Level 6), ₹9,980 (Level 9), and ₹99,999 pool (Level 10) for Top 3 performers.
+                Monthly rewards system with ₹9,999 for Top 3 eligible users at Level 10 (110 wins + ≥75% accuracy).
               </p>
             </div>
           </div>

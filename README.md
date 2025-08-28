@@ -1,6 +1,6 @@
 # SUBG Frontend
 
-A modern React-based quiz platform frontend with advanced admin analytics, user level system, and subscription management.
+A modern React-based quiz platform frontend with advanced admin analytics, user level system, subscription management, monthly highscore rewards, and smart referral system.
 
 ## 🚀 Features
 
@@ -19,6 +19,9 @@ A modern React-based quiz platform frontend with advanced admin analytics, user 
 - **State Management**: Redux for global state management
 - **Security**: Protected routes and role-based access control
 - **Export Functionality**: CSV export for analytics data
+- **Monthly Highscore System**: Monthly quiz competitions with prize tracking
+- **Referral System**: Smart referral rewards with progress tracking
+- **Rewards Dashboard**: Comprehensive rewards and progress visualization
 
 ## 📋 Prerequisites
 
@@ -68,14 +71,14 @@ subg-frontend/
 │   ├── utils/        # Utility functions
 │   ├── config/       # Configuration files
 │   ├── assets/       # Images and static assets
+│   ├── contexts/     # React contexts
+│   ├── hooks/        # Custom React hooks
 │   ├── App.js        # Main app component
 │   └── index.js      # Entry point
 ├── package.json
 ├── tailwind.config.js
 └── README.md
 ```
-
-> **Note:** There is no backend code or backend/README.md in this directory. The backend must be set up separately.
 
 ## 🖼️ UI Components
 
@@ -89,6 +92,10 @@ subg-frontend/
 - **SubscriptionGuard**: Route protection for subscription features
 - **Wallet**: User wallet and transaction management
 - **ProfilePage**: User profile and settings
+- **RewardsDashboard**: Monthly rewards and progress tracking
+- **MonthlyRewardsInfo**: Monthly reward rules and information
+- **RewardNotification**: Reward achievement notifications
+- **TopPerformers**: Top monthly performers display
 
 ## 📊 Analytics Pages
 
@@ -109,6 +116,62 @@ subg-frontend/
 - **High Score Tracking**: Quizzes with 75%+ scores
 - **Achievement System**: Badges and rewards
 
+### Level Progression
+1. **Starter** (Level 0) - 0 high-score quizzes (75%+) required
+2. **Rookie** (Level 1) - 2 high-score quizzes (75%+) required
+3. **Explorer** (Level 2) - 6 high-score quizzes (75%+) required
+4. **Thinker** (Level 3) - 12 high-score quizzes (75%+) required
+5. **Strategist** (Level 4) - 20 high-score quizzes (75%+) required
+6. **Achiever** (Level 5) - 30 high-score quizzes (75%+) required
+7. **Mastermind** (Level 6) - 42 high-score quizzes (75%+) required
+8. **Champion** (Level 7) - 56 high-score quizzes (75%+) required
+9. **Prodigy** (Level 8) - 72 high-score quizzes (75%+) required
+10. **Wizard** (Level 9) - 90 high-score quizzes (75%+) required
+11. **Legend** (Level 10) - 110 high-score quizzes (75%+) required
+
+## 🏅 Monthly Highscore System
+
+### Monthly Competition Interface
+- **Progress Tracking**: Real-time monthly quiz progress
+- **Target Display**: 110 high-score quizzes (75%+ accuracy) target
+- **Prize Information**: ₹9,999 total prize pool details
+- **Leaderboard**: Monthly top performers ranking
+
+### Prize Distribution Display
+- **1st Place**: ₹4,999 (50% of pool) - Gold trophy
+- **2nd Place**: ₹3,333 (33.33% of pool) - Silver trophy  
+- **3rd Place**: ₹1,667 (16.67% of pool) - Bronze trophy
+
+### Features
+- **Monthly Reset**: Automatic reset on last day of month
+- **Progress Visualization**: Visual progress bars and charts
+- **Reward Notifications**: Achievement notifications
+- **Performance History**: Monthly performance tracking
+
+## 🎁 Referral System Interface
+
+### Referral Progress Tracking
+- **Referral Count**: Current referral count display
+- **Progress Bars**: Visual progress to next milestone
+- **Milestone Display**: Next reward milestone information
+
+### Referral Rewards
+- **2 Referrals**: Basic Plan (₹9/month for 30 days)
+- **5 Referrals**: Premium Plan (₹49/month for 30 days)
+- **10 Referrals**: Pro Plan (₹99/month for 30 days)
+
+### Smart Upgrade System
+- **No Downgrades**: Users keep better existing plans
+- **Plan Hierarchy**: free < basic < premium < pro
+- **Automatic Upgrades**: Only when beneficial
+- **Badge System**: Referral Starter, Master, Legend badges
+
+### Features
+- **Referral Code Generation**: Unique referral codes
+- **Progress Visualization**: Milestone progress bars
+- **Reward Information**: Clear reward details
+- **Social Sharing**: Easy referral code sharing
+
 ## 💳 Subscription System
 
 - **Plan Selection**: Free, Basic, Premium, Pro
@@ -116,6 +179,12 @@ subg-frontend/
 - **Plan Comparison**: Feature comparison table
 - **Payment History**: Transaction records
 - **Renewal Management**: Subscription renewal options
+
+### Updated Plan Pricing
+- **Free Plan**: Basic access to levels 0-3 (₹0/month)
+- **Basic Plan**: Access to levels 0-6 - ₹9/month
+- **Premium Plan**: Access to levels 0-9 - ₹49/month
+- **Pro Plan**: Full access to all levels (0-10) - ₹99/month
 
 ## 🔒 Security Features
 
@@ -166,9 +235,6 @@ NODE_ENV=production
 - `npm run build` - Build for production
 - `npm test` - Run tests
 
-## 🧹 Unused Files
-- No unused or legacy files remain in the main project structure. If you find any, you can safely delete them.
-
 ## 🎨 UI Components
 
 ### Core Components
@@ -191,6 +257,16 @@ NODE_ENV=production
 - **SubscriptionGuard**: Route protection for subscription features
 - **Wallet**: User wallet and transaction management
 - **ProfilePage**: User profile and settings
+- **RewardsDashboard**: Monthly rewards and progress tracking
+- **MonthlyRewardsInfo**: Monthly reward information
+- **RewardNotification**: Achievement notifications
+- **TopPerformers**: Top monthly performers
+
+### Utility Components
+- **Navbar**: Main navigation
+- **Sidebar**: Admin navigation
+- **Pagination**: Data pagination
+- **SearchFilter**: Search functionality
 
 ## 📊 Analytics Pages
 
@@ -246,10 +322,10 @@ NODE_ENV=production
 ## 💳 Subscription System
 
 ### Plan Selection
-- **Free Plan**: Basic access to levels 1-3
-- **Basic Plan**: Access to levels 1-6
-- **Premium Plan**: Access to levels 1-9
-- **Pro Plan**: Full access to all levels
+- **Free Plan**: Basic access to levels 0-3 (₹0/month)
+- **Basic Plan**: Access to levels 0-6 (₹9/month)
+- **Premium Plan**: Access to levels 0-9 (₹49/month)
+- **Pro Plan**: Full access to all levels (0-10) (₹99/month)
 
 ### Payment Integration
 - **Razorpay Gateway**: Secure payment processing
@@ -361,6 +437,8 @@ NODE_ENV=production
 - **ProfilePage**: User profile management
 - **Wallet**: Financial management
 - **SubscriptionGuard**: Route protection
+- **RewardsDashboard**: Monthly rewards tracking
+- **MonthlyRewardsInfo**: Reward information display
 
 ### Utility Components
 - **Navbar**: Main navigation
@@ -392,4 +470,6 @@ For support and questions:
 - **v1.0.0** - Initial release with basic quiz interface
 - **v2.0.0** - Added level system and user dashboard
 - **v3.0.0** - Enhanced admin panel and analytics
-- **v4.0.0** - Advanced analytics with charts and export 
+- **v4.0.0** - Advanced analytics with charts and export
+- **v5.0.0** - Monthly highscore system and rewards dashboard
+- **v6.0.0** - Smart referral system and comprehensive UI updates 

@@ -34,7 +34,7 @@ import {
   FaTags
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import AnnualRewardsInfo from '../components/AnnualRewardsInfo';
+import MonthlyRewardsInfo from '../components/MonthlyRewardsInfo';
 
 const SubscriptionPage = () => {
   const [subscription, setSubscription] = useState(null);
@@ -194,7 +194,7 @@ const SubscriptionPage = () => {
     return Object.entries(config.SUBSCRIPTION_PLANS).map(([key, plan]) => ({
       key,
       ...plan,
-      duration: '1 year'
+      duration: '1 month'
     }));
   };
 
@@ -397,7 +397,7 @@ const SubscriptionPage = () => {
                     <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Level Access</span>
                     <p className="text-xl font-bold text-gray-800 dark:text-white">
                       {subscription.planName?.toLowerCase() === 'basic' && 'Zero to Mastermind'}
-                      {subscription.planName?.toLowerCase() === 'premium' && 'Zero to Quiz Wizard'}
+                      {subscription.planName?.toLowerCase() === 'premium' && 'Zero to Wizard'}
                       {subscription.planName?.toLowerCase() === 'pro' && 'Zero to Legend'}
                       {(!subscription.planName || subscription.planName === 'free') && 'Zero to Thinker'}
                     </p>
@@ -526,10 +526,10 @@ const SubscriptionPage = () => {
                       <span className="text-6xl font-bold bg-gradient-to-r from-green-600 via-yellow-600 to-red-600 bg-clip-text text-transparent">
                         ₹{plan.price}
                       </span>
-                      <span className="text-gray-600 dark:text-gray-300 text-lg">/year</span>
+                      <span className="text-gray-600 dark:text-gray-300 text-lg">/month</span>
                     </div>
                     <div className="text-gray-600 dark:text-gray-300 text-lg font-medium">
-                      Duration: 1 year
+                      Duration: 1 month
                     </div>
                   </div>
 
@@ -613,8 +613,8 @@ const SubscriptionPage = () => {
               },
               {
                 icon: FaTrophy,
-                title: 'Annual Rewards',
-                description: 'Earn ₹990 (Level 6), ₹9,980 (Level 9), and ₹99,999 pool (Level 10) for Top 3 performers',
+                title: 'Monthly Rewards',
+                description: 'Top 3 eligible users at Level 10 each month win ₹9,999',
                 gradient: 'from-yellow-500 to-orange-500'
               },
               {
@@ -648,9 +648,9 @@ const SubscriptionPage = () => {
           </div>
         </div>
 
-        {/* Annual Rewards Information */}
+                  {/* Monthly Rewards Information */}
         <div className="mb-16">
-          <AnnualRewardsInfo />
+          <MonthlyRewardsInfo />
         </div>
 
         {/* Transaction History */}

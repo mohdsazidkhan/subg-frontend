@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import API from '../utils/api';
 import { toast } from 'react-hot-toast';
-import AnnualRewardsInfo from './AnnualRewardsInfo';
+import MonthlyRewardsInfo from './MonthlyRewardsInfo';
 
 const RewardsDashboard = () => {
   const [rewards, setRewards] = useState(null);
@@ -17,14 +17,23 @@ const RewardsDashboard = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await API.getUserRewards();
+      const profile = await API.getProfile();
       
-      // Validate response structure
-      if (!response || typeof response !== 'object') {
+      if (!profile || typeof profile !== 'object') {
         throw new Error('Invalid response format from server');
       }
       
-      setRewards(response);
+      setRewards({
+        claimableRewards: profile?.claimableRewards || 0,
+        quizProgress: {
+          current: profile?.monthlyProgress?.highScoreWins || 0,
+          required: 110,
+          percentage: Math.min(100, Math.round(((profile?.monthlyProgress?.highScoreWins || 0) / 110) * 100))
+        },
+        canUnlock: Boolean(profile?.monthlyProgress?.rewardEligible),
+        unlocked: [],
+        claimed: []
+      });
     } catch (error) {
       console.error('Error fetching rewards:', error);
       setError(error.response?.data?.message || 'Failed to fetch rewards');
@@ -34,31 +43,8 @@ const RewardsDashboard = () => {
     }
   };
 
-  const claimReward = async (rewardId) => {
-    if (!rewardId) {
-      toast.error('Invalid reward ID');
-      return;
-    }
-
-    try {
-      setClaiming(true);
-      const response = await API.claimReward(rewardId);
-      
-      if (response && response.message) {
-        toast.success(response.message);
-        // Refresh rewards after successful claim
-        await fetchRewards();
-      } else {
-        toast.success('Reward claimed successfully!');
-        await fetchRewards();
-      }
-    } catch (error) {
-      console.error('Error claiming reward:', error);
-      const errorMessage = error.response?.data?.message || 'Failed to claim reward';
-      toast.error(errorMessage);
-    } finally {
-      setClaiming(false);
-    }
+  const claimReward = async () => {
+    toast.info('Monthly prizes are auto-credited to Top 3 at month end.');
   };
 
   const handleWithdraw = async () => {
@@ -67,7 +53,7 @@ const RewardsDashboard = () => {
       return;
     }
     
-    toast.info('Withdrawal functionality coming soon!');
+    toast.info('Monthly rewards will be automatically distributed to top 3 performers!');
   };
 
   if (loading) {
@@ -106,11 +92,10 @@ const RewardsDashboard = () => {
 
   // Safely destructure with fallbacks
   const { 
-    locked = [], 
     unlocked = [], 
     claimed = [], 
     claimableRewards = 0, 
-    quizProgress = { current: 0, required: 1024, percentage: 0 },
+    quizProgress = { current: 0, required: 110, percentage: 0 },
     canUnlock = false
   } = rewards;
 
@@ -119,11 +104,24 @@ const RewardsDashboard = () => {
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-2 md:p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
         <h2 className="text-lg sm:text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4">🏆 Rewards Dashboard</h2>
         
+        {/* Migration Notice */}
+        <div className="mb-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg p-3 border border-blue-200 dark:border-blue-700">
+          <div className="flex items-center space-x-2">
+            <span className="text-lg">🔄</span>
+            <div>
+              <p className="text-sm font-medium text-blue-800 dark:text-blue-300">
+                <strong>System Migration:</strong> We've moved from yearly to monthly rewards! All users reset to Level 0. 
+                Old progress is safely stored. Start fresh with monthly competitions!
+              </p>
+            </div>
+          </div>
+        </div>
+        
         {/* Quiz Progress */}
         <div className="mb-4 sm:mb-6">
           <div className="flex justify-between items-center mb-2">
             <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
-              Quiz Progress: {quizProgress?.current || 0} / {quizProgress?.required || 1024}
+              Quiz Progress: {quizProgress?.current || 0} / {quizProgress?.required || 110}
             </span>
             <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
               {Math.round(quizProgress?.percentage || 0)}%
@@ -136,7 +134,7 @@ const RewardsDashboard = () => {
             ></div>
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-            Complete 1024 high-score quizzes (75%+) to unlock rewards
+            Reach Level 10 (110 monthly wins) with ≥75% accuracy to qualify for monthly rewards
           </p>
           {canUnlock && (
             <div className="mt-2 p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
@@ -169,32 +167,34 @@ const RewardsDashboard = () => {
           </div>
         )}
 
-        {/* Locked Rewards */}
-        {locked && locked.length > 0 && (
-          <div className="mb-4 sm:mb-6">
-            <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3">🔒 Locked Rewards</h3>
-            <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-              {locked.map((reward, index) => (
-                <div key={reward?._id || `locked-${reward?.level}-${index}`} className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 sm:p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs sm:text-sm font-medium text-yellow-800 dark:text-yellow-300">
-                      Level {reward?.level || 'N/A'}
-                    </span>
-                    <span className="text-xs text-yellow-600 dark:text-yellow-400">
-                      {reward?.dateLocked ? new Date(reward.dateLocked).toLocaleDateString() : 'N/A'}
-                    </span>
-                  </div>
-                  <p className="text-lg sm:text-2xl font-bold text-yellow-700 dark:text-yellow-300 mb-2">
-                    ₹{(reward?.amount || 0).toLocaleString()}
-                  </p>
-                  <p className="text-xs text-yellow-600 dark:text-yellow-400">
-                    Complete Level 10 in Top 3 + 1024 high-score quizzes (75%+) to unlock
-                  </p>
+        {/* Monthly Top 3 Info */}
+        <div className="mb-4 sm:mb-6">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3">🏆 Monthly Top 3 Rewards</h3>
+          <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4">
+            <div className="text-center">
+              <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
+                Every month, the top 3 users with Level 10 and ≥75% accuracy win prizes in 3:2:1 ratio from ₹9,999 total pool!
+              </p>
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div className="bg-yellow-100 dark:bg-yellow-800/30 rounded-lg p-3">
+                  <div className="text-2xl mb-1">🥇</div>
+                  <div className="text-xs font-semibold text-yellow-800 dark:text-yellow-200">1st Place</div>
+                  <div className="text-lg font-bold text-yellow-700 dark:text-yellow-300">₹4,999</div>
                 </div>
-              ))}
+                <div className="bg-gray-100 dark:bg-gray-800/30 rounded-lg p-3">
+                  <div className="text-2xl mb-1">🥈</div>
+                  <div className="text-xs font-semibold text-gray-800 dark:text-gray-200">2nd Place</div>
+                  <div className="text-lg font-bold text-gray-700 dark:text-gray-300">₹3,333</div>
+                </div>
+                <div className="bg-orange-100 dark:bg-orange-800/30 rounded-lg p-3">
+                  <div className="text-2xl mb-1">🥉</div>
+                  <div className="text-xs font-semibold text-orange-800 dark:text-orange-200">3rd Place</div>
+                  <div className="text-lg font-bold text-orange-700 dark:text-orange-300">₹1,667</div>
+                </div>
+              </div>
             </div>
           </div>
-        )}
+        </div>
 
         {/* Unlocked Rewards */}
         {unlocked && unlocked.length > 0 && (
@@ -255,20 +255,20 @@ const RewardsDashboard = () => {
         )}
 
         {/* No Rewards Message */}
-        {(!locked || locked.length === 0) && (!unlocked || unlocked.length === 0) && (!claimed || claimed.length === 0) && (
+        {(!unlocked || unlocked.length === 0) && (!claimed || claimed.length === 0) && (
           <div className="text-center py-6 sm:py-8">
             <div className="text-4xl sm:text-6xl mb-4">🏆</div>
             <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-2">
               No Rewards Yet
             </h3>
             <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
-              Complete levels and reach Top 3 positions to earn rewards!
+              Reach Level 10 with ≥75% accuracy and compete for monthly Top 3 positions to earn ₹9,999!
             </p>
           </div>
         )}
 
         {/* Requirements Info */}
-        <AnnualRewardsInfo className="mt-4 sm:mt-6" />
+        <MonthlyRewardsInfo className="mt-4 sm:mt-6" />
       </div>
     </div>
   );

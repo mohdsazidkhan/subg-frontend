@@ -18,20 +18,20 @@ const TermsAndConditions = () => (
 
     <div className="mb-4 space-y-2">
       <p>
-        <strong>Annual Rewards System:</strong> Rewards are processed annually based on Top 3 leaderboard ranks:
+        <strong>Monthly Rewards System:</strong> Rewards are processed monthly based on Top 3 leaderboard ranks:
       </p>
       <ul className="list-disc pl-6 space-y-1">
-        <li><strong>August 1:</strong> Level 6 Top 1–3 rank prizes ₹990 each (locked)</li>
-        <li><strong>December 1:</strong> Level 9 Top 1–3 rank prizes ₹9,980 each (locked)</li>
-        <li><strong>March 31:</strong> Level 10 Top 1–3 rank prizes unlocked + ₹99,999 pool split 3:2:1</li>
+        <li><strong>Monthly:</strong> Top 3 eligible users at Level 10 (110 wins + ≥75% accuracy) win prizes in 3:2:1 ratio from ₹9,999 total pool</li>
+        <li><strong>Eligibility:</strong> Must reach Level 10 with ≥75% accuracy in the current month</li>
+        <li><strong>Reset:</strong> Progress and rewards reset every month on the 1st</li>
       </ul>
       <p>
-        Final payout for Level 10 Top 3 = the user’s share of ₹99,999 (3:2:1) <strong>plus</strong> any locked prizes from Level 6 and Level 9, subject to eligibility and unlock requirements.
+        Monthly rewards are based on current month performance only. Each month is independent and previous month achievements do not carry forward.
       </p>
     </div>
 
     <p className="mb-4">
-      To unlock all rewards, users must complete at least <strong>1024 high-score quizzes (75%+)</strong> and rank in the Top 3 on the <strong>Level 10</strong> leaderboard by March 31st. All locked prizes from Level 6 and Level 9 are unlocked simultaneously when Level 10 conditions are met.
+      To qualify for monthly rewards, users must complete at least <strong>110 high-score quizzes (75%+)</strong> and rank in the Top 3 on the <strong>Level 10</strong> leaderboard by the end of the month. All progress resets monthly.
     </p>
 
     <p className="mb-4">

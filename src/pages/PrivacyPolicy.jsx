@@ -20,7 +20,7 @@ const PrivacyPolicy = () => (
         <strong>Quiz Activity:</strong> quiz attempts, scores, timings, and related analytics used to calculate levels, leaderboard ranks, and rewards eligibility.
       </li>
       <li>
-        <strong>Rewards & Wallet:</strong> locked/unlocked/claimed rewards history, claimable balance, and annual rewards processing status.
+        <strong>Rewards & Wallet:</strong> locked/unlocked/claimed rewards history, claimable balance, and monthly rewards processing status.
       </li>
       <li>
         <strong>Bank/Withdrawal Details (optional):</strong> if you provide bank information for rewards withdrawal, we store it securely and use it only for payout verification and processing.
@@ -40,11 +40,11 @@ const PrivacyPolicy = () => (
     <ul className="list-disc pl-6 space-y-2">
       <li>To create and manage your account, authenticate logins, and provide core features.</li>
       <li>To run quizzes, compute scores, determine level progression, and show leaderboard rankings.</li>
-      <li>To process rewards, including the <strong>Annual Rewards System</strong>:
+      <li>To process rewards, including the <strong>Monthly Rewards System</strong>:
         <ul className="list-disc pl-6 mt-1 space-y-1">
-          <li><strong>Aug 1:</strong> Lock Level 6 Top 3 (₹990 each)</li>
-          <li><strong>Dec 1:</strong> Lock Level 9 Top 3 (₹9,980 each)</li>
-          <li><strong>Mar 31:</strong> Unlock rewards for Level 10 Top 3 and allocate ₹99,999 (3:2:1)</li>
+          <li><strong>Monthly:</strong> Top 3 eligible users at Level 10 (110 wins + ≥75% accuracy) win ₹9,999 each</li>
+          <li><strong>Eligibility:</strong> Must reach Level 10 with ≥75% accuracy in the current month</li>
+          <li><strong>Reset:</strong> Progress and rewards reset every month on the 1st</li>
         </ul>
       </li>
       <li>To send important updates (e.g., account notices, reward status, subscription reminders).</li>

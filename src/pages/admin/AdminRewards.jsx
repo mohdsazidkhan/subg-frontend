@@ -28,7 +28,8 @@ const AdminRewards = () => {
       if (searchTerm) params.search = searchTerm;
       if (filters.level) params.level = filters.level;
       if (filters.onlyLocked) params.onlyLocked = filters.onlyLocked;
-      const res = await API.getAdminRewardUsers(params);
+      // Legacy admin rewards list removed
+      const res = { data: [], total: 0 };
       setUsers(res.users || []);
       setPagination(res.pagination || { page: 1, totalPages: 1, total: 0, limit: itemsPerPage });
     } catch (err) {

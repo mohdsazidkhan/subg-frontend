@@ -1,23 +1,23 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaArrowLeft, FaClock, FaQuestionCircle, FaLayerGroup } from 'react-icons/fa';
+import { FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaArrowLeft, FaClock, FaQuestionCircle, FaLayerGroup, FaUserGraduate, FaAward, FaTrophy, FaGem, FaMagic } from 'react-icons/fa';
 import API from '../utils/api';
 import QuizStartModal from '../components/QuizStartModal';
 import { MdFormatListNumbered } from 'react-icons/md';
-import AnnualRewardsInfo from '../components/AnnualRewardsInfo';
+import MonthlyRewardsInfo from '../components/MonthlyRewardsInfo';
 
 const levels = [
-  { level: 0, name: 'Zero Level', desc: 'Just registered - Start your journey!', quizzes: 0, plan: 'Free', amount: 0, prize: 0, color: 'from-gray-300 to-gray-400', icon: FaBrain },
-  { level: 1, name: 'Rookie', desc: 'Just getting started – Easy questions', quizzes: 2, plan: 'Free', amount: 0, prize: 0, color: 'from-gray-400 to-gray-500', icon: FaBrain },
-  { level: 2, name: 'Explorer', desc: 'Discover new ideas – Slightly challenging', quizzes: 4, plan: 'Free', amount: 0, prize: 0, color: 'from-yellow-400 to-yellow-500', icon: FaRocket },
-  { level: 3, name: 'Thinker', desc: 'Test your brain power – Moderate difficulty', quizzes: 8, plan: 'Free', amount: 0, prize: 0, color: 'from-green-400 to-green-500', icon: FaBrain },
-  { level: 4, name: 'Strategist', desc: 'Mix of logic, memory, and speed', quizzes: 16, plan: 'Basic', amount: 99, prize: 0, color: 'from-red-400 to-red-500', icon: FaChartLine },
-  { level: 5, name: 'Achiever', desc: 'Cross-topic challenges begin', quizzes: 32, plan: 'Basic', amount: 99, prize: 0, color: 'from-indigo-400 to-indigo-500', icon: FaStar },
-  { level: 6, name: 'Mastermind', desc: 'For those who always aim to win', quizzes: 64, plan: 'Basic', amount: 99, prize: 0, color: 'from-pink-400 to-pink-500', icon: FaBrain },
-  { level: 7, name: 'Champion', desc: 'Beat the timer and the brain', quizzes: 128, plan: 'Premium', amount: 499, prize: 0, color: 'from-yellow-400 to-yellow-500', icon: FaMedal },
-  { level: 8, name: 'Prodigy', desc: 'Only a few reach here – high-level puzzles', quizzes: 256, plan: 'Premium', amount: 499, prize: 0, color: 'from-orange-400 to-orange-500', icon: FaStar },
-  { level: 9, name: 'Quiz Wizard', desc: 'Complex questions across categories', quizzes: 512, plan: 'Premium', amount: 499, prize: 0, color: 'from-red-400 to-red-500', icon: FaBrain },
-  { level: 10, name: 'Legend', desc: 'Final frontier — only the best reach here!', quizzes: 1024, plan: 'Pro', amount: 999, prize: 99999, color: 'from-red-500 to-yellow-500', icon: FaCrown }
+  { level: 0, name: 'Starter', desc: 'Just registered - Start your journey!', quizzes: 0, plan: 'Free', amount: 0, prize: 0, color: 'from-gray-300 to-gray-400', icon: FaUserGraduate },
+  { level: 1, name: 'Rookie', desc: 'Begin your quiz journey', quizzes: 2, plan: 'Free', amount: 0, prize: 0, color: 'from-green-300 to-green-400', icon: FaStar },
+  { level: 2, name: 'Explorer', desc: 'Discover new challenges', quizzes: 6, plan: 'Free', amount: 0, prize: 0, color: 'from-blue-300 to-blue-400', icon: FaRocket },
+  { level: 3, name: 'Thinker', desc: 'Develop critical thinking', quizzes: 12, plan: 'Free', amount: 0, prize: 0, color: 'from-purple-300 to-purple-400', icon: FaBrain },
+  { level: 4, name: 'Strategist', desc: 'Master quiz strategies', quizzes: 20, plan: 'Basic', amount: 9, prize: 0, color: 'from-yellow-300 to-yellow-400', icon: FaChartLine },
+  { level: 5, name: 'Achiever', desc: 'Reach new heights', quizzes: 30, plan: 'Basic', amount: 9, prize: 0, color: 'from-orange-300 to-orange-400', icon: FaAward },
+  { level: 6, name: 'Mastermind', desc: 'Become a quiz expert', quizzes: 42, plan: 'Basic', amount: 9, prize: 0, color: 'from-red-300 to-red-400', icon: FaGem },
+  { level: 7, name: 'Champion', desc: 'Compete with the best', quizzes: 56, plan: 'Premium', amount: 49, prize: 0, color: 'from-pink-300 to-pink-400', icon: FaTrophy },
+  { level: 8, name: 'Prodigy', desc: 'Show exceptional talent', quizzes: 72, plan: 'Premium', amount: 49, prize: 0, color: 'from-indigo-300 to-indigo-400', icon: FaMedal },
+  { level: 9, name: 'Wizard', desc: 'Complex questions across categories', quizzes: 90, plan: 'Premium', amount: 49, prize: 0, color: 'from-red-400 to-red-500', icon: FaMagic },
+  { level: 10, name: 'Legend', desc: 'Ultimate quiz mastery', quizzes: 110, plan: 'Pro', amount: 99, prize: 9999, color: 'from-yellow-400 to-red-500', icon: FaCrown }
 ];
 
 const LevelDetailPage = () => {
@@ -143,7 +143,7 @@ const LevelDetailPage = () => {
                 <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Prize</div>
               </div>
               {/* Rewards Terms for Visibility */}
-              <AnnualRewardsInfo compact={true} />
+              <MonthlyRewardsInfo compact={true} />
             </div>
           </div>
         </div>

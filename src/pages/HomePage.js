@@ -29,6 +29,7 @@ import API from "../utils/api";
 import { hasActiveSubscription } from "../utils/subscriptionUtils";
 import QuizStartModal from "../components/QuizStartModal";
 import TopPerformers from "../components/TopPerformers";
+import SystemUpdateModal from "../components/SystemUpdateModal";
 import { BsSearch } from "react-icons/bs";
 // Level badge icon mapping
 
@@ -49,32 +50,32 @@ const categoryIcons = {
 
 // Level badge icon mapping
 const levelBadgeIcons = {
-  "Zero Level": FaUserGraduate,
-  Rookie: FaStar,
-  Explorer: FaRocket,
-  Thinker: FaBrain,
-  Strategist: FaChartLine,
-  Achiever: FaAward,
-  Mastermind: FaGem,
-  Champion: FaTrophy,
-  Prodigy: FaMedal,
-  "Quiz Wizard": FaMagic,
-  Legend: FaCrown,
+  "Starter": FaUserGraduate,
+  "Rookie": FaStar,
+  "Explorer": FaRocket,
+  "Thinker": FaBrain,
+  "Strategist": FaChartLine,
+  "Achiever": FaAward,
+  "Mastermind": FaGem,
+  "Champion": FaTrophy,
+  "Prodigy": FaMedal,
+  "Wizard": FaMagic,
+  "Legend": FaCrown,
   Default: FaStar,
 };
 
-// Level play count info for display in All Levels section (with plan/amount/prize)
+// Level play count info for display (monthly cumulative wins, monthly pricing)
 const levelsInfo = [
   { level: 1, quizzes: 2, plan: "Free", amount: 0, prize: 0 },
-  { level: 2, quizzes: 4, plan: "Free", amount: 0, prize: 0 },
-  { level: 3, quizzes: 8, plan: "Free", amount: 0, prize: 0 },
-  { level: 4, quizzes: 16, plan: "Basic", amount: 99, prize: 0 },
-  { level: 5, quizzes: 32, plan: "Basic", amount: 99, prize: 0 },
-  { level: 6, quizzes: 64, plan: "Basic", amount: 99, prize: 990 },
-  { level: 7, quizzes: 128, plan: "Premium", amount: 499, prize: 0 },
-  { level: 8, quizzes: 256, plan: "Premium", amount: 499, prize: 0 },
-  { level: 9, quizzes: 512, plan: "Premium", amount: 499, prize: 9980 },
-  { level: 10, quizzes: 1024, plan: "Pro", amount: 999, prize: 99999 },
+  { level: 2, quizzes: 6, plan: "Free", amount: 0, prize: 0 },
+  { level: 3, quizzes: 12, plan: "Free", amount: 0, prize: 0 },
+  { level: 4, quizzes: 20, plan: "Basic", amount: 9, prize: 0 },
+  { level: 5, quizzes: 30, plan: "Basic", amount: 9, prize: 0 },
+  { level: 6, quizzes: 42, plan: "Basic", amount: 9, prize: 0 },
+  { level: 7, quizzes: 56, plan: "Premium", amount: 49, prize: 0 },
+  { level: 8, quizzes: 72, plan: "Premium", amount: 49, prize: 0 },
+  { level: 9, quizzes: 90, plan: "Premium", amount: 49, prize: 0 },
+  { level: 10, quizzes: 110, plan: "Pro", amount: 99, prize: 9999 },
 ];
 
 const HomePage = () => {
@@ -90,11 +91,21 @@ const HomePage = () => {
   const [error, setError] = useState("");
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
+  const [showSystemUpdateModal, setShowSystemUpdateModal] = useState(false);
   console.log(userLevelData, "userLevelData");
+  
   useEffect(() => {
     fetchHomePageData();
     fetchLevels();
     fetchCategories();
+    
+    // Show system update modal for first-time visitors
+    const hasSeenModal = localStorage.getItem('hasSeenSystemUpdateModal');
+    if (!hasSeenModal) {
+      setTimeout(() => {
+        setShowSystemUpdateModal(true);
+      }, 1000); // Show after 1 second
+    }
   }, []);
 
   const fetchLevels = async () => {
@@ -310,7 +321,7 @@ const HomePage = () => {
         <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-gray-700 dark:text-gray-200 font-medium">
           Journey from{" "}
           <span className="font-bold text-yellow-600 dark:text-yellow-300">
-            Zero Level
+            Starter
           </span>{" "}
           to{" "}
           <span className="font-bold text-red-600 dark:text-red-300">
@@ -352,15 +363,12 @@ const HomePage = () => {
                     Level 10 Top 3 prize split 3:2:1
                   </div>
                   <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                    Final payout includes Level 6 (₹990) + Level 9 (₹9,980) if locked
+                    Monthly Top 3 at Level 10 with ≥75% accuracy win ₹9,999
                   </div>
                 </div>
               </div>
               <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
-                <span className="font-semibold text-yellow-600 dark:text-yellow-400">
-                  Complete a full year of active participation
-                </span>{" "}
-                to unlock special rewards and bonus prizes!
+                Reach Level 10 with high accuracy to qualify for monthly prizes!
               </p>
             </div>
           </div>
@@ -410,8 +418,7 @@ const HomePage = () => {
                   <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"></div>
                 </div>
                 <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
-                  Every year, your progress resets to encourage fresh learning
-                  and growth
+                  Every month, your progress resets to encourage fresh learning and growth
                 </p>
               </div>
               <div className="flex items-start space-x-2 sm:space-x-3">
@@ -419,8 +426,7 @@ const HomePage = () => {
                   <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"></div>
                 </div>
                 <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
-                  Complete a full year of active participation to win exciting
-                  prizes!
+                  Compete each month for the Top 3 prize!
                 </p>
               </div>
             </div>
@@ -578,7 +584,7 @@ const HomePage = () => {
         {levels && levels?.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 px-0">
             {levels
-              ?.filter((level) => level.name !== "Zero Level")
+              ?.filter((level) => level.name !== "Starter")
               ?.map((level, i) => {
                 const Icon =
                   levelBadgeIcons[level.name] || levelBadgeIcons.Default;
@@ -644,7 +650,7 @@ const HomePage = () => {
                               ₹{level.prize || (levelInfo && levelInfo.prize) || 0}
                             </div>
                             <div className="text-xs text-gray-600 dark:text-gray-300">
-                              Prize {level.level === 6 ? '(Aug 1: Top 1–3)' : level.level === 9 ? '(Dec 1: Top 1–3)' : level.level === 10 ? '(Mar 31: Top 1–3, 3:2:1)' : ''}
+                              Prize {level.level === 10 ? '(Monthly Top 3: ₹9,999)' : ''}
                             </div>
                           </div>
                         </div>
@@ -856,39 +862,39 @@ const HomePage = () => {
             <div className="bg-gradient-to-br from-yellow-100 to-orange-200 dark:from-yellow-600/30 dark:to-orange-600/30 rounded-xl sm:rounded-2xl p-4 sm:p-6 border-2 border-yellow-400/50 text-center hover:scale-105 transition-transform duration-300">
               <div className="text-2xl sm:text-3xl md:text-4xl mb-2 sm:mb-3">🎯</div>
               <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-800 dark:text-white mb-1 sm:mb-2">
-                10 Referrals
+                2 Referrals
               </h3>
               <div className="text-lg sm:text-xl md:text-2xl font-bold text-yellow-600 dark:text-yellow-300 mb-1 sm:mb-2">
-                ₹99 BASIC Plan
+                ₹9 BASIC Plan
               </div>
               <p className="text-yellow-700 dark:text-yellow-200 text-xs sm:text-sm">
-                1 Year Free Subscription
+                1 Month Free Subscription
               </p>
             </div>
 
             <div className="bg-gradient-to-br from-red-100 to-pink-200 dark:from-red-600/30 dark:to-pink-600/30 rounded-xl sm:rounded-2xl p-4 sm:p-6 border-2 border-red-400/50 text-center hover:scale-105 transition-transform duration-300">
               <div className="text-2xl sm:text-3xl md:text-4xl mb-2 sm:mb-3">🚀</div>
               <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-800 dark:text-white mb-1 sm:mb-2">
-                50 Referrals
+                5 Referrals
               </h3>
               <div className="text-lg sm:text-xl md:text-2xl font-bold text-red-600 dark:text-red-300 mb-1 sm:mb-2">
-                ₹499 PREMIUM Plan
+                ₹49 PREMIUM Plan
               </div>
               <p className="text-red-700 dark:text-red-200 text-xs sm:text-sm">
-                1 Year Free Subscription
+                1 Month Free Subscription
               </p>
             </div>
 
             <div className="bg-gradient-to-br from-purple-100 to-indigo-200 dark:from-purple-600/30 dark:to-indigo-600/30 rounded-xl sm:rounded-2xl p-4 sm:p-6 border-2 border-purple-400/50 text-center hover:scale-105 transition-transform duration-300 sm:col-span-2 md:col-span-1">
               <div className="text-2xl sm:text-3xl md:text-4xl mb-2 sm:mb-3">👑</div>
               <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-800 dark:text-white mb-1 sm:mb-2">
-                100 Referrals
+                10 Referrals
               </h3>
               <div className="text-lg sm:text-xl md:text-2xl font-bold text-purple-600 dark:text-purple-300 mb-1 sm:mb-2">
-                ₹999 PRO Plan
+                ₹99 PRO Plan
               </div>
               <p className="text-purple-700 dark:text-purple-200 text-xs sm:text-sm">
-                1 Year Free Subscription
+                1 Month Free Subscription
               </p>
             </div>
           </div>
@@ -1006,6 +1012,15 @@ const HomePage = () => {
           )}
         </div>
       </div>
+      
+      {/* System Update Modal */}
+      <SystemUpdateModal 
+        isOpen={showSystemUpdateModal}
+        onClose={() => {
+          setShowSystemUpdateModal(false);
+          localStorage.setItem('hasSeenSystemUpdateModal', 'true');
+        }}
+      />
     </div>
   );
 };

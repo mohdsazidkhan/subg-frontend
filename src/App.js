@@ -40,6 +40,7 @@ import UserAnalytics from './pages/admin/UserAnalytics';
 import QuizAnalytics from './pages/admin/QuizAnalytics';
 import FinancialAnalytics from './pages/admin/FinancialAnalytics';
 import PerformanceAnalytics from './pages/admin/PerformanceAnalytics';
+import MonthlyProgressAnalytics from './pages/admin/MonthlyProgressAnalytics';
 import CategoryDetailPage from './pages/CategoryDetailPage';
 import SubcategoryDetailPage from './pages/SubcategoryDetailPage';
 import LevelDetailPage from './pages/LevelDetailPage';
@@ -122,6 +123,7 @@ function AppLayout() {
             <Route path="/admin/analytics/quizzes" element={<AdminRoute><QuizAnalytics /></AdminRoute>} />
             <Route path="/admin/analytics/financial" element={<AdminRoute><FinancialAnalytics /></AdminRoute>} />
             <Route path="/admin/analytics/performance" element={<AdminRoute><PerformanceAnalytics /></AdminRoute>} />
+            <Route path="/admin/analytics/monthly-progress" element={<AdminRoute><MonthlyProgressAnalytics /></AdminRoute>} />
 
             {/* Catch all route */}
             <Route path="*" element={<Navigate to="/" replace />} />

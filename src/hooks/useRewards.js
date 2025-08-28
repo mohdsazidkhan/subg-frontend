@@ -14,22 +14,29 @@ export const useRewards = () => {
       }
       setError(null);
       
-      const response = await API.getUserRewards();
+      // Use profile data as rewards source in monthly system
+      const response = await API.getProfile();
       
-      // Validate response structure
       if (!response || typeof response !== 'object') {
         throw new Error('Invalid response format from server');
       }
       
-      // Validate required fields
-      const requiredFields = ['locked', 'unlocked', 'claimed', 'claimableRewards', 'quizProgress'];
-      const missingFields = requiredFields.filter(field => !(field in response));
-      
-      if (missingFields.length > 0) {
-        console.warn('Missing fields in rewards response:', missingFields);
-      }
-      
-      setRewards(response);
+      // Shape minimal rewards state for components
+      const shaped = {
+        claimableRewards: response?.claimableRewards || 0,
+        quizProgress: {
+          current: response?.monthlyProgress?.highScoreWins || 0,
+          required: 110,
+          percentage: Math.min(100, Math.round(((response?.monthlyProgress?.highScoreWins || 0) / 110) * 100))
+        },
+        canUnlock: Boolean(response?.monthlyProgress?.rewardEligible),
+        monthlyRank: response?.monthlyProgress?.rewardRank || null,
+        // legacy arrays removed
+        locked: [],
+        unlocked: [],
+        claimed: []
+      };
+      setRewards(shaped);
       setRetryCount(0); // Reset retry count on success
     } catch (err) {
       console.error('Error fetching rewards:', err);
@@ -50,64 +57,24 @@ export const useRewards = () => {
     }
   }, [retryCount]);
 
-  const claimReward = useCallback(async (rewardId) => {
-    if (!rewardId) {
-      return { 
-        success: false, 
-        error: 'Invalid reward ID' 
-      };
-    }
-
-    try {
-      const response = await API.claimReward(rewardId);
-      
-      // Validate response
-      if (!response) {
-        throw new Error('No response from server');
-      }
-      
-      // Refresh rewards after successful claim
-      await fetchRewards();
-      
-      return { 
-        success: true, 
-        data: response 
-      };
-    } catch (err) {
-      console.error('Error claiming reward:', err);
-      return { 
-        success: false, 
-        error: err.response?.data?.message || 'Failed to claim reward' 
-      };
-    }
-  }, [fetchRewards]);
+  const claimReward = useCallback(async () => {
+    return { success: false, error: 'Claim flow disabled; monthly prizes auto-credited to winners.' };
+  }, []);
 
   const checkRewardStatus = useCallback((level) => {
     if (!rewards || !level) return null;
-    
-    const reward = rewards.locked?.find(r => r.level === level) ||
-                  rewards.unlocked?.find(r => r.level === level) ||
-                  rewards.claimed?.find(r => r.level === level);
-    
-    if (!reward) return null;
-    
-    if (reward.isClaimed) return 'claimed';
-    if (reward.isUnlocked) return 'unlocked';
-    return 'locked';
+    if (level === 10 && rewards.canUnlock) return 'monthly';
+    return null;
   }, [rewards]);
 
   const getRewardAmount = useCallback((level) => {
-    const rewardAmounts = {
-      6: 990,      // August 1: Level 6 Top 3
-      9: 9980,     // December 1: Level 9 Top 3
-      10: 99999    // March 31: Level 10 Top 3 (3:2:1 split)
-    };
-    return rewardAmounts[level] || 0;
+    if (level === 10) return 9999;
+    return 0;
   }, []);
 
   const getQuizProgress = useCallback(() => {
     if (!rewards) return null;
-    return rewards.quizProgress || { current: 0, required: 1024, percentage: 0 };
+    return rewards.quizProgress || { current: 0, required: 110, percentage: 0 };
   }, [rewards]);
 
   const canUnlockRewards = useCallback(() => {
@@ -118,11 +85,7 @@ export const useRewards = () => {
   const getTotalRewardsValue = useCallback(() => {
     if (!rewards) return 0;
     
-    const lockedValue = (rewards.locked || []).reduce((sum, r) => sum + (r.amount || 0), 0);
-    const unlockedValue = (rewards.unlocked || []).reduce((sum, r) => sum + (r.amount || 0), 0);
-    const claimedValue = (rewards.claimed || []).reduce((sum, r) => sum + (r.amount || 0), 0);
-    
-    return lockedValue + unlockedValue + claimedValue;
+    return rewards.claimableRewards || 0;
   }, [rewards]);
 
   const retryFetch = useCallback(() => {

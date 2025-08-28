@@ -26,8 +26,8 @@ const HowItWorks = () => (
       </li>
 
       <li>
-        <strong>Annual Rewards System: </strong>  
-        Top 3 performers at Level 6 (₹990), Level 9 (₹9,980), and Level 10 (₹99,999 pool) earn rewards on August 1, December 1, and March 31 respectively.
+        <strong>Monthly Rewards System: </strong>  
+        Top 3 eligible users at Level 10 (110 monthly wins with ≥75% accuracy) earn ₹9,999 each month. Rewards reset and recalculate every month.
       </li>
 
       <li>

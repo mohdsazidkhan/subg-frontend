@@ -19,16 +19,27 @@ import { Link } from 'react-router-dom';
   const fetchTopPerformers = useCallback(async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("token");
-      const response = await fetch(`${config.API_URL}/api/public/top-performers`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(`${config.API_URL}/api/public/monthly-leaderboard`);
       const result = await response.json();
       if (result.success) {
-        setData(result.data);
+        const month = result?.data?.month;
+        const top = Array.isArray(result?.data?.top) ? result.data.top : [];
+        // Transform to legacy shape expected by UI
+        const transformed = top.map((u) => ({
+          userId: u.userId,
+          name: u.name,
+          position: u.rank,
+          isCurrentUser: u.userId === currentUserId,
+          level: {
+            currentLevel: u.monthly?.currentLevel || 0,
+            levelName: u.monthly?.currentLevel === 10 ? 'Legend' : '',
+            highScoreQuizzes: u.monthly?.highScoreWins || 0,
+            quizzesPlayed: u.monthly?.totalQuizAttempts || 0,
+            accuracy: u.monthly?.accuracy || 0,
+            averageScore: u.monthly?.accuracy || 0
+          }
+        }));
+        setData({ month, topPerformers: transformed, surroundingUsers: [], total: transformed.length });
       } else {
         setError(result.message || "Failed to load top performers");
       }
@@ -41,12 +52,8 @@ import { Link } from 'react-router-dom';
   }, []);
 
   useEffect(() => {
-    if (isLoggedIn) {
-      fetchTopPerformers();
-    } else {
-      setLoading(false);
-    }
-  }, [isLoggedIn, fetchTopPerformers]);
+    fetchTopPerformers();
+  }, [fetchTopPerformers]);
 
   // Handle screen size changes
   useEffect(() => {
@@ -144,13 +151,10 @@ import { Link } from 'react-router-dom';
       <div className="flex flex-col lg:flex-row justify-between items-center mb-6">
         <div className='mb-4 lg:mb-0 text-center lg:text-left'>
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            🏆 Top Performers
+            🏆 Monthly Leaderboard
           </h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            Top performing students current academic year {data?.academicYear || '2024-2025'}
-          </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-            📅 Academic Year: 1 April, {data?.academicYear?.split('-')[0] || '2024'} - 31 March, {data?.academicYear?.split('-')[1] || '2025'}
+            Top eligible users for {data?.month || ''}
           </p>
         </div>
         

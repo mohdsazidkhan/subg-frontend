@@ -31,7 +31,7 @@ const config = {
     FREE: {
       name: 'Free',
       price: 0,
-      duration: '1 year',
+      duration: '1 month',
       features: [
         'Unlimited Quiz Access (Levels 0-3)',
         'Community Access',
@@ -41,8 +41,8 @@ const config = {
     },
     BASIC: {
       name: 'Basic',
-      price: 99,
-      duration: '1 year',
+      price: 9,
+      duration: '1 month',
       features: [
         'Unlimited Quiz Access (Levels 0-6)',
         'Community Access',
@@ -52,8 +52,8 @@ const config = {
     },
     PREMIUM: {
       name: 'Premium',
-      price: 499,
-      duration: '1 year',
+      price: 49,
+      duration: '1 month',
       features: [
         'Unlimited Quiz Access (Levels 0-9)',
         'Community Access',
@@ -67,8 +67,8 @@ const config = {
     },
     PRO: {
       name: 'Pro',
-      price: 999,
-      duration: '1 year',
+      price: 99,
+      duration: '1 month',
       features: [
         'Unlimited Quiz Access (All Levels 0-10)',
         'Community Access',

@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
 import { FaUser, FaEnvelope, FaPhone, FaLock, FaEye, FaEyeSlash, FaTrophy, FaBrain, FaRocket } from 'react-icons/fa';
-import AnnualRewardsInfo from '../components/AnnualRewardsInfo';
+import MonthlyRewardsInfo from '../components/MonthlyRewardsInfo';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
@@ -118,7 +118,7 @@ const RegisterPage = () => {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Level-Based Learning</h3>
-                <p className="text-gray-600 dark:text-gray-300">Progress through 11 exciting levels from Zero Level to Legend</p>
+                <p className="text-gray-600 dark:text-gray-300">Progress through 11 exciting levels from Starter to Legend</p>
               </div>
             </div>
 
@@ -127,8 +127,8 @@ const RegisterPage = () => {
                 <FaTrophy className="text-white text-2xl" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Annual Rewards System</h3>
-                <p className="text-gray-600 dark:text-gray-300">Earn ₹990 (Level 6), ₹9,980 (Level 9), and ₹99,999 pool (Level 10)</p>
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Monthly Rewards System</h3>
+                <p className="text-gray-600 dark:text-gray-300">Top 3 eligible users at Level 10 win ₹9,999 each month</p>
               </div>
             </div>
 
@@ -143,9 +143,9 @@ const RegisterPage = () => {
             </div>
           </div>
 
-          {/* Annual Rewards Information */}
+                      {/* Monthly Rewards Information */}
           <div className="mt-8">
-            <AnnualRewardsInfo compact={true} />
+            <MonthlyRewardsInfo compact={true} />
           </div>
         </div>
 

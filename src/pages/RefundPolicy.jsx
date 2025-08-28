@@ -41,13 +41,13 @@ const RefundPolicy = () => (
       To request a review, contact us within <strong>7 days</strong> of the transaction with order ID, payment proof, and account details. Approved cases (if any) are refunded to the original payment method within standard banking timelines.
     </p>
 
-    <h2 className="text-xl font-semibold mt-6 mb-2 text-gray-900 dark:text-white">5) Annual Rewards & Refunds</h2>
+    <h2 className="text-xl font-semibold mt-6 mb-2 text-gray-900 dark:text-white">5) Monthly Rewards & Refunds</h2>
     <ul className="list-disc pl-6 space-y-2">
-      <li>Annual rewards are <strong>not purchases</strong> and are <strong>not refundable</strong>. They are prizes based on performance, leaderboard position, and eligibility.</li>
+      <li>Monthly rewards are <strong>not purchases</strong> and are <strong>not refundable</strong>. They are prizes based on performance, leaderboard position, and eligibility.</li>
       <li>
-        <strong>Annual Rewards Schedule:</strong> Aug 1 (Level 6 lock ₹990), Dec 1 (Level 9 lock ₹9,980), Mar 31 (Level 10 unlock + ₹99,999 pool split 3:2:1). Eligibility includes Level 10 Top 3 and completing 1024 high‑score quizzes (75%+).
+        <strong>Monthly Rewards System:</strong> Top 3 eligible users at Level 10 (110 wins + ≥75% accuracy) win ₹9,999 each month. Eligibility is based on current month performance only.
       </li>
-      <li>Locked rewards cannot be withdrawn until unlocked per the schedule and criteria. Unlocks/allocations do <strong>not</strong> change your subscription fees or refund eligibility.</li>
+      <li>Monthly rewards are processed at the end of each month and reset for the next month. Previous month achievements do not carry forward.</li>
       <li>Withdrawals (if enabled) may require bank details/KYC verification to comply with regulations.</li>
     </ul>
 

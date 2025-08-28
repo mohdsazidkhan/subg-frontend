@@ -11,8 +11,8 @@ import {
   ArcElement
 } from 'chart.js';
 import config from '../../config/appConfig';
-import { FaUsers, FaChartBar, FaMoneyBillWave, FaTrophy, FaClock, FaStar, FaUser, FaBook, FaCalendarAlt, FaMedal, FaCrown, FaAward } from 'react-icons/fa';
-import { useLocation } from 'react-router-dom';
+import { FaUsers, FaChartBar, FaMoneyBillWave, FaTrophy, FaClock, FaStar, FaUser, FaBook, FaCalendarAlt, FaMedal, FaCrown, FaAward, FaChartLine } from 'react-icons/fa';
+import { useLocation, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Sidebar from '../../components/Sidebar';
 import ViewToggle from '../../components/ViewToggle';
@@ -629,10 +629,21 @@ const DashboardAnalytics = () => {
       {user?.role === 'admin' && isAdminRoute && <Sidebar />}
       <div className="adminContent p-2 md:p-6 w-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Analytics Dashboard</h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Comprehensive overview of platform performance and user engagement
-          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold mb-2">Analytics Dashboard</h1>
+              <p className="text-gray-600 dark:text-gray-300">
+                Comprehensive overview of platform performance and user engagement
+              </p>
+            </div>
+            <Link
+              to="/admin/analytics/monthly-progress"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+            >
+              <FaChartLine className="text-lg" />
+              Monthly Progress Analytics
+            </Link>
+          </div>
         </div>
 
         {/* Stats Cards */}
