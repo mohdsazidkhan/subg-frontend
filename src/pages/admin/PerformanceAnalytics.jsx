@@ -115,7 +115,28 @@ const PerformanceAnalytics = () => {
       case 'quizzesPlayed':
         return performers.sort((a, b) => (b.level?.quizzesPlayed || 0) - (a.level?.quizzesPlayed || 0));
       default:
-        return performers;
+        // Default ranking: First by high score (descending), then by total quizzes (ascending - fewer is better)
+        return performers.sort((a, b) => {
+          const aHighScore = a.level?.highScoreQuizzes || 0;
+          const bHighScore = b.level?.highScoreQuizzes || 0;
+          const aTotalQuizzes = a.level?.quizzesPlayed || 0;
+          const bTotalQuizzes = b.level?.quizzesPlayed || 0;
+          
+          // First priority: High score (descending)
+          if (aHighScore !== bHighScore) {
+            return bHighScore - aHighScore;
+          }
+          
+          // Second priority: Total quizzes (ascending - fewer is better)
+          if (aTotalQuizzes !== bTotalQuizzes) {
+            return aTotalQuizzes - bTotalQuizzes;
+          }
+          
+          // Third priority: Average score (descending)
+          const aAvgScore = a.level?.averageScore || 0;
+          const bAvgScore = b.level?.averageScore || 0;
+          return bAvgScore - aAvgScore;
+        });
     }
   };
 
@@ -568,12 +589,13 @@ const PerformanceAnalytics = () => {
                       High Scores
                     </div>
                   </th>
-                  <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
+                  <th className="py-4 px-4 text-left text-purple-800 dark:text-purple-200 font-bold text-lg">
                     <div className="flex items-center gap-2">
                       <span className="text-xl">🎯</span>
-                      Avg. Score
+                      Accuracy
                     </div>
                   </th>
+
                   <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
                     <div className="flex items-center gap-2">
                       <span className="text-xl">🏅</span>
@@ -695,19 +717,20 @@ const PerformanceAnalytics = () => {
                       </td>
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-2">
-                          <div className="w-10 h-10 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-lg flex items-center justify-center">
-                            <span className="text-green-600 dark:text-green-400 text-sm">🎯</span>
+                          <div className="w-10 h-10 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-lg flex items-center justify-center">
+                            <span className="text-purple-600 dark:text-purple-400 text-sm">🎯</span>
                           </div>
                           <span className={`font-bold text-lg ${
-                            (p.level?.averageScore || 0) >= 80 ? 'text-green-600 dark:text-green-400' :
-                            (p.level?.averageScore || 0) >= 70 ? 'text-blue-600 dark:text-blue-400' :
-                            (p.level?.averageScore || 0) >= 60 ? 'text-yellow-600 dark:text-yellow-400' :
+                            (p.level?.accuracy || 0) >= 80 ? 'text-green-600 dark:text-green-400' :
+                            (p.level?.accuracy || 0) >= 70 ? 'text-blue-600 dark:text-blue-400' :
+                            (p.level?.accuracy || 0) >= 60 ? 'text-yellow-600 dark:text-yellow-400' :
                             'text-red-600 dark:text-red-400'
                           }`}>
-                            {p.level?.averageScore?.toFixed(2) || "0.00"}%
+                            {p.level?.accuracy || 0}%
                           </span>
                         </div>
                       </td>
+
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-2">
                           <div className="w-10 h-10 bg-gradient-to-r from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 rounded-lg flex items-center justify-center">
@@ -777,27 +800,32 @@ const PerformanceAnalytics = () => {
                     </div>
                   </div>
                   
-                  {/* Score Details */}
-                  <div className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">Total Score:</span>
-                      <span className="text-blue-600 dark:text-blue-400 font-bold">
-                        {p.level?.totalScore?.toFixed(2) || "0.00"}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">Avg Score:</span>
-                      <span className="text-purple-600 dark:text-purple-400 font-bold">
-                        {p.level?.averageScore?.toFixed(2) || "0.00"}%
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">Quizzes:</span>
-                      <span className="text-orange-600 dark:text-orange-400 font-bold">
-                        {p.level?.quizzesPlayed || 0}
-                      </span>
-                    </div>
-                  </div>
+                                     {/* Score Details */}
+                   <div className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
+                     <div className="flex items-center gap-2">
+                       <span className="font-medium">Total Score:</span>
+                       <span className="text-blue-600 dark:text-blue-400 font-bold">
+                         {p.level?.totalScore?.toFixed(2) || "0.00"}
+                       </span>
+                     </div>
+                     <div className="flex items-center gap-2">
+                       <span className="font-medium">Accuracy:</span>
+                       <span className={`font-bold ${
+                         (p.level?.accuracy || 0) >= 80 ? 'text-green-600 dark:text-green-400' :
+                         (p.level?.accuracy || 0) >= 70 ? 'text-blue-600 dark:text-blue-400' :
+                         (p.level?.accuracy || 0) >= 60 ? 'text-yellow-600 dark:text-yellow-400' :
+                         'text-red-600 dark:text-red-400'
+                       }`}>
+                         {p.level?.accuracy || 0}%
+                       </span>
+                     </div>
+                     <div className="flex items-center gap-2">
+                       <span className="font-medium">Quizzes:</span>
+                       <span className="text-orange-600 dark:text-orange-400 font-bold">
+                         {p.level?.quizzesPlayed || 0}
+                       </span>
+                     </div>
+                   </div>
                 </div>
               </div>
             ))}
@@ -853,27 +881,32 @@ const PerformanceAnalytics = () => {
                   </div>
                 </div>
                 
-                {/* Performance Stats */}
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-600 dark:text-gray-400">Total Quizzes:</span>
-                    <span className="font-semibold text-blue-600 dark:text-blue-400">
-                      {p.level?.quizzesPlayed || 0}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-600 dark:text-gray-400">Avg Score:</span>
-                    <span className="font-semibold text-purple-600 dark:text-purple-400">
-                      {p.level?.averageScore?.toFixed(2) || "0.00"}%
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-600 dark:text-gray-400">Total Score:</span>
-                    <span className="font-semibold text-orange-600 dark:text-orange-400">
-                      {p.level?.totalScore?.toFixed(2) || "0.00"}
-                    </span>
-                  </div>
-                </div>
+                                 {/* Performance Stats */}
+                 <div className="space-y-2 text-sm">
+                   <div className="flex justify-between items-center">
+                     <span className="text-gray-600 dark:text-gray-400">Total Quizzes:</span>
+                     <span className="font-semibold text-blue-600 dark:text-blue-400">
+                       {p.level?.quizzesPlayed || 0}
+                     </span>
+                   </div>
+                   <div className="flex justify-between items-center">
+                     <span className="text-gray-600 dark:text-gray-400">Accuracy:</span>
+                     <span className={`font-semibold ${
+                       (p.level?.accuracy || 0) >= 80 ? 'text-green-600 dark:text-green-400' :
+                       (p.level?.accuracy || 0) >= 70 ? 'text-blue-600 dark:text-blue-400' :
+                       (p.level?.accuracy || 0) >= 60 ? 'text-yellow-600 dark:text-yellow-400' :
+                       'text-red-600 dark:text-red-400'
+                     }`}>
+                       {p.level?.accuracy || 0}%
+                     </span>
+                   </div>
+                   <div className="flex justify-between items-center">
+                     <span className="text-gray-600 dark:text-gray-400">Total Score:</span>
+                     <span className="font-semibold text-orange-600 dark:text-orange-400">
+                       {p.level?.totalScore?.toFixed(2) || "0.00"}
+                     </span>
+                   </div>
+                 </div>
               </div>
             ))}
           </div>

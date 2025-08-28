@@ -66,7 +66,27 @@ import { Link } from 'react-router-dom';
   const getSortedTopPerformers = () => {
     if (!data?.topPerformers) return [];
     const performers = [...data.topPerformers];
-    return performers.sort((a, b) => (b.level?.highScoreQuizzes || 0) - (a.level?.highScoreQuizzes || 0));
+    return performers.sort((a, b) => {
+      const aHighScore = a.level?.highScoreQuizzes || 0;
+      const bHighScore = b.level?.highScoreQuizzes || 0;
+      const aTotalQuizzes = a.level?.quizzesPlayed || 0;
+      const bTotalQuizzes = b.level?.quizzesPlayed || 0;
+      
+      // First priority: High score (descending)
+      if (aHighScore !== bHighScore) {
+        return bHighScore - aHighScore;
+      }
+      
+      // Second priority: Total quizzes (ascending - fewer is better)
+      if (aTotalQuizzes !== bTotalQuizzes) {
+        return aTotalQuizzes - bTotalQuizzes;
+      }
+      
+      // Third priority: Average score (descending)
+      const aAvgScore = a.level?.averageScore || 0;
+      const bAvgScore = b.level?.averageScore || 0;
+      return bAvgScore - aAvgScore;
+    });
   };
 
   // Logged-out state UI
@@ -254,6 +274,12 @@ import { Link } from 'react-router-dom';
                     High Scores
                   </div>
                 </th>
+                <th className="py-4 px-4 text-left text-purple-800 dark:text-purple-200 font-bold text-lg">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">🎯</span>
+                    Accuracy
+                  </div>
+                </th>
 
               </tr>
             </thead>
@@ -355,6 +381,28 @@ import { Link } from 'react-router-dom';
                       </div>
                     </div>
                   </td>
+                  <td className="py-4 px-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-lg flex items-center justify-center">
+                        <span className="text-purple-600 dark:text-purple-400 text-sm">🎯</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className={`font-bold text-lg ${
+                          (p.level?.accuracy || 0) >= 80 ? 'text-green-600 dark:text-green-400' :
+                          (p.level?.accuracy || 0) >= 70 ? 'text-blue-600 dark:text-blue-400' :
+                          (p.level?.accuracy || 0) >= 60 ? 'text-yellow-600 dark:text-yellow-400' :
+                          'text-red-600 dark:text-red-400'
+                        }`}>
+                          {p.level?.accuracy || 0}%
+                        </span>
+                        {(p.level?.accuracy || 0) > 0 && (
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-200">
+                            🎯
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </td>
 
                 </tr>
               ))}
@@ -409,7 +457,7 @@ import { Link } from 'react-router-dom';
                 </div>
               </div>
               
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4">
                 {/* High Score Badge */}
                 <div className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 p-3 rounded-lg border border-green-200 dark:border-green-700">
                   <div className="text-center">
@@ -430,6 +478,23 @@ import { Link } from 'react-router-dom';
                     </div>
                     <div className="text-sm font-medium text-blue-600 dark:text-blue-400">
                       📚 Total Quizzes
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Accuracy Badge */}
+                <div className="bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 p-3 rounded-lg border border-purple-200 dark:border-purple-700">
+                  <div className="text-center">
+                    <div className={`text-2xl font-bold ${
+                      (p.level?.accuracy || 0) >= 80 ? 'text-green-800 dark:text-green-200' :
+                      (p.level?.accuracy || 0) >= 70 ? 'text-blue-800 dark:text-blue-200' :
+                      (p.level?.accuracy || 0) >= 60 ? 'text-yellow-800 dark:text-yellow-200' :
+                      'text-red-800 dark:text-red-200'
+                    }`}>
+                      {p.level?.accuracy || 0}%
+                    </div>
+                    <div className="text-sm font-medium text-purple-600 dark:text-purple-400">
+                      🎯 Accuracy
                     </div>
                   </div>
                 </div>
@@ -531,6 +596,23 @@ import { Link } from 'react-router-dom';
                   </div>
                   <div className="text-sm font-medium text-purple-600 dark:text-purple-400">
                     📈 Level
+                  </div>
+                </div>
+              </div>
+              
+              {/* Accuracy Badge */}
+              <div className="bg-gradient-to-r from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 p-3 rounded-lg mb-3 border border-orange-200 dark:border-amber-700">
+                <div className="text-center">
+                  <div className={`text-2xl font-bold ${
+                    (p.level?.accuracy || 0) >= 80 ? 'text-green-800 dark:text-green-200' :
+                    (p.level?.accuracy || 0) >= 70 ? 'text-blue-800 dark:text-blue-200' :
+                    (p.level?.accuracy || 0) >= 60 ? 'text-yellow-800 dark:text-yellow-200' :
+                    'text-red-800 dark:text-red-200'
+                  }`}>
+                    {p.level?.accuracy || 0}%
+                  </div>
+                  <div className="text-sm font-medium text-orange-600 dark:text-orange-400">
+                    🎯 Accuracy
                   </div>
                 </div>
               </div>
