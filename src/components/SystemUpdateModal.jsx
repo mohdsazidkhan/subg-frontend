@@ -29,7 +29,7 @@ const SystemUpdateModal = ({ isOpen, onClose }) => {
       />
       
       <div 
-        className={`relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto transition-all duration-300 transform ${
+        className={`relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-y-auto transition-all duration-300 transform ${
           isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
         }`}
       >
@@ -40,8 +40,8 @@ const SystemUpdateModal = ({ isOpen, onClose }) => {
                 <FaRocket className="text-2xl" />
               </div>
               <div>
-                                 <h2 className="text-xl lg:text-2xl font-bold">🚀 New System Update!</h2>
-                 <p className="text-blue-100">Welcome to the MONTHLY rewards system starting from September 1st!</p>
+                 <h2 className="text-xl lg:text-2xl font-bold">New System Update!</h2>
+                 <p className="text-blue-100">Welcome to the MONTHLY rewards system</p>
               </div>
             </div>
             <button
@@ -117,7 +117,7 @@ const SystemUpdateModal = ({ isOpen, onClose }) => {
               <FaCreditCard className="text-xl mr-2" />
               New Subscription Plans
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
               <div className="bg-white dark:bg-gray-700 rounded-lg p-4 text-center">
                 <div className="text-2xl mb-2">🆓</div>
                 <div className="text-lg font-bold text-gray-800 dark:text-white">Free</div>
