@@ -6,6 +6,9 @@ import AdminRoute from './components/AdminRoute';
 import Footer from './components/Footer.jsx';
 import StudentRoute from './components/StudentRoute';
 import ErrorBoundary from './components/ErrorBoundary';
+import GlobalErrorProvider from './contexts/GlobalErrorContext';
+import GlobalErrorBanner from './components/GlobalErrorBanner';
+import TokenValidationWrapper from './components/TokenValidationWrapper';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage.jsx';
 import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx';
@@ -40,7 +43,6 @@ import UserAnalytics from './pages/admin/UserAnalytics';
 import QuizAnalytics from './pages/admin/QuizAnalytics';
 import FinancialAnalytics from './pages/admin/FinancialAnalytics';
 import PerformanceAnalytics from './pages/admin/PerformanceAnalytics';
-
 import CategoryDetailPage from './pages/CategoryDetailPage';
 import SubcategoryDetailPage from './pages/SubcategoryDetailPage';
 import LevelDetailPage from './pages/LevelDetailPage';
@@ -70,6 +72,9 @@ function AppLayout() {
 
   return (
     <ErrorBoundary>
+      {/* Global Error Banner */}
+      <GlobalErrorBanner />
+      
       {/* Navbar always shows */}
       <Navbar />
       
@@ -93,36 +98,36 @@ function AppLayout() {
             <Route path="/contact" element={<ContactUs />} />
 
             {/* Public Homepage Route */}
-            <Route path="/" element={<HomePage />} />
-            <Route path="/search" element={<SearchPage />} />
-            <Route path="/profile" element={<StudentRoute><ProfilePage /></StudentRoute>} />
-            <Route path="/attempt-quiz/:quizId" element={<StudentRoute><AttemptQuizPage /></StudentRoute>} />
-            <Route path="/subscription" element={<StudentRoute><SubscriptionPage /></StudentRoute>} />
-            <Route path="/quiz-result" element={<StudentRoute><QuizResult /></StudentRoute>} />
-            <Route path="/levels" element={<StudentRoute><LevelsPage /></StudentRoute>} />
-            <Route path="/level-quizzes" element={<StudentRoute><LevelBasedQuizzesPage /></StudentRoute>} />
-            <Route path="/rewards" element={<StudentRoute><RewardsPage /></StudentRoute>} />
-            <Route path="/category/:categoryId" element={<StudentRoute><CategoryDetailPage /></StudentRoute>} />
-            <Route path="/subcategory/:subcategoryId" element={<StudentRoute><SubcategoryDetailPage /></StudentRoute>} />
-            <Route path="/level/:levelNumber" element={<StudentRoute><LevelDetailPage /></StudentRoute>} />
+            <Route path="/" element={<TokenValidationWrapper showWarning={false}><HomePage /></TokenValidationWrapper>} />
+            <Route path="/search" element={<TokenValidationWrapper showWarning={false}><SearchPage /></TokenValidationWrapper>} />
+            <Route path="/profile" element={<StudentRoute><TokenValidationWrapper><ProfilePage /></TokenValidationWrapper></StudentRoute>} />
+            <Route path="/attempt-quiz/:quizId" element={<StudentRoute><TokenValidationWrapper><AttemptQuizPage /></TokenValidationWrapper></StudentRoute>} />
+            <Route path="/subscription" element={<StudentRoute><TokenValidationWrapper><SubscriptionPage /></TokenValidationWrapper></StudentRoute>} />
+            <Route path="/quiz-result" element={<StudentRoute><TokenValidationWrapper><QuizResult /></TokenValidationWrapper></StudentRoute>} />
+            <Route path="/levels" element={<StudentRoute><TokenValidationWrapper><LevelsPage /></TokenValidationWrapper></StudentRoute>} />
+            <Route path="/level-quizzes" element={<StudentRoute><TokenValidationWrapper><LevelBasedQuizzesPage /></TokenValidationWrapper></StudentRoute>} />
+            <Route path="/rewards" element={<StudentRoute><TokenValidationWrapper><RewardsPage /></TokenValidationWrapper></StudentRoute>} />
+            <Route path="/category/:categoryId" element={<StudentRoute><TokenValidationWrapper><CategoryDetailPage /></TokenValidationWrapper></StudentRoute>} />
+            <Route path="/subcategory/:subcategoryId" element={<StudentRoute><TokenValidationWrapper><SubcategoryDetailPage /></TokenValidationWrapper></StudentRoute>} />
+            <Route path="/level/:levelNumber" element={<StudentRoute><TokenValidationWrapper><LevelDetailPage /></TokenValidationWrapper></StudentRoute>} />
 
             {/* Admin Routes */}
-            <Route path="/admin/dashboard" element={<AdminRoute><DashboardPage /></AdminRoute>} />
-            <Route path="/admin/categories" element={<AdminRoute><CategoryPage /></AdminRoute>} />
-            <Route path="/admin/subcategories" element={<AdminRoute><SubcategoryPage /></AdminRoute>} />
-            <Route path="/admin/quizzes" element={<AdminRoute><QuizManagementPage /></AdminRoute>} />
-            <Route path="/admin/questions" element={<AdminRoute><QuestionPage /></AdminRoute>} />
-            <Route path="/admin/students" element={<AdminRoute><StudentPage /></AdminRoute>} />
-            <Route path="/admin/contacts" element={<AdminRoute><AdminContacts /></AdminRoute>} />
-            <Route path="/admin/bank-details" element={<AdminRoute><AdminBankDetails /></AdminRoute>} />
-            <Route path="/admin/rewards" element={<AdminRoute><AdminRewards /></AdminRoute>} />
+            <Route path="/admin/dashboard" element={<AdminRoute><TokenValidationWrapper><DashboardPage /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/categories" element={<AdminRoute><TokenValidationWrapper><CategoryPage /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/subcategories" element={<AdminRoute><TokenValidationWrapper><SubcategoryPage /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/quizzes" element={<AdminRoute><TokenValidationWrapper><QuizManagementPage /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/questions" element={<AdminRoute><TokenValidationWrapper><QuestionPage /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/students" element={<AdminRoute><TokenValidationWrapper><StudentPage /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/contacts" element={<AdminRoute><TokenValidationWrapper><AdminContacts /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/bank-details" element={<AdminRoute><TokenValidationWrapper><AdminBankDetails /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/rewards" element={<AdminRoute><TokenValidationWrapper><AdminRewards /></TokenValidationWrapper></AdminRoute>} />
             
             {/* Analytics Admin Routes */}
-            <Route path="/admin/analytics/dashboard" element={<AdminRoute><DashboardAnalytics /></AdminRoute>} />
-            <Route path="/admin/analytics/users" element={<AdminRoute><UserAnalytics /></AdminRoute>} />
-            <Route path="/admin/analytics/quizzes" element={<AdminRoute><QuizAnalytics /></AdminRoute>} />
-            <Route path="/admin/analytics/financial" element={<AdminRoute><FinancialAnalytics /></AdminRoute>} />
-            <Route path="/admin/analytics/performance" element={<AdminRoute><PerformanceAnalytics /></AdminRoute>} />
+            <Route path="/admin/analytics/dashboard" element={<AdminRoute><TokenValidationWrapper><DashboardAnalytics /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/analytics/users" element={<AdminRoute><TokenValidationWrapper><UserAnalytics /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/analytics/quizzes" element={<AdminRoute><TokenValidationWrapper><QuizAnalytics /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/analytics/financial" element={<AdminRoute><TokenValidationWrapper><FinancialAnalytics /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/analytics/performance" element={<AdminRoute><TokenValidationWrapper><PerformanceAnalytics /></TokenValidationWrapper></AdminRoute>} />
 
 
             {/* Catch all route */}
@@ -141,9 +146,11 @@ export default function App() {
   return (
     <Provider store={store}>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || "your-google-client-id"}>
-        <BrowserRouter>
-          <AppLayout />
-        </BrowserRouter>
+        <GlobalErrorProvider>
+          <BrowserRouter>
+            <AppLayout />
+          </BrowserRouter>
+        </GlobalErrorProvider>
       </GoogleOAuthProvider>
     </Provider>
   );

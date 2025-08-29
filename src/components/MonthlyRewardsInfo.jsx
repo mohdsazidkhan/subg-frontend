@@ -10,7 +10,7 @@ const MonthlyRewardsInfo = ({ compact = false, className = '' }) => {
             <strong>Monthly:</strong> Top 3 eligible users at Level 10 (110 wins + ≥75% accuracy) win prizes in 3:2:1 ratio from ₹9,999 total pool
           </div>
           <div className="text-xs text-blue-700 dark:text-blue-300">
-            <strong>Eligibility:</strong> Must reach Level 10 with ≥75% accuracy in current month
+            <strong>Eligibility:</strong> Must reach Level 10 with ≥75% accuracy in {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
           </div>
           <div className="text-xs text-blue-700 dark:text-blue-300">
             <strong>Reset:</strong> Progress and rewards reset every month on the 1st

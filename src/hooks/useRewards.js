@@ -30,7 +30,7 @@ export const useRewards = () => {
           percentage: Math.min(100, Math.round(((response?.monthlyProgress?.highScoreWins || 0) / 110) * 100))
         },
         canUnlock: Boolean(response?.monthlyProgress?.rewardEligible),
-        monthlyRank: response?.monthlyProgress?.rewardRank || null,
+        monthlyRank: response?.monthlyProgress?.rewardRank || 0,
         // legacy arrays removed
         locked: [],
         unlocked: [],

@@ -60,7 +60,7 @@ const ProfilePage = () => {
   
   // Get rewards data
   const { rewards: rewardsData, loading: rewardsLoading, error: rewardsError } = useRewards();
-  
+    console.log(rewardsData, 'rewardsData')
   // Edit Profile State
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [editProfileData, setEditProfileData] = useState({
@@ -311,10 +311,8 @@ const ProfilePage = () => {
   const userLevel = student?.levelInfo?.currentLevel || { number: 0, name: 'Starter' };
   const nextLevel = student?.levelInfo?.nextLevel;
   const quizzesPlayed = student?.levelInfo?.progress?.quizzesPlayed || 0;
-  const highScoreQuizzes = student?.levelInfo?.progress?.highScoreQuizzes || 0;
-  const quizzesToNextLevel = student?.levelInfo?.progress?.highScoreQuizzesToNextLevel || 0;
-  const progressPercentage = student?.levelInfo?.progress?.progressPercentage || 0;
-  const highScoreRate = student?.levelInfo?.stats?.highScoreRate || 0;
+  const highScoreQuizzes = student?.monthlyProgress?.highScoreWins || 0;
+  const highScoreRate = student?.monthlyProgress?.accuracy || 0;
 const message =
   "Refer with your friends and unlock paid subscriptions automatically on milestones!\n" +
               "2 referrals = ₹9 BASIC plan,\n" +

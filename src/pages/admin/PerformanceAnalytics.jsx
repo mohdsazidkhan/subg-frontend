@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Bar, Line } from "react-chartjs-2";
+import { useGlobalError } from "../../contexts/GlobalErrorContext";
+import { useTokenValidation } from "../../hooks/useTokenValidation";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -70,8 +72,19 @@ const PerformanceAnalytics = () => {
   const [darkMode] = useState(
     localStorage.getItem("darkMode") === "true"
   );
+  
+  // Global error context
+  const { checkRateLimitError } = useGlobalError();
+  
+  // Token validation
+  const { validateTokenBeforeRequest } = useTokenValidation();
   console.log(data, "data");
   useEffect(() => {
+    // Validate token before making API call
+    if (!validateTokenBeforeRequest()) {
+      return;
+    }
+    
     setLoading(true);
     const params = new URLSearchParams(filters).toString();
     fetch(`${config.API_URL}/api/analytics/performance?${params}`, {
@@ -80,21 +93,61 @@ const PerformanceAnalytics = () => {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          return res.text().then(errorText => {
+            let errorMessage = `HTTP ${res.status}: ${res.statusText}`;
+            try {
+              const errorJson = JSON.parse(errorText);
+              if (errorJson.message) {
+                errorMessage = errorJson.message;
+              } else if (errorJson.error) {
+                errorMessage = errorJson.error;
+              }
+            } catch (e) {
+              if (errorText) {
+                errorMessage = errorText;
+              }
+            }
+            throw new Error(errorMessage);
+          });
+        }
+        return res.json();
+      })
       .then((res) => {
         if (res.success) {
           setData(res.data);
         } else {
-          setError(res.message || "Failed to load performance analytics");
+          // Check if it's a rate limit error first
+          const errorMessage = res.message || "Failed to load performance analytics";
+          
+          if (checkRateLimitError(errorMessage)) {
+            // Rate limit error is handled globally, just set local error
+            setError("Rate limit reached. Please wait or login for higher limits.");
+          } else {
+            // Show other backend errors
+            setError(errorMessage);
+          }
         }
         setLoading(false);
       })
       .catch((err) => {
         console.error("API Error:", err);
-        setError("Failed to load performance analytics");
+        
+        // Check if it's a rate limit error first
+        if (err.message && checkRateLimitError(err.message)) {
+          // Rate limit error is handled globally, just set local error
+          setError("Rate limit reached. Please wait or re login after some time for higher limits.");
+        } else if (err.name === 'TypeError' && err.message.includes('fetch')) {
+          setError("Network Error: Unable to connect to server. Please check if the backend is running.");
+        } else if (err.message) {
+          setError(`Error: ${err.message}`);
+        } else {
+          setError("Failed to load performance analytics. Please try again.");
+        }
         setLoading(false);
       });
-  }, [filters]);
+  }, [filters, checkRateLimitError]);
 
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
@@ -176,8 +229,26 @@ const PerformanceAnalytics = () => {
         className={`min-h-screen p-6`}
       >
         <div className="max-w-4xl mx-auto">
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-            {error}
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg p-6">
+            <div className="text-red-800 dark:text-red-200 text-lg mb-4">
+              ⚠️ {error}
+          </div>
+            <div className="text-sm text-red-600 dark:text-red-300 mb-4">
+              This could be due to:
+              <ul className="list-disc list-inside mt-2">
+                <li>Backend server not running</li>
+                <li>Network connectivity issues</li>
+                <li>Rate limiting from backend</li>
+                <li>Authentication issues</li>
+                <li>Backend service errors</li>
+              </ul>
+            </div>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              🔄 Retry
+            </button>
           </div>
         </div>
       </div>
@@ -360,7 +431,7 @@ const PerformanceAnalytics = () => {
               {/* Current Month Data Notice */}
               <div className="bg-green-100 dark:bg-green-900/30 px-4 py-2 rounded-lg border border-green-200 dark:border-green-600">
                 <span className="text-green-800 dark:text-green-200 text-sm font-medium">
-                  📅 Top Performers: Current Month Data
+                  📅 Top Performers: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })} Data
                 </span>
               </div>
               
@@ -370,7 +441,7 @@ const PerformanceAnalytics = () => {
                   📊 Categories: {filters.period === 'week' ? 'Last 7 days' : 
                                  filters.period === 'month' ? 'Last 30 days' : 
                                  filters.period === 'quarter' ? 'Last 3 months' : 
-                                 filters.period === 'year' ? 'Last 12 months' : 'Current Month'}
+                                 filters.period === 'year' ? 'Last 12 months' : new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
                 </span>
               </div>
               
@@ -465,7 +536,7 @@ const PerformanceAnalytics = () => {
                   Top 10 Performers
                 </h3>
                 <p className="text-yellow-700 dark:text-yellow-300 text-sm">
-                  Current Month Quiz Performance Ranking
+                  {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })} Quiz Performance Ranking
                 </p>
               </div>
             </div>
@@ -474,7 +545,7 @@ const PerformanceAnalytics = () => {
             <div className="mt-4 md:mt-0 bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 px-4 py-2 rounded-lg border border-orange-200 dark:border-orange-600">
               <div className="text-center">
                 <div className="text-sm font-medium text-orange-800 dark:text-orange-200">
-                  📅 Current Month
+                  📅 {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
                 </div>
                 <div className="text-lg font-bold text-orange-800 dark:text-orange-200">
                   {new Date().toLocaleDateString('en-US', { 
@@ -829,7 +900,7 @@ const PerformanceAnalytics = () => {
             </div>
             <div>
               <p className="text-blue-800 dark:text-blue-200 font-medium">
-                <strong>Current Month Data:</strong> This ranking shows the top 10 performers based on their quiz performance for {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}.
+                <strong>{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })} Data:</strong> This ranking shows the top 10 performers based on their quiz performance for {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}.
               </p>
               <p className="text-blue-700 dark:text-blue-300 text-sm mt-1">
                 Rankings are updated based on high scores, quizzes played, and average scores achieved this month.

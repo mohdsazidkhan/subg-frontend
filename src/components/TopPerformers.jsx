@@ -2,22 +2,35 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { FaTable, FaList, FaTh } from 'react-icons/fa';
 import config from '../config/appConfig';
 import { Link } from 'react-router-dom';
+import { useGlobalError } from '../contexts/GlobalErrorContext';
+import { useTokenValidation } from '../hooks/useTokenValidation';
 
   const TopPerformers = () => {
     const [viewMode, setViewMode] = useState(() => {
       // Set default view based on screen size
       return window.innerWidth < 768 ? "grid" : "table";
     });
-      const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-  const [error, setError] = useState(null);
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
+    const [error, setError] = useState(null);
+    
+    // Global error context
+    const { checkRateLimitError } = useGlobalError();
+    
+    // Token validation
+    const { validateTokenBeforeRequest } = useTokenValidation();
 
   // Check if user is logged in and get current user info
   const isLoggedIn = !!localStorage.getItem("token");
   const currentUserId = JSON.parse(localStorage.getItem("userInfo"))?._id;
 
   const fetchTopPerformers = useCallback(async (isRefresh = false) => {
+    // Validate token before making API call
+    if (!validateTokenBeforeRequest()) {
+      return;
+    }
+    
     try {
       if (isRefresh) {
         setRefreshing(true);
@@ -32,6 +45,29 @@ import { Link } from 'react-router-dom';
       }
       
       const response = await fetch(url);
+      
+      // Check if response is OK
+      if (!response.ok) {
+        const errorText = await response.text();
+        let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+        
+        try {
+          const errorJson = JSON.parse(errorText);
+          if (errorJson.message) {
+            errorMessage = errorJson.message;
+          } else if (errorJson.error) {
+            errorMessage = errorJson.error;
+          }
+        } catch (e) {
+          // If not JSON, use the text as is
+          if (errorText) {
+            errorMessage = errorText;
+          }
+        }
+        
+        throw new Error(errorMessage);
+      }
+      
       const result = await response.json();
       if (result.success) {
         const month = result?.data?.month;
@@ -92,16 +128,36 @@ import { Link } from 'react-router-dom';
           total: result.data.total || transformed.length 
         });
       } else {
-        setError(result.message || "Failed to load top performers");
+        // Check if it's a rate limit error first
+        const errorMessage = result.message || result.error || "Failed to load top performers. Please try again.";
+        
+        if (checkRateLimitError(errorMessage)) {
+          // Rate limit error is handled globally, just set local error
+          setError("Rate limit reached. Please wait or login for higher limits.");
+        } else {
+          // Show other backend errors
+          setError(`Backend Error: ${errorMessage}`);
+        }
       }
     } catch (err) {
       console.error("API Error:", err);
-      setError("Failed to load top performers");
+      
+      // Check if it's a rate limit error first
+      if (err.message && checkRateLimitError(err.message)) {
+        // Rate limit error is handled globally, just set local error
+        setError("Rate limit reached. Please wait or login for higher limits.");
+      } else if (err.name === 'TypeError' && err.message.includes('fetch')) {
+        setError("Network Error: Unable to connect to server. Please check if the backend is running.");
+      } else if (err.message) {
+        setError(`Error: ${err.message}`);
+      } else {
+        setError("Failed to load top performers. Please try again.");
+      }
     } finally {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [currentUserId]);
+  }, [currentUserId, checkRateLimitError]);
 
   // Helper function to get level names
   const getLevelName = (level) => {
@@ -121,7 +177,7 @@ import { Link } from 'react-router-dom';
     }, 5 * 60 * 1000); // 5 minutes
     
     return () => clearInterval(interval);
-  }, [fetchTopPerformers]);
+  }, [fetchTopPerformers, checkRateLimitError]);
 
   // Handle screen size changes
   useEffect(() => {
@@ -173,7 +229,14 @@ import { Link } from 'react-router-dom';
       ];
       return `${monthNames[parseInt(month) - 1]} ${year}`;
     }
-    return 'Current Month';
+    
+    // Fallback to current month if no data available
+    const now = new Date();
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    return `${monthNames[now.getMonth()]} ${now.getFullYear()}`;
   };
 
   // Logged-out state UI
@@ -201,7 +264,7 @@ import { Link } from 'react-router-dom';
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600 dark:text-gray-300">Loading current month leaderboard...</p>
+          <p className="text-gray-600 dark:text-gray-300">Loading {getCurrentMonthDisplay()} leaderboard...</p>
         </div>
       </div>
     );
@@ -210,8 +273,25 @@ import { Link } from 'react-router-dom';
   if (error) {
     return (
       <div className="text-center py-12">
-        <div className="text-red-500 dark:text-red-400 text-lg">
-          {error}
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg p-6 max-w-2xl mx-auto">
+          <div className="text-red-500 dark:text-red-400 text-lg mb-4">
+            ⚠️ {error}
+          </div>
+          <div className="text-sm text-red-600 dark:text-red-300 mb-4">
+            This could be due to:
+            <ul className="list-disc list-inside mt-2 text-left">
+              <li>Backend server not running</li>
+              <li>Network connectivity issues</li>
+              <li>Rate limiting from backend</li>
+              <li>Backend service errors</li>
+            </ul>
+          </div>
+          <button
+            onClick={() => fetchTopPerformers(true)}
+            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            🔄 Retry
+          </button>
         </div>
       </div>
     );
@@ -234,16 +314,16 @@ import { Link } from 'react-router-dom';
       <div className="flex flex-col lg:flex-row justify-between items-center mb-6">
         <div className='mb-4 lg:mb-0 text-center lg:text-left'>
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            🏆 Top 10 Performers - Current Month
+            🏆 Top 10 Performers - {getCurrentMonthDisplay()}
           </h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">
             Top performers for {getCurrentMonthDisplay()} based on high scores, accuracy & level
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-            Last updated: {new Date().toLocaleString()} | Data from current month
+            Last updated: {new Date().toLocaleString()} | Data from {getCurrentMonthDisplay()}
           </p>
           <p className="text-xs text-green-600 dark:text-green-400 mt-1 font-medium">
-            ✅ Showing real-time current month data | Auto-refreshes every 5 minutes
+            ✅ Showing real-time {getCurrentMonthDisplay()} data | Auto-refreshes every 5 minutes
           </p>
         </div>
         
@@ -344,13 +424,13 @@ import { Link } from 'react-router-dom';
       {refreshing && (
         <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg flex items-center justify-center gap-2">
           <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
-          <span className="text-blue-600 dark:text-blue-400 text-sm">Refreshing current month data...</span>
+                      <span className="text-blue-600 dark:text-blue-400 text-sm">Refreshing {getCurrentMonthDisplay()} data...</span>
         </div>
       )}
 
       {/* Table View */}
       {viewMode === "table" && (
-        <div className="overflow-x-auto border-2 border-blue-300 dark:border-indigo-500 rounded-2xl p-3 lg:p-6 bg-gradient-to-r from-blue-50/50 to-indigo-900/10">
+        <div className="overflow-x-auto border-2 border-blue-300 dark:border-indigo-500 rounded-2xl p-3 lg:p-6 bg-gradient-to-r from-blue-900/10 to-indigo-900/10">
           <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
             🎯 Top 10 Performers - Table View
           </h4>
@@ -439,7 +519,7 @@ import { Link } from 'react-router-dom';
                         </span>
                       </div>
                       <div>
-                        <div className="font-bold text-gray-900 dark:text-white text-lg">
+                        <div className="font-bold text-gray-900 dark:text-white text-md lg:text-lg">
                           {p.name || "Unknown"}
                         </div>
                       </div>
@@ -799,7 +879,7 @@ import { Link } from 'react-router-dom';
         <div className="mt-12 p-3 md:p-6lg:p-8 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl border-2 border-purple-300 dark:border-pink-500 shadow-xl relative">
 
           <div className="text-center mb-8">
-            <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 flex items-center justify-center gap-3">
+            <h4 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-3 flex items-center justify-center gap-3">
               🎯 Your Competition Zone
             </h4>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
@@ -811,11 +891,11 @@ import { Link } from 'react-router-dom';
           {data.currentUser && (
             <div className="mb-8 p-6 bg-gradient-to-r from-red-100 to-yellow-100 dark:from-red-800 dark:to-yellow-900 rounded-xl border-2 border-red-300 dark:border-yellow-500 shadow-lg">
               <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                <div className="w-24 h-24 bg-gradient-to-r from-red-500 to-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-4xl shadow-lg">
+                <div className="w-12 h-12 md:w-16 md:h-16 lg:w-24 lg:h-24 bg-gradient-to-r from-red-500 to-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-xl md:text-2xl lg:text-4xl shadow-lg">
                   #{data.currentUser.position}
                 </div>
                 <div className="text-center md:text-left">
-                  <h5 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
+                  <h5 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-3">
                     {data.currentUser.name}
                   </h5>
                   <p className="text-xl text-gray-700 dark:text-gray-200 mb-4">

@@ -87,7 +87,7 @@ const LevelsPage = () => {
     fetchData();
   }, []);
 
-  const highScoreQuizzes = userLevelData?.levelInfo?.progress?.highScoreQuizzes || 0;
+  const highScoreQuizzes = userLevelData?.monthlyProgress?.highScoreWins || 0;
   const userLevel = getUserLevel(highScoreQuizzes, levels);
 
   if (loading) {
@@ -165,7 +165,7 @@ const LevelsPage = () => {
               </p>
               <div className="bg-white/50 dark:bg-gray-800/50 rounded-xl p-4">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-orange-600 mb-2">₹99,999</div>
+                  <div className="text-3xl font-bold text-orange-600 mb-2">₹9,999</div>
                   <div className="text-gray-600 dark:text-gray-300">Level 10 Top 3 prize split 3:2:1</div>
                   <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">Monthly Top 3 at Level 10 with ≥75% accuracy win ₹9,999</div>
                 </div>
@@ -268,7 +268,7 @@ const LevelsPage = () => {
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mb-2">
-                {highScoreQuizzes} / {userLevelData?.levelInfo?.progress?.quizzesPlayed} Quizzes
+                {highScoreQuizzes} / {userLevelData?.levelInfo?.progress?.quizzesToNextLevel} Quizzes
               </div>
               <div className="text-gray-600 dark:text-gray-300">
                 High-score quizzes completed (75%+ score)
