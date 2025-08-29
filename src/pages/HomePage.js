@@ -357,7 +357,7 @@ const HomePage = () => {
               <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg sm:rounded-xl p-3 sm:p-4">
                 <div className="text-center">
                   <div className="text-2xl sm:text-3xl font-bold text-orange-600 mb-1 sm:mb-2">
-                    ₹99,999
+                    ₹9,999
                   </div>
                   <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
                     Level 10 Top 3 prize split 3:2:1
