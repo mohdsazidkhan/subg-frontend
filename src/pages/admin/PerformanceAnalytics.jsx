@@ -105,18 +105,23 @@ const PerformanceAnalytics = () => {
     
     const performers = [...data.topPerformers];
     
+    let sortedPerformers;
     switch (filters.sortBy) {
       case 'highScores':
-        return performers.sort((a, b) => (b.level?.highScoreQuizzes || 0) - (a.level?.highScoreQuizzes || 0));
+        sortedPerformers = performers.sort((a, b) => (b.level?.highScoreQuizzes || 0) - (a.level?.highScoreQuizzes || 0));
+        break;
       case 'avgScore':
-        return performers.sort((a, b) => (b.level?.averageScore || 0) - (a.level?.averageScore || 0));
+        sortedPerformers = performers.sort((a, b) => (b.level?.averageScore || 0) - (a.level?.averageScore || 0));
+        break;
       case 'totalScore':
-        return performers.sort((a, b) => (b.level?.totalScore || 0) - (a.level?.totalScore || 0));
+        sortedPerformers = performers.sort((a, b) => (b.level?.totalScore || 0) - (a.level?.totalScore || 0));
+        break;
       case 'quizzesPlayed':
-        return performers.sort((a, b) => (b.level?.quizzesPlayed || 0) - (a.level?.quizzesPlayed || 0));
+        sortedPerformers = performers.sort((a, b) => (b.level?.quizzesPlayed || 0) - (a.level?.quizzesPlayed || 0));
+        break;
       default:
         // Default ranking: First by high score (descending), then by total quizzes (ascending - fewer is better)
-        return performers.sort((a, b) => {
+        sortedPerformers = performers.sort((a, b) => {
           const aHighScore = a.level?.highScoreQuizzes || 0;
           const bHighScore = b.level?.highScoreQuizzes || 0;
           const aTotalQuizzes = a.level?.quizzesPlayed || 0;
@@ -138,6 +143,9 @@ const PerformanceAnalytics = () => {
           return bAvgScore - aAvgScore;
         });
     }
+    
+    // Return only top 10 performers
+    return sortedPerformers.slice(0, 10);
   };
 
   const handleExport = () => {
@@ -444,6 +452,41 @@ const PerformanceAnalytics = () => {
 
         {/* Top Performers */}
       <div className="space-y-6">
+        
+        {/* Top 10 Performers Header */}
+        <div className="rounded-xl border p-6 shadow-lg bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-yellow-200 dark:border-yellow-700">
+          <div className="flex flex-col sm:flex-row items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center">
+                <span className="text-3xl">🏆</span>
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-yellow-800 dark:text-yellow-200">
+                  Top 10 Performers
+                </h3>
+                <p className="text-yellow-700 dark:text-yellow-300 text-sm">
+                  Current Month Quiz Performance Ranking
+                </p>
+              </div>
+            </div>
+            
+            {/* Current Month Display */}
+            <div className="mt-4 md:mt-0 bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 px-4 py-2 rounded-lg border border-orange-200 dark:border-orange-600">
+              <div className="text-center">
+                <div className="text-sm font-medium text-orange-800 dark:text-orange-200">
+                  📅 Current Month
+                </div>
+                <div className="text-lg font-bold text-orange-800 dark:text-orange-200">
+                  {new Date().toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long' 
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
       {/* High Scores Summary */}
       <div className="rounded-xl border p-6 shadow-lg bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-green-200 dark:border-green-700">
         <div className="flex flex-col sm:flex-row items-center justify-between mb-4">
@@ -550,20 +593,23 @@ const PerformanceAnalytics = () => {
       <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Top Performers
-            {filters.sortBy && (
-              <span className="ml-2 text-sm font-normal text-gray-500 dark:text-gray-400">
-                (Sorted by {filters.sortBy === 'highScores' ? 'High Scores' : 
+          <div>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+              🏆 Top 10 Performers
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+              {filters.sortBy ? 
+                `Sorted by ${filters.sortBy === 'highScores' ? 'High Scores' : 
                            filters.sortBy === 'avgScore' ? 'Average Score' :
                            filters.sortBy === 'totalScore' ? 'Total Score' :
-                           filters.sortBy === 'quizzesPlayed' ? 'Quizzes Played' : 'High Scores'})
-              </span>
-            )}
-          </h3>
-          <div className="bg-blue-100 dark:bg-blue-900/30 px-3 py-2 rounded-lg">
-            <span className="text-blue-800 dark:text-blue-200 font-semibold text-md">
-              Total: {getSortedTopPerformers().length}
+                           filters.sortBy === 'quizzesPlayed' ? 'Quizzes Played' : 'High Scores'}` : 
+                'Ranked by High Scores (Primary), Quizzes Played (Secondary), Average Score (Tertiary)'
+              }
+            </p>
+          </div>
+          <div className="bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 px-4 py-2 rounded-lg border border-yellow-200 dark:border-yellow-600">
+            <span className="text-yellow-800 dark:text-yellow-200 font-bold text-lg">
+              Top {getSortedTopPerformers().length}/10
             </span>
           </div>
         </div>
@@ -774,6 +820,23 @@ const PerformanceAnalytics = () => {
             </table>
           </div>
         )}
+
+        {/* Current Month Data Note */}
+        <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+              <span className="text-blue-600 dark:text-blue-400">📅</span>
+            </div>
+            <div>
+              <p className="text-blue-800 dark:text-blue-200 font-medium">
+                <strong>Current Month Data:</strong> This ranking shows the top 10 performers based on their quiz performance for {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}.
+              </p>
+              <p className="text-blue-700 dark:text-blue-300 text-sm mt-1">
+                Rankings are updated based on high scores, quizzes played, and average scores achieved this month.
+              </p>
+            </div>
+          </div>
+        </div>
 
         {viewMode === "list" && (
           <div className="space-y-4">
