@@ -25,7 +25,13 @@ import { Link } from 'react-router-dom';
         setLoading(true);
       }
       
-      const response = await fetch(`${config.API_URL}/api/public/monthly-leaderboard`);
+      // Build URL with current user ID if available
+      let url = `${config.API_URL}/api/public/top-performers-monthly?limit=10`;
+      if (currentUserId) {
+        url += `&userId=${currentUserId}`;
+      }
+      
+      const response = await fetch(url);
       const result = await response.json();
       if (result.success) {
         const month = result?.data?.month;
@@ -36,6 +42,7 @@ import { Link } from 'react-router-dom';
           name: u.name,
           position: u.rank,
           isCurrentUser: u.userId === currentUserId,
+          profilePicture: u.profilePicture,
           level: {
             currentLevel: u.monthly?.currentLevel || 0,
             levelName: u.monthly?.currentLevel === 10 ? 'Legend' : getLevelName(u.monthly?.currentLevel || 0),
@@ -45,7 +52,45 @@ import { Link } from 'react-router-dom';
             averageScore: u.monthly?.accuracy || 0
           }
         }));
-        setData({ month, topPerformers: transformed, surroundingUsers: [], total: transformed.length });
+        const surroundingUsers = Array.isArray(result?.data?.surroundingUsers) ? result.data.surroundingUsers : [];
+        const currentUser = result?.data?.currentUser;
+        
+        // Transform surrounding users to match expected format
+        const transformedSurroundingUsers = surroundingUsers.map((u) => ({
+          userId: u.userId,
+          name: u.name,
+          position: u.position,
+          isCurrentUser: u.isCurrentUser,
+          level: {
+            currentLevel: u.level?.currentLevel || 0,
+            levelName: u.level?.levelName || getLevelName(u.level?.currentLevel || 0),
+            highScoreQuizzes: u.level?.highScoreQuizzes || 0,
+            quizzesPlayed: u.level?.quizzesPlayed || 0,
+            accuracy: u.level?.accuracy || 0,
+            averageScore: u.level?.averageScore || 0
+          }
+        }));
+
+        setData({ 
+          month, 
+          topPerformers: transformed, 
+          surroundingUsers: transformedSurroundingUsers, 
+          currentUser: currentUser ? {
+            userId: currentUser.userId,
+            name: currentUser.name,
+            position: currentUser.position,
+            isCurrentUser: true,
+            level: {
+              currentLevel: currentUser.level?.currentLevel || 0,
+              levelName: currentUser.level?.levelName || getLevelName(currentUser.level?.currentLevel || 0),
+              highScoreQuizzes: currentUser.level?.highScoreQuizzes || 0,
+              quizzesPlayed: currentUser.level?.quizzesPlayed || 0,
+              accuracy: currentUser.level?.accuracy || 0,
+              averageScore: currentUser.level?.accuracy || 0
+            }
+          } : null,
+          total: result.data.total || transformed.length 
+        });
       } else {
         setError(result.message || "Failed to load top performers");
       }
@@ -189,10 +234,10 @@ import { Link } from 'react-router-dom';
       <div className="flex flex-col lg:flex-row justify-between items-center mb-6">
         <div className='mb-4 lg:mb-0 text-center lg:text-left'>
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            🏆 Monthly Leaderboard
+            🏆 Top 10 Performers - Current Month
           </h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            Top eligible users for {getCurrentMonthDisplay()}
+            Top performers for {getCurrentMonthDisplay()} based on high scores, accuracy & level
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
             Last updated: {new Date().toLocaleString()} | Data from current month
@@ -307,7 +352,7 @@ import { Link } from 'react-router-dom';
       {viewMode === "table" && (
         <div className="overflow-x-auto border-2 border-blue-300 dark:border-indigo-500 rounded-2xl p-3 lg:p-6 bg-gradient-to-r from-blue-50/50 to-indigo-900/10">
           <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-            🎯 Top 10 Performers
+            🎯 Top 10 Performers - Table View
           </h4>
           <table className="w-full">
             <thead>
@@ -483,7 +528,7 @@ import { Link } from 'react-router-dom';
       {viewMode === "list" && (
         <div className="space-y-4 border-2 border-blue-300 dark:border-indigo-500 rounded-2xl p-3 lg:p-6 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-900/10 dark:to-indigo-900/10">
           <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-            🎯 Top 10 Performers
+            🎯 Top 10 Performers - List View
           </h4>
           {topPerformers.map((p, i) => (
             <div
@@ -588,7 +633,7 @@ import { Link } from 'react-router-dom';
       {viewMode === "grid" && (
         <div className='space-y-4 border-2 border-blue-300 dark:border-indigo-500 rounded-2xl p-3 lg:p-6 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-900/10 dark:to-indigo-900/10'>
          <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-            🎯 Top 10 Performers
+            🎯 Top 10 Performers - Grid View
           </h4>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
          
