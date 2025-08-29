@@ -106,7 +106,7 @@ import { Link } from 'react-router-dom';
   // Helper function to get level names
   const getLevelName = (level) => {
     const levelNames = {
-      1: 'Rookie', 2: 'Explorer', 3: 'Thinker', 4: 'Strategist', 5: 'Achiever',
+      0: 'Starter', 1: 'Rookie', 2: 'Explorer', 3: 'Thinker', 4: 'Strategist', 5: 'Achiever',
       6: 'Mastermind', 7: 'Champion', 8: 'Prodigy', 9: 'Wizard', 10: 'Legend'
     };
     return levelNames[level] || 'Unknown';
