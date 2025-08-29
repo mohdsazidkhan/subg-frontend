@@ -8,17 +8,23 @@ import { Link } from 'react-router-dom';
       // Set default view based on screen size
       return window.innerWidth < 768 ? "grid" : "table";
     });
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+      const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState(null);
 
   // Check if user is logged in and get current user info
   const isLoggedIn = !!localStorage.getItem("token");
   const currentUserId = JSON.parse(localStorage.getItem("userInfo"))?._id;
 
-  const fetchTopPerformers = useCallback(async () => {
+  const fetchTopPerformers = useCallback(async (isRefresh = false) => {
     try {
-      setLoading(true);
+      if (isRefresh) {
+        setRefreshing(true);
+      } else {
+        setLoading(true);
+      }
+      
       const response = await fetch(`${config.API_URL}/api/public/monthly-leaderboard`);
       const result = await response.json();
       if (result.success) {
@@ -32,7 +38,7 @@ import { Link } from 'react-router-dom';
           isCurrentUser: u.userId === currentUserId,
           level: {
             currentLevel: u.monthly?.currentLevel || 0,
-            levelName: u.monthly?.currentLevel === 10 ? 'Legend' : '',
+            levelName: u.monthly?.currentLevel === 10 ? 'Legend' : getLevelName(u.monthly?.currentLevel || 0),
             highScoreQuizzes: u.monthly?.highScoreWins || 0,
             quizzesPlayed: u.monthly?.totalQuizAttempts || 0,
             accuracy: u.monthly?.accuracy || 0,
@@ -48,11 +54,28 @@ import { Link } from 'react-router-dom';
       setError("Failed to load top performers");
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
-  }, []);
+  }, [currentUserId]);
+
+  // Helper function to get level names
+  const getLevelName = (level) => {
+    const levelNames = {
+      1: 'Rookie', 2: 'Explorer', 3: 'Thinker', 4: 'Strategist', 5: 'Achiever',
+      6: 'Mastermind', 7: 'Champion', 8: 'Prodigy', 9: 'Wizard', 10: 'Legend'
+    };
+    return levelNames[level] || 'Unknown';
+  };
 
   useEffect(() => {
     fetchTopPerformers();
+    
+    // Auto-refresh every 5 minutes to keep data current
+    const interval = setInterval(() => {
+      fetchTopPerformers();
+    }, 5 * 60 * 1000); // 5 minutes
+    
+    return () => clearInterval(interval);
   }, [fetchTopPerformers]);
 
   // Handle screen size changes
@@ -96,6 +119,18 @@ import { Link } from 'react-router-dom';
     });
   };
 
+  const getCurrentMonthDisplay = () => {
+    if (data?.month) {
+      const [year, month] = data.month.split('-');
+      const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+      return `${monthNames[parseInt(month) - 1]} ${year}`;
+    }
+    return 'Current Month';
+  };
+
   // Logged-out state UI
   if (!isLoggedIn) {
     return (
@@ -119,7 +154,10 @@ import { Link } from 'react-router-dom';
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-300">Loading current month leaderboard...</p>
+        </div>
       </div>
     );
   }
@@ -154,12 +192,30 @@ import { Link } from 'react-router-dom';
             🏆 Monthly Leaderboard
           </h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            Top eligible users for {data?.month || ''}
+            Top eligible users for {getCurrentMonthDisplay()}
+          </p>
+          <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+            Last updated: {new Date().toLocaleString()} | Data from current month
+          </p>
+          <p className="text-xs text-green-600 dark:text-green-400 mt-1 font-medium">
+            ✅ Showing real-time current month data | Auto-refreshes every 5 minutes
           </p>
         </div>
         
-        {/* View Toggle Buttons */}
+        {/* View Toggle Buttons and Refresh */}
         <div className="flex gap-2">
+          <button
+            onClick={() => fetchTopPerformers(true)}
+            disabled={refreshing}
+            className={`p-2 rounded-lg transition-all duration-200 ${
+              refreshing 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-green-600 hover:bg-green-700'
+            } text-white shadow-lg`}
+            title={refreshing ? "Refreshing..." : "Refresh Data"}
+          >
+            {refreshing ? '⏳' : '🔄'}
+          </button>
           <button
             onClick={() => setViewMode("table")}
             className={`p-2 rounded-lg transition-all duration-200 ${
@@ -239,9 +295,17 @@ import { Link } from 'react-router-dom';
         </div>
       )}
 
+      {/* Refreshing Indicator */}
+      {refreshing && (
+        <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg flex items-center justify-center gap-2">
+          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
+          <span className="text-blue-600 dark:text-blue-400 text-sm">Refreshing current month data...</span>
+        </div>
+      )}
+
       {/* Table View */}
       {viewMode === "table" && (
-        <div className="overflow-x-auto border-2 border-blue-300 dark:border-indigo-500 rounded-2xl p-3 lg:p-6 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-900/10 dark:to-indigo-900/10">
+        <div className="overflow-x-auto border-2 border-blue-300 dark:border-indigo-500 rounded-2xl p-3 lg:p-6 bg-gradient-to-r from-blue-50/50 to-indigo-900/10">
           <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
             🎯 Top 10 Performers
           </h4>

@@ -349,6 +349,23 @@ const PerformanceAnalytics = () => {
                 <option value="year">Last 12 months</option>
               </select>
               
+              {/* Current Month Data Notice */}
+              <div className="bg-green-100 dark:bg-green-900/30 px-4 py-2 rounded-lg border border-green-200 dark:border-green-600">
+                <span className="text-green-800 dark:text-green-200 text-sm font-medium">
+                  📅 Top Performers: Current Month Data
+                </span>
+              </div>
+              
+              {/* Category Performance Notice */}
+              <div className="bg-blue-100 dark:bg-blue-900/30 px-4 py-2 rounded-lg border border-blue-200 dark:border-blue-600">
+                <span className="text-blue-800 dark:text-blue-200 text-sm font-medium">
+                  📊 Categories: {filters.period === 'week' ? 'Last 7 days' : 
+                                 filters.period === 'month' ? 'Last 30 days' : 
+                                 filters.period === 'quarter' ? 'Last 3 months' : 
+                                 filters.period === 'year' ? 'Last 12 months' : 'Current Month'}
+                </span>
+              </div>
+              
               <select
                 name="sortBy"
                 value={filters.sortBy || 'highScores'}
@@ -361,13 +378,22 @@ const PerformanceAnalytics = () => {
                 <option value="quizzesPlayed">Sort by Quizzes Played</option>
               </select>
             </div>
-            <button
-              onClick={handleExport}
-              className="flex items-center gap-2 px-6 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200"
-            >
-              <FaDownload className="w-4 h-4" />
-              Export CSV
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => window.location.reload()}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-white bg-green-600 hover:bg-green-700 dark:hover:bg-green-500 transition-colors duration-200"
+                title="Refresh Data"
+              >
+                🔄 Refresh
+              </button>
+              <button
+                onClick={handleExport}
+                className="flex items-center gap-2 px-6 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200"
+              >
+                <FaDownload className="w-4 h-4" />
+                Export CSV
+              </button>
+            </div>
           </div>
         </div>
 

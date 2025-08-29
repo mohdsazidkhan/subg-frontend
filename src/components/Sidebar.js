@@ -108,10 +108,7 @@ const Sidebar = () => {
             <span>Performance Analytics</span>
           </Link>
 
-          <Link to="/admin/analytics/monthly-progress" onClick={() => handleNavClick('analytics-monthly-progress')} className={getActiveClass('/admin/analytics/monthly-progress')}>
-            <MdTrendingUp className="text-xl" />
-            <span>Monthly Progress</span>
-          </Link>
+
         </nav>
       </div>
       <hr/>
