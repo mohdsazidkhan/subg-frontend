@@ -40,7 +40,7 @@ const AdminRoute = ({ children }) => {
           console.warn(`AdminRoute: Unauthorized access attempt by user ${user?.email} with role ${user?.role}`);
           toast.error('Access denied. Admin privileges required.');
           access = false;
-          redirectComponent = <Navigate to="/" replace />;
+          redirectComponent = <Navigate to="/home" replace />;
         } else if (user.status === 'inactive' || user.isBlocked) {
           console.warn(`AdminRoute: Blocked/inactive user ${user?.email} attempted admin access`);
           toast.error('Your account has been deactivated. Please contact support.');

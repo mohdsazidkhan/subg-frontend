@@ -463,7 +463,7 @@ const LevelBasedQuizzes = () => {
         </h2>
 
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/home")}
           className="px-3 md:px-4 py-1 md:py-2 bg-gradient-to-r from-yellow-500 to-red-600 text-white rounded-2xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
         >
           <FaArrowLeft />

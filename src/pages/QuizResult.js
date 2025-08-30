@@ -567,7 +567,7 @@ const QuizResult = () => {
         <div className="text-center">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/home")}
               className="bg-gradient-to-r from-yellow-500 to-red-500 text-white px-8 py-3 rounded-xl font-semibold hover:from-yellow-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105"
             >
               Take Another Quiz
