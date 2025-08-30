@@ -1,9 +1,8 @@
 .appContainer {
-  margin-top: 64px; /* Height of navbar */
+  margin-top: 60px; /* No top margin by default */
   min-height: calc(100vh - 64px);
   transition: margin-left 0.3s ease-in-out;
 }
-
 /* When sidebar is open and user is admin, adjust main content */
 .appContainer.has-sidebar {
   margin-left: 256px; /* Width of sidebar */
@@ -38,13 +37,13 @@
   color: #6b7280;
   margin-bottom: 1.5rem;
 }
-body{
-  padding-bottom: 20px;
-}
 /* Responsive design for admin panel */
 @media (max-width: 768px) {
   body{
-    padding-bottom: 40px;
+    padding-bottom: 64px;
+  }
+  .appContainer{
+    margin-top: 0;
   }
   .appContainer.has-sidebar {
     margin-left: 0;
@@ -300,8 +299,6 @@ body{
   animation: fadeInDelay 1.2s ease-out;
 }
 
-
-
 .sidebar {
   width: 240px;
   display: flex;
@@ -335,6 +332,7 @@ body{
   width: calc(100% - 240px);
   margin-left: 240px;
   transition: all ease-in-out .3s;
+  padding-top: 54px;
 }
 .adminPanel.hidePanel{
   width: 100%;
@@ -391,8 +389,12 @@ body{
     max-width: 50px;
   }
   .sidebar{
+    top: 0;
     bottom: 0;
     z-index: 99;
+  }
+  header{
+    z-index: 999;
   }
   .authPage,
   .sidebar,
@@ -403,6 +405,7 @@ body{
   .adminPanel {
     width: calc(100%);
     margin-left: 0;
+    padding-top: 0;
   }
   
   /* Login form responsive styles */

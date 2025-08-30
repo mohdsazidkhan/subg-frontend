@@ -1,0 +1,1626 @@
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  FaTrophy,
+  FaCrown,
+  FaStar,
+  FaMedal,
+  FaRocket,
+  FaBrain,
+  FaChartLine,
+  FaAward,
+  FaGem,
+  FaBook,
+  FaFlask,
+  FaLaptopCode,
+  FaGlobe,
+  FaCalculator,
+  FaPalette,
+  FaLeaf,
+  FaUserGraduate,
+  FaArrowRight,
+  FaPlay,
+  FaUsers,
+  FaGift,
+  FaCheckCircle,
+  FaShieldAlt,
+  FaHeadset,
+  FaMobileAlt,
+  FaDesktop,
+  FaTabletAlt,
+  FaMagic,
+  FaQuestionCircle,
+} from "react-icons/fa";
+
+import UnifiedNavbar from "../components/UnifiedNavbar";
+import UnifiedFooter from "../components/UnifiedFooter";
+import config from "../config/appConfig";
+
+const LandingPage = () => {
+  const [levels, setLevels] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [topPerformers, setTopPerformers] = useState([]);
+  const [stats, setStats] = useState({
+    activeStudents: "10K+",
+    quizCategories: "500+",
+    subcategories: "100+",
+    totalQuizzes: "1000+",
+    totalQuestions: "5000+",
+    quizzesTaken: "50K+",
+    monthlyPrizePool: "₹9,999",
+  });
+  const [loading, setLoading] = useState(true);
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if user is logged in
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/home");
+      return;
+    }
+
+    // Set default view mode based on screen size
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setViewMode('grid');
+      } else {
+        setViewMode('list');
+      }
+    };
+
+    // Set initial view mode
+    handleResize();
+
+    // Add event listener for window resize
+    window.addEventListener('resize', handleResize);
+
+    fetchData();
+
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, [navigate]);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+
+      // Fetch all data in parallel
+      const [levelsRes, categoriesRes, topPerformersRes, statsRes] =
+        await Promise.all([
+          fetch(`${config.API_URL}/api/public/levels`),
+          fetch(`${config.API_URL}/api/public/categories-enhanced`),
+          fetch(`${config.API_URL}/api/public/landing-top-performers?limit=10`),
+          fetch(`${config.API_URL}/api/public/landing-stats`),
+        ]);
+
+      // Parse responses
+      const levelsData = await levelsRes.json();
+      const categoriesData = await categoriesRes.json();
+      const topPerformersData = await topPerformersRes.json();
+      const statsData = await statsRes.json();
+
+      // Set data if successful
+      if (levelsData.success) {
+        // Filter out Starter level (Level 0)
+        const filteredLevels = levelsData.data.filter(
+          (level) => level.levelNumber !== 0
+        );
+        setLevels(filteredLevels);
+      }
+
+      if (categoriesData.success) {
+        setCategories(categoriesData.data);
+      }
+
+      if (topPerformersData.success) {
+        setTopPerformers(topPerformersData.data);
+      }
+
+      if (statsData.success) {
+        // Format large numbers for display
+        const formatNumber = (num) => {
+          if (num >= 1000) {
+            return `${(num / 1000).toFixed(1)}K+`;
+          }
+          return num.toString();
+        };
+
+        setStats({
+          activeStudents: formatNumber(statsData.data.activeStudents),
+          quizCategories: formatNumber(statsData.data.quizCategories),
+          subcategories: formatNumber(statsData.data.subcategories),
+          totalQuizzes: formatNumber(statsData.data.totalQuizzes),
+          totalQuestions: formatNumber(statsData.data.totalQuestions),
+          quizzesTaken: formatNumber(statsData.data.quizzesTaken),
+          monthlyPrizePool: statsData.data.monthlyPrizePool,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching landing page data:", error);
+      // Set fallback data if APIs fail
+      setLevels([
+        {
+          _id: "2",
+          name: "Rookie",
+          levelNumber: 1,
+          description: "Build your foundation",
+          quizCount: 30,
+        },
+        {
+          _id: "3",
+          name: "Explorer",
+          levelNumber: 2,
+          description: "Discover new knowledge",
+          quizCount: 35,
+        },
+        {
+          _id: "4",
+          name: "Thinker",
+          levelNumber: 3,
+          description: "Develop critical thinking",
+          quizCount: 40,
+        },
+        {
+          _id: "5",
+          name: "Strategist",
+          levelNumber: 4,
+          description: "Master strategic learning",
+          quizCount: 45,
+        },
+      ]);
+      
+      setCategories([
+        {
+          _id: "1",
+          name: "Science",
+          description: "Explore scientific concepts",
+          quizCount: 50,
+        },
+        {
+          _id: "2",
+          name: "Technology",
+          description: "Learn about modern tech",
+          quizCount: 45,
+        },
+        {
+          _id: "3",
+          name: "Mathematics",
+          description: "Master mathematical skills",
+          quizCount: 40,
+        },
+        {
+          _id: "4",
+          name: "Geography",
+          description: "Discover the world",
+          quizCount: 35,
+        },
+        {
+          _id: "5",
+          name: "History",
+          description: "Learn from the past",
+          quizCount: 30,
+        },
+        {
+          _id: "6",
+          name: "Literature",
+          description: "Explore great works",
+          quizCount: 25,
+        },
+      ]);
+      
+      setTopPerformers([
+        { _id: "1", name: "Quiz Master", level: 10, score: 95, quizCount: 150 },
+        {
+          _id: "2",
+          name: "Knowledge Seeker",
+          level: 10,
+          score: 92,
+          quizCount: 145,
+        },
+        {
+          _id: "3",
+          name: "Brain Champion",
+          level: 10,
+          score: 90,
+          quizCount: 140,
+        },
+        { _id: "4", name: "Learning Pro", level: 9, score: 88, quizCount: 135 },
+        { _id: "5", name: "Quiz Wizard", level: 9, score: 85, quizCount: 130 },
+        {
+          _id: "6",
+          name: "Smart Student",
+          level: 8,
+          score: 82,
+          quizCount: 125,
+        },
+        {
+          _id: "7",
+          name: "Knowledge Hunter",
+          level: 8,
+          score: 80,
+          quizCount: 120,
+        },
+        {
+          _id: "8",
+          name: "Quiz Explorer",
+          level: 7,
+          score: 78,
+          quizCount: 115,
+        },
+        {
+          _id: "9",
+          name: "Learning Star",
+          level: 7,
+          score: 75,
+          quizCount: 110,
+        },
+        {
+          _id: "10",
+          name: "Quiz Enthusiast",
+          level: 6,
+          score: 72,
+          quizCount: 105,
+        },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-subg-light dark:bg-subg-dark flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-yellow-600"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-subg-light dark:bg-subg-dark text-gray-900 dark:text-white transition-colors duration-300">
+      {/* Unified Header */}
+      <UnifiedNavbar isLandingPage={true} scrollToSection={scrollToSection} />
+
+      {/* Hero Section */}
+      <section id="hero" className="relative overflow-hidden">
+                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-600/10 via-red-600/10 to-yellow-600/10 pointer-events-none" />
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 mt-0 lg:mt-16">
+          <div className="text-center">
+            <h1 className="text-xl md:text-3xl lg:text-5xl font-bold mb-6">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 dark:text-white">
+                Master Knowledge
+              </span>
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 dark:text-white">
+                Through Interactive Quizzes
+              </span>
+            </h1>
+            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-gray-600 dark:text-gray-300">
+              Challenge yourself with our comprehensive quiz platform. Test your
+              knowledge across multiple categories, compete with others, and
+              climb the monthly leaderboard while earning rewards. Every month
+              is a fresh start!
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Link
+                to="/register"
+                className="group px-4 md:px-8 py-2 md:py-4 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold text-lg hover:from-yellow-700 hover:to-red-700 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2"
+              >
+                <span>Start Learning Now</span>
+                <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <button
+                onClick={() => scrollToSection("levels")}
+                className="px-4 md:px-8 py-2 md:py-4 border-2 border-yellow-600 text-yellow-600 dark:text-yellow-400 rounded-xl font-semibold text-lg hover:bg-yellow-600 hover:text-white dark:hover:bg-yellow-600 dark:hover:text-white transition-all duration-300 flex items-center space-x-2"
+              >
+                <FaPlay className="w-4 h-4" />
+                <span>Explore Levels</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-6">
+            {[
+              {
+                icon: FaUsers,
+                number: stats.activeStudents,
+                label: "Active Students",
+              },
+              {
+                icon: FaBook,
+                number: stats.quizCategories,
+                label: "Quiz Categories",
+              },
+              {
+                icon: FaFlask,
+                number: stats.subcategories || "N/A",
+                label: "Subcategories",
+              },
+              {
+                icon: FaQuestionCircle,
+                number: stats.totalQuestions || "N/A",
+                label: "Total Questions",
+              },
+              {
+                icon: FaLaptopCode,
+                number: stats.totalQuizzes || "N/A",
+                label: "Total Quizzes",
+              },
+              {
+                icon: FaTrophy,
+                number: stats.quizzesTaken,
+                label: "Quizzes Taken",
+              },
+              {
+                icon: FaGift,
+                number: stats.monthlyPrizePool,
+                label: "Monthly Prize Pool",
+              },
+            ].map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="w-14 h-14 mx-auto mb-3 rounded-full flex items-center justify-center bg-white dark:bg-gray-800 shadow-lg">
+                  <stat.icon className="w-7 h-7 text-yellow-600" />
+                 </div>
+                <div className="text-2xl font-bold text-yellow-600 mb-1">
+                  {stat.number}
+                </div>
+                <div className="text-xs text-gray-600 dark:text-gray-400">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Background decoration */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-yellow-400/20 to-red-400/20 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-orange-400/20 to-yellow-400/20 rounded-full blur-3xl"></div>
+        </div>
+      </section>
+
+             {/* Levels Section */}
+       <section id="levels" className="py-20 relative overflow-hidden">
+         <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 dark:from-gray-900 dark:via-yellow-900/20 dark:to-red-900/20 pointer-events-none" />
+         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-xl -md:text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+                Progressive Learning Levels
+              </span>
+            </h2>
+                         <p className="text-md md:text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Start from Level 1 (Rookie) and progress through 10 levels each
+              month. Reach Level 10 (110 high-score wins with ≥75% accuracy) to
+              qualify for monthly rewards!
+             </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {levels.map((level, index) => (
+              <div
+                key={level._id}
+                className="group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-yellow-500 shadow-lg hover:shadow-xl"
+              >
+                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-yellow-500/10 to-red-500/10 rounded-full -translate-y-16 translate-x-16"></div>
+                 
+                 <div className="relative z-10">
+                   <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 bg-yellow-100 dark:bg-gray-700">
+                    {React.createElement(
+                      levelBadgeIcons[level.name] || levelBadgeIcons.Default,
+                      {
+                        className: "w-8 h-8 text-yellow-600",
+                      }
+                    )}
+                   </div>
+                   
+                   <h3 className="text-xl font-bold mb-2">{level.name}</h3>
+                   <p className="text-sm mb-4 text-gray-600 dark:text-gray-400">
+                    {level.description ||
+                      `Level ${level.levelNumber} challenges`}
+                   </p>
+                   
+                   <div className="space-y-2">
+                     <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600 dark:text-gray-400">
+                        Quizzes:
+                      </span>
+                      <span className="font-semibold">
+                        {level.quizCount || "N/A"}
+                      </span>
+                     </div>
+                     <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600 dark:text-gray-400">
+                        Status:
+                      </span>
+                      <span className="text-green-600 font-semibold">
+                        Available
+                      </span>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link
+              to="/register"
+              className="inline-flex items-center space-x-2 px-4 md:px-8 py-2 md:py-3 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
+            >
+              <span>Start Your Journey</span>
+              <FaArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+             {/* Categories Section */}
+       <section id="categories" className="py-20 relative overflow-hidden">
+         <div className="absolute inset-0 bg-gradient-to-bl from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20 pointer-events-none" />
+         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+                Explore Diverse Categories
+              </span>
+            </h2>
+                         <p className="text-md md:text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              From science to arts, technology to nature - discover quizzes that
+              match your interests and expand your knowledge.
+             </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {categories.map((category) => (
+              <div
+                key={category._id}
+                className="group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-yellow-500 shadow-lg hover:shadow-xl"
+              >
+                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-yellow-500/10 to-red-500/10 rounded-full -translate-y-16 translate-x-16"></div>
+                 
+                 <div className="relative z-10">
+                   <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 bg-yellow-100 dark:bg-gray-700">
+                    {React.createElement(
+                      categoryIcons[category.name] || categoryIcons.Default,
+                      {
+                        className: "w-8 h-8 text-yellow-600",
+                      }
+                    )}
+                   </div>
+                   
+                   <h3 className="text-xl font-bold mb-2">{category.name}</h3>
+                   <p className="text-sm mb-4 text-gray-600 dark:text-gray-400">
+                    {category.description ||
+                      `Explore ${category.name} knowledge`}
+                   </p>
+                   
+                   <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-600 dark:text-gray-400">
+                      Quizzes:
+                    </span>
+                    <span className="font-semibold">
+                      {category.quizCount || "N/A"}
+                    </span>
+                   </div>
+                 </div>
+               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+          {/* Top Performers Section */}
+       <section id="performers" className="py-20 relative overflow-hidden">
+         <div className="absolute inset-0 bg-gradient-to-tr from-green-50 via-emerald-50 to-teal-50 dark:from-gray-900 dark:via-green-900/20 dark:to-teal-900/20 pointer-events-none" />
+         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+                Top 10 Performers{" "}
+                {new Date().toLocaleDateString("en-US", {
+                  month: "long",
+                  year: "numeric",
+                })}
+              </span>
+            </h2>
+                         <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Meet the champions who are dominating the monthly leaderboard. Top
+              3 at Level 10 with ≥75% accuracy win monthly prizes in 3:2:1
+              ratio!
+             </p>
+          </div>
+
+          <div className="rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-xl border-2 border-blue-300 dark:border-indigo-500">
+            <div className="p-6 border-b-2 border-blue-200 dark:border-blue-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                  <h3 className="text-xl font-semibold text-blue-800 dark:text-blue-200 flex items-center gap-2">
+                    <span className="text-2xl">🏆</span>
+                    {new Date().toLocaleDateString("en-US", {
+                      month: "long",
+                      year: "numeric",
+                    })}{" "}
+                    Leaderboard
+                  </h3>
+                  <p className="text-sm text-blue-600 dark:text-blue-300 mt-2">
+                    Top performers based on high scores, accuracy & level
+                  </p>
+                </div>
+                
+                {/* View Toggle Buttons */}
+                <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+                  <button
+                    onClick={() => setViewMode('grid')}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                      viewMode === 'grid'
+                        ? 'bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-300 shadow-sm'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">⊞</span>
+                      <span className="hidden sm:inline">Grid</span>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => setViewMode('list')}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                      viewMode === 'list'
+                        ? 'bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-300 shadow-sm'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">☰</span>
+                      <span className="hidden sm:inline">List</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+             </div>
+             
+            {/* Grid View - Default for mobile */}
+            {viewMode === 'grid' && (
+              <div className="p-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                  {topPerformers.map((performer, index) => (
+                    <div
+                      key={performer._id}
+                      className={`bg-white dark:bg-gray-700 rounded-xl p-4 border-2 transition-all duration-200 hover:shadow-lg group ${
+                        index === 0
+                          ? "border-yellow-400 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20"
+                          : index === 1
+                          ? "border-gray-400 bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20"
+                          : index === 2
+                          ? "border-orange-400 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20"
+                          : "border-blue-200 dark:border-blue-600 hover:border-blue-400"
+                      }`}
+                    >
+                      {/* Rank */}
+                      <div className="flex items-center justify-between mb-3">
+                        <div
+                          className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg ${
+                            index === 0
+                              ? "bg-gradient-to-r from-yellow-400 to-orange-500"
+                              : index === 1
+                              ? "bg-gradient-to-r from-gray-400 to-slate-500"
+                              : index === 2
+                              ? "bg-gradient-to-r from-orange-400 to-amber-500"
+                              : "bg-gradient-to-r from-blue-400 to-indigo-500"
+                          }`}
+                        >
+                          {index === 0
+                            ? "🥇"
+                            : index === 1
+                            ? "🥈"
+                            : index === 2
+                            ? "🥉"
+                            : index + 1}
+                        </div>
+                        {index < 3 && (
+                          <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                            {index === 0
+                              ? "Champion"
+                              : index === 1
+                              ? "Runner-up"
+                              : "3rd Place"}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Student Info */}
+                      <div className="text-center mb-4">
+                        <div className="w-16 h-16 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
+                          <span className="text-2xl text-blue-600 dark:text-blue-400">
+                            {performer.name?.charAt(0)?.toUpperCase() || "?"}
+                          </span>
+                        </div>
+                        <div className="font-bold text-gray-900 dark:text-white text-lg">
+                          {performer.name || "Anonymous"}
+                        </div>
+                      </div>
+
+                      {/* Stats Grid */}
+                      <div className="grid grid-cols-2 gap-3">
+                        {/* Level */}
+                        <div className="text-center">
+                          <div className="w-8 h-8 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-lg flex items-center justify-center mx-auto mb-1">
+                            <span className="text-green-600 dark:text-green-400 text-sm">📈</span>
+                          </div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400">Level</div>
+                          <div className="font-bold text-gray-900 dark:text-white">
+                            {performer.userLevel || 0}
+                          </div>
+                        </div>
+
+                        {/* Total Quizzes */}
+                        <div className="text-center">
+                          <div className="w-8 h-8 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg flex items-center justify-center mx-auto mb-1">
+                            <span className="text-blue-600 dark:text-blue-400 text-sm">📚</span>
+                          </div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400">Quizzes</div>
+                          <div className="font-bold text-gray-900 dark:text-white">
+                            {performer.totalQuizzes || 0}
+                          </div>
+                        </div>
+
+                        {/* High Quizzes */}
+                        <div className="text-center">
+                          <div className="w-8 h-8 bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-yellow-900/30 rounded-lg flex items-center justify-center mx-auto mb-1">
+                            <span className="text-yellow-600 dark:text-yellow-400 text-sm">🏆</span>
+                          </div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400">High</div>
+                          <div className="font-bold text-gray-900 dark:text-white">
+                            {performer.highQuizzes || 0}
+                          </div>
+                        </div>
+
+                        {/* Accuracy */}
+                        <div className="text-center">
+                          <div className="w-8 h-8 bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-lg flex items-center justify-center mx-auto mb-1">
+                            <span className="text-purple-600 dark:text-purple-400 text-sm">🎯</span>
+                          </div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400">Accuracy</div>
+                          <div className="font-bold text-gray-900 dark:text-white">
+                            {performer.accuracy || 0}%
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* List View - Table for desktop */}
+            {viewMode === 'list' && (
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b-2 border-blue-200 dark:border-blue-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
+                      <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">🏆</span>
+                          Rank
+                        </div>
+                      </th>
+                      <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">👤</span>
+                          Student
+                        </div>
+                      </th>
+                      <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">📈</span>
+                          Level
+                        </div>
+                      </th>
+                      <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">📚</span>
+                          Total Quizzes
+                        </div>
+                      </th>
+                      <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">🏆</span>
+                          High Quizzes
+                        </div>
+                      </th>
+                      <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">🎯</span>
+                          Accuracy
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                   {topPerformers.map((performer, index) => (
+                    <tr
+                      key={performer._id}
+                      className={`border-b transition-all duration-200 border-gray-200 hover:shadow-lg group ${
+                        index === 0
+                          ? "bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/10 dark:to-orange-900/10"
+                          : index === 1
+                          ? "bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-900/10 dark:to-slate-900/10"
+                          : index === 2
+                          ? "bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/10 dark:to-amber-900/10"
+                          : "hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 dark:hover:from-blue-900/10 dark:hover:to-indigo-900/10"
+                      }`}
+                    >
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg ${
+                              index === 0
+                                ? "bg-gradient-to-r from-yellow-400 to-orange-500"
+                                : index === 1
+                                ? "bg-gradient-to-r from-gray-400 to-slate-500"
+                                : index === 2
+                                ? "bg-gradient-to-r from-orange-400 to-amber-500"
+                                : "bg-gradient-to-r from-blue-400 to-indigo-500"
+                            }`}
+                          >
+                            {index === 0
+                              ? "🥇"
+                              : index === 1
+                              ? "🥈"
+                              : index === 2
+                              ? "🥉"
+                              : index + 1}
+                       </div>
+                          {index < 3 && (
+                            <div className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                              {index === 0
+                                ? "Champion"
+                                : index === 1
+                                ? "Runner-up"
+                                : "3rd Place"}
+                       </div>
+                     )}
+                   </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center">
+                            <span className="text-xl text-blue-600 dark:text-blue-400">
+                              {performer.name?.charAt(0)?.toUpperCase() || "?"}
+                            </span>
+                   </div>
+                          <div>
+                            <div className="font-bold text-gray-900 dark:text-white text-md lg:text-lg">
+                              {performer.name || "Anonymous"}
+                   </div>
+                 </div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-10 h-10 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-lg flex items-center justify-center">
+                            <span className="text-green-600 dark:text-green-400 text-sm">
+                              📈
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-gray-900 dark:text-white text-lg">
+                              {performer.userLevel || 0}
+                            </span>
+                            {(performer.userLevel || 0) > 0 && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200">
+                                Level
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-10 h-10 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg flex items-center justify-center">
+                            <span className="text-blue-600 dark:text-blue-400 text-sm">
+                              📚
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-gray-900 dark:text-white text-lg">
+                              {performer.totalQuizzes || 0}
+                            </span>
+                            {(performer.totalQuizzes || 0) > 0 && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200">
+                                📚
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-10 h-10 bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-yellow-900/30 rounded-lg flex items-center justify-center">
+                            <span className="text-yellow-600 dark:text-yellow-400 text-sm">
+                              🏆
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-gray-900 dark:text-white text-lg">
+                              {performer.highQuizzes || 0}
+                            </span>
+                            {(performer.highQuizzes || 0) > 0 && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200">
+                                High Quizzes
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-10 h-10 bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-lg flex items-center justify-center">
+                            <span className="text-purple-600 dark:text-purple-400 text-sm">
+                              🎯
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-gray-900 dark:text-white text-lg">
+                              {performer.accuracy || 0}%
+                            </span>
+                            {(performer.accuracy || 0) > 0 && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-200">
+                                Accuracy
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+             </div>
+         
+             )}
+               </div>
+
+          <div className="text-center mt-12">
+            <Link
+              to="/register"
+              className="inline-flex items-center space-x-2 px-8 py-3 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
+            >
+              <span>Join the Competition</span>
+              <FaArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+             {/* Prize & Rewards Section */}
+       <section id="prizes" className="py-20 relative overflow-hidden">
+         <div className="absolute inset-0 bg-gradient-to-tl from-amber-50 via-yellow-50 to-orange-50 dark:from-gray-900 dark:via-amber-900/20 dark:to-orange-900/20 pointer-events-none" />
+         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+                Win Amazing Prizes & Rewards
+              </span>
+            </h2>
+                         <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Compete monthly for amazing rewards! Top 3 performers at Level 10
+              with ≥75% accuracy share ₹9,999 prize pool every month.
+             </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+            <div>
+              <div className="space-y-6">
+                {[
+                  {
+                    icon: FaTrophy,
+                    title: "Monthly Prize Pool",
+                    description:
+                      "Top 3 performers share the monthly prize pool",
+                    amount: "₹9,999",
+                  },
+                  {
+                    icon: FaCrown,
+                    title: "1st Place",
+                    description: "Best performer gets 50% of the prize pool",
+                    amount: "₹4,999",
+                  },
+                  {
+                    icon: FaMedal,
+                    title: "2nd Place",
+                    description: "Second best gets 33% of the prize pool",
+                    amount: "₹3,333",
+                  },
+                  {
+                    icon: FaGem,
+                    title: "3rd Place",
+                    description: "Third best gets 17% of the prize pool",
+                    amount: "₹1,667",
+                  },
+                ].map((reward, index) => (
+                  <div key={index} className="flex items-start space-x-4">
+                                                                                   <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-yellow-100 dark:bg-gray-800">
+                       <reward.icon className="w-6 h-6 text-yellow-600" />
+                     </div>
+                     <div className="flex-1">
+                       <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-lg font-semibold">
+                          {reward.title}
+                        </h3>
+                        <span className="text-lg font-bold text-green-600">
+                          {reward.amount}
+                        </span>
+                       </div>
+                       <p className="text-gray-600 dark:text-gray-400">
+                         {reward.description}
+                       </p>
+                     </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+                         <div className="rounded-2xl p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl">
+              <h3 className="text-2xl font-bold mb-6 text-center">
+                Monthly Prize Pool
+              </h3>
+               <div className="space-y-6">
+                 <div className="text-center">
+                  <div className="text-4xl font-bold text-yellow-500 mb-2">
+                    ₹9,999
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    Monthly Prize Pool
+                  </p>
+                 </div>
+                 <div className="grid grid-cols-2 gap-4">
+                   <div className="text-center p-4 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-500 text-white">
+                     <div className="text-2xl font-bold">₹4,999</div>
+                     <div className="text-sm">1st Place (50%)</div>
+                   </div>
+                   <div className="text-center p-4 rounded-lg bg-gradient-to-br from-gray-400 to-gray-500 text-white">
+                     <div className="text-2xl font-bold">₹3,333</div>
+                     <div className="text-sm">2nd Place (33%)</div>
+                   </div>
+                 </div>
+                 <div className="text-center">
+                  <div className="text-2xl font-bold text-amber-600 mb-2">
+                    ₹1,667
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    3rd Place (17%)
+                  </p>
+                 </div>
+               </div>
+              
+              <div className="mt-8 text-center">
+                <Link
+                  to="/register"
+                  className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
+                >
+                  <span>Start Winning</span>
+                  <FaArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Achievement Badges */}
+          <div className="text-center mb-12">
+            <h3 className="text-2xl font-bold mb-8">Earn Achievement Badges</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {[
+                {
+                  icon: FaStar,
+                  name: "Quiz Master",
+                  description: "Complete 110 quizzes",
+                },
+                {
+                  icon: FaBrain,
+                  name: "Knowledge Seeker",
+                  description: "Score 75%+ in 55 quizzes",
+                },
+                {
+                  icon: FaRocket,
+                  name: "Speed Demon",
+                  description: "Complete quiz in under 2 minutes",
+                },
+                {
+                  icon: FaCrown,
+                  name: "Legend",
+                  description: "Top 10 in monthly leaderboard",
+                },
+              ].map((badge, index) => (
+                <div
+                  key={index}
+                  className="p-6 rounded-2xl transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-yellow-500 shadow-lg hover:shadow-xl"
+                >
+                   <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center bg-yellow-100 dark:bg-gray-700">
+                     <badge.icon className="w-8 h-8 text-yellow-600" />
+                   </div>
+                   <h4 className="font-semibold mb-2">{badge.name}</h4>
+                   <p className="text-sm text-gray-600 dark:text-gray-400">
+                     {badge.description}
+                   </p>
+                 </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+             {/* Subscription Plans Section */}
+       <section id="subscription" className="py-20 relative overflow-hidden">
+         <div className="absolute inset-0 bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50 dark:from-gray-900 dark:via-violet-900/20 dark:to-indigo-900/20 pointer-events-none" />
+         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+                           <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+                Choose Your Perfect Plan
+              </span>
+            </h2>
+                         <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Unlock unlimited potential with our flexible subscription plans.
+              All users start at Level 0 monthly and compete fairly!
+             </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            {/* Free Plan */}
+                         <div className="relative rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
+               <div className="text-center mb-8">
+                 <h3 className="text-2xl font-bold mb-2">Free</h3>
+                <div className="text-4xl font-bold text-yellow-600 mb-2">
+                  ₹0
+                </div>
+                 <p className="text-gray-600 dark:text-gray-400">Forever</p>
+               </div>
+               
+               <ul className="space-y-4 mb-8">
+                 {[
+                  "Access to levels 0-3",
+                  "Basic quiz categories",
+                  "Monthly leaderboard access",
+                  "Standard support",
+                  "Basic analytics",
+                 ].map((feature, index) => (
+                   <li key={index} className="flex items-center space-x-3">
+                     <FaCheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">
+                      {feature}
+                    </span>
+                   </li>
+                 ))}
+               </ul>
+              
+              <Link
+                to="/register"
+                className="block w-full text-center py-3 px-6 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
+              >
+                Get Started Free
+              </Link>
+            </div>
+
+                         {/* Basic Plan */}
+                          <div className="relative rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
+               <div className="text-center mb-8">
+                 <h3 className="text-2xl font-bold mb-2">Basic</h3>
+                <div className="text-4xl font-bold text-yellow-600 mb-2">
+                  ₹9
+                </div>
+                 <p className="text-gray-600 dark:text-gray-400">per month</p>
+               </div>
+               
+               <ul className="space-y-4 mb-8">
+                 {[
+                  "Access to levels 0-6",
+                  "Advanced categories",
+                  "Priority support",
+                  "Detailed analytics",
+                  "Custom study plans",
+                  "Progress tracking",
+                  "Monthly rewards eligibility",
+                 ].map((feature, index) => (
+                   <li key={index} className="flex items-center space-x-3">
+                     <FaCheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">
+                      {feature}
+                    </span>
+                   </li>
+                 ))}
+               </ul>
+              
+              <Link
+                to="/register"
+                className="block w-full text-center py-3 px-6 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
+              >
+                Start Basic Plan
+              </Link>
+            </div>
+
+            {/* Premium Plan */}
+                         <div className="relative rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
+               <div className="text-center mb-8">
+                 <h3 className="text-2xl font-bold mb-2">Premium</h3>
+                <div className="text-4xl font-bold text-yellow-600 mb-2">
+                  ₹49
+                </div>
+                 <p className="text-gray-600 dark:text-gray-400">per month</p>
+               </div>
+               
+               <ul className="space-y-4 mb-8">
+                 {[
+                  "Access to levels 0-9",
+                  "Exclusive premium quizzes",
+                  "AI-powered recommendations",
+                  "24/7 priority support",
+                  "Advanced analytics",
+                  "Personal mentor access",
+                  "Custom quiz creation",
+                  "Exclusive monthly rewards",
+                  "Early access features",
+                 ].map((feature, index) => (
+                   <li key={index} className="flex items-center space-x-3">
+                     <FaCheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">
+                      {feature}
+                    </span>
+                   </li>
+                 ))}
+               </ul>
+              
+              <Link
+                to="/register"
+                className="block w-full text-center py-3 px-6 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
+              >
+                Start Premium Plan
+              </Link>
+            </div>
+
+                         {/* Pro Plan */}
+                          <div className="relative rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border-2 border-yellow-500 shadow-xl">
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <span className="bg-yellow-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                    Most Popular
+                  </span>
+                </div>
+               <div className="text-center mb-8">
+                 <h3 className="text-2xl font-bold mb-2">Pro</h3>
+                <div className="text-4xl font-bold text-yellow-600 mb-2">
+                  ₹99
+                </div>
+                 <p className="text-gray-600 dark:text-gray-400">per month</p>
+               </div>
+               
+               <ul className="space-y-4 mb-8">
+                 {[
+                  "Access to all levels 0-10",
+                  "Everything in Premium",
+                  "AI-powered recommendations",
+                  "24/7 priority support",
+                  "Advanced analytics",
+                  "Personal mentor access",
+                  "Custom quiz creation",
+                  "Exclusive monthly rewards",
+                  "Early access features",
+                  "Data export & API access",
+                 ].map((feature, index) => (
+                   <li key={index} className="flex items-center space-x-3">
+                     <FaCheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">
+                      {feature}
+                    </span>
+                   </li>
+                 ))}
+               </ul>
+              
+              <Link
+                to="/register"
+                className="block w-full text-center py-3 px-6 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
+              >
+                Start Pro Plan
+              </Link>
+            </div>
+          </div>
+
+          {/* Plan Comparison */}
+                     <div className="rounded-2xl p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl">
+            <h3 className="text-2xl font-bold text-center mb-8">
+              Plan Comparison
+            </h3>
+             <div className="overflow-x-auto">
+               <table className="w-full">
+                 <thead>
+                   <tr className="border-b border-gray-200 dark:border-gray-700">
+                    <th className="text-left py-4 px-6 text-gray-700 dark:text-gray-300">
+                      Features
+                    </th>
+                    <th className="text-center py-4 px-6 text-gray-700 dark:text-gray-300">
+                      Free
+                    </th>
+                    <th className="text-center py-4 px-6 text-gray-700 dark:text-gray-300">
+                      Basic
+                    </th>
+                    <th className="text-center py-4 px-6 text-gray-700 dark:text-gray-300">
+                      Premium
+                    </th>
+                    <th className="text-center py-4 px-6 text-gray-700 dark:text-gray-300">
+                      Pro
+                    </th>
+                   </tr>
+                 </thead>
+                 <tbody>
+                   {[
+                    {
+                      feature: "Level Access",
+                      free: "0-3",
+                      basic: "0-6",
+                      premium: "0-9",
+                      pro: "0-10",
+                    },
+                    {
+                      feature: "Categories Access",
+                      free: "Basic",
+                      basic: "Advanced",
+                      premium: "Premium + Custom",
+                      pro: "All + Custom",
+                    },
+                    {
+                      feature: "Support",
+                      free: "Standard",
+                      basic: "Priority",
+                      premium: "24/7 Priority",
+                      pro: "24/7 Priority",
+                    },
+                    {
+                      feature: "Analytics",
+                      free: "Basic",
+                      basic: "Detailed",
+                      premium: "Advanced + AI",
+                      pro: "Advanced + AI + Export",
+                    },
+                    {
+                      feature: "Monthly Rewards",
+                      free: "Eligible",
+                      basic: "Eligible",
+                      premium: "Eligible",
+                      pro: "Eligible",
+                    },
+                   ].map((row, index) => (
+                    <tr
+                      key={index}
+                      className="border-b border-gray-200 dark:border-gray-700"
+                    >
+                       <td className="py-4 px-6 font-medium text-gray-700 dark:text-gray-300">
+                         {row.feature}
+                       </td>
+                       <td className="text-center py-4 px-6 text-gray-600 dark:text-gray-400">
+                         {row.free}
+                       </td>
+                       <td className="text-center py-4 px-6 text-gray-600 dark:text-gray-400">
+                         {row.basic}
+                       </td>
+                       <td className="text-center py-4 px-6 text-gray-600 dark:text-gray-400">
+                         {row.premium}
+                       </td>
+                       <td className="text-center py-4 px-6 text-gray-600 dark:text-gray-400">
+                         {row.pro}
+                       </td>
+                     </tr>
+                   ))}
+                 </tbody>
+               </table>
+             </div>
+           </div>
+        </div>
+      </section>
+
+             {/* Features Section */}
+       <section className="py-20 relative overflow-hidden">
+         <div className="absolute inset-0 bg-gradient-to-tl from-cyan-50 via-blue-50 to-sky-50 dark:from-gray-900 dark:via-cyan-900/20 dark:to-sky-900/20 pointer-events-none" />
+         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+                           <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+                                 Why Choose SUBG QUIZ?
+              </span>
+            </h2>
+                         <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Experience the best quiz platform with monthly reset system, fair
+              competition, and cutting-edge features designed for modern
+              learners.
+             </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                icon: FaMobileAlt,
+                title: "Mobile First",
+                description:
+                  "Optimized for all devices - learn anywhere, anytime",
+              },
+              {
+                icon: FaShieldAlt,
+                title: "Secure Platform",
+                description: "Your data and progress are completely secure",
+              },
+              {
+                icon: FaHeadset,
+                title: "24/7 Support",
+                description: "Get help whenever you need it",
+              },
+              {
+                icon: FaDesktop,
+                title: "Cross Platform",
+                description: "Seamless experience across all devices",
+              },
+              {
+                icon: FaTabletAlt,
+                title: "Responsive Design",
+                description: "Perfect experience on any screen size",
+              },
+              {
+                icon: FaGift,
+                title: "Monthly Rewards",
+                description: "Compete monthly for ₹9,999 prize pool",
+              },
+            ].map((feature, index) => (
+              <div
+                key={index}
+                className="text-center p-8 rounded-2xl transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-yellow-500 shadow-lg hover:shadow-xl"
+              >
+                 <div className="w-16 h-16 mx-auto mb-6 rounded-2xl flex items-center justify-center bg-yellow-100 dark:bg-gray-700">
+                   <feature.icon className="w-8 h-8 text-yellow-600" />
+                 </div>
+                 <h3 className="text-xl font-bold mb-4">{feature.title}</h3>
+                 <p className="text-gray-600 dark:text-gray-400">
+                   {feature.description}
+                 </p>
+               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+          {/* Referral System Section */}
+          <section id="referrals" className="py-20 relative overflow-hidden">
+         <div className="absolute inset-0 bg-gradient-to-br from-pink-50 via-rose-50 to-red-50 dark:from-gray-900 dark:via-pink-900/20 dark:to-rose-900/20 pointer-events-none" />
+         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+                Refer & Earn Rewards
+              </span>
+            </h2>
+                         <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Invite your friends and family to join SUBG QUIZ. Earn
+              subscription plan upgrades as referral milestones!
+             </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="space-y-6">
+                {[
+                  {
+                    icon: FaUsers,
+                    title: "Invite Friends",
+                    description:
+                      "Share your unique referral code with friends and family",
+                  },
+                  {
+                    icon: FaGift,
+                    title: "Earn Plans",
+                    description:
+                      "Get subscription plan upgrades at referral milestones",
+                  },
+                  {
+                    icon: FaTrophy,
+                    title: "Milestone Rewards",
+                    description:
+                      "2 referrals = Basic, 5 = Premium, 10 = Pro plan",
+                  },
+                  {
+                    icon: FaCheckCircle,
+                    title: "Smart Upgrades",
+                    description:
+                      "Only upgrade if new plan is better than current",
+                  },
+                ].map((feature, index) => (
+                  <div key={index} className="flex items-start space-x-4">
+                                                                                   <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-yellow-100 dark:bg-gray-800">
+                       <feature.icon className="w-6 h-6 text-yellow-600" />
+                     </div>
+                     <div>
+                      <h3 className="text-lg font-semibold mb-2">
+                        {feature.title}
+                      </h3>
+                       <p className="text-gray-600 dark:text-gray-400">
+                         {feature.description}
+                       </p>
+                     </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+                         <div className="rounded-2xl p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl">
+              <h3 className="text-2xl font-bold mb-6 text-center">
+                How It Works
+              </h3>
+               <div className="space-y-6">
+                 <div className="flex items-center space-x-4">
+                  <div className="w-8 h-8 bg-yellow-600 text-white rounded-full flex items-center justify-center font-bold">
+                    1
+                  </div>
+                   <div>
+                     <h4 className="font-semibold">Sign Up</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Create your account
+                    </p>
+                   </div>
+                 </div>
+                 <div className="flex items-center space-x-4">
+                  <div className="w-8 h-8 bg-yellow-600 text-white rounded-full flex items-center justify-center font-bold">
+                    2
+                  </div>
+                   <div>
+                     <h4 className="font-semibold">Get Referral Code</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Copy your Referral Code
+                    </p>
+                   </div>
+                 </div>
+                 <div className="flex items-center space-x-4">
+                  <div className="w-8 h-8 bg-yellow-600 text-white rounded-full flex items-center justify-center font-bold">
+                    3
+                  </div>
+                   <div>
+                     <h4 className="font-semibold">Share & Earn</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Invite friends and get rewards
+                    </p>
+                   </div>
+                 </div>
+               </div>
+              
+              <div className="mt-8 text-center">
+                <Link
+                  to="/register"
+                  className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
+                >
+                  <span>Start Referring</span>
+                  <FaArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Referral Rewards */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center my-16">
+            <h3 className="text-2xl font-bold mb-8">
+              Referral Milestone Rewards
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  icon: FaStar,
+                  name: "2 Referrals",
+                  description: "Get Basic Plan (₹9/month) for 30 days",
+                  reward: "₹9",
+                },
+                {
+                  icon: FaGem,
+                  name: "5 Referrals",
+                  description: "Get Premium Plan (₹49/month) for 30 days",
+                  reward: "₹49",
+                },
+                {
+                  icon: FaCrown,
+                  name: "10 Referrals",
+                  description: "Get Pro Plan (₹99/month) for 30 days",
+                  reward: "₹99",
+                },
+              ].map((badge, index) => (
+                <div
+                  key={index}
+                  className="p-6 rounded-2xl transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-yellow-500 shadow-lg hover:shadow-xl"
+                >
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center bg-yellow-100 dark:bg-gray-700">
+                    <badge.icon className="w-8 h-8 text-yellow-600" />
+                  </div>
+                  <h4 className="font-semibold mb-2">{badge.name}</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    {badge.description}
+                  </p>
+                  <div className="text-lg font-bold text-green-600">
+                    {badge.reward}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+             {/* CTA Section */}
+       <section className="py-20 relative overflow-hidden">
+         <div className="absolute inset-0 bg-gradient-to-r from-yellow-100 via-orange-100 to-red-100 dark:from-gray-800 dark:via-yellow-800/30 dark:to-red-800/30 pointer-events-none" />
+         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-6">
+                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+              Ready to Start Your Learning Journey?
+            </span>
+          </h2>
+                     <p className="text-md md:text-xl mb-8 text-gray-600 dark:text-gray-300">
+            Join thousands of students who are already improving their knowledge
+            monthly and competing for ₹9,999 prize pool every month!
+           </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              to="/register"
+              className="px-4 md:px-8 py-2 md:py-4 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold text-lg hover:from-yellow-700 hover:to-red-700 transition-all duration-300 transform hover:scale-105"
+            >
+              Get Started Free
+            </Link>
+            <Link
+              to="/how-it-works"
+              className="px-4 md:px-8 py-2 md:py-4 border-2 border-yellow-600 text-yellow-600 dark:text-yellow-400 rounded-xl font-semibold text-lg hover:bg-yellow-600 hover:text-white dark:hover:bg-yellow-600 dark:hover:text-white transition-all duration-300"
+            >
+              Learn More
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Unified Footer */}
+      <UnifiedFooter isLandingPage={true} />
+    </div>
+  );
+};
+
+// Icon mappings
+const categoryIcons = {
+  Science: FaFlask,
+  Technology: FaLaptopCode,
+  Geography: FaGlobe,
+  Math: FaCalculator,
+  Mathematics: FaCalculator,
+  IQ: FaBrain,
+  Art: FaPalette,
+  Nature: FaLeaf,
+  Education: FaUserGraduate,
+  General: FaBook,
+  Default: FaBook,
+};
+
+const levelBadgeIcons = {
+  Starter: FaUserGraduate,
+  Rookie: FaStar,
+  Explorer: FaRocket,
+  Thinker: FaBrain,
+  Strategist: FaChartLine,
+  Achiever: FaAward,
+  Mastermind: FaGem,
+  Champion: FaTrophy,
+  Prodigy: FaMedal,
+  Wizard: FaMagic,
+  Legend: FaCrown,
+  Default: FaStar,
+};
+
+export default LandingPage;

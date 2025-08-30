@@ -1,9 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import Navbar from './components/Navbar.jsx';
+import UnifiedNavbar from './components/UnifiedNavbar.jsx';
+import AdminNavbar from './components/AdminNavbar.jsx';
 import Sidebar from './components/Sidebar';
 import AdminRoute from './components/AdminRoute';
-import Footer from './components/Footer.jsx';
+import UnifiedFooter from './components/UnifiedFooter.jsx';
 import StudentRoute from './components/StudentRoute';
 import ErrorBoundary from './components/ErrorBoundary';
 import GlobalErrorProvider from './contexts/GlobalErrorContext';
@@ -14,6 +15,7 @@ import RegisterPage from './pages/RegisterPage.jsx';
 import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx';
 import ResetPasswordPage from './pages/ResetPasswordPage.jsx';
 import HomePage from './pages/HomePage';
+import LandingPage from './pages/LandingPage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
 import DashboardPage from './pages/admin/DashboardPage';
 import CategoryPage from './pages/admin/CategoryPage';
@@ -75,14 +77,17 @@ function AppLayout() {
       {/* Global Error Banner */}
       <GlobalErrorBanner />
       
-      {/* Navbar always shows */}
-      <Navbar />
+      {/* Navbar shows on all pages except landing page */}
+      {location.pathname !== '/' && !location.pathname.startsWith('/admin') && <UnifiedNavbar isLandingPage={false} />}
+      
+      {/* Admin Navbar shows only on admin pages */}
+      {location.pathname.startsWith('/admin') && <AdminNavbar />}
       
       {/* Sidebar only for admin users */}
       {isAdmin() && hasAdminPrivileges() && <Sidebar />}
       
       <ToastContainer position="bottom-right" autoClose={3000} />
-      <div className="appContainer">
+      <div className={`appContainer ${location.pathname !== '/' ? 'has-navbar' : ''}`}>
         <>
           <Routes>
             {/* Public Routes */}
@@ -97,8 +102,11 @@ function AppLayout() {
             <Route path="/refund" element={<RefundPolicy />} />
             <Route path="/contact" element={<ContactUs />} />
 
-            {/* Public Homepage Route */}
-            <Route path="/" element={<TokenValidationWrapper showWarning={false}><HomePage /></TokenValidationWrapper>} />
+            {/* Public Landing Page Route */}
+            <Route path="/" element={<LandingPage />} />
+            
+            {/* User Homepage Route */}
+            <Route path="/home" element={<TokenValidationWrapper showWarning={false}><HomePage /></TokenValidationWrapper>} />
             <Route path="/search" element={<TokenValidationWrapper showWarning={false}><SearchPage /></TokenValidationWrapper>} />
             <Route path="/profile" element={<StudentRoute><TokenValidationWrapper><ProfilePage /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/attempt-quiz/:quizId" element={<StudentRoute><TokenValidationWrapper><AttemptQuizPage /></TokenValidationWrapper></StudentRoute>} />
@@ -134,8 +142,8 @@ function AppLayout() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
           
-          {/* Footer only shows on non-admin pages */}
-          {!location.pathname.startsWith('/admin') && <Footer />}
+                {/* Footer shows on non-admin pages except landing page */}
+      {!location.pathname.startsWith('/admin') && location.pathname !== '/' && <UnifiedFooter isLandingPage={false} />}
         </>
       </div>
     </ErrorBoundary>

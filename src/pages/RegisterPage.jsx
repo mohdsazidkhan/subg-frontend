@@ -315,7 +315,7 @@ const RegisterPage = () => {
                     to="/login" 
                     className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 font-semibold transition-colors"
                   >
-                    Login
+                    LOGIN
                   </Link>
                 </p>
               </div>
