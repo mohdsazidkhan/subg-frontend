@@ -144,19 +144,19 @@ const PerformanceAnalytics = () => {
         sortedPerformers = performers.sort((a, b) => (b.monthlyProgress?.totalQuizAttempts || 0) - (a.monthlyProgress?.totalQuizAttempts || 0));
         break;
       default:
-        // Default ranking: First by monthly high score wins (descending), then by monthly accuracy (descending)
+        // Default ranking: First by High Score Wins (descending), then by Accuracy (descending)
         sortedPerformers = performers.sort((a, b) => {
           const aHighScore = a.monthlyProgress?.highScoreWins || 0;
           const bHighScore = b.monthlyProgress?.highScoreWins || 0;
           const aAccuracy = a.monthlyProgress?.accuracy || 0;
           const bAccuracy = b.monthlyProgress?.accuracy || 0;
           
-          // First priority: Monthly high score wins (descending)
+          // First priority: High Score Wins (descending)
           if (aHighScore !== bHighScore) {
             return bHighScore - aHighScore;
           }
           
-          // Second priority: Monthly accuracy (descending)
+          // Second priority: Accuracy (descending)
           if (aAccuracy !== bAccuracy) {
             return bAccuracy - aAccuracy;
           }
@@ -177,9 +177,9 @@ const PerformanceAnalytics = () => {
     const rows = data.topPerformers.map((p) => ({
       Name: p.name || "Unknown",
       Level: p.level?.currentLevel || 0,
-      "Monthly High Score Wins": p.monthlyProgress?.highScoreWins || 0,
-      "Monthly Accuracy": p.monthlyProgress?.accuracy || 0,
-      "Monthly Total Quizzes": p.monthlyProgress?.totalQuizAttempts || 0,
+      "High Score Wins": p.monthlyProgress?.highScoreWins || 0,
+      "Accuracy": p.monthlyProgress?.accuracy || 0,
+      "Total Quizzes": p.monthlyProgress?.totalQuizAttempts || 0,
     }));
     exportCSV(rows, "top_performers.csv");
   };
@@ -423,8 +423,8 @@ const PerformanceAnalytics = () => {
                 onChange={handleFilterChange}
                 className="px-4 py-2 border rounded-lg bg-white text-gray-900 border-gray-300 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value="highScores">Sort by Monthly High Score Wins</option>
-                <option value="avgScore">Sort by Monthly Accuracy</option>
+                <option value="highScores">Sort by High Score Wins</option>
+                <option value="avgScore">Sort by Accuracy</option>
                 <option value="totalScore">Sort by Total Score</option>
                 <option value="quizzesPlayed">Sort by Monthly Quizzes Played</option>
               </select>
@@ -642,11 +642,11 @@ const PerformanceAnalytics = () => {
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               {filters.sortBy ? 
-                `Sorted by ${filters.sortBy === 'highScores' ? 'Monthly High Score Wins' : 
-                           filters.sortBy === 'avgScore' ? 'Monthly Accuracy' :
+                `Sorted by ${filters.sortBy === 'highScores' ? 'High Score Wins' : 
+                           filters.sortBy === 'avgScore' ? 'Accuracy' :
                            filters.sortBy === 'totalScore' ? 'Total Score' :
-                           filters.sortBy === 'quizzesPlayed' ? 'Monthly Quizzes Played' : 'Monthly High Score Wins'}` : 
-                'Ranked by Monthly High Score Wins (Primary), Monthly Accuracy (Secondary), Monthly Quizzes Played (Tertiary)'
+                           filters.sortBy === 'quizzesPlayed' ? 'Monthly Quizzes Played' : 'High Score Wins'}` : 
+                'Ranked by High Score Wins (Primary), Accuracy (Secondary), Monthly Quizzes Played (Tertiary)'
               }
             </p>
           </div>
@@ -701,13 +701,13 @@ const PerformanceAnalytics = () => {
                   <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
                     <div className="flex items-center gap-2">
                       <span className="text-xl">⭐</span>
-                      Monthly High Score Wins
+                      High Score Wins
                     </div>
                   </th>
                   <th className="py-4 px-4 text-left text-purple-800 dark:text-purple-200 font-bold text-lg">
                     <div className="flex items-center gap-2">
                       <span className="text-xl">🎯</span>
-                      Monthly Accuracy
+                      Accuracy
                     </div>
                   </th>
 
