@@ -106,6 +106,10 @@ const QuestionPage = () => {
       resetForm();
       setShowForm(false);
       fetchQuestions(currentPage, searchTerm, filters);
+      
+      // Scroll to top after successful submission to show updated list - mobile: top 200, desktop: top 0
+      const scrollTop = isMobile ? 200 : 0;
+      window.scrollTo({ top: scrollTop, behavior: 'smooth' });
     } catch (err) {
       toast.error(err.message || 'Failed to save question');
     }
@@ -126,7 +130,24 @@ const QuestionPage = () => {
     setOptions([...question.options, '', '', '', ''].slice(0, 4));
     setCorrectAnswerIndex(question.correctAnswerIndex);
     setTimeLimit(question.timeLimit || '');
-            setShowForm(!showForm);
+    setShowForm(!showForm);
+    
+    // Scroll to top when editing - mobile: top 200, desktop: top 0
+    const scrollTop = isMobile ? 200 : 0;
+    window.scrollTo({ top: scrollTop, behavior: 'smooth' });
+  };
+
+  const handleToggleForm = () => {
+    setShowForm(!showForm);
+    if (!showForm) {
+      // Scroll to top when opening the form - mobile: top 200, desktop: top 0
+      const scrollTop = isMobile ? 200 : 0;
+      window.scrollTo({ top: scrollTop, behavior: 'smooth' });
+    }
+    // Reset form when opening for new question
+    if (!showForm && !editingId) {
+      resetForm();
+    }
   };
 
   const handleDelete = async (id) => {
@@ -397,7 +418,7 @@ const QuestionPage = () => {
               </p>
             </div>
             <button
-                onClick={() => setShowForm(!showForm)}
+                onClick={handleToggleForm}
                 className="mt-4 sm:mt-0 flex justify-center items-center px-4 py-2 
                 bg-gradient-to-r from-yellow-500 to-red-500 text-white 
                 dark:from-yellow-600 dark:to-red-700 
