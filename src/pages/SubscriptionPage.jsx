@@ -488,7 +488,7 @@ const SubscriptionPage = () => {
                     <div className="absolute -top-3 -right-3">
                       <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg pulse-glow">
                         <FaFire className="inline mr-1" />
-                        MOST POPULAR
+                        Popular
                       </div>
                     </div>
                   )}

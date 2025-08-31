@@ -44,7 +44,7 @@ const UnifiedFooter = ({ isLandingPage = false }) => {
             {/* Company Info */}
             <div className="col-span-1 md:col-span-2 text-center md:text-left">
               <div className="flex items-center justify-center md:justify-start mb-6">
-                <div className="w-10 h-10 flex items-center justify-center">
+                <div className="w-10 h-10 lg:w-16 lg:h-16 flex items-center justify-center">
                   <img src="/logo.png" alt="SUBG QUIZ Logo" className="w-full h-full object-contain" />
                 </div>
               </div>

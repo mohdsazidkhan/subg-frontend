@@ -745,12 +745,12 @@ const LandingPage = () => {
              
             {/* Grid View - Default for mobile */}
             {viewMode === 'grid' && (
-              <div className="p-6">
+              <div className="p-2 lg:p-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                   {topPerformers.map((performer, index) => (
                     <div
                       key={performer._id}
-                      className={`bg-white dark:bg-gray-700 rounded-xl p-4 border-2 transition-all duration-200 hover:shadow-lg group ${
+                      className={`bg-white dark:bg-gray-900 rounded-xl p-4 border-2 transition-all duration-200 hover:shadow-lg group ${
                         index === 0
                           ? "border-yellow-400 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20"
                           : index === 1
@@ -1232,7 +1232,7 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             {/* Free Plan */}
-                         <div className="relative rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
+                         <div className="relative rounded-md lg:rounded-2xl p-2 lg:p-4 xl:p-6 xxl:p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
                <div className="text-center mb-8">
                  <h3 className="text-2xl font-bold mb-2">Free</h3>
                 <div className="text-4xl font-bold text-yellow-600 mb-2">
@@ -1267,7 +1267,7 @@ const LandingPage = () => {
             </div>
 
                          {/* Basic Plan */}
-                          <div className="relative rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
+                          <div className="relative rounded-md lg:rounded-2xl p-2 lg:p-4 xl:p-6 xxl:p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
                <div className="text-center mb-8">
                  <h3 className="text-2xl font-bold mb-2">Basic</h3>
                 <div className="text-4xl font-bold text-yellow-600 mb-2">
@@ -1304,7 +1304,7 @@ const LandingPage = () => {
             </div>
 
             {/* Premium Plan */}
-                         <div className="relative rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
+                         <div className="relative rounded-md lg:rounded-2xl p-2 lg:p-4 xl:p-6 xxl:p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
                <div className="text-center mb-8">
                  <h3 className="text-2xl font-bold mb-2">Premium</h3>
                 <div className="text-4xl font-bold text-yellow-600 mb-2">
@@ -1343,10 +1343,10 @@ const LandingPage = () => {
             </div>
 
                          {/* Pro Plan */}
-                          <div className="relative rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border-2 border-yellow-500 shadow-xl">
+                          <div className="relative rounded-2xl p-2 lg:p-4 xl:p-6 xxl:p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border-2 border-yellow-500 shadow-xl">
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                   <span className="bg-yellow-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
-                    Most Popular
+                    Popular
                   </span>
                 </div>
                <div className="text-center mb-8">

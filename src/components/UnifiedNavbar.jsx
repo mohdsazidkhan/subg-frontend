@@ -160,7 +160,7 @@ const UnifiedNavbar = ({ isLandingPage = false, scrollToSection }) => {
           <div className="flex items-center">
             <Link 
               to={user ? "/home" : "/"}
-              className="w-10 h-10 flex items-center justify-center hover:opacity-80 transition-opacity duration-200"
+              className="w-10 h-10 lg:w-16 lg:h-16 flex items-center justify-center hover:opacity-80 transition-opacity duration-200"
               title={user ? "Go to Home" : "Go to Landing Page"}
             >
               <img src="/logo.png" alt="SUBG QUIZ Logo" className="w-full h-full object-contain" />
