@@ -32,8 +32,6 @@ import TopPerformers from "../components/TopPerformers";
 import SystemUpdateModal from "../components/SystemUpdateModal";
 import { BsSearch } from "react-icons/bs";
 import MonthlyWinnersDisplay from "../components/MonthlyWinnersDisplay";
-// Level badge icon mapping
-
 // Icon mapping for categories
 const categoryIcons = {
   Science: FaFlask,
@@ -49,35 +47,7 @@ const categoryIcons = {
   Default: FaBook,
 };
 
-// Level badge icon mapping
-const levelBadgeIcons = {
-  "Starter": FaUserGraduate,
-  "Rookie": FaStar,
-  "Explorer": FaRocket,
-  "Thinker": FaBrain,
-  "Strategist": FaChartLine,
-  "Achiever": FaAward,
-  "Mastermind": FaGem,
-  "Champion": FaTrophy,
-  "Prodigy": FaMedal,
-  "Wizard": FaMagic,
-  "Legend": FaCrown,
-  Default: FaStar,
-};
 
-// Level play count info for display (monthly cumulative wins, monthly pricing)
-const levelsInfo = [
-  { level: 1, quizzes: 2, plan: "Free", amount: 0, prize: 0 },
-  { level: 2, quizzes: 6, plan: "Free", amount: 0, prize: 0 },
-  { level: 3, quizzes: 12, plan: "Free", amount: 0, prize: 0 },
-  { level: 4, quizzes: 20, plan: "Basic", amount: 9, prize: 0 },
-  { level: 5, quizzes: 30, plan: "Basic", amount: 9, prize: 0 },
-  { level: 6, quizzes: 42, plan: "Basic", amount: 9, prize: 0 },
-  { level: 7, quizzes: 56, plan: "Premium", amount: 49, prize: 0 },
-  { level: 8, quizzes: 72, plan: "Premium", amount: 49, prize: 0 },
-  { level: 9, quizzes: 90, plan: "Premium", amount: 49, prize: 0 },
-  { level: 10, quizzes: 110, plan: "Pro", amount: 99, prize: 9999 },
-];
 
 const HomePage = () => {
   // Check if user is logged in
@@ -85,7 +55,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [homeData, setHomeData] = useState(null);
   const [userLevelData, setUserLevelData] = useState(null);
-  const [levels, setLevels] = useState([]);
+
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -97,7 +67,7 @@ const HomePage = () => {
   
   useEffect(() => {
     fetchHomePageData();
-    fetchLevels();
+
     fetchCategories();
     
     // Show system update modal for first-time visitors
@@ -109,18 +79,7 @@ const HomePage = () => {
     }
   }, []);
 
-  const fetchLevels = async () => {
-    try {
-      const res = await API.request("/api/levels/all-with-quiz-count");
-      if (res?.success) {
-        setLevels(res.data);
-      } else {
-        setLevels([]);
-      }
-    } catch (err) {
-      setLevels([]);
-    }
-  };
+
 
   const fetchHomePageData = async () => {
     try {
@@ -463,13 +422,7 @@ const HomePage = () => {
               <FaStar className="text-yellow-500 text-lg sm:text-xl md:text-2xl" />
               Your Quizzes
             </h2>
-            <Link
-              to="/level-quizzes"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base"
-            >
-              <FaLayerGroup className="text-base sm:text-lg" />
-              View All
-            </Link>
+
           </div>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 md:mb-8 lg:mb-12 max-w-3xl sm:max-w-4xl px-0">
             Discover quizzes tailored to your current level and challenge
@@ -598,129 +551,7 @@ const HomePage = () => {
             </div>
           )}
         </div>
-        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4 md:mb-6 flex items-center gap-2">
-          <FaLayerGroup className="text-yellow-500 text-lg sm:text-xl md:text-2xl" /> All Levels
-        </h2>
-        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 md:mb-8 lg:mb-12 max-w-2xl sm:max-w-3xl px-0">
-          Browse all available levels and their quizzes
-        </p>
-        {levels && levels?.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 px-0">
-            {levels
-              ?.filter((level) => level.name !== "Starter")
-              ?.map((level, i) => {
-                const Icon =
-                  levelBadgeIcons[level.name] || levelBadgeIcons.Default;
-                const levelInfo = levelsInfo.find(
-                  (info) => info.level === level.level
-                );
-                const playCount = levelInfo ? levelInfo.quizzes : 0;
-                const cardBg = `bg-gradient-to-t from-yellow-50 to-red-50 dark:from-gray-800/50 dark:to-gray-900/20`;
-                return (
-                  <div
-                    key={level.level}
-                    className={`rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-yellow-500 group flex flex-col h-full ${cardBg}`}
-                  >
-                    <div className="flex items-center justify-center mt-6">
-                      <div
-                        className={`p-3 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500`}
-                      >
-                        <Icon className="text-white text-2xl" />
-                      </div>
-                    </div>
-                    <div className="p-4 flex-1 flex flex-col justify-between">
-                      <div>
-                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-1 text-center">
-                          Level {level?.level} - {level.name}
-                        </h3>
-                        <p className="text-gray-600 dark:text-gray-300 text-sm text-center mb-2">
-                          {level.desc || ""}
-                        </p>
-                        <div className="grid grid-cols-2 gap-2 mb-2">
-                          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center shadow-lg">
-                            <div className="text-lg font-bold text-yellow-600">
-                              {level.quizCount}
-                            </div>
-                            <div className="text-xs text-gray-600 dark:text-gray-300">
-                              Quizzes
-                            </div>
-                          </div>
-                          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center shadow-lg">
-                            <div className="text-lg font-bold text-green-600">
-                              {level.plan
-                                ? level.plan
-                                : levelInfo && levelInfo.plan
-                                ? levelInfo.plan
-                                : "-"}
-                            </div>
-                            <div className="text-xs text-gray-600 dark:text-gray-300">
-                              Plan
-                            </div>
-                          </div>
-                          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center shadow-lg">
-                            <div className="text-lg font-bold text-red-600">
-                              ₹
-                              {level.amount ||
-                                (levelInfo && levelInfo.amount) ||
-                                0}
-                            </div>
-                            <div className="text-xs text-gray-600 dark:text-gray-300">
-                              Amount
-                            </div>
-                          </div>
-                          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center shadow-lg">
-                            <div className="text-lg font-bold text-yellow-600">
-                              ₹{level.prize || (levelInfo && levelInfo.prize) || 0}
-                            </div>
-                            <div className="text-xs text-gray-600 dark:text-gray-300">
-                              Prize {level.level === 10 ? '(Monthly Top 3: ₹9,999)' : ''}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="text-xs text-gray-900 dark:text-white text-center mb-2 drop-shadow-sm">
-                          Need {playCount} plays to master
-                        </div>
-                      </div>
-                      {userLevelData?.currentLevel + 1 === level?.level && (
-                        <div className="mt-4 flex justify-center">
-                          <Link
-                            to={`/level/${level.level}`}
-                            className="inline-block bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base"
-                          >
-                            View Quizzes
-                          </Link>
-                        </div>
-                      )}
-                      {userLevelData?.currentLevel + 1 > level?.level && (
-                        <div className="mt-4 flex justify-center">
-                          <button className="cursor-default inline-block bg-gradient-to-r from-green-600 to-orange-600 hover:from-red-700 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg text-base">
-                            Completed
-                          </button>
-                        </div>
-                      )}
-                      {userLevelData?.currentLevel + 1 < level?.level && (
-                        <div className="mt-4 flex justify-center">
-                          <button
-                            disabled
-                            className="inline-block bg-gray-400 text-white font-semibold py-2 px-6 rounded-xl shadow-md text-base cursor-not-allowed opacity-60"
-                          >
-                            Locked
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <FaLayerGroup className="text-6xl text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600 dark:text-gray-400 text-lg mb-4">
-              No levels found.
-            </p>
-          </div>
-        )}
+
       </div>
 
       {/* Categories Section */}

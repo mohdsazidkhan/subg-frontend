@@ -30,6 +30,13 @@ import {
   FaTabletAlt,
   FaMagic,
   FaQuestionCircle,
+  FaNewspaper,
+  FaHistory,
+  FaFutbol,
+  FaFilm,
+  FaLanguage,
+  FaGraduationCap,
+  FaDollarSign,
 } from "react-icons/fa";
 
 import UnifiedNavbar from "../components/UnifiedNavbar";
@@ -90,7 +97,7 @@ const LandingPage = () => {
       // Fetch all data in parallel using centralized API service
       const [levelsRes, categoriesRes, topPerformersRes, statsRes] =
         await Promise.all([
-          API.getPublicLevels(),
+          API.getAllLevels(),
           API.getPublicCategoriesEnhanced(),
           API.getPublicLandingTopPerformers(10),
           API.getPublicLandingStats(),
@@ -100,7 +107,7 @@ const LandingPage = () => {
       if (levelsRes.success) {
         // Filter out Starter level (Level 0)
         const filteredLevels = levelsRes.data.filter(
-          (level) => level.levelNumber !== 0
+          (level) => level.level !== 0
         );
         setLevels(filteredLevels);
       }
@@ -137,32 +144,32 @@ const LandingPage = () => {
       // Set fallback data if APIs fail
       setLevels([
         {
-          _id: "2",
+          level: 1,
           name: "Rookie",
-          levelNumber: 1,
           description: "Build your foundation",
           quizCount: 30,
+          quizzesRequired: 2,
         },
         {
-          _id: "3",
+          level: 2,
           name: "Explorer",
-          levelNumber: 2,
           description: "Discover new knowledge",
           quizCount: 35,
+          quizzesRequired: 6,
         },
         {
-          _id: "4",
+          level: 3,
           name: "Thinker",
-          levelNumber: 3,
           description: "Develop critical thinking",
           quizCount: 40,
+          quizzesRequired: 12,
         },
         {
-          _id: "5",
+          level: 4,
           name: "Strategist",
-          levelNumber: 4,
           description: "Master strategic learning",
           quizCount: 45,
+          quizzesRequired: 20,
         },
       ]);
       
@@ -488,11 +495,16 @@ const LandingPage = () => {
               month. Reach Level 10 (110 high-score wins with ≥75% accuracy) to
               qualify for monthly rewards!
              </p>
+             
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {levels.map((level, index) => {
               const levelColors = getLevelColors(level.name);
+              const levelInfo = levelsInfo.find(
+                (info) => info.level === level.level
+              );
+              const playCount = levelInfo ? levelInfo.quizzes : 0;
               return (
                 <div
                   key={level._id}
@@ -500,8 +512,8 @@ const LandingPage = () => {
                 >
                    <div className={`absolute top-0 right-0 w-32 h-32 ${levelColors.accent} rounded-full -translate-y-16 translate-x-16`}></div>
                    
-                   <div className="relative z-10">
-                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${levelColors.iconBg}`}>
+                   <div className="relative z-10 text-center">
+                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${levelColors.iconBg}`}>
                       {React.createElement(
                         levelBadgeIcons[level.name] || levelBadgeIcons.Default,
                         {
@@ -510,30 +522,53 @@ const LandingPage = () => {
                       )}
                      </div>
                      
-                     <h3 className={`text-xl font-bold mb-2 ${levelColors.titleColor}`}>{level.name}</h3>
-                     <p className={`text-sm mb-4 ${levelColors.descriptionColor}`}>
+                     <h3 className={`text-xl font-bold mb-2 ${levelColors.titleColor} text-center`}>
+                       Level {level.level} - {level.name}
+                     </h3>
+                     <p className={`text-sm mb-4 ${levelColors.descriptionColor} text-center`}>
                       {level.description ||
-                        `Level ${level.levelNumber} challenges`}
+                        `Level ${level.level} challenges`}
                      </p>
                      
-                     <div className="space-y-2">
-                       <div className="flex items-center justify-between text-sm">
-                        <span className={levelColors.labelColor}>
-                          Quizzes:
-                        </span>
-                        <span className={`font-semibold ${levelColors.valueColor}`}>
-                          {level.quizCount || "N/A"}
-                        </span>
+                     <div className="grid grid-cols-2 gap-2 mb-3">
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-yellow-600">
+                           {level.quizCount || "N/A"}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Total Quizzes
+                         </div>
                        </div>
-                       <div className="flex items-center justify-between text-sm">
-                        <span className={levelColors.labelColor}>
-                          Status:
-                        </span>
-                        <span className="text-green-600 font-semibold">
-                          Available
-                        </span>
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-green-600">
+                           {levelInfo ? levelInfo.plan : "-"}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Plan
+                         </div>
+                       </div>
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-red-600">
+                           ₹{levelInfo ? levelInfo.amount : 0}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Amount
+                         </div>
+                       </div>
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-yellow-600">
+                           ₹{levelInfo ? levelInfo.prize : 0}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Prize {level.level === 10 ? '(Monthly Top 3: ₹9,999)' : ''}
+                         </div>
                        </div>
                      </div>
+                     
+                     <div className="text-xs text-gray-900 dark:text-white text-center mb-2 drop-shadow-sm">
+                       Need {playCount} high-score wins to unlock next level
+                     </div>
+                     
                    </div>
                  </div>
               );
@@ -574,12 +609,15 @@ const LandingPage = () => {
               return (
                 <div
                   key={category._id}
-                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${categoryColors.background} ${categoryColors.border} hover:border-yellow-500`}
+                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm ${categoryColors.border} hover:border-yellow-500`}
                 >
-                   <div className={`absolute top-0 right-0 w-32 h-32 ${categoryColors.accent} rounded-full -translate-y-16 translate-x-16`}></div>
+                   <div className={`absolute top-0 right-0 w-32 h-32 ${categoryColors.accent} rounded-full -translate-y-16 translate-x-16 opacity-60`}></div>
                    
-                   <div className="relative z-10">
-                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${categoryColors.iconBg}`}>
+                   <div className="relative z-10 text-center">
+                     {/* Category Color Overlay */}
+                     <div className={`absolute inset-0 ${categoryColors.background} opacity-20 rounded-2xl pointer-events-none`}></div>
+                     
+                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${categoryColors.iconBg}`}>
                       {React.createElement(
                         categoryIcons[category.name] || categoryIcons.Default,
                         {
@@ -588,8 +626,8 @@ const LandingPage = () => {
                       )}
                      </div>
                      
-                     <h3 className={`text-xl font-bold mb-2 ${categoryColors.titleColor}`}>{category.name}</h3>
-                     <p className={`text-sm mb-4 ${categoryColors.descriptionColor}`}>
+                     <h3 className={`text-xl font-bold mb-2 ${categoryColors.titleColor} text-center`}>{category.name}</h3>
+                     <p className={`text-sm mb-4 ${categoryColors.descriptionColor} text-center`}>
                       {category.description ||
                         `Explore ${category.name} knowledge`}
                      </p>
@@ -1841,7 +1879,29 @@ const getLevelColors = (levelName) => {
 // Category color mappings for both light and dark modes
 const getCategoryColors = (categoryName) => {
   const colors = {
-    Science: {
+    "General Knowledge": {
+      background: 'bg-gradient-to-br from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20',
+      border: 'border-gray-200 dark:border-gray-700',
+      accent: 'bg-gradient-to-br from-gray-500/20 to-slate-500/20',
+      iconBg: 'bg-gray-100 dark:bg-gray-800',
+      iconColor: 'text-gray-600 dark:text-gray-400',
+      titleColor: 'text-gray-800 dark:text-gray-200',
+      descriptionColor: 'text-gray-700 dark:text-gray-300',
+      labelColor: 'text-gray-600 dark:text-gray-400',
+      valueColor: 'text-gray-800 dark:text-gray-200'
+    },
+    "Current Affairs": {
+      background: 'bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20',
+      border: 'border-red-200 dark:border-red-700',
+      accent: 'bg-gradient-to-br from-red-500/20 to-pink-500/20',
+      iconBg: 'bg-red-100 dark:bg-red-800',
+      iconColor: 'text-red-600 dark:text-red-400',
+      titleColor: 'text-red-800 dark:text-red-200',
+      descriptionColor: 'text-red-700 dark:text-red-300',
+      labelColor: 'text-red-600 dark:text-red-400',
+      valueColor: 'text-red-800 dark:text-red-200'
+    },
+    "Science": {
       background: 'bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20',
       border: 'border-blue-200 dark:border-blue-700',
       accent: 'bg-gradient-to-br from-blue-500/20 to-cyan-500/20',
@@ -1852,29 +1912,7 @@ const getCategoryColors = (categoryName) => {
       labelColor: 'text-blue-600 dark:text-blue-400',
       valueColor: 'text-blue-800 dark:text-blue-200'
     },
-    Technology: {
-      background: 'bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20',
-      border: 'border-indigo-200 dark:border-indigo-700',
-      accent: 'bg-gradient-to-br from-indigo-500/20 to-purple-500/20',
-      iconBg: 'bg-indigo-100 dark:bg-indigo-800',
-      iconColor: 'text-indigo-600 dark:text-indigo-400',
-      titleColor: 'text-indigo-800 dark:text-indigo-200',
-      descriptionColor: 'text-indigo-700 dark:text-indigo-300',
-      labelColor: 'text-indigo-600 dark:text-indigo-400',
-      valueColor: 'text-indigo-800 dark:text-indigo-200'
-    },
-    Geography: {
-      background: 'bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20',
-      border: 'border-green-200 dark:border-green-700',
-      accent: 'bg-gradient-to-br from-green-500/20 to-emerald-500/20',
-      iconBg: 'bg-green-100 dark:bg-green-800',
-      iconColor: 'text-green-600 dark:text-green-400',
-      titleColor: 'text-green-800 dark:text-green-200',
-      descriptionColor: 'text-green-700 dark:text-green-300',
-      labelColor: 'text-green-600 dark:text-green-400',
-      valueColor: 'text-green-800 dark:text-green-200'
-    },
-    Math: {
+    "Mathematics": {
       background: 'bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20',
       border: 'border-orange-200 dark:border-orange-700',
       accent: 'bg-gradient-to-br from-orange-500/20 to-red-500/20',
@@ -1885,51 +1923,7 @@ const getCategoryColors = (categoryName) => {
       labelColor: 'text-orange-600 dark:text-orange-400',
       valueColor: 'text-orange-800 dark:text-orange-200'
     },
-    Mathematics: {
-      background: 'bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20',
-      border: 'border-orange-200 dark:border-orange-700',
-      accent: 'bg-gradient-to-br from-orange-500/20 to-red-500/20',
-      iconBg: 'bg-orange-100 dark:bg-orange-800',
-      iconColor: 'text-orange-600 dark:text-orange-400',
-      titleColor: 'text-orange-800 dark:text-orange-200',
-      descriptionColor: 'text-orange-700 dark:text-orange-300',
-      labelColor: 'text-orange-600 dark:text-orange-400',
-      valueColor: 'text-orange-800 dark:text-orange-200'
-    },
-    IQ: {
-      background: 'bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20',
-      border: 'border-purple-200 dark:border-purple-700',
-      accent: 'bg-gradient-to-br from-purple-500/20 to-pink-500/20',
-      iconBg: 'bg-purple-100 dark:bg-purple-800',
-      iconColor: 'text-purple-600 dark:text-purple-400',
-      titleColor: 'text-purple-800 dark:text-purple-200',
-      descriptionColor: 'text-purple-700 dark:text-purple-300',
-      labelColor: 'text-purple-600 dark:text-purple-400',
-      valueColor: 'text-purple-800 dark:text-purple-200'
-    },
-    Art: {
-      background: 'bg-gradient-to-br from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-900/20',
-      border: 'border-pink-200 dark:border-pink-700',
-      accent: 'bg-gradient-to-br from-pink-500/20 to-rose-500/20',
-      iconBg: 'bg-pink-100 dark:bg-pink-800',
-      iconColor: 'text-pink-600 dark:text-pink-400',
-      titleColor: 'text-pink-800 dark:text-pink-200',
-      descriptionColor: 'text-pink-700 dark:text-pink-300',
-      labelColor: 'text-pink-600 dark:text-pink-400',
-      valueColor: 'text-pink-800 dark:text-pink-200'
-    },
-    Nature: {
-      background: 'bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20',
-      border: 'border-emerald-200 dark:border-emerald-700',
-      accent: 'bg-gradient-to-br from-emerald-500/20 to-teal-500/20',
-      iconBg: 'bg-emerald-100 dark:bg-emerald-800',
-      iconColor: 'text-emerald-600 dark:text-emerald-400',
-      titleColor: 'text-emerald-800 dark:text-emerald-200',
-      descriptionColor: 'text-emerald-700 dark:text-emerald-300',
-      labelColor: 'text-emerald-600 dark:text-emerald-400',
-      valueColor: 'text-emerald-800 dark:text-emerald-200'
-    },
-    Education: {
+    "History": {
       background: 'bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20',
       border: 'border-amber-200 dark:border-amber-700',
       accent: 'bg-gradient-to-br from-amber-500/20 to-yellow-500/20',
@@ -1940,16 +1934,82 @@ const getCategoryColors = (categoryName) => {
       labelColor: 'text-amber-600 dark:text-amber-400',
       valueColor: 'text-amber-800 dark:text-amber-200'
     },
-    General: {
-      background: 'bg-gradient-to-br from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20',
-      border: 'border-gray-200 dark:border-gray-700',
-      accent: 'bg-gradient-to-br from-gray-500/20 to-slate-500/20',
-      iconBg: 'bg-gray-100 dark:bg-gray-800',
-      iconColor: 'text-gray-600 dark:text-gray-400',
-      titleColor: 'text-gray-800 dark:text-gray-200',
-      descriptionColor: 'text-gray-700 dark:text-gray-300',
-      labelColor: 'text-gray-600 dark:text-gray-400',
-      valueColor: 'text-gray-800 dark:text-gray-200'
+    "Geography": {
+      background: 'bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20',
+      border: 'border-green-200 dark:border-green-700',
+      accent: 'bg-gradient-to-br from-green-500/20 to-emerald-500/20',
+      iconBg: 'bg-green-100 dark:bg-green-800',
+      iconColor: 'text-green-600 dark:text-green-400',
+      titleColor: 'text-green-800 dark:text-green-200',
+      descriptionColor: 'text-green-700 dark:text-green-300',
+      labelColor: 'text-green-600 dark:text-green-400',
+      valueColor: 'text-green-800 dark:text-green-200'
+    },
+    "Sports": {
+      background: 'bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20',
+      border: 'border-emerald-200 dark:border-emerald-700',
+      accent: 'bg-gradient-to-br from-emerald-500/20 to-teal-500/20',
+      iconBg: 'bg-emerald-100 dark:bg-emerald-800',
+      iconColor: 'text-emerald-600 dark:text-emerald-400',
+      titleColor: 'text-emerald-800 dark:text-emerald-200',
+      descriptionColor: 'text-emerald-700 dark:text-emerald-300',
+      labelColor: 'text-emerald-600 dark:text-emerald-400',
+      valueColor: 'text-emerald-800 dark:text-emerald-200'
+    },
+    "Entertainment": {
+      background: 'bg-gradient-to-br from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-900/20',
+      border: 'border-pink-200 dark:border-pink-700',
+      accent: 'bg-gradient-to-br from-pink-500/20 to-rose-500/20',
+      iconBg: 'bg-pink-100 dark:bg-pink-800',
+      iconColor: 'text-pink-600 dark:text-pink-400',
+      titleColor: 'text-pink-800 dark:text-pink-200',
+      descriptionColor: 'text-pink-700 dark:text-pink-300',
+      labelColor: 'text-pink-600 dark:text-pink-400',
+      valueColor: 'text-pink-800 dark:text-pink-200'
+    },
+    "Technology": {
+      background: 'bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20',
+      border: 'border-indigo-200 dark:border-indigo-700',
+      accent: 'bg-gradient-to-br from-indigo-500/20 to-purple-500/20',
+      iconBg: 'bg-indigo-100 dark:bg-indigo-800',
+      iconColor: 'text-indigo-600 dark:text-indigo-400',
+      titleColor: 'text-indigo-800 dark:text-indigo-200',
+      descriptionColor: 'text-indigo-700 dark:text-indigo-300',
+      labelColor: 'text-indigo-600 dark:text-indigo-400',
+      valueColor: 'text-indigo-800 dark:text-indigo-200'
+    },
+    "Literature & Language": {
+      background: 'bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-900/20 dark:to-purple-900/20',
+      border: 'border-violet-200 dark:border-violet-700',
+      accent: 'bg-gradient-to-br from-violet-500/20 to-purple-500/20',
+      iconBg: 'bg-violet-100 dark:bg-violet-800',
+      iconColor: 'text-violet-600 dark:text-violet-400',
+      titleColor: 'text-violet-800 dark:text-violet-200',
+      descriptionColor: 'text-violet-700 dark:text-violet-300',
+      labelColor: 'text-violet-600 dark:text-violet-400',
+      valueColor: 'text-violet-800 dark:text-violet-200'
+    },
+    "Competitive Exams": {
+      background: 'bg-gradient-to-br from-sky-50 to-blue-50 dark:from-sky-900/20 dark:to-blue-900/20',
+      border: 'border-sky-200 dark:border-sky-700',
+      accent: 'bg-gradient-to-br from-sky-500/20 to-blue-500/20',
+      iconBg: 'bg-sky-100 dark:bg-sky-800',
+      iconColor: 'text-sky-600 dark:text-sky-400',
+      titleColor: 'text-sky-800 dark:text-sky-200',
+      descriptionColor: 'text-sky-700 dark:text-sky-300',
+      labelColor: 'text-sky-600 dark:text-sky-400',
+      valueColor: 'text-sky-800 dark:text-sky-200'
+    },
+    "Economics": {
+      background: 'bg-gradient-to-br from-lime-50 to-green-50 dark:from-lime-900/20 dark:to-green-900/20',
+      border: 'border-lime-200 dark:border-lime-700',
+      accent: 'bg-gradient-to-br from-lime-500/20 to-green-500/20',
+      iconBg: 'bg-lime-100 dark:bg-lime-800',
+      iconColor: 'text-lime-600 dark:text-lime-400',
+      titleColor: 'text-lime-800 dark:text-lime-200',
+      descriptionColor: 'text-lime-700 dark:text-lime-300',
+      labelColor: 'text-lime-600 dark:text-lime-400',
+      valueColor: 'text-lime-800 dark:text-lime-200'
     }
   };
   
@@ -1958,17 +2018,18 @@ const getCategoryColors = (categoryName) => {
 
 // Icon mappings
 const categoryIcons = {
-  Science: FaFlask,
-  Technology: FaLaptopCode,
-  Geography: FaGlobe,
-  Math: FaCalculator,
-  Mathematics: FaCalculator,
-  IQ: FaBrain,
-  Art: FaPalette,
-  Nature: FaLeaf,
-  Education: FaUserGraduate,
-  General: FaBook,
-  Default: FaBook,
+  "General Knowledge": FaBook,
+  "Current Affairs": FaNewspaper,
+  "Science": FaFlask,
+  "Mathematics": FaCalculator,
+  "History": FaHistory,
+  "Geography": FaGlobe,
+  "Sports": FaFutbol,
+  "Entertainment": FaFilm,
+  "Technology": FaLaptopCode,
+  "Literature & Language": FaLanguage,
+  "Competitive Exams": FaGraduationCap,
+  "Economics": FaDollarSign,
 };
 
 const levelBadgeIcons = {
@@ -1985,5 +2046,19 @@ const levelBadgeIcons = {
   Legend: FaCrown,
   Default: FaStar,
 };
+
+// Level play count info for display (monthly cumulative wins, monthly pricing)
+const levelsInfo = [
+  { level: 1, quizzes: 2, plan: "Free", amount: 0, prize: 0 },
+  { level: 2, quizzes: 6, plan: "Free", amount: 0, prize: 0 },
+  { level: 3, quizzes: 12, plan: "Free", amount: 0, prize: 0 },
+  { level: 4, quizzes: 20, plan: "Basic", amount: 9, prize: 0 },
+  { level: 5, quizzes: 30, plan: "Basic", amount: 9, prize: 0 },
+  { level: 6, quizzes: 42, plan: "Basic", amount: 9, prize: 0 },
+  { level: 7, quizzes: 56, plan: "Premium", amount: 49, prize: 0 },
+  { level: 8, quizzes: 72, plan: "Premium", amount: 49, prize: 0 },
+  { level: 9, quizzes: 90, plan: "Premium", amount: 49, prize: 0 },
+  { level: 10, quizzes: 110, plan: "Pro", amount: 99, prize: 9999 },
+];
 
 export default LandingPage;
