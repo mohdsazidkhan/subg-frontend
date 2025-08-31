@@ -104,18 +104,7 @@ const RewardsDashboard = () => {
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-2 md:p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
         <h2 className="text-lg sm:text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4">🏆 Rewards Dashboard</h2>
         
-        {/* Migration Notice */}
-        <div className="mb-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg p-3 border border-blue-200 dark:border-blue-700">
-          <div className="flex items-center space-x-2">
-            <span className="text-lg">🔄</span>
-            <div>
-              <p className="text-sm font-medium text-blue-800 dark:text-blue-300">
-                <strong>System Migration:</strong> We've moved from yearly to monthly rewards! All users reset to Level 0. 
-                Old progress is safely stored. Start fresh with monthly competitions!
-              </p>
-            </div>
-          </div>
-        </div>
+
         
         {/* Quiz Progress */}
         <div className="mb-4 sm:mb-6">

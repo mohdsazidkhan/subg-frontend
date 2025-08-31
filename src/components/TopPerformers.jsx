@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FaTable, FaList, FaTh } from 'react-icons/fa';
-import config from '../config/appConfig';
 import { Link } from 'react-router-dom';
 import { useGlobalError } from '../contexts/GlobalErrorContext';
 import { useTokenValidation } from '../hooks/useTokenValidation';
+import API from '../utils/api';
 
   const TopPerformers = () => {
     const [viewMode, setViewMode] = useState(() => {
@@ -38,37 +38,9 @@ import { useTokenValidation } from '../hooks/useTokenValidation';
         setLoading(true);
       }
       
-      // Build URL with current user ID if available
-      let url = `${config.API_URL}/api/public/top-performers-monthly?limit=10`;
-      if (currentUserId) {
-        url += `&userId=${currentUserId}`;
-      }
+      // Use centralized API service instead of direct fetch
+      const result = await API.getPublicTopPerformersMonthly(10, currentUserId);
       
-      const response = await fetch(url);
-      
-      // Check if response is OK
-      if (!response.ok) {
-        const errorText = await response.text();
-        let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
-        
-        try {
-          const errorJson = JSON.parse(errorText);
-          if (errorJson.message) {
-            errorMessage = errorJson.message;
-          } else if (errorJson.error) {
-            errorMessage = errorJson.error;
-          }
-        } catch (e) {
-          // If not JSON, use the text as is
-          if (errorText) {
-            errorMessage = errorText;
-          }
-        }
-        
-        throw new Error(errorMessage);
-      }
-      
-      const result = await response.json();
       if (result.success) {
         const month = result?.data?.month;
         const top = Array.isArray(result?.data?.top) ? result.data.top : [];
@@ -157,7 +129,7 @@ import { useTokenValidation } from '../hooks/useTokenValidation';
       setLoading(false);
       setRefreshing(false);
     }
-  }, [currentUserId, checkRateLimitError]);
+  }, [currentUserId, checkRateLimitError, validateTokenBeforeRequest]);
 
   // Helper function to get level names
   const getLevelName = (level) => {
@@ -485,7 +457,7 @@ import { useTokenValidation } from '../hooks/useTokenValidation';
                       ? "bg-gradient-to-r from-red-100 to-yellow-100 dark:from-red-800 dark:to-yellow-900 border-red-400 dark:border-yellow-600 shadow-lg" :
                     i === 0 ? "bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/10 dark:to-orange-900/10" :
                     i === 1 ? "bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-900/10 dark:to-slate-900/10" :
-                    i === 2 ? "bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/10 dark:to-orange-900/10" :
+                    i === 2 ? "bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/10 dark:to-amber-900/10" :
                     "hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 dark:hover:from-blue-900/10 dark:hover:to-indigo-900/10"
                   }`}
                 >

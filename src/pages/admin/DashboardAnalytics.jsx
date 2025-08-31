@@ -10,13 +10,13 @@ import {
   Legend,
   ArcElement
 } from 'chart.js';
-import config from '../../config/appConfig';
 import { FaUsers, FaChartBar, FaMoneyBillWave, FaTrophy, FaClock, FaStar, FaUser, FaBook, FaCalendarAlt, FaMedal, FaCrown, FaAward, FaChartLine } from 'react-icons/fa';
 import { useLocation, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Sidebar from '../../components/Sidebar';
 import ViewToggle from '../../components/ViewToggle';
 import { isMobile } from 'react-device-detect';
+import API from '../../utils/api';
 
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
@@ -35,13 +35,7 @@ const DashboardAnalytics = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${config.API_URL}/api/analytics/dashboard`, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.json())
+    API.getAnalyticsDashboard()
       .then(res => {
         if (res.success) {
           console.log('Dashboard Data:', res.data);

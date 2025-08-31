@@ -25,8 +25,9 @@ import {
   // FaSun,
   // FaMoon,
 } from "react-icons/fa";
-import config from "../../config/appConfig";
+
 import Sidebar from "../../components/Sidebar";
+import API from '../../utils/api';
 
 ChartJS.register(
   CategoryScale,
@@ -76,13 +77,7 @@ const QuizAnalytics = () => {
   useEffect(() => {
     setLoading(true);
     const params = new URLSearchParams(filters).toString();
-    fetch(`${config.API_URL}/api/analytics/quizzes?${params}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
+    API.getQuizAnalytics(filters)
       .then((res) => {
         if (res.success) {
           setData(res.data);

@@ -74,9 +74,9 @@ const Sidebar = () => {
           <span>Bank Details</span>
         </Link>
 
-        <Link to="/admin/rewards" onClick={() => handleNavClick('rewards')} className={getActiveClass('/admin/rewards')}>
+        <Link to="/admin/monthly-winners" onClick={() => handleNavClick('monthly-winners')} className={getActiveClass('/admin/monthly-winners')}>
           <MdCardGiftcard className="text-xl" />
-          <span>Rewards</span>
+          <span>Monthly Winners</span>
         </Link>
       </nav>
       <hr/>

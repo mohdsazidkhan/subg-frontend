@@ -13,7 +13,6 @@ import {
   PointElement,
   LineElement,
 } from "chart.js";
-import config from "../../config/appConfig";
 import {
   // FaTrophy,
   // FaChartLine,
@@ -28,6 +27,7 @@ import {
 import Sidebar from "../../components/Sidebar";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import API from '../../utils/api';
 
 ChartJS.register(
   CategoryScale,
@@ -87,33 +87,7 @@ const PerformanceAnalytics = () => {
     
     setLoading(true);
     const params = new URLSearchParams(filters).toString();
-    fetch(`${config.API_URL}/api/analytics/performance?${params}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (!res.ok) {
-          return res.text().then(errorText => {
-            let errorMessage = `HTTP ${res.status}: ${res.statusText}`;
-            try {
-              const errorJson = JSON.parse(errorText);
-              if (errorJson.message) {
-                errorMessage = errorJson.message;
-              } else if (errorJson.error) {
-                errorMessage = errorJson.error;
-              }
-            } catch (e) {
-              if (errorText) {
-                errorMessage = errorText;
-              }
-            }
-            throw new Error(errorMessage);
-          });
-        }
-        return res.json();
-      })
+    API.getPerformanceAnalytics(filters)
       .then((res) => {
         if (res.success) {
           setData(res.data);
@@ -147,7 +121,7 @@ const PerformanceAnalytics = () => {
         }
         setLoading(false);
       });
-  }, [filters, checkRateLimitError]);
+  }, [filters, checkRateLimitError, validateTokenBeforeRequest]);
 
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
@@ -958,7 +932,7 @@ const PerformanceAnalytics = () => {
                     </div>
                   </div>
                   
-                                     {/* Score Details */}
+                  {/* Score Details */}
                    <div className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
                      <div className="flex items-center gap-2">
                        <span className="font-medium">Total Score:</span>

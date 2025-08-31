@@ -59,11 +59,11 @@ const SystemUpdateModal = ({ isOpen, onClose }) => {
               <FaInfoCircle className="text-blue-600 dark:text-blue-400 text-xl mt-1 flex-shrink-0" />
               <div>
                 <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-200 mb-2">
-                  🔄 Major System Migration
+                  🎯 Monthly Rewards System Active
                 </h3>
                   <p className="text-blue-700 dark:text-blue-300">
-                   We've successfully migrated from the old <strong>yearly system</strong> to the new <strong>monthly system</strong> starting from <strong>September 1st</strong>! 
-                   All users have been reset to Level 0 for a fresh start. Your old progress data is safely stored.
+                   Our monthly rewards system is now fully active! Every month, top performers can win prizes by reaching Level 10 with ≥75% accuracy. 
+                   Start fresh each month and compete for monthly rewards.
                  </p>
               </div>
             </div>

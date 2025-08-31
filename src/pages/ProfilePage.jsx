@@ -399,17 +399,17 @@ const message =
             )}
           </div>
           
-          {/* Migration Notice */}
-          <div className="mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-4 border border-blue-200 dark:border-blue-700">
+          {/* Monthly System Info */}
+          <div className="mb-6 bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/30 dark:to-teal-900/30 rounded-2xl p-4 border border-green-200 dark:border-green-700">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center">
-                <span className="text-xl">🔄</span>
+              <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-teal-500 rounded-xl flex items-center justify-center">
+                <span className="text-xl">🎯</span>
               </div>
               <div>
-                <h4 className="text-lg font-semibold text-blue-800 dark:text-blue-300">System Migration Complete!</h4>
-                <p className="text-sm text-blue-600 dark:text-blue-400">
-                  We've successfully migrated from the old yearly system to the new monthly system. 
-                  All users have been reset to Level 0 for a fresh start. Your old progress data is safely stored.
+                <h4 className="text-lg font-semibold text-green-800 dark:text-green-300">Monthly Rewards System</h4>
+                <p className="text-sm text-green-600 dark:text-green-400">
+                  Compete monthly for rewards! Reach Level 10 with ≥75% accuracy to qualify for monthly prizes. 
+                  Your progress resets each month for fair competition.
                 </p>
               </div>
             </div>

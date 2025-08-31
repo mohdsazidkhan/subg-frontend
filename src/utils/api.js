@@ -100,10 +100,10 @@ class ApiService {
     });
   }
 
-  async forgotPassword(data) {
+  async forgotPassword(email) {
     return this.request('/api/auth/forgot-password', {
       method: 'POST',
-      body: JSON.stringify(data)
+      body: JSON.stringify({ email })
     });
   }
 
@@ -209,6 +209,105 @@ class ApiService {
 
   async getBankDetails() {
     return this.request('/api/bank-details/my-details');
+  }
+
+  // ===== PUBLIC ENDPOINTS =====
+  async getPublicCategories() {
+    return this.request('/api/public/categories');
+  }
+
+  async getPublicTopPerformers(limit = 10) {
+    const queryString = new URLSearchParams({ limit }).toString();
+    return this.request(`/api/public/top-performers?${queryString}`);
+  }
+
+  async getPublicTopPerformersMonthly(limit = 10, userId = null) {
+    const params = new URLSearchParams({ limit });
+    if (userId) params.append('userId', userId);
+    return this.request(`/api/public/top-performers-monthly?${params}`);
+  }
+
+  async getPublicMonthlyLeaderboard(limit = 3) {
+    const queryString = new URLSearchParams({ limit }).toString();
+    return this.request(`/api/public/monthly-leaderboard?${queryString}`);
+  }
+
+  async getPublicLandingStats() {
+    return this.request('/api/public/landing-stats');
+  }
+
+  async getPublicLevels() {
+    return this.request('/api/public/levels');
+  }
+
+  async getPublicCategoriesEnhanced() {
+    return this.request('/api/public/categories-enhanced');
+  }
+
+  async getPublicLandingTopPerformers(limit = 10) {
+    const queryString = new URLSearchParams({ limit }).toString();
+    return this.request(`/api/public/landing-top-performers?${queryString}`);
+  }
+
+  // ===== MONTHLY WINNERS ENDPOINTS =====
+  async getMonthlyWinners(monthYear = null) {
+    const endpoint = monthYear 
+      ? `/api/monthly-winners/month/${monthYear}`
+      : '/api/monthly-winners/current';
+    return this.request(endpoint);
+  }
+
+  async getRecentMonthlyWinners(limit = 12, monthYear = null) {
+    const params = { limit };
+    if (monthYear) {
+      params.monthYear = monthYear;
+    }
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/monthly-winners/recent?${queryString}`);
+  }
+
+  async getMonthlyWinnersStats() {
+    return this.request('/api/monthly-winners/stats');
+  }
+
+  async getUserWinningHistory(userId) {
+    return this.request(`/api/monthly-winners/user/${userId}/history`);
+  }
+
+  // ===== ANALYTICS ENDPOINTS =====
+  async getAnalyticsDashboard() {
+    return this.request('/api/analytics/dashboard');
+  }
+
+  async getUserAnalytics(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/analytics/users?${queryString}`);
+  }
+
+  async getQuizAnalytics(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/analytics/quizzes?${queryString}`);
+  }
+
+  async getFinancialAnalytics(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/analytics/financial?${queryString}`);
+  }
+
+  async getPerformanceAnalytics(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/analytics/performance?${queryString}`);
+  }
+
+  async getMonthlyProgressAnalytics(month = null) {
+    const params = month ? { month } : {};
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/analytics/monthly-progress?${queryString}`);
+  }
+
+  async getIndividualUserAnalytics(userId, params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/analytics/individual-user/${userId}?${queryString}`);
   }
 
   // ===== ADMIN ENDPOINTS =====
@@ -377,8 +476,6 @@ class ApiService {
     const queryString = new URLSearchParams(params).toString();
     return this.request(`/api/admin/bank-details?${queryString}`);
   }
-
-  // Rewards endpoints removed (legacy locked rewards deprecated in monthly system)
 }
 
 const API = new ApiService();

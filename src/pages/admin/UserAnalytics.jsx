@@ -12,13 +12,14 @@ import {
   PointElement,
   LineElement
 } from 'chart.js';
-import config from '../../config/appConfig';
+
 import {
   FaFilter, FaDownload, FaChartBar, FaChartLine, FaChartPie
 } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Sidebar from '../../components/Sidebar';
+import API from '../../utils/api';
 
 ChartJS.register(
   CategoryScale, LinearScale, BarElement,
@@ -58,13 +59,7 @@ const UserAnalytics = () => {
   useEffect(() => {
     setLoading(true);
     const params = new URLSearchParams(filters).toString();
-    fetch(`${config.API_URL}/api/analytics/users?${params}`, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.json())
+    API.getUserAnalytics(filters)
       .then(res => {
         if (res.success) {
           setData(res.data);

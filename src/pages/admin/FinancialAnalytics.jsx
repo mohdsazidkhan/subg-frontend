@@ -12,7 +12,7 @@ import {
   PointElement,
   LineElement,
 } from "chart.js";
-import config from "../../config/appConfig";
+
 import {
   FaMoneyBillWave,
   FaChartPie,
@@ -24,6 +24,7 @@ import {
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Sidebar from "../../components/Sidebar";
+import API from '../../utils/api';
 
 ChartJS.register(
   CategoryScale,
@@ -72,13 +73,7 @@ const FinancialAnalytics = () => {
   useEffect(() => {
     setLoading(true);
     const params = new URLSearchParams(filters).toString();
-    fetch(`${config.API_URL}/api/analytics/financial?${params}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
+    API.getFinancialAnalytics(filters)
       .then((res) => {
         if (res.success) {
           setData(res.data);

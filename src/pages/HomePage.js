@@ -31,6 +31,7 @@ import QuizStartModal from "../components/QuizStartModal";
 import TopPerformers from "../components/TopPerformers";
 import SystemUpdateModal from "../components/SystemUpdateModal";
 import { BsSearch } from "react-icons/bs";
+import MonthlyWinnersDisplay from "../components/MonthlyWinnersDisplay";
 // Level badge icon mapping
 
 // Icon mapping for categories
@@ -302,6 +303,28 @@ const HomePage = () => {
               </div>
             )}
           </div>
+        </div>
+      </div>
+
+      {/* Monthly Winners Section */}
+      <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-orange-500 to-red-600 dark:text-white">
+              🏆 Previous Month Legends
+            </span>
+          </h2>
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            Celebrating the previous month's top 3 performers who achieved Level 10 with ≥75% accuracy and won monthly prizes!
+          </p>
+        </div>
+        
+        <div className="max-w-4xl mx-auto">
+          <MonthlyWinnersDisplay 
+            title="🏆 Previous Month Legends" 
+            showTitle={false}
+            className="bg-white dark:bg-gray-800 shadow-xl"
+          />
         </div>
       </div>
 
