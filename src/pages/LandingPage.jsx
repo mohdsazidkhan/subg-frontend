@@ -519,7 +519,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-          {/* Top Performers Section */}
+             {/* Top Performers Section */}
        <section id="performers" className="py-20 relative overflow-hidden">
          <div className="absolute inset-0 bg-gradient-to-tr from-green-50 via-emerald-50 to-teal-50 dark:from-gray-900 dark:via-green-900/20 dark:to-teal-900/20 pointer-events-none" />
          <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
@@ -555,8 +555,8 @@ const LandingPage = () => {
                   <p className="text-sm text-blue-600 dark:text-blue-300 mt-2">
                     Top performers based on high scores, accuracy & level
                   </p>
-                </div>
-                
+             </div>
+             
                 {/* View Toggle Buttons */}
                 <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
                   <button
@@ -570,7 +570,7 @@ const LandingPage = () => {
                     <div className="flex items-center gap-2">
                       <span className="text-lg">⊞</span>
                       <span className="hidden sm:inline">Grid</span>
-                    </div>
+                       </div>
                   </button>
                   <button
                     onClick={() => setViewMode('list')}
@@ -583,7 +583,7 @@ const LandingPage = () => {
                     <div className="flex items-center gap-2">
                       <span className="text-lg">☰</span>
                       <span className="hidden sm:inline">List</span>
-                    </div>
+                       </div>
                   </button>
                 </div>
               </div>
@@ -635,9 +635,9 @@ const LandingPage = () => {
                               ? "Runner-up"
                               : "3rd Place"}
                           </span>
-                        )}
-                      </div>
-
+                     )}
+                   </div>
+                   
                       {/* Student Info */}
                       <div className="text-center mb-4">
                         <div className="w-16 h-16 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
@@ -648,8 +648,8 @@ const LandingPage = () => {
                         <div className="font-bold text-gray-900 dark:text-white text-lg">
                           {performer.name || "Anonymous"}
                         </div>
-                      </div>
-
+                   </div>
+                   
                       {/* Stats Grid */}
                       <div className="grid grid-cols-2 gap-3">
                         {/* Level */}
@@ -695,10 +695,10 @@ const LandingPage = () => {
                             {performer.accuracy || 0}%
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                   </div>
+                 </div>
+               ))}
+             </div>
               </div>
             )}
 
@@ -889,7 +889,7 @@ const LandingPage = () => {
              </div>
          
              )}
-               </div>
+           </div>
 
           <div className="text-center mt-12">
             <Link

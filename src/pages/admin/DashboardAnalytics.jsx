@@ -46,6 +46,10 @@ const DashboardAnalytics = () => {
         if (res.success) {
           console.log('Dashboard Data:', res.data);
           console.log('Top Users:', res.data?.topUsers);
+          console.log('Top Users Monthly Progress:', res.data?.topUsers?.map(u => ({
+            name: u.name,
+            monthlyProgress: u.monthlyProgress
+          })));
           setData(res.data);
         } else {
           setError(res.message || 'Failed to load dashboard analytics');
@@ -179,36 +183,23 @@ const DashboardAnalytics = () => {
               >
                 <td className="py-4 px-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg flex items-center justify-center">
-                      <FaUser className="text-blue-600 dark:text-blue-400 text-sm" />
-                    </div>
                     <span className="font-semibold text-gray-900 dark:text-white">
                       {a.user?.name || 'Unknown'}
                     </span>
                   </div>
                 </td>
                 <td className="py-4 px-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-lg flex items-center justify-center">
-                      <FaBook className="text-green-600 dark:text-green-400 text-sm" />
-                    </div>
-                    <span title={a.quiz?.title} className="text-gray-600 dark:text-gray-300 font-medium">
+                  <span className="text-gray-600 dark:text-gray-300 font-medium">
                       {a.quiz?.title ? 
                         (a.quiz.title.length > 20 ? `${a.quiz.title.substring(0, 20)}...` : a.quiz.title)
                         : 'Unknown Quiz'
                       }
                     </span>
-                  </div>
                 </td>
                 <td className="py-4 px-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-lg flex items-center justify-center">
-                      <FaCalendarAlt className="text-purple-600 dark:text-purple-400 text-sm" />
-                    </div>
                     <span className="text-gray-600 dark:text-gray-300 font-medium">
                       {new Date(a.attemptedAt).toLocaleDateString()}
                     </span>
-                  </div>
                 </td>
               </tr>
             ))
@@ -339,7 +330,7 @@ const DashboardAnalytics = () => {
                 Rank
               </div>
             </th>
-            <th className="text-left py-3 px-2 font-bold text-yellow-800 dark:text-yellow-200 text-sm w-[25%]">
+            <th className="text-left py-3 px-2 font-bold text-yellow-800 dark:text-yellow-200 text-sm w-[20%]">
               <div className="flex items-center gap-1">
                 <FaUser className="text-yellow-600 dark:text-yellow-400 text-sm" />
                 Name
@@ -351,16 +342,22 @@ const DashboardAnalytics = () => {
                 Level
               </div>
             </th>
-            <th className="text-left py-3 px-2 font-bold text-yellow-800 dark:text-yellow-200 text-sm w-[20%]">
+            <th className="text-left py-3 px-2 font-bold text-yellow-800 dark:text-yellow-200 text-sm w-[15%]">
+              <div className="flex items-center gap-1">
+                <FaChartBar className="text-yellow-600 dark:text-yellow-400 text-sm" />
+                Total Quizzes
+              </div>
+            </th>
+            <th className="text-left py-3 px-2 font-bold text-yellow-800 dark:text-yellow-200 text-sm w-[15%]">
               <div className="flex items-center gap-1">
                 <FaAward className="text-yellow-600 dark:text-yellow-400 text-sm" />
                 High Scores
               </div>
             </th>
-            <th className="text-left py-2 font-bold text-yellow-800 dark:text-yellow-200 text-sm w-[20%]">
+            <th className="text-left py-3 px-2 font-bold text-yellow-800 dark:text-yellow-200 text-sm w-[15%]">
               <div className="flex items-center gap-1">
-                <FaChartBar className="text-yellow-600 dark:text-yellow-400 text-sm" />
-                Total Quizzes
+                <FaStar className="text-yellow-600 dark:text-yellow-400 text-sm" />
+                Accuracy
               </div>
             </th>
           </tr>
@@ -389,60 +386,52 @@ const DashboardAnalytics = () => {
                   </div>
                 </td>
                 <td className="py-3 px-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg flex items-center justify-center">
-                      <FaUser className="text-blue-600 dark:text-blue-400 text-xs" />
-                    </div>
                     <span className="font-semibold text-gray-900 dark:text-white text-sm">
                       {u.name || 'Unknown'}
                     </span>
-                  </div>
                 </td>
                 <td className="py-3 px-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-lg flex items-center justify-center">
-                      <FaTrophy className="text-purple-600 dark:text-purple-400 text-xs" />
-                    </div>
                     <div>
                       <div className="font-semibold text-gray-900 dark:text-white text-sm">
                         {u.level?.levelName || 'No Level'}
                       </div>
                       <div className="text-xs text-gray-500 dark:text-gray-400">
                         Level {u.level?.currentLevel || 0}
+                    </div>
+                  </div>
+                </td>
+                <td className="py-3 px-2">
+                  <div className="bg-orange-100 dark:bg-orange-900/30 px-2 py-1 rounded-lg">
+                    <div className="text-center">
+                      <div className="text-sm font-bold text-orange-800 dark:text-orange-200">
+                        {u.level?.quizzesPlayed || 0}
+                      </div>
+                      <div className="text-xs text-orange-600 dark:text-orange-400">
+                        Total Quizzes
                       </div>
                     </div>
                   </div>
                 </td>
                 <td className="py-3 px-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-lg flex items-center justify-center">
-                      <FaAward className="text-green-600 dark:text-green-400 text-xs" />
-                    </div>
                     <div className="bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-lg">
                       <div className="text-center">
                         <div className="text-sm font-bold text-green-800 dark:text-green-200">
-                          {u.level?.highScoreQuizzes || 0}
+                        {u.monthlyProgress?.highScoreWins || 0}
                         </div>
                         <div className="text-xs text-green-600 dark:text-green-400">
                           High Scores
-                        </div>
                       </div>
                     </div>
                   </div>
                 </td>
                 <td className="py-3 px-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-gradient-to-r from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 rounded-lg flex items-center justify-center">
-                      <FaChartBar className="text-orange-600 dark:text-orange-400 text-xs" />
-                    </div>
-                    <div className="bg-orange-100 dark:bg-orange-900/30 px-2 py-1 rounded-lg">
+                  <div className="bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded-lg">
                       <div className="text-center">
-                        <div className="text-sm font-bold text-orange-800 dark:text-orange-200">
-                          {u.level?.quizzesPlayed || 0}
+                      <div className="text-sm font-bold text-blue-800 dark:text-blue-200">
+                        {u.monthlyProgress?.accuracy || 0}%
                         </div>
-                        <div className="text-xs text-orange-600 dark:text-orange-400">
-                          Total Quizzes
-                        </div>
+                      <div className="text-xs text-blue-600 dark:text-blue-400">
+                        Accuracy
                       </div>
                     </div>
                   </div>
@@ -451,7 +440,7 @@ const DashboardAnalytics = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="5" className="text-center py-8 text-gray-500 dark:text-gray-400">
+              <td colSpan="6" className="text-center py-8 text-gray-500 dark:text-gray-400">
                 <div className="flex flex-col items-center gap-2">
                   <span className="text-4xl">👥</span>
                   <span>No users found</span>
@@ -504,20 +493,29 @@ const DashboardAnalytics = () => {
               </div>
               
               <div className="flex items-center gap-2">
-                <div className="w-5 h-5 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-md flex items-center justify-center">
-                  <FaAward className="text-green-600 dark:text-green-400 text-xs" />
-                </div>
-                <span className="text-sm text-gray-700 dark:text-gray-300">
-                  {u.level?.highScoreQuizzes || 0} High Scores
-                </span>
-              </div>
-              
-              <div className="flex items-center gap-2">
                 <div className="w-5 h-5 bg-gradient-to-r from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 rounded-md flex items-center justify-center">
                   <FaChartBar className="text-orange-600 dark:text-orange-400 text-xs" />
                 </div>
                 <span className="text-sm text-gray-700 dark:text-gray-300">
                   {u.level?.quizzesPlayed || 0} Total Quizzes
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <div className="w-5 h-5 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-md flex items-center justify-center">
+                  <FaAward className="text-green-600 dark:text-green-400 text-xs" />
+                </div>
+                <span className="text-sm text-gray-700 dark:text-gray-300">
+                  {u.monthlyProgress?.highScoreWins || 0} High Scores
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <div className="w-5 h-5 bg-gradient-to-r from-teal-100 to-cyan-100 dark:from-teal-900/30 dark:to-cyan-900/30 rounded-md flex items-center justify-center">
+                  <FaStar className="text-teal-600 dark:text-teal-400 text-xs" />
+                </div>
+                <span className="text-sm text-gray-700 dark:text-gray-300">
+                  {u.monthlyProgress?.accuracy || 0}% Accuracy
                 </span>
               </div>
             </div>
@@ -573,20 +571,29 @@ const DashboardAnalytics = () => {
                 </div>
                 
                 <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-md flex items-center justify-center">
-                    <FaAward className="text-green-600 dark:text-green-400 text-xs" />
-                  </div>
-                  <span className="text-sm text-gray-700 dark:text-gray-300">
-                    {u.level?.highScoreQuizzes || 0} High Scores
-                  </span>
-                </div>
-                
-                <div className="flex items-center gap-2">
                   <div className="w-5 h-5 bg-gradient-to-r from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 rounded-md flex items-center justify-center">
                     <FaChartBar className="text-orange-600 dark:text-orange-400 text-xs" />
                   </div>
                   <span className="text-sm text-gray-700 dark:text-gray-300">
                     {u.level?.quizzesPlayed || 0} Total Quizzes
+                  </span>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-md flex items-center justify-center">
+                    <FaAward className="text-green-600 dark:text-green-400 text-xs" />
+                  </div>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">
+                    {u.monthlyProgress?.highScoreWins || 0} High Scores
+                  </span>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 bg-gradient-to-r from-teal-100 to-cyan-100 dark:from-teal-900/30 dark:to-cyan-900/30 rounded-md flex items-center justify-center">
+                    <FaStar className="text-teal-600 dark:text-teal-400 text-xs" />
+                  </div>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">
+                    {u.monthlyProgress?.accuracy || 0}% Accuracy
                   </span>
                 </div>
               </div>
@@ -749,29 +756,42 @@ const DashboardAnalytics = () => {
             {recentActivityViewMode === 'list' && <RecentActivityListView />}
           </div>
 
-          {/* Top Users */}
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-lg">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-xl flex items-center justify-center">
-                  <span className="text-xl">🏆</span>
+          {/* Top Users Section */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 mb-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center">
+                  <FaCrown className="text-white text-xl" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">Top Users</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Best performing users by level and scores</p>
+                                    <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+                    Top Performers
+                  </h2>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    Based on {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} performance
+                  </p>
                 </div>
               </div>
-              
               <ViewToggle
                 currentView={topUsersViewMode}
                 onViewChange={setTopUsersViewMode}
-                views={['table', 'list', 'grid']}
+                views={['table', 'grid', 'list']}
               />
             </div>
             
                         {topUsersViewMode === 'table' && <TopUsersTableView />}
             {topUsersViewMode === 'grid' && <TopUsersCardView />}
             {topUsersViewMode === 'list' && <TopUsersListView />}
+            
+            {(!data?.topUsers || data.topUsers.length === 0) && (
+              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                <div className="flex flex-col items-center gap-2">
+                  <span className="text-4xl">📊</span>
+                  <span className="text-lg font-medium">No monthly progress data available</span>
+                  <p className="text-sm">Users need to complete quizzes this month to appear in the rankings</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

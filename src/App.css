@@ -332,7 +332,7 @@
   width: calc(100% - 240px);
   margin-left: 240px;
   transition: all ease-in-out .3s;
-  padding-top: 54px;
+  padding-top: 0;
 }
 .adminPanel.hidePanel{
   width: 100%;
