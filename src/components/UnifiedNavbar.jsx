@@ -101,7 +101,7 @@ const UnifiedNavbar = ({ isLandingPage = false, scrollToSection }) => {
 
   // Landing page navigation links
   const landingPageLinks = (
-    <nav className="hidden md:flex items-center space-x-8">
+    <nav className="hidden lg:flex items-center space-x-8">
       <button 
         onClick={() => scrollToSection('hero')}
         className="hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors"

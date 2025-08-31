@@ -8,7 +8,7 @@ module.exports = {
     extend: {
       backgroundImage: {
       'subg-light': 'linear-gradient(45deg, #fff4f4, #fffaea)',
-      'subg-dark': 'linear-gradient(45deg, #493b3b, #45433d)',
+      'subg-dark': 'linear-gradient(45deg, #4a3535, #2f2b22)',
       },
       boxShadow: {
         '3xl': '0 35px 60px -12px rgba(0, 0, 0, 0.25)',

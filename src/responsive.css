@@ -98,6 +98,31 @@
 /* Responsive sidebar styles */
 .sidebar-responsive { @apply w-64 sm:w-72 md:w-80 lg:w-96; }
 .sidebar-responsive-sm { @apply w-56 sm:w-64 md:w-72 lg:w-80; }
+
+/* Responsive floating icons for hero section */
+@media (max-width: 640px) {
+  .hero-float-icon {
+    @apply hidden;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .hero-float-icon {
+    @apply scale-75;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hero-float-icon {
+    @apply scale-90;
+  }
+}
+
+@media (min-width: 1025px) {
+  .hero-float-icon {
+    @apply scale-100;
+  }
+}
 .sidebar-responsive-lg { @apply w-72 sm:w-80 md:w-96 lg:w-96; }
 
 /* Responsive navigation styles */

@@ -291,8 +291,75 @@ const LandingPage = () => {
 
       {/* Hero Section */}
       <section id="hero" className="relative overflow-hidden">
-                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-600/10 via-red-600/10 to-yellow-600/10 pointer-events-none" />
-        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 mt-0 lg:mt-16">
+        <div className="absolute inset-0 bg-gradient-to-r from-yellow-600/10 via-red-600/10 to-yellow-600/10 pointer-events-none" />
+        
+        {/* Floating Background Icons */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* Books */}
+          <div className="absolute top-20 left-10 animate-float-slow hero-float-icon">
+            <FaBook className="w-8 h-8 text-yellow-500/30 animate-pulse" />
+          </div>
+          <div className="absolute top-32 right-20 animate-float-medium hero-float-icon">
+            <FaBook className="w-6 h-6 text-orange-500/25 animate-pulse" />
+          </div>
+          <div className="absolute top-40 left-1/4 animate-float-fast hero-float-icon">
+            <FaBook className="w-5 h-5 text-red-500/20 animate-pulse" />
+          </div>
+          
+          {/* Question Marks */}
+          <div className="absolute top-16 right-1/3 animate-float-medium hero-float-icon">
+            <FaQuestionCircle className="w-7 h-7 text-yellow-400/30 animate-bounce" />
+          </div>
+          <div className="absolute top-24 left-1/3 animate-float-slow hero-float-icon">
+            <FaQuestionCircle className="w-5 h-5 text-orange-400/25 animate-bounce" />
+          </div>
+          <div className="absolute top-36 right-16 animate-float-fast hero-float-icon">
+            <FaQuestionCircle className="w-6 h-6 text-red-400/20 animate-bounce" />
+          </div>
+          
+          {/* Quiz Icons */}
+          <div className="absolute top-28 left-16 animate-float-medium hero-float-icon">
+            <FaBrain className="w-6 h-6 text-yellow-500/25 animate-pulse" />
+          </div>
+          <div className="absolute top-44 right-1/4 animate-float-slow hero-float-icon">
+            <FaBrain className="w-7 h-7 text-orange-500/30 animate-pulse" />
+          </div>
+          
+          {/* Categories */}
+          <div className="absolute top-20 right-10 animate-float-fast hero-float-icon">
+            <FaFlask className="w-5 h-5 text-yellow-400/20 animate-pulse" />
+          </div>
+          <div className="absolute top-48 left-20 animate-float-medium hero-float-icon">
+            <FaCalculator className="w-6 h-6 text-orange-400/25 animate-pulse" />
+          </div>
+          <div className="absolute top-32 left-1/2 animate-float-slow hero-float-icon">
+            <FaPalette className="w-5 h-5 text-red-400/20 animate-pulse" />
+          </div>
+          
+          {/* Students */}
+          <div className="absolute top-16 left-1/2 animate-float-medium hero-float-icon">
+            <FaUserGraduate className="w-6 h-6 text-yellow-500/25 animate-pulse" />
+          </div>
+          <div className="absolute top-40 right-32 animate-float-slow hero-float-icon">
+            <FaUsers className="w-5 h-5 text-orange-500/20 animate-pulse" />
+          </div>
+          <div className="absolute top-52 left-1/3 animate-float-fast hero-float-icon">
+            <FaUserGraduate className="w-7 h-7 text-red-500/30 animate-pulse" />
+          </div>
+          
+          {/* Additional floating elements */}
+          <div className="absolute top-24 right-40 animate-float-slow hero-float-icon">
+            <FaTrophy className="w-4 h-4 text-yellow-400/15 animate-pulse" />
+          </div>
+          <div className="absolute top-36 left-40 animate-float-medium hero-float-icon">
+            <FaStar className="w-5 h-5 text-orange-400/20 animate-pulse" />
+          </div>
+          <div className="absolute top-48 right-1/2 animate-float-fast hero-float-icon">
+            <FaMedal className="w-6 h-6 text-red-400/25 animate-pulse" />
+          </div>
+        </div>
+        
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 mt-0 md:mt-16">
           <div className="text-center">
             <h1 className="text-xl md:text-3xl lg:text-5xl font-bold mb-6">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 dark:text-white">
@@ -328,54 +395,77 @@ const LandingPage = () => {
           </div>
 
           {/* Stats */}
-          <div className="mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-6">
+          <div className="mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-6 relative">
             {[
               {
                 icon: FaUsers,
                 number: stats.activeStudents,
                 label: "Active Students",
+                gradient: "from-blue-500/20 to-cyan-500/20",
+                iconBg: "from-blue-500 to-cyan-500",
+                textColor: "text-blue-600",
               },
               {
                 icon: FaBook,
                 number: stats.quizCategories,
                 label: "Quiz Categories",
+                gradient: "from-green-500/20 to-emerald-500/20",
+                iconBg: "from-green-500 to-emerald-500",
+                textColor: "text-green-600",
               },
               {
                 icon: FaFlask,
                 number: stats.subcategories || "N/A",
                 label: "Subcategories",
+                gradient: "from-purple-500/20 to-pink-500/20",
+                iconBg: "from-purple-500 to-pink-500",
+                textColor: "text-purple-600",
               },
               {
                 icon: FaQuestionCircle,
                 number: stats.totalQuestions || "N/A",
                 label: "Total Questions",
+                gradient: "from-orange-500/20 to-red-500/20",
+                iconBg: "from-orange-500 to-red-500",
+                textColor: "text-orange-600",
               },
               {
                 icon: FaLaptopCode,
                 number: stats.totalQuizzes || "N/A",
                 label: "Total Quizzes",
+                gradient: "from-indigo-500/20 to-blue-500/20",
+                iconBg: "from-indigo-500 to-blue-500",
+                textColor: "text-indigo-600",
               },
               {
                 icon: FaTrophy,
                 number: stats.quizzesTaken,
                 label: "Quizzes Taken",
+                gradient: "from-yellow-500/20 to-orange-500/20",
+                iconBg: "from-yellow-500 to-orange-500",
+                textColor: "text-yellow-600",
               },
               {
                 icon: FaGift,
                 number: stats.monthlyPrizePool,
                 label: "Monthly Prize Pool",
+                gradient: "from-pink-500/20 to-rose-500/20",
+                iconBg: "from-pink-500 to-rose-500",
+                textColor: "text-pink-600",
               },
             ].map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="w-14 h-14 mx-auto mb-3 rounded-full flex items-center justify-center bg-white dark:bg-gray-800 shadow-lg">
-                  <stat.icon className="w-7 h-7 text-yellow-600" />
-                 </div>
-                <div className="text-2xl font-bold text-yellow-600 mb-1">
+              <div key={index} className="text-center group">
+                <div className={`w-14 h-14 mx-auto mb-3 rounded-full flex items-center justify-center bg-gradient-to-br ${stat.iconBg} shadow-lg transform group-hover:scale-110 transition-all duration-300`}>
+                  <stat.icon className="w-7 h-7 text-white" />
+                </div>
+                <div className={`text-2xl font-bold ${stat.textColor} mb-1 group-hover:scale-105 transition-transform duration-300`}>
                   {stat.number}
                 </div>
                 <div className="text-xs text-gray-600 dark:text-gray-400">
                   {stat.label}
                 </div>
+                {/* Gradient background overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`}></div>
               </div>
             ))}
           </div>
