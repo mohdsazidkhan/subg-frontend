@@ -50,7 +50,7 @@ const MonthlyWinnersDisplay = ({ title = "🏆 Previous Month Legends", showTitl
     return (
       <div className={`bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 rounded-xl border border-yellow-200 dark:border-yellow-600 p-6 ${className}`}>
         <div className="flex items-center justify-center h-32">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-500"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-yellow-500"></div>
         </div>
       </div>
     );

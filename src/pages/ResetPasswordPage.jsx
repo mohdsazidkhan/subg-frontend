@@ -97,7 +97,7 @@ const ResetPasswordPage = () => {
             >
               {isLoading ? (
                 <span className="flex items-center justify-center">
-                  <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></span>
+                  <span className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mr-2"></span>
                   Resetting...
                 </span>
               ) : (

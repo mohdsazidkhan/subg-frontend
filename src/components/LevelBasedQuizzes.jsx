@@ -222,7 +222,7 @@ const LevelBasedQuizzes = () => {
     return (
       <div className="flex items-center justify-center min-h-screen bg-white dark:bg-gray-900">
         <div className="flex flex-col items-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-600 mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-yellow-600 mb-4"></div>
           <div className="text-xl text-gray-700 dark:text-gray-200">Loading quizzes...</div>
         </div>
       </div>
@@ -293,7 +293,7 @@ const LevelBasedQuizzes = () => {
               />
               {searchLoading && (
                 <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                  <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
                 </div>
               )}
             </div>

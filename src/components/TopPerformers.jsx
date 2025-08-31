@@ -235,7 +235,7 @@ import API from '../utils/api';
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto mb-4"></div>
           <p className="text-gray-600 dark:text-gray-300">Loading {getCurrentMonthDisplay()} leaderboard...</p>
         </div>
       </div>
@@ -395,7 +395,7 @@ import API from '../utils/api';
       {/* Refreshing Indicator */}
       {refreshing && (
         <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg flex items-center justify-center gap-2">
-          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500"></div>
                       <span className="text-blue-600 dark:text-blue-400 text-sm">Refreshing {getCurrentMonthDisplay()} data...</span>
         </div>
       )}

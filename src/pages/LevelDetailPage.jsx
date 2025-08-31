@@ -163,7 +163,7 @@ const LevelDetailPage = () => {
           
           {loading ? (
             <div className="text-center py-6 sm:py-8">
-              <div className="animate-spin rounded-full h-8 sm:h-12 w-8 sm:w-12 border-b-2 border-yellow-600 mx-auto"></div>
+              <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-yellow-600 mx-auto"></div>
               <p className="mt-2 sm:mt-4 text-gray-600 dark:text-gray-300 text-sm sm:text-base">Loading quizzes...</p>
             </div>
           ) : error ? (

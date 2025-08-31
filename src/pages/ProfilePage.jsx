@@ -595,7 +595,7 @@ const message =
                     >
                       {isUpdatingProfile ? (
                         <>
-                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white"></div>
                           <span>Updating...</span>
                         </>
                       ) : (
@@ -1006,7 +1006,7 @@ const message =
                   >
                     {isSaving ? (
                       <>
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white"></div>
                         <span>Saving...</span>
                       </>
                     ) : (

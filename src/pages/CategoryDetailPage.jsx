@@ -139,7 +139,7 @@ const CategoryDetailPage = () => {
 
           {subcategoriesLoading ? (
             <div className="flex justify-center items-center h-20 sm:h-32">
-              <div className="animate-spin rounded-full h-6 sm:h-8 w-6 sm:w-8 border-b-2 border-green-600"></div>
+              <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-green-600"></div>
             </div>
           ) : subcategories.length === 0 ? (
             <div className="text-center text-gray-500 font-medium py-6 sm:py-8 bg-white/50 dark:bg-gray-800/50 rounded-2xl">
@@ -187,7 +187,7 @@ const CategoryDetailPage = () => {
 
           {loading ? (
             <div className="flex justify-center items-center h-32 sm:h-64">
-              <div className="animate-spin rounded-full h-8 sm:h-16 w-8 sm:w-16 border-b-2 border-green-600"></div>
+              <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-green-600"></div>
             </div>
           ) : error ? (
             <div className="text-center text-red-600 font-semibold py-6 sm:py-10 text-sm sm:text-base">{error}</div>

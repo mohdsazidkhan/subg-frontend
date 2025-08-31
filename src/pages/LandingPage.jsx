@@ -281,7 +281,7 @@ const LandingPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-subg-light dark:bg-subg-dark flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-yellow-600"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-yellow-600"></div>
       </div>
     );
   }
@@ -361,9 +361,9 @@ const LandingPage = () => {
           </div>
         </div>
         
-        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 mt-0 md:mt-16">
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 mt-0 md:mt-8">
           <div className="text-center">
-            <h1 className="text-xl md:text-3xl lg:text-5xl font-bold mb-6">
+            <h1 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 dark:text-white">
                 Master Knowledge
               </span>
@@ -372,7 +372,7 @@ const LandingPage = () => {
                 Through Interactive Quizzes
               </span>
             </h1>
-            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-gray-600 dark:text-gray-300">
+            <p className="text-sm md:text-xl mb-8 max-w-3xl mx-auto text-gray-600 dark:text-gray-300">
               Challenge yourself with our comprehensive quiz platform. Test your
               knowledge across multiple categories, compete with others, and
               climb the monthly leaderboard while earning rewards. Every month
@@ -397,7 +397,7 @@ const LandingPage = () => {
           </div>
 
           {/* Stats */}
-          <div className="mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-6 relative">
+          <div className="mt-10 lg:mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-6 p-4 relative">
             {[
               {
                 icon: FaUsers,
@@ -565,8 +565,8 @@ const LandingPage = () => {
                        </div>
                      </div>
                      
-                     <div className="text-xs text-gray-900 dark:text-white text-center mb-2 drop-shadow-sm">
-                       Need {playCount} high-score wins to unlock next level
+                     <div className="text-sm text-gray-900 dark:text-white text-center mb-2 drop-shadow-sm">
+                       Need <strong>{playCount}</strong> high-score wins to unlock next level
                      </div>
                      
                    </div>
@@ -1125,7 +1125,7 @@ const LandingPage = () => {
               </div>
             </div>
 
-                         <div className="rounded-2xl p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl">
+                         <div className="rounded-2xl p-2 md:-p-6 lg:p-6 xl:p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl">
               <h3 className="text-2xl font-bold mb-6 text-center">
                 Monthly Prize Pool
               </h3>
@@ -1173,7 +1173,7 @@ const LandingPage = () => {
           {/* Achievement Badges */}
           <div className="text-center mb-12">
             <h3 className="text-2xl font-bold mb-8">Earn Achievement Badges</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 {
                   icon: FaStar,
@@ -1389,7 +1389,7 @@ const LandingPage = () => {
           </div>
 
           {/* Plan Comparison */}
-                     <div className="rounded-2xl p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl">
+                     <div className="rounded-2xl p-2 md:-p-6 lg:p-6 xl:p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl">
             <h3 className="text-2xl font-bold text-center mb-8">
               Plan Comparison
             </h3>
@@ -1610,7 +1610,7 @@ const LandingPage = () => {
               </div>
             </div>
 
-                         <div className="rounded-2xl p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl">
+                         <div className="rounded-2xl p-2 md:-p-6 lg:p-6 xl:p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl">
               <h3 className="text-2xl font-bold mb-6 text-center">
                 How It Works
               </h3>
