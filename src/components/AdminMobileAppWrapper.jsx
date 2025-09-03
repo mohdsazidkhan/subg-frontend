@@ -69,7 +69,7 @@ const AdminMobileAppWrapper = ({ children, title, showHeader = true }) => {
   return (
     <div className="admin-mobile-container">
       {showHeader && (
-        <div className="admin-mobile-header md:hidden">
+        <div className="admin-mobile-header md:hidden !bg-gradient-to-r from-white via-gray-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 !border-b !border-gray-200 dark:!border-gray-700">
           <div className="flex items-center justify-between">
             {/* Logo on the left */}
             <Link
