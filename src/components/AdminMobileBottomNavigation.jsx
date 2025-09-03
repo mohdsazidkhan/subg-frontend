@@ -5,7 +5,7 @@ import {
   FaBook,
   FaQuestionCircle
 } from 'react-icons/fa';
-import { MdDashboard, MdAnalytics } from 'react-icons/md';
+import { MdDashboard, MdAnalytics, MdQuestionAnswer } from 'react-icons/md';
 import { getCurrentUser } from '../utils/authUtils';
 import { isAdmin } from '../utils/adminUtils';
 
@@ -38,9 +38,9 @@ const AdminMobileBottomNavigation = () => {
       color: 'from-green-500 to-green-600'
     },
     { 
-      path: '/admin/categories', 
-      icon: FaBook, 
-      label: 'Categories',
+      path: '/admin/questions', 
+      icon: MdQuestionAnswer, 
+      label: 'Questions',
       color: 'from-yellow-500 to-yellow-600'
     },
     { 

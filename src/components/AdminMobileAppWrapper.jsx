@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
-import { FaSignOutAlt, FaSun, FaMoon, FaBars } from 'react-icons/fa';
+import { FaSignOutAlt, FaSun, FaMoon, FaBars, FaTimes } from 'react-icons/fa';
 import { secureLogout, getCurrentUser } from '../utils/authUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleSidebar } from '../store/sidebarSlice';
@@ -116,7 +116,7 @@ const AdminMobileAppWrapper = ({ children, title, showHeader = true }) => {
                 className="w-8 h-8 flex items-center justify-center rounded-lg bg-blue-500 hover:bg-blue-600 text-white transition-all duration-200 hover:scale-105 shadow-md"
                 title={isOpen ? "Hide Sidebar" : "Show Sidebar"}
               >
-                <FaBars className="w-4 h-4" />
+                {!isOpen ? <FaBars className="w-4 h-4" /> : <FaTimes className="w-4 h-4" />}
               </button>
             </div>
           </div>
