@@ -5,8 +5,6 @@ import AdminNavbar from './components/AdminNavbar.jsx';
 import Sidebar from './components/Sidebar';
 import AdminRoute from './components/AdminRoute';
 import UnifiedFooter from './components/UnifiedFooter.jsx';
-import MobileBottomNavigation from './components/MobileBottomNavigation.jsx';
-import AdminMobileBottomNavigation from './components/AdminMobileBottomNavigation.jsx';
 import StudentRoute from './components/StudentRoute';
 import ErrorBoundary from './components/ErrorBoundary';
 import GlobalErrorProvider from './contexts/GlobalErrorContext';
@@ -38,7 +36,6 @@ import SubscriptionPage from './pages/SubscriptionPage.jsx';
 import AttemptQuizPage from './pages/AttemptQuizPage.jsx';
 import { isAdmin, hasAdminPrivileges } from './utils/adminUtils';
 import './App.css';
-import './mobile-app.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
@@ -80,7 +77,7 @@ function AppLayout() {
       {/* Global Error Banner */}
       <GlobalErrorBanner />
       
-      {/* Desktop Navbar shows on all pages except landing page and mobile */}
+      {/* Navbar shows on all pages except landing page */}
       {location.pathname !== '/' && !location.pathname.startsWith('/admin') && <UnifiedNavbar isLandingPage={false} />}
       
       {/* Admin Navbar shows only on admin pages */}
@@ -88,10 +85,6 @@ function AppLayout() {
       
       {/* Sidebar only for admin users */}
       {isAdmin() && hasAdminPrivileges() && <Sidebar />}
-      
-      {/* Mobile Bottom Navigation */}
-      <MobileBottomNavigation />
-      <AdminMobileBottomNavigation />
       
       <ToastContainer position="bottom-right" autoClose={3000} />
       <div className={`appContainer ${location.pathname !== '/' ? 'has-navbar' : ''}`}>
