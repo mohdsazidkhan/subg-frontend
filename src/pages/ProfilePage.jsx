@@ -325,7 +325,7 @@ const message =
 
   if (error)
     return (
-  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-yellow-50 to-red-100 dark:from-gray-900 dark:via-slate-900 dark:to-red-900 flex items-center justify-center">
+  <div className="min-h-screen bg-subg-light dark:bg-subg-dark flex items-center justify-center">
         <div className="text-center">
           <div className="text-red-600 text-4xl mb-4">⚠️</div>
           <p className="text-red-600 text-xl">{error}</p>
@@ -392,7 +392,7 @@ const message =
             {!isEditingProfile && (
               <button
                 onClick={handleEditProfile}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-lg"
+                className="bg-gradient-to-r from-yellow-500 to-red-500 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-lg"
               >
                 <FaEdit className="text-sm" />
                 <span>Edit Profile</span>
@@ -732,7 +732,7 @@ const message =
         {/* Referral Code Section */}
         <div className="bg-gradient-to-r from-yellow-100 via-orange-100 to-red-100 dark:from-yellow-500/25 dark:via-orange-500/25 dark:to-red-500/25 rounded-2xl p-2 md:p-4 lg:p-6 border border-yellow-300/40 dark:border-yellow-400/30 mb-6">
           <div className="text-center">
-            <h4 className="text-gray-800 dark:text-white font-bold text-xl mb-4 flex items-center justify-center gap-2">
+            <h4 className="text-gray-800 dark:text-white font-bold text-lg lg:text-xl mb-4 flex items-center justify-center gap-2">
               <span className="text-2xl">🔑</span>
               Your Unique Referral Code
             </h4>
@@ -1158,7 +1158,7 @@ const message =
             
             {/* Monthly Top 3 Info */}
             <div className="mt-4 sm:mt-6">
-              <h4 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3 sm:mb-4 flex items-center gap-2">
+              <h4 className="text-lg lg:text-xl font-semibold text-gray-800 dark:text-white mb-3 sm:mb-4 flex items-center gap-2">
                 <span className="text-xl sm:text-2xl">🏆</span>
                 Monthly Top 3 Rewards
               </h4>
@@ -1191,7 +1191,7 @@ const message =
             {/* Unlocked Rewards Details */}
             {rewardsData?.unlocked && rewardsData.unlocked.length > 0 && (
               <div className="mt-4 sm:mt-6">
-                <h4 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3 sm:mb-4 flex items-center gap-2">
+                <h4 className="text-lg lg:text-xl font-semibold text-gray-800 dark:text-white mb-3 sm:mb-4 flex items-center gap-2">
                   <span className="text-xl sm:text-2xl">✅</span>
                   Unlocked Rewards Details
                 </h4>
@@ -1227,7 +1227,7 @@ const message =
             {/* Claimed Rewards Details */}
             {rewardsData?.claimed && rewardsData.claimed.length > 0 && (
               <div className="mt-4 sm:mt-6">
-                <h4 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3 sm:mb-4 flex items-center gap-2">
+                <h4 className="text-lg lg:text-xl font-semibold text-gray-800 dark:text-white mb-3 sm:mb-4 flex items-center gap-2">
                   <span className="text-xl sm:text-2xl">🎉</span>
                   Claimed Rewards Details
                 </h4>
@@ -1257,7 +1257,7 @@ const message =
                         {/* Quiz Progress for Rewards */}
             {rewardsData?.quizProgress && (
               <div className="mt-4 sm:mt-6">
-                <h4 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3 sm:mb-4 flex items-center gap-2">
+                <h4 className="text-lg lg:text-xl font-semibold text-gray-800 dark:text-white mb-3 sm:mb-4 flex items-center gap-2">
                   <span className="text-xl sm:text-2xl">📊</span>
                   Quiz Progress for Rewards
                 </h4>
