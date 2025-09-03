@@ -133,7 +133,7 @@ const UnifiedFooter = ({ isLandingPage = false }) => {
 
   // Homepage footer - simpler version
   return (
-    <footer className="w-full bg-gray-100 dark:bg-gray-800 text-center p-4 md:py-6 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
+    <footer className="w-full bg-gray-100 dark:bg-gray-800 text-center p-2 md:p-4 lg:py-6 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
       <div className="flex flex-wrap justify-center gap-3 md:gap-6 text-sm text-gray-600 dark:text-gray-300">
         <Link to="/about" className="hover:text-gray-900 dark:hover:text-white transition-colors">About Us</Link>
         <Link to="/how-it-works" className="hover:text-gray-900 dark:hover:text-white transition-colors">How It Works</Link>
@@ -144,7 +144,7 @@ const UnifiedFooter = ({ isLandingPage = false }) => {
       </div>
       
              {/* Social Icons */}
-       <div className="flex flex-wrap justify-center items-center gap-3 mt-4">
+       <div className="flex flex-wrap justify-center items-center gap-2 lg:gap-3 mt-4">
          {socialLinks.map((item, index) => (
            <a
              key={index}

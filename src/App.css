@@ -10,7 +10,9 @@
     margin-top: 0;
     padding-bottom: 0; /* Space for mobile bottom navigation */
   }
-  
+  .admin-mobile-content,.mobile-content{
+    padding-top: 50px;
+  }
   .appContainer.has-navbar {
     margin-top: 0;
   }
