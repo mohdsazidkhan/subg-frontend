@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import UnifiedNavbar from './components/UnifiedNavbar.jsx';
 import AdminNavbar from './components/AdminNavbar.jsx';
+import AdminMobileBottomNavigation from './components/AdminMobileBottomNavigation.jsx';
 import Sidebar from './components/Sidebar';
 import AdminRoute from './components/AdminRoute';
 import UnifiedFooter from './components/UnifiedFooter.jsx';
@@ -82,6 +83,9 @@ function AppLayout() {
       
       {/* Admin Navbar shows only on admin pages */}
       {location.pathname.startsWith('/admin') && <AdminNavbar />}
+      
+      {/* Admin Mobile Bottom Navigation shows only on admin pages */}
+      {location.pathname.startsWith('/admin') && <AdminMobileBottomNavigation />}
       
       {/* Sidebar only for admin users */}
       {isAdmin() && hasAdminPrivileges() && <Sidebar />}
