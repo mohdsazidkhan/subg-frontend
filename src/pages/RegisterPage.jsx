@@ -4,6 +4,7 @@ import API from '../utils/api';
 import { toast } from 'react-toastify';
 import { FaUser, FaEnvelope, FaPhone, FaLock, FaEye, FaEyeSlash, FaTrophy, FaBrain, FaRocket } from 'react-icons/fa';
 import MonthlyRewardsInfo from '../components/MonthlyRewardsInfo';
+import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
@@ -96,7 +97,8 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-2 md:p-4 bg-subg-light dark:bg-subg-dark">
+    <MobileAppWrapper title="Register">
+      <div className="min-h-screen flex items-center justify-center p-2 md:p-4 bg-subg-light dark:bg-subg-dark">
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         
         {/* Left Side - Quiz Platform Info */}
@@ -323,7 +325,8 @@ const RegisterPage = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </MobileAppWrapper>
   );
 };
 

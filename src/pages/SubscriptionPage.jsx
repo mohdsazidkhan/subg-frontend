@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import API from '../utils/api';
 import config from '../config/appConfig';
+import MobileAppWrapper from '../components/MobileAppWrapper';
 import { 
   // FaCreditCard, 
   FaWallet, 
@@ -280,7 +281,7 @@ const SubscriptionPage = () => {
   if (loading || !razorpayLoaded) {
     return (
       <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
-        <div className="container mx-auto px-4 py-8 mt-16">
+        <div className="container mx-auto px-4 py-8 mt-0 lg:mt-16">
           <div className="animate-pulse">
             <div className="h-16 bg-gradient-to-r from-yellow-200 to-red-200 dark:from-yellow-800 dark:to-red-800 rounded-2xl w-1/3 mb-12 mx-auto"></div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -301,7 +302,8 @@ const SubscriptionPage = () => {
   }
 
   return (
-  <div className="min-h-screen bg-subg-light dark:bg-subg-dark relative overflow-hidden">
+  <MobileAppWrapper title="Subscription">
+    <div className="min-h-screen bg-subg-light dark:bg-subg-dark relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
   <div className="absolute -top-40 -right-40 w-40 sm:w-80 h-40 sm:h-80 bg-gradient-to-br from-yellow-400/20 to-red-400/20 rounded-full blur-3xl animate-pulse"></div>
@@ -314,7 +316,7 @@ const SubscriptionPage = () => {
         {/* Hero Section */}
         <div className="text-center mb-10 sm:mb-16 subscription-hero">
           <div className="relative inline-block mb-6 sm:mb-8">
-            <div className="w-20 sm:w-32 h-20 sm:h-32 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto shadow-2xl floating-animation">
+            <div className="w-16 sm:w-32 h-16 sm:h-32 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto shadow-2xl floating-animation">
               <FaWallet className="text-white text-2xl sm:text-4xl" />
             </div>
             <div className="absolute -top-2 -right-2 w-6 sm:w-8 h-6 sm:h-8 bg-gradient-to-r from-green-400 to-yellow-500 rounded-full flex items-center justify-center animate-bounce">
@@ -728,6 +730,7 @@ const SubscriptionPage = () => {
         </div>
       </div>
     </div>
+    </MobileAppWrapper>
   );
 };
 

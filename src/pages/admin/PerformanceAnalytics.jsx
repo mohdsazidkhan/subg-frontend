@@ -25,9 +25,11 @@ import {
   FaTable,
 } from "react-icons/fa";
 import Sidebar from "../../components/Sidebar";
+import ViewToggle from "../../components/ViewToggle";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import API from '../../utils/api';
+import AdminMobileAppWrapper from '../../components/AdminMobileAppWrapper';
 
 ChartJS.register(
   CategoryScale,
@@ -60,7 +62,13 @@ function exportCSV(data, filename) {
 }
 
 const PerformanceAnalytics = () => {
-  const [viewMode, setViewMode] = useState("table");
+  // Set default view based on screen size: grid for mobile, table for desktop
+  const [viewMode, setViewMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth < 768 ? "grid" : "table";
+    }
+    return "table";
+  });
   const user = JSON.parse(localStorage.getItem("userInfo"));
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
@@ -79,6 +87,20 @@ const PerformanceAnalytics = () => {
   // Token validation
   const { validateTokenBeforeRequest } = useTokenValidation();
   console.log(data, "data");
+
+  // Handle window resize to update view mode based on screen size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768 && viewMode === "table") {
+        setViewMode("grid");
+      } else if (window.innerWidth >= 768 && viewMode === "grid") {
+        setViewMode("table");
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [viewMode]);
   useEffect(() => {
     // Validate token before making API call
     if (!validateTokenBeforeRequest()) {
@@ -372,9 +394,10 @@ const PerformanceAnalytics = () => {
   }
 
   return (
-    <div className={`adminPanel ${isOpen ? "showPanel" : "hidePanel"}`}>
-      {user?.role === "admin" && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
+    <AdminMobileAppWrapper title="Performance Analytics">
+      <div className={`adminPanel ${isOpen ? "showPanel" : "hidePanel"}`}>
+        {user?.role === "admin" && isAdminRoute && <Sidebar />}
+        <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">Performance Analytics</h1>
@@ -610,26 +633,13 @@ const PerformanceAnalytics = () => {
         </div>
       </div>
 
-      {/* Toggle View Buttons */}
-      <div className="flex justify-end gap-2">
-        <button
-          onClick={() => setViewMode("table")}
-          className={`p-2 rounded ${viewMode === "table" ? "bg-blue-600 text-white" : "bg-gray-200 dark:bg-gray-700 dark:text-white"}`}
-        >
-          <FaTable />
-        </button>
-        <button
-          onClick={() => setViewMode("list")}
-          className={`p-2 rounded ${viewMode === "list" ? "bg-blue-600 text-white" : "bg-gray-200 dark:bg-gray-700 dark:text-white"}`}
-        >
-          <FaList />
-        </button>
-        <button
-          onClick={() => setViewMode("grid")}
-          className={`p-2 rounded ${viewMode === "grid" ? "bg-blue-600 text-white" : "bg-gray-200 dark:bg-gray-700 dark:text-white"}`}
-        >
-          <FaTh />
-        </button>
+      {/* View Toggle */}
+      <div className="flex justify-end mb-4">
+        <ViewToggle 
+          currentView={viewMode} 
+          onViewChange={setViewMode}
+          views={['table', 'list', 'grid']}
+        />
       </div>
 
       {/* Top Performers */}
@@ -865,7 +875,7 @@ const PerformanceAnalytics = () => {
         )}
 
         {/* Current Month Data Note */}
-        <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+        <div className="my-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
               <span className="text-blue-600 dark:text-blue-400">📅</span>
@@ -1326,9 +1336,9 @@ const PerformanceAnalytics = () => {
         </div>
       )}
     </div>
+        </div>
       </div>
-     
-    </div>
+    </AdminMobileAppWrapper>
   );
 };
 

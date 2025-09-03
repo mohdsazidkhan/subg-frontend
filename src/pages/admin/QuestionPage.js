@@ -10,6 +10,7 @@ import SearchFilter from '../../components/SearchFilter';
 import { FaEdit, FaTrash, FaPlus, FaCheck } from 'react-icons/fa';
 import { isMobile } from 'react-device-detect';
 import useDebounce from '../../utils/useDebounce';
+import AdminMobileAppWrapper from '../../components/AdminMobileAppWrapper';
 
 const QuestionPage = () => {
   // Form states
@@ -403,9 +404,10 @@ const QuestionPage = () => {
   );
 
   return (
-    <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
-      {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
+    <AdminMobileAppWrapper title="Questions">
+      <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
+        {user?.role === 'admin' && isAdminRoute && <Sidebar />}
+        <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
         <div className="mx-auto">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
@@ -612,8 +614,9 @@ const QuestionPage = () => {
             />
           )}
         </div>
+        </div>
       </div>
-    </div>
+    </AdminMobileAppWrapper>
   );
 };
 

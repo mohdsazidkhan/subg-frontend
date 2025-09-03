@@ -1,6 +1,7 @@
 import React from 'react';
 import RewardsDashboard from '../components/RewardsDashboard';
 import { useRewards } from '../hooks/useRewards';
+import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const RewardsPage = () => {
   const { rewards, loading, error } = useRewards();
@@ -35,7 +36,8 @@ const RewardsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <MobileAppWrapper title="Rewards">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-6xl mx-auto px-2 md:px-6 py-2 md:py-4">
           <div className="flex items-center justify-between">
@@ -58,7 +60,8 @@ const RewardsPage = () => {
       </div>
       
       <RewardsDashboard />
-    </div>
+      </div>
+    </MobileAppWrapper>
   );
 };
 

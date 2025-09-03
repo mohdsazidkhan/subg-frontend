@@ -4,6 +4,7 @@ import API from '../utils/api';
 import { toast } from 'react-toastify';
 import { requireSubscription } from '../utils/subscriptionUtils';
 import SubscriptionGuard from '../components/SubscriptionGuard';
+import MobileAppWrapper from '../components/MobileAppWrapper';
 import { 
   FaClock, 
   FaArrowLeft, 
@@ -544,7 +545,8 @@ const AttemptQuizPage = () => {
   const progress = ((currentQuestionIndex + 1) / quiz.questions.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-pink-900/20">
+    <MobileAppWrapper title="Quiz">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-pink-900/20">
       {/* Fullscreen Warning Banner */}
       {isFullscreen && !submitted && (
         <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-red-500 to-orange-500 text-white text-center py-2 z-40 shadow-lg">
@@ -970,7 +972,8 @@ const AttemptQuizPage = () => {
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </MobileAppWrapper>
   );
 };
 

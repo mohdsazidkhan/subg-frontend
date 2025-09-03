@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import API from "../utils/api";
 import QuizStartModal from "../components/QuizStartModal";
+import MobileAppWrapper from "../components/MobileAppWrapper";
 
 const SearchPage = () => {
   const navigate = useNavigate();
@@ -100,7 +101,8 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="p-4 max-w-5xl mx-auto">
+    <MobileAppWrapper title="Search">
+      <div className="p-4 max-w-5xl mx-auto">
       <form onSubmit={handleSearch} className="flex items-center gap-2 mb-6">
         <input
           type="text"
@@ -269,7 +271,8 @@ const SearchPage = () => {
           }
         </>
       )}
-    </div>
+      </div>
+    </MobileAppWrapper>
   );
 };
 

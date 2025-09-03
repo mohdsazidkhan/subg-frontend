@@ -4,6 +4,7 @@ import Sidebar from '../../components/Sidebar';
 import API from '../../utils/api';
 import { toast } from 'react-toastify';
 import { FaTrophy, FaMedal, FaCrown, FaCalendarAlt, FaUsers, FaRupeeSign, FaTh, FaList, FaTable, FaSearch } from 'react-icons/fa';
+import AdminMobileAppWrapper from '../../components/AdminMobileAppWrapper';
 
 const AdminMonthlyWinners = () => {
   const [monthlyWinners, setMonthlyWinners] = useState([]);
@@ -75,9 +76,10 @@ const AdminMonthlyWinners = () => {
   }, [selectedYear, selectedMonth, showAllMonths]);
 
   return (
-    <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
-      <Sidebar />
-      <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
+    <AdminMobileAppWrapper title="Monthly Winners">
+      <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
+        <Sidebar />
+        <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
         <div className="mx-auto">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
@@ -522,8 +524,9 @@ const AdminMonthlyWinners = () => {
             </>
           )}
         </div>
+        </div>
       </div>
-    </div>
+    </AdminMobileAppWrapper>
   );
 };
 

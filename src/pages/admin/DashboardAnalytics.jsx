@@ -17,6 +17,7 @@ import Sidebar from '../../components/Sidebar';
 import ViewToggle from '../../components/ViewToggle';
 import { isMobile } from 'react-device-detect';
 import API from '../../utils/api';
+import AdminMobileAppWrapper from '../../components/AdminMobileAppWrapper';
 
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
@@ -626,9 +627,10 @@ const DashboardAnalytics = () => {
   );
 
   return (
-    <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
-      {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-2 md:p-6 w-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+    <AdminMobileAppWrapper title="Analytics">
+      <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
+        {user?.role === 'admin' && isAdminRoute && <Sidebar />}
+        <div className="adminContent p-2 md:p-6 w-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
@@ -788,8 +790,9 @@ const DashboardAnalytics = () => {
             )}
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    </AdminMobileAppWrapper>
   );
 };
 

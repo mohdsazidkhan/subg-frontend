@@ -11,6 +11,7 @@ import SearchFilter from '../../components/SearchFilter';
 import { FaTrash, FaEnvelope, FaPhone, FaEye, FaEdit } from 'react-icons/fa';
 import { isMobile } from 'react-device-detect';
 import useDebounce from "../../utils/useDebounce";
+import AdminMobileAppWrapper from '../../components/AdminMobileAppWrapper';
 
 const StudentsPage = () => {
   const [students, setStudents] = useState([]);
@@ -267,9 +268,10 @@ const StudentsPage = () => {
 
 
   return (
-    <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
-      {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
+    <AdminMobileAppWrapper title="Students">
+      <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
+        {user?.role === 'admin' && isAdminRoute && <Sidebar />}
+        <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
         {/* Enhanced Header */}
         <div className="mb-4">
           <div className="flex items-center gap-4 mb-2">
@@ -356,8 +358,9 @@ const StudentsPage = () => {
             )}
           </>
         )}
+        </div>
       </div>
-    </div>
+    </AdminMobileAppWrapper>
   );
 };
 

@@ -25,6 +25,7 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Sidebar from "../../components/Sidebar";
 import API from '../../utils/api';
+import AdminMobileAppWrapper from '../../components/AdminMobileAppWrapper';
 
 ChartJS.register(
   CategoryScale,
@@ -291,9 +292,10 @@ const FinancialAnalytics = () => {
   };
 
   return (
-    <div className={`adminPanel ${isOpen ? "showPanel" : "hidePanel"}`}>
-      {user?.role === "admin" && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
+    <AdminMobileAppWrapper title="Financial Analytics">
+      <div className={`adminPanel ${isOpen ? "showPanel" : "hidePanel"}`}>
+        {user?.role === "admin" && isAdminRoute && <Sidebar />}
+        <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
@@ -495,8 +497,9 @@ const FinancialAnalytics = () => {
             </table>
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    </AdminMobileAppWrapper>
   );
 };
 

@@ -89,7 +89,7 @@ const AdminNavbar = () => {
 
 
   return (
-    <header className={`fixed z-[9999] transition-all duration-300 w-full ${
+    <header className={`fixed z-[9999] transition-all duration-300 w-full hidden md:block ${
       darkMode 
         ? 'bg-gray-900 border-t border-gray-700 md:border-b md:border-t-0'
         : 'bg-white border-t border-gray-200 md:border-b md:border-t-0'
@@ -125,7 +125,7 @@ const AdminNavbar = () => {
             {/* Dark mode toggle */}
             <button
               onClick={toggleTheme}
-              className={`hidden md:block p-2 rounded-lg transition-all duration-300 ${
+              className={`p-2 rounded-lg transition-all duration-300 ${
                 darkMode 
                   ? 'bg-red-700 text-yellow-400 hover:bg-red-600' 
                   : 'bg-red-100 text-red-600 hover:bg-red-200'

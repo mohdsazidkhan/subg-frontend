@@ -5,6 +5,7 @@ import API from '../utils/api';
 import QuizStartModal from '../components/QuizStartModal';
 import { MdFormatListNumbered } from 'react-icons/md';
 import MonthlyRewardsInfo from '../components/MonthlyRewardsInfo';
+import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const levels = [
   { level: 0, name: 'Starter', desc: 'Just registered - Start your journey!', quizzes: 0, plan: 'Free', amount: 0, prize: 0, color: 'from-gray-300 to-gray-400', icon: FaUserGraduate },
@@ -109,7 +110,8 @@ const LevelDetailPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
+    <MobileAppWrapper title="Level">
+      <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
       <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
         {/* Header */}
         <div className="mb-6 sm:mb-8">
@@ -251,7 +253,8 @@ const LevelDetailPage = () => {
         onConfirm={handleConfirmQuizStart}
         quiz={selectedQuiz}
       />
-    </div>
+      </div>
+    </MobileAppWrapper>
   );
 };
 

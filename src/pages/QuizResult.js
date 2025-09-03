@@ -13,6 +13,7 @@ import {
 } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import API from "../utils/api";
+import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const LeaderboardTable = ({ leaderboard, currentUser }) => {
   if (!leaderboard || leaderboard?.length === 0) {
@@ -264,8 +265,9 @@ const QuizResult = () => {
   }
 
   return (
-    <div className="min-h-screen subg-frontend/src/pages/HomePage.js">
-      <div className="container mx-auto px-4 py-8 mt-16">
+    <MobileAppWrapper title="Quiz Result">
+      <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
+      <div className="container mx-auto px-4 py-8 mt-0 lg:mt-16">
         {/* Hero Section */}
         <div className="text-center mb-8">
           <div className="text-8xl mb-4">
@@ -588,7 +590,8 @@ const QuizResult = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </MobileAppWrapper>
   );
 };
 

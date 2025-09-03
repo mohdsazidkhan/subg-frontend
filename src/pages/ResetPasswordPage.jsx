@@ -3,6 +3,7 @@ import { useLocation, Link, useNavigate } from 'react-router-dom';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
 import { FaLock, FaEye, FaEyeSlash, FaArrowLeft } from 'react-icons/fa';
+import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const ResetPasswordPage = () => {
   const location = useLocation();
@@ -48,7 +49,8 @@ const ResetPasswordPage = () => {
   };
 
   return (
-  <div className="bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 flex items-center justify-center min-h-screen p-2 md:p-4">
+    <MobileAppWrapper title="Reset Password">
+      <div className="bg-gradient-to-br from-yellow-50 via-red-50 to-yellow-100 dark:from-gray-900 dark:via-red-900 dark:to-yellow-900 flex items-center justify-center min-h-screen p-2 md:p-4">
       <div className="w-full max-w-md bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20">
         <div className="mb-6 flex items-center gap-2">
           <Link to="/login" className="text-yellow-600 hover:underline flex items-center gap-1">
@@ -107,7 +109,8 @@ const ResetPasswordPage = () => {
           </form>
         )}
       </div>
-    </div>
+      </div>
+    </MobileAppWrapper>
   );
 };
 

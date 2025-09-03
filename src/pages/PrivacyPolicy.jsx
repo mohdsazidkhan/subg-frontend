@@ -1,5 +1,8 @@
+import MobileAppWrapper from '../components/MobileAppWrapper';
+
 const PrivacyPolicy = () => (
-  <div className="max-w-3xl mx-auto px-4 py-10 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+  <MobileAppWrapper title="Privacy Policy">
+    <div className="max-w-3xl mx-auto px-4 py-10 text-gray-800 dark:text-gray-200 transition-colors duration-300">
     <h1 className="text-3xl font-semibold mb-4 text-gray-900 dark:text-white">
       Privacy Policy
     </h1>
@@ -106,7 +109,8 @@ const PrivacyPolicy = () => (
     <p>
       For privacy questions or requests, please contact: <strong>support@mohdsazidkhan.com</strong>
     </p>
-  </div>
+    </div>
+  </MobileAppWrapper>
 );
 
 export default PrivacyPolicy;

@@ -8,7 +8,7 @@ import API from '../utils/api';
   const TopPerformers = () => {
     const [viewMode, setViewMode] = useState(() => {
       // Set default view based on screen size
-      return window.innerWidth < 768 ? "grid" : "table";
+      return window.innerWidth < 768 ? "list" : "table";
     });
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -156,8 +156,8 @@ import API from '../utils/api';
     const handleResize = () => {
       const isMobile = window.innerWidth < 768;
       if (isMobile && viewMode === "table") {
-        setViewMode("grid");
-      } else if (!isMobile && viewMode === "grid") {
+        setViewMode("list");
+      } else if (!isMobile && viewMode === "list") {
         setViewMode("table");
       }
     };

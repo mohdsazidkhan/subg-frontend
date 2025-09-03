@@ -20,6 +20,7 @@ import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Sidebar from '../../components/Sidebar';
 import API from '../../utils/api';
+import AdminMobileAppWrapper from '../../components/AdminMobileAppWrapper';
 
 ChartJS.register(
   CategoryScale, LinearScale, BarElement,
@@ -189,9 +190,10 @@ const UserAnalytics = () => {
   if (!data) return <div className="min-h-screen p-6 text-center text-gray-400 dark:text-gray-500">No data available</div>;
 
   return (
-    <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'} bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white`}>
-      {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-2 md:p-6 w-full">
+    <AdminMobileAppWrapper title="User Analytics">
+      <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'} bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white`}>
+        {user?.role === 'admin' && isAdminRoute && <Sidebar />}
+        <div className="adminContent p-2 md:p-6 w-full">
         <h1 className="text-3xl font-bold mb-2">User Analytics</h1>
         <p className="text-gray-600 dark:text-gray-400 mb-4">Detailed insights into user behavior, growth, and performance</p>
 
@@ -247,8 +249,9 @@ const UserAnalytics = () => {
           </div>
           {userGrowthLabels.length > 0 ? <Line data={userGrowthLineData} options={baseOptions(mode)} /> : <p className="text-center text-gray-500">No data</p>}
         </div>
+        </div>
       </div>
-    </div>
+    </AdminMobileAppWrapper>
   );
 };
 

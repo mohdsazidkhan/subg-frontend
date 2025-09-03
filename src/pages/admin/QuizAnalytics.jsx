@@ -28,6 +28,7 @@ import {
 
 import Sidebar from "../../components/Sidebar";
 import API from '../../utils/api';
+import AdminMobileAppWrapper from '../../components/AdminMobileAppWrapper';
 
 ChartJS.register(
   CategoryScale,
@@ -247,13 +248,14 @@ const QuizAnalytics = () => {
   };
 
   return (
-    <div
-      className={`adminPanel ${
-        isOpen ? "showPanel" : "hidePanel"
-      } bg-white dark:bg-gray-900 text-gray-900 dark:text-white`}
-    >
-      {user?.role === "admin" && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-2 md:p-6 w-full">
+    <AdminMobileAppWrapper title="Quiz Analytics">
+      <div
+        className={`adminPanel ${
+          isOpen ? "showPanel" : "hidePanel"
+        } bg-white dark:bg-gray-900 text-gray-900 dark:text-white`}
+      >
+        {user?.role === "admin" && isAdminRoute && <Sidebar />}
+        <div className="adminContent p-2 md:p-6 w-full">
         {/* Header with Theme Toggle */}
         <div className="flex justify-between items-center mb-6">
           <div>
@@ -563,8 +565,9 @@ const QuizAnalytics = () => {
           </div>
         </div>
         
+        </div>
       </div>
-    </div>
+    </AdminMobileAppWrapper>
   );
 };
 

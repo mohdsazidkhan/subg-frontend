@@ -3,6 +3,7 @@ import API from '../../utils/api';
 import { Link, useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
 import { useSelector } from 'react-redux';
+import AdminMobileAppWrapper from '../../components/AdminMobileAppWrapper';
 
 
 const DashboardPage = () => {
@@ -113,40 +114,45 @@ const DashboardPage = () => {
 
   if (loading) {
     return (
-      <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
-        {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-        <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
-          <div className="flex items-center justify-center h-64">
-            <div className="flex items-center space-x-3">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-500"></div>
-              <div className="text-lg">Loading dashboard statistics...</div>
+      <AdminMobileAppWrapper title="Dashboard">
+        <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
+          {user?.role === 'admin' && isAdminRoute && <Sidebar />}
+          <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
+            <div className="flex items-center justify-center h-64">
+              <div className="flex items-center space-x-3">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-500"></div>
+                <div className="text-lg">Loading dashboard statistics...</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </AdminMobileAppWrapper>
     );
   }
 
   if (error) {
     return (
-      <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
-        {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-        <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
-          <div className="flex items-center justify-center h-64">
-            <div className="text-center">
-              <div className="text-6xl mb-4">⚠️</div>
-              <div className="text-lg text-red-600 dark:text-red-400">{error}</div>
+      <AdminMobileAppWrapper title="Dashboard">
+        <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
+          {user?.role === 'admin' && isAdminRoute && <Sidebar />}
+          <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
+            <div className="flex items-center justify-center h-64">
+              <div className="text-center">
+                <div className="text-6xl mb-4">⚠️</div>
+                <div className="text-lg text-red-600 dark:text-red-400">{error}</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </AdminMobileAppWrapper>
     );
   }
 
   return (
-    <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
-      {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
+    <AdminMobileAppWrapper title="Dashboard">
+      <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
+        {user?.role === 'admin' && isAdminRoute && <Sidebar />}
+        <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
         {/* Header */}
         <div className="mb-4 md:mb-8">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -268,7 +274,8 @@ const DashboardPage = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </AdminMobileAppWrapper>
   );
 };
 

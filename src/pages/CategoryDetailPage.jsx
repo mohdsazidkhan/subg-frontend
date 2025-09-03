@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { FaClock, FaQuestionCircle, FaStar, FaLayerGroup, FaFolder, FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 import API from '../utils/api';
 import QuizStartModal from '../components/QuizStartModal';
+import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const PAGE_SIZE = 9;
 
@@ -92,7 +93,8 @@ const CategoryDetailPage = () => {
   };
 
   return (
-  <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
+  <MobileAppWrapper title="Category">
+    <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
       {/* Hero Section with Category Name and Description */}
       {category && (
   <div className="bg-gradient-to-r from-green-800 via-yellow-800 to-red-800 text-white py-12 sm:py-16 px-4 sm:px-6 shadow-2xl">
@@ -269,6 +271,7 @@ const CategoryDetailPage = () => {
         quiz={selectedQuiz}
       />
     </div>
+    </MobileAppWrapper>
   );
 };
 

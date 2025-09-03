@@ -1,5 +1,8 @@
+import MobileAppWrapper from '../components/MobileAppWrapper';
+
 const RefundPolicy = () => (
-  <div className="max-w-3xl mx-auto px-4 py-10 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+  <MobileAppWrapper title="Refund Policy">
+    <div className="max-w-3xl mx-auto px-4 py-10 text-gray-800 dark:text-gray-200 transition-colors duration-300">
     <h1 className="text-3xl font-semibold mb-4 text-gray-900 dark:text-white">
       Refund & Subscription Policy
     </h1>
@@ -67,7 +70,8 @@ const RefundPolicy = () => (
     <p>
       Need help with a payment or subscription? Contact <strong>support@mohdsazidkhan.com</strong> with your registered email/phone and order details.
     </p>
-  </div>
+    </div>
+  </MobileAppWrapper>
 );
 
 export default RefundPolicy;

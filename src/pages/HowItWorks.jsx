@@ -1,5 +1,8 @@
+import MobileAppWrapper from '../components/MobileAppWrapper';
+
 const HowItWorks = () => (
-  <div className="max-w-4xl mx-auto px-4 py-10 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+  <MobileAppWrapper title="How It Works">
+    <div className="max-w-4xl mx-auto px-4 py-10 text-gray-800 dark:text-gray-200 transition-colors duration-300">
     <h1 className="text-3xl font-semibold mb-6 text-gray-900 dark:text-white">
       How It Works
     </h1>
@@ -39,7 +42,8 @@ const HowItWorks = () => (
     <p className="mt-6 text-sm text-orange-400 font-bold">
       Note: SUBG QUIZ is a 100% skill-based platform. There is no gambling, betting, or chance involved. Only knowledge, accuracy, and speed decide your rewards.
     </p>
-  </div>
+    </div>
+  </MobileAppWrapper>
 );
 
 export default HowItWorks;

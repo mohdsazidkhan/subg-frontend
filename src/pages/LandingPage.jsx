@@ -42,6 +42,7 @@ import {
 import UnifiedNavbar from "../components/UnifiedNavbar";
 import UnifiedFooter from "../components/UnifiedFooter";
 import MonthlyWinnersDisplay from "../components/MonthlyWinnersDisplay";
+import MobileAppWrapper from "../components/MobileAppWrapper";
 import API from "../utils/api";
 
 const LandingPage = () => {
@@ -287,9 +288,10 @@ const LandingPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-subg-light dark:bg-subg-dark text-gray-900 dark:text-white transition-colors duration-300">
-      {/* Unified Header */}
-      <UnifiedNavbar isLandingPage={true} scrollToSection={scrollToSection} />
+    <MobileAppWrapper title="SUBG QUIZ">
+      <div className="min-h-screen bg-subg-light dark:bg-subg-dark text-gray-900 dark:text-white transition-colors duration-300">
+        {/* Unified Header */}
+        <UnifiedNavbar isLandingPage={true} scrollToSection={scrollToSection} />
 
       {/* Hero Section */}
       <section id="hero" className="relative overflow-hidden">
@@ -1741,9 +1743,10 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Unified Footer */}
-      <UnifiedFooter isLandingPage={true} />
-    </div>
+        {/* Unified Footer */}
+        <UnifiedFooter isLandingPage={true} />
+      </div>
+    </MobileAppWrapper>
   );
 };
 

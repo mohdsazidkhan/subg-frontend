@@ -10,6 +10,7 @@ import SearchFilter from '../../components/SearchFilter';
 import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 import { isMobile } from 'react-device-detect';
 import useDebounce from '../../utils/useDebounce';
+import AdminMobileAppWrapper from '../../components/AdminMobileAppWrapper';
 
 const CategoryPage = () => {
   const [categories, setCategories] = useState([]);
@@ -257,9 +258,10 @@ const CategoryPage = () => {
   );
 
   return (
-    <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
-      {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
+    <AdminMobileAppWrapper title="Categories">
+      <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
+        {user?.role === 'admin' && isAdminRoute && <Sidebar />}
+        <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
         {/* Enhanced Header */}
         <div className="mb-6 md:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
@@ -409,7 +411,8 @@ const CategoryPage = () => {
           )}
         </div>
       </div>
-    </div>
+      </div>
+    </AdminMobileAppWrapper>
   );
 };
 

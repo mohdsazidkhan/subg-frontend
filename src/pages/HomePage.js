@@ -32,6 +32,7 @@ import TopPerformers from "../components/TopPerformers";
 import SystemUpdateModal from "../components/SystemUpdateModal";
 import { BsSearch } from "react-icons/bs";
 import MonthlyWinnersDisplay from "../components/MonthlyWinnersDisplay";
+import MobileAppWrapper from "../components/MobileAppWrapper";
 // Icon mapping for categories
 const categoryIcons = {
   Science: FaFlask,
@@ -187,7 +188,8 @@ const HomePage = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-subg-light dark:bg-subg-dark overflow-x-hidden">
+    <MobileAppWrapper title="Home">
+      <div className="relative min-h-screen bg-subg-light dark:bg-subg-dark overflow-x-hidden">
       {/* Hero Section */}
       <div className="relative overflow-hidden z-10">
         <div className="absolute inset-0 bg-gradient-to-r from-yellow-600/10 via-red-600/10 to-indigo-600/10 pointer-events-none" />
@@ -240,7 +242,7 @@ const HomePage = () => {
 
             {/* Search Box */}
             {isLoggedIn && (
-              <div className="flex justify-center w-full mb-6 sm:mb-8 animate-fade-in delay-150 px-4 sm:px-0">
+              <div className="hidden md:flex justify-center w-full mb-6 sm:mb-8 animate-fade-in delay-150 px-4 sm:px-0">
                 <form
                   onSubmit={handleSearch}
                   className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg"
@@ -875,7 +877,8 @@ const HomePage = () => {
           localStorage.setItem('hasSeenSystemUpdateModal', 'true');
         }}
       />
-    </div>
+      </div>
+    </MobileAppWrapper>
   );
 };
 

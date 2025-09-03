@@ -4,6 +4,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaTrophy, FaBrain, FaRocket, FaSignInAlt, FaGoogle } from 'react-icons/fa';
+import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const LoginPage = () => {
   const [identifier, setIdentifier] = useState('');
@@ -105,7 +106,8 @@ const LoginPage = () => {
   };
 
   return (
-  <div className="bg-subg-light dark:bg-subg-dark flex items-center justify-center p-2 md:p-4">
+    <MobileAppWrapper title="Login">
+      <div className="bg-subg-light dark:bg-subg-dark flex items-center justify-center p-2 md:p-4">
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         
         {/* Left Side - Quiz Platform Info */}
@@ -286,7 +288,8 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </MobileAppWrapper>
   );
 };
 

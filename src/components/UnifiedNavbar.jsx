@@ -149,11 +149,11 @@ const UnifiedNavbar = ({ isLandingPage = false, scrollToSection }) => {
 
 
   return (
-    <header className={`fixed z-[9999] transition-all duration-300 w-full ${
+    <header className={`hidden md:block fixed z-[9999] transition-all duration-300 w-full ${
       darkMode 
-        ? 'bg-gradient-to-r from-gray-900/95 via-gray-800/80 to-gray-900/95 backdrop-blur-md border-t border-gray-700/50 md:border-b md:border-t-0'
-        : 'bg-gradient-to-r from-white/95 via-gray-50/80 to-white/95 backdrop-blur-md border-t border-gray-200/50 md:border-b md:border-t-0'
-    } bottom-0 md:bottom-auto md:top-0`}>
+        ? 'bg-gradient-to-r from-gray-900/95 via-gray-800/80 to-gray-900/95 backdrop-blur-md border-b border-gray-700/50'
+        : 'bg-gradient-to-r from-white/95 via-gray-50/80 to-white/95 backdrop-blur-md border-b border-gray-200/50'
+    } top-0`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}

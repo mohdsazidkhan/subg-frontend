@@ -20,6 +20,7 @@ import {
   FaUserTag,
 } from "react-icons/fa";
 import useDebounce from "../../utils/useDebounce";
+import AdminMobileAppWrapper from "../../components/AdminMobileAppWrapper";
 
 const PAGE_LIMIT = 10;
 
@@ -415,9 +416,10 @@ export default function AdminBankDetails() {
   );
 
   return (
-    <div className={`adminPanel ${isOpen ? "showPanel" : "hidePanel"}`}>
-      {user?.role === "admin" && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
+    <AdminMobileAppWrapper title="Bank Details">
+      <div className={`adminPanel ${isOpen ? "showPanel" : "hidePanel"}`}>
+        {user?.role === "admin" && isAdminRoute && <Sidebar />}
+        <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
         <div className="mx-auto">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
@@ -516,7 +518,8 @@ export default function AdminBankDetails() {
             />
           )}
         </div>
+        </div>
       </div>
-    </div>
+    </AdminMobileAppWrapper>
   );
 }

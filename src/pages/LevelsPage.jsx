@@ -4,6 +4,7 @@ import { FaTrophy, FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaA
 import { FaUserGraduate, FaMagic } from 'react-icons/fa';
 import API from '../utils/api';
 import MonthlyRewardsInfo from '../components/MonthlyRewardsInfo';
+import MobileAppWrapper from '../components/MobileAppWrapper';
 // Level badge icon mapping (same as HomePage)
 const levelBadgeIcons = {
   'Starter': FaUserGraduate,
@@ -119,12 +120,13 @@ const LevelsPage = () => {
   }
 
   return (
-  <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
-      <div className="container mx-auto px-4 py-8 mt-16">
+  <MobileAppWrapper title="Levels">
+    <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
+      <div className="container mx-auto px-4 py-8 mt-0 lg:mt-16">
         
         {/* Hero Section */}
         <div className="text-center mb-12">
-    <div className="w-24 h-24 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
+    <div className="w-16 lg:w-24 h-16 lg:h-24 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
             <FaTrophy className="text-white text-3xl" />
           </div>
          <h1 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 via-red-600 to-yellow-600 dark:text-white mb-2 sm:mb-4 drop-shadow-lg">
@@ -372,6 +374,7 @@ const LevelsPage = () => {
         </div>
       </div>
     </div>
+    </MobileAppWrapper>
   );
 };
 

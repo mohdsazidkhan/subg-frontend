@@ -15,6 +15,7 @@ import {
 } from 'react-icons/fa';
 import useDebounce from '../../utils/useDebounce';
 import API from '../../utils/api';
+import AdminMobileAppWrapper from '../../components/AdminMobileAppWrapper';
 
 export default function AdminContacts() {
   const [contacts, setContacts] = useState([]);
@@ -278,9 +279,10 @@ export default function AdminContacts() {
   );
 
   return (
-    <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
-      {user?.role === 'admin' && isAdminRoute && <Sidebar />}
-      <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
+    <AdminMobileAppWrapper title="Contacts">
+      <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
+        {user?.role === 'admin' && isAdminRoute && <Sidebar />}
+        <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
         <div className="mx-auto">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
@@ -374,7 +376,8 @@ export default function AdminContacts() {
             />
           )}
         </div>
+        </div>
       </div>
-    </div>
+    </AdminMobileAppWrapper>
   );
 } 

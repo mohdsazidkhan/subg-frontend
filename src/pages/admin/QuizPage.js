@@ -17,6 +17,7 @@ import {
 import { formatTimeToIST, formatDateToIST } from "../../utils";
 import { isMobile } from "react-device-detect";
 import useDebounce from "../../utils/useDebounce";
+import AdminMobileAppWrapper from "../../components/AdminMobileAppWrapper";
 
 const QuizPage = () => {
   // Form states
@@ -546,8 +547,9 @@ const QuizPage = () => {
   );
 
   return (
-    <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
-      {user?.role === 'admin' && isAdminRoute && <Sidebar />}
+    <AdminMobileAppWrapper title="Quizzes">
+      <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
+        {user?.role === 'admin' && isAdminRoute && <Sidebar />}
         <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
         {/* Enhanced Header */}
         <div className="mb-6 md:mb-8">
@@ -947,6 +949,7 @@ const QuizPage = () => {
           )}
         </div>
       </div>
+    </AdminMobileAppWrapper>
   );
 };
 

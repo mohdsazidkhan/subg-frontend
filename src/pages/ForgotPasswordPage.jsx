@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
 import { FaEnvelope, FaArrowLeft } from 'react-icons/fa';
+import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
@@ -29,7 +30,8 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-  <div className="bg-subg-light dark:bg-subg-dark flex items-center justify-center min-h-screen p-2 md:p-4">
+    <MobileAppWrapper title="Forgot Password">
+      <div className="bg-subg-light dark:bg-subg-dark flex items-center justify-center min-h-screen p-2 md:p-4">
       <div className="w-full max-w-md bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20">
         <div className="mb-6 flex items-center gap-2">
           <Link to="/login" className="text-yellow-600 hover:underline flex items-center gap-1">
@@ -79,7 +81,8 @@ const ForgotPasswordPage = () => {
           </form>
         )}
       </div>
-    </div>
+      </div>
+    </MobileAppWrapper>
   );
 };
 

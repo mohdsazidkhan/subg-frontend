@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { FaClock, FaQuestionCircle, FaStar, FaLayerGroup, FaArrowLeft } from 'react-icons/fa';
 import API from '../utils/api';
 import QuizStartModal from '../components/QuizStartModal';
+import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const PAGE_SIZE = 9;
 
@@ -88,7 +89,8 @@ const SubcategoryDetailPage = () => {
   };
 
   return (
-  <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
+  <MobileAppWrapper title="Subcategory">
+    <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
       {/* Hero Section with Subcategory Name and Description */}
       {subcategory && (
         <div className="bg-gradient-to-r from-yellow-800 via-red-800 to-green-800 text-white py-12 sm:py-16 px-4 sm:px-6 shadow-2xl">
@@ -200,6 +202,7 @@ const SubcategoryDetailPage = () => {
         quiz={selectedQuiz}
       />
     </div>
+    </MobileAppWrapper>
   );
 };
 

@@ -34,6 +34,7 @@ import {
 } from 'react-icons/fa';
 import { getSubscriptionStatusTextWithTheme } from '../utils/subscriptionUtils';
 import ShareComponent from '../components/ShareComponent';
+import MobileAppWrapper from '../components/MobileAppWrapper';
 // Level badge icon mapping
 const levelBadgeIcons = {
   'Starter': FaUserGraduate,
@@ -345,7 +346,7 @@ const message =
   
 
   return (
-  <>
+  <MobileAppWrapper title="Profile">
     <div className="min-h-screen bg-subg-light dark:bg-subg-dark relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -359,7 +360,7 @@ const message =
         {/* Enhanced Hero Section */}
         <div className="text-center mb-10 sm:mb-16 profile-hero">
           <div className="relative inline-block mb-6 sm:mb-8">
-            <div className="w-20 sm:w-32 h-20 sm:h-32 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto shadow-2xl floating-animation">
+            <div className="w-16 sm:w-32 h-16 sm:h-32 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto shadow-2xl floating-animation">
               <FaUser className="text-white text-2xl sm:text-4xl" />
             </div>
             <div className="absolute -top-2 -right-2 w-6 sm:w-8 h-6 sm:h-8 bg-gradient-to-r from-green-400 to-yellow-500 rounded-full flex items-center justify-center animate-bounce">
@@ -1497,8 +1498,7 @@ const message =
         </div>
         
         </div>
-
-    </>
+    </MobileAppWrapper>
   );
 }
 

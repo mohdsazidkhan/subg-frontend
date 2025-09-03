@@ -3,6 +3,18 @@
   min-height: calc(100vh - 64px);
   transition: margin-left 0.3s ease-in-out;
 }
+
+/* Mobile app container adjustments */
+@media (max-width: 768px) {
+  .appContainer {
+    margin-top: 0;
+    padding-bottom: 0; /* Space for mobile bottom navigation */
+  }
+  
+  .appContainer.has-navbar {
+    margin-top: 0;
+  }
+}
 /* When sidebar is open and user is admin, adjust main content */
 .appContainer.has-sidebar {
   margin-left: 256px; /* Width of sidebar */
