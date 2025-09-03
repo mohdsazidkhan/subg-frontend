@@ -55,7 +55,7 @@ const MobileBottomNavigation = () => {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
       <div className="bg-gradient-to-r from-white via-gray-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-lg">
-        <div className="flex justify-around items-center px-2 py-2">
+        <div className="flex justify-between items-center">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
@@ -64,7 +64,7 @@ const MobileBottomNavigation = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-all duration-200 ${
+                className={`flex flex-col items-center justify-center py-2 px-3 transition-all duration-200 ${
                   isActive
                     ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
                     : 'text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400'

@@ -55,7 +55,7 @@ const AdminMobileBottomNavigation = () => {
     <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
       {/* Admin Mobile Bottom Navigation */}
       <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-t border-gray-700 shadow-2xl">
-        <div className="flex justify-around items-center px-2 py-3">
+        <div className="flex justify-between items-center">
           {adminNavItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
@@ -64,7 +64,7 @@ const AdminMobileBottomNavigation = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl transition-all duration-300 transform hover:scale-110 ${
+                className={`flex flex-col items-center justify-center w-20 h-12 transition-all duration-300 transform hover:scale-110 ${
                   isActive
                     ? `bg-gradient-to-r ${item.color} text-white shadow-lg`
                     : 'text-gray-400 hover:text-white hover:bg-gray-700'

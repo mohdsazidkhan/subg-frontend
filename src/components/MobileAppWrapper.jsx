@@ -86,7 +86,7 @@ const MobileAppWrapper = ({ children, title, showHeader = true }) => {
     <div className="mobile-app-container">
       {showHeader && (
         <div className="mobile-app-header md:hidden !bg-gradient-to-r from-white via-gray-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 !border-b !border-gray-200 dark:!border-gray-700">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between px-2">
             {/* Logo on the left */}
             <Link 
               to="/home"
@@ -123,7 +123,7 @@ const MobileAppWrapper = ({ children, title, showHeader = true }) => {
                   <FaSignOutAlt className="w-4 h-4" />
                 </button>
               ) : (
-                <div className="w-8 h-8"></div>
+                <div></div>
               )}
             </div>
           </div>
