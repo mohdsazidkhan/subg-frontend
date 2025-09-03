@@ -91,8 +91,8 @@ const AdminNavbar = () => {
   return (
     <header className={`fixed z-[9999] transition-all duration-300 w-full hidden md:block ${
       darkMode 
-        ? 'bg-gray-900 border-t border-gray-700 md:border-b md:border-t-0'
-        : 'bg-white border-t border-gray-200 md:border-b md:border-t-0'
+        ? 'bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-t border-gray-700 md:border-b md:border-t-0'
+        : 'bg-gradient-to-r from-white via-gray-50 to-white border-t border-gray-200 md:border-b md:border-t-0'
     } bottom-0 md:bottom-auto md:top-0`}>
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
