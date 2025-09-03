@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-route
 import UnifiedNavbar from './components/UnifiedNavbar.jsx';
 import AdminNavbar from './components/AdminNavbar.jsx';
 import AdminMobileBottomNavigation from './components/AdminMobileBottomNavigation.jsx';
+import MobileBottomNavigation from './components/MobileBottomNavigation.jsx';
 import Sidebar from './components/Sidebar';
 import AdminRoute from './components/AdminRoute';
 import UnifiedFooter from './components/UnifiedFooter.jsx';
@@ -86,6 +87,9 @@ function AppLayout() {
       
       {/* Admin Mobile Bottom Navigation shows only on admin pages */}
       {location.pathname.startsWith('/admin') && <AdminMobileBottomNavigation />}
+      
+      {/* User Mobile Bottom Navigation shows on all non-admin pages */}
+      {!location.pathname.startsWith('/admin') && <MobileBottomNavigation />}
       
       {/* Sidebar only for admin users */}
       {isAdmin() && hasAdminPrivileges() && <Sidebar />}
