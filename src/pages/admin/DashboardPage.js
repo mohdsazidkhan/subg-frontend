@@ -158,13 +158,13 @@ const DashboardPage = () => {
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
             📊 Admin Dashboard
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-600 dark:text-gray-400 hidden md:block">
             Welcome back! Here's an overview of your platform statistics.
           </p>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-4 md:mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2 lg:gap-6 mb-2 md:mb-4 lg:mb-8">
           {cards.map((card) => (
             <Link key={card.title} to={card.link} className="group">
               <div className={`relative overflow-hidden rounded-xl p-2 md:p-6 transition-all duration-300 hover:scale-105 hover:shadow-lg ${card.bgColor} ${card.darkBgColor} border border-gray-200 dark:border-gray-700`}>
@@ -173,23 +173,31 @@ const DashboardPage = () => {
                 
                 {/* Content */}
                 <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`text-4xl md:text-5xl ${card.textColor} dark:text-white`}>
+                  <div className="flex items-center justify-between mb-2 lg:mb-4">
+                    <div className={`text-3xl md:text-4xl lg:text-5xl ${card.textColor} dark:text-white`}>
                       {card.icon}
                     </div>
-                    <div className={`w-16 h-12 rounded-lg ${card.color} flex items-center justify-center`}>
+                    <div className={`w-16 lg:w-16 h-8 lg:h-12 rounded-lg ${card.color} flex items-center justify-center`}>
                       <span className="text-white font-bold text-lg">
                         {card.count}
                       </span>
                     </div>
                   </div>
                   
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                  {/* Mobile: inline title and subtitle; Desktop: stacked */}
+                  <div className="flex md:hidden justify-between items-center gap-1 mb-1">
+                    <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+                      {card.title}
+                    </h3>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Total
+                    </span>
+                  </div>
+                  <h3 className="hidden md:block text-lg font-semibold text-gray-900 dark:text-white mb-1">
                     {card.title}
                   </h3>
-                  
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Total {card.title.toLowerCase()}
+                  <p className="hidden md:block text-sm text-gray-600 dark:text-gray-400">
+                    Total
                   </p>
                   
                   {/* Hover Arrow */}

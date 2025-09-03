@@ -11,8 +11,16 @@ const AdminMonthlyWinners = () => {
   const [monthlyWinnersLoading, setMonthlyWinnersLoading] = useState(true);
   const [filterLoading, setFilterLoading] = useState(false);
   const [viewMode, setViewMode] = useState('grid'); // 'grid', 'list', 'table'
-  const [selectedYear, setSelectedYear] = useState(2025); // Set to 2025 to show available data
-  const [selectedMonth, setSelectedMonth] = useState(7); // Set to July (7) to show available data
+  // Get current date
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1; // getMonth() returns 0-11, so add 1
+  
+  // If current month is September (9), default to August (8), otherwise use current month
+  const defaultMonth = currentMonth === 9 ? 8 : currentMonth;
+  
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+  const [selectedMonth, setSelectedMonth] = useState(defaultMonth);
   const [showAllMonths, setShowAllMonths] = useState(false); // Toggle to show all months or specific month
   const isOpen = useSelector((state) => state.sidebar.isOpen);
 
@@ -82,31 +90,81 @@ const AdminMonthlyWinners = () => {
         <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
         <div className="mx-auto">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6 gap-4">
             <div className="flex items-center gap-3">
               <FaTrophy className="text-4xl text-yellow-500" />
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  Monthly Competition Results
+                  Monthly Prize Winners
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400 mt-1">
-                  Complete history of monthly winners and prize distributions
+                  Complete history of monthly prize winners
                 </p>
-                {/* Current Mode Indicator */}
-                <div className="mt-2">
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                    showAllMonths
-                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                      : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                  }`}>
-                    <FaCalendarAlt className="w-3 h-3 mr-1" />
-                    {showAllMonths 
-                      ? 'Showing All Available Months' 
-                      : `Showing ${selectedMonth}/${selectedYear}`
-                    }
-                  </span>
-                </div>
               </div>
+            </div>
+
+            {/* Year and Month Filters - Moved to Header */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap hidden sm:block">Year:</label>
+                <select
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+                  disabled={showAllMonths}
+                  className={`px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 flex-1 sm:flex-none ${
+                    showAllMonths 
+                      ? 'bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed' 
+                      : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white'
+                  }`}
+                >
+                  {Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i).map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap hidden sm:block">Month:</label>
+                <select
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
+                  disabled={showAllMonths}
+                  className={`px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 flex-1 sm:flex-none ${
+                    showAllMonths 
+                      ? 'bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed' 
+                      : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white'
+                  }`}
+                >
+                  <option value={1}>January</option>
+                  <option value={2}>February</option>
+                  <option value={3}>March</option>
+                  <option value={4}>April</option>
+                  <option value={5}>May</option>
+                  <option value={6}>June</option>
+                  <option value={7}>July</option>
+                  <option value={8}>August</option>
+                  <option value={9}>September</option>
+                  <option value={10}>October</option>
+                  <option value={11}>November</option>
+                  <option value={12}>December</option>
+                </select>
+              </div>
+
+              <button
+                onClick={handleFilter}
+                disabled={filterLoading || showAllMonths}
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-colors duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap w-full sm:w-auto justify-center"
+              >
+                {filterLoading ? (
+                  <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                ) : (
+                  <FaSearch className="text-sm" />
+                )}
+                <span>{filterLoading ? 'Filtering...' : 'Search'}</span>
+              </button>
             </div>
           </div>
 
@@ -128,7 +186,7 @@ const AdminMonthlyWinners = () => {
                 }
               </p>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                💡 Tip: We have data for July and August 2025. Try selecting those months!
+                💡 Tip: {currentMonth === 9 ? 'Currently showing August data by default. ' : ''}Try selecting different months to view available data!
               </p>
             </div>
           ) : (
@@ -182,123 +240,58 @@ const AdminMonthlyWinners = () => {
                 </div>
               </div>
 
-                             {/* View Toggle Buttons and Filters */}
-               <div className="flex items-center justify-between gap-3 mb-6">
-                 {/* View Toggle Buttons */}
-                 <div className="flex items-center gap-2">
-                   <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
-                     <button
-                       onClick={() => setViewMode('grid')}
-                       className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
-                         viewMode === 'grid'
-                           ? 'bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-300 shadow-sm'
-                           : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                       }`}
-                     >
-                       <FaTh className="text-lg" />
-                       <span>Grid View</span>
-                     </button>
-                     <button
-                       onClick={() => setViewMode('list')}
-                       className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
-                         viewMode === 'list'
-                           ? 'bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-300 shadow-sm'
-                           : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                       }`}
-                     >
-                       <FaList className="text-lg" />
-                       <span>List View</span>
-                     </button>
-                     <button
-                       onClick={() => setViewMode('table')}
-                       className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
-                         viewMode === 'table'
-                           ? 'bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-300 shadow-sm'
-                           : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                       }`}
-                     >
-                       <FaTable className="text-lg" />
-                       <span>Table View</span>
-                     </button>
-                   </div>
-                   
-                   {/* Show All Months Toggle */}
-                   <button
-                     onClick={() => setShowAllMonths(!showAllMonths)}
-                     className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
-                       showAllMonths
-                         ? 'bg-green-600 text-white'
-                         : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500'
-                     }`}
-                   >
-                     <FaCalendarAlt className="text-sm" />
-                     <span>{showAllMonths ? 'Show Specific Month' : 'Show All Months'}</span>
-                   </button>
-                 </div>
-
-                {/* Year and Month Filters */}
-                 <div className="flex items-center gap-3">
-                   <div className="flex items-center gap-2">
-                     <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Year:</label>
-                     <select
-                       value={selectedYear}
-                       onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-                       disabled={showAllMonths}
-                       className={`px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                         showAllMonths 
-                           ? 'bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed' 
-                           : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white'
-                       }`}
-                     >
-                       {Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i).map(year => (
-                         <option key={year} value={year}>{year}</option>
-                       ))}
-                     </select>
-                   </div>
-                   
-                   <div className="flex items-center gap-2">
-                     <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Month:</label>
-                     <select
-                       value={selectedMonth}
-                       onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
-                       disabled={showAllMonths}
-                       className={`px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                         showAllMonths 
-                           ? 'bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed' 
-                           : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white'
-                       }`}
-                     >
-                       <option value={1}>January</option>
-                       <option value={2}>February</option>
-                       <option value={3}>March</option>
-                       <option value={4}>April</option>
-                       <option value={5}>May</option>
-                       <option value={6}>June</option>
-                       <option value={7}>July</option>
-                       <option value={8}>August</option>
-                       <option value={9}>September</option>
-                       <option value={10}>October</option>
-                       <option value={11}>November</option>
-                       <option value={12}>December</option>
-                     </select>
-                   </div>
-
-                   <button
-                     onClick={handleFilter}
-                     disabled={filterLoading || showAllMonths}
-                     className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-colors duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                   >
-                     {filterLoading ? (
-                       <svg className="animate-spin h-16 w-16 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                       </svg>
-                     ) : (
-                       <FaSearch className="text-sm" />
-                     )}
-                     {filterLoading ? 'Filtering...' : 'Filter'}
-                   </button>
-                 </div>
+              {/* View Toggle Buttons */}
+              <div className="flex items-center justify-between gap-3 mb-6">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+                    <button
+                      onClick={() => setViewMode('grid')}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
+                        viewMode === 'grid'
+                          ? 'bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-300 shadow-sm'
+                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                      }`}
+                    >
+                      <FaTh className="text-lg" />
+                      <span>Grid View</span>
+                    </button>
+                    <button
+                      onClick={() => setViewMode('list')}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
+                        viewMode === 'list'
+                          ? 'bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-300 shadow-sm'
+                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                      }`}
+                    >
+                      <FaList className="text-lg" />
+                      <span>List View</span>
+                    </button>
+                    <button
+                      onClick={() => setViewMode('table')}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
+                        viewMode === 'table'
+                          ? 'bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-300 shadow-sm'
+                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                      }`}
+                    >
+                      <FaTable className="text-lg" />
+                      <span>Table View</span>
+                    </button>
+                  </div>
+                  
+                  {/* Show All Months Toggle */}
+                  <button
+                    onClick={() => setShowAllMonths(!showAllMonths)}
+                    className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
+                      showAllMonths
+                        ? 'bg-green-600 text-white'
+                        : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500'
+                    }`}
+                  >
+                    <FaCalendarAlt className="text-sm" />
+                    <span>{showAllMonths ? 'Show Specific Month' : 'Show All Months'}</span>
+                  </button>
+                </div>
               </div>
 
               {/* Monthly Winners Grid */}
