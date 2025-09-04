@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import API from '../utils/api';
 import MobileAppWrapper from '../components/MobileAppWrapper';
-import { FaCheckCircle, FaSpinner, FaArrowLeft, FaTimesCircle } from 'react-icons/fa';
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 const PayuSuccess = () => {
   const navigate = useNavigate();
@@ -43,16 +43,19 @@ const PayuSuccess = () => {
 
         if (!paymentData.txnid || !paymentData.status) {
           console.error('Missing required payment data:', { txnid: paymentData.txnid, status: paymentData.status });
+          console.log('Full URL:', window.location.href);
+          console.log('Search params:', location.search);
+          console.log('All URL params:', Object.fromEntries(new URLSearchParams(location.search)));
           
           // If no payment data, show a message and redirect after a delay
           if (!paymentData.txnid && !paymentData.status) {
             console.log('No payment data found, redirecting to subscription page...');
             setTimeout(() => {
               navigate('/subscription');
-            }, 3000);
+            }, 5000);
             setVerificationResult({ 
               success: false, 
-              message: 'No payment data found. Redirecting to subscription page...' 
+              message: 'No payment data found. This might be a test visit or the payment redirect didn\'t include transaction details. Redirecting to subscription page...' 
             });
             return;
           }
