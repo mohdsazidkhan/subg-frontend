@@ -35,6 +35,8 @@ import PrivacyPolicy from './pages/PrivacyPolicy.jsx';
 import RefundPolicy from './pages/RefundPolicy.jsx';
 import ContactUs from './pages/ContactUs.jsx';
 import SubscriptionPage from './pages/SubscriptionPage.jsx';
+import PayuSuccess from './pages/PayuSuccess.jsx';
+import PayuFailure from './pages/PayuFailure.jsx';
 import AttemptQuizPage from './pages/AttemptQuizPage.jsx';
 import { isAdmin, hasAdminPrivileges } from './utils/adminUtils';
 import './App.css';
@@ -119,6 +121,8 @@ function AppLayout() {
             <Route path="/profile" element={<StudentRoute><TokenValidationWrapper><ProfilePage /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/attempt-quiz/:quizId" element={<StudentRoute><TokenValidationWrapper><AttemptQuizPage /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/subscription" element={<StudentRoute><TokenValidationWrapper><SubscriptionPage /></TokenValidationWrapper></StudentRoute>} />
+            <Route path="/subscription/payu-success" element={<PayuSuccess />} />
+            <Route path="/subscription/payu-failure" element={<PayuFailure />} />
             <Route path="/quiz-result" element={<StudentRoute><TokenValidationWrapper><QuizResult /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/levels" element={<StudentRoute><TokenValidationWrapper><LevelsPage /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/level-quizzes" element={<StudentRoute><TokenValidationWrapper><LevelBasedQuizzesPage /></TokenValidationWrapper></StudentRoute>} />

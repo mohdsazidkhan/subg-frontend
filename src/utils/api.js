@@ -185,15 +185,18 @@ class ApiService {
     return this.request(`/api/subscription/transactions/${userId}`);
   }
 
-  async createSubscriptionOrder(orderData) {
-    return this.request('/api/subscription/create-order', {
+  // (Razorpay endpoints removed)
+
+  // ===== PAYU PAYMENT ENDPOINTS =====
+  async createPayuSubscriptionOrder(orderData) {
+    return this.request('/api/subscription/create-payu-order', {
       method: 'POST',
       body: JSON.stringify(orderData)
     });
   }
 
-  async verifySubscription(verificationData) {
-    return this.request('/api/subscription/verify', {
+  async verifyPayuSubscription(verificationData) {
+    return this.request('/api/subscription/verify-payu', {
       method: 'POST',
       body: JSON.stringify(verificationData)
     });

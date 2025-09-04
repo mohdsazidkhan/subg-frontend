@@ -36,6 +36,7 @@ import {
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import MonthlyRewardsInfo from '../components/MonthlyRewardsInfo';
+import PayuPayment from '../components/PayuPayment';
 
 const SubscriptionPage = () => {
   const [subscription, setSubscription] = useState(null);
@@ -43,23 +44,12 @@ const SubscriptionPage = () => {
   const [loading, setLoading] = useState(true);
   // const [selectedPlan, setSelectedPlan] = useState(null);
   const [hoveredPlan, setHoveredPlan] = useState(null);
-  const [razorpayLoaded, setRazorpayLoaded] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('payu');
+  const [selectedPlan, setSelectedPlan] = useState(null);
   const navigate = useNavigate();
   console.log(subscription,'subscription');
   useEffect(() => {
     fetchSubscriptionData();
-    
-    // Check if Razorpay is loaded
-    const checkRazorpay = () => {
-      if (typeof window.Razorpay !== 'undefined') {
-        setRazorpayLoaded(true);
-      } else {
-        // Retry after a short delay
-        setTimeout(checkRazorpay, 100);
-      }
-    };
-    
-    checkRazorpay();
   }, []);
 
   const fetchSubscriptionData = async () => {
@@ -83,6 +73,20 @@ const SubscriptionPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSubscribe = (planKey) => {
+    setSelectedPlan(planKey);
+  };
+
+  const handlePaymentSuccess = () => {
+    fetchSubscriptionData();
+    setSelectedPlan(null);
+  };
+
+  const handlePaymentError = (error) => {
+    console.error('Payment error:', error);
+    setSelectedPlan(null);
   };
 
   // const handleSubscribe = async (planName) => {
@@ -278,7 +282,7 @@ const SubscriptionPage = () => {
     return [];
   };
 
-  if (loading || !razorpayLoaded) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
         <div className="container mx-auto px-4 py-8 mt-0 lg:mt-16">
@@ -290,12 +294,7 @@ const SubscriptionPage = () => {
               ))}
             </div>
           </div>
-          {!razorpayLoaded && (
-            <div className="text-center text-gray-600 dark:text-gray-300">
-              <span className="animate-spin rounded-full h-16 w-16 border-b-2 border-yellow-600 inline-block mr-2"></span>
-              <span>Loading payment gateway...</span>
-            </div>
-          )}
+          
         </div>
       </div>
     );
@@ -563,30 +562,45 @@ const SubscriptionPage = () => {
 
                   {/* Subscribe Button - Now at the bottom */}
                   <div className="mt-auto">
+                    {isCurrentPlan ? (
                     <button
-                      title='Website In Test Mode You Can Play Free Quizzes Only'
-                     // onClick={() => handleSubscribe(plan.key)}
-                      disabled={isCurrentPlan}
-                      className={`w-full py-4 px-6 rounded-2xl font-bold text-white dark:text-white transition-all duration-300 transform hover:scale-105 shadow-lg group-hover:shadow-3xl ${
-                        isCurrentPlan 
-                          ? 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 dark:from-green-400 dark:to-emerald-400 dark:hover:from-green-500 dark:hover:to-emerald-500 cursor-not-allowed opacity-75' 
-                          : `bg-gradient-to-r ${gradient} hover:shadow-2xl dark:shadow-yellow-500/25 hover:dark:shadow-yellow-500/40`
-                      }`}
+                        disabled={true}
+                        className="w-full py-4 px-6 rounded-2xl font-bold text-white dark:text-white transition-all duration-300 transform hover:scale-105 shadow-lg group-hover:shadow-3xl bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 dark:from-green-400 dark:to-emerald-400 dark:hover:from-green-500 dark:hover:to-emerald-500 cursor-not-allowed opacity-75"
                     >
                       <span className="flex items-center justify-center space-x-2">
-                        {isCurrentPlan ? (
-                          <>
                             <FaCheckCircle className="text-sm" />
                             <span>Current Plan</span>
-                          </>
-                        ) : (
-                          <>
-                            <FaRocket className="text-sm" />
-                            <span>Get Started Now</span>
-                          </>
-                        )}
+                        </span>
+                      </button>
+                    ) : selectedPlan === plan.key ? (
+                      <div className="space-y-4">
+                        {/* Payment Component (PayU only) */}
+                        <PayuPayment
+                          plan={plan}
+                          userInfo={JSON.parse(localStorage.getItem('userInfo'))}
+                          onSuccess={handlePaymentSuccess}
+                          onError={handlePaymentError}
+                        />
+
+                        {/* Cancel Button */}
+                        <button
+                          onClick={() => setSelectedPlan(null)}
+                          className="w-full py-2 px-4 rounded-xl font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors duration-200"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => handleSubscribe(plan.key)}
+                        className={`w-full py-4 px-6 rounded-2xl font-bold text-white dark:text-white transition-all duration-300 transform hover:scale-105 shadow-lg group-hover:shadow-3xl bg-gradient-to-r ${gradient} hover:shadow-2xl dark:shadow-yellow-500/25 hover:dark:shadow-yellow-500/40`}
+                      >
+                        <span className="flex items-center justify-center space-x-2">
+                          <FaRocket className="text-sm" />
+                          <span>Get Started Now</span>
                       </span>
                     </button>
+                    )}
                   </div>
                 </div>
               );

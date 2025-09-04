@@ -21,10 +21,15 @@ const config = {
   MAX_LOGIN_ATTEMPTS: parseInt(process.env.REACT_APP_MAX_LOGIN_ATTEMPTS) || 5,
 
   // Payment Configuration
-  RAZORPAY_KEY_ID: process.env.REACT_APP_RAZORPAY_KEY_ID || 'rzp_test_your_key_here',
-  RAZORPAY_KEY_SECRET: process.env.REACT_APP_RAZORPAY_KEY_SECRET || 'your_secret_here',
   CURRENCY: process.env.REACT_APP_CURRENCY || 'INR',
   PAYMENT_TIMEOUT: parseInt(process.env.REACT_APP_PAYMENT_TIMEOUT) || 300000, // 5 minutes
+
+  // PayU Configuration
+  PAYU_MERCHANT_KEY: process.env.REACT_APP_PAYU_MERCHANT_KEY || 'your_payu_merchant_key',
+  PAYU_MERCHANT_ID: process.env.REACT_APP_PAYU_MERCHANT_ID || 'your_payu_merchant_id',
+  PAYU_PAYMENT_URL: process.env.REACT_APP_PAYU_PAYMENT_URL || 'https://test.payu.in/_payment',
+  PAYU_SUCCESS_URL: process.env.REACT_APP_PAYU_SUCCESS_URL || 'http://localhost:3000/subscription/payu-success',
+  PAYU_FAILURE_URL: process.env.REACT_APP_PAYU_FAILURE_URL || 'http://localhost:3000/subscription/payu-failure',
 
   // Subscription Plans
   SUBSCRIPTION_PLANS: {
