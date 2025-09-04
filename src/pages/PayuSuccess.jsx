@@ -11,10 +11,7 @@ const PayuSuccess = () => {
   const [verifying, setVerifying] = useState(true);
   const [verificationResult, setVerificationResult] = useState(null);
 
-  // Debug logging
-  console.log('PayU Success Page - Component loaded');
-  console.log('PayU Success Page - Location:', location);
-  console.log('PayU Success Page - Search params:', location.search);
+  // Debug logging removed in production
 
   useEffect(() => {
     const verifyPayment = async () => {
@@ -37,15 +34,10 @@ const PayuSuccess = () => {
           udf5: urlParams.get('udf5')
         };
 
-        console.log('PayU Success - Payment data:', paymentData);
-        console.log('PayU Success - Current URL:', window.location.href);
-        console.log('PayU Success - Search params:', location.search);
+        // debug logs removed
 
         if (!paymentData.txnid || !paymentData.status) {
-          console.error('Missing required payment data:', { txnid: paymentData.txnid, status: paymentData.status });
-          console.log('Full URL:', window.location.href);
-          console.log('Search params:', location.search);
-          console.log('All URL params:', Object.fromEntries(new URLSearchParams(location.search)));
+          // debug logs removed
           
           // If no payment data, show a message and redirect after a delay
           if (!paymentData.txnid && !paymentData.status) {
@@ -64,23 +56,12 @@ const PayuSuccess = () => {
         }
 
         // Test API connectivity first
-        console.log('PayU Success - Testing API connectivity...');
-        try {
-          const testResponse = await fetch(`${API.baseURL}/api/subscription/test-api`);
-          const testData = await testResponse.json();
-          console.log('PayU Success - API Test Response:', testData);
-        } catch (testError) {
-          console.error('PayU Success - API Test Failed:', testError);
-        }
+        // API connectivity test removed in production
 
         // Verify payment with backend
-        console.log('PayU Success - Calling API to verify payment...');
-        console.log('PayU Success - API Base URL:', API.baseURL);
-        
         try {
           const verificationRes = await API.verifyPayuSubscription(paymentData);
           
-          console.log('PayU Success - Verification response:', verificationRes);
           setVerificationResult(verificationRes);
           
           if (verificationRes.success) {
@@ -89,9 +70,6 @@ const PayuSuccess = () => {
             toast.error('Payment verification failed: ' + verificationRes.message);
           }
         } catch (apiError) {
-          console.error('PayU Success - API Error:', apiError);
-          console.error('PayU Success - API Error Status:', apiError.response?.status);
-          console.error('PayU Success - API Error Data:', apiError.response?.data);
           
           // Handle specific error cases
           if (apiError.response?.status === 405) {
@@ -106,12 +84,6 @@ const PayuSuccess = () => {
         }
 
       } catch (error) {
-        console.error('Payment verification error:', error);
-        console.error('Error details:', {
-          message: error.message,
-          stack: error.stack,
-          response: error.response?.data
-        });
         toast.error('Payment verification failed: ' + (error.message || 'Unknown error'));
         setVerificationResult({ success: false, message: error.message });
       } finally {
@@ -142,11 +114,7 @@ const PayuSuccess = () => {
             <p className="text-gray-600 dark:text-gray-300 mb-4">
               Please wait while we verify your payment
             </p>
-            <div className="text-sm text-gray-500 dark:text-gray-400 space-y-1">
-              <p><strong>URL:</strong> {window.location.href}</p>
-              <p><strong>Search:</strong> {location.search}</p>
-              <p><strong>API URL:</strong> {process.env.REACT_APP_API_URL || 'https://subg-backend.onrender.com'}</p>
-            </div>
+            {/* Debug info removed in production */}
             <div className="mt-4">
               <button 
                 onClick={() => navigate('/subscription')}

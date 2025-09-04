@@ -9,15 +9,19 @@ if (!process.env.REACT_APP_API_URL && process.env.NODE_ENV === 'production') {
 class ApiService {
   constructor() {
     this.baseURL = API_BASE_URL;
-    console.log('🔧 API Service initialized with base URL:', this.baseURL);
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('🔧 API Service initialized with base URL:', this.baseURL);
+    }
   }
 
   async request(endpoint, options = {}) {
     const url = `${this.baseURL}${endpoint}`;
     const token = localStorage.getItem('token');
     
-    console.log(`🌐 API Request: ${options.method || 'GET'} ${url}`);
-    console.log('🔑 Token:', token ? 'Present' : 'Missing');
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`🌐 API Request: ${options.method || 'GET'} ${url}`);
+      console.log('🔑 Token:', token ? 'Present' : 'Missing');
+    }
     
     const config = {
       headers: {
@@ -30,7 +34,9 @@ class ApiService {
 
     try {
       const response = await fetch(url, config);
-      console.log(`📡 Response status: ${response.status}`);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log(`📡 Response status: ${response.status}`);
+      }
       
       let data;
       const contentType = response.headers.get('content-type');
@@ -39,10 +45,14 @@ class ApiService {
       } else {
         data = await response.text();
       }
-      console.log('📦 Response data:', data);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('📦 Response data:', data);
+      }
       
       if (!response.ok) {
-        console.error('❌ API Error1:', response);
+        if (process.env.NODE_ENV !== 'production') {
+          console.error('❌ API Error1:', response);
+        }
 
         const error = new Error();
         error.response = { status: response.status, data };
@@ -52,7 +62,9 @@ class ApiService {
       
       return data;
     } catch (error) {
-      console.error('💥 API Error2:', error);
+      if (process.env.NODE_ENV !== 'production') {
+        console.error('💥 API Error2:', error);
+      }
       
       if (error.response) {
         throw error;
