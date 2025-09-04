@@ -11,6 +11,11 @@ const PayuSuccess = () => {
   const [verifying, setVerifying] = useState(true);
   const [verificationResult, setVerificationResult] = useState(null);
 
+  // Debug logging
+  console.log('PayU Success Page - Component loaded');
+  console.log('PayU Success Page - Location:', location);
+  console.log('PayU Success Page - Search params:', location.search);
+
   useEffect(() => {
     const verifyPayment = async () => {
       try {
@@ -105,9 +110,18 @@ const PayuSuccess = () => {
             <p className="text-gray-600 dark:text-gray-300 mb-4">
               Please wait while we verify your payment
             </p>
-            <div className="text-sm text-gray-500 dark:text-gray-400">
-              <p>URL: {window.location.href}</p>
-              <p>Search: {location.search}</p>
+            <div className="text-sm text-gray-500 dark:text-gray-400 space-y-1">
+              <p><strong>URL:</strong> {window.location.href}</p>
+              <p><strong>Search:</strong> {location.search}</p>
+              <p><strong>API URL:</strong> {process.env.REACT_APP_API_URL || 'https://subg-backend.onrender.com'}</p>
+            </div>
+            <div className="mt-4">
+              <button 
+                onClick={() => navigate('/subscription')}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              >
+                Go to Subscription
+              </button>
             </div>
           </div>
         </div>
