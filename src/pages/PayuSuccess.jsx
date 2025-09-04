@@ -33,14 +33,33 @@ const PayuSuccess = () => {
         };
 
         console.log('PayU Success - Payment data:', paymentData);
+        console.log('PayU Success - Current URL:', window.location.href);
+        console.log('PayU Success - Search params:', location.search);
 
         if (!paymentData.txnid || !paymentData.status) {
-          throw new Error('Invalid payment data received');
+          console.error('Missing required payment data:', { txnid: paymentData.txnid, status: paymentData.status });
+          
+          // If no payment data, show a message and redirect after a delay
+          if (!paymentData.txnid && !paymentData.status) {
+            console.log('No payment data found, redirecting to subscription page...');
+            setTimeout(() => {
+              navigate('/subscription');
+            }, 3000);
+            setVerificationResult({ 
+              success: false, 
+              message: 'No payment data found. Redirecting to subscription page...' 
+            });
+            return;
+          }
+          
+          throw new Error('Invalid payment data received. Missing transaction ID or status.');
         }
 
         // Verify payment with backend
+        console.log('PayU Success - Calling API to verify payment...');
         const verificationRes = await API.verifyPayuSubscription(paymentData);
         
+        console.log('PayU Success - Verification response:', verificationRes);
         setVerificationResult(verificationRes);
         
         if (verificationRes.success) {
@@ -51,6 +70,11 @@ const PayuSuccess = () => {
 
       } catch (error) {
         console.error('Payment verification error:', error);
+        console.error('Error details:', {
+          message: error.message,
+          stack: error.stack,
+          response: error.response?.data
+        });
         toast.error('Payment verification failed: ' + (error.message || 'Unknown error'));
         setVerificationResult({ success: false, message: error.message });
       } finally {
@@ -78,9 +102,13 @@ const PayuSuccess = () => {
             <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
               Verifying Payment...
             </h2>
-            <p className="text-gray-600 dark:text-gray-300">
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
               Please wait while we verify your payment
             </p>
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              <p>URL: {window.location.href}</p>
+              <p>Search: {location.search}</p>
+            </div>
           </div>
         </div>
       </MobileAppWrapper>

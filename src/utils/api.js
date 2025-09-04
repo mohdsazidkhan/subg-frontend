@@ -1,8 +1,9 @@
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 
+  (process.env.NODE_ENV === 'production' ? 'https://subg-backend.onrender.com' : 'http://localhost:5000');
 
 // Validate API configuration
 if (!process.env.REACT_APP_API_URL && process.env.NODE_ENV === 'production') {
-  console.warn('⚠️ REACT_APP_API_URL not set in production. Using fallback URL.');
+  console.warn('⚠️ REACT_APP_API_URL not set in production. Using fallback URL:', API_BASE_URL);
 }
 
 class ApiService {
