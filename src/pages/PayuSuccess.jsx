@@ -60,17 +60,46 @@ const PayuSuccess = () => {
           throw new Error('Invalid payment data received. Missing transaction ID or status.');
         }
 
+        // Test API connectivity first
+        console.log('PayU Success - Testing API connectivity...');
+        try {
+          const testResponse = await fetch(`${API.baseURL}/api/subscription/test-api`);
+          const testData = await testResponse.json();
+          console.log('PayU Success - API Test Response:', testData);
+        } catch (testError) {
+          console.error('PayU Success - API Test Failed:', testError);
+        }
+
         // Verify payment with backend
         console.log('PayU Success - Calling API to verify payment...');
-        const verificationRes = await API.verifyPayuSubscription(paymentData);
+        console.log('PayU Success - API Base URL:', API.baseURL);
         
-        console.log('PayU Success - Verification response:', verificationRes);
-        setVerificationResult(verificationRes);
-        
-        if (verificationRes.success) {
-          toast.success('🎉 Payment successful! Subscription activated.');
-        } else {
-          toast.error('Payment verification failed: ' + verificationRes.message);
+        try {
+          const verificationRes = await API.verifyPayuSubscription(paymentData);
+          
+          console.log('PayU Success - Verification response:', verificationRes);
+          setVerificationResult(verificationRes);
+          
+          if (verificationRes.success) {
+            toast.success('🎉 Payment successful! Subscription activated.');
+          } else {
+            toast.error('Payment verification failed: ' + verificationRes.message);
+          }
+        } catch (apiError) {
+          console.error('PayU Success - API Error:', apiError);
+          console.error('PayU Success - API Error Status:', apiError.response?.status);
+          console.error('PayU Success - API Error Data:', apiError.response?.data);
+          
+          // Handle specific error cases
+          if (apiError.response?.status === 405) {
+            throw new Error('API method not allowed. Please contact support.');
+          } else if (apiError.response?.status === 404) {
+            throw new Error('API endpoint not found. Please contact support.');
+          } else if (apiError.response?.status >= 500) {
+            throw new Error('Server error. Please try again later.');
+          } else {
+            throw new Error(`API Error: ${apiError.message}`);
+          }
         }
 
       } catch (error) {
