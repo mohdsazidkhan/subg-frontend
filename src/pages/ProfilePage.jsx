@@ -35,6 +35,7 @@ import {
 import { getSubscriptionStatusTextWithTheme } from '../utils/subscriptionUtils';
 import ShareComponent from '../components/ShareComponent';
 import MobileAppWrapper from '../components/MobileAppWrapper';
+import PaymentTransactions from '../components/PaymentTransactions';
 // Level badge icon mapping
 const levelBadgeIcons = {
   'Starter': FaUserGraduate,
@@ -60,7 +61,7 @@ const ProfilePage = () => {
   const [showBankForm, setShowBankForm] = useState(false);
   
   // Get rewards data
-  const { rewards: rewardsData, loading: rewardsLoading, error: rewardsError } = useRewards();
+  const { rewards: rewardsData, loading: rewardsLoading } = useRewards();
     console.log(rewardsData, 'rewardsData')
   // Edit Profile State
   const [isEditingProfile, setIsEditingProfile] = useState(false);
@@ -1065,7 +1066,7 @@ const message =
                 {(() => {
                   const BadgeIcon = levelBadgeIcons[userLevel.name] || levelBadgeIcons.Default;
                   return (
-                    <BadgeIcon className="text-yellow-500 dark:text-yellow-200 text-xl lg:text-2xl lg:text-5xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
+                    <BadgeIcon className="text-yellow-500 dark:text-yellow-200 text-xl lg:text-5xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]" />
                   );
                 })()}
               </div>
@@ -1441,7 +1442,7 @@ const message =
               <p className="text-gray-500 dark:text-gray-500 text-lg">Start your quiz journey today!</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 lg:gap-8">
               {playedQuizzes?.map((item, idx) => (
                 <div 
                   key={item._id || idx} 
@@ -1495,7 +1496,13 @@ const message =
               </div>
             )}
           </div>
+           {/* Payment Transactions Section */}
+        <div className="mt-8">
+          <PaymentTransactions />
         </div>
+        </div>
+
+         
         
         </div>
     </MobileAppWrapper>

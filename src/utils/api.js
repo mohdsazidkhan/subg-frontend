@@ -198,6 +198,28 @@ class ApiService {
     return this.request(`/api/subscription/transactions/${userId}`);
   }
 
+  // Get user payment transactions with filtering (authenticated user only)
+  async getUserPaymentTransactions(filters = {}) {
+    const queryParams = new URLSearchParams();
+    
+    if (filters.month) queryParams.set('month', filters.month);
+    if (filters.year) queryParams.set('year', filters.year);
+    if (filters.type) queryParams.set('type', filters.type);
+    if (filters.status) queryParams.set('status', filters.status);
+    if (filters.limit) queryParams.set('limit', filters.limit);
+    if (filters.page) queryParams.set('page', filters.page);
+    
+    const queryString = queryParams.toString();
+    const endpoint = `/api/subscription/payment-transactions${queryString ? `?${queryString}` : ''}`;
+    
+    return this.request(endpoint);
+  }
+
+  // Get transaction filter options (months, years) (authenticated user only)
+  async getTransactionFilterOptions() {
+    return this.request('/api/subscription/transaction-filters');
+  }
+
   // (Razorpay endpoints removed)
 
   // ===== PAYU PAYMENT ENDPOINTS =====
