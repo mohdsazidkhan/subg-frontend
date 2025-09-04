@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import MobileAppWrapper from '../components/MobileAppWrapper';
-import { FaTimesCircle, FaArrowLeft, FaRefresh } from 'react-icons/fa';
+import { FaTimesCircle, FaArrowLeft, FaSync } from 'react-icons/fa';
 
 const PayuFailure = () => {
   const navigate = useNavigate();
@@ -68,7 +68,7 @@ const PayuFailure = () => {
                   onClick={handleTryAgain}
                   className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-4 px-6 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2"
                 >
-                  <FaRefresh className="text-sm" />
+                  <FaSync className="text-sm" />
                   <span>Try Again</span>
                 </button>
                 
