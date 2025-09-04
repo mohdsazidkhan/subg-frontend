@@ -189,7 +189,7 @@ const PayuSuccess = () => {
                       <div className="flex justify-between">
                         <span className="text-gray-600 dark:text-gray-300">Plan:</span>
                         <span className="font-semibold text-gray-800 dark:text-white">
-                          {verificationResult.subscription.planName?.toUpperCase()}
+                          {(verificationResult.subscription.planName || verificationResult.subscription.plan || '').toUpperCase()}
                         </span>
                       </div>
                       <div className="flex justify-between">
@@ -201,10 +201,9 @@ const PayuSuccess = () => {
                       <div className="flex justify-between">
                         <span className="text-gray-600 dark:text-gray-300">Expires:</span>
                         <span className="font-semibold text-gray-800 dark:text-white">
-                          {verificationResult.subscription.expiryDate ? 
-                            new Date(verificationResult.subscription.expiryDate).toLocaleDateString() : 
-                            'N/A'
-                          }
+                          {(verificationResult.subscription.expiryDate || verificationResult.subscription.endDate)
+                            ? new Date(verificationResult.subscription.expiryDate || verificationResult.subscription.endDate).toLocaleDateString()
+                            : 'N/A'}
                         </span>
                       </div>
                     </div>
