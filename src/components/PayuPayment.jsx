@@ -26,7 +26,7 @@ const PayuPayment = ({ plan, userInfo, onSuccess, onError }) => {
       
       // Create PayU order
       const orderRes = await API.createPayuSubscriptionOrder({
-        planId: plan.key,
+        planId: (plan.key || '').toLowerCase(),
         userId: userInfo._id
       });
 
