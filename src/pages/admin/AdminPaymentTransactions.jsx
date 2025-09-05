@@ -258,7 +258,7 @@ const AdminPaymentTransactions = () => {
       const row = [
         formatDate(transaction.createdAt),
         transaction.user?.name || 'N/A',
-        transaction.planName || 'N/A',
+        transaction.planId?.toUpperCase() || 'N/A',
         transaction.amount || 0,
         transaction.payuStatus || transaction.status || 'N/A',
         transaction.paymentMethod || 'N/A',
@@ -607,15 +607,16 @@ const AdminPaymentTransactions = () => {
                       </div>
                       
                       <div className="space-y-3">
-                        <div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">User</p>
-                          <p className="font-medium text-gray-900 dark:text-white">{transaction.user?.name || 'N/A'}</p>
-                        </div>
-                        
-                        <div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">Plan</p>
-                          <p className="font-medium text-gray-900 dark:text-white">{transaction.planName || 'N/A'}</p>
-                        </div>
+                                                  <div>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">User</p>
+                            <p className="font-medium text-gray-900 dark:text-white">{transaction.user?.name || 'N/A'}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{transaction.user?.email || 'N/A'}</p>
+                          </div>
+                          
+                          <div>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">Plan</p>
+                            <p className="font-medium text-gray-900 dark:text-white">{transaction.planId?.toUpperCase() || 'N/A'}</p>
+                          </div>
                         
                         <div>
                           <p className="text-sm text-gray-500 dark:text-gray-400">Amount</p>
@@ -655,7 +656,8 @@ const AdminPaymentTransactions = () => {
                             <div className="flex items-center gap-4">
                               <div>
                                 <p className="font-medium text-gray-900 dark:text-white">{transaction.user?.name || 'N/A'}</p>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">{transaction.planName || 'N/A'}</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{transaction.user?.email || 'N/A'}</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">Plan: {transaction.planId?.toUpperCase() || 'N/A'}</p>
                               </div>
                               
                               <div className="text-right">
