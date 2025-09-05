@@ -85,12 +85,14 @@ const AdminPaymentTransactions = () => {
       setLoading(true);
       setError(null);
       
+      console.log('🔍 Fetching transactions with filters:', { ...filters, sortField, sortOrder });
       const response = await API.getAdminPaymentTransactions({
         ...filters,
         sortField,
         sortOrder
       });
       
+      console.log('📊 Transactions response:', response);
       if (response.success) {
         setTransactions(response.data.transactions);
         setPagination(response.data.pagination || {
@@ -101,12 +103,15 @@ const AdminPaymentTransactions = () => {
           hasNext: false,
           hasPrev: false
         });
-        setSummary(response.data.summary || {});
+        // Don't set summary here as it's handled separately
+        console.log('✅ Transactions data set:', response.data.transactions?.length, 'transactions');
       } else {
         setError(response.message || 'Failed to fetch transactions');
+        console.error('❌ Transactions API error:', response.message);
       }
     } catch (err) {
       setError('Error fetching transactions: ' + err.message);
+      console.error('❌ Error fetching transactions:', err);
     } finally {
       setLoading(false);
     }
@@ -115,39 +120,53 @@ const AdminPaymentTransactions = () => {
   // Fetch filter options
   const fetchFilterOptions = async () => {
     try {
+      console.log('🔍 Fetching filter options...');
       const response = await API.getAdminTransactionFilterOptions();
+      console.log('📊 Filter options response:', response);
       if (response.success) {
         setFilterOptions(prev => ({
           ...prev,
           years: response.data.years || [],
           months: response.data.months || [],
-          plans: response.data.plans || []
+          plans: response.data.plans || [],
+          statuses: response.data.statuses || ['Success'] // Use the statuses from API
         }));
+        console.log('✅ Filter options set:', response.data);
+      } else {
+        console.error('❌ Filter options API error:', response.message);
       }
     } catch (err) {
-      console.error('Error fetching filter options:', err);
+      console.error('❌ Error fetching filter options:', err);
     }
   };
 
   // Fetch summary data
   const fetchSummary = useCallback(async () => {
     try {
+      console.log('🔍 Fetching summary with filters:', { year: filters.year, month: filters.month });
       const response = await API.getAdminTransactionSummary({
         year: filters.year,
         month: filters.month
       });
+      console.log('📊 Summary response:', response);
       if (response.success) {
         setSummary(response.data || {});
+        console.log('✅ Summary data set:', response.data);
+      } else {
+        console.error('❌ Summary API error:', response.message);
       }
     } catch (err) {
-      console.error('Error fetching summary:', err);
+      console.error('❌ Error fetching summary:', err);
     }
   }, [filters.year, filters.month]);
 
   useEffect(() => {
     fetchTransactions();
+  }, [fetchTransactions]);
+
+  useEffect(() => {
     fetchSummary();
-  }, [fetchTransactions, fetchSummary]);
+  }, [fetchSummary]);
 
   useEffect(() => {
     fetchFilterOptions();
