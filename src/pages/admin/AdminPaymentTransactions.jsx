@@ -461,7 +461,7 @@ const AdminPaymentTransactions = () => {
               </div>
 
               {/* View Mode and Actions */}
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col md:flex-row items-center gap-4">
                 {/* Search */}
                 <div className="relative">
                   <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -475,7 +475,7 @@ const AdminPaymentTransactions = () => {
                 </div>
 
                 {/* View Mode Toggle - Hidden on mobile, shown on desktop */}
-                <div className="hidden md:flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+                <div className="flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
                   <button
                     onClick={() => setViewMode('table')}
                     className={`p-2 rounded ${viewMode === 'table' ? 'bg-white dark:bg-gray-600 shadow-sm' : 'text-gray-500 dark:text-gray-400'}`}
@@ -680,9 +680,9 @@ const AdminPaymentTransactions = () => {
                 <div className="space-y-4">
                   {transactions.map((transaction) => (
                     <div key={transaction._id} className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                          <div className="flex items-center gap-2">
+                      <div className=" flex items-center justify-between">
+                        <div className="flex flex-col md:flex-row items-center gap-4">
+                          <div className="flex flex-col md:flex-row items-center gap-2">
                             {getStatusIcon(transaction.payuStatus || transaction.status)}
                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(transaction.payuStatus || transaction.status)}`}>
                               {(transaction.payuStatus || transaction.status)?.charAt(0).toUpperCase() + (transaction.payuStatus || transaction.status)?.slice(1) || 'Unknown'}
