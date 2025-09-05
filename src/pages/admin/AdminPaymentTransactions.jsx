@@ -552,7 +552,8 @@ const AdminPaymentTransactions = () => {
                               {formatDate(transaction.createdAt)}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                              {transaction.user?.name || 'N/A'}
+                              {transaction.user?.name || 'N/A'}<br/>
+                              {transaction.user?.email || 'N/A'}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                               {transaction.planId?.toUpperCase() || 'N/A'}
