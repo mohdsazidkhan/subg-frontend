@@ -69,7 +69,7 @@ const PayuPayment = ({ plan, userInfo, onSuccess, onError }) => {
       } else if (error.message.includes('Invalid plan')) {
         toast.error('Invalid subscription plan selected.');
       } else if (error.message.includes('PayU payment gateway not configured')) {
-        toast.error('Payment system is currently unavailable. Please try again later.');
+        toast.error('Payment system is temporarily unavailable. Please try again later.');
       } else {
         toast.error('Failed to create payment order: ' + (error.message || 'Unknown error'));
       }

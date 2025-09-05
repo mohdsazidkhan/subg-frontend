@@ -47,7 +47,7 @@ const PayuSuccess = () => {
             }, 5000);
             setVerificationResult({ 
               success: false, 
-              message: 'No payment data found. This might be a test visit or the payment redirect didn\'t include transaction details. Redirecting to subscription page...' 
+              message: 'No payment data found. The payment redirect didn\'t include transaction details. Redirecting to subscription page...' 
             });
             return;
           }

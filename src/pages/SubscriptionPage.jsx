@@ -6,7 +6,6 @@ import MobileAppWrapper from '../components/MobileAppWrapper';
 import { 
   // FaCreditCard, 
   FaWallet, 
-  FaHistory, 
   FaCheckCircle, 
   FaCrown, 
   FaStar, 
@@ -37,10 +36,10 @@ import {
 import { useNavigate } from 'react-router-dom';
 import MonthlyRewardsInfo from '../components/MonthlyRewardsInfo';
 import PayuPayment from '../components/PayuPayment';
+import PaymentTransactions from '../components/PaymentTransactions';
 
 const SubscriptionPage = () => {
   const [subscription, setSubscription] = useState(null);
-  const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   // const [selectedPlan, setSelectedPlan] = useState(null);
   const [hoveredPlan, setHoveredPlan] = useState(null);
@@ -60,13 +59,8 @@ const SubscriptionPage = () => {
         return;
       }
 
-      const [subscriptionRes, transactionsRes] = await Promise.all([
-        API.getSubscriptionStatus(userInfo._id),
-        API.getSubscriptionTransactions(userInfo._id)
-      ]);
-
+      const subscriptionRes = await API.getSubscriptionStatus(userInfo._id);
       setSubscription(subscriptionRes.data);
-      setTransactions(transactionsRes.data);
     } catch (error) {
       console.error('Error fetching subscription data:', error);
       toast.error('Failed to load subscription data');
@@ -432,6 +426,11 @@ const SubscriptionPage = () => {
           </div>
         )}
 
+        {/* Payment Transactions Section */}
+        <div className="mb-16">
+          <PaymentTransactions />
+        </div>
+
         {/* Subscription Plans */}
         <div className="mb-16" id="plans-section">
           <div className="text-center mb-8 sm:mb-12">
@@ -668,64 +667,6 @@ const SubscriptionPage = () => {
         <div className="mb-16">
           <MonthlyRewardsInfo />
         </div>
-
-        {/* Transaction History */}
-        {transactions.length > 0 && (
-          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/30 mb-16 hover-lift">
-            <div className="flex items-center space-x-4 mb-8">
-              <div className="w-20 h-20 bg-gradient-to-r from-red-500 via-yellow-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
-                <FaHistory className="text-white text-3xl" />
-              </div>
-              <div>
-                <h2 className="text-4xl font-bold text-gray-800 dark:text-white">
-                  Transaction History
-                </h2>
-                <p className="text-gray-600 dark:text-gray-300 text-lg">
-                  Your payment and subscription history
-                </p>
-              </div>
-            </div>
-            
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b-2 border-gray-200 dark:border-gray-700">
-                    <th className="text-left py-4 px-6 font-bold text-gray-800 dark:text-white text-lg">Date</th>
-                    <th className="text-left py-4 px-6 font-bold text-gray-800 dark:text-white text-lg">Plan</th>
-                    <th className="text-left py-4 px-6 font-bold text-gray-800 dark:text-white text-lg">Amount</th>
-                    <th className="text-left py-4 px-6 font-bold text-gray-800 dark:text-white text-lg">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {transactions.map((transaction, index) => (
-                    <tr key={index} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200">
-                      <td className="py-4 px-6 text-gray-700 dark:text-gray-300">
-                        {new Date(transaction.createdAt).toLocaleDateString()}
-                      </td>
-                      <td className="py-4 px-6 text-gray-700 dark:text-gray-300 font-medium">
-                        {transaction.planName}
-                      </td>
-                      <td className="py-4 px-6 text-gray-700 dark:text-gray-300 font-bold">
-                        ₹{transaction.amount}
-                      </td>
-                      <td className="py-4 px-6">
-                        <span className={`px-4 py-2 rounded-full text-sm font-bold ${
-                          transaction.status === 'completed' 
-                            ? 'bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 dark:from-green-900 dark:to-emerald-900 dark:text-green-200'
-                            : transaction.status === 'pending'
-                            ? 'bg-gradient-to-r from-yellow-100 to-orange-100 text-yellow-800 dark:from-yellow-900 dark:to-orange-900 dark:text-yellow-200'
-                            : 'bg-gradient-to-r from-red-100 to-pink-100 text-red-800 dark:from-red-900 dark:to-pink-900 dark:text-red-200'
-                        }`}>
-                          {transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
 
         {/* Call to Action */}
         <div className="text-center bg-gradient-to-r from-yellow-200 via-red-200 to-pink-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 rounded-3xl p-6 sm:p-12 text-white shadow-2xl hover-lift">
