@@ -96,7 +96,7 @@ const LevelDetailPage = () => {
       <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
         <div className="container mx-auto px-4 py-8">
           <div className="text-center">
-            <h1 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-4">Level Not Found</h1>
+            <h1 className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-4">Level Not Found</h1>
             <button 
               onClick={() => navigate('/')}
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -129,19 +129,19 @@ const LevelDetailPage = () => {
             
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
               <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 sm:p-4">
-                <div className="text-lg sm:text-2xl font-bold text-yellow-600">{level.quizzes}</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold text-yellow-600">{level.quizzes}</div>
                 <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Quizzes</div>
               </div>
               <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 sm:p-4">
-                <div className="text-lg sm:text-2xl font-bold text-green-600">{level.plan}</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold text-green-600">{level.plan}</div>
                 <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Plan</div>
               </div>
               <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 sm:p-4">
-                <div className="text-lg sm:text-2xl font-bold text-red-600">₹{level.amount}</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold text-red-600">₹{level.amount}</div>
                 <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Amount</div>
               </div>
               <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2 sm:p-4">
-                <div className="text-lg sm:text-2xl font-bold text-yellow-600">₹{level.prize}</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold text-yellow-600">₹{level.prize}</div>
                 <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Prize</div>
               </div>
               {/* Rewards Terms for Visibility */}
@@ -153,7 +153,7 @@ const LevelDetailPage = () => {
         {/* Quizzes Section */}
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-row items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
-            <h2 className="text-xl sm:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">Level {levelNumber} Quizzes</h2>
+            <h2 className="text-xl sm:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">Level {levelNumber} Quizzes</h2>
            <button
               onClick={() => navigate("/home")}
               className="px-3 md:px-4 py-1 md:py-2 bg-gradient-to-r from-yellow-500 to-red-600 text-white rounded-2xl hover:from-yellow-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"

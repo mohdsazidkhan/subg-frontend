@@ -527,7 +527,7 @@ const PerformanceAnalytics = () => {
                 <span className="text-3xl">🏆</span>
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-yellow-800 dark:text-yellow-200">
+                <h3 className="text-xl lg:text-2xl font-bold text-yellow-800 dark:text-yellow-200">
                   Top 10 Performers
                 </h3>
                 <p className="text-yellow-700 dark:text-yellow-300 text-sm">
@@ -584,9 +584,9 @@ const PerformanceAnalytics = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-green-200 dark:border-green-600">
+          <div className="bg-white dark:bg-gray-800 p-2 lg:p-4 rounded-lg border border-green-200 dark:border-green-600">
             <div className="text-center">
-              <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+              <div className="text-xl lg:text-2xl font-bold text-green-600 dark:text-green-400">
                 {getSortedTopPerformers().reduce((sum, p) => sum + (p.level?.highScoreQuizzes || 0), 0)}
               </div>
               <div className="text-sm text-green-600 dark:text-green-400 font-medium">
@@ -595,9 +595,9 @@ const PerformanceAnalytics = () => {
             </div>
           </div>
           
-          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-green-200 dark:border-green-600">
+          <div className="bg-white dark:bg-gray-800 p-2 lg:p-4 rounded-lg border border-green-200 dark:border-green-600">
             <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+              <div className="text-xl lg:text-2xl font-bold text-blue-600 dark:text-blue-400">
                 {getSortedTopPerformers().filter(p => (p.level?.highScoreQuizzes || 0) > 0).length || 0}
               </div>
               <div className="text-sm text-blue-600 dark:text-blue-400 font-medium">
@@ -606,9 +606,9 @@ const PerformanceAnalytics = () => {
             </div>
           </div>
           
-          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-green-200 dark:border-green-600">
+          <div className="bg-white dark:bg-gray-800 p-2 lg:p-4 rounded-lg border border-green-200 dark:border-green-600">
             <div className="text-center">
-              <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+              <div className="text-xl lg:text-2xl font-bold text-purple-600 dark:text-purple-400">
                 {getSortedTopPerformers().length > 0 ? 
                   (getSortedTopPerformers().reduce((sum, p) => sum + (p.level?.highScoreQuizzes || 0), 0) / getSortedTopPerformers().length).toFixed(1) : 
                   "0.0"
@@ -620,9 +620,9 @@ const PerformanceAnalytics = () => {
             </div>
           </div>
           
-          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-green-200 dark:border-green-600">
+          <div className="bg-white dark:bg-gray-800 p-2 lg:p-4 rounded-lg border border-green-200 dark:border-green-600">
             <div className="text-center">
-              <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+              <div className="text-xl lg:text-2xl font-bold text-orange-600 dark:text-orange-400">
                 {getSortedTopPerformers().reduce((sum, p) => sum + (p.level?.quizzesPlayed || 0), 0)}
               </div>
               <div className="text-sm text-orange-600 dark:text-orange-400 font-medium">
@@ -744,7 +744,7 @@ const PerformanceAnalytics = () => {
                     >
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-3">
-                          <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg ${
+                          <div className={`w-8 h-8 lg:w-12 lg:h-12 rounded-full  flex items-center justify-center text-white font-bold text-lg shadow-lg ${
                             i === 0 ? "bg-gradient-to-r from-yellow-400 to-orange-500" :
                             i === 1 ? "bg-gradient-to-r from-gray-400 to-slate-500" :
                             i === 2 ? "bg-gradient-to-r from-orange-400 to-amber-500" :
@@ -896,7 +896,7 @@ const PerformanceAnalytics = () => {
             {getSortedTopPerformers()?.map((p, i) => (
               <div
                 key={i}
-                className={`flex flex-col md:flex-row justify-between p-4 rounded-lg border dark:border-gray-600 transition-all duration-200 ${
+                className={`flex flex-col md:flex-row justify-between p-2 lg:p-4 rounded-lg border dark:border-gray-600 transition-all duration-200 ${
                   i === 0 
                     ? "bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-yellow-200 dark:border-yellow-600 shadow-lg" 
                     : i === 1 
@@ -979,7 +979,7 @@ const PerformanceAnalytics = () => {
             {getSortedTopPerformers()?.map((p, i) => (
               <div
                 key={i}
-                className={`p-4 rounded-lg border dark:border-gray-600 hover:shadow-lg transition-all duration-200 ${
+                className={`p-2 lg:p-4 rounded-lg border dark:border-gray-600 hover:shadow-lg transition-all duration-200 ${
                   i === 0 
                     ? "bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-yellow-200 dark:border-yellow-600 shadow-lg" 
                     : i === 1 
@@ -1014,7 +1014,7 @@ const PerformanceAnalytics = () => {
                 {/* High Score Badge */}
                 <div className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 p-3 rounded-lg mb-3 border border-green-200 dark:border-green-700">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-green-800 dark:text-green-200">
+                    <div className="text-xl lg:text-xl lg:text-xl lg:text-xl lg:text-xl lg:text-2xl font-bold text-green-800 dark:text-green-200">
                       {p.level?.highScoreQuizzes || 0}
                     </div>
                     <div className="text-sm font-medium text-green-600 dark:text-green-400">
@@ -1284,7 +1284,7 @@ const PerformanceAnalytics = () => {
                 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg border border-blue-200 dark:border-blue-700">
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-1 lg:p-3 rounded-lg border border-blue-200 dark:border-blue-700">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-blue-600 dark:text-blue-400">📊</span>
                       <span className="text-xs font-medium text-blue-600 dark:text-blue-400">Attempts</span>
@@ -1294,7 +1294,7 @@ const PerformanceAnalytics = () => {
                     </div>
                   </div>
                   
-                  <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg border border-green-200 dark:border-green-700">
+                  <div className="bg-green-50 dark:bg-green-900/20 p-1 lg:p-3 rounded-lg border border-green-200 dark:border-green-700">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-green-600 dark:text-green-400">🎯</span>
                       <span className="text-xs font-medium text-green-600 dark:text-green-400">Avg Score</span>

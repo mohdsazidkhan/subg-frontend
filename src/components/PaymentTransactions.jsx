@@ -200,10 +200,10 @@ const PaymentTransactions = () => {
   return (
     <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/30 overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-yellow-500 to-red-500 p-6 text-white">
+      <div className="bg-gradient-to-r from-yellow-500 to-red-500 p-3 lg:p-6 text-white">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold mb-2">Payment Transactions</h2>
+            <h2 className="text-xl lg:text-2xl font-bold mb-2">Payment Transactions</h2>
             <p className="text-yellow-100">View and manage your payment history</p>
           </div>
           <div className="flex items-center space-x-2 mt-4 sm:mt-0">
@@ -224,13 +224,13 @@ const PaymentTransactions = () => {
 
       {/* Summary Cards */}
       {summary && (
-        <div className="p-6 bg-gray-50 dark:bg-gray-700/50">
+        <div className="p-3 lg:p-6 bg-gray-50 dark:bg-gray-700/50">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-lg">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Total Amount</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <p className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
                     {formatCurrency(summary.totalAmount || 0)}
                   </p>
                 </div>
@@ -243,7 +243,7 @@ const PaymentTransactions = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Total Transactions</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <p className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
                     {summary.totalTransactions || 0}
                   </p>
                 </div>
@@ -256,7 +256,7 @@ const PaymentTransactions = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Successful</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <p className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
                     {summary.paymentOrders?.completed || 0}
                   </p>
                 </div>
@@ -271,7 +271,7 @@ const PaymentTransactions = () => {
 
       {/* Filters */}
       {showFilters && (
-        <div className="p-6 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-600">
+        <div className="p-3 lg:p-6 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-600">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             {/* Search */}
             <div className="relative">
@@ -345,7 +345,7 @@ const PaymentTransactions = () => {
       )}
 
       {/* Transactions List */}
-      <div className="p-6">
+      <div className="p-3 lg:p-6">
         {error ? (
           <div className="text-center py-12">
             <FaExclamationTriangle className="text-red-500 text-4xl mx-auto mb-4" />
@@ -365,7 +365,7 @@ const PaymentTransactions = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-3 mb-2">
-                        <div className={`text-2xl font-bold ${getTypeColor(transaction.type, transaction.source)}`}>
+                        <div className={`text-xl lg:text-2xl font-bold ${getTypeColor(transaction.type, transaction.source)}`}>
                           {formatCurrency(transaction.amount)}
                         </div>
                         <div className="flex items-center space-x-2">

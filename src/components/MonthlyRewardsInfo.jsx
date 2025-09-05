@@ -21,7 +21,7 @@ const MonthlyRewardsInfo = ({ compact = false, className = '' }) => {
   }
 
   return (
-    <div className={`bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6 ${className}`}>
+    <div className={`bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 lg:p-6 ${className}`}>
       <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-300 mb-4">📋 Monthly Rewards System</h3>
       
       <div className="space-y-4">

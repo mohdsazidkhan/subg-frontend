@@ -254,7 +254,7 @@ const LevelBasedQuizzes = () => {
   <div className="bg-gradient-to-r from-yellow-500 to-red-600 text-white rounded-lg p-2 md:p-6 mb-4 md:mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl md:text-2xl font-bold mb-2">
+              <h2 className="text-xl md:text-xl lg:text-2xl font-bold mb-2">
                 Level {userLevel.currentLevel} - {userLevel.levelName}
               </h2>
               <p className="text-yellow-100">
@@ -455,7 +455,7 @@ const LevelBasedQuizzes = () => {
       {/* Quizzes Grid */}
       <div className="mb-8">
 <div className="flex flex-row items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
-        <h2 className="text-xl md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+        <h2 className="text-xl md:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
           {filters.level 
             ? `Level ${filters.level} - ${getLevelName(parseInt(filters.level))} Quizzes`
             : 'Your Level Quizzes'

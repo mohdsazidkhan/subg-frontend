@@ -38,7 +38,7 @@ const ForgotPasswordPage = () => {
             <FaArrowLeft /> Back to Login
           </Link>
         </div>
-        <h2 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-2 text-center">Forgot Password</h2>
+        <h2 className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-2 text-center">Forgot Password</h2>
         <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">Enter your email to receive a password reset link.</p>
         {success ? (
           <div className="text-green-600 text-center font-semibold py-6">Check your email for the reset link!</div>

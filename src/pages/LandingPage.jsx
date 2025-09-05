@@ -462,7 +462,7 @@ const LandingPage = () => {
                 <div className={`w-14 h-14 mx-auto mb-3 rounded-full flex items-center justify-center bg-gradient-to-br ${stat.iconBg} shadow-lg transform group-hover:scale-110 transition-all duration-300`}>
                   <stat.icon className="w-7 h-7 text-white" />
                 </div>
-                <div className={`text-2xl font-bold ${stat.textColor} mb-1 group-hover:scale-105 transition-transform duration-300`}>
+                <div className={`text-xl lg:text-2xl font-bold ${stat.textColor} mb-1 group-hover:scale-105 transition-transform duration-300`}>
                   {stat.number}
                 </div>
                 <div className="text-xs text-gray-600 dark:text-gray-400">
@@ -919,7 +919,7 @@ const LandingPage = () => {
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-3">
                           <div
-                            className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg ${
+                            className={`w-8 h-8 lg:w-12 lg:h-12 rounded-full  flex items-center justify-center text-white font-bold text-lg shadow-lg ${
                               index === 0
                                 ? "bg-gradient-to-r from-yellow-400 to-orange-500"
                                 : index === 1
@@ -1128,7 +1128,7 @@ const LandingPage = () => {
             </div>
 
                          <div className="rounded-2xl p-2 md:-p-6 lg:p-6 xl:p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl">
-              <h3 className="text-2xl font-bold mb-6 text-center">
+              <h3 className="text-xl lg:text-2xl font-bold mb-6 text-center">
                 Monthly Prize Pool
               </h3>
                <div className="space-y-6">
@@ -1142,16 +1142,16 @@ const LandingPage = () => {
                  </div>
                  <div className="grid grid-cols-2 gap-4">
                    <div className="text-center p-4 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-500 text-white">
-                     <div className="text-2xl font-bold">₹4,999</div>
+                     <div className="text-xl lg:text-2xl font-bold">₹4,999</div>
                      <div className="text-sm">1st Place (50%)</div>
                    </div>
                    <div className="text-center p-4 rounded-lg bg-gradient-to-br from-gray-400 to-gray-500 text-white">
-                     <div className="text-2xl font-bold">₹3,333</div>
+                     <div className="text-xl lg:text-2xl font-bold">₹3,333</div>
                      <div className="text-sm">2nd Place (33%)</div>
                    </div>
                  </div>
                  <div className="text-center">
-                  <div className="text-2xl font-bold text-amber-600 mb-2">
+                  <div className="text-xl lg:text-2xl font-bold text-amber-600 mb-2">
                     ₹1,667
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
@@ -1174,7 +1174,7 @@ const LandingPage = () => {
 
           {/* Achievement Badges */}
           <div className="text-center mb-12">
-            <h3 className="text-2xl font-bold mb-8">Earn Achievement Badges</h3>
+            <h3 className="text-xl lg:text-2xl font-bold mb-8">Earn Achievement Badges</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 {
@@ -1236,7 +1236,7 @@ const LandingPage = () => {
             {/* Free Plan */}
                          <div className="relative rounded-md lg:rounded-2xl p-2 lg:p-4 xl:p-6 xxl:p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
                <div className="text-center mb-8">
-                 <h3 className="text-2xl font-bold mb-2">Free</h3>
+                 <h3 className="text-xl lg:text-2xl font-bold mb-2">Free</h3>
                 <div className="text-4xl font-bold text-yellow-600 mb-2">
                   ₹0
                 </div>
@@ -1271,7 +1271,7 @@ const LandingPage = () => {
                          {/* Basic Plan */}
                           <div className="relative rounded-md lg:rounded-2xl p-2 lg:p-4 xl:p-6 xxl:p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
                <div className="text-center mb-8">
-                 <h3 className="text-2xl font-bold mb-2">Basic</h3>
+                 <h3 className="text-xl lg:text-2xl font-bold mb-2">Basic</h3>
                 <div className="text-4xl font-bold text-yellow-600 mb-2">
                   ₹9
                 </div>
@@ -1308,7 +1308,7 @@ const LandingPage = () => {
             {/* Premium Plan */}
                          <div className="relative rounded-md lg:rounded-2xl p-2 lg:p-4 xl:p-6 xxl:p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
                <div className="text-center mb-8">
-                 <h3 className="text-2xl font-bold mb-2">Premium</h3>
+                 <h3 className="text-xl lg:text-2xl font-bold mb-2">Premium</h3>
                 <div className="text-4xl font-bold text-yellow-600 mb-2">
                   ₹49
                 </div>
@@ -1352,7 +1352,7 @@ const LandingPage = () => {
                   </span>
                 </div>
                <div className="text-center mb-8">
-                 <h3 className="text-2xl font-bold mb-2">Pro</h3>
+                 <h3 className="text-xl lg:text-2xl font-bold mb-2">Pro</h3>
                 <div className="text-4xl font-bold text-yellow-600 mb-2">
                   ₹99
                 </div>
@@ -1392,7 +1392,7 @@ const LandingPage = () => {
 
           {/* Plan Comparison */}
                      <div className="rounded-2xl p-2 md:-p-6 lg:p-6 xl:p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl">
-            <h3 className="text-2xl font-bold text-center mb-8">
+            <h3 className="text-xl lg:text-2xl font-bold text-center mb-8">
               Plan Comparison
             </h3>
              <div className="overflow-x-auto">
@@ -1613,7 +1613,7 @@ const LandingPage = () => {
             </div>
 
                          <div className="rounded-2xl p-2 md:-p-6 lg:p-6 xl:p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl">
-              <h3 className="text-2xl font-bold mb-6 text-center">
+              <h3 className="text-xl lg:text-2xl font-bold mb-6 text-center">
                 How It Works
               </h3>
                <div className="space-y-6">
@@ -1668,7 +1668,7 @@ const LandingPage = () => {
         {/* Referral Rewards */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center my-16">
-            <h3 className="text-2xl font-bold mb-8">
+            <h3 className="text-xl lg:text-2xl font-bold mb-8">
               Referral Milestone Rewards
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

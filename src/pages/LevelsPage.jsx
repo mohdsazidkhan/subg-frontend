@@ -157,7 +157,7 @@ const LevelsPage = () => {
               <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center">
                 <FaAward className="text-white text-2xl" />
               </div>
-              <h3 className="text-xl md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+              <h3 className="text-xl md:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                 Scholarship & Prizes
               </h3>
             </div>
@@ -186,7 +186,7 @@ const LevelsPage = () => {
               <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-2xl flex items-center justify-center">
                 <FaGem className="text-white text-2xl" />
               </div>
-              <h3 className="text-xl md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+              <h3 className="text-xl md:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                 Progression Rules
               </h3>
             </div>
@@ -269,7 +269,7 @@ const LevelsPage = () => {
               </div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mb-2">
+              <div className="text-xl lg:text-2xl font-bold text-yellow-600 dark:text-yellow-400 mb-2">
                 {highScoreQuizzes} / {userLevelData?.levelInfo?.progress?.quizzesToNextLevel} Quizzes
               </div>
               <div className="text-gray-600 dark:text-gray-300">

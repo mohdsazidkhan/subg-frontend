@@ -268,7 +268,7 @@ const HomePage = () => {
       </div>
 
       {/* Monthly Winners Section */}
-      <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
+      <div className="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
         <div className="text-center mb-8">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-orange-500 to-red-600 dark:text-white">
@@ -290,7 +290,7 @@ const HomePage = () => {
       </div>
 
       {/* Top Performers Section */}
-      <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
+      <div className="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
         <TopPerformers />
       </div>
 
@@ -328,7 +328,7 @@ const HomePage = () => {
               <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl sm:rounded-2xl flex items-center justify-center">
                 <FaAward className="text-white text-lg sm:text-xl md:text-2xl" />
               </div>
-              <h3 className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+              <h3 className="text-lg sm:text-xl md:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                 Scholarship & Prizes
               </h3>
             </div>
@@ -363,7 +363,7 @@ const HomePage = () => {
               <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl sm:rounded-2xl flex items-center justify-center">
                 <FaGem className="text-white text-lg sm:text-xl md:text-2xl" />
               </div>
-              <h3 className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+              <h3 className="text-lg sm:text-xl md:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                 Progression Rules
               </h3>
             </div>
@@ -616,7 +616,7 @@ const HomePage = () => {
 
     
       {/* Platform Stats Section */}
-      <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
+      <div className="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
         <div className="bg-gradient-to-r from-yellow-100 to-red-100 dark:from-gray-800 dark:to-yellow-900/30 rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 lg:p-10 border border-yellow-200 dark:border-yellow-700 flex flex-col items-center relative overflow-hidden">
           <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-indigo-600 dark:text-white mb-4 sm:mb-6 flex items-center gap-2 drop-shadow-lg">
             Platform Stats
@@ -695,7 +695,7 @@ const HomePage = () => {
       </div>
 
        {/* Referral System Section - Visible to all users */}
-       <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
+       <div className="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
         <div className="rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 border-2 border-purple-300/30">
           <div className="text-center mb-6 sm:mb-8 md:mb-10">
             <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-tr from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-xl sm:shadow-2xl animate-float">
@@ -720,7 +720,7 @@ const HomePage = () => {
               <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-800 dark:text-white mb-1 sm:mb-2">
                 2 Referrals
               </h3>
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-yellow-600 dark:text-yellow-300 mb-1 sm:mb-2">
+              <div className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-yellow-600 dark:text-yellow-300 mb-1 sm:mb-2">
                 ₹9 BASIC Plan
               </div>
               <p className="text-yellow-700 dark:text-yellow-200 text-xs sm:text-sm">
@@ -733,7 +733,7 @@ const HomePage = () => {
               <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-800 dark:text-white mb-1 sm:mb-2">
                 5 Referrals
               </h3>
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-red-600 dark:text-red-300 mb-1 sm:mb-2">
+              <div className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-red-600 dark:text-red-300 mb-1 sm:mb-2">
                 ₹49 PREMIUM Plan
               </div>
               <p className="text-red-700 dark:text-red-200 text-xs sm:text-sm">
@@ -746,7 +746,7 @@ const HomePage = () => {
               <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-800 dark:text-white mb-1 sm:mb-2">
                 10 Referrals
               </h3>
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-purple-600 dark:text-purple-300 mb-1 sm:mb-2">
+              <div className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-purple-600 dark:text-purple-300 mb-1 sm:mb-2">
                 ₹99 PRO Plan
               </div>
               <p className="text-purple-700 dark:text-purple-200 text-xs sm:text-sm">
@@ -757,7 +757,7 @@ const HomePage = () => {
 
           {/* How It Works */}
           <div className="bg-gray-100 dark:bg-white/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8">
-            <h3 className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4 text-center">
+            <h3 className="text-lg sm:text-xl md:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4 text-center">
               How It Works
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">

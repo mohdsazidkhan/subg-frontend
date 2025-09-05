@@ -94,7 +94,7 @@ const AdminMonthlyWinners = () => {
             <div className="flex items-center gap-3">
               <FaTrophy className="text-4xl text-yellow-500" />
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                <h2 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
                   Monthly Prize Winners
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400 mt-1">
@@ -104,7 +104,7 @@ const AdminMonthlyWinners = () => {
             </div>
 
             {/* Year and Month Filters - Moved to Header */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 bg-gray-50 dark:bg-gray-800 p-2 lg:p-4 rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 <label className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap hidden sm:block">Year:</label>
                 <select
@@ -198,7 +198,7 @@ const AdminMonthlyWinners = () => {
                     <FaTrophy className="text-2xl text-yellow-600" />
                     <div>
                       <div className="text-sm text-yellow-700 dark:text-yellow-400">Total Months</div>
-                      <div className="text-2xl font-bold text-yellow-800 dark:text-yellow-200">{monthlyWinners.length}</div>
+                      <div className="text-xl lg:text-2xl font-bold text-yellow-800 dark:text-yellow-200">{monthlyWinners.length}</div>
                     </div>
                   </div>
                 </div>
@@ -208,7 +208,7 @@ const AdminMonthlyWinners = () => {
                     <FaUsers className="text-2xl text-blue-600" />
                     <div>
                       <div className="text-sm text-blue-700 dark:text-blue-400">Total Winners</div>
-                      <div className="text-2xl font-bold text-blue-800 dark:text-blue-200">
+                      <div className="textxl lg:text-xl lg:text-2xl font-bold text-blue-800 dark:text-blue-200">
                         {monthlyWinners.reduce((total, month) => total + (month.totalWinners || 0), 0)}
                       </div>
                     </div>
@@ -220,7 +220,7 @@ const AdminMonthlyWinners = () => {
                     <FaRupeeSign className="text-2xl text-green-600" />
                     <div>
                       <div className="text-sm text-green-700 dark:text-green-400">Total Distributed</div>
-                      <div className="text-2xl font-bold text-green-800 dark:text-green-200">
+                      <div className="text-xl lg:text-xl lg:text-xl lg:text-xl lg:text-xl lg:text-2xl font-bold text-green-800 dark:text-green-200">
                         ₹{monthlyWinners.reduce((total, month) => total + (month.totalPrizePool || 0), 0).toLocaleString()}
                       </div>
                     </div>
@@ -232,7 +232,7 @@ const AdminMonthlyWinners = () => {
                     <FaMedal className="text-2xl text-purple-600" />
                     <div>
                       <div className="text-sm text-purple-700 dark:text-purple-400">Avg Winners/Month</div>
-                      <div className="text-2xl font-bold text-purple-800 dark:text-purple-200">
+                      <div className="text-xl lg:text-2xl font-bold text-purple-800 dark:text-purple-200">
                         {monthlyWinners.length > 0 ? (monthlyWinners.reduce((total, month) => total + (month.totalWinners || 0), 0) / monthlyWinners.length).toFixed(1) : 0}
                       </div>
                     </div>
@@ -376,7 +376,7 @@ const AdminMonthlyWinners = () => {
                           {monthData.winners?.map((winner, winnerIndex) => (
                             <div key={winner._id || winnerIndex} className="flex items-center justify-between p-4 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
                               <div className="flex items-center gap-4">
-                                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg ${
+                                <div className={`w-8 h-8 lg:w-12 lg:h-12 rounded-full  flex items-center justify-center text-white font-bold text-lg ${
                                   winner.rank === 1 ? 'bg-yellow-500' : 
                                   winner.rank === 2 ? 'bg-gray-400' : 'bg-orange-600'
                                 }`}>
@@ -391,7 +391,7 @@ const AdminMonthlyWinners = () => {
                                 </div>
                               </div>
                               <div className="text-right">
-                                <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                                <div className="text-xl lg:text-2xl font-bold text-green-600 dark:text-green-400">
                                   ₹{winner.rewardAmount?.toLocaleString()}
                                 </div>
                                 <div className="text-sm text-gray-500 dark:text-gray-400">

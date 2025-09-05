@@ -360,7 +360,7 @@ const SubscriptionPage = () => {
                   </div>
                   <div>
                     <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Current Plan</span>
-                    <p className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+                    <p className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                       {subscription.planName?.toUpperCase() || 'Free'}
                     </p>
                   </div>
@@ -374,7 +374,7 @@ const SubscriptionPage = () => {
                   </div>
                   <div>
                     <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Status</span>
-                    <p className={`text-2xl font-bold ${
+                    <p className={`text-xl lg:text-2xl font-bold ${
                       subscription.status === 'active' ? 'text-green-600' : 'text-red-600'
                     }`}>
                       {subscription.status === 'active' ? 'Active' : 'Inactive'}
@@ -413,7 +413,7 @@ const SubscriptionPage = () => {
                   </div>
                   <div>
                     <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Expires On</span>
-                    <p className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+                    <p className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                       {subscription.expiryDate ? 
                         new Date(subscription.expiryDate).toLocaleDateString() : 
                         'N/A'

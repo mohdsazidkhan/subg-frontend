@@ -200,7 +200,7 @@ const DashboardAnalytics = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="3" className="text-center py-8 text-gray-500 dark:text-gray-400">
+              <td colSpan="3" className="text-center py-0 md:py-2 lg:py-4 xl:py-6 text-gray-500 dark:text-gray-400">
                 <div className="flex flex-col items-center gap-2">
                   <span className="text-4xl">📝</span>
                   <span>No recent activity</span>
@@ -252,7 +252,7 @@ const DashboardAnalytics = () => {
           </div>
         ))
       ) : (
-        <div className="col-span-full text-center py-8 text-gray-500 dark:text-gray-400">
+        <div className="col-span-full text-center py-0 md:py-2 lg:py-4 xl:py-6 text-gray-500 dark:text-gray-400">
           <div className="flex flex-col items-center gap-2">
             <span className="text-4xl">📝</span>
             <span>No recent activity</span>
@@ -303,7 +303,7 @@ const DashboardAnalytics = () => {
           </div>
         ))
       ) : (
-        <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+        <div className="text-center py-0 md:py-2 lg:py-4 xl:py-6 text-gray-500 dark:text-gray-400">
           <div className="flex flex-col items-center gap-2">
             <span className="text-4xl">📝</span>
             <span>No recent activity</span>
@@ -435,7 +435,7 @@ const DashboardAnalytics = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="6" className="text-center py-8 text-gray-500 dark:text-gray-400">
+              <td colSpan="6" className="text-center py-0 md:py-2 lg:py-4 xl:py-6 text-gray-500 dark:text-gray-400">
                 <div className="flex flex-col items-center gap-2">
                   <span className="text-4xl">👥</span>
                   <span>No users found</span>
@@ -517,7 +517,7 @@ const DashboardAnalytics = () => {
           </div>
         ))
       ) : (
-        <div className="col-span-full text-center py-8 text-gray-500 dark:text-gray-400">
+        <div className="col-span-full text-center py-0 md:py-2 lg:py-4 xl:py-6 text-gray-500 dark:text-gray-400">
           <div className="flex flex-col items-center gap-2">
             <span className="text-4xl">👥</span>
             <span>No users found</span>
@@ -596,7 +596,7 @@ const DashboardAnalytics = () => {
           </div>
         ))
       ) : (
-        <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+        <div className="text-center py-0 md:py-2 lg:py-4 xl:py-6 text-gray-500 dark:text-gray-400">
           <div className="flex flex-col items-center gap-2">
             <span className="text-4xl">👥</span>
             <span>No users found</span>
@@ -760,7 +760,7 @@ const DashboardAnalytics = () => {
                   <FaCrown className="text-white text-xl" />
                 </div>
                 <div>
-                                    <h2 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+                                    <h2 className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                     Top Performers
                   </h2>
                   <p className="text-gray-600 dark:text-gray-400">
@@ -780,7 +780,7 @@ const DashboardAnalytics = () => {
             {topUsersViewMode === 'list' && <TopUsersListView />}
             
             {(!data?.topUsers || data.topUsers.length === 0) && (
-              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+              <div className="text-center py-0 md:py-2 lg:py-4 xl:py-6 text-gray-500 dark:text-gray-400">
                 <div className="flex flex-col items-center gap-2">
                   <span className="text-4xl">📊</span>
                   <span className="text-lg font-medium">No monthly progress data available</span>

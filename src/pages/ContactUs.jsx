@@ -167,7 +167,7 @@ const ContactUs = () => {
                 <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-yellow-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <FaHeadset className="text-white text-2xl" />
                 </div>
-                <h3 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-4">
+                <h3 className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-4">
                   Need Immediate Help?
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">

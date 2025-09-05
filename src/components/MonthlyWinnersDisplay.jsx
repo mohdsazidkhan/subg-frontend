@@ -59,7 +59,7 @@ const MonthlyWinnersDisplay = ({ title = "🏆 Previous Month Legends", showTitl
   if (error || !monthlyWinners || !monthlyWinners.winners || monthlyWinners.winners.length === 0) {
     return (
       <div className={`bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 rounded-xl border border-yellow-200 dark:border-yellow-600 p-6 ${className}`}>
-        <div className="text-center py-8">
+        <div className="text-center py-0 md:py-2 lg:py-4 xl:py-6">
           <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">🏆</div>
           <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">
             Previous Month Winners Coming Soon!
@@ -69,7 +69,7 @@ const MonthlyWinnersDisplay = ({ title = "🏆 Previous Month Legends", showTitl
           </p>
           <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-yellow-200 dark:border-yellow-600">
             <div className="text-center">
-              <div className="text-2xl font-bold text-yellow-600 mb-2">₹9,999</div>
+              <div className="text-xl lg:text-2xl font-bold text-yellow-600 mb-2">₹9,999</div>
               <div className="text-sm text-gray-600 dark:text-gray-300 mb-2">Monthly Prize Pool</div>
               <div className="text-xs text-gray-500 dark:text-gray-400">
                 Top 3 users at Level 10 with ≥75% accuracy win prizes in 3:2:1 ratio
@@ -150,7 +150,7 @@ const MonthlyWinnersDisplay = ({ title = "🏆 Previous Month Legends", showTitl
                 <div className="flex items-center gap-2">
                   <FaRupeeSign className="text-2xl" />
                   <div>
-                    <div className="text-2xl font-bold">{winner.rewardAmount?.toLocaleString()}</div>
+                    <div className="text-xl lg:text-2xl font-bold">{winner.rewardAmount?.toLocaleString()}</div>
                     <div className="text-xs opacity-80">Prize</div>
                   </div>
                 </div>

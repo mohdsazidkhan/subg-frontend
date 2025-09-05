@@ -355,7 +355,7 @@ import API from '../utils/api';
           <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
             🎯 Your Current Position
           </h4>
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-lg">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-2 lg:p-4 shadow-lg">
             <div className="flex flex-col lg:flex-row items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-red-500 to-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg">
@@ -375,13 +375,13 @@ import API from '../utils/api';
               </div>
               <div className="flex gap-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                  <div className="text-xl lg:text-2xl font-bold text-green-600 dark:text-green-400">
                     {data.currentUser.level.highScoreQuizzes}
                   </div>
                   <div className="text-sm text-gray-600 dark:text-gray-300">High Scores</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                  <div className="text-xl lg:text-2xl font-bold text-blue-600 dark:text-blue-400">
                     {data.currentUser.level.quizzesPlayed}
                   </div>
                   <div className="text-sm text-gray-600 dark:text-gray-300">Total Quizzes</div>
@@ -463,7 +463,7 @@ import API from '../utils/api';
                 >
                   <td className="py-4 px-4">
                     <div className="flex items-center gap-3">
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg ${
+                      <div className={`w-8 h-8 lg:w-12 lg:h-12 rounded-full  flex items-center justify-center text-white font-bold text-lg shadow-lg ${
                         p.userId === currentUserId ? "bg-gradient-to-r from-red-500 to-yellow-500 ring-4 ring-red-300 dark:ring-yellow-400" :
                         i === 0 ? "bg-gradient-to-r from-yellow-400 to-orange-500" :
                         i === 1 ? "bg-gradient-to-r from-gray-400 to-slate-500" :
@@ -585,7 +585,7 @@ import API from '../utils/api';
           {topPerformers.map((p, i) => (
             <div
               key={i}
-              className={`p-4 rounded-lg border dark:border-gray-600 transition-all duration-200 ${
+              className={`p-2 lg:p-4 rounded-lg border dark:border-gray-600 transition-all duration-200 ${
                 p.userId === currentUserId 
                   ? "bg-gradient-to-r from-red-100 to-yellow-100 dark:from-red-800 dark:to-yellow-900 border-red-400 dark:border-yellow-600 shadow-lg" :
                 i === 0 
@@ -598,7 +598,7 @@ import API from '../utils/api';
               }`}
             >
               <div className="flex items-center gap-4 mb-4">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg ${
+                <div className={`w-8 h-8 lg:w-12 lg:h-12 rounded-full  flex items-center justify-center text-white font-bold text-lg shadow-lg ${
                   p.userId === currentUserId ? "bg-gradient-to-r from-red-500 to-yellow-500 ring-4 ring-red-300 dark:ring-yellow-400" :
                   i === 0 ? "bg-gradient-to-r from-yellow-400 to-orange-500" :
                   i === 1 ? "bg-gradient-to-r from-gray-400 to-slate-500" :
@@ -624,9 +624,9 @@ import API from '../utils/api';
               
               <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4">
                 {/* High Score Badge */}
-                <div className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 p-3 rounded-lg border border-green-200 dark:border-green-700">
+                <div className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 p-1 lg:p-3 rounded-lg border border-green-200 dark:border-green-700">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-green-800 dark:text-green-200">
+                    <div className="text-xl lg:text-xl lg:text-xl lg:text-xl lg:text-xl lg:text-2xl font-bold text-green-800 dark:text-green-200">
                       {p.level?.highScoreQuizzes || 0}
                     </div>
                     <div className="text-sm font-medium text-green-600 dark:text-green-400">
@@ -636,9 +636,9 @@ import API from '../utils/api';
                 </div>
                 
                 {/* Total Quizzes Badge */}
-                <div className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 p-3 rounded-lg border border-blue-200 dark:border-blue-700">
+                <div className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 p-1 lg:p-3 rounded-lg border border-blue-200 dark:border-blue-700">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-800 dark:text-blue-200">
+                    <div className="textxl lg:text-xl lg:text-2xl font-bold text-blue-800 dark:text-blue-200">
                       {p.level?.quizzesPlayed || 0}
                     </div>
                     <div className="text-sm font-medium text-blue-600 dark:text-blue-400">
@@ -648,9 +648,9 @@ import API from '../utils/api';
                 </div>
                 
                 {/* Accuracy Badge */}
-                <div className="bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 p-3 rounded-lg border border-purple-200 dark:border-purple-700">
+                <div className="bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 p-1 lg:p-3 rounded-lg border border-purple-200 dark:border-purple-700">
                   <div className="text-center">
-                    <div className={`text-2xl font-bold ${
+                    <div className={`text-xl lg:text-2xl font-bold ${
                       (p.level?.accuracy || 0) >= 80 ? 'text-green-800 dark:text-green-200' :
                       (p.level?.accuracy || 0) >= 70 ? 'text-blue-800 dark:text-blue-200' :
                       (p.level?.accuracy || 0) >= 60 ? 'text-yellow-800 dark:text-yellow-200' :
@@ -665,9 +665,9 @@ import API from '../utils/api';
                 </div>
 
                 {/* Level Badge */}
-                <div className="bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 p-3 rounded-lg border border-purple-200 dark:border-pink-700">
+                <div className="bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 p-1 lg:p-3 rounded-lg border border-purple-200 dark:border-pink-700">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-purple-800 dark:text-purple-200">
+                    <div className="text-xl lg:text-2xl font-bold text-purple-800 dark:text-purple-200">
                       {p.level?.currentLevel || 0}
                     </div>
                     <div className="text-sm font-medium text-purple-600 dark:text-purple-400">
@@ -692,7 +692,7 @@ import API from '../utils/api';
           {topPerformers.map((p, i) => (
             <div
               key={i}
-              className={`p-4 rounded-lg border dark:border-gray-600 hover:shadow-lg transition-all duration-200 ${
+              className={`p-2 lg:p-4 rounded-lg border dark:border-gray-600 hover:shadow-lg transition-all duration-200 ${
                 p.userId === currentUserId 
                   ? "bg-gradient-to-r from-red-100 to-yellow-100 dark:from-red-800 dark:to-yellow-900 border-red-400 dark:border-yellow-600 shadow-lg" :
                 i === 0 
@@ -705,7 +705,7 @@ import API from '../utils/api';
               }`}
             >
               <div className="flex items-center gap-4 mb-3">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg ${
+                <div className={`w-8 h-8 lg:w-12 lg:h-12 rounded-full  flex items-center justify-center text-white font-bold text-lg shadow-lg ${
                   p.userId === currentUserId ? "bg-gradient-to-r from-red-500 to-yellow-500 ring-4 ring-red-300 dark:ring-yellow-400" :
                   i === 0 ? "bg-gradient-to-r from-yellow-400 to-orange-500" :
                   i === 1 ? "bg-gradient-to-r from-gray-400 to-slate-500" :
@@ -732,7 +732,7 @@ import API from '../utils/api';
               {/* High Score Badge */}
               <div className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 p-3 rounded-lg mb-3 border border-green-200 dark:border-green-700">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-800 dark:text-green-200">
+                  <div className="text-xl lg:text-xl lg:text-xl lg:text-xl lg:text-xl lg:text-2xl font-bold text-green-800 dark:text-green-200">
                     {p.level?.highScoreQuizzes || 0}
                   </div>
                   <div className="text-sm font-medium text-green-600 dark:text-green-400">
@@ -744,7 +744,7 @@ import API from '../utils/api';
               {/* Total Quizzes Badge */}
               <div className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 p-3 rounded-lg mb-3 border border-blue-200 dark:border-blue-700">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-800 dark:text-blue-200">
+                  <div className="textxl lg:text-xl lg:text-2xl font-bold text-blue-800 dark:text-blue-200">
                     {p.level?.quizzesPlayed || 0}
                   </div>
                   <div className="text-sm font-medium text-blue-600 dark:text-blue-400">
@@ -756,7 +756,7 @@ import API from '../utils/api';
               {/* Level Badge */}
               <div className="bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 p-3 rounded-lg mb-3 border border-purple-200 dark:border-pink-700">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-800 dark:text-purple-200">
+                  <div className="text-xl lg:text-2xl font-bold text-purple-800 dark:text-purple-200">
                     {p.level?.currentLevel || 0}
                   </div>
                   <div className="text-sm font-medium text-purple-600 dark:text-purple-400">
@@ -768,7 +768,7 @@ import API from '../utils/api';
               {/* Accuracy Badge */}
               <div className="bg-gradient-to-r from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 p-3 rounded-lg mb-3 border border-orange-200 dark:border-amber-700">
                 <div className="text-center">
-                  <div className={`text-2xl font-bold ${
+                  <div className={`text-xl lg:text-2xl font-bold ${
                     (p.level?.accuracy || 0) >= 80 ? 'text-green-800 dark:text-green-200' :
                     (p.level?.accuracy || 0) >= 70 ? 'text-blue-800 dark:text-blue-200' :
                     (p.level?.accuracy || 0) >= 60 ? 'text-yellow-800 dark:text-yellow-200' :
@@ -798,14 +798,14 @@ import API from '../utils/api';
             {data.surroundingUsers.map((user, index) => (
               <div
                 key={user.userId}
-                className={`p-4 rounded-lg border transition-all duration-200 ${
+                className={`p-2 lg:p-4 rounded-lg border transition-all duration-200 ${
                   user.isCurrentUser
                     ? "bg-gradient-to-r from-red-100 to-yellow-100 dark:from-red-800 dark:to-yellow-900 border-red-400 dark:border-yellow-600 shadow-lg"
                     : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600 hover:shadow-md"
                 }`}
               >
                 <div className="flex items-center gap-3 mb-3">
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg ${
+                  <div className={`w-8 h-8 lg:w-12 lg:h-12 rounded-full  flex items-center justify-center text-white font-bold text-lg ${
                     user.isCurrentUser
                       ? "bg-gradient-to-r from-red-500 to-yellow-500"
                       : "bg-gradient-to-r from-blue-500 to-indigo-500"
@@ -851,7 +851,7 @@ import API from '../utils/api';
         <div className="mt-12 p-3 md:p-6lg:p-8 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl border-2 border-purple-300 dark:border-pink-500 shadow-xl relative">
 
           <div className="text-center mb-8">
-            <h4 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-3 flex items-center justify-center gap-3">
+            <h4 className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-3 flex items-center justify-center gap-3">
               🎯 Your Competition Zone
             </h4>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
@@ -875,13 +875,13 @@ import API from '../utils/api';
                   </p>
                   <div className="flex gap-6 justify-center md:justify-start">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                      <div className="text-xl lg:text-2xl font-bold text-green-600 dark:text-green-400">
                         {data.currentUser.level.highScoreQuizzes}
                       </div>
                       <div className="text-sm text-gray-600 dark:text-gray-300">High Scores</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                      <div className="text-xl lg:text-2xl font-bold text-blue-600 dark:text-blue-400">
                         {data.currentUser.level.quizzesPlayed}
                       </div>
                       <div className="text-sm text-gray-600 dark:text-gray-300">Total Quizzes</div>

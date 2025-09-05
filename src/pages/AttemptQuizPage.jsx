@@ -31,7 +31,7 @@ import {
 const LeaderboardTable = ({ leaderboard, currentUser }) => {
   if (!leaderboard || leaderboard?.length === 0) {
     return (
-      <div className="text-center py-8">
+      <div className="text-center py-0 md:py-2 lg:py-4 xl:py-6">
         <div className="bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/20 dark:to-red-900/20 rounded-2xl p-2 md:p-8 border border-yellow-200 dark:border-red-700">
           <FaTrophy className="text-4xl text-yellow-500 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">No Leaderboard Yet</h3>
@@ -47,7 +47,7 @@ const LeaderboardTable = ({ leaderboard, currentUser }) => {
         <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center">
           <FaTrophy className="text-white text-xl" />
         </div>
-        <h3 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">Leaderboard</h3>
+        <h3 className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">Leaderboard</h3>
       </div>
       
       <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden">
@@ -493,7 +493,7 @@ const AttemptQuizPage = () => {
               <FaExclamationTriangle className="text-white text-2xl" />
             </div>
             
-            <h2 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-4">
+            <h2 className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-4">
               Exit Quiz?
             </h2>
             
@@ -575,7 +575,7 @@ const AttemptQuizPage = () => {
                 <FaBookOpen className="text-white text-2xl" />
               </div>
               <div>
-                <h1 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white m-1">{quiz?.title}</h1>
+                <h1 className="text-lg md:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white m-1">{quiz?.title}</h1>
                 <p className="text-gray-600 dark:text-gray-400 flex items-center space-x-2">
                   <FaGraduationCap className="text-red-500" />
                   <span>{quiz.questions.length} Questions • {quiz.category?.name || 'General Knowledge'}</span>
@@ -651,21 +651,21 @@ const AttemptQuizPage = () => {
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                   <div className="bg-white/60 dark:bg-gray-700/60 rounded-2xl p-2 md:p-6 border border-white/20">
-                    <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
+                    <div className="text-xl lg:text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
                       {result?.score}
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">Correct Answers</div>
                   </div>
                   
                   <div className="bg-white/60 dark:bg-gray-700/60 rounded-2xl p-2 md:p-6 border border-white/20">
-                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                    <div className="text-xl lg:text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                       {result?.scorePercentage}%
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">Success Rate</div>
                   </div>
                   
                   <div className="bg-white/60 dark:bg-gray-700/60 rounded-2xl p-2 md:p-6 border border-white/20">
-                    <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">
+                    <div className="text-xl lg:text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">
                       {result?.total}
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">Total Questions</div>
@@ -701,7 +701,7 @@ const AttemptQuizPage = () => {
                 <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
                   <FaBrain className="text-white text-2xl" />
                 </div>
-                <h2 className="text-xl md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+                <h2 className="text-xl md:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                   Quiz Review
                 </h2>
               </div>

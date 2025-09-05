@@ -40,7 +40,7 @@ const SystemUpdateModal = ({ isOpen, onClose }) => {
                 <FaRocket className="text-2xl" />
               </div>
               <div>
-                 <h2 className="text-xl lg:text-2xl font-bold">System Update - Payment Live!</h2>
+                 <h2 className="text-xl lg:text-xl lg:text-2xl font-bold">System Update - Payment Live!</h2>
                  <p className="text-blue-100">Payment is live now active with monthly rewards system</p>
               </div>
             </div>

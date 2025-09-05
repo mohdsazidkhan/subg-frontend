@@ -429,7 +429,7 @@ const message =
                     </div>
                     <div>
                       <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Full Name</span>
-                      <p className="text-md lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{student.name}</p>
+                      <p className="text-md lg:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{student.name}</p>
                     </div>
                   </div>
                 </div>
@@ -441,7 +441,7 @@ const message =
                     </div>
                     <div>
                       <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Email Address</span>
-                      <p className=" text-md lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{student.email}</p>
+                      <p className=" text-md lg:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{student.email}</p>
                     </div>
                   </div>
                 </div>
@@ -455,7 +455,7 @@ const message =
                     </div>
                     <div>
                       <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Phone Number</span>
-                      <p className="text-md lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{student.phone}</p>
+                      <p className="text-md lg:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{student.phone}</p>
                     </div>
                   </div>
                 </div>
@@ -491,7 +491,7 @@ const message =
                             const statusInfo = getSubscriptionStatusTextWithTheme(student.subscriptionStatus);
                             return (
                               <>
-                                <span className={`text-2xl font-bold ${statusInfo.textColor}`}>
+                                <span className={`text-xl lg:text-2xl font-bold ${statusInfo.textColor}`}>
                                   {statusInfo.text}
                                 </span>
                               </>
@@ -500,7 +500,7 @@ const message =
                         </div>
                         <div>
                           <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Expires On</span>
-                          <p className="text-md sm:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+                          <p className="text-md sm:text-xl lg:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                             {new Date(student.subscription?.expiresAt).toLocaleDateString()}
                           </p>
                         </div>
@@ -629,7 +629,7 @@ const message =
                   </div>
                   <div>
                     <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Achievement Badges</span>
-                    <p className="text-md lg:text-xl xl:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+                    <p className="text-md lg:text-xl xl:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                       {student.badges && student.badges.length > 0
                         ? student.badges.join(', ')
                         : 'No badges yet'}
@@ -820,7 +820,7 @@ const message =
                     </div>
                     <div>
                       <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Account Holder</span>
-                      <p className="text-lg lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.accountHolderName}</p>
+                      <p className="text-lg lg:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.accountHolderName}</p>
                     </div>
                   </div>
                 </div>
@@ -832,7 +832,7 @@ const message =
                     </div>
                     <div>
                       <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Account Number</span>
-                      <p className="text-lg lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+                      <p className="text-lg lg:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                         {bankDetails.accountNumber.replace(/(\d{4})/g, '$1 ').trim()}
                       </p>
                     </div>
@@ -846,7 +846,7 @@ const message =
                     </div>
                     <div>
                       <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Bank Name</span>
-                      <p className="text-lg lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.bankName}</p>
+                      <p className="text-lg lg:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.bankName}</p>
                     </div>
                   </div>
                 </div>
@@ -858,7 +858,7 @@ const message =
                     </div>
                     <div>
                       <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Branch</span>
-                      <p className="text-lg lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.branchName}</p>
+                      <p className="text-lg lg:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.branchName}</p>
                     </div>
                   </div>
                 </div>
@@ -870,7 +870,7 @@ const message =
                     </div>
                     <div>
                       <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">IFSC Code</span>
-                      <p className="text-lg lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.ifscCode}</p>
+                      <p className="text-lg lg:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.ifscCode}</p>
                     </div>
                   </div>
                 </div>
@@ -1137,19 +1137,19 @@ const message =
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                 <div className="text-center p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-2xl border border-purple-200 dark:border-purple-600">
-                  <div className="text-lg sm:text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">
+                  <div className="text-lg sm:text-xl lg:text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">
                     {rewardsLoading ? '...' : (rewardsData?.monthlyRank || 'N/A')}
                   </div>
                   <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Monthly Rank</div>
                 </div>
                 <div className="text-center p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-2xl border border-blue-200 dark:border-blue-600">
-                  <div className="text-lg sm:text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                  <div className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                     {rewardsLoading ? '...' : (rewardsData?.unlocked?.length || 0)}
                   </div>
                   <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Unlocked Rewards</div>
                 </div>
                 <div className="text-center p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-2xl border border-green-200 dark:border-green-600 sm:col-span-2 md:col-span-1">
-                  <div className="text-lg sm:text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
+                  <div className="text-lg sm:text-xl lg:text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
                     {rewardsLoading ? '...' : `₹${rewardsData?.claimableRewards?.toLocaleString() || '0'}`}
                   </div>
                   <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Total Claimable</div>
@@ -1207,7 +1207,7 @@ const message =
                           {reward?.dateUnlocked ? new Date(reward.dateUnlocked).toLocaleDateString() : 'N/A'}
                         </span>
                       </div>
-                      <p className="text-lg sm:text-2xl font-bold text-blue-700 dark:text-blue-300 mb-3">
+                      <p className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-700 dark:text-blue-300 mb-3">
                         ₹{(reward?.amount || 0).toLocaleString()}
                       </p>
                       <p className="text-xs text-blue-600 dark:text-blue-400 mb-3">
@@ -1243,7 +1243,7 @@ const message =
                           {reward?.dateClaimed ? new Date(reward.dateClaimed).toLocaleDateString() : 'N/A'}
                         </span>
                       </div>
-                      <p className="text-lg sm:text-2xl font-bold text-gray-700 dark:text-gray-200 mb-2">
+                      <p className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-700 dark:text-gray-200 mb-2">
                         ₹{(reward?.amount || 0).toLocaleString()}
                       </p>
                       <div className="text-xs text-green-600 dark:text-green-400 font-medium">
@@ -1285,13 +1285,13 @@ const message =
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div className="text-center p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-xl border border-blue-200 dark:border-blue-600">
-                      <div className="text-lg sm:text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
+                      <div className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
                         {rewardsData.quizProgress?.current || 0}
                       </div>
                       <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Completed</div>
                     </div>
                     <div className="text-center p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-xl border border-blue-200 dark:border-blue-600">
-                      <div className="text-lg sm:text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
+                      <div className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
                         {rewardsData.quizProgress?.required - (rewardsData.quizProgress?.current || 0)}
                       </div>
                       <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Remaining</div>
@@ -1320,7 +1320,7 @@ const message =
               {nextLevel && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                   <div className="text-center p-4 bg-green-50 dark:bg-green-900/30 rounded-xl border border-green-200 dark:border-green-700">
-                    <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-1">
+                    <div className="text-xl lg:text-2xl font-bold text-green-600 dark:text-green-400 mb-1">
                       {highScoreQuizzes}
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-300">High Score Quizzes</div>
@@ -1328,7 +1328,7 @@ const message =
                   </div>
                   
                   <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/30 rounded-xl border border-blue-200 dark:border-blue-700">
-                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
+                    <div className="text-xl lg:text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
                       {nextLevel.quizzesRequired}
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-300">Total Required</div>
@@ -1336,7 +1336,7 @@ const message =
                   </div>
                   
                   <div className="text-center p-4 bg-yellow-50 dark:bg-yellow-900/30 rounded-xl border border-yellow-200 dark:border-yellow-700">
-                    <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mb-1">
+                    <div className="text-xl lg:text-2xl font-bold text-yellow-600 dark:text-yellow-400 mb-1">
                       {Math.max(0, nextLevel.quizzesRequired - highScoreQuizzes)}
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-300">Quizzes Left</div>
@@ -1378,7 +1378,7 @@ const message =
                   })()}
                 </div>
                 <div>
-                  <h3 className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">Next Level: {nextLevel.name}</h3>
+                  <h3 className="text-xl lg:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">Next Level: {nextLevel.name}</h3>
                   <p className="text-gray-600 dark:text-gray-300">Level {nextLevel.number}</p>
                 </div>
               </div>
@@ -1399,7 +1399,7 @@ const message =
                   <FaCrown className="text-white text-2xl" />
                 </div>
                 <div>
-                  <h3 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">Congratulations!</h3>
+                  <h3 className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">Congratulations!</h3>
                   <p className="text-gray-600 dark:text-gray-300 text-lg mt-2">
                     You have reached the highest level! You are a true Quiz Legend! 🏆
                   </p>
@@ -1501,9 +1501,6 @@ const message =
           <PaymentTransactions />
         </div>
         </div>
-
-         
-        
         </div>
     </MobileAppWrapper>
   );

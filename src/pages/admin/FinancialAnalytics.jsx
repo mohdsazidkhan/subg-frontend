@@ -383,7 +383,7 @@ const FinancialAnalytics = () => {
                   <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
                     {card.label}
                   </p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <p className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
                     {card.value}
                   </p>
                 </div>

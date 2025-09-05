@@ -332,7 +332,7 @@ const QuizAnalytics = () => {
                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
                   Total Quizzes
                 </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                <p className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
                   {data.overview?.totalQuizzes?.toLocaleString() || 0}
                 </p>
               </div>
@@ -349,7 +349,7 @@ const QuizAnalytics = () => {
                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
                   Total Attempts
                 </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                <p className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
                   {data.overview?.totalAttempts?.toLocaleString() || 0}
                 </p>
               </div>
@@ -366,7 +366,7 @@ const QuizAnalytics = () => {
                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
                   Average Score
                 </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                <p className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
                   {data.overview?.avgScore?.toFixed(1) || 0}%
                 </p>
               </div>
@@ -479,7 +479,7 @@ const QuizAnalytics = () => {
                     <tr>
                       <td
                         colSpan="3"
-                        className="text-center py-8 text-gray-500 dark:text-gray-400"
+                        className="text-center py-0 md:py-2 lg:py-4 xl:py-6 text-gray-500 dark:text-gray-400"
                       >
                         No quizzes found
                       </td>
@@ -553,7 +553,7 @@ const QuizAnalytics = () => {
                     <tr>
                       <td
                         colSpan="4"
-                        className="text-center py-8 text-gray-500 dark:text-gray-400"
+                        className="text-center py-0 md:py-2 lg:py-4 xl:py-6 text-gray-500 dark:text-gray-400"
                       >
                         No quizzes found
                       </td>
