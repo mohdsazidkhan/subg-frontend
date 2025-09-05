@@ -69,7 +69,13 @@ const AdminPaymentTransactions = () => {
   });
   const [showFilters, setShowFilters] = useState(false);
   const [expandedTransaction, setExpandedTransaction] = useState(null);
-  const [viewMode, setViewMode] = useState('table'); // table, grid, list
+  const [viewMode, setViewMode] = useState(() => {
+    // Set default view based on screen size
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768 ? 'grid' : 'table';
+    }
+    return 'table';
+  }); // table, grid, list
   const [sortField, setSortField] = useState('createdAt');
   const [sortOrder, setSortOrder] = useState('desc');
 
@@ -165,6 +171,20 @@ const AdminPaymentTransactions = () => {
   useEffect(() => {
     fetchFilterOptions();
   }, []);
+
+  // Handle window resize to update view mode
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768 && viewMode === 'table') {
+        setViewMode('grid');
+      } else if (window.innerWidth >= 768 && viewMode === 'grid') {
+        setViewMode('table');
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [viewMode]);
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({
@@ -364,61 +384,78 @@ const AdminPaymentTransactions = () => {
           <div className="bg-white dark:bg-gray-800 rounded-xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
             <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
               {/* Filter Controls */}
-              <div className="flex flex-wrap gap-4 items-center">
+              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
                 <button
                   onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors w-full sm:w-auto"
                 >
                   <FaFilter className="text-sm" />
                   Filters
                 </button>
                 
                 {showFilters && (
-                  <div className="flex flex-wrap gap-4 items-center">
-                    <select
-                      value={filters.year}
-                      onChange={(e) => handleFilterChange('year', parseInt(e.target.value))}
-                      className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500"
-                    >
-                      {filterOptions.years.map(year => (
-                        <option key={year} value={year}>{year}</option>
-                      ))}
-                    </select>
+                  <div className="w-full">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+                      <select
+                        value={filters.year}
+                        onChange={(e) => handleFilterChange('year', parseInt(e.target.value))}
+                        className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 w-full"
+                      >
+                        <option value="">All Years</option>
+                        {filterOptions.years.map(year => (
+                          <option key={year} value={year}>{year}</option>
+                        ))}
+                      </select>
+                      
+                      <select
+                        value={filters.month}
+                        onChange={(e) => handleFilterChange('month', parseInt(e.target.value))}
+                        className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 w-full"
+                      >
+                        <option value={0}>All Months</option>
+                        {Array.from({length: 12}, (_, i) => i + 1).map(month => (
+                          <option key={month} value={month}>
+                            {new Date(0, month - 1).toLocaleString('default', { month: 'long' })}
+                          </option>
+                        ))}
+                      </select>
+                      
+                      <select
+                        value={filters.status}
+                        onChange={(e) => handleFilterChange('status', e.target.value)}
+                        className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 w-full"
+                      >
+                        <option value="all">All Status</option>
+                        {filterOptions.statuses.slice(1).map(status => (
+                          <option key={status} value={status}>{status.charAt(0).toUpperCase() + status.slice(1)}</option>
+                        ))}
+                      </select>
+                      
+                      <select
+                        value={filters.plan}
+                        onChange={(e) => handleFilterChange('plan', e.target.value)}
+                        className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 w-full"
+                      >
+                        <option value="all">All Plans</option>
+                        {filterOptions.plans.map(plan => (
+                          <option key={plan} value={plan}>{plan}</option>
+                        ))}
+                      </select>
+                    </div>
                     
-                    <select
-                      value={filters.month}
-                      onChange={(e) => handleFilterChange('month', parseInt(e.target.value))}
-                      className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500"
-                    >
-                      <option value={0}>All Months</option>
-                      {Array.from({length: 12}, (_, i) => i + 1).map(month => (
-                        <option key={month} value={month}>
-                          {new Date(0, month - 1).toLocaleString('default', { month: 'long' })}
-                        </option>
-                      ))}
-                    </select>
-                    
-                    <select
-                      value={filters.status}
-                      onChange={(e) => handleFilterChange('status', e.target.value)}
-                      className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500"
-                    >
-                      <option value="all">All Status</option>
-                      {filterOptions.statuses.slice(1).map(status => (
-                        <option key={status} value={status}>{status.charAt(0).toUpperCase() + status.slice(1)}</option>
-                      ))}
-                    </select>
-                    
-                    <select
-                      value={filters.plan}
-                      onChange={(e) => handleFilterChange('plan', e.target.value)}
-                      className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500"
-                    >
-                      <option value="all">All Plans</option>
-                      {filterOptions.plans.map(plan => (
-                        <option key={plan} value={plan}>{plan}</option>
-                      ))}
-                    </select>
+                    {/* Search input on separate row for better mobile experience */}
+                    <div className="mt-4">
+                      <div className="relative max-w-md">
+                        <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <input
+                          type="text"
+                          placeholder="Search transactions..."
+                          value={filters.search}
+                          onChange={(e) => handleFilterChange('search', e.target.value)}
+                          className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 w-full"
+                        />
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
@@ -437,8 +474,8 @@ const AdminPaymentTransactions = () => {
                   />
                 </div>
 
-                {/* View Mode Toggle */}
-                <div className="flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+                {/* View Mode Toggle - Hidden on mobile, shown on desktop */}
+                <div className="hidden md:flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
                   <button
                     onClick={() => setViewMode('table')}
                     className={`p-2 rounded ${viewMode === 'table' ? 'bg-white dark:bg-gray-600 shadow-sm' : 'text-gray-500 dark:text-gray-400'}`}
