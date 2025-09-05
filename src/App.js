@@ -55,6 +55,8 @@ import LevelDetailPage from './pages/LevelDetailPage';
 import RewardsPage from './pages/RewardsPage';
 import AdminContacts from './pages/admin/AdminContacts';
 import AdminBankDetails from './pages/admin/AdminBankDetails';
+import AdminPaymentTransactions from './pages/admin/AdminPaymentTransactions';
+import AdminSubscriptions from './pages/admin/AdminSubscriptions';
 import AdminMonthlyWinners from './pages/admin/AdminMonthlyWinners.jsx';
 import ReactGA from 'react-ga4';
 import SearchPage from './pages/SearchPage.jsx';
@@ -140,6 +142,8 @@ function AppLayout() {
             <Route path="/admin/students" element={<AdminRoute><TokenValidationWrapper><StudentPage /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/contacts" element={<AdminRoute><TokenValidationWrapper><AdminContacts /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/bank-details" element={<AdminRoute><TokenValidationWrapper><AdminBankDetails /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/payment-transactions" element={<AdminRoute><TokenValidationWrapper><AdminPaymentTransactions /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/subscriptions" element={<AdminRoute><TokenValidationWrapper><AdminSubscriptions /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/monthly-winners" element={<AdminRoute><TokenValidationWrapper><AdminMonthlyWinners /></TokenValidationWrapper></AdminRoute>} />
             
             {/* Analytics Admin Routes */}

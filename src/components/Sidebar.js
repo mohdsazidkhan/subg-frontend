@@ -74,6 +74,16 @@ const Sidebar = () => {
           <span>Bank Details</span>
         </Link>
 
+        <Link to="/admin/payment-transactions" onClick={() => handleNavClick('payment-transactions')} className={getActiveClass('/admin/payment-transactions')}>
+          <MdTrendingUp className="text-xl" />
+          <span>Payment Transactions</span>
+        </Link>
+
+        <Link to="/admin/subscriptions" onClick={() => handleNavClick('subscriptions')} className={getActiveClass('/admin/subscriptions')}>
+          <MdCardGiftcard className="text-xl" />
+          <span>User Subscriptions</span>
+        </Link>
+
         <Link to="/admin/monthly-winners" onClick={() => handleNavClick('monthly-winners')} className={getActiveClass('/admin/monthly-winners')}>
           <MdCardGiftcard className="text-xl" />
           <span>Monthly Winners</span>

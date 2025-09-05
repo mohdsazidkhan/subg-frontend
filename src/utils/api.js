@@ -514,6 +514,36 @@ class ApiService {
     const queryString = new URLSearchParams(params).toString();
     return this.request(`/api/admin/bank-details?${queryString}`);
   }
+
+  // Admin Payment Transactions
+  async getAdminPaymentTransactions(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/admin/payment-transactions?${queryString}`);
+  }
+
+  async getAdminTransactionFilterOptions() {
+    return this.request('/api/admin/payment-transactions/filter-options');
+  }
+
+  async getAdminTransactionSummary(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/admin/payment-transactions/summary?${queryString}`);
+  }
+
+  // Admin Subscriptions
+  async getAdminSubscriptions(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/admin/subscriptions?${queryString}`);
+  }
+
+  async getAdminSubscriptionFilterOptions() {
+    return this.request('/api/admin/subscriptions/filter-options');
+  }
+
+  async getAdminSubscriptionSummary(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/admin/subscriptions/summary?${queryString}`);
+  }
 }
 
 const API = new ApiService();

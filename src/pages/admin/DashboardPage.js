@@ -12,7 +12,15 @@ const DashboardPage = () => {
     subcategories: 0,
     quizzes: 0,
     questions: 0,
-    students: 0
+    students: 0,
+    bankDetails: 0,
+    subscriptions: 0,
+    activeSubscriptions: 0,
+    freeSubscriptions: 0,
+    paidSubscriptions: 0,
+    paymentOrders: 0,
+    completedPaymentOrders: 0,
+    totalRevenue: 0
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -33,7 +41,15 @@ const DashboardPage = () => {
           subcategories: 0,
           quizzes: 0,
           questions: 0,
-          students: 0
+          students: 0,
+          bankDetails: 0,
+          subscriptions: 0,
+          activeSubscriptions: 0,
+          freeSubscriptions: 0,
+          paidSubscriptions: 0,
+          paymentOrders: 0,
+          completedPaymentOrders: 0,
+          totalRevenue: 0
         });
       } finally {
         setLoading(false);
@@ -103,6 +119,61 @@ const DashboardPage = () => {
   textColor: 'text-yellow-500',
   bgColor: 'bg-yellow-50',
   darkBgColor: 'dark:bg-yellow-900/20'
+    },
+    {
+      title: 'Payment Orders',
+      count: stats.paymentOrders || 0,
+      link: '/admin/payment-transactions',
+      icon: '💳',
+      color: 'bg-green-500',
+      textColor: 'text-green-500',
+      bgColor: 'bg-green-50',
+      darkBgColor: 'dark:bg-green-900/20',
+      subtitle: `${stats.completedPaymentOrders || 0} completed`
+    },
+    {
+      title: 'Total Subscriptions',
+      count: stats.subscriptions || 0,
+      link: '/admin/subscriptions',
+      icon: '👑',
+      color: 'bg-purple-500',
+      textColor: 'text-purple-500',
+      bgColor: 'bg-purple-50',
+      darkBgColor: 'dark:bg-purple-900/20',
+      subtitle: `${stats.activeSubscriptions || 0} active`
+    },
+    {
+      title: 'Total Revenue',
+      count: `₹${(stats.totalRevenue || 0).toLocaleString()}`,
+      link: '/admin/payment-transactions',
+      icon: '💰',
+      color: 'bg-emerald-500',
+      textColor: 'text-emerald-500',
+      bgColor: 'bg-emerald-50',
+      darkBgColor: 'dark:bg-emerald-900/20',
+      subtitle: 'From completed payments'
+    },
+    {
+      title: 'Free Subscriptions',
+      count: stats.freeSubscriptions || 0,
+      link: '/admin/subscriptions',
+      icon: '🆓',
+      color: 'bg-gray-500',
+      textColor: 'text-gray-500',
+      bgColor: 'bg-gray-50',
+      darkBgColor: 'dark:bg-gray-900/20',
+      subtitle: 'Free plan users'
+    },
+    {
+      title: 'Paid Subscriptions',
+      count: stats.paidSubscriptions || 0,
+      link: '/admin/subscriptions',
+      icon: '💎',
+      color: 'bg-indigo-500',
+      textColor: 'text-indigo-500',
+      bgColor: 'bg-indigo-50',
+      darkBgColor: 'dark:bg-indigo-900/20',
+      subtitle: 'Basic/Premium/Pro plans'
     }
 
   ];
@@ -190,14 +261,14 @@ const DashboardPage = () => {
                       {card.title}
                     </h3>
                     <span className="text-sm text-gray-600 dark:text-gray-400">
-                      Total
+                      {card.subtitle || 'Total'}
                     </span>
                   </div>
                   <h3 className="hidden md:block text-lg font-semibold text-gray-900 dark:text-white mb-1">
                     {card.title}
                   </h3>
                   <p className="hidden md:block text-sm text-gray-600 dark:text-gray-400">
-                    Total
+                    {card.subtitle || 'Total'}
                   </p>
                   
                   {/* Hover Arrow */}
@@ -210,6 +281,61 @@ const DashboardPage = () => {
               </div>
             </Link>
           ))}
+        </div>
+
+        {/* Financial Summary */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
+          <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl p-6 text-white">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-green-100 text-sm font-medium">Total Revenue</p>
+                <p className="text-2xl font-bold">₹{(stats.totalRevenue || 0).toLocaleString()}</p>
+                <p className="text-green-200 text-xs mt-1">From all completed payments</p>
+              </div>
+              <div className="text-4xl text-green-200">💰</div>
+            </div>
+          </div>
+          
+          <div className="bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl p-6 text-white">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-blue-100 text-sm font-medium">Payment Success Rate</p>
+                <p className="text-2xl font-bold">
+                  {stats.paymentOrders > 0 ? Math.round((stats.completedPaymentOrders / stats.paymentOrders) * 100) : 0}%
+                </p>
+                <p className="text-blue-200 text-xs mt-1">
+                  {stats.completedPaymentOrders || 0} of {stats.paymentOrders || 0} orders
+                </p>
+              </div>
+              <div className="text-4xl text-blue-200">📊</div>
+            </div>
+          </div>
+          
+          <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-6 text-white">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-purple-100 text-sm font-medium">Active Subscriptions</p>
+                <p className="text-2xl font-bold">{stats.activeSubscriptions || 0}</p>
+                <p className="text-purple-200 text-xs mt-1">
+                  {stats.subscriptions > 0 ? Math.round((stats.activeSubscriptions / stats.subscriptions) * 100) : 0}% of total
+                </p>
+              </div>
+              <div className="text-4xl text-purple-200">👑</div>
+            </div>
+          </div>
+          
+          <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-xl p-6 text-white">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-orange-100 text-sm font-medium">Free vs Paid</p>
+                <p className="text-2xl font-bold">{stats.freeSubscriptions || 0} / {stats.paidSubscriptions || 0}</p>
+                <p className="text-orange-200 text-xs mt-1">
+                  Free plan / Paid plans
+                </p>
+              </div>
+              <div className="text-4xl text-orange-200">📊</div>
+            </div>
+          </div>
         </div>
 
         {/* Quick Actions */}
@@ -277,6 +403,26 @@ const DashboardPage = () => {
               <div>
                 <h3 className="font-medium text-gray-900 dark:text-white">Contact List</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">View Contactst Queries</p>
+              </div>
+            </Link>
+
+            <Link to="/admin/payment-transactions" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 hover:from-green-100 hover:to-green-200 dark:hover:from-green-800/30 dark:hover:to-green-700/30 transition-all duration-300">
+              <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center mr-3">
+                <span className="text-white text-lg">💳</span>
+              </div>
+              <div>
+                <h3 className="font-medium text-gray-900 dark:text-white">Payment Transactions</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">View All Payment Transactions & Revenue</p>
+              </div>
+            </Link>
+
+            <Link to="/admin/subscriptions" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 hover:from-purple-100 hover:to-purple-200 dark:hover:from-purple-800/30 dark:hover:to-purple-700/30 transition-all duration-300">
+              <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center mr-3">
+                <span className="text-white text-lg">👑</span>
+              </div>
+              <div>
+                <h3 className="font-medium text-gray-900 dark:text-white">User Subscriptions</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Manage All User Subscriptions</p>
               </div>
             </Link>
           </div>
