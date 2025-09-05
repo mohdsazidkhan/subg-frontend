@@ -6,18 +6,12 @@ import {
   FaEyeSlash, 
   FaChevronLeft, 
   FaChevronRight, 
-  FaRupeeSign, 
   FaCheckCircle, 
   FaTimesCircle, 
   FaClock, 
   FaExclamationTriangle, 
-  FaCreditCard, 
   FaReceipt, 
-  FaTag, 
-  FaCalendar, 
-  FaGlobe, 
   FaSearch, 
-  FaTimes,
   FaTable,
   FaTh,
   FaList,
@@ -266,7 +260,7 @@ const AdminPaymentTransactions = () => {
         transaction.user?.name || 'N/A',
         transaction.planName || 'N/A',
         transaction.amount || 0,
-        transaction.status || 'N/A',
+        transaction.payuStatus || transaction.status || 'N/A',
         transaction.paymentMethod || 'N/A',
         transaction.orderId || 'N/A'
       ];
@@ -561,15 +555,15 @@ const AdminPaymentTransactions = () => {
                               {transaction.user?.name || 'N/A'}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                              {transaction.planName || 'N/A'}
+                              {transaction.planId?.toUpperCase() || 'N/A'}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                               {formatCurrency(transaction.amount || 0)}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
-                              <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(transaction.status)}`}>
-                                {getStatusIcon(transaction.status)}
-                                {transaction.status?.charAt(0).toUpperCase() + transaction.status?.slice(1) || 'Unknown'}
+                              <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(transaction.payuStatus || transaction.status)}`}>
+                                {getStatusIcon(transaction.payuStatus || transaction.status)}
+                                {(transaction.payuStatus || transaction.status)?.charAt(0).toUpperCase() + (transaction.payuStatus || transaction.status)?.slice(1) || 'Unknown'}
                               </span>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
@@ -598,9 +592,9 @@ const AdminPaymentTransactions = () => {
                     <div key={transaction._id} className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2">
-                          {getStatusIcon(transaction.status)}
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(transaction.status)}`}>
-                            {transaction.status?.charAt(0).toUpperCase() + transaction.status?.slice(1) || 'Unknown'}
+                          {getStatusIcon(transaction.payuStatus || transaction.status)}
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(transaction.payuStatus || transaction.status)}`}>
+                            {(transaction.payuStatus || transaction.status)?.charAt(0).toUpperCase() + (transaction.payuStatus || transaction.status)?.slice(1) || 'Unknown'}
                           </span>
                         </div>
                         <button
@@ -650,9 +644,9 @@ const AdminPaymentTransactions = () => {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
                           <div className="flex items-center gap-2">
-                            {getStatusIcon(transaction.status)}
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(transaction.status)}`}>
-                              {transaction.status?.charAt(0).toUpperCase() + transaction.status?.slice(1) || 'Unknown'}
+                            {getStatusIcon(transaction.payuStatus || transaction.status)}
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(transaction.payuStatus || transaction.status)}`}>
+                              {(transaction.payuStatus || transaction.status)?.charAt(0).toUpperCase() + (transaction.payuStatus || transaction.status)?.slice(1) || 'Unknown'}
                             </span>
                           </div>
                           
