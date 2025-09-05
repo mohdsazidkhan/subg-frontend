@@ -285,7 +285,7 @@ const DashboardPage = () => {
 
         {/* Financial Summary */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
-          <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl p-6 text-white">
+          <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl p-3 lg:p-6 text-white">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-green-100 text-sm font-medium">Total Revenue</p>
@@ -296,7 +296,7 @@ const DashboardPage = () => {
             </div>
           </div>
           
-          <div className="bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl p-6 text-white">
+          <div className="bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl p-3 lg:p-6 text-white">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-blue-100 text-sm font-medium">Payment Success Rate</p>
@@ -311,7 +311,7 @@ const DashboardPage = () => {
             </div>
           </div>
           
-          <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-6 text-white">
+          <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-3 lg:p-6 text-white">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-purple-100 text-sm font-medium">Active Subscriptions</p>
@@ -324,7 +324,7 @@ const DashboardPage = () => {
             </div>
           </div>
           
-          <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-xl p-6 text-white">
+          <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-xl p-3 lg:p-6 text-white">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-orange-100 text-sm font-medium">Free vs Paid</p>
