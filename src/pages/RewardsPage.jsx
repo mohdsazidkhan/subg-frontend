@@ -22,7 +22,7 @@ const RewardsPage = () => {
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">❌</div>
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">Error Loading Rewards</h2>
+          <h2 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-2">Error Loading Rewards</h2>
           <p className="text-gray-600 dark:text-gray-300 mb-4">{error}</p>
           <button 
             onClick={() => window.location.reload()}

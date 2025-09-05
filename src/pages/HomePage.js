@@ -328,7 +328,7 @@ const HomePage = () => {
               <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl sm:rounded-2xl flex items-center justify-center">
                 <FaAward className="text-white text-lg sm:text-xl md:text-2xl" />
               </div>
-              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
+              <h3 className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                 Scholarship & Prizes
               </h3>
             </div>
@@ -363,7 +363,7 @@ const HomePage = () => {
               <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl sm:rounded-2xl flex items-center justify-center">
                 <FaGem className="text-white text-lg sm:text-xl md:text-2xl" />
               </div>
-              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
+              <h3 className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                 Progression Rules
               </h3>
             </div>
@@ -757,7 +757,7 @@ const HomePage = () => {
 
           {/* How It Works */}
           <div className="bg-gray-100 dark:bg-white/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8">
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4 text-center">
+            <h3 className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4 text-center">
               How It Works
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">

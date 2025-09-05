@@ -24,7 +24,7 @@ const QuizStartModal = ({
             <FaPlay className="text-white text-2xl" />
           </div>
           
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+          <h2 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-4">
             Start Quiz?
           </h2>
           

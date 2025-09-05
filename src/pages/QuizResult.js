@@ -38,7 +38,7 @@ const LeaderboardTable = ({ leaderboard, currentUser }) => {
         <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center">
           <FaTrophy className="text-white text-xl" />
         </div>
-        <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
+        <h3 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
           Leaderboard
         </h3>
       </div>
@@ -285,7 +285,7 @@ const QuizResult = () => {
         <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl px-2 py-4 md:p-8 border border-white/20 max-w-4xl mx-auto mb-8">
           {/* Quiz Title */}
           <div className="text-center mb-6">
-            <h2 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2">
+            <h2 className="text-xl md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-2">
               {quizResult?.quizTitle || "Quiz Result"}
             </h2>
             {quizResult?.categoryName && (
@@ -300,7 +300,7 @@ const QuizResult = () => {
           {/* Score Display */}
           <div className="text-center mb-8">
             <div
-              className={`text-4xl md:text-6xl font-bold mb-4 ${getScoreColor(
+              className={`text-4xl md:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${getScoreColor(
                 quizResult?.scorePercentage
               )}`}
             >
@@ -327,7 +327,7 @@ const QuizResult = () => {
               <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center mx-auto mb-3">
                 <FaCheckCircle className="text-white text-xl" />
               </div>
-              <div className="text-2xl font-bold text-gray-800 dark:text-white">
+              <div className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                 {quizResult?.score}
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-300">
@@ -339,7 +339,7 @@ const QuizResult = () => {
               <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-500 rounded-xl flex items-center justify-center mx-auto mb-3">
                 <FaBrain className="text-white text-xl" />
               </div>
-              <div className="text-2xl font-bold text-gray-800 dark:text-white">
+              <div className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                 {quizResult?.scorePercentage}%
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-300">
@@ -351,7 +351,7 @@ const QuizResult = () => {
               <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mx-auto mb-3">
                 <FaAward className="text-white text-xl" />
               </div>
-              <div className="text-2xl font-bold text-gray-800 dark:text-white">
+              <div className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                 {quizResult?.isHighScore ? "High Score" : "Standard"}
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-300">
@@ -401,7 +401,7 @@ const QuizResult = () => {
             <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-yellow-500 rounded-2xl flex items-center justify-center">
               <FaBrain className="text-white text-2xl" />
             </div>
-            <h2 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
+            <h2 className="text-xl md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
               Quiz Review
             </h2>
           </div>

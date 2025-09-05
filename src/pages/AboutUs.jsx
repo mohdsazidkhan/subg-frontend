@@ -174,7 +174,7 @@ const AboutUs = () => {
           {/* Call to Action */}
           <div className="text-center">
             <div className="bg-gradient-to-r from-yellow-100 to-red-100 dark:from-yellow-800 dark:to-red-800 rounded-3xl p-3 m:p-6 lg:p-8 text-white">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 dark:text-white">Ready to Start <br/>Your Quiz Journey?</h2>
+              <h2 className="text-2xl md:text-2xl lg:text-3xl font-bold mb-4 text-gray-800 dark:text-white">Ready to Start <br/>Your Quiz Journey?</h2>
               <p className="text-xl mb-6 opacity-90 text-gray-800 dark:text-white">
                 Join thousands of learners who are already turning their knowledge into success
               </p>

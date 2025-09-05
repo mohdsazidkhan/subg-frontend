@@ -113,7 +113,7 @@ const LoginPage = () => {
         {/* Left Side - Quiz Platform Info */}
         <div className="hidden lg:block space-y-8">
           <div className="text-center lg:text-left">
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-gray-800 dark:text-gray-100">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gray-800 dark:text-gray-100">
               Welcome Back! 🎯
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">

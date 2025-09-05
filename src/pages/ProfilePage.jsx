@@ -361,14 +361,14 @@ const message =
         {/* Enhanced Hero Section */}
         <div className="text-center mb-10 sm:mb-16 profile-hero">
           <div className="relative inline-block mb-6 sm:mb-8">
-            <div className="w-16 sm:w-32 h-16 sm:h-32 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto shadow-2xl floating-animation">
+            <div className="w-16 lg:w-24 h-16 lg:h-24 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto shadow-2xl floating-animation">
               <FaUser className="text-white text-2xl sm:text-4xl" />
             </div>
             <div className="absolute -top-2 -right-2 w-6 sm:w-8 h-6 sm:h-8 bg-gradient-to-r from-green-400 to-yellow-500 rounded-full flex items-center justify-center animate-bounce">
               <FaCrown className="text-white text-xs sm:text-sm" />
             </div>
           </div>
-          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-bold text-gray-600 dark:text-gray-100 mb-4 sm:mb-6">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-600 dark:text-gray-100 mb-4 sm:mb-6">
             {student.name?.split(' ')[0]}'s Profile
           </h1>
           <p className="text-base sm:text-xl lg:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -429,7 +429,7 @@ const message =
                     </div>
                     <div>
                       <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Full Name</span>
-                      <p className="text-md lg:text-2xl font-bold text-gray-800 dark:text-white">{student.name}</p>
+                      <p className="text-md lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{student.name}</p>
                     </div>
                   </div>
                 </div>
@@ -441,7 +441,7 @@ const message =
                     </div>
                     <div>
                       <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Email Address</span>
-                      <p className=" text-md lg:text-2xl font-bold text-gray-800 dark:text-white">{student.email}</p>
+                      <p className=" text-md lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{student.email}</p>
                     </div>
                   </div>
                 </div>
@@ -455,7 +455,7 @@ const message =
                     </div>
                     <div>
                       <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Phone Number</span>
-                      <p className="text-md lg:text-2xl font-bold text-gray-800 dark:text-white">{student.phone}</p>
+                      <p className="text-md lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{student.phone}</p>
                     </div>
                   </div>
                 </div>
@@ -500,7 +500,7 @@ const message =
                         </div>
                         <div>
                           <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Expires On</span>
-                          <p className="text-md sm:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+                          <p className="text-md sm:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                             {new Date(student.subscription?.expiresAt).toLocaleDateString()}
                           </p>
                         </div>
@@ -629,7 +629,7 @@ const message =
                   </div>
                   <div>
                     <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Achievement Badges</span>
-                    <p className="text-md lg:text-xl xl:text-2xl font-bold text-gray-800 dark:text-white">
+                    <p className="text-md lg:text-xl xl:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                       {student.badges && student.badges.length > 0
                         ? student.badges.join(', ')
                         : 'No badges yet'}
@@ -793,7 +793,7 @@ const message =
                 <FaUniversity className="text-white text-3xl" />
               </div>
               <div>
-                <h2 className="text-xl lg:text-4xl font-bold text-gray-800 dark:text-white">
+                <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-800 dark:text-white">
                   Bank Details
                 </h2>
                 <p className="text-gray-600 dark:text-gray-300 text-lg">
@@ -820,7 +820,7 @@ const message =
                     </div>
                     <div>
                       <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Account Holder</span>
-                      <p className="text-lg lg:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.accountHolderName}</p>
+                      <p className="text-lg lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.accountHolderName}</p>
                     </div>
                   </div>
                 </div>
@@ -832,7 +832,7 @@ const message =
                     </div>
                     <div>
                       <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Account Number</span>
-                      <p className="text-lg lg:text-2xl font-bold text-gray-800 dark:text-white">
+                      <p className="text-lg lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                         {bankDetails.accountNumber.replace(/(\d{4})/g, '$1 ').trim()}
                       </p>
                     </div>
@@ -846,7 +846,7 @@ const message =
                     </div>
                     <div>
                       <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Bank Name</span>
-                      <p className="text-lg lg:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.bankName}</p>
+                      <p className="text-lg lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.bankName}</p>
                     </div>
                   </div>
                 </div>
@@ -858,7 +858,7 @@ const message =
                     </div>
                     <div>
                       <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Branch</span>
-                      <p className="text-lg lg:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.branchName}</p>
+                      <p className="text-lg lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.branchName}</p>
                     </div>
                   </div>
                 </div>
@@ -870,7 +870,7 @@ const message =
                     </div>
                     <div>
                       <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">IFSC Code</span>
-                      <p className="text-lg lg:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.ifscCode}</p>
+                      <p className="text-lg lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{bankDetails.ifscCode}</p>
                     </div>
                   </div>
                 </div>
@@ -1050,7 +1050,7 @@ const message =
               <FaTrophy className="text-white text-3xl" />
             </div>
             <div>
-              <h2 className="text-xl lg:text-4xl font-bold text-gray-800 dark:text-white">
+              <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-800 dark:text-white">
                 Level Progression
               </h2>
               <p className="text-gray-600 dark:text-gray-300 text-lg">
@@ -1071,7 +1071,7 @@ const message =
                 })()}
               </div>
               <div className="text-left">
-                <div className="text-xl lg:text-4xl font-bold text-gray-800 dark:text-white">
+                <div className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-800 dark:text-white">
                   Level {userLevel.number} - {userLevel.name}
                 </div>
                 <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
@@ -1378,7 +1378,7 @@ const message =
                   })()}
                 </div>
                 <div>
-                  <h3 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">Next Level: {nextLevel.name}</h3>
+                  <h3 className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">Next Level: {nextLevel.name}</h3>
                   <p className="text-gray-600 dark:text-gray-300">Level {nextLevel.number}</p>
                 </div>
               </div>
@@ -1399,7 +1399,7 @@ const message =
                   <FaCrown className="text-white text-2xl" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white">Congratulations!</h3>
+                  <h3 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">Congratulations!</h3>
                   <p className="text-gray-600 dark:text-gray-300 text-lg mt-2">
                     You have reached the highest level! You are a true Quiz Legend! 🏆
                   </p>
@@ -1424,7 +1424,7 @@ const message =
               <FaBrain className="text-white text-3xl" />
             </div>
             <div>
-              <h2 className="text-xl lg:text-4xl font-bold text-gray-800 dark:text-white">
+              <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-800 dark:text-white">
                 Quiz History
               </h2>
               <p className="text-gray-600 dark:text-gray-300 text-md lg:text-lg">

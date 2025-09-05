@@ -760,7 +760,7 @@ const DashboardAnalytics = () => {
                   <FaCrown className="text-white text-xl" />
                 </div>
                 <div>
-                                    <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+                                    <h2 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                     Top Performers
                   </h2>
                   <p className="text-gray-600 dark:text-gray-400">

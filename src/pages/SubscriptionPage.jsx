@@ -304,19 +304,19 @@ const SubscriptionPage = () => {
   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 sm:w-96 h-48 sm:h-96 bg-gradient-to-r from-green-400/10 to-yellow-400/10 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
 
-      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8 mt-0 md:mt-16 relative z-10">
+      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8 mt-0 relative z-10">
         
         {/* Hero Section */}
-        <div className="text-center mb-10 sm:mb-16 subscription-hero">
+        <div className="text-center mb-4 lg:mb-6 subscription-hero">
           <div className="relative inline-block mb-6 sm:mb-8">
-            <div className="w-16 sm:w-32 h-16 sm:h-32 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto shadow-2xl floating-animation">
+            <div className="w-16 lg:w-24 h-16 lg:h-24 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto shadow-2xl floating-animation">
               <FaWallet className="text-white text-2xl sm:text-4xl" />
             </div>
             <div className="absolute -top-2 -right-2 w-6 sm:w-8 h-6 sm:h-8 bg-gradient-to-r from-green-400 to-yellow-500 rounded-full flex items-center justify-center animate-bounce">
               <FaCrown className="text-white text-xs sm:text-sm" />
             </div>
           </div>
-          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-bold text-gray-600 dark:text-gray-100 mb-4 sm:mb-6">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-600 dark:text-gray-100 mb-4 sm:mb-6">
             Unlock Your Potential
           </h1>
           <p className="text-base sm:text-xl lg:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -329,11 +329,11 @@ const SubscriptionPage = () => {
           <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-2xl p-2 py-4 md:p-8 border border-white/30 mb-16 hover-lift">
             <div className="flex items-center justify-between mb-8 flex-col md:flex-row">
               <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
+                <div className="w-12 h-12  lg:w-16 lg:h-16 xl:w-20 xl:h-20 bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
                   <FaShieldAlt className="text-white text-3xl" />
                 </div>
                 <div>
-                  <h2 className="text-xl md:text-4xl font-bold text-gray-800 dark:text-white">
+                  <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-800 dark:text-white">
                     Current Subscription
                   </h2>
                   <p className="text-gray-600 dark:text-gray-300 text-lg">
@@ -352,7 +352,7 @@ const SubscriptionPage = () => {
               </button>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2  xl:grid-cols-4 gap-4 md:gap-8">
               <div className="bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl p-3 md:p-6 border border-yellow-200 dark:border-yellow-700 hover-scale">
                 <div className="flex items-center space-x-4 mb-0 md:mb-4">
                   <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center">
@@ -360,7 +360,7 @@ const SubscriptionPage = () => {
                   </div>
                   <div>
                     <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Current Plan</span>
-                    <p className="text-2xl font-bold text-gray-800 dark:text-white">
+                    <p className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                       {subscription.planName?.toUpperCase() || 'Free'}
                     </p>
                   </div>
@@ -413,7 +413,7 @@ const SubscriptionPage = () => {
                   </div>
                   <div>
                     <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Expires On</span>
-                    <p className="text-2xl font-bold text-gray-800 dark:text-white">
+                    <p className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                       {subscription.expiryDate ? 
                         new Date(subscription.expiryDate).toLocaleDateString() : 
                         'N/A'
@@ -434,7 +434,7 @@ const SubscriptionPage = () => {
         {/* Subscription Plans */}
         <div className="mb-16" id="plans-section">
           <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-6">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-6">
               Choose Your Perfect Plan
             </h2>
             <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
@@ -505,7 +505,7 @@ const SubscriptionPage = () => {
 
                   {/* Plan Header */}
                   <div className="text-center mb-8 pt-4">
-                    <h3 className={`text-3xl font-bold mb-4 ${
+                    <h3 className={`text-2xl lg:text-3xl font-bold mb-4 ${
                       isCurrentPlan 
                         ? 'text-green-600 dark:text-green-400' 
                         : 'text-gray-800 dark:text-white'
@@ -523,7 +523,7 @@ const SubscriptionPage = () => {
                       </div>
                     </div>
                     <div className="mb-2">
-                      <span className="text-6xl font-bold bg-gradient-to-r from-green-600 via-yellow-600 to-red-600 bg-clip-text text-transparent">
+                      <span className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-green-600 via-yellow-600 to-red-600 bg-clip-text text-transparent">
                         ₹{plan.price}
                       </span>
                       <span className="text-gray-600 dark:text-gray-300 text-lg">/month</span>
@@ -610,7 +610,7 @@ const SubscriptionPage = () => {
         {/* Benefits Section */}
         <div className="mb-16">
           <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-4xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-6">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-6">
               Why Choose Premium?
             </h2>
             <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300">
@@ -618,7 +618,7 @@ const SubscriptionPage = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2  xl:grid-cols-4 gap-4 sm:gap-8">
             {[
               {
                 icon: FaInfinity,
@@ -670,7 +670,7 @@ const SubscriptionPage = () => {
 
         {/* Call to Action */}
         <div className="text-center bg-gradient-to-r from-yellow-200 via-red-200 to-pink-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 rounded-3xl p-6 sm:p-12 text-white shadow-2xl hover-lift">
-          <h2 className="text-2xl sm:text-4xl font-bold mb-2 sm:mb-4 text-gray-800 dark:text-white">
+          <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold mb-2 sm:mb-4 text-gray-800 dark:text-white">
             Ready to Start Your Journey?
           </h2>
           <p className="text-base sm:text-xl mb-4 sm:mb-8 text-gray-600 dark:text-white">
