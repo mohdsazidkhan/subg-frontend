@@ -40,8 +40,8 @@ const SystemUpdateModal = ({ isOpen, onClose }) => {
                 <FaRocket className="text-2xl" />
               </div>
               <div>
-                 <h2 className="text-xl lg:text-2xl font-bold">New System Update!</h2>
-                 <p className="text-blue-100">Welcome to the MONTHLY rewards system</p>
+                 <h2 className="text-xl lg:text-2xl font-bold">System Update - Payment Live!</h2>
+                 <p className="text-blue-100">Payment is live now active with monthly rewards system</p>
               </div>
             </div>
             <button
@@ -69,21 +69,6 @@ const SystemUpdateModal = ({ isOpen, onClose }) => {
             </div>
            </div>
 
-           <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-xl p-3 lg:p-4">
-             <div className="flex items-start space-x-3">
-               <span className="text-yellow-600 dark:text-yellow-400 text-2xl mt-1 flex-shrink-0">🎮</span>
-               <div>
-                 <h3 className="text-lg font-semibold text-yellow-800 dark:text-yellow-200 mb-2">
-                   🎯 Start Playing from September 1st!
-                 </h3>
-                 <p className="text-yellow-700 dark:text-yellow-300">
-                   <strong>Important:</strong> The new monthly system officially begins on <strong>1st September</strong>. 
-                   Until then, you can practice with Levels 0-3 for free and earn referral rewards. 
-                   <strong>Monthly competitions and prize distribution will start from September!</strong>
-                 </p>
-               </div>
-             </div>
-           </div>
 
            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-xl p-2 lg:p-4">
             <h3 className="text-lg font-semibold text-green-800 dark:text-green-200 mb-3 flex items-center">
@@ -115,7 +100,7 @@ const SystemUpdateModal = ({ isOpen, onClose }) => {
           <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-xl p-2 lg:p-4">
             <h3 className="text-lg font-semibold text-purple-800 dark:text-purple-200 mb-3 flex items-center">
               <FaCreditCard className="text-xl mr-2" />
-              New Subscription Plans
+              Subscription Plans - Now Available!
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
               <div className="bg-white dark:bg-gray-700 rounded-lg p-4 text-center">
@@ -143,6 +128,9 @@ const SystemUpdateModal = ({ isOpen, onClose }) => {
                 <div className="text-lg font-bold text-yellow-600">₹99/month</div>
               </div>
             </div>
+            <p className="text-sm text-purple-700 dark:text-purple-300 mt-3 text-center">
+              <strong>Secure Payments:</strong> All payments are processed securely through PayU payment gateway with multiple payment options available!
+            </p>
           </div>
 
           <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-700 rounded-xl p-4">
@@ -175,14 +163,14 @@ const SystemUpdateModal = ({ isOpen, onClose }) => {
             </p>
           </div>
 
-          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-xl p-4">
-            <h3 className="text-lg font-semibold text-red-800 dark:text-red-200 mb-2 flex items-center">
-              <span className="text-xl mr-2">💡</span>
-              Current Status
+          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-xl p-4">
+            <h3 className="text-lg font-semibold text-green-800 dark:text-green-200 mb-2 flex items-center">
+              <span className="text-xl mr-2">🚀</span>
+              Payment Live!
             </h3>
-            <p className="text-red-700 dark:text-red-300">
-              <strong>Testing Mode:</strong> Payment options are not live yet. You can currently play <strong>Levels 0 to 3 for free!</strong>{' '}
-              <strong className='ps-2'>Referral system is fully working</strong> - you can earn free subscriptions by referring friends! Payment subscriptions will be available when we go live.
+            <p className="text-green-700 dark:text-green-300">
+              <strong>Payment System Active:</strong> Payment is now live! You can now purchase subscriptions using secure payment methods.{' '}
+              <strong className='ps-2'>Free Levels 0-3</strong> are still available for practice, and the <strong>referral system</strong> continues to work - earn free subscriptions by referring friends!
             </p>
           </div>
         </div>
@@ -190,7 +178,7 @@ const SystemUpdateModal = ({ isOpen, onClose }) => {
         <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-b-2xl">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-sm text-gray-600 dark:text-gray-400 text-center sm:text-left">
-              🎉 Welcome to the new era of monthly competitions and rewards!
+              🎉 Welcome to the new era of monthly competitions, rewards, and live payments!
             </p>
             <button
               onClick={handleClose}
