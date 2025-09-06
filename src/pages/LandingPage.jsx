@@ -118,7 +118,29 @@ const LandingPage = () => {
       }
 
       if (topPerformersRes.success) {
-        setTopPerformers(topPerformersRes.data);
+        // Sort the top performers using the same logic as Performance Analytics
+        const sortedTopPerformers = topPerformersRes.data.sort((a, b) => {
+          // First priority: High Score Wins (descending) - same as Performance Analytics
+          const aHighScore = a.highQuizzes || 0;
+          const bHighScore = b.highQuizzes || 0;
+          if (aHighScore !== bHighScore) {
+            return bHighScore - aHighScore;
+          }
+          
+          // Second priority: Accuracy (descending) - same as Performance Analytics
+          const aAccuracy = a.accuracy || 0;
+          const bAccuracy = b.accuracy || 0;
+          if (aAccuracy !== bAccuracy) {
+            return bAccuracy - aAccuracy;
+          }
+          
+          // Third priority: Total quizzes played (descending) - same as Performance Analytics
+          const aTotalQuizzes = a.totalQuizzes || 0;
+          const bTotalQuizzes = b.totalQuizzes || 0;
+          return bTotalQuizzes - aTotalQuizzes;
+        });
+        
+        setTopPerformers(sortedTopPerformers);
       }
 
       if (statsRes.success) {
@@ -970,14 +992,12 @@ const LandingPage = () => {
                             </span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="font-bold text-gray-900 dark:text-white text-lg">
-                              {performer.userLevel || 0}
-                            </span>
-                            {(performer.userLevel || 0) > 0 && (
-                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200">
-                                Level
-                              </span>
-                            )}
+                            <div className="font-bold text-gray-900 dark:text-white text-lg">
+                              {performer.userLevelName || 0}
+                            </div>
+                            <div className="font-medium text-gray-400 dark:text-white text-lg">
+                                Level {performer.userLevelNo}
+                            </div>
                           </div>
                         </div>
                       </td>

@@ -170,25 +170,26 @@ import API from '../utils/api';
     if (!data?.topPerformers) return [];
     const performers = [...data.topPerformers];
     return performers.sort((a, b) => {
+      // Use the transformed data structure (level properties contain monthly data)
       const aHighScore = a.level?.highScoreQuizzes || 0;
       const bHighScore = b.level?.highScoreQuizzes || 0;
+      const aAccuracy = a.level?.accuracy || 0;
+      const bAccuracy = b.level?.accuracy || 0;
       const aTotalQuizzes = a.level?.quizzesPlayed || 0;
       const bTotalQuizzes = b.level?.quizzesPlayed || 0;
       
-      // First priority: High score (descending)
+      // First priority: High Score Wins (descending) - same as Performance Analytics
       if (aHighScore !== bHighScore) {
         return bHighScore - aHighScore;
       }
       
-      // Second priority: Total quizzes (ascending - fewer is better)
-      if (aTotalQuizzes !== bTotalQuizzes) {
-        return aTotalQuizzes - bTotalQuizzes;
+      // Second priority: Accuracy (descending) - same as Performance Analytics
+      if (aAccuracy !== bAccuracy) {
+        return bAccuracy - aAccuracy;
       }
       
-      // Third priority: Average score (descending)
-      const aAvgScore = a.level?.averageScore || 0;
-      const bAvgScore = b.level?.averageScore || 0;
-      return bAvgScore - aAvgScore;
+      // Third priority: Total quizzes played (descending) - same as Performance Analytics
+      return bTotalQuizzes - aTotalQuizzes;
     });
   };
 
