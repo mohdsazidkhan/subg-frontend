@@ -1,3 +1,5 @@
+import apiDeduplication from './apiDeduplication';
+
 const API_BASE_URL = process.env.REACT_APP_API_URL || 
   (process.env.NODE_ENV === 'production' ? 'https://subg-backend.onrender.com' : 'http://localhost:5000');
 
@@ -171,7 +173,18 @@ class ApiService {
   }
 
   async getAllLevels() {
-    return this.request('/api/levels/all-with-quiz-count');
+    const key = apiDeduplication.generateKey('/api/levels/all-with-quiz-count');
+    
+    // Check if request is already ongoing
+    if (apiDeduplication.isRequestOngoing(key)) {
+      console.log('🔄 Reusing ongoing getAllLevels request');
+      return apiDeduplication.getOngoingRequest(key);
+    }
+    
+    // Start new request with deduplication
+    return apiDeduplication.startRequest(key, () => {
+      return this.request('/api/levels/all-with-quiz-count');
+    });
   }
 
   async getLevelBasedQuizzes(params = {}) {
@@ -271,7 +284,16 @@ class ApiService {
   }
 
   async getPublicLandingStats() {
-    return this.request('/api/public/landing-stats');
+    const key = apiDeduplication.generateKey('/api/public/landing-stats');
+    
+    if (apiDeduplication.isRequestOngoing(key)) {
+      console.log('🔄 Reusing ongoing getPublicLandingStats request');
+      return apiDeduplication.getOngoingRequest(key);
+    }
+    
+    return apiDeduplication.startRequest(key, () => {
+      return this.request('/api/public/landing-stats');
+    });
   }
 
   async getPublicLevels() {
@@ -279,12 +301,30 @@ class ApiService {
   }
 
   async getPublicCategoriesEnhanced() {
-    return this.request('/api/public/categories-enhanced');
+    const key = apiDeduplication.generateKey('/api/public/categories-enhanced');
+    
+    if (apiDeduplication.isRequestOngoing(key)) {
+      console.log('🔄 Reusing ongoing getPublicCategoriesEnhanced request');
+      return apiDeduplication.getOngoingRequest(key);
+    }
+    
+    return apiDeduplication.startRequest(key, () => {
+      return this.request('/api/public/categories-enhanced');
+    });
   }
 
   async getPublicLandingTopPerformers(limit = 10) {
-    const queryString = new URLSearchParams({ limit }).toString();
-    return this.request(`/api/public/landing-top-performers?${queryString}`);
+    const url = `/api/public/landing-top-performers?limit=${limit}`;
+    const key = apiDeduplication.generateKey(url);
+    
+    if (apiDeduplication.isRequestOngoing(key)) {
+      console.log('🔄 Reusing ongoing getPublicLandingTopPerformers request');
+      return apiDeduplication.getOngoingRequest(key);
+    }
+    
+    return apiDeduplication.startRequest(key, () => {
+      return this.request(url);
+    });
   }
 
   // ===== MONTHLY WINNERS ENDPOINTS =====

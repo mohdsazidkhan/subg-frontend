@@ -4,6 +4,9 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 const apiCache = new Map();
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
+// Track ongoing requests to prevent duplicate calls
+const ongoingRequests = new Map();
+
 // Custom hook for API caching
 export const useApiCache = (apiCall, dependencies = [], options = {}) => {
   const [data, setData] = useState(null);
@@ -21,9 +24,30 @@ export const useApiCache = (apiCall, dependencies = [], options = {}) => {
 
   // Generate cache key based on API call and dependencies
   const generateCacheKey = useCallback(() => {
+    // Extract API endpoint from the function string for better key consistency
     const apiString = apiCall.toString();
+    let endpoint = '';
+    
+    // Try to extract endpoint from common API patterns
+    if (apiString.includes('/api/levels/all-with-quiz-count')) {
+      endpoint = 'levels-all-with-quiz-count';
+    } else if (apiString.includes('/api/public/categories')) {
+      endpoint = 'public-categories';
+    } else if (apiString.includes('/api/public/landing-top-performers')) {
+      endpoint = 'landing-top-performers';
+    } else if (apiString.includes('/api/public/landing-stats')) {
+      endpoint = 'landing-stats';
+    } else if (apiString.includes('/api/student/home')) {
+      endpoint = 'student-home';
+    } else if (apiString.includes('/api/student/profile')) {
+      endpoint = 'student-profile';
+    } else {
+      // Fallback to function string hash
+      endpoint = apiString.split('(')[0].split(' ').pop() || 'unknown';
+    }
+    
     const depsString = JSON.stringify(dependencies);
-    return `${apiString}_${depsString}`;
+    return `${endpoint}_${depsString}`;
   }, [apiCall, dependencies]);
 
   const fetchData = useCallback(async (forceRefresh = false) => {
@@ -50,33 +74,70 @@ export const useApiCache = (apiCall, dependencies = [], options = {}) => {
       }
     }
 
-    try {
-      if (isMountedRef.current) {
-        setLoading(true);
-        setError(null);
+    // Check if there's already an ongoing request for this key
+    if (ongoingRequests.has(key)) {
+      // Wait for the ongoing request to complete
+      try {
+        const result = await ongoingRequests.get(key);
+        if (isMountedRef.current) {
+          setData(result);
+          setLoading(false);
+          setError(null);
+        }
+        return;
+      } catch (err) {
+        if (isMountedRef.current) {
+          setError(err);
+          setLoading(false);
+        }
+        return;
       }
+    }
 
-      const result = await apiCall();
-      
-      if (isMountedRef.current) {
-        setData(result);
-        setError(null);
+    // Create a new request promise
+    const requestPromise = (async () => {
+      try {
+        if (isMountedRef.current) {
+          setLoading(true);
+          setError(null);
+        }
+
+        const result = await apiCall();
         
-        // Cache the result
-        apiCache.set(key, {
-          data: result,
-          timestamp: Date.now()
-        });
+        if (isMountedRef.current) {
+          setData(result);
+          setError(null);
+          
+          // Cache the result
+          apiCache.set(key, {
+            data: result,
+            timestamp: Date.now()
+          });
+        }
+        
+        return result;
+      } catch (err) {
+        if (isMountedRef.current) {
+          setError(err);
+          console.error('API Cache Error:', err);
+        }
+        throw err;
+      } finally {
+        if (isMountedRef.current) {
+          setLoading(false);
+        }
+        // Remove from ongoing requests
+        ongoingRequests.delete(key);
       }
+    })();
+
+    // Store the promise in ongoing requests
+    ongoingRequests.set(key, requestPromise);
+
+    try {
+      await requestPromise;
     } catch (err) {
-      if (isMountedRef.current) {
-        setError(err);
-        console.error('API Cache Error:', err);
-      }
-    } finally {
-      if (isMountedRef.current) {
-        setLoading(false);
-      }
+      // Error handling is done in the promise above
     }
   }, [apiCall, cacheTime, enabled, generateCacheKey]);
 
@@ -114,6 +175,10 @@ export const useApiCache = (apiCall, dependencies = [], options = {}) => {
   useEffect(() => {
     return () => {
       isMountedRef.current = false;
+      // Clear ongoing request for this component's cache key
+      if (cacheKey.current) {
+        ongoingRequests.delete(cacheKey.current);
+      }
     };
   }, []);
 
@@ -141,6 +206,7 @@ export const useApiCache = (apiCall, dependencies = [], options = {}) => {
 // Utility function to clear all cache
 export const clearAllApiCache = () => {
   apiCache.clear();
+  ongoingRequests.clear();
 };
 
 // Utility function to clear specific cache patterns
@@ -150,4 +216,14 @@ export const clearApiCachePattern = (pattern) => {
       apiCache.delete(key);
     }
   }
+  for (const [key] of ongoingRequests) {
+    if (key.includes(pattern)) {
+      ongoingRequests.delete(key);
+    }
+  }
+};
+
+// Utility function to clear all ongoing requests
+export const clearAllOngoingRequests = () => {
+  ongoingRequests.clear();
 };
