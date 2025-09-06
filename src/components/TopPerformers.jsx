@@ -3,7 +3,6 @@ import { FaTable, FaList, FaTh } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useGlobalError } from '../contexts/GlobalErrorContext';
 import { useTokenValidation } from '../hooks/useTokenValidation';
-import { useApiCache } from '../hooks/useApiCache';
 import API from '../utils/api';
 
   const TopPerformers = () => {
@@ -11,112 +10,126 @@ import API from '../utils/api';
       // Set default view based on screen size
       return window.innerWidth < 768 ? "list" : "table";
     });
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
+    const [error, setError] = useState(null);
     
     // Global error context
-    // const { checkRateLimitError } = useGlobalError();
+    const { checkRateLimitError } = useGlobalError();
     
     // Token validation
     const { validateTokenBeforeRequest } = useTokenValidation();
 
-    // Check if user is logged in and get current user info
-    const isLoggedIn = !!localStorage.getItem("token");
-    const currentUserId = JSON.parse(localStorage.getItem("userInfo"))?._id;
+  // Check if user is logged in and get current user info
+  const isLoggedIn = !!localStorage.getItem("token");
+  const currentUserId = JSON.parse(localStorage.getItem("userInfo"))?._id;
 
-    // Use caching hook for top performers data
-    const {
-      data,
-      loading,
-      error,
-      refetch
-    } = useApiCache(
-      async () => {
-        // Validate token before making API call
-        if (!validateTokenBeforeRequest()) {
-          throw new Error('Token validation failed');
-        }
-        
-        // Use centralized API service instead of direct fetch
-        const result = await API.getPublicTopPerformersMonthly(10, currentUserId);
-        
-        if (result.success) {
-          const month = result?.data?.month;
-          const top = Array.isArray(result?.data?.top) ? result.data.top : [];
-          // Transform to legacy shape expected by UI
-          const transformed = top.map((u) => ({
-            userId: u.userId,
-            name: u.name,
-            position: u.rank,
-            isCurrentUser: u.userId === currentUserId,
-            profilePicture: u.profilePicture,
-            level: {
-              currentLevel: u.monthly?.currentLevel || 0,
-              levelName: u.monthly?.currentLevel === 10 ? 'Legend' : getLevelName(u.monthly?.currentLevel || 0),
-              highScoreQuizzes: u.monthly?.highScoreWins || 0,
-              quizzesPlayed: u.monthly?.totalQuizAttempts || 0,
-              accuracy: u.monthly?.accuracy || 0,
-              averageScore: u.monthly?.accuracy || 0
-            }
-          }));
-          const surroundingUsers = Array.isArray(result?.data?.surroundingUsers) ? result.data.surroundingUsers : [];
-          const currentUser = result?.data?.currentUser;
-          
-          // Transform surrounding users to match expected format
-          const transformedSurroundingUsers = surroundingUsers.map((u) => ({
-            userId: u.userId,
-            name: u.name,
-            position: u.position,
-            isCurrentUser: u.isCurrentUser,
-            level: {
-              currentLevel: u.level?.currentLevel || 0,
-              levelName: u.level?.levelName || getLevelName(u.level?.currentLevel || 0),
-              highScoreQuizzes: u.level?.highScoreQuizzes || 0,
-              quizzesPlayed: u.level?.quizzesPlayed || 0,
-              accuracy: u.level?.accuracy || 0,
-              averageScore: u.level?.averageScore || 0
-            }
-          }));
-
-          return { 
-            month, 
-            topPerformers: transformed, 
-            surroundingUsers: transformedSurroundingUsers, 
-            currentUser: currentUser ? {
-              userId: currentUser.userId,
-              name: currentUser.name,
-              position: currentUser.position,
-              isCurrentUser: true,
-              level: {
-                currentLevel: currentUser.level?.currentLevel || 0,
-                levelName: currentUser.level?.levelName || getLevelName(currentUser.level?.currentLevel || 0),
-                highScoreQuizzes: currentUser.level?.highScoreQuizzes || 0,
-                quizzesPlayed: currentUser.level?.quizzesPlayed || 0,
-                accuracy: currentUser.level?.accuracy || 0,
-                averageScore: currentUser.level?.accuracy || 0
-              }
-            } : null,
-            total: result.data.total || transformed.length 
-          };
-        } else {
-          throw new Error(result.message || 'Failed to fetch top performers');
-        }
-      },
-      [currentUserId], // Refetch when user changes
-      {
-        cacheTime: 2 * 60 * 1000, // 2 minutes cache
-        refetchOnFocus: false,
-        refetchOnMount: true
-      }
-    );
-
-  const handleRefresh = useCallback(async () => {
-    setRefreshing(true);
+  const fetchTopPerformers = useCallback(async (isRefresh = false) => {
+    // Validate token before making API call
+    if (!validateTokenBeforeRequest()) {
+      return;
+    }
+    
     try {
-      await refetch(true); // Force refresh
+      if (isRefresh) {
+        setRefreshing(true);
+      } else {
+        setLoading(true);
+      }
+      
+      // Use centralized API service instead of direct fetch
+      const result = await API.getPublicTopPerformersMonthly(10, currentUserId);
+      
+      if (result.success) {
+        const month = result?.data?.month;
+        const top = Array.isArray(result?.data?.top) ? result.data.top : [];
+        // Transform to legacy shape expected by UI
+        const transformed = top.map((u) => ({
+          userId: u.userId,
+          name: u.name,
+          position: u.rank,
+          isCurrentUser: u.userId === currentUserId,
+          profilePicture: u.profilePicture,
+          level: {
+            currentLevel: u.monthly?.currentLevel || 0,
+            levelName: u.monthly?.currentLevel === 10 ? 'Legend' : getLevelName(u.monthly?.currentLevel || 0),
+            highScoreQuizzes: u.monthly?.highScoreWins || 0,
+            quizzesPlayed: u.monthly?.totalQuizAttempts || 0,
+            accuracy: u.monthly?.accuracy || 0,
+            averageScore: u.monthly?.accuracy || 0
+          }
+        }));
+        const surroundingUsers = Array.isArray(result?.data?.surroundingUsers) ? result.data.surroundingUsers : [];
+        const currentUser = result?.data?.currentUser;
+        
+        // Transform surrounding users to match expected format
+        const transformedSurroundingUsers = surroundingUsers.map((u) => ({
+          userId: u.userId,
+          name: u.name,
+          position: u.position,
+          isCurrentUser: u.isCurrentUser,
+          level: {
+            currentLevel: u.level?.currentLevel || 0,
+            levelName: u.level?.levelName || getLevelName(u.level?.currentLevel || 0),
+            highScoreQuizzes: u.level?.highScoreQuizzes || 0,
+            quizzesPlayed: u.level?.quizzesPlayed || 0,
+            accuracy: u.level?.accuracy || 0,
+            averageScore: u.level?.averageScore || 0
+          }
+        }));
+
+        setData({ 
+          month, 
+          topPerformers: transformed, 
+          surroundingUsers: transformedSurroundingUsers, 
+          currentUser: currentUser ? {
+            userId: currentUser.userId,
+            name: currentUser.name,
+            position: currentUser.position,
+            isCurrentUser: true,
+            level: {
+              currentLevel: currentUser.level?.currentLevel || 0,
+              levelName: currentUser.level?.levelName || getLevelName(currentUser.level?.currentLevel || 0),
+              highScoreQuizzes: currentUser.level?.highScoreQuizzes || 0,
+              quizzesPlayed: currentUser.level?.quizzesPlayed || 0,
+              accuracy: currentUser.level?.accuracy || 0,
+              averageScore: currentUser.level?.accuracy || 0
+            }
+          } : null,
+          total: result.data.total || transformed.length 
+        });
+      } else {
+        // Check if it's a rate limit error first
+        const errorMessage = result.message || result.error || "Failed to load top performers. Please try again.";
+        
+        if (checkRateLimitError(errorMessage)) {
+          // Rate limit error is handled globally, just set local error
+          setError("Rate limit reached. Please wait or login for higher limits.");
+        } else {
+          // Show other backend errors
+          setError(`Backend Error: ${errorMessage}`);
+        }
+      }
+    } catch (err) {
+      console.error("API Error:", err);
+      
+      // Check if it's a rate limit error first
+      if (err.message && checkRateLimitError(err.message)) {
+        // Rate limit error is handled globally, just set local error
+        setError("Rate limit reached. Please wait or login for higher limits.");
+      } else if (err.name === 'TypeError' && err.message.includes('fetch')) {
+        setError("Network Error: Unable to connect to server. Please check if the backend is running.");
+      } else if (err.message) {
+        setError(`Error: ${err.message}`);
+      } else {
+        setError("Failed to load top performers. Please try again.");
+      }
     } finally {
+      setLoading(false);
       setRefreshing(false);
     }
-  }, [refetch]);
+  }, [currentUserId, checkRateLimitError, validateTokenBeforeRequest]);
 
   // Helper function to get level names
   const getLevelName = (level) => {
@@ -127,17 +140,16 @@ import API from '../utils/api';
     return levelNames[level] || 'Unknown';
   };
 
-  // Remove auto-refresh since caching handles this
-  // useEffect(() => {
-  //   fetchTopPerformers();
-  //   
-  //   // Auto-refresh every 5 minutes to keep data current
-  //   const interval = setInterval(() => {
-  //     fetchTopPerformers();
-  //   }, 5 * 60 * 1000); // 5 minutes
-  //   
-  //   return () => clearInterval(interval);
-  // }, [fetchTopPerformers, checkRateLimitError]);
+  useEffect(() => {
+    fetchTopPerformers();
+    
+    // Auto-refresh every 5 minutes to keep data current
+    const interval = setInterval(() => {
+      fetchTopPerformers();
+    }, 5 * 60 * 1000); // 5 minutes
+    
+    return () => clearInterval(interval);
+  }, [fetchTopPerformers, checkRateLimitError]);
 
   // Handle screen size changes
   useEffect(() => {
@@ -247,7 +259,7 @@ import API from '../utils/api';
             </ul>
           </div>
           <button
-            onClick={handleRefresh}
+            onClick={() => fetchTopPerformers(true)}
             className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
           >
             🔄 Retry
@@ -290,7 +302,7 @@ import API from '../utils/api';
         {/* View Toggle Buttons and Refresh */}
         <div className="flex gap-2">
           <button
-            onClick={handleRefresh}
+            onClick={() => fetchTopPerformers(true)}
             disabled={refreshing}
             className={`p-2 rounded-lg transition-all duration-200 ${
               refreshing 

@@ -16,6 +16,7 @@ import {
   FaGlobe,
   FaCalculator,
   FaPalette,
+  FaLeaf,
   FaUserGraduate,
   FaArrowRight,
   FaPlay,
@@ -43,118 +44,12 @@ import UnifiedFooter from "../components/UnifiedFooter";
 import MonthlyWinnersDisplay from "../components/MonthlyWinnersDisplay";
 import MobileAppWrapper from "../components/MobileAppWrapper";
 import API from "../utils/api";
-import { useApiCache } from "../hooks/useApiCache";
 
 const LandingPage = () => {
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
-  const navigate = useNavigate();
-
-  // Use caching hook for levels data
-  const {
-    data: levelsData,
-    loading: levelsLoading
-  } = useApiCache(
-    async () => {
-      const res = await API.getAllLevels();
-      if (res.success) {
-        // Filter out Starter level (Level 0)
-        return res.data.filter(level => level.level !== 0);
-      } else {
-        throw new Error("Failed to load levels");
-      }
-    },
-    [],
-    {
-      cacheTime: 15 * 60 * 1000, // 15 minutes cache
-      refetchOnFocus: false,
-      refetchOnMount: true
-    }
-  );
-
-  // Use caching hook for categories data
-  const {
-    data: categoriesData,
-    loading: categoriesLoading
-  } = useApiCache(
-    async () => {
-      const res = await API.getPublicCategoriesEnhanced();
-      if (res.success) {
-        return res.data;
-      } else {
-        throw new Error("Failed to load categories");
-      }
-    },
-    [],
-    {
-      cacheTime: 15 * 60 * 1000, // 15 minutes cache
-      refetchOnFocus: false,
-      refetchOnMount: true
-    }
-  );
-
-  // Use caching hook for top performers data
-  const {
-    data: topPerformersData,
-    loading: topPerformersLoading
-  } = useApiCache(
-    async () => {
-      const res = await API.getPublicLandingTopPerformers(10);
-      if (res.success) {
-        return res.data;
-      } else {
-        throw new Error("Failed to load top performers");
-      }
-    },
-    [],
-    {
-      cacheTime: 5 * 60 * 1000, // 5 minutes cache
-      refetchOnFocus: false,
-      refetchOnMount: true
-    }
-  );
-
-  // Use caching hook for stats data
-  const {
-    data: statsData,
-    loading: statsLoading
-  } = useApiCache(
-    async () => {
-      const res = await API.getPublicLandingStats();
-      if (res.success) {
-        // Format large numbers for display
-        const formatNumber = (num) => {
-          if (num >= 1000) {
-            return `${(num / 1000).toFixed(1)}K+`;
-          }
-          return num.toString();
-        };
-
-        return {
-          activeStudents: formatNumber(res.data.activeStudents),
-          quizCategories: formatNumber(res.data.quizCategories),
-          subcategories: formatNumber(res.data.subcategories),
-          totalQuizzes: formatNumber(res.data.totalQuizzes),
-          totalQuestions: formatNumber(res.data.totalQuestions),
-          quizzesTaken: formatNumber(res.data.quizzesTaken),
-          monthlyPrizePool: res.data.monthlyPrizePool,
-        };
-      } else {
-        throw new Error("Failed to load stats");
-      }
-    },
-    [],
-    {
-      cacheTime: 10 * 60 * 1000, // 10 minutes cache
-      refetchOnFocus: false,
-      refetchOnMount: true
-    }
-  );
-
-  // Extract data from responses with safety checks
-  const levels = Array.isArray(levelsData) ? levelsData : [];
-  const categories = Array.isArray(categoriesData) ? categoriesData : [];
-  const topPerformers = Array.isArray(topPerformersData) ? topPerformersData : [];
-  const stats = statsData || {
+  const [levels, setLevels] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [topPerformers, setTopPerformers] = useState([]);
+  const [stats, setStats] = useState({
     activeStudents: "10K+",
     quizCategories: "500+",
     subcategories: "100+",
@@ -162,26 +57,10 @@ const LandingPage = () => {
     totalQuestions: "5000+",
     quizzesTaken: "50K+",
     monthlyPrizePool: "₹9,999",
-  };
-  // More intelligent loading state - show content as soon as we have some data
-  const loading = levelsLoading && categoriesLoading && topPerformersLoading && statsLoading;
-  
-  // Check if we have any data to show
-  const hasAnyData = levels.length > 0 || categories.length > 0 || topPerformers.length > 0 || stats;
-  
-  // Debug logging
-  console.log('LandingPage Loading States:', {
-    levelsLoading,
-    categoriesLoading,
-    topPerformersLoading,
-    statsLoading,
-    loading,
-    hasAnyData,
-    levelsCount: levels.length,
-    categoriesCount: categories.length,
-    topPerformersCount: topPerformers.length,
-    hasStats: !!stats
   });
+  const [loading, setLoading] = useState(true);
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Check if user is logged in
@@ -206,9 +85,192 @@ const LandingPage = () => {
     // Add event listener for window resize
     window.addEventListener('resize', handleResize);
 
+    fetchData();
+
     // Cleanup
     return () => window.removeEventListener('resize', handleResize);
   }, [navigate]);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+
+      // Fetch all data in parallel using centralized API service
+      const [levelsRes, categoriesRes, topPerformersRes, statsRes] =
+        await Promise.all([
+          API.getAllLevels(),
+          API.getPublicCategoriesEnhanced(),
+          API.getPublicLandingTopPerformers(10),
+          API.getPublicLandingStats(),
+        ]);
+
+      // Set data if successful
+      if (levelsRes.success) {
+        // Filter out Starter level (Level 0)
+        const filteredLevels = levelsRes.data.filter(
+          (level) => level.level !== 0
+        );
+        setLevels(filteredLevels);
+      }
+
+      if (categoriesRes.success) {
+        setCategories(categoriesRes.data);
+      }
+
+      if (topPerformersRes.success) {
+        setTopPerformers(topPerformersRes.data);
+      }
+
+      if (statsRes.success) {
+        // Format large numbers for display
+        const formatNumber = (num) => {
+          if (num >= 1000) {
+            return `${(num / 1000).toFixed(1)}K+`;
+          }
+          return num.toString();
+        };
+
+        setStats({
+          activeStudents: formatNumber(statsRes.data.activeStudents),
+          quizCategories: formatNumber(statsRes.data.quizCategories),
+          subcategories: formatNumber(statsRes.data.subcategories),
+          totalQuizzes: formatNumber(statsRes.data.totalQuizzes),
+          totalQuestions: formatNumber(statsRes.data.totalQuestions),
+          quizzesTaken: formatNumber(statsRes.data.quizzesTaken),
+          monthlyPrizePool: statsRes.data.monthlyPrizePool,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching landing page data:", error);
+      // Set fallback data if APIs fail
+      setLevels([
+        {
+          level: 1,
+          name: "Rookie",
+          description: "Build your foundation",
+          quizCount: 30,
+          quizzesRequired: 2,
+        },
+        {
+          level: 2,
+          name: "Explorer",
+          description: "Discover new knowledge",
+          quizCount: 35,
+          quizzesRequired: 6,
+        },
+        {
+          level: 3,
+          name: "Thinker",
+          description: "Develop critical thinking",
+          quizCount: 40,
+          quizzesRequired: 12,
+        },
+        {
+          level: 4,
+          name: "Strategist",
+          description: "Master strategic learning",
+          quizCount: 45,
+          quizzesRequired: 20,
+        },
+      ]);
+      
+      setCategories([
+        {
+          _id: "1",
+          name: "Science",
+          description: "Explore scientific concepts",
+          quizCount: 50,
+        },
+        {
+          _id: "2",
+          name: "Technology",
+          description: "Learn about modern tech",
+          quizCount: 45,
+        },
+        {
+          _id: "3",
+          name: "Mathematics",
+          description: "Master mathematical skills",
+          quizCount: 40,
+        },
+        {
+          _id: "4",
+          name: "Geography",
+          description: "Discover the world",
+          quizCount: 35,
+        },
+        {
+          _id: "5",
+          name: "History",
+          description: "Learn from the past",
+          quizCount: 30,
+        },
+        {
+          _id: "6",
+          name: "Literature",
+          description: "Explore great works",
+          quizCount: 25,
+        },
+      ]);
+      
+      setTopPerformers([
+        { _id: "1", name: "Quiz Master", level: 10, score: 95, quizCount: 150 },
+        {
+          _id: "2",
+          name: "Knowledge Seeker",
+          level: 10,
+          score: 92,
+          quizCount: 145,
+        },
+        {
+          _id: "3",
+          name: "Brain Champion",
+          level: 10,
+          score: 90,
+          quizCount: 140,
+        },
+        { _id: "4", name: "Learning Pro", level: 9, score: 88, quizCount: 135 },
+        { _id: "5", name: "Quiz Wizard", level: 9, score: 85, quizCount: 130 },
+        {
+          _id: "6",
+          name: "Smart Student",
+          level: 8,
+          score: 82,
+          quizCount: 125,
+        },
+        {
+          _id: "7",
+          name: "Knowledge Hunter",
+          level: 8,
+          score: 80,
+          quizCount: 120,
+        },
+        {
+          _id: "8",
+          name: "Quiz Explorer",
+          level: 7,
+          score: 78,
+          quizCount: 115,
+        },
+        {
+          _id: "9",
+          name: "Learning Star",
+          level: 7,
+          score: 75,
+          quizCount: 110,
+        },
+        {
+          _id: "10",
+          name: "Quiz Enthusiast",
+          level: 6,
+          score: 72,
+          quizCount: 105,
+        },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -217,19 +279,7 @@ const LandingPage = () => {
     }
   };
 
-  // Show loading only if we have no data at all and all APIs are still loading
-  // Also add a maximum loading time to prevent infinite loading
-  const [maxLoadingTimeReached, setMaxLoadingTimeReached] = useState(false);
-  
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setMaxLoadingTimeReached(true);
-    }, 15000); // 15 second maximum loading time
-    
-    return () => clearTimeout(timer);
-  }, []);
-  
-  if (loading && !hasAnyData && !maxLoadingTimeReached) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-subg-light dark:bg-subg-dark flex items-center justify-center">
         <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-yellow-600"></div>
@@ -429,6 +479,174 @@ const LandingPage = () => {
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-yellow-400/20 to-red-400/20 rounded-full blur-3xl"></div>
           <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-orange-400/20 to-yellow-400/20 rounded-full blur-3xl"></div>
+        </div>
+      </section>
+
+             {/* Levels Section */}
+       <section id="levels" className="py-20 relative overflow-hidden">
+         <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 dark:from-gray-900 dark:via-yellow-900/20 dark:to-red-900/20 pointer-events-none" />
+         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-xl -md:text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+                Progressive Learning Levels
+              </span>
+            </h2>
+                         <p className="text-md md:text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Start from Level 1 (Rookie) and progress through 10 levels each
+              month. Reach Level 10 (110 high-score wins with ≥75% accuracy) to
+              qualify for monthly rewards!
+             </p>
+             
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {levels.map((level, index) => {
+              const levelColors = getLevelColors(level.name);
+              const levelInfo = levelsInfo.find(
+                (info) => info.level === level.level
+              );
+              const playCount = levelInfo ? levelInfo.quizzes : 0;
+              return (
+                <div
+                  key={level._id}
+                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors.background} ${levelColors.border} hover:border-yellow-500`}
+                >
+                   <div className={`absolute top-0 right-0 w-32 h-32 ${levelColors.accent} rounded-full -translate-y-16 translate-x-16`}></div>
+                   
+                   <div className="relative z-10 text-center">
+                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${levelColors.iconBg}`}>
+                      {React.createElement(
+                        levelBadgeIcons[level.name] || levelBadgeIcons.Default,
+                        {
+                          className: `w-8 h-8 ${levelColors.iconColor}`,
+                        }
+                      )}
+                     </div>
+                     
+                     <h3 className={`text-xl font-bold mb-2 ${levelColors.titleColor} text-center`}>
+                       Level {level.level} - {level.name}
+                     </h3>
+                     <p className={`text-sm mb-4 ${levelColors.descriptionColor} text-center`}>
+                      {level.description ||
+                        `Level ${level.level} challenges`}
+                     </p>
+                     
+                     <div className="grid grid-cols-2 gap-2 mb-3">
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-yellow-600">
+                           {level.quizCount || "N/A"}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Total Quizzes
+                         </div>
+                       </div>
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-green-600">
+                           {levelInfo ? levelInfo.plan : "-"}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Plan
+                         </div>
+                       </div>
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-red-600">
+                           ₹{levelInfo ? levelInfo.amount : 0}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Amount
+                         </div>
+                       </div>
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-yellow-600">
+                           ₹{levelInfo ? levelInfo.prize : 0}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Prize {level.level === 10 ? '(Monthly Top 3: ₹9,999)' : ''}
+                         </div>
+                       </div>
+                     </div>
+                     
+                     <div className="text-sm text-gray-900 dark:text-white text-center mb-2 drop-shadow-sm">
+                       Need <strong>{playCount}</strong> high-score wins to unlock next level
+                     </div>
+                     
+                   </div>
+                 </div>
+              );
+            })}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link
+              to="/register"
+              className="inline-flex items-center space-x-2 px-4 md:px-8 py-2 md:py-3 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
+            >
+              <span>Start Your Journey</span>
+              <FaArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+             {/* Categories Section */}
+       <section id="categories" className="py-20 relative overflow-hidden">
+         <div className="absolute inset-0 bg-gradient-to-bl from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20 pointer-events-none" />
+         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+                Explore Diverse Categories
+              </span>
+            </h2>
+                         <p className="text-md md:text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              From science to arts, technology to nature - discover quizzes that
+              match your interests and expand your knowledge.
+             </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {categories.map((category) => {
+              const categoryColors = getCategoryColors(category.name);
+              return (
+                <div
+                  key={category._id}
+                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm ${categoryColors.border} hover:border-yellow-500`}
+                >
+                   <div className={`absolute top-0 right-0 w-32 h-32 ${categoryColors.accent} rounded-full -translate-y-16 translate-x-16 opacity-60`}></div>
+                   
+                   <div className="relative z-10 text-center">
+                     {/* Category Color Overlay */}
+                     <div className={`absolute inset-0 ${categoryColors.background} opacity-20 rounded-2xl pointer-events-none`}></div>
+                     
+                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${categoryColors.iconBg}`}>
+                      {React.createElement(
+                        categoryIcons[category.name] || categoryIcons.Default,
+                        {
+                          className: `w-8 h-8 ${categoryColors.iconColor}`,
+                        }
+                      )}
+                     </div>
+                     
+                     <h3 className={`text-xl font-bold mb-2 ${categoryColors.titleColor} text-center`}>{category.name}</h3>
+                     <p className={`text-sm mb-4 ${categoryColors.descriptionColor} text-center`}>
+                      {category.description ||
+                        `Explore ${category.name} knowledge`}
+                     </p>
+                     
+                     <div className="flex items-center justify-between text-sm">
+                      <span className={categoryColors.labelColor}>
+                        Quizzes:
+                      </span>
+                      <span className={`font-semibold ${categoryColors.valueColor}`}>
+                        {category.quizCount || "N/A"}
+                      </span>
+                     </div>
+                   </div>
+                 </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
@@ -751,13 +969,15 @@ const LandingPage = () => {
                               📈
                             </span>
                           </div>
-                          <div className="flex-col items-center gap-2">
-                            <div className="font-bold text-gray-900 dark:text-white text-lg">
-                              {performer.userLevelName || 0}
-                            </div>
-                            <div className=" text-gray-400 text-lg">
-                              Level {performer.userLevelNo || 0}
-                            </div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-gray-900 dark:text-white text-lg">
+                              {performer.userLevel || 0}
+                            </span>
+                            {(performer.userLevel || 0) > 0 && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200">
+                                Level
+                              </span>
+                            )}
                           </div>
                         </div>
                       </td>
@@ -791,6 +1011,11 @@ const LandingPage = () => {
                             <span className="font-bold text-gray-900 dark:text-white text-lg">
                               {performer.highQuizzes || 0}
                             </span>
+                            {(performer.highQuizzes || 0) > 0 && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200">
+                                High Quizzes
+                              </span>
+                            )}
                           </div>
                         </div>
                       </td>
@@ -805,6 +1030,11 @@ const LandingPage = () => {
                             <span className="font-bold text-gray-900 dark:text-white text-lg">
                               {performer.accuracy || 0}%
                             </span>
+                            {(performer.accuracy || 0) > 0 && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-200">
+                                Accuracy
+                              </span>
+                            )}
                           </div>
                         </div>
                       </td>
@@ -828,185 +1058,6 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
-
-             {/* Levels Section */}
-       <section id="levels" className="py-20 relative overflow-hidden">
-         <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 dark:from-gray-900 dark:via-yellow-900/20 dark:to-red-900/20 pointer-events-none" />
-         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-xl -md:text-xl md:text-3xl lg:text-4xl font-bold mb-4">
-                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
-                Progressive Learning Levels
-              </span>
-            </h2>
-                         <p className="text-md md:text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Start from Level 1 (Rookie) and progress through 10 levels each
-              month. Reach Level 10 (110 high-score wins with ≥75% accuracy) to
-              qualify for monthly rewards!
-             </p>
-             
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {levels.map((level, index) => {
-              // Add null checks to prevent undefined errors
-              if (!level || !level.name) {
-                return null;
-              }
-              
-              const levelColors = getLevelColors(level.name);
-              const levelInfo = levelsInfo.find(
-                (info) => info.level === level.level
-              );
-              const playCount = levelInfo ? levelInfo.quizzes : 0;
-              return (
-                <div
-                  key={level._id}
-                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors?.background || ''} ${levelColors?.border || ''} hover:border-yellow-500`}
-                >
-                   <div className={`absolute top-0 right-0 w-32 h-32 ${levelColors?.accent || ''} rounded-full -translate-y-16 translate-x-16`}></div>
-                   
-                   <div className="relative z-10 text-center">
-                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${levelColors?.iconBg || ''}`}>
-                      {React.createElement(
-                        levelBadgeIcons[level.name] || levelBadgeIcons.Default,
-                        {
-                          className: `w-8 h-8 ${levelColors?.iconColor || ''}`,
-                        }
-                      )}
-                     </div>
-                     
-                     <h3 className={`text-xl font-bold mb-2 ${levelColors?.titleColor || ''} text-center`}>
-                       Level {level.level} - {level.name}
-                     </h3>
-                     <p className={`text-sm mb-4 ${levelColors?.descriptionColor || ''} text-center`}>
-                      {level.description ||
-                        `Level ${level.level} challenges`}
-                     </p>
-                     
-                     <div className="grid grid-cols-2 gap-2 mb-3">
-                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
-                         <div className="text-lg font-bold text-yellow-600">
-                           {level.quizCount || "N/A"}
-                         </div>
-                         <div className="text-xs text-gray-600 dark:text-gray-300">
-                           Total Quizzes
-                         </div>
-                       </div>
-                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
-                         <div className="text-lg font-bold text-green-600">
-                           {levelInfo ? levelInfo.plan : "-"}
-                         </div>
-                         <div className="text-xs text-gray-600 dark:text-gray-300">
-                           Plan
-                         </div>
-                       </div>
-                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
-                         <div className="text-lg font-bold text-red-600">
-                           ₹{levelInfo ? levelInfo.amount : 0}
-                         </div>
-                         <div className="text-xs text-gray-600 dark:text-gray-300">
-                           Amount
-                         </div>
-                       </div>
-                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
-                         <div className="text-lg font-bold text-yellow-600">
-                           ₹{levelInfo ? levelInfo.prize : 0}
-                         </div>
-                         <div className="text-xs text-gray-600 dark:text-gray-300">
-                           Prize {level.level === 10 ? '(Monthly Top 3: ₹9,999)' : ''}
-                         </div>
-                       </div>
-                     </div>
-                     
-                     <div className="text-sm text-gray-900 dark:text-white text-center mb-2 drop-shadow-sm">
-                       Need <strong>{playCount}</strong> high-score wins to unlock next level
-                     </div>
-                     
-                   </div>
-                 </div>
-              );
-            })}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link
-              to="/register"
-              className="inline-flex items-center space-x-2 px-4 md:px-8 py-2 md:py-3 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
-            >
-              <span>Start Your Journey</span>
-              <FaArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-             {/* Categories Section */}
-       <section id="categories" className="py-20 relative overflow-hidden">
-         <div className="absolute inset-0 bg-gradient-to-bl from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20 pointer-events-none" />
-         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
-                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
-                Explore Diverse Categories
-              </span>
-            </h2>
-                         <p className="text-md md:text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              From science to arts, technology to nature - discover quizzes that
-              match your interests and expand your knowledge.
-             </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {categories.map((category) => {
-              // Add null checks to prevent undefined errors
-              if (!category || !category.name) {
-                return null;
-              }
-              
-              const categoryColors = getCategoryColors(category.name);
-              return (
-                <div
-                  key={category._id}
-                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm ${categoryColors?.border || ''} hover:border-yellow-500`}
-                >
-                   <div className={`absolute top-0 right-0 w-32 h-32 ${categoryColors?.accent || ''} rounded-full -translate-y-16 translate-x-16 opacity-60`}></div>
-                   
-                   <div className="relative z-10 text-center">
-                     {/* Category Color Overlay */}
-                     <div className={`absolute inset-0 ${categoryColors?.background || ''} opacity-20 rounded-2xl pointer-events-none`}></div>
-                     
-                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${categoryColors?.iconBg || ''}`}>
-                      {React.createElement(
-                        categoryIcons[category.name] || categoryIcons.Default,
-                        {
-                          className: `w-8 h-8 ${categoryColors?.iconColor || ''}`,
-                        }
-                      )}
-                     </div>
-                     
-                     <h3 className={`text-xl font-bold mb-2 ${categoryColors?.titleColor || ''} text-center`}>{category.name}</h3>
-                     <p className={`text-sm mb-4 ${categoryColors?.descriptionColor || ''} text-center`}>
-                      {category.description ||
-                        `Explore ${category.name} knowledge`}
-                     </p>
-                     
-                     <div className="flex items-center justify-between text-sm">
-                      <span className={categoryColors?.labelColor || ''}>
-                        Quizzes:
-                      </span>
-                      <span className={`font-semibold ${categoryColors?.valueColor || ''}`}>
-                        {category.quizCount || "N/A"}
-                      </span>
-                     </div>
-                   </div>
-                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
 
              {/* Prize & Rewards Section */}
        <section id="prizes" className="py-20 relative overflow-hidden">
@@ -1701,21 +1752,6 @@ const LandingPage = () => {
 
 // Level color mappings for both light and dark modes
 const getLevelColors = (levelName) => {
-  // Add null check to prevent errors
-  if (!levelName) {
-    return {
-      background: 'bg-gradient-to-br from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20',
-      border: 'border-gray-200 dark:border-gray-700',
-      accent: 'bg-gradient-to-br from-gray-500/20 to-slate-500/20',
-      iconBg: 'bg-gray-100 dark:bg-gray-800',
-      iconColor: 'text-gray-600 dark:text-gray-400',
-      titleColor: 'text-gray-800 dark:text-gray-200',
-      descriptionColor: 'text-gray-700 dark:text-gray-300',
-      labelColor: 'text-gray-600 dark:text-gray-400',
-      valueColor: 'text-gray-800 dark:text-gray-200'
-    };
-  }
-  
   const colors = {
     Starter: {
       background: 'bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20',
@@ -1845,21 +1881,6 @@ const getLevelColors = (levelName) => {
 
 // Category color mappings for both light and dark modes
 const getCategoryColors = (categoryName) => {
-  // Add null check to prevent errors
-  if (!categoryName) {
-    return {
-      background: 'bg-gradient-to-br from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20',
-      border: 'border-gray-200 dark:border-gray-700',
-      accent: 'bg-gradient-to-br from-gray-500/20 to-slate-500/20',
-      iconBg: 'bg-gray-100 dark:bg-gray-800',
-      iconColor: 'text-gray-600 dark:text-gray-400',
-      titleColor: 'text-gray-800 dark:text-gray-200',
-      descriptionColor: 'text-gray-700 dark:text-gray-300',
-      labelColor: 'text-gray-600 dark:text-gray-400',
-      valueColor: 'text-gray-800 dark:text-gray-200'
-    };
-  }
-  
   const colors = {
     "General Knowledge": {
       background: 'bg-gradient-to-br from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20',

@@ -1,38 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { FaTrophy, FaCrown, FaMedal, FaAward, FaRupeeSign } from 'react-icons/fa';
 import API from '../utils/api';
-import { useApiCache } from '../hooks/useApiCache';
 
 const MonthlyWinnersDisplay = ({ title = "🏆 Previous Month Legends", showTitle = true, className = "" }) => {
-  // Use caching hook for monthly winners data
-  const {
-    data: monthlyWinners,
-    loading,
-    error
-  } = useApiCache(
-    async () => {
+  const [monthlyWinners, setMonthlyWinners] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchMonthlyWinners();
+  }, []);
+
+  const fetchMonthlyWinners = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
       // Get previous month's winners by default
       const previousMonth = getPreviousMonth();
       const response = await API.getRecentMonthlyWinners(1, previousMonth);
       
       if (response.success && response.data && response.data.length > 0) {
-        return response.data[0];
+        setMonthlyWinners(response.data[0]);
       } else {
         // If no previous month winners, try to get the most recent winners
         const recentResponse = await API.getRecentMonthlyWinners(1);
         if (recentResponse.success && recentResponse.data.length > 0) {
-          return recentResponse.data[0];
+          setMonthlyWinners(recentResponse.data[0]);
         }
-        return null;
       }
-    },
-    [],
-    {
-      cacheTime: 10 * 60 * 1000, // 10 minutes cache
-      refetchOnFocus: false,
-      refetchOnMount: true
+    } catch (err) {
+      console.error('Failed to fetch monthly winners:', err);
+      setError('Failed to load monthly winners');
+    } finally {
+      setLoading(false);
     }
-  );
+  };
 
   // Helper function to get previous month in YYYY-MM format
   const getPreviousMonth = () => {

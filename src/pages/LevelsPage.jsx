@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaTrophy, FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaArrowLeft, FaAward, FaGem } from 'react-icons/fa';
 import { FaUserGraduate, FaMagic } from 'react-icons/fa';
 import API from '../utils/api';
 import MonthlyRewardsInfo from '../components/MonthlyRewardsInfo';
 import MobileAppWrapper from '../components/MobileAppWrapper';
-import { useApiCache } from '../hooks/useApiCache';
 // Level badge icon mapping (same as HomePage)
 const levelBadgeIcons = {
   'Starter': FaUserGraduate,
@@ -47,58 +46,47 @@ const getUserLevel = (highScoreQuizzes, levels) => {
 
 const LevelsPage = () => {
   const navigate = useNavigate();
-
-  // Use caching hook for levels data
-  const {
-    data: levelsData,
-    loading: levelsLoading,
-    error: levelsError
-  } = useApiCache(
-    async () => {
-      const res = await API.getAllLevels();
-      if (res.success) {
-        return res.data;
-      } else {
-        throw new Error("Failed to load levels");
+  const [userLevelData, setUserLevelData] = useState(null);
+  const [levels, setLevels] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  console.log(userLevelData, 'userLevelData')
+  useEffect(() => {
+    const fetchData = async () => {
+      let profileRes = null;
+      try {
+        setLoading(true);
+        const [profileResult, levelsRes] = await Promise.all([
+          API.getProfile(),
+          API.getAllLevels()
+        ]);
+        profileRes = profileResult;
+        setUserLevelData(profileRes);
+        if (levelsRes.success) {
+          setLevels(levelsRes.data);
+        } else {
+          console.warn('Using fallback levels data due to API failure');
+          setLevels(fallbackLevels);
+        }
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        console.error('Error details:', {
+          message: err.message,
+          response: err.response,
+          stack: err.stack
+        });
+        console.warn('Using fallback levels data due to error');
+        setLevels(fallbackLevels);
+        // Only set error if profile also fails
+        if (!profileRes) {
+          setError(`Failed to load profile data: ${err.message || 'Unknown error'}`);
+        }
+      } finally {
+        setLoading(false);
       }
-    },
-    [],
-    {
-      cacheTime: 15 * 60 * 1000, // 15 minutes cache
-      refetchOnFocus: false,
-      refetchOnMount: true
-    }
-  );
-
-  // Use caching hook for profile data
-  const {
-    data: profileData,
-    loading: profileLoading,
-    error: profileError
-  } = useApiCache(
-    async () => {
-      const res = await API.getProfile();
-      if (res.success) {
-        return res;
-      } else {
-        throw new Error("Failed to load profile");
-      }
-    },
-    [],
-    {
-      cacheTime: 5 * 60 * 1000, // 5 minutes cache
-      refetchOnFocus: false,
-      refetchOnMount: true
-    }
-  );
-
-  // Extract data from responses
-  const levels = levelsData || fallbackLevels;
-  const userLevelData = profileData || null;
-  const loading = levelsLoading || profileLoading;
-  const error = levelsError || profileError;
-
-  console.log(userLevelData, 'userLevelData');
+    };
+    fetchData();
+  }, []);
 
   const highScoreQuizzes = userLevelData?.monthlyProgress?.highScoreWins || 0;
   const userLevel = getUserLevel(highScoreQuizzes, levels);
