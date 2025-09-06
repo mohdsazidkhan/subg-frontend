@@ -150,10 +150,10 @@ const LandingPage = () => {
     }
   );
 
-  // Extract data from responses
-  const levels = levelsData || [];
-  const categories = categoriesData || [];
-  const topPerformers = topPerformersData || [];
+  // Extract data from responses with safety checks
+  const levels = Array.isArray(levelsData) ? levelsData : [];
+  const categories = Array.isArray(categoriesData) ? categoriesData : [];
+  const topPerformers = Array.isArray(topPerformersData) ? topPerformersData : [];
   const stats = statsData || {
     activeStudents: "10K+",
     quizCategories: "500+",
@@ -819,6 +819,11 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {levels.map((level, index) => {
+              // Add null checks to prevent undefined errors
+              if (!level || !level.name) {
+                return null;
+              }
+              
               const levelColors = getLevelColors(level.name);
               const levelInfo = levelsInfo.find(
                 (info) => info.level === level.level
@@ -827,24 +832,24 @@ const LandingPage = () => {
               return (
                 <div
                   key={level._id}
-                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors.background} ${levelColors.border} hover:border-yellow-500`}
+                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors?.background || ''} ${levelColors?.border || ''} hover:border-yellow-500`}
                 >
-                   <div className={`absolute top-0 right-0 w-32 h-32 ${levelColors.accent} rounded-full -translate-y-16 translate-x-16`}></div>
+                   <div className={`absolute top-0 right-0 w-32 h-32 ${levelColors?.accent || ''} rounded-full -translate-y-16 translate-x-16`}></div>
                    
                    <div className="relative z-10 text-center">
-                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${levelColors.iconBg}`}>
+                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${levelColors?.iconBg || ''}`}>
                       {React.createElement(
                         levelBadgeIcons[level.name] || levelBadgeIcons.Default,
                         {
-                          className: `w-8 h-8 ${levelColors.iconColor}`,
+                          className: `w-8 h-8 ${levelColors?.iconColor || ''}`,
                         }
                       )}
                      </div>
                      
-                     <h3 className={`text-xl font-bold mb-2 ${levelColors.titleColor} text-center`}>
+                     <h3 className={`text-xl font-bold mb-2 ${levelColors?.titleColor || ''} text-center`}>
                        Level {level.level} - {level.name}
                      </h3>
-                     <p className={`text-sm mb-4 ${levelColors.descriptionColor} text-center`}>
+                     <p className={`text-sm mb-4 ${levelColors?.descriptionColor || ''} text-center`}>
                       {level.description ||
                         `Level ${level.level} challenges`}
                      </p>
@@ -924,38 +929,43 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {categories.map((category) => {
+              // Add null checks to prevent undefined errors
+              if (!category || !category.name) {
+                return null;
+              }
+              
               const categoryColors = getCategoryColors(category.name);
               return (
                 <div
                   key={category._id}
-                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm ${categoryColors.border} hover:border-yellow-500`}
+                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm ${categoryColors?.border || ''} hover:border-yellow-500`}
                 >
-                   <div className={`absolute top-0 right-0 w-32 h-32 ${categoryColors.accent} rounded-full -translate-y-16 translate-x-16 opacity-60`}></div>
+                   <div className={`absolute top-0 right-0 w-32 h-32 ${categoryColors?.accent || ''} rounded-full -translate-y-16 translate-x-16 opacity-60`}></div>
                    
                    <div className="relative z-10 text-center">
                      {/* Category Color Overlay */}
-                     <div className={`absolute inset-0 ${categoryColors.background} opacity-20 rounded-2xl pointer-events-none`}></div>
+                     <div className={`absolute inset-0 ${categoryColors?.background || ''} opacity-20 rounded-2xl pointer-events-none`}></div>
                      
-                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${categoryColors.iconBg}`}>
+                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${categoryColors?.iconBg || ''}`}>
                       {React.createElement(
                         categoryIcons[category.name] || categoryIcons.Default,
                         {
-                          className: `w-8 h-8 ${categoryColors.iconColor}`,
+                          className: `w-8 h-8 ${categoryColors?.iconColor || ''}`,
                         }
                       )}
                      </div>
                      
-                     <h3 className={`text-xl font-bold mb-2 ${categoryColors.titleColor} text-center`}>{category.name}</h3>
-                     <p className={`text-sm mb-4 ${categoryColors.descriptionColor} text-center`}>
+                     <h3 className={`text-xl font-bold mb-2 ${categoryColors?.titleColor || ''} text-center`}>{category.name}</h3>
+                     <p className={`text-sm mb-4 ${categoryColors?.descriptionColor || ''} text-center`}>
                       {category.description ||
                         `Explore ${category.name} knowledge`}
                      </p>
                      
                      <div className="flex items-center justify-between text-sm">
-                      <span className={categoryColors.labelColor}>
+                      <span className={categoryColors?.labelColor || ''}>
                         Quizzes:
                       </span>
-                      <span className={`font-semibold ${categoryColors.valueColor}`}>
+                      <span className={`font-semibold ${categoryColors?.valueColor || ''}`}>
                         {category.quizCount || "N/A"}
                       </span>
                      </div>
@@ -1661,6 +1671,21 @@ const LandingPage = () => {
 
 // Level color mappings for both light and dark modes
 const getLevelColors = (levelName) => {
+  // Add null check to prevent errors
+  if (!levelName) {
+    return {
+      background: 'bg-gradient-to-br from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20',
+      border: 'border-gray-200 dark:border-gray-700',
+      accent: 'bg-gradient-to-br from-gray-500/20 to-slate-500/20',
+      iconBg: 'bg-gray-100 dark:bg-gray-800',
+      iconColor: 'text-gray-600 dark:text-gray-400',
+      titleColor: 'text-gray-800 dark:text-gray-200',
+      descriptionColor: 'text-gray-700 dark:text-gray-300',
+      labelColor: 'text-gray-600 dark:text-gray-400',
+      valueColor: 'text-gray-800 dark:text-gray-200'
+    };
+  }
+  
   const colors = {
     Starter: {
       background: 'bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20',
@@ -1790,6 +1815,21 @@ const getLevelColors = (levelName) => {
 
 // Category color mappings for both light and dark modes
 const getCategoryColors = (categoryName) => {
+  // Add null check to prevent errors
+  if (!categoryName) {
+    return {
+      background: 'bg-gradient-to-br from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20',
+      border: 'border-gray-200 dark:border-gray-700',
+      accent: 'bg-gradient-to-br from-gray-500/20 to-slate-500/20',
+      iconBg: 'bg-gray-100 dark:bg-gray-800',
+      iconColor: 'text-gray-600 dark:text-gray-400',
+      titleColor: 'text-gray-800 dark:text-gray-200',
+      descriptionColor: 'text-gray-700 dark:text-gray-300',
+      labelColor: 'text-gray-600 dark:text-gray-400',
+      valueColor: 'text-gray-800 dark:text-gray-200'
+    };
+  }
+  
   const colors = {
     "General Knowledge": {
       background: 'bg-gradient-to-br from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20',
