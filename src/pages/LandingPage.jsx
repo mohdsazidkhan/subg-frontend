@@ -507,7 +507,7 @@ const LandingPage = () => {
       
       {/* Monthly Winners Section */}
       <section className="py-16 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-tr from-yellow-50 via-amber-50 to-orange-50 dark:from-yellow-900/20 dark:via-amber-900/20 dark:to-orange-900/20 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-50 via-green-50 to-orange-50 dark:from-blue-900/20 dark:via-green-900/20 dark:to-orange-900/20 pointer-events-none" />
         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
@@ -828,7 +828,7 @@ const LandingPage = () => {
                             <div className="font-bold text-gray-900 dark:text-white text-lg">
                               {performer.userLevelName || 0}
                             </div>
-                            <div className="font-medium text-gray-400 dark:text-white text-lg">
+                            <div className="font-medium text-gray-500 text-sm">
                                 Level {performer.userLevelNo}
                             </div>
                           </div>
@@ -866,7 +866,7 @@ const LandingPage = () => {
                             </span>
                             {(performer.highQuizzes || 0) > 0 && (
                               <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200">
-                                High Quizzes
+                               🏆
                               </span>
                             )}
                           </div>
@@ -885,7 +885,7 @@ const LandingPage = () => {
                             </span>
                             {(performer.accuracy || 0) > 0 && (
                               <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-200">
-                                Accuracy
+                                🎯
                               </span>
                             )}
                           </div>
