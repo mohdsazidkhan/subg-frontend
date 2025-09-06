@@ -163,7 +163,25 @@ const LandingPage = () => {
     quizzesTaken: "50K+",
     monthlyPrizePool: "₹9,999",
   };
-  const loading = levelsLoading || categoriesLoading || topPerformersLoading || statsLoading;
+  // More intelligent loading state - show content as soon as we have some data
+  const loading = levelsLoading && categoriesLoading && topPerformersLoading && statsLoading;
+  
+  // Check if we have any data to show
+  const hasAnyData = levels.length > 0 || categories.length > 0 || topPerformers.length > 0 || stats;
+  
+  // Debug logging
+  console.log('LandingPage Loading States:', {
+    levelsLoading,
+    categoriesLoading,
+    topPerformersLoading,
+    statsLoading,
+    loading,
+    hasAnyData,
+    levelsCount: levels.length,
+    categoriesCount: categories.length,
+    topPerformersCount: topPerformers.length,
+    hasStats: !!stats
+  });
 
   useEffect(() => {
     // Check if user is logged in
@@ -199,7 +217,19 @@ const LandingPage = () => {
     }
   };
 
-  if (loading) {
+  // Show loading only if we have no data at all and all APIs are still loading
+  // Also add a maximum loading time to prevent infinite loading
+  const [maxLoadingTimeReached, setMaxLoadingTimeReached] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMaxLoadingTimeReached(true);
+    }, 15000); // 15 second maximum loading time
+    
+    return () => clearTimeout(timer);
+  }, []);
+  
+  if (loading && !hasAnyData && !maxLoadingTimeReached) {
     return (
       <div className="min-h-screen bg-subg-light dark:bg-subg-dark flex items-center justify-center">
         <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-yellow-600"></div>

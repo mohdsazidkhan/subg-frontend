@@ -28,9 +28,11 @@ class ApiDeduplication {
   async startRequest(key, requestFunction) {
     // If request is already ongoing, return the existing promise
     if (this.ongoingRequests.has(key)) {
+      console.log(`🔄 Reusing ongoing request for: ${key}`);
       return this.ongoingRequests.get(key);
     }
 
+    console.log(`🚀 Starting new request for: ${key}`);
     // Create new request promise
     const requestPromise = this.executeRequest(key, requestFunction);
     
@@ -51,7 +53,7 @@ class ApiDeduplication {
       
       const result = await requestFunction();
       
-      console.log(`✅ Completed API request: ${key}`);
+      console.log(`✅ Completed API request: ${key}`, result);
       
       return result;
     } catch (error) {
@@ -60,6 +62,7 @@ class ApiDeduplication {
     } finally {
       // Remove from ongoing requests
       this.ongoingRequests.delete(key);
+      console.log(`🧹 Cleaned up request: ${key}`);
     }
   }
 

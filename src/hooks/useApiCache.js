@@ -19,7 +19,8 @@ export const useApiCache = (apiCall, dependencies = [], options = {}) => {
     cacheTime = CACHE_DURATION,
     enabled = true,
     refetchOnFocus = false,
-    refetchOnMount = true
+    refetchOnMount = true,
+    timeout = 10000 // 10 second timeout
   } = options;
 
   // Generate cache key based on API call and dependencies
@@ -94,7 +95,7 @@ export const useApiCache = (apiCall, dependencies = [], options = {}) => {
       }
     }
 
-    // Create a new request promise
+    // Create a new request promise with timeout
     const requestPromise = (async () => {
       try {
         if (isMountedRef.current) {
@@ -102,7 +103,12 @@ export const useApiCache = (apiCall, dependencies = [], options = {}) => {
           setError(null);
         }
 
-        const result = await apiCall();
+        // Add timeout to prevent hanging
+        const timeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Request timeout')), timeout);
+        });
+
+        const result = await Promise.race([apiCall(), timeoutPromise]);
         
         if (isMountedRef.current) {
           setData(result);
@@ -139,7 +145,7 @@ export const useApiCache = (apiCall, dependencies = [], options = {}) => {
     } catch (err) {
       // Error handling is done in the promise above
     }
-  }, [apiCall, cacheTime, enabled, generateCacheKey]);
+  }, [apiCall, cacheTime, enabled, generateCacheKey, timeout]);
 
   // Initial fetch
   useEffect(() => {
