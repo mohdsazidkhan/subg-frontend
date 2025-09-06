@@ -116,8 +116,7 @@ const LandingPage = () => {
   // Use caching hook for stats data
   const {
     data: statsData,
-    loading: statsLoading,
-    error: statsError
+    loading: statsLoading
   } = useApiCache(
     async () => {
       const res = await API.getPublicLandingStats();
