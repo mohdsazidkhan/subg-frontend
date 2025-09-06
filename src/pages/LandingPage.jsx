@@ -16,7 +16,6 @@ import {
   FaGlobe,
   FaCalculator,
   FaPalette,
-  FaLeaf,
   FaUserGraduate,
   FaArrowRight,
   FaPlay,
@@ -482,174 +481,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-             {/* Levels Section */}
-       <section id="levels" className="py-20 relative overflow-hidden">
-         <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 dark:from-gray-900 dark:via-yellow-900/20 dark:to-red-900/20 pointer-events-none" />
-         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-xl -md:text-xl md:text-3xl lg:text-4xl font-bold mb-4">
-                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
-                Progressive Learning Levels
-              </span>
-            </h2>
-                         <p className="text-md md:text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Start from Level 1 (Rookie) and progress through 10 levels each
-              month. Reach Level 10 (110 high-score wins with ≥75% accuracy) to
-              qualify for monthly rewards!
-             </p>
-             
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {levels.map((level, index) => {
-              const levelColors = getLevelColors(level.name);
-              const levelInfo = levelsInfo.find(
-                (info) => info.level === level.level
-              );
-              const playCount = levelInfo ? levelInfo.quizzes : 0;
-              return (
-                <div
-                  key={level._id}
-                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors.background} ${levelColors.border} hover:border-yellow-500`}
-                >
-                   <div className={`absolute top-0 right-0 w-32 h-32 ${levelColors.accent} rounded-full -translate-y-16 translate-x-16`}></div>
-                   
-                   <div className="relative z-10 text-center">
-                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${levelColors.iconBg}`}>
-                      {React.createElement(
-                        levelBadgeIcons[level.name] || levelBadgeIcons.Default,
-                        {
-                          className: `w-8 h-8 ${levelColors.iconColor}`,
-                        }
-                      )}
-                     </div>
-                     
-                     <h3 className={`text-xl font-bold mb-2 ${levelColors.titleColor} text-center`}>
-                       Level {level.level} - {level.name}
-                     </h3>
-                     <p className={`text-sm mb-4 ${levelColors.descriptionColor} text-center`}>
-                      {level.description ||
-                        `Level ${level.level} challenges`}
-                     </p>
-                     
-                     <div className="grid grid-cols-2 gap-2 mb-3">
-                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
-                         <div className="text-lg font-bold text-yellow-600">
-                           {level.quizCount || "N/A"}
-                         </div>
-                         <div className="text-xs text-gray-600 dark:text-gray-300">
-                           Total Quizzes
-                         </div>
-                       </div>
-                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
-                         <div className="text-lg font-bold text-green-600">
-                           {levelInfo ? levelInfo.plan : "-"}
-                         </div>
-                         <div className="text-xs text-gray-600 dark:text-gray-300">
-                           Plan
-                         </div>
-                       </div>
-                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
-                         <div className="text-lg font-bold text-red-600">
-                           ₹{levelInfo ? levelInfo.amount : 0}
-                         </div>
-                         <div className="text-xs text-gray-600 dark:text-gray-300">
-                           Amount
-                         </div>
-                       </div>
-                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
-                         <div className="text-lg font-bold text-yellow-600">
-                           ₹{levelInfo ? levelInfo.prize : 0}
-                         </div>
-                         <div className="text-xs text-gray-600 dark:text-gray-300">
-                           Prize {level.level === 10 ? '(Monthly Top 3: ₹9,999)' : ''}
-                         </div>
-                       </div>
-                     </div>
-                     
-                     <div className="text-sm text-gray-900 dark:text-white text-center mb-2 drop-shadow-sm">
-                       Need <strong>{playCount}</strong> high-score wins to unlock next level
-                     </div>
-                     
-                   </div>
-                 </div>
-              );
-            })}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link
-              to="/register"
-              className="inline-flex items-center space-x-2 px-4 md:px-8 py-2 md:py-3 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
-            >
-              <span>Start Your Journey</span>
-              <FaArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-             {/* Categories Section */}
-       <section id="categories" className="py-20 relative overflow-hidden">
-         <div className="absolute inset-0 bg-gradient-to-bl from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20 pointer-events-none" />
-         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
-                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
-                Explore Diverse Categories
-              </span>
-            </h2>
-                         <p className="text-md md:text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              From science to arts, technology to nature - discover quizzes that
-              match your interests and expand your knowledge.
-             </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {categories.map((category) => {
-              const categoryColors = getCategoryColors(category.name);
-              return (
-                <div
-                  key={category._id}
-                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm ${categoryColors.border} hover:border-yellow-500`}
-                >
-                   <div className={`absolute top-0 right-0 w-32 h-32 ${categoryColors.accent} rounded-full -translate-y-16 translate-x-16 opacity-60`}></div>
-                   
-                   <div className="relative z-10 text-center">
-                     {/* Category Color Overlay */}
-                     <div className={`absolute inset-0 ${categoryColors.background} opacity-20 rounded-2xl pointer-events-none`}></div>
-                     
-                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${categoryColors.iconBg}`}>
-                      {React.createElement(
-                        categoryIcons[category.name] || categoryIcons.Default,
-                        {
-                          className: `w-8 h-8 ${categoryColors.iconColor}`,
-                        }
-                      )}
-                     </div>
-                     
-                     <h3 className={`text-xl font-bold mb-2 ${categoryColors.titleColor} text-center`}>{category.name}</h3>
-                     <p className={`text-sm mb-4 ${categoryColors.descriptionColor} text-center`}>
-                      {category.description ||
-                        `Explore ${category.name} knowledge`}
-                     </p>
-                     
-                     <div className="flex items-center justify-between text-sm">
-                      <span className={categoryColors.labelColor}>
-                        Quizzes:
-                      </span>
-                      <span className={`font-semibold ${categoryColors.valueColor}`}>
-                        {category.quizCount || "N/A"}
-                      </span>
-                     </div>
-                   </div>
-                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* Monthly Winners Section */}
       <section className="py-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-tr from-yellow-50 via-amber-50 to-orange-50 dark:from-yellow-900/20 dark:via-amber-900/20 dark:to-orange-900/20 pointer-events-none" />
@@ -971,13 +802,11 @@ const LandingPage = () => {
                           </div>
                           <div className="flex items-center gap-2">
                             <span className="font-bold text-gray-900 dark:text-white text-lg">
-                              {performer.userLevel || 0}
+                              Level{performer.userLevelName || 0}
                             </span>
-                            {(performer.userLevel || 0) > 0 && (
-                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200">
-                                Level
-                              </span>
-                            )}
+                            <span className=" text-gray-600 text-lg">
+                              Level {performer.userLevelNo || 0}
+                            </span>
                           </div>
                         </div>
                       </td>
@@ -1011,11 +840,6 @@ const LandingPage = () => {
                             <span className="font-bold text-gray-900 dark:text-white text-lg">
                               {performer.highQuizzes || 0}
                             </span>
-                            {(performer.highQuizzes || 0) > 0 && (
-                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200">
-                                High Quizzes
-                              </span>
-                            )}
                           </div>
                         </div>
                       </td>
@@ -1030,11 +854,6 @@ const LandingPage = () => {
                             <span className="font-bold text-gray-900 dark:text-white text-lg">
                               {performer.accuracy || 0}%
                             </span>
-                            {(performer.accuracy || 0) > 0 && (
-                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-200">
-                                Accuracy
-                              </span>
-                            )}
                           </div>
                         </div>
                       </td>
@@ -1058,6 +877,175 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+
+             {/* Levels Section */}
+       <section id="levels" className="py-20 relative overflow-hidden">
+         <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 dark:from-gray-900 dark:via-yellow-900/20 dark:to-red-900/20 pointer-events-none" />
+         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-xl -md:text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+                Progressive Learning Levels
+              </span>
+            </h2>
+                         <p className="text-md md:text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Start from Level 1 (Rookie) and progress through 10 levels each
+              month. Reach Level 10 (110 high-score wins with ≥75% accuracy) to
+              qualify for monthly rewards!
+             </p>
+             
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {levels.map((level, index) => {
+              const levelColors = getLevelColors(level.name);
+              const levelInfo = levelsInfo.find(
+                (info) => info.level === level.level
+              );
+              const playCount = levelInfo ? levelInfo.quizzes : 0;
+              return (
+                <div
+                  key={level._id}
+                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors.background} ${levelColors.border} hover:border-yellow-500`}
+                >
+                   <div className={`absolute top-0 right-0 w-32 h-32 ${levelColors.accent} rounded-full -translate-y-16 translate-x-16`}></div>
+                   
+                   <div className="relative z-10 text-center">
+                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${levelColors.iconBg}`}>
+                      {React.createElement(
+                        levelBadgeIcons[level.name] || levelBadgeIcons.Default,
+                        {
+                          className: `w-8 h-8 ${levelColors.iconColor}`,
+                        }
+                      )}
+                     </div>
+                     
+                     <h3 className={`text-xl font-bold mb-2 ${levelColors.titleColor} text-center`}>
+                       Level {level.level} - {level.name}
+                     </h3>
+                     <p className={`text-sm mb-4 ${levelColors.descriptionColor} text-center`}>
+                      {level.description ||
+                        `Level ${level.level} challenges`}
+                     </p>
+                     
+                     <div className="grid grid-cols-2 gap-2 mb-3">
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-yellow-600">
+                           {level.quizCount || "N/A"}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Total Quizzes
+                         </div>
+                       </div>
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-green-600">
+                           {levelInfo ? levelInfo.plan : "-"}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Plan
+                         </div>
+                       </div>
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-red-600">
+                           ₹{levelInfo ? levelInfo.amount : 0}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Amount
+                         </div>
+                       </div>
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-yellow-600">
+                           ₹{levelInfo ? levelInfo.prize : 0}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Prize {level.level === 10 ? '(Monthly Top 3: ₹9,999)' : ''}
+                         </div>
+                       </div>
+                     </div>
+                     
+                     <div className="text-sm text-gray-900 dark:text-white text-center mb-2 drop-shadow-sm">
+                       Need <strong>{playCount}</strong> high-score wins to unlock next level
+                     </div>
+                     
+                   </div>
+                 </div>
+              );
+            })}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link
+              to="/register"
+              className="inline-flex items-center space-x-2 px-4 md:px-8 py-2 md:py-3 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
+            >
+              <span>Start Your Journey</span>
+              <FaArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+             {/* Categories Section */}
+       <section id="categories" className="py-20 relative overflow-hidden">
+         <div className="absolute inset-0 bg-gradient-to-bl from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20 pointer-events-none" />
+         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+                Explore Diverse Categories
+              </span>
+            </h2>
+                         <p className="text-md md:text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              From science to arts, technology to nature - discover quizzes that
+              match your interests and expand your knowledge.
+             </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {categories.map((category) => {
+              const categoryColors = getCategoryColors(category.name);
+              return (
+                <div
+                  key={category._id}
+                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm ${categoryColors.border} hover:border-yellow-500`}
+                >
+                   <div className={`absolute top-0 right-0 w-32 h-32 ${categoryColors.accent} rounded-full -translate-y-16 translate-x-16 opacity-60`}></div>
+                   
+                   <div className="relative z-10 text-center">
+                     {/* Category Color Overlay */}
+                     <div className={`absolute inset-0 ${categoryColors.background} opacity-20 rounded-2xl pointer-events-none`}></div>
+                     
+                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${categoryColors.iconBg}`}>
+                      {React.createElement(
+                        categoryIcons[category.name] || categoryIcons.Default,
+                        {
+                          className: `w-8 h-8 ${categoryColors.iconColor}`,
+                        }
+                      )}
+                     </div>
+                     
+                     <h3 className={`text-xl font-bold mb-2 ${categoryColors.titleColor} text-center`}>{category.name}</h3>
+                     <p className={`text-sm mb-4 ${categoryColors.descriptionColor} text-center`}>
+                      {category.description ||
+                        `Explore ${category.name} knowledge`}
+                     </p>
+                     
+                     <div className="flex items-center justify-between text-sm">
+                      <span className={categoryColors.labelColor}>
+                        Quizzes:
+                      </span>
+                      <span className={`font-semibold ${categoryColors.valueColor}`}>
+                        {category.quizCount || "N/A"}
+                      </span>
+                     </div>
+                   </div>
+                 </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
 
              {/* Prize & Rewards Section */}
        <section id="prizes" className="py-20 relative overflow-hidden">
