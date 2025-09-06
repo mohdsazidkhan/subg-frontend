@@ -213,7 +213,7 @@ const LevelDetailPage = () => {
                       {quiz.attemptStatus?.hasAttempted ? (
                         <button
                           className="w-full bg-gradient-to-r from-gray-500 to-yellow-500 hover:from-yellow-500 hover:to-gray-500 text-white font-semibold py-2 rounded-xl transition-all duration-300 shadow-md"
-                          onClick={() => navigate('/quiz-result', { state: { quizId: quiz._id } })}
+                          onClick={() => navigate('/quiz-result', { state: { quizId: quiz._id, refreshHomeData: true } })}
                         >
                           View Result
                         </button>

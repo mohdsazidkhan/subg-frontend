@@ -810,7 +810,7 @@ const AttemptQuizPage = () => {
             {/* Action Buttons */}
             <div className="flex justify-center space-x-2 md:space-x-6 mb-4 md:mb-8">
               <button
-                onClick={() => navigate("/home")}
+                onClick={() => navigate("/home", { state: { refreshHomeData: true } })}
                 className="px-4 md:px-8 py-2 md:py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
               >
                 <FaHome />

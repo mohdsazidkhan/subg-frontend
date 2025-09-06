@@ -578,7 +578,7 @@ const LevelBasedQuizzes = () => {
                 {/* Action Button */}
                 {quiz.attemptStatus.hasAttempted ? (
                   <button
-                    onClick={() => navigate(`/quiz-result/${quiz.attemptStatus.attemptId}`)}
+                    onClick={() => navigate(`/quiz-result/${quiz.attemptStatus.attemptId}`, { state: { refreshHomeData: true } })}
                     className="w-full py-2 px-4 rounded-md font-medium bg-orange-600 text-white hover:bg-orange-700 transition"
                   >
                     View Result

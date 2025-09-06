@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   FaTrophy,
   FaCrown,
@@ -54,6 +54,7 @@ const HomePage = () => {
   // Check if user is logged in
   const isLoggedIn = !!localStorage.getItem("token");
   const navigate = useNavigate();
+  const location = useLocation();
   const [homeData, setHomeData] = useState(null);
   const [userLevelData, setUserLevelData] = useState(null);
 
@@ -79,6 +80,39 @@ const HomePage = () => {
       }, 1000); // Show after 1 second
     }
   }, []);
+
+  // Refresh data when user returns to home page (e.g., after completing a quiz)
+  useEffect(() => {
+    const handleFocus = () => {
+      // Only refresh if user is logged in and we have existing data
+      if (isLoggedIn && homeData) {
+        fetchHomePageData();
+      }
+    };
+
+    // Listen for page focus events
+    window.addEventListener('focus', handleFocus);
+    
+    // Also refresh when the page becomes visible again
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && isLoggedIn && homeData) {
+        fetchHomePageData();
+      }
+    });
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('visibilitychange', handleFocus);
+    };
+  }, [isLoggedIn, homeData]);
+
+  // Refresh data when navigating back to home page (e.g., from quiz result)
+  useEffect(() => {
+    // Check if we're coming from a quiz completion
+    if (location.state?.fromQuizCompletion || location.state?.refreshHomeData) {
+      fetchHomePageData();
+    }
+  }, [location.state]);
 
 
 
