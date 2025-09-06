@@ -2,12 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   FaTrophy,
-  FaCrown,
   FaStar,
-  FaMedal,
-  FaRocket,
   FaBrain,
-  FaChartLine,
   FaAward,
   FaGem,
   FaBook,
@@ -24,7 +20,6 @@ import {
   FaUserCircle,
   FaLevelUpAlt,
 } from "react-icons/fa";
-import { FaMagic } from "react-icons/fa";
 import API from "../utils/api";
 import { hasActiveSubscription } from "../utils/subscriptionUtils";
 import QuizStartModal from "../components/QuizStartModal";
@@ -33,6 +28,7 @@ import SystemUpdateModal from "../components/SystemUpdateModal";
 import { BsSearch } from "react-icons/bs";
 import MonthlyWinnersDisplay from "../components/MonthlyWinnersDisplay";
 import MobileAppWrapper from "../components/MobileAppWrapper";
+import { useApiCache } from "../hooks/useApiCache";
 // Icon mapping for categories
 const categoryIcons = {
   Science: FaFlask,
@@ -55,23 +51,67 @@ const HomePage = () => {
   const isLoggedIn = !!localStorage.getItem("token");
   const navigate = useNavigate();
   const location = useLocation();
-  const [homeData, setHomeData] = useState(null);
-  const [userLevelData, setUserLevelData] = useState(null);
-
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+  
   const [searchQuery, setSearchQuery] = useState("");
-  const [error, setError] = useState("");
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [showSystemUpdateModal, setShowSystemUpdateModal] = useState(false);
+
+  // Use caching hook for home page data
+  const {
+    data: homePageResponse,
+    loading: homePageLoading,
+    error: homePageError,
+    refetch: refetchHomeData
+  } = useApiCache(
+    async () => {
+      const res = await API.getHomePageData();
+      if (res?.success) {
+        return res;
+      } else {
+        throw new Error(res.message || "Failed to load home page data");
+      }
+    },
+    [isLoggedIn], // Only refetch when login status changes
+    {
+      cacheTime: 2 * 60 * 1000, // 2 minutes cache
+      refetchOnFocus: false, // Disable focus refetch to prevent excessive calls
+      refetchOnMount: true
+    }
+  );
+
+  // Use caching hook for categories
+  const {
+    data: categoriesData,
+    loading: categoriesLoading,
+    error: categoriesError
+  } = useApiCache(
+    async () => {
+      const res = await API.request("/api/public/categories");
+      if (res?.success && Array.isArray(res.data)) {
+        return res.data;
+      } else {
+        throw new Error("Failed to load categories");
+      }
+    },
+    [],
+    {
+      cacheTime: 10 * 60 * 1000, // 10 minutes cache for categories
+      refetchOnFocus: false,
+      refetchOnMount: true
+    }
+  );
+
+  // Extract data from responses
+  const homeData = homePageResponse?.data || null;
+  const userLevelData = homePageResponse?.userLevel || null;
+  const categories = categoriesData || [];
+  const loading = homePageLoading || categoriesLoading;
+  const error = homePageError || categoriesError;
+
   console.log(userLevelData, "userLevelData");
   
   useEffect(() => {
-    fetchHomePageData();
-
-    fetchCategories();
-    
     // Show system update modal for first-time visitors
     const hasSeenModal = localStorage.getItem('hasSeenSystemUpdateModal');
     if (!hasSeenModal) {
@@ -81,79 +121,13 @@ const HomePage = () => {
     }
   }, []);
 
-  // Refresh data when user returns to home page (e.g., after completing a quiz)
-  useEffect(() => {
-    const handleFocus = () => {
-      // Only refresh if user is logged in and we have existing data
-      if (isLoggedIn && homeData) {
-        fetchHomePageData();
-      }
-    };
-
-    // Listen for page focus events
-    window.addEventListener('focus', handleFocus);
-    
-    // Also refresh when the page becomes visible again
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden && isLoggedIn && homeData) {
-        fetchHomePageData();
-      }
-    });
-
-    return () => {
-      window.removeEventListener('focus', handleFocus);
-      document.removeEventListener('visibilitychange', handleFocus);
-    };
-  }, [isLoggedIn, homeData]);
-
   // Refresh data when navigating back to home page (e.g., from quiz result)
   useEffect(() => {
     // Check if we're coming from a quiz completion
     if (location.state?.fromQuizCompletion || location.state?.refreshHomeData) {
-      fetchHomePageData();
+      refetchHomeData(true); // Force refresh
     }
-  }, [location.state]);
-
-
-
-  const fetchHomePageData = async () => {
-    try {
-      setLoading(true);
-      const res = await API.getHomePageData();
-      if (res?.success) {
-        setHomeData(res.data);
-        setUserLevelData(res.userLevel);
-      } else {
-        console.log("HomePage Data:", res);
-        setError(res.message || "Failed to load home page data");
-      }
-    } catch (err) {
-      console.log("HomePage Data:", err);
-      // Try to show a more specific error message if available
-      let msg = err?.response?.data?.message || err?.message || err?.toString();
-      if (msg && msg !== "[object Object]") {
-        setError(msg);
-      } else {
-        setError("Failed to load home page data");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchCategories = async () => {
-    try {
-      // Use the new public API endpoint for categories
-      const res = await API.request("/api/public/categories");
-      if (res?.success && Array.isArray(res.data)) {
-        setCategories(res.data);
-      } else {
-        setCategories([]);
-      }
-    } catch (err) {
-      setCategories([]);
-    }
-  };
+  }, [location.state, refetchHomeData]);
 
   const handleQuizAttempt = (quiz) => {
     setSelectedQuiz(quiz);

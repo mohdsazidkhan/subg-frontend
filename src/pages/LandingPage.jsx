@@ -43,12 +43,119 @@ import UnifiedFooter from "../components/UnifiedFooter";
 import MonthlyWinnersDisplay from "../components/MonthlyWinnersDisplay";
 import MobileAppWrapper from "../components/MobileAppWrapper";
 import API from "../utils/api";
+import { useApiCache } from "../hooks/useApiCache";
 
 const LandingPage = () => {
-  const [levels, setLevels] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [topPerformers, setTopPerformers] = useState([]);
-  const [stats, setStats] = useState({
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+  const navigate = useNavigate();
+
+  // Use caching hook for levels data
+  const {
+    data: levelsData,
+    loading: levelsLoading
+  } = useApiCache(
+    async () => {
+      const res = await API.getAllLevels();
+      if (res.success) {
+        // Filter out Starter level (Level 0)
+        return res.data.filter(level => level.level !== 0);
+      } else {
+        throw new Error("Failed to load levels");
+      }
+    },
+    [],
+    {
+      cacheTime: 15 * 60 * 1000, // 15 minutes cache
+      refetchOnFocus: false,
+      refetchOnMount: true
+    }
+  );
+
+  // Use caching hook for categories data
+  const {
+    data: categoriesData,
+    loading: categoriesLoading
+  } = useApiCache(
+    async () => {
+      const res = await API.getPublicCategoriesEnhanced();
+      if (res.success) {
+        return res.data;
+      } else {
+        throw new Error("Failed to load categories");
+      }
+    },
+    [],
+    {
+      cacheTime: 15 * 60 * 1000, // 15 minutes cache
+      refetchOnFocus: false,
+      refetchOnMount: true
+    }
+  );
+
+  // Use caching hook for top performers data
+  const {
+    data: topPerformersData,
+    loading: topPerformersLoading
+  } = useApiCache(
+    async () => {
+      const res = await API.getPublicLandingTopPerformers(10);
+      if (res.success) {
+        return res.data;
+      } else {
+        throw new Error("Failed to load top performers");
+      }
+    },
+    [],
+    {
+      cacheTime: 5 * 60 * 1000, // 5 minutes cache
+      refetchOnFocus: false,
+      refetchOnMount: true
+    }
+  );
+
+  // Use caching hook for stats data
+  const {
+    data: statsData,
+    loading: statsLoading,
+    error: statsError
+  } = useApiCache(
+    async () => {
+      const res = await API.getPublicLandingStats();
+      if (res.success) {
+        // Format large numbers for display
+        const formatNumber = (num) => {
+          if (num >= 1000) {
+            return `${(num / 1000).toFixed(1)}K+`;
+          }
+          return num.toString();
+        };
+
+        return {
+          activeStudents: formatNumber(res.data.activeStudents),
+          quizCategories: formatNumber(res.data.quizCategories),
+          subcategories: formatNumber(res.data.subcategories),
+          totalQuizzes: formatNumber(res.data.totalQuizzes),
+          totalQuestions: formatNumber(res.data.totalQuestions),
+          quizzesTaken: formatNumber(res.data.quizzesTaken),
+          monthlyPrizePool: res.data.monthlyPrizePool,
+        };
+      } else {
+        throw new Error("Failed to load stats");
+      }
+    },
+    [],
+    {
+      cacheTime: 10 * 60 * 1000, // 10 minutes cache
+      refetchOnFocus: false,
+      refetchOnMount: true
+    }
+  );
+
+  // Extract data from responses
+  const levels = levelsData || [];
+  const categories = categoriesData || [];
+  const topPerformers = topPerformersData || [];
+  const stats = statsData || {
     activeStudents: "10K+",
     quizCategories: "500+",
     subcategories: "100+",
@@ -56,10 +163,8 @@ const LandingPage = () => {
     totalQuestions: "5000+",
     quizzesTaken: "50K+",
     monthlyPrizePool: "₹9,999",
-  });
-  const [loading, setLoading] = useState(true);
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
-  const navigate = useNavigate();
+  };
+  const loading = levelsLoading || categoriesLoading || topPerformersLoading || statsLoading;
 
   useEffect(() => {
     // Check if user is logged in
@@ -84,192 +189,9 @@ const LandingPage = () => {
     // Add event listener for window resize
     window.addEventListener('resize', handleResize);
 
-    fetchData();
-
     // Cleanup
     return () => window.removeEventListener('resize', handleResize);
   }, [navigate]);
-
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-
-      // Fetch all data in parallel using centralized API service
-      const [levelsRes, categoriesRes, topPerformersRes, statsRes] =
-        await Promise.all([
-          API.getAllLevels(),
-          API.getPublicCategoriesEnhanced(),
-          API.getPublicLandingTopPerformers(10),
-          API.getPublicLandingStats(),
-        ]);
-
-      // Set data if successful
-      if (levelsRes.success) {
-        // Filter out Starter level (Level 0)
-        const filteredLevels = levelsRes.data.filter(
-          (level) => level.level !== 0
-        );
-        setLevels(filteredLevels);
-      }
-
-      if (categoriesRes.success) {
-        setCategories(categoriesRes.data);
-      }
-
-      if (topPerformersRes.success) {
-        setTopPerformers(topPerformersRes.data);
-      }
-
-      if (statsRes.success) {
-        // Format large numbers for display
-        const formatNumber = (num) => {
-          if (num >= 1000) {
-            return `${(num / 1000).toFixed(1)}K+`;
-          }
-          return num.toString();
-        };
-
-        setStats({
-          activeStudents: formatNumber(statsRes.data.activeStudents),
-          quizCategories: formatNumber(statsRes.data.quizCategories),
-          subcategories: formatNumber(statsRes.data.subcategories),
-          totalQuizzes: formatNumber(statsRes.data.totalQuizzes),
-          totalQuestions: formatNumber(statsRes.data.totalQuestions),
-          quizzesTaken: formatNumber(statsRes.data.quizzesTaken),
-          monthlyPrizePool: statsRes.data.monthlyPrizePool,
-        });
-      }
-    } catch (error) {
-      console.error("Error fetching landing page data:", error);
-      // Set fallback data if APIs fail
-      setLevels([
-        {
-          level: 1,
-          name: "Rookie",
-          description: "Build your foundation",
-          quizCount: 30,
-          quizzesRequired: 2,
-        },
-        {
-          level: 2,
-          name: "Explorer",
-          description: "Discover new knowledge",
-          quizCount: 35,
-          quizzesRequired: 6,
-        },
-        {
-          level: 3,
-          name: "Thinker",
-          description: "Develop critical thinking",
-          quizCount: 40,
-          quizzesRequired: 12,
-        },
-        {
-          level: 4,
-          name: "Strategist",
-          description: "Master strategic learning",
-          quizCount: 45,
-          quizzesRequired: 20,
-        },
-      ]);
-      
-      setCategories([
-        {
-          _id: "1",
-          name: "Science",
-          description: "Explore scientific concepts",
-          quizCount: 50,
-        },
-        {
-          _id: "2",
-          name: "Technology",
-          description: "Learn about modern tech",
-          quizCount: 45,
-        },
-        {
-          _id: "3",
-          name: "Mathematics",
-          description: "Master mathematical skills",
-          quizCount: 40,
-        },
-        {
-          _id: "4",
-          name: "Geography",
-          description: "Discover the world",
-          quizCount: 35,
-        },
-        {
-          _id: "5",
-          name: "History",
-          description: "Learn from the past",
-          quizCount: 30,
-        },
-        {
-          _id: "6",
-          name: "Literature",
-          description: "Explore great works",
-          quizCount: 25,
-        },
-      ]);
-      
-      setTopPerformers([
-        { _id: "1", name: "Quiz Master", level: 10, score: 95, quizCount: 150 },
-        {
-          _id: "2",
-          name: "Knowledge Seeker",
-          level: 10,
-          score: 92,
-          quizCount: 145,
-        },
-        {
-          _id: "3",
-          name: "Brain Champion",
-          level: 10,
-          score: 90,
-          quizCount: 140,
-        },
-        { _id: "4", name: "Learning Pro", level: 9, score: 88, quizCount: 135 },
-        { _id: "5", name: "Quiz Wizard", level: 9, score: 85, quizCount: 130 },
-        {
-          _id: "6",
-          name: "Smart Student",
-          level: 8,
-          score: 82,
-          quizCount: 125,
-        },
-        {
-          _id: "7",
-          name: "Knowledge Hunter",
-          level: 8,
-          score: 80,
-          quizCount: 120,
-        },
-        {
-          _id: "8",
-          name: "Quiz Explorer",
-          level: 7,
-          score: 78,
-          quizCount: 115,
-        },
-        {
-          _id: "9",
-          name: "Learning Star",
-          level: 7,
-          score: 75,
-          quizCount: 110,
-        },
-        {
-          _id: "10",
-          name: "Quiz Enthusiast",
-          level: 6,
-          score: 72,
-          quizCount: 105,
-        },
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
