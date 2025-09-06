@@ -181,12 +181,10 @@ const HomePage = () => {
       </div>
     );
   }
-
   const handleSearch = (e) => {
     e.preventDefault();
     navigate("/search", { state: { searchQuery: searchQuery?.trim() } });
   };
-
   return (
     <MobileAppWrapper title="Home">
       <div className="relative min-h-screen bg-subg-light dark:bg-subg-dark overflow-x-hidden">
