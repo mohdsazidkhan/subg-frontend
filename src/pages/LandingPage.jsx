@@ -800,13 +800,13 @@ const LandingPage = () => {
                               📈
                             </span>
                           </div>
-                          <div className="flex items-center gap-2">
-                            <span className="font-bold text-gray-900 dark:text-white text-lg">
-                              Level{performer.userLevelName || 0}
-                            </span>
-                            <span className=" text-gray-600 text-lg">
+                          <div className="flex-col items-center gap-2">
+                            <div className="font-bold text-gray-900 dark:text-white text-lg">
+                              {performer.userLevelName || 0}
+                            </div>
+                            <div className=" text-gray-400 text-lg">
                               Level {performer.userLevelNo || 0}
-                            </span>
+                            </div>
                           </div>
                         </div>
                       </td>
