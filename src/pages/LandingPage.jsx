@@ -16,7 +16,6 @@ import {
   FaGlobe,
   FaCalculator,
   FaPalette,
-  FaLeaf,
   FaUserGraduate,
   FaArrowRight,
   FaPlay,
@@ -37,6 +36,8 @@ import {
   FaLanguage,
   FaGraduationCap,
   FaDollarSign,
+  FaCalendar,
+  FaCalendarDay,
 } from "react-icons/fa";
 
 import UnifiedNavbar from "../components/UnifiedNavbar";
@@ -57,6 +58,7 @@ const LandingPage = () => {
     totalQuestions: "5000+",
     quizzesTaken: "50K+",
     monthlyPrizePool: "₹9,999",
+    paidSubscriptions: "99",
   });
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
@@ -160,6 +162,7 @@ const LandingPage = () => {
           totalQuestions: formatNumber(statsRes.data.totalQuestions),
           quizzesTaken: formatNumber(statsRes.data.quizzesTaken),
           monthlyPrizePool: statsRes.data.monthlyPrizePool,
+          paidSubscriptions: statsRes.data.paidSubscriptions,
         });
       }
     } catch (error) {
@@ -421,7 +424,7 @@ const LandingPage = () => {
           </div>
 
           {/* Stats */}
-          <div className="mt-10 lg:mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-6 p-4 relative">
+          <div className="mt-10 lg:mt-20 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-6 p-4 relative">
             {[
               {
                 icon: FaUsers,
@@ -478,6 +481,14 @@ const LandingPage = () => {
                 gradient: "from-pink-500/20 to-rose-500/20",
                 iconBg: "from-pink-500 to-rose-500",
                 textColor: "text-pink-600",
+              },
+              {
+                icon: FaCalendarDay,
+                number: stats.paidSubscriptions,
+                label: "Active Subcriptions",
+                gradient: "from-teal-500/20 to-green-500/20",
+                iconBg: "from-teal-500 to-green-500",
+                textColor: "text-teal-600",
               },
             ].map((stat, index) => (
               <div key={index} className="text-center group">
@@ -659,6 +670,17 @@ const LandingPage = () => {
                         <div className="font-bold text-gray-900 dark:text-white text-lg">
                           {performer.name || "Anonymous"}
                         </div>
+                        <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                              performer.subscriptionName === "PRO"
+                            ? "bg-gradient-to-r from-yellow-400 to-red-500"
+                            : performer.subscriptionName === "PREMIUM"
+                            ? "bg-gradient-to-r from-pink-400 to-orange-500"
+                            : performer.subscriptionName === "BASIC"
+                            ? "bg-gradient-to-r from-blue-400 to-indigo-500"
+                            : "bg-gradient-to-r from-green-400 to-teal-500"
+                        }`}>
+                          {performer.subscriptionName || "FREE"}
+                        </div>
                    </div>
                    
                       {/* Stats Grid */}
@@ -809,11 +831,22 @@ const LandingPage = () => {
                             <span className="text-xl text-blue-600 dark:text-blue-400">
                               {performer.name?.charAt(0)?.toUpperCase() || "?"}
                             </span>
-                   </div>
+                         </div>
                           <div>
                             <div className="font-bold text-gray-900 dark:text-white text-md lg:text-lg">
                               {performer.name || "Anonymous"}
-                   </div>
+                            </div>
+                            <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                              performer.subscriptionName === "PRO"
+                            ? "bg-gradient-to-r from-yellow-400 to-red-500"
+                            : performer.subscriptionName === "PREMIUM"
+                            ? "bg-gradient-to-r from-pink-400 to-orange-500"
+                            : performer.subscriptionName === "BASIC"
+                            ? "bg-gradient-to-r from-blue-400 to-indigo-500"
+                            : "bg-gradient-to-r from-green-400 to-teal-500"
+                        }`}>
+                          {performer.subscriptionName || "FREE"}
+                        </div>
                  </div>
                         </div>
                       </td>

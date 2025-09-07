@@ -51,6 +51,7 @@ import API from '../utils/api';
           position: u.rank,
           isCurrentUser: u.userId === currentUserId,
           profilePicture: u.profilePicture,
+          subscriptionName: u.subscriptionName,
           level: {
             currentLevel: u.monthly?.currentLevel || 0,
             levelName: u.monthly?.currentLevel === 10 ? 'Legend' : getLevelName(u.monthly?.currentLevel || 0),
@@ -69,6 +70,7 @@ import API from '../utils/api';
           name: u.name,
           position: u.position,
           isCurrentUser: u.isCurrentUser,
+          subscriptionName: u.subscriptionName,
           level: {
             currentLevel: u.level?.currentLevel || 0,
             levelName: u.level?.levelName || getLevelName(u.level?.currentLevel || 0),
@@ -88,6 +90,7 @@ import API from '../utils/api';
             name: currentUser.name,
             position: currentUser.position,
             isCurrentUser: true,
+            subscriptionName: currentUser.subscriptionName,
             level: {
               currentLevel: currentUser.level?.currentLevel || 0,
               levelName: currentUser.level?.levelName || getLevelName(currentUser.level?.currentLevel || 0),
@@ -366,6 +369,17 @@ import API from '../utils/api';
                   <h5 className="text-xl font-bold text-gray-900 dark:text-white">
                     {data.currentUser.name}
                   </h5>
+                  <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                              data.currentUser.subscriptionName === "PRO"
+                            ? "bg-gradient-to-r from-yellow-400 to-red-500"
+                            : data.currentUser.subscriptionName === "PREMIUM"
+                            ? "bg-gradient-to-r from-pink-400 to-orange-500"
+                            : data.currentUser.subscriptionName === "BASIC"
+                            ? "bg-gradient-to-r from-blue-400 to-indigo-500"
+                            : "bg-gradient-to-r from-green-400 to-teal-500"
+                        }`}>
+                          {data.currentUser.subscriptionName || "FREE"}
+                        </div>
                   <p className="text-gray-600 dark:text-gray-300">
                     Level {data.currentUser.level.currentLevel} - {data.currentUser.level.levelName}
                   </p>
@@ -491,9 +505,21 @@ import API from '../utils/api';
                           {p.name?.charAt(0)?.toUpperCase() || "?"}
                         </span>
                       </div>
+                      
                       <div>
                         <div className="font-bold text-gray-900 dark:text-white text-md lg:text-lg">
                           {p.name || "Unknown"}
+                        </div>
+                        <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                              p.subscriptionName === "PRO"
+                            ? "bg-gradient-to-r from-yellow-400 to-red-500"
+                            : p.subscriptionName === "PREMIUM"
+                            ? "bg-gradient-to-r from-pink-400 to-orange-500"
+                            : p.subscriptionName === "BASIC"
+                            ? "bg-gradient-to-r from-blue-400 to-indigo-500"
+                            : "bg-gradient-to-r from-green-400 to-teal-500"
+                        }`}>
+                          {p.subscriptionName || "FREE"}
                         </div>
                       </div>
                     </div>
@@ -611,16 +637,30 @@ import API from '../utils/api';
                 <div>
                   <p className="text-gray-900 dark:text-white font-medium">
                     {p.name || "Unknown"}
+                    
                     {p.userId === currentUserId && (
                       <span className="ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-200 text-red-900 dark:bg-red-700 dark:text-red-100">
                         You
                       </span>
                     )}
                   </p>
+                  <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                              p.subscriptionName === "PRO"
+                            ? "bg-gradient-to-r from-yellow-400 to-red-500"
+                            : p.subscriptionName === "PREMIUM"
+                            ? "bg-gradient-to-r from-pink-400 to-orange-500"
+                            : p.subscriptionName === "BASIC"
+                            ? "bg-gradient-to-r from-blue-400 to-indigo-500"
+                            : "bg-gradient-to-r from-green-400 to-teal-500"
+                        }`}>
+                          {p.subscriptionName || "FREE"}
+                        </div>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
                     {p.level?.levelName || "No Level"}
                   </p>
+                  
                 </div>
+                
               </div>
               
               <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4">
@@ -724,6 +764,17 @@ import API from '../utils/api';
                       </span>
                     )}
                   </p>
+                  <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                              p.subscriptionName === "PRO"
+                            ? "bg-gradient-to-r from-yellow-400 to-red-500"
+                            : p.subscriptionName === "PREMIUM"
+                            ? "bg-gradient-to-r from-pink-400 to-orange-500"
+                            : p.subscriptionName === "BASIC"
+                            ? "bg-gradient-to-r from-blue-400 to-indigo-500"
+                            : "bg-gradient-to-r from-green-400 to-teal-500"
+                        }`}>
+                          {p.subscriptionName || "FREE"}
+                        </div>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
                     {p.level?.levelName || "No Level"}
                   </p>
@@ -822,6 +873,17 @@ import API from '../utils/api';
                         </span>
                       )}
                     </h6>
+                    <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                              user.subscriptionName === "PRO"
+                            ? "bg-gradient-to-r from-yellow-400 to-red-500"
+                            : user.subscriptionName === "PREMIUM"
+                            ? "bg-gradient-to-r from-pink-400 to-orange-500"
+                            : user.subscriptionName === "BASIC"
+                            ? "bg-gradient-to-r from-blue-400 to-indigo-500"
+                            : "bg-gradient-to-r from-green-400 to-teal-500"
+                        }`}>
+                          {user.subscriptionName || "FREE"}
+                        </div>
                     <p className="text-sm text-gray-600 dark:text-gray-300">
                       Level {user.level.currentLevel} - {user.level.levelName}
                     </p>
@@ -871,6 +933,17 @@ import API from '../utils/api';
                   <h5 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-3">
                     {data.currentUser.name}
                   </h5>
+                  <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                              data.currentUser.subscriptionName === "PRO"
+                            ? "bg-gradient-to-r from-yellow-400 to-red-500"
+                            : data.currentUser.subscriptionName === "PREMIUM"
+                            ? "bg-gradient-to-r from-pink-400 to-orange-500"
+                            : data.currentUser.subscriptionName === "BASIC"
+                            ? "bg-gradient-to-r from-blue-400 to-indigo-500"
+                            : "bg-gradient-to-r from-green-400 to-teal-500"
+                        }`}>
+                          {data.currentUser.subscriptionName || "FREE"}
+                        </div>
                   <p className="text-xl text-gray-700 dark:text-gray-200 mb-4">
                     Level {data.currentUser.level.currentLevel} - {data.currentUser.level.levelName}
                   </p>
@@ -925,6 +998,17 @@ import API from '../utils/api';
                           </span>
                         )}
                       </h6>
+                      <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                              data.currentUser.subscriptionName === "PRO"
+                            ? "bg-gradient-to-r from-yellow-400 to-red-500"
+                            : data.currentUser.subscriptionName === "PREMIUM"
+                            ? "bg-gradient-to-r from-pink-400 to-orange-500"
+                            : data.currentUser.subscriptionName === "BASIC"
+                            ? "bg-gradient-to-r from-blue-400 to-indigo-500"
+                            : "bg-gradient-to-r from-green-400 to-teal-500"
+                        }`}>
+                          {data.currentUser.subscriptionName || "FREE"}
+                        </div>
                       <p className="text-gray-600 dark:text-gray-300">
                         Level {user.level.currentLevel} - {user.level.levelName}
                       </p>

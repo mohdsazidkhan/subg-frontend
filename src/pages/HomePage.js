@@ -898,11 +898,6 @@ const HomePage = () => {
               Your Quizzes
             </h2>
 
-            <button onClick={() => navigate("/level-quizzes")}>
-              <FaArrowRight />
-              <span>View All Quizzes</span>
-            </button>
-
           </div>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 md:mb-8 lg:mb-12 max-w-3xl sm:max-w-4xl px-0">
             Discover quizzes tailored to your current level and challenge

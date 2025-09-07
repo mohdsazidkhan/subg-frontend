@@ -28,7 +28,6 @@ import StudentPage from './pages/admin/StudentsPage';
 import QuizResult from './pages/QuizResult';
 import HowItWorks from './pages/HowItWorks.jsx';
 import LevelsPage from './pages/LevelsPage.jsx';
-import LevelBasedQuizzesPage from './pages/LevelBasedQuizzesPage.jsx';
 import AboutUs from './pages/AboutUs.jsx';
 import TermsAndConditions from './pages/TermsAndConditions.jsx';
 import PrivacyPolicy from './pages/PrivacyPolicy.jsx';
@@ -127,7 +126,6 @@ function AppLayout() {
             <Route path="/subscription/payu-failure" element={<PayuFailure />} />
             <Route path="/quiz-result" element={<StudentRoute><TokenValidationWrapper><QuizResult /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/levels" element={<StudentRoute><TokenValidationWrapper><LevelsPage /></TokenValidationWrapper></StudentRoute>} />
-            <Route path="/level-quizzes" element={<StudentRoute><TokenValidationWrapper><LevelBasedQuizzesPage /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/rewards" element={<StudentRoute><TokenValidationWrapper><RewardsPage /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/category/:categoryId" element={<StudentRoute><TokenValidationWrapper><CategoryDetailPage /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/subcategory/:subcategoryId" element={<StudentRoute><TokenValidationWrapper><SubcategoryDetailPage /></TokenValidationWrapper></StudentRoute>} />
