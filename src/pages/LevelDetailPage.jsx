@@ -232,22 +232,12 @@ const LevelDetailPage = () => {
                         </div>
                         </div>
                       </div>
-                      
-                      {quiz.attemptStatus?.hasAttempted ? (
-                        <button
-                          className="w-full bg-gradient-to-r from-gray-500 to-yellow-500 hover:from-yellow-500 hover:to-gray-500 text-white font-semibold py-2 rounded-xl transition-all duration-300 shadow-md"
-                          onClick={() => navigate('/quiz-result', { state: { quizId: quiz._id, refreshHomeData: true } })}
-                        >
-                          View Result
-                        </button>
-                      ) : (
                         <button
                           className="w-full bg-gradient-to-r from-yellow-500 to-red-600 hover:from-red-600 hover:to-yellow-500 text-white font-semibold py-2 rounded-xl transition-all duration-300 shadow-md"
                           onClick={() => handleQuizClick(quiz._id)}
                         >
                           Start Quiz
                         </button>
-                      )}
                     </div>
                   </div>
                 ))}

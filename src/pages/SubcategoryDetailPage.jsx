@@ -93,7 +93,7 @@ const SubcategoryDetailPage = () => {
     <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
       {/* Hero Section with Subcategory Name and Description */}
       {subcategory && (
-        <div className="bg-gradient-to-r from-yellow-800 via-red-800 to-green-800 text-white py-12 sm:py-16 px-4 sm:px-6 shadow-2xl">
+        <div className="bg-gradient-to-r from-yellow-800 via-orange-800 to-red-800 text-white py-12 sm:py-16 px-4 sm:px-6 shadow-2xl">
           <div className="max-w-5xl mx-auto text-center">
             <div className="mb-4">
               <h1 className="text-2xl sm:text-5xl font-bold mb-4 drop-shadow-lg animate-fade-in">
@@ -138,7 +138,7 @@ const SubcategoryDetailPage = () => {
           <>
           <div className="flex flex-row items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
             <h2 className="text-xl sm:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2 sm:gap-3">
-              <FaQuestionCircle className="text-green-500" />
+              <FaQuestionCircle className="text-red-500" />
               Quizzes ({quizzes?.length})
             </h2>
             <button
@@ -164,21 +164,13 @@ const SubcategoryDetailPage = () => {
                       {quiz.difficulty && <span className="px-2 py-1 rounded-full bg-yellow-100 text-yellow-700 font-semibold">{quiz.difficulty}</span>}
                     </div>
                   </div>
-                  {quiz.attemptStatus?.hasAttempted ? (
-                    <button
-                      className="mt-4 w-full bg-gradient-to-r from-gray-500 to-yellow-500 hover:from-yellow-500 hover:to-gray-500 text-white font-semibold py-2 rounded-xl transition-all duration-300 shadow-md"
-                      onClick={() => navigate('/quiz-result', { state: { quizId: quiz._id } })}
-                    >
-                      View Result
-                    </button>
-                  ) : (
                     <button
                       className="mt-4 w-full bg-gradient-to-r from-yellow-500 to-red-500 hover:from-red-500 hover:to-yellow-500 text-white font-semibold py-2 rounded-xl transition-all duration-300 shadow-md"
                       onClick={() => handleQuizClick(quiz._id)}
                     >
                       Start Quiz
                     </button>
-                  )}
+                  
                 </div>
               ))}
             </div>
