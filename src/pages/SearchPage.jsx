@@ -3,6 +3,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import API from "../utils/api";
 import QuizStartModal from "../components/QuizStartModal";
 import MobileAppWrapper from "../components/MobileAppWrapper";
+import useDebounce from "../utils/useDebounce";
 
 const SearchPage = () => {
   const navigate = useNavigate();
@@ -18,13 +19,14 @@ const SearchPage = () => {
   const [selectedQuiz, setSelectedQuiz] = useState(null);
 
   const limit = 12;
+  const debouncedQuery = useDebounce(query, 500); // 500ms delay for search
 
-  const fetchData = useCallback(async () => {
-    let searchQuery = query?.trim();
+  const fetchData = useCallback(async (searchQuery = debouncedQuery) => {
+    const trimmedQuery = searchQuery?.trim();
     try {
       setLoading(true);
       const res = await API.searchAll({
-        query: searchQuery,
+        query: trimmedQuery,
         page: currentPage,
         limit,
       });
@@ -39,7 +41,7 @@ const SearchPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [query, currentPage, limit]);
+  }, [debouncedQuery, currentPage, limit]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -47,39 +49,19 @@ const SearchPage = () => {
     fetchData();
   };
 
-  const fetchDataBack = useCallback(async (searchQuery) =>{
-      try {
-        setLoading(true);
-        const res = await API.searchAll({
-          query: searchQuery,
-          page: currentPage,
-          limit,
-        });
-        if (res.success) {
-          setQuizzes(res.quizzes);
-          setCategories(res.subcategories);
-          setSubcategories(res.subcategories);
-          setTotalPages(res.totalPages);
-        }
-      } catch (err) {
-        console.error("Search failed:", err);
-      } finally {
-        setLoading(false);
-      }
-  }, [currentPage, limit])
-
+  // Effect for debounced search
   useEffect(() => {
-    if(query !== ""){
+    if (debouncedQuery !== "") {
       fetchData();
     }
-  }, [currentPage, query, fetchData]);
+  }, [debouncedQuery, currentPage, fetchData]);
 
-  useEffect(()=>{
-    if(location.state?.searchQuery){
-      setQuery(location.state?.searchQuery);
-      fetchDataBack(location.state?.searchQuery)
+  // Effect for initial search from navigation
+  useEffect(() => {
+    if (location.state?.searchQuery) {
+      setQuery(location.state.searchQuery);
     }
-  },[location, fetchDataBack])
+  }, [location.state?.searchQuery]);
 
   const handleQuizAttempt = (quiz) => {
     setSelectedQuiz(quiz);

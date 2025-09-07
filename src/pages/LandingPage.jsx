@@ -696,7 +696,7 @@ const LandingPage = () => {
                         <div className="font-bold text-gray-900 dark:text-white text-lg">
                           {performer?.name || "Anonymous"}
                         </div>
-                        <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                        <div className={`px-4 w-auto lg:w-18 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
                               performer?.subscriptionName === "PRO"
                             ? "bg-gradient-to-r from-yellow-400 to-red-500"
                             : performer?.subscriptionName === "PREMIUM"
@@ -868,7 +868,7 @@ const LandingPage = () => {
                             <div className="font-bold text-gray-900 dark:text-white text-md lg:text-lg">
                               {performer?.name || "Anonymous"}
                             </div>
-                            <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                            <div className={`px-4 w-auto lg:w-18 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
                               performer?.subscriptionName === "PRO"
                             ? "bg-gradient-to-r from-yellow-400 to-red-500"
                             : performer?.subscriptionName === "PREMIUM"

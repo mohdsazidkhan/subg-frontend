@@ -369,7 +369,7 @@ import API from '../utils/api';
                   <h5 className="text-xl font-bold text-gray-900 dark:text-white">
                     {data.currentUser.name}
                   </h5>
-                  <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                  <div className={`px-4 w-auto lg:w-18 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
                               data.currentUser.subscriptionName === "PRO"
                             ? "bg-gradient-to-r from-yellow-400 to-red-500"
                             : data.currentUser.subscriptionName === "PREMIUM"
@@ -510,7 +510,7 @@ import API from '../utils/api';
                         <div className="font-bold text-gray-900 dark:text-white text-md lg:text-lg">
                           {p.name || "Unknown"}
                         </div>
-                        <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                        <div className={`px-4 w-auto lg:w-18 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
                               p.subscriptionName === "PRO"
                             ? "bg-gradient-to-r from-yellow-400 to-red-500"
                             : p.subscriptionName === "PREMIUM"
@@ -644,7 +644,7 @@ import API from '../utils/api';
                       </span>
                     )}
                   </p>
-                  <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                  <div className={`px-4 w-auto lg:w-18 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
                               p.subscriptionName === "PRO"
                             ? "bg-gradient-to-r from-yellow-400 to-red-500"
                             : p.subscriptionName === "PREMIUM"
@@ -764,7 +764,7 @@ import API from '../utils/api';
                       </span>
                     )}
                   </p>
-                  <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                  <div className={`px-4 w-auto lg:w-18 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
                               p.subscriptionName === "PRO"
                             ? "bg-gradient-to-r from-yellow-400 to-red-500"
                             : p.subscriptionName === "PREMIUM"
@@ -873,7 +873,7 @@ import API from '../utils/api';
                         </span>
                       )}
                     </h6>
-                    <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                    <div className={`px-4 w-auto lg:w-18 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
                               user.subscriptionName === "PRO"
                             ? "bg-gradient-to-r from-yellow-400 to-red-500"
                             : user.subscriptionName === "PREMIUM"
@@ -933,7 +933,7 @@ import API from '../utils/api';
                   <h5 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-3">
                     {data.currentUser.name}
                   </h5>
-                  <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                  <div className={`px-4 w-auto lg:w-18 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
                               data.currentUser.subscriptionName === "PRO"
                             ? "bg-gradient-to-r from-yellow-400 to-red-500"
                             : data.currentUser.subscriptionName === "PREMIUM"
@@ -998,7 +998,7 @@ import API from '../utils/api';
                           </span>
                         )}
                       </h6>
-                      <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
+                      <div className={`px-4 w-auto lg:w-18 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
                               data.currentUser.subscriptionName === "PRO"
                             ? "bg-gradient-to-r from-yellow-400 to-red-500"
                             : data.currentUser.subscriptionName === "PREMIUM"
