@@ -696,7 +696,7 @@ const LandingPage = () => {
                         <div className="font-bold text-gray-900 dark:text-white text-lg">
                           {performer?.name || "Anonymous"}
                         </div>
-                        <div className={`subscription-name-badge mx-auto mx-auto ${
+                        <div className={`subscription-name-badge mx-auto ${
                               performer?.subscriptionName === "PRO"
                             ? "bg-gradient-to-r from-yellow-400 to-red-500"
                             : performer?.subscriptionName === "PREMIUM"
