@@ -164,8 +164,11 @@ const LevelDetailPage = () => {
                 <div className="text-lg sm:text-xl lg:text-2xl font-bold text-yellow-600">₹{level.prize}</div>
                 <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Prize</div>
               </div>
-              {/* Rewards Terms for Visibility */}
-              <MonthlyRewardsInfo compact={true} />
+              
+            </div>
+            <div className='mt-4'>
+            {/* Rewards Terms for Visibility */}
+            <MonthlyRewardsInfo compact={true} />
             </div>
           </div>
         </div>
