@@ -36,7 +36,6 @@ import {
   FaLanguage,
   FaGraduationCap,
   FaDollarSign,
-  FaCalendar,
   FaCalendarDay,
 } from "react-icons/fa";
 
@@ -61,6 +60,7 @@ const LandingPage = () => {
     paidSubscriptions: "99",
   });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const navigate = useNavigate();
 
@@ -96,6 +96,7 @@ const LandingPage = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
+      setError(null);
 
       // Fetch all data in parallel using centralized API service
       const [levelsRes, categoriesRes, topPerformersRes, statsRes] =
@@ -167,6 +168,7 @@ const LandingPage = () => {
       }
     } catch (error) {
       console.error("Error fetching landing page data:", error);
+      setError("Failed to load data. Please try again later.");
       // Set fallback data if APIs fail
       setLevels([
         {
@@ -307,7 +309,31 @@ const LandingPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-subg-light dark:bg-subg-dark flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-yellow-600"></div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-yellow-600 mx-auto mb-4"></div>
+          <p className="text-xl text-gray-600 dark:text-gray-300">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-subg-light dark:bg-subg-dark flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto p-6">
+          <div className="text-red-500 text-6xl mb-4">⚠️</div>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Oops! Something went wrong</h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">{error}</p>
+          <button
+            onClick={() => {
+              setError(null);
+              fetchData();
+            }}
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
       </div>
     );
   }
@@ -428,7 +454,7 @@ const LandingPage = () => {
             {[
               {
                 icon: FaUsers,
-                number: stats.activeStudents,
+                number: stats?.activeStudents || "N/A",
                 label: "Active Students",
                 gradient: "from-blue-500/20 to-cyan-500/20",
                 iconBg: "from-blue-500 to-cyan-500",
@@ -436,7 +462,7 @@ const LandingPage = () => {
               },
               {
                 icon: FaBook,
-                number: stats.quizCategories,
+                number: stats?.quizCategories || "N/A",
                 label: "Quiz Categories",
                 gradient: "from-green-500/20 to-emerald-500/20",
                 iconBg: "from-green-500 to-emerald-500",
@@ -468,7 +494,7 @@ const LandingPage = () => {
               },
               {
                 icon: FaTrophy,
-                number: stats.quizzesTaken,
+                number: stats?.quizzesTaken || "N/A",
                 label: "Quizzes Taken",
                 gradient: "from-yellow-500/20 to-orange-500/20",
                 iconBg: "from-yellow-500 to-orange-500",
@@ -476,7 +502,7 @@ const LandingPage = () => {
               },
               {
                 icon: FaGift,
-                number: stats.monthlyPrizePool,
+                number: stats?.monthlyPrizePool || "N/A",
                 label: "Monthly Prize Pool",
                 gradient: "from-pink-500/20 to-rose-500/20",
                 iconBg: "from-pink-500 to-rose-500",
@@ -484,7 +510,7 @@ const LandingPage = () => {
               },
               {
                 icon: FaCalendarDay,
-                number: stats.paidSubscriptions,
+                number: stats?.paidSubscriptions || "N/A",
                 label: "Active Subcriptions",
                 gradient: "from-teal-500/20 to-green-500/20",
                 iconBg: "from-teal-500 to-green-500",
@@ -615,9 +641,9 @@ const LandingPage = () => {
             {viewMode === 'grid' && (
               <div className="p-2 lg:p-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {topPerformers.map((performer, index) => (
+                  {topPerformers?.length > 0 ? topPerformers.map((performer, index) => (
                     <div
-                      key={performer._id}
+                      key={performer?._id || `performer-${index}`}
                       className={`bg-white dark:bg-gray-900 rounded-xl p-4 border-2 transition-all duration-200 hover:shadow-lg group ${
                         index === 0
                           ? "border-yellow-400 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20"
@@ -664,22 +690,22 @@ const LandingPage = () => {
                       <div className="text-center mb-4">
                         <div className="w-16 h-16 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
                           <span className="text-2xl text-blue-600 dark:text-blue-400">
-                            {performer.name?.charAt(0)?.toUpperCase() || "?"}
+                            {performer?.name?.charAt(0)?.toUpperCase() || "?"}
                           </span>
                         </div>
                         <div className="font-bold text-gray-900 dark:text-white text-lg">
-                          {performer.name || "Anonymous"}
+                          {performer?.name || "Anonymous"}
                         </div>
                         <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
-                              performer.subscriptionName === "PRO"
+                              performer?.subscriptionName === "PRO"
                             ? "bg-gradient-to-r from-yellow-400 to-red-500"
-                            : performer.subscriptionName === "PREMIUM"
+                            : performer?.subscriptionName === "PREMIUM"
                             ? "bg-gradient-to-r from-pink-400 to-orange-500"
-                            : performer.subscriptionName === "BASIC"
+                            : performer?.subscriptionName === "BASIC"
                             ? "bg-gradient-to-r from-blue-400 to-indigo-500"
                             : "bg-gradient-to-r from-green-400 to-teal-500"
                         }`}>
-                          {performer.subscriptionName || "FREE"}
+                          {performer?.subscriptionName || "FREE"}
                         </div>
                    </div>
                    
@@ -692,7 +718,7 @@ const LandingPage = () => {
                           </div>
                           <div className="text-xs text-gray-600 dark:text-gray-400">Level</div>
                           <div className="font-bold text-gray-900 dark:text-white">
-                            {performer.userLevel || 0}
+                            {performer?.userLevel || 0}
                           </div>
                         </div>
 
@@ -703,7 +729,7 @@ const LandingPage = () => {
                           </div>
                           <div className="text-xs text-gray-600 dark:text-gray-400">Quizzes</div>
                           <div className="font-bold text-gray-900 dark:text-white">
-                            {performer.totalQuizzes || 0}
+                            {performer?.totalQuizzes || 0}
                           </div>
                         </div>
 
@@ -714,7 +740,7 @@ const LandingPage = () => {
                           </div>
                           <div className="text-xs text-gray-600 dark:text-gray-400">High</div>
                           <div className="font-bold text-gray-900 dark:text-white">
-                            {performer.highQuizzes || 0}
+                            {performer?.highQuizzes || 0}
                           </div>
                         </div>
 
@@ -725,12 +751,18 @@ const LandingPage = () => {
                           </div>
                           <div className="text-xs text-gray-600 dark:text-gray-400">Accuracy</div>
                           <div className="font-bold text-gray-900 dark:text-white">
-                            {performer.accuracy || 0}%
+                            {performer?.accuracy || 0}%
                           </div>
                         </div>
                    </div>
                  </div>
-               ))}
+               )) : (
+                 <div className="col-span-full text-center py-12">
+                   <div className="text-gray-500 dark:text-gray-400 text-lg">
+                     No top performers data available
+                   </div>
+                 </div>
+               )}
              </div>
               </div>
             )}
@@ -780,9 +812,9 @@ const LandingPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                   {topPerformers.map((performer, index) => (
+                   {topPerformers?.length > 0 ? topPerformers.map((performer, index) => (
                     <tr
-                      key={performer._id}
+                      key={performer?._id || `performer-${index}`}
                       className={`border-b transition-all duration-200 border-gray-200 hover:shadow-lg group ${
                         index === 0
                           ? "bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/10 dark:to-orange-900/10"
@@ -829,23 +861,23 @@ const LandingPage = () => {
                         <div className="flex items-center gap-3">
                           <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center">
                             <span className="text-xl text-blue-600 dark:text-blue-400">
-                              {performer.name?.charAt(0)?.toUpperCase() || "?"}
+                              {performer?.name?.charAt(0)?.toUpperCase() || "?"}
                             </span>
                          </div>
                           <div>
                             <div className="font-bold text-gray-900 dark:text-white text-md lg:text-lg">
-                              {performer.name || "Anonymous"}
+                              {performer?.name || "Anonymous"}
                             </div>
                             <div className={`px-4 w-16 rounded flex items-center justify-center text-white font-medium text-sm shadow ${
-                              performer.subscriptionName === "PRO"
+                              performer?.subscriptionName === "PRO"
                             ? "bg-gradient-to-r from-yellow-400 to-red-500"
-                            : performer.subscriptionName === "PREMIUM"
+                            : performer?.subscriptionName === "PREMIUM"
                             ? "bg-gradient-to-r from-pink-400 to-orange-500"
-                            : performer.subscriptionName === "BASIC"
+                            : performer?.subscriptionName === "BASIC"
                             ? "bg-gradient-to-r from-blue-400 to-indigo-500"
                             : "bg-gradient-to-r from-green-400 to-teal-500"
                         }`}>
-                          {performer.subscriptionName || "FREE"}
+                          {performer?.subscriptionName || "FREE"}
                         </div>
                  </div>
                         </div>
@@ -859,10 +891,10 @@ const LandingPage = () => {
                           </div>
                           <div className="flex-col items-center gap-2">
                             <div className="font-bold text-gray-900 dark:text-white text-lg">
-                              {performer.userLevelName || 0}
+                              {performer?.userLevelName || 0}
                             </div>
                             <div className="font-medium text-gray-500 text-sm">
-                                Level {performer.userLevelNo}
+                                Level {performer?.userLevelNo || 0}
                             </div>
                           </div>
                         </div>
@@ -876,9 +908,9 @@ const LandingPage = () => {
                           </div>
                           <div className="flex items-center gap-2">
                             <span className="font-bold text-gray-900 dark:text-white text-lg">
-                              {performer.totalQuizzes || 0}
+                              {performer?.totalQuizzes || 0}
                             </span>
-                            {(performer.totalQuizzes || 0) > 0 && (
+                            {(performer?.totalQuizzes || 0) > 0 && (
                               <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200">
                                 📚
                               </span>
@@ -895,9 +927,9 @@ const LandingPage = () => {
                           </div>
                           <div className="flex items-center gap-2">
                             <span className="font-bold text-gray-900 dark:text-white text-lg">
-                              {performer.highQuizzes || 0}
+                              {performer?.highQuizzes || 0}
                             </span>
-                            {(performer.highQuizzes || 0) > 0 && (
+                            {(performer?.highQuizzes || 0) > 0 && (
                               <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200">
                                🏆
                               </span>
@@ -914,9 +946,9 @@ const LandingPage = () => {
                           </div>
                           <div className="flex items-center gap-2">
                             <span className="font-bold text-gray-900 dark:text-white text-lg">
-                              {performer.accuracy || 0}%
+                              {performer?.accuracy || 0}%
                             </span>
-                            {(performer.accuracy || 0) > 0 && (
+                            {(performer?.accuracy || 0) > 0 && (
                               <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-200">
                                 🎯
                               </span>
@@ -925,7 +957,15 @@ const LandingPage = () => {
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  )) : (
+                    <tr>
+                      <td colSpan="6" className="text-center py-12">
+                        <div className="text-gray-500 dark:text-gray-400 text-lg">
+                          No top performers data available
+                        </div>
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
              </div>
@@ -964,15 +1004,15 @@ const LandingPage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {levels.map((level, index) => {
-              const levelColors = getLevelColors(level.name);
-              const levelInfo = levelsInfo.find(
-                (info) => info.level === level.level
+            {levels?.length > 0 ? levels.map((level, index) => {
+              const levelColors = getLevelColors(level?.name);
+              const levelInfo = levelsInfo?.find(
+                (info) => info?.level === level?.level
               );
-              const playCount = levelInfo ? levelInfo.quizzes : 0;
+              const playCount = levelInfo ? levelInfo?.quizzes : 0;
               return (
                 <div
-                  key={level._id}
+                  key={level?._id || `level-${index}`}
                   className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors?.background} ${levelColors?.border} hover:border-yellow-500`}
                 >
                    <div className={`absolute top-0 right-0 w-32 h-32 ${levelColors?.accent} rounded-full -translate-y-16 translate-x-16`}></div>
@@ -980,7 +1020,7 @@ const LandingPage = () => {
                    <div className="relative z-10 text-center">
                      <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${levelColors?.iconBg}`}>
                       {React.createElement(
-                        levelBadgeIcons[level.name] || levelBadgeIcons.Default,
+                        levelBadgeIcons[level?.name] || levelBadgeIcons.Default,
                         {
                           className: `w-8 h-8 ${levelColors?.iconColor}`,
                         }
@@ -988,11 +1028,11 @@ const LandingPage = () => {
                      </div>
                      
                      <h3 className={`text-xl font-bold mb-2 ${levelColors?.titleColor} text-center`}>
-                       Level {level.level} - {level.name}
+                       Level {level?.level || 0} - {level?.name || "Unknown"}
                      </h3>
                      <p className={`text-sm mb-4 ${levelColors?.descriptionColor} text-center`}>
                       {level?.description ||
-                        `Level ${level?.level} challenges`}
+                        `Level ${level?.level || 0} challenges`}
                      </p>
                      
                      <div className="grid grid-cols-2 gap-2 mb-3">
@@ -1006,7 +1046,7 @@ const LandingPage = () => {
                        </div>
                        <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
                          <div className="text-lg font-bold text-green-600">
-                           {levelInfo ? levelInfo?.plan : "-"}
+                           {levelInfo?.plan || "-"}
                          </div>
                          <div className="text-xs text-gray-600 dark:text-gray-300">
                            Plan
@@ -1014,7 +1054,7 @@ const LandingPage = () => {
                        </div>
                        <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
                          <div className="text-lg font-bold text-red-600">
-                           ₹{levelInfo ? levelInfo?.amount : 0}
+                           ₹{levelInfo?.amount || 0}
                          </div>
                          <div className="text-xs text-gray-600 dark:text-gray-300">
                            Amount
@@ -1022,7 +1062,7 @@ const LandingPage = () => {
                        </div>
                        <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
                          <div className="text-lg font-bold text-yellow-600">
-                           ₹{levelInfo ? levelInfo?.prize : 0}
+                           ₹{levelInfo?.prize || 0}
                          </div>
                          <div className="text-xs text-gray-600 dark:text-gray-300">
                            Prize {level?.level === 10 ? '(Monthly Top 3: ₹9,999)' : ''}
@@ -1040,7 +1080,13 @@ const LandingPage = () => {
                    </div>
                  </div>
               );
-            })}
+            }) : (
+              <div className="col-span-full text-center py-12">
+                <div className="text-gray-500 dark:text-gray-400 text-lg">
+                  No levels data available
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="text-center mt-12">
@@ -1072,11 +1118,11 @@ const LandingPage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {categories.map((category) => {
+            {categories?.length > 0 ? categories.map((category) => {
               const categoryColors = getCategoryColors(category?.name);
               return (
                 <div
-                  key={category._id}
+                  key={category?._id || `category-${Math.random()}`}
                   className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm ${categoryColors?.border} hover:border-yellow-500`}
                 >
                    <div className={`absolute top-0 right-0 w-32 h-32 ${categoryColors?.accent} rounded-full -translate-y-16 translate-x-16 opacity-60`}></div>
@@ -1094,10 +1140,10 @@ const LandingPage = () => {
                       )}
                      </div>
                      
-                     <h3 className={`text-xl font-bold mb-2 ${categoryColors?.titleColor} text-center`}>{category.name}</h3>
+                     <h3 className={`text-xl font-bold mb-2 ${categoryColors?.titleColor} text-center`}>{category?.name || "Unknown Category"}</h3>
                      <p className={`text-sm mb-4 ${categoryColors?.descriptionColor} text-center`}>
                       {category?.description ||
-                        `Explore ${category?.name} knowledge`}
+                        `Explore ${category?.name || "this"} knowledge`}
                      </p>
                      
                      <div className="flex items-center justify-between text-sm">
@@ -1111,7 +1157,13 @@ const LandingPage = () => {
                    </div>
                  </div>
               );
-            })}
+            }) : (
+              <div className="col-span-full text-center py-12">
+                <div className="text-gray-500 dark:text-gray-400 text-lg">
+                  No categories data available
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -1162,7 +1214,7 @@ const LandingPage = () => {
                     description: "Third best gets 17% of the prize pool",
                     amount: "₹1,667",
                   },
-                ].map((reward, index) => (
+                ]?.map((reward, index) => (
                   <div key={index} className="flex items-start space-x-4">
                                                                                    <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-yellow-100 dark:bg-gray-800">
                        <reward.icon className="w-6 h-6 text-yellow-600" />
