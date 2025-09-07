@@ -18,7 +18,7 @@ import MobileAppWrapper from '../components/MobileAppWrapper';
 const LeaderboardTable = ({ leaderboard, currentUser }) => {
   if (!leaderboard || leaderboard?.length === 0) {
     return (
-      <div className="text-center py-0 md:py-2 lg:py-4 xl:py-6">
+      <div className="text-center py-0 md:py-2 lg:py-4 xl:py-6 mb-4">
         <div className="bg-gradient-to-r from-red-50 to-yellow-50 dark:from-red-900/20 dark:to-yellow-900/20 rounded-2xl p-2 md:p-8 border border-red-200 dark:border-red-700">
           <FaTrophy className="text-4xl text-red-500 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
