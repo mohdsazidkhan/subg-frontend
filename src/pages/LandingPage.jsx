@@ -541,6 +541,163 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Prize & Rewards Section */}
+       <section id="prizes" className="py-20 relative overflow-hidden">
+         <div className="absolute inset-0 bg-gradient-to-tl from-amber-50 via-yellow-50 to-orange-50 dark:from-gray-900 dark:via-amber-900/20 dark:to-orange-900/20 pointer-events-none" />
+         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+                Win Amazing Prizes & Rewards
+              </span>
+            </h2>
+                         <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Compete monthly for amazing rewards! Top 3 performers at Level 10
+              with ≥75% accuracy share ₹9,999 prize pool every month.
+             </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+            <div>
+              <div className="space-y-6">
+                {[
+                  {
+                    icon: FaTrophy,
+                    title: "Monthly Prize Pool",
+                    description:
+                      "Top 3 performers share the monthly prize pool",
+                    amount: "₹9,999",
+                  },
+                  {
+                    icon: FaCrown,
+                    title: "1st Place",
+                    description: "Best performer gets 50% of the prize pool",
+                    amount: "₹4,999",
+                  },
+                  {
+                    icon: FaMedal,
+                    title: "2nd Place",
+                    description: "Second best gets 33% of the prize pool",
+                    amount: "₹3,333",
+                  },
+                  {
+                    icon: FaGem,
+                    title: "3rd Place",
+                    description: "Third best gets 17% of the prize pool",
+                    amount: "₹1,667",
+                  },
+                ]?.map((reward, index) => (
+                  <div key={index} className="flex items-start space-x-4">
+                                                                                   <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-yellow-100 dark:bg-gray-800">
+                       <reward.icon className="w-6 h-6 text-yellow-600" />
+                     </div>
+                     <div className="flex-1">
+                       <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-lg font-semibold">
+                          {reward?.title}
+                        </h3>
+                        <span className="text-lg font-bold text-green-600">
+                          {reward?.amount}
+                        </span>
+                       </div>
+                       <p className="text-gray-600 dark:text-gray-400">
+                         {reward?.description}
+                       </p>
+                     </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+                         <div className="rounded-2xl p-2 md:-p-6 lg:p-6 xl:p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl">
+              <h3 className="text-xl lg:text-2xl font-bold mb-6 text-center">
+                Monthly Prize Pool
+              </h3>
+               <div className="space-y-6">
+                 <div className="text-center">
+                  <div className="text-4xl font-bold text-yellow-500 mb-2">
+                    ₹9,999
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    Monthly Prize Pool
+                  </p>
+                 </div>
+                 <div className="grid grid-cols-2 gap-4">
+                   <div className="text-center p-4 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-500 text-white">
+                     <div className="text-xl lg:text-2xl font-bold">₹4,999</div>
+                     <div className="text-sm">1st Place (50%)</div>
+                   </div>
+                   <div className="text-center p-4 rounded-lg bg-gradient-to-br from-gray-400 to-gray-500 text-white">
+                     <div className="text-xl lg:text-2xl font-bold">₹3,333</div>
+                     <div className="text-sm">2nd Place (33%)</div>
+                   </div>
+                 </div>
+                 <div className="text-center">
+                  <div className="text-xl lg:text-2xl font-bold text-amber-600 mb-2">
+                    ₹1,667
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    3rd Place (17%)
+                  </p>
+                 </div>
+               </div>
+              
+              <div className="mt-8 text-center">
+                <Link
+                  to="/register"
+                  className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
+                >
+                  <span>Start Winning</span>
+                  <FaArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Achievement Badges */}
+          <div className="text-center mb-12">
+            <h3 className="text-xl lg:text-2xl font-bold mb-8">Earn Achievement Badges</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                {
+                  icon: FaStar,
+                  name: "Quiz Master",
+                  description: "Complete 110 quizzes",
+                },
+                {
+                  icon: FaBrain,
+                  name: "Knowledge Seeker",
+                  description: "Score 75%+ in 55 quizzes",
+                },
+                {
+                  icon: FaRocket,
+                  name: "Speed Demon",
+                  description: "Complete quiz in under 2 minutes",
+                },
+                {
+                  icon: FaCrown,
+                  name: "Legend",
+                  description: "Top 10 in monthly leaderboard",
+                },
+              ].map((badge, index) => (
+                <div
+                  key={index}
+                  className="p-6 rounded-2xl transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-yellow-500 shadow-lg hover:shadow-xl"
+                >
+                   <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center bg-yellow-100 dark:bg-gray-700">
+                     <badge.icon className="w-8 h-8 text-yellow-600" />
+                   </div>
+                   <h4 className="font-semibold mb-2">{badge?.name}</h4>
+                   <p className="text-sm text-gray-600 dark:text-gray-400">
+                     {badge?.description}
+                   </p>
+                 </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       
       {/* Monthly Winners Section */}
       <section className="py-16 relative overflow-hidden">
@@ -1169,162 +1326,7 @@ const LandingPage = () => {
       </section>
 
 
-      {/* Prize & Rewards Section */}
-       <section id="prizes" className="py-20 relative overflow-hidden">
-         <div className="absolute inset-0 bg-gradient-to-tl from-amber-50 via-yellow-50 to-orange-50 dark:from-gray-900 dark:via-amber-900/20 dark:to-orange-900/20 pointer-events-none" />
-         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
-                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
-                Win Amazing Prizes & Rewards
-              </span>
-            </h2>
-                         <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Compete monthly for amazing rewards! Top 3 performers at Level 10
-              with ≥75% accuracy share ₹9,999 prize pool every month.
-             </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-            <div>
-              <div className="space-y-6">
-                {[
-                  {
-                    icon: FaTrophy,
-                    title: "Monthly Prize Pool",
-                    description:
-                      "Top 3 performers share the monthly prize pool",
-                    amount: "₹9,999",
-                  },
-                  {
-                    icon: FaCrown,
-                    title: "1st Place",
-                    description: "Best performer gets 50% of the prize pool",
-                    amount: "₹4,999",
-                  },
-                  {
-                    icon: FaMedal,
-                    title: "2nd Place",
-                    description: "Second best gets 33% of the prize pool",
-                    amount: "₹3,333",
-                  },
-                  {
-                    icon: FaGem,
-                    title: "3rd Place",
-                    description: "Third best gets 17% of the prize pool",
-                    amount: "₹1,667",
-                  },
-                ]?.map((reward, index) => (
-                  <div key={index} className="flex items-start space-x-4">
-                                                                                   <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-yellow-100 dark:bg-gray-800">
-                       <reward.icon className="w-6 h-6 text-yellow-600" />
-                     </div>
-                     <div className="flex-1">
-                       <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-lg font-semibold">
-                          {reward?.title}
-                        </h3>
-                        <span className="text-lg font-bold text-green-600">
-                          {reward?.amount}
-                        </span>
-                       </div>
-                       <p className="text-gray-600 dark:text-gray-400">
-                         {reward?.description}
-                       </p>
-                     </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-                         <div className="rounded-2xl p-2 md:-p-6 lg:p-6 xl:p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl">
-              <h3 className="text-xl lg:text-2xl font-bold mb-6 text-center">
-                Monthly Prize Pool
-              </h3>
-               <div className="space-y-6">
-                 <div className="text-center">
-                  <div className="text-4xl font-bold text-yellow-500 mb-2">
-                    ₹9,999
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    Monthly Prize Pool
-                  </p>
-                 </div>
-                 <div className="grid grid-cols-2 gap-4">
-                   <div className="text-center p-4 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-500 text-white">
-                     <div className="text-xl lg:text-2xl font-bold">₹4,999</div>
-                     <div className="text-sm">1st Place (50%)</div>
-                   </div>
-                   <div className="text-center p-4 rounded-lg bg-gradient-to-br from-gray-400 to-gray-500 text-white">
-                     <div className="text-xl lg:text-2xl font-bold">₹3,333</div>
-                     <div className="text-sm">2nd Place (33%)</div>
-                   </div>
-                 </div>
-                 <div className="text-center">
-                  <div className="text-xl lg:text-2xl font-bold text-amber-600 mb-2">
-                    ₹1,667
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    3rd Place (17%)
-                  </p>
-                 </div>
-               </div>
-              
-              <div className="mt-8 text-center">
-                <Link
-                  to="/register"
-                  className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
-                >
-                  <span>Start Winning</span>
-                  <FaArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* Achievement Badges */}
-          <div className="text-center mb-12">
-            <h3 className="text-xl lg:text-2xl font-bold mb-8">Earn Achievement Badges</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                {
-                  icon: FaStar,
-                  name: "Quiz Master",
-                  description: "Complete 110 quizzes",
-                },
-                {
-                  icon: FaBrain,
-                  name: "Knowledge Seeker",
-                  description: "Score 75%+ in 55 quizzes",
-                },
-                {
-                  icon: FaRocket,
-                  name: "Speed Demon",
-                  description: "Complete quiz in under 2 minutes",
-                },
-                {
-                  icon: FaCrown,
-                  name: "Legend",
-                  description: "Top 10 in monthly leaderboard",
-                },
-              ].map((badge, index) => (
-                <div
-                  key={index}
-                  className="p-6 rounded-2xl transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-yellow-500 shadow-lg hover:shadow-xl"
-                >
-                   <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center bg-yellow-100 dark:bg-gray-700">
-                     <badge.icon className="w-8 h-8 text-yellow-600" />
-                   </div>
-                   <h4 className="font-semibold mb-2">{badge?.name}</h4>
-                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                     {badge?.description}
-                   </p>
-                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      
 
              {/* Subscription Plans Section */}
        <section id="subscription" className="py-20 relative overflow-hidden">
