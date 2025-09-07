@@ -623,7 +623,7 @@ const LandingPage = () => {
                   </p>
                  </div>
                  <div className="grid grid-cols-2 gap-4">
-                   <div className="text-center p-4 rounded-lg bg-gradient-to-br from-yellow-600 to-orange-700 text-white">
+                   <div className="text-center p-4 rounded-lg bg-gradient-to-br from-yellow-600 to-yellow-700 text-white">
                      <div className="text-xl lg:text-2xl font-bold">₹4,999</div>
                      <div className="text-sm">1st Place (50%)</div>
                    </div>
@@ -633,12 +633,12 @@ const LandingPage = () => {
                    </div>
                  </div>
                  <div className="text-center">
-                                     <div className="text-center p-4 rounded-lg bg-gradient-to-br from-yellow-600 to-orange-700 text-white">
+                  <div className="text-center p-4 rounded-lg bg-gradient-to-br from-orange-600/50 to-orange-700/60 text-white">
 
-                  <div className="text-xl lg:text-2xl font-bold text-amber-600 mb-2">
+                  <div className="text-xl lg:text-2xl font-bold text-amber-600 dark:text-white mb-2">
                     ₹1,667
                   </div>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-gray-600 dark:text-gray-200">
                     3rd Place (17%)
                   </p>
                  </div>
