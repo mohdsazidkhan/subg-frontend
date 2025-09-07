@@ -975,30 +975,30 @@ const LandingPage = () => {
                   key={level._id}
                   className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors?.background} ${levelColors?.border} hover:border-yellow-500`}
                 >
-                   <div className={`absolute top-0 right-0 w-32 h-32 ${levelColors.accent} rounded-full -translate-y-16 translate-x-16`}></div>
+                   <div className={`absolute top-0 right-0 w-32 h-32 ${levelColors?.accent} rounded-full -translate-y-16 translate-x-16`}></div>
                    
                    <div className="relative z-10 text-center">
                      <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${levelColors?.iconBg}`}>
                       {React.createElement(
                         levelBadgeIcons[level.name] || levelBadgeIcons.Default,
                         {
-                          className: `w-8 h-8 ${levelColors.iconColor}`,
+                          className: `w-8 h-8 ${levelColors?.iconColor}`,
                         }
                       )}
                      </div>
                      
-                     <h3 className={`text-xl font-bold mb-2 ${levelColors.titleColor} text-center`}>
+                     <h3 className={`text-xl font-bold mb-2 ${levelColors?.titleColor} text-center`}>
                        Level {level.level} - {level.name}
                      </h3>
-                     <p className={`text-sm mb-4 ${levelColors.descriptionColor} text-center`}>
-                      {level.description ||
-                        `Level ${level.level} challenges`}
+                     <p className={`text-sm mb-4 ${levelColors?.descriptionColor} text-center`}>
+                      {level?.description ||
+                        `Level ${level?.level} challenges`}
                      </p>
                      
                      <div className="grid grid-cols-2 gap-2 mb-3">
                        <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
                          <div className="text-lg font-bold text-yellow-600">
-                           {level.quizCount || "N/A"}
+                           {level?.quizCount || "N/A"}
                          </div>
                          <div className="text-xs text-gray-600 dark:text-gray-300">
                            Total Quizzes
@@ -1006,7 +1006,7 @@ const LandingPage = () => {
                        </div>
                        <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
                          <div className="text-lg font-bold text-green-600">
-                           {levelInfo ? levelInfo.plan : "-"}
+                           {levelInfo ? levelInfo?.plan : "-"}
                          </div>
                          <div className="text-xs text-gray-600 dark:text-gray-300">
                            Plan
@@ -1014,7 +1014,7 @@ const LandingPage = () => {
                        </div>
                        <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
                          <div className="text-lg font-bold text-red-600">
-                           ₹{levelInfo ? levelInfo.amount : 0}
+                           ₹{levelInfo ? levelInfo?.amount : 0}
                          </div>
                          <div className="text-xs text-gray-600 dark:text-gray-300">
                            Amount
@@ -1022,10 +1022,10 @@ const LandingPage = () => {
                        </div>
                        <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
                          <div className="text-lg font-bold text-yellow-600">
-                           ₹{levelInfo ? levelInfo.prize : 0}
+                           ₹{levelInfo ? levelInfo?.prize : 0}
                          </div>
                          <div className="text-xs text-gray-600 dark:text-gray-300">
-                           Prize {level.level === 10 ? '(Monthly Top 3: ₹9,999)' : ''}
+                           Prize {level?.level === 10 ? '(Monthly Top 3: ₹9,999)' : ''}
                          </div>
                        </div>
                      </div>
@@ -1070,39 +1070,39 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {categories.map((category) => {
-              const categoryColors = getCategoryColors(category.name);
+              const categoryColors = getCategoryColors(category?.name);
               return (
                 <div
                   key={category._id}
                   className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm ${categoryColors?.border} hover:border-yellow-500`}
                 >
-                   <div className={`absolute top-0 right-0 w-32 h-32 ${categoryColors.accent} rounded-full -translate-y-16 translate-x-16 opacity-60`}></div>
+                   <div className={`absolute top-0 right-0 w-32 h-32 ${categoryColors?.accent} rounded-full -translate-y-16 translate-x-16 opacity-60`}></div>
                    
                    <div className="relative z-10 text-center">
                      {/* Category Color Overlay */}
-                     <div className={`absolute inset-0 ${categoryColors.background} opacity-20 rounded-2xl pointer-events-none`}></div>
+                     <div className={`absolute inset-0 ${categoryColors?.background} opacity-20 rounded-2xl pointer-events-none`}></div>
                      
                      <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${categoryColors.iconBg}`}>
                       {React.createElement(
                         categoryIcons[category.name] || categoryIcons.Default,
                         {
-                          className: `w-8 h-8 ${categoryColors.iconColor}`,
+                          className: `w-8 h-8 ${categoryColors?.iconColor}`,
                         }
                       )}
                      </div>
                      
-                     <h3 className={`text-xl font-bold mb-2 ${categoryColors.titleColor} text-center`}>{category.name}</h3>
-                     <p className={`text-sm mb-4 ${categoryColors.descriptionColor} text-center`}>
-                      {category.description ||
-                        `Explore ${category.name} knowledge`}
+                     <h3 className={`text-xl font-bold mb-2 ${categoryColors?.titleColor} text-center`}>{category.name}</h3>
+                     <p className={`text-sm mb-4 ${categoryColors?.descriptionColor} text-center`}>
+                      {category?.description ||
+                        `Explore ${category?.name} knowledge`}
                      </p>
                      
                      <div className="flex items-center justify-between text-sm">
-                      <span className={categoryColors.labelColor}>
+                      <span className={categoryColors?.labelColor}>
                         Quizzes:
                       </span>
-                      <span className={`font-semibold ${categoryColors.valueColor}`}>
-                        {category.quizCount || "N/A"}
+                      <span className={`font-semibold ${categoryColors?.valueColor}`}>
+                        {category?.quizCount || "N/A"}
                       </span>
                      </div>
                    </div>
@@ -1167,14 +1167,14 @@ const LandingPage = () => {
                      <div className="flex-1">
                        <div className="flex items-center justify-between mb-2">
                         <h3 className="text-lg font-semibold">
-                          {reward.title}
+                          {reward?.title}
                         </h3>
                         <span className="text-lg font-bold text-green-600">
-                          {reward.amount}
+                          {reward?.amount}
                         </span>
                        </div>
                        <p className="text-gray-600 dark:text-gray-400">
-                         {reward.description}
+                         {reward?.description}
                        </p>
                      </div>
                   </div>
@@ -1260,9 +1260,9 @@ const LandingPage = () => {
                    <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center bg-yellow-100 dark:bg-gray-700">
                      <badge.icon className="w-8 h-8 text-yellow-600" />
                    </div>
-                   <h4 className="font-semibold mb-2">{badge.name}</h4>
+                   <h4 className="font-semibold mb-2">{badge?.name}</h4>
                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                     {badge.description}
+                     {badge?.description}
                    </p>
                  </div>
               ))}
