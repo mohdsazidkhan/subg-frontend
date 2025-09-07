@@ -973,12 +973,12 @@ const LandingPage = () => {
               return (
                 <div
                   key={level._id}
-                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors.background} ${levelColors.border} hover:border-yellow-500`}
+                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors?.background} ${levelColors?.border} hover:border-yellow-500`}
                 >
                    <div className={`absolute top-0 right-0 w-32 h-32 ${levelColors.accent} rounded-full -translate-y-16 translate-x-16`}></div>
                    
                    <div className="relative z-10 text-center">
-                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${levelColors.iconBg}`}>
+                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${levelColors?.iconBg}`}>
                       {React.createElement(
                         levelBadgeIcons[level.name] || levelBadgeIcons.Default,
                         {
@@ -1074,7 +1074,7 @@ const LandingPage = () => {
               return (
                 <div
                   key={category._id}
-                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm ${categoryColors.border} hover:border-yellow-500`}
+                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm ${categoryColors?.border} hover:border-yellow-500`}
                 >
                    <div className={`absolute top-0 right-0 w-32 h-32 ${categoryColors.accent} rounded-full -translate-y-16 translate-x-16 opacity-60`}></div>
                    

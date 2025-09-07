@@ -14,6 +14,7 @@ const DashboardPage = () => {
     questions: 0,
     students: 0,
     bankDetails: 0,
+    totalQuizAttempts: 0,
     subscriptions: 0,
     activeSubscriptions: 0,
     freeSubscriptions: 0,
@@ -43,6 +44,7 @@ const DashboardPage = () => {
           questions: 0,
           students: 0,
           bankDetails: 0,
+          totalQuizAttempts: 0,
           subscriptions: 0,
           activeSubscriptions: 0,
           freeSubscriptions: 0,
@@ -100,6 +102,7 @@ const DashboardPage = () => {
       bgColor: 'bg-orange-50',
       darkBgColor: 'dark:bg-orange-900/20'
     },
+    
     { 
       title: 'Students', 
       count: stats.students, 
@@ -174,8 +177,18 @@ const DashboardPage = () => {
       bgColor: 'bg-indigo-50',
       darkBgColor: 'dark:bg-indigo-900/20',
       subtitle: 'Basic/Premium/Pro plans'
-    }
-
+    },
+    { 
+      title: 'Total Quizzes Attempted', 
+      count: stats.totalQuizAttempts, 
+      link: '/admin/performance-analytics',
+      icon: '📊',
+      color: 'bg-indigo-500',
+      textColor: 'text-indigo-500',
+      bgColor: 'bg-indigo-50',
+      darkBgColor: 'dark:bg-indigo-900/20',
+      subtitle: 'All quiz attempts'
+    },
   ];
 
   const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -235,7 +248,7 @@ const DashboardPage = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2 lg:gap-6 mb-2 md:mb-4 lg:mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 lg:gap-6 mb-2 md:mb-4 lg:mb-8">
           {cards.map((card) => (
             <Link key={card.title} to={card.link} className="group">
               <div className={`relative overflow-hidden rounded-xl p-2 md:p-6 transition-all duration-300 hover:scale-105 hover:shadow-lg ${card.bgColor} ${card.darkBgColor} border border-gray-200 dark:border-gray-700`}>
