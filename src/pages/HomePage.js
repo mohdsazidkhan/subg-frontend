@@ -831,8 +831,10 @@ const HomePage = () => {
                        </div>
                      </div>
                      
-                      <div className="text-sm text-gray-900 dark:text-white text-center mb-2 drop-shadow-sm">
-                        Need <strong>{playCount}</strong> high-score wins to unlock next level
+                     <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg mb-4">
+                      <div className="text-md text-gray-900 dark:text-white text-center mb-2 drop-shadow-sm">
+                        <strong>{playCount} wins to level up!</strong> 
+                      </div>
                       </div>
                       {(() => {
                         const userCurrentLevel = userLevelData?.currentLevel || 0;
