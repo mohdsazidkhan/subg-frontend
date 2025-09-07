@@ -39,7 +39,7 @@ const LevelDetailPage = () => {
   const fetchQuizzes = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await API.getLevelBasedQuizzes({ level: levelNumber, page, limit: 9 });
+      const res = await API.getLevelBasedQuizzes({ level: levelNumber, page: 1, limit: 10 });
       if (res.success) {
         setQuizzes(res.data);
         setHasMore(res.pagination?.hasNextPage || false);
@@ -52,26 +52,46 @@ const LevelDetailPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [levelNumber, page]);
+  }, [levelNumber]);
 
-  // const fetchUserLevel = useCallback(async () => {
-  //   try {
-  //     const res = await API.getProfile();
-  //     if (res.success) {
-  //       setUserLevel(res.data);
-  //     }
-  //   } catch (err) {
-  //     console.error('Failed to fetch user level:', err);
-  //   }
-  // }, []);
+  const loadMoreQuizzes = useCallback(async () => {
+    try {
+      setLoading(true);
+      const nextPage = page + 1;
+      console.log('Loading more quizzes - Current page:', page, 'Next page:', nextPage);
+      const res = await API.getLevelBasedQuizzes({ level: levelNumber, page: nextPage, limit: 10 });
+      if (res.success) {
+        console.log('New quizzes received:', res.data.length);
+        // Append new quizzes to existing ones
+        setQuizzes(prevQuizzes => {
+          console.log('Previous quizzes count:', prevQuizzes.length);
+          const newQuizzes = [...prevQuizzes, ...res.data];
+          console.log('Total quizzes after append:', newQuizzes.length);
+          return newQuizzes;
+        });
+        setPage(nextPage);
+        setHasMore(res.pagination?.hasNextPage || false);
+      } else {
+        setError('Failed to load more quizzes');
+      }
+    } catch (err) {
+      console.error('Error loading more quizzes:', err);
+      setError('Failed to load more quizzes');
+    } finally {
+      setLoading(false);
+    }
+  }, [levelNumber, page]);
 
   useEffect(() => {
     if (level) {
-      // setLevelInfo(level);
-      fetchQuizzes();
-      // fetchUserLevel();
+      // Reset state when level changes
+      setQuizzes([]);
+      setPage(1);
+      setHasMore(true);
+      setError('');
+      fetchQuizzes(); // Initial load
     }
-  }, [level, levelNumber, page, fetchQuizzes]);
+  }, [level, levelNumber, fetchQuizzes]);
 
   const handleQuizClick = (quizId) => {
     const quiz = quizzes.find(q => q._id === quizId);
@@ -96,7 +116,7 @@ const LevelDetailPage = () => {
       <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
         <div className="container mx-auto px-4 py-8">
           <div className="text-center">
-            <h1 className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-4">Level Not Found</h1>
+            <h1 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-4">Level Not Found</h1>
             <button 
               onClick={() => navigate('/')}
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -153,7 +173,7 @@ const LevelDetailPage = () => {
         {/* Quizzes Section */}
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-row items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
-            <h2 className="text-xl sm:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">Level {levelNumber} Quizzes</h2>
+            <h2 className="text-xl sm:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">Level {levelNumber} Quizzes</h2>
            <button
               onClick={() => navigate("/home")}
               className="px-3 md:px-4 py-1 md:py-2 bg-gradient-to-r from-yellow-500 to-red-600 text-white rounded-2xl hover:from-yellow-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
@@ -234,10 +254,11 @@ const LevelDetailPage = () => {
               {hasMore && (
                 <div className="flex justify-center mt-8">
                   <button 
-                    onClick={() => setPage(p => p + 1)}
-                    className="bg-yellow-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors"
+                    onClick={loadMoreQuizzes}
+                    disabled={loading}
+                    className="bg-yellow-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Load More
+                    {loading ? 'Loading...' : 'Load More (10 quizzes)'}
                   </button>
                 </div>
               )}

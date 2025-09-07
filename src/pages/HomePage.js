@@ -774,7 +774,7 @@ const HomePage = () => {
               return (
                 <div
                   key={level._id}
-                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors.background} ${levelColors.border} hover:border-yellow-500`}
+                  className={`group cursor-pointer relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors.background} ${levelColors.border} hover:border-yellow-500`}
                 >
                    <div className={`absolute top-0 right-0 w-32 h-32 ${levelColors.accent} rounded-full -translate-y-16 translate-x-16`}></div>
                    
@@ -831,10 +831,45 @@ const HomePage = () => {
                        </div>
                      </div>
                      
-                     <div className="text-sm text-gray-900 dark:text-white text-center mb-2 drop-shadow-sm">
-                       Need <strong>{playCount}</strong> high-score wins to unlock next level
-                     </div>
-                     
+                      <div className="text-sm text-gray-900 dark:text-white text-center mb-2 drop-shadow-sm">
+                        Need <strong>{playCount}</strong> high-score wins to unlock next level
+                      </div>
+                      {(() => {
+                        const userCurrentLevel = userLevelData?.currentLevel || 0;
+                        const nextLevel = userCurrentLevel + 1;
+                        
+                        if (level.level < nextLevel) {
+                          // User is ahead of this level - show unlocked button
+                          return (
+                            <button
+                              onClick={() => navigate(`/level/${level.level}`)}
+                              className="inline-block bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-2 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base md:text-lg"
+                            >
+                              Unlocked
+                            </button>
+                          );
+                        } else if (nextLevel === level.level) {
+                          // User's next level - show view quizzes button
+                          return (
+                            <button
+                              onClick={() => navigate(`/level/${level.level}`)}
+                              className="inline-block bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-2 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base md:text-lg"
+                            >
+                              View Quizzes
+                            </button>
+                          );
+                        } else {
+                          // User hasn't reached this level yet - show locked button
+                          return (
+                            <button
+                              disabled
+                              className="inline-block bg-gradient-to-r from-gray-400 to-gray-500 text-white font-semibold py-2 px-4 rounded-xl shadow-lg cursor-not-allowed text-sm sm:text-base md:text-lg opacity-60"
+                            >
+                              Locked
+                            </button>
+                          );
+                        }
+                      })()}
                    </div>
                  </div>
               );
