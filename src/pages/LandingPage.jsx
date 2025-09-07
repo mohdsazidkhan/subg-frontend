@@ -492,17 +492,17 @@ const LandingPage = () => {
               },
             ].map((stat, index) => (
               <div key={index} className="text-center group">
-                <div className={`w-14 h-14 mx-auto mb-3 rounded-full flex items-center justify-center bg-gradient-to-br ${stat.iconBg} shadow-lg transform group-hover:scale-110 transition-all duration-300`}>
+                <div className={`w-14 h-14 mx-auto mb-3 rounded-full flex items-center justify-center bg-gradient-to-br ${stat?.iconBg} shadow-lg transform group-hover:scale-110 transition-all duration-300`}>
                   <stat.icon className="w-7 h-7 text-white" />
                 </div>
-                <div className={`text-xl lg:text-2xl font-bold ${stat.textColor} mb-1 group-hover:scale-105 transition-transform duration-300`}>
+                <div className={`text-xl lg:text-2xl font-bold ${stat?.textColor} mb-1 group-hover:scale-105 transition-transform duration-300`}>
                   {stat.number}
                 </div>
                 <div className="text-xs text-gray-600 dark:text-gray-400">
                   {stat.label}
                 </div>
                 {/* Gradient background overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`}></div>
+                <div className={`absolute inset-0 bg-gradient-to-br ${stat?.gradient} rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`}></div>
               </div>
             ))}
           </div>
@@ -1082,7 +1082,7 @@ const LandingPage = () => {
                      {/* Category Color Overlay */}
                      <div className={`absolute inset-0 ${categoryColors?.background} opacity-20 rounded-2xl pointer-events-none`}></div>
                      
-                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${categoryColors.iconBg}`}>
+                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${categoryColors?.iconBg}`}>
                       {React.createElement(
                         categoryIcons[category.name] || categoryIcons.Default,
                         {
