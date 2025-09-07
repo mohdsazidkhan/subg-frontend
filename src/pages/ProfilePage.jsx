@@ -336,7 +336,7 @@ const message =
 
   if (!student)
     return (
-  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-yellow-50 to-red-100 dark:from-gray-900 dark:via-slate-900 dark:to-red-900 flex items-center justify-center">
+  <div className="min-h-screen bg-subg-light dark:bg-subg-dark flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-yellow-600 mx-auto mb-4"></div>
           <p className="text-xl text-gray-600 dark:text-gray-300">Loading your profile...</p>
