@@ -520,7 +520,7 @@ const LandingPage = () => {
             </p>
           </div>
           
-          <div className="max-w-4xl mx-auto">
+          <div className="container mx-auto">
             <MonthlyWinnersDisplay 
               title="🏆 Previous Month Legends" 
               showTitle={false}

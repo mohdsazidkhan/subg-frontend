@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   FaTrophy,
@@ -23,6 +23,7 @@ import {
   FaQuestionCircle,
   FaUserCircle,
   FaLevelUpAlt,
+  FaArrowRight,
 } from "react-icons/fa";
 import { FaMagic } from "react-icons/fa";
 import API from "../utils/api";
@@ -48,6 +49,165 @@ const categoryIcons = {
   Default: FaBook,
 };
 
+// Level badge icons
+const levelBadgeIcons = {
+  Starter: FaUserGraduate,
+  Rookie: FaStar,
+  Explorer: FaRocket,
+  Thinker: FaBrain,
+  Strategist: FaChartLine,
+  Achiever: FaAward,
+  Mastermind: FaGem,
+  Champion: FaTrophy,
+  Prodigy: FaMedal,
+  Wizard: FaMagic,
+  Legend: FaCrown,
+  Default: FaStar,
+};
+
+// Level play count info for display (monthly cumulative wins, monthly pricing)
+const levelsInfo = [
+  { level: 1, quizzes: 2, plan: "Free", amount: 0, prize: 0 },
+  { level: 2, quizzes: 6, plan: "Free", amount: 0, prize: 0 },
+  { level: 3, quizzes: 12, plan: "Free", amount: 0, prize: 0 },
+  { level: 4, quizzes: 20, plan: "Basic", amount: 9, prize: 0 },
+  { level: 5, quizzes: 30, plan: "Basic", amount: 9, prize: 0 },
+  { level: 6, quizzes: 42, plan: "Basic", amount: 9, prize: 0 },
+  { level: 7, quizzes: 56, plan: "Premium", amount: 49, prize: 0 },
+  { level: 8, quizzes: 72, plan: "Premium", amount: 49, prize: 0 },
+  { level: 9, quizzes: 90, plan: "Premium", amount: 49, prize: 0 },
+  { level: 10, quizzes: 110, plan: "Pro", amount: 99, prize: 9999 },
+];
+
+// Level color mappings for both light and dark modes
+const getLevelColors = (levelName) => {
+  const colors = {
+    Starter: {
+      background: 'bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20',
+      border: 'border-blue-200 dark:border-blue-700',
+      accent: 'bg-gradient-to-br from-blue-500/20 to-indigo-500/20',
+      iconBg: 'bg-blue-100 dark:bg-blue-800',
+      iconColor: 'text-blue-600 dark:text-blue-400',
+      titleColor: 'text-blue-800 dark:text-blue-200',
+      descriptionColor: 'text-blue-700 dark:text-blue-300',
+      labelColor: 'text-blue-600 dark:text-blue-400',
+      valueColor: 'text-blue-800 dark:text-blue-200'
+    },
+    Rookie: {
+      background: 'bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20',
+      border: 'border-green-200 dark:border-green-700',
+      accent: 'bg-gradient-to-br from-green-500/20 to-emerald-500/20',
+      iconBg: 'bg-green-100 dark:bg-green-800',
+      iconColor: 'text-green-600 dark:text-green-400',
+      titleColor: 'text-green-800 dark:text-green-200',
+      descriptionColor: 'text-green-700 dark:text-green-300',
+      labelColor: 'text-green-600 dark:text-green-400',
+      valueColor: 'text-green-800 dark:text-green-200'
+    },
+    Explorer: {
+      background: 'bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20',
+      border: 'border-purple-200 dark:border-purple-700',
+      accent: 'bg-gradient-to-br from-purple-500/20 to-pink-500/20',
+      iconBg: 'bg-purple-100 dark:bg-purple-800',
+      iconColor: 'text-purple-600 dark:text-purple-400',
+      titleColor: 'text-purple-800 dark:text-purple-200',
+      descriptionColor: 'text-purple-700 dark:text-purple-300',
+      labelColor: 'text-purple-600 dark:text-purple-400',
+      valueColor: 'text-purple-800 dark:text-purple-200'
+    },
+    Thinker: {
+      background: 'bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20',
+      border: 'border-orange-200 dark:border-orange-700',
+      accent: 'bg-gradient-to-br from-orange-500/20 to-amber-500/20',
+      iconBg: 'bg-orange-100 dark:bg-orange-800',
+      iconColor: 'text-orange-600 dark:text-orange-400',
+      titleColor: 'text-orange-800 dark:text-orange-200',
+      descriptionColor: 'text-orange-700 dark:text-orange-300',
+      labelColor: 'text-orange-600 dark:text-orange-400',
+      valueColor: 'text-orange-800 dark:text-orange-200'
+    },
+    Strategist: {
+      background: 'bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20',
+      border: 'border-teal-200 dark:border-teal-700',
+      accent: 'bg-gradient-to-br from-teal-500/20 to-cyan-500/20',
+      iconBg: 'bg-teal-100 dark:bg-teal-800',
+      iconColor: 'text-teal-600 dark:text-teal-400',
+      titleColor: 'text-teal-800 dark:text-teal-200',
+      descriptionColor: 'text-teal-700 dark:text-teal-300',
+      labelColor: 'text-teal-600 dark:text-teal-400',
+      valueColor: 'text-teal-800 dark:text-teal-200'
+    },
+    Achiever: {
+      background: 'bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20',
+      border: 'border-red-200 dark:border-red-700',
+      accent: 'bg-gradient-to-br from-red-500/20 to-pink-500/20',
+      iconBg: 'bg-red-100 dark:bg-red-800',
+      iconColor: 'text-red-600 dark:text-red-400',
+      titleColor: 'text-red-800 dark:text-red-200',
+      descriptionColor: 'text-red-700 dark:text-red-300',
+      labelColor: 'text-red-600 dark:text-red-400',
+      valueColor: 'text-red-800 dark:text-red-200'
+    },
+    Mastermind: {
+      background: 'bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20',
+      border: 'border-indigo-200 dark:border-indigo-700',
+      accent: 'bg-gradient-to-br from-indigo-500/20 to-blue-500/20',
+      iconBg: 'bg-indigo-100 dark:bg-indigo-800',
+      iconColor: 'text-indigo-600 dark:text-indigo-400',
+      titleColor: 'text-indigo-800 dark:text-indigo-200',
+      descriptionColor: 'text-indigo-700 dark:text-indigo-300',
+      labelColor: 'text-indigo-600 dark:text-indigo-400',
+      valueColor: 'text-indigo-800 dark:text-indigo-200'
+    },
+    Champion: {
+      background: 'bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20',
+      border: 'border-yellow-200 dark:border-yellow-700',
+      accent: 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20',
+      iconBg: 'bg-yellow-100 dark:bg-yellow-800',
+      iconColor: 'text-yellow-600 dark:text-yellow-400',
+      titleColor: 'text-yellow-800 dark:text-yellow-200',
+      descriptionColor: 'text-yellow-700 dark:text-yellow-300',
+      labelColor: 'text-yellow-600 dark:text-yellow-400',
+      valueColor: 'text-yellow-800 dark:text-yellow-200'
+    },
+    Prodigy: {
+      background: 'bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20',
+      border: 'border-emerald-200 dark:border-emerald-700',
+      accent: 'bg-gradient-to-br from-emerald-500/20 to-teal-500/20',
+      iconBg: 'bg-emerald-100 dark:bg-emerald-800',
+      iconColor: 'text-emerald-600 dark:text-emerald-400',
+      titleColor: 'text-emerald-800 dark:text-emerald-200',
+      descriptionColor: 'text-emerald-700 dark:text-emerald-300',
+      labelColor: 'text-emerald-600 dark:text-emerald-400',
+      valueColor: 'text-emerald-800 dark:text-emerald-200'
+    },
+    Wizard: {
+      background: 'bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-900/20 dark:to-purple-900/20',
+      border: 'border-violet-200 dark:border-violet-700',
+      accent: 'bg-gradient-to-br from-violet-500/20 to-purple-500/20',
+      iconBg: 'bg-violet-100 dark:bg-violet-800',
+      iconColor: 'text-violet-600 dark:text-violet-400',
+      titleColor: 'text-violet-800 dark:text-violet-200',
+      descriptionColor: 'text-violet-700 dark:text-violet-300',
+      labelColor: 'text-violet-600 dark:text-violet-400',
+      valueColor: 'text-violet-800 dark:text-violet-200'
+    },
+    Legend: {
+      background: 'bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20',
+      border: 'border-amber-200 dark:border-amber-700',
+      accent: 'bg-gradient-to-br from-amber-500/20 to-yellow-500/20',
+      iconBg: 'bg-amber-100 dark:bg-amber-800',
+      iconColor: 'text-amber-600 dark:text-amber-400',
+      titleColor: 'text-amber-800 dark:text-amber-200',
+      descriptionColor: 'text-amber-700 dark:text-amber-300',
+      labelColor: 'text-amber-600 dark:text-amber-400',
+      valueColor: 'text-amber-800 dark:text-amber-200'
+    }
+  };
+  
+  return colors[levelName] || colors.Starter; // Default to Starter colors if level not found
+};
+
 const HomePage = () => {
   // Check if user is logged in
   const isLoggedIn = !!localStorage.getItem("token");
@@ -56,6 +216,7 @@ const HomePage = () => {
   const [homeData, setHomeData] = useState(null);
   const [userLevelData, setUserLevelData] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [levels, setLevels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState("");
@@ -67,6 +228,7 @@ const HomePage = () => {
   useEffect(() => {
     fetchHomePageData();
     fetchCategories();
+    fetchLevels();
     // Show system update modal for first-time visitors
     const hasSeenModal = localStorage.getItem('hasSeenSystemUpdateModal');
     if (!hasSeenModal) {
@@ -122,6 +284,169 @@ const HomePage = () => {
       }
     } catch (err) {
       setCategories([]);
+    }
+  };
+
+  const fetchLevels = async () => {
+    try {
+      const res = await API.getAllLevels();
+      if (res?.success && Array.isArray(res.data)) {
+        // Filter out Starter level (Level 0) just like landing page
+        const filteredLevels = res.data.filter(
+          (level) => level.level !== 0
+        );
+        setLevels(filteredLevels);
+      } else {
+        // Fallback data if API fails - same structure as landing page
+        const fallbackLevels = [
+          {
+            level: 1,
+            name: "Rookie",
+            description: "Build your foundation",
+            quizCount: 30,
+            quizzesRequired: 2,
+          },
+          {
+            level: 2,
+            name: "Explorer",
+            description: "Discover new knowledge",
+            quizCount: 35,
+            quizzesRequired: 6,
+          },
+          {
+            level: 3,
+            name: "Thinker",
+            description: "Develop critical thinking",
+            quizCount: 40,
+            quizzesRequired: 12,
+          },
+          {
+            level: 4,
+            name: "Strategist",
+            description: "Master strategic learning",
+            quizCount: 45,
+            quizzesRequired: 20,
+          },
+          {
+            level: 5,
+            name: "Achiever",
+            description: "Achieve excellence",
+            quizCount: 50,
+            quizzesRequired: 30,
+          },
+          {
+            level: 6,
+            name: "Mastermind",
+            description: "Become a master",
+            quizCount: 55,
+            quizzesRequired: 42,
+          },
+          {
+            level: 7,
+            name: "Champion",
+            description: "Champion level",
+            quizCount: 60,
+            quizzesRequired: 56,
+          },
+          {
+            level: 8,
+            name: "Prodigy",
+            description: "Prodigy level",
+            quizCount: 65,
+            quizzesRequired: 72,
+          },
+          {
+            level: 9,
+            name: "Wizard",
+            description: "Wizard level",
+            quizCount: 70,
+            quizzesRequired: 90,
+          },
+          {
+            level: 10,
+            name: "Legend",
+            description: "Legendary status",
+            quizCount: 75,
+            quizzesRequired: 110,
+          }
+        ];
+        setLevels(fallbackLevels);
+      }
+    } catch (err) {
+      // Fallback data if API fails - same structure as landing page
+      const fallbackLevels = [
+        {
+          level: 1,
+          name: "Rookie",
+          description: "Build your foundation",
+          quizCount: 30,
+          quizzesRequired: 2,
+        },
+        {
+          level: 2,
+          name: "Explorer",
+          description: "Discover new knowledge",
+          quizCount: 35,
+          quizzesRequired: 6,
+        },
+        {
+          level: 3,
+          name: "Thinker",
+          description: "Develop critical thinking",
+          quizCount: 40,
+          quizzesRequired: 12,
+        },
+        {
+          level: 4,
+          name: "Strategist",
+          description: "Master strategic learning",
+          quizCount: 45,
+          quizzesRequired: 20,
+        },
+        {
+          level: 5,
+          name: "Achiever",
+          description: "Achieve excellence",
+          quizCount: 50,
+          quizzesRequired: 30,
+        },
+        {
+          level: 6,
+          name: "Mastermind",
+          description: "Become a master",
+          quizCount: 55,
+          quizzesRequired: 42,
+        },
+        {
+          level: 7,
+          name: "Champion",
+          description: "Champion level",
+          quizCount: 60,
+          quizzesRequired: 56,
+        },
+        {
+          level: 8,
+          name: "Prodigy",
+          description: "Prodigy level",
+          quizCount: 65,
+          quizzesRequired: 72,
+        },
+        {
+          level: 9,
+          name: "Wizard",
+          description: "Wizard level",
+          quizCount: 70,
+          quizzesRequired: 90,
+        },
+        {
+          level: 10,
+          name: "Legend",
+          description: "Legendary status",
+          quizCount: 75,
+          quizzesRequired: 110,
+        }
+      ];
+      setLevels(fallbackLevels);
     }
   };
 
@@ -282,7 +607,7 @@ const HomePage = () => {
           </p>
         </div>
         
-        <div className="max-w-4xl mx-auto">
+        <div className="container mx-auto">
           <MonthlyWinnersDisplay 
             title="🏆 Previous Month Legends" 
             showTitle={false}
@@ -295,6 +620,7 @@ const HomePage = () => {
       <div className="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
         <TopPerformers />
       </div>
+
 
       {/* Hero Section */}
       <div className="text-center mb-8 sm:mb-10 md:mb-12 mt-8 sm:mt-10 md:mt-12 z-10 px-4 sm:px-0">
@@ -330,7 +656,7 @@ const HomePage = () => {
               <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl sm:rounded-2xl flex items-center justify-center">
                 <FaAward className="text-white text-lg sm:text-xl md:text-2xl" />
               </div>
-              <h3 className="text-lg sm:text-xl md:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+              <h3 className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                 Scholarship & Prizes
               </h3>
             </div>
@@ -365,7 +691,7 @@ const HomePage = () => {
               <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl sm:rounded-2xl flex items-center justify-center">
                 <FaGem className="text-white text-lg sm:text-xl md:text-2xl" />
               </div>
-              <h3 className="text-lg sm:text-xl md:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+              <h3 className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                 Progression Rules
               </h3>
             </div>
@@ -418,6 +744,116 @@ const HomePage = () => {
             </div>
           </div>
         </div>
+
+        </div>  
+
+        {/* Progressive Learning Levels Section */}
+      <div className="py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 dark:from-gray-900 dark:via-yellow-900/20 dark:to-red-900/20 pointer-events-none" />
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+                Progressive Learning Levels
+              </span>
+            </h2>
+            <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Start from Level 1 (Rookie) and progress through 10 levels each
+              month. Reach Level 10 (110 high-score wins with ≥75% accuracy) to
+              qualify for monthly rewards!
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {levels.map((level, index) => {
+              const levelColors = getLevelColors(level.name);
+              const levelInfo = levelsInfo.find(
+                (info) => info.level === level.level
+              );
+              const playCount = levelInfo ? levelInfo.quizzes : 0;
+              return (
+                <div
+                  key={level._id}
+                  className={`group relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors.background} ${levelColors.border} hover:border-yellow-500`}
+                >
+                   <div className={`absolute top-0 right-0 w-32 h-32 ${levelColors.accent} rounded-full -translate-y-16 translate-x-16`}></div>
+                   
+                   <div className="relative z-10 text-center">
+                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${levelColors.iconBg}`}>
+                      {React.createElement(
+                        levelBadgeIcons[level.name] || levelBadgeIcons.Default,
+                        {
+                          className: `w-8 h-8 ${levelColors.iconColor}`,
+                        }
+                      )}
+                     </div>
+                     
+                     <h3 className={`text-xl font-bold mb-2 ${levelColors.titleColor} text-center`}>
+                       Level {level.level} - {level.name}
+                     </h3>
+                     <p className={`text-sm mb-4 ${levelColors.descriptionColor} text-center`}>
+                      {level.description ||
+                        `Level ${level.level} challenges`}
+                     </p>
+                     
+                     <div className="grid grid-cols-2 gap-2 mb-3">
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-yellow-600">
+                           {level.quizCount || "N/A"}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Total Quizzes
+                         </div>
+                       </div>
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-green-600">
+                           {levelInfo ? levelInfo.plan : "-"}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Plan
+                         </div>
+                       </div>
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-red-600">
+                           ₹{levelInfo ? levelInfo.amount : 0}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Amount
+                         </div>
+                       </div>
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-yellow-600">
+                           ₹{levelInfo ? levelInfo.prize : 0}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Prize {level.level === 10 ? '(Monthly Top 3: ₹9,999)' : ''}
+                         </div>
+                       </div>
+                     </div>
+                     
+                     <div className="text-sm text-gray-900 dark:text-white text-center mb-2 drop-shadow-sm">
+                       Need <strong>{playCount}</strong> high-score wins to unlock next level
+                     </div>
+                     
+                   </div>
+                 </div>
+              );
+            })}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link
+              to="/register"
+              className="inline-flex items-center space-x-2 px-4 md:px-8 py-2 md:py-3 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
+            >
+              <span>Start Your Journey</span>
+              <FaArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 z-10 mt-8 sm:mt-12 md:mt-16">
 
         {/* Level-based Quizzes Section */}
         <div className="container mx-auto px-0 mb-6 sm:mb-10 md:mb-12">
@@ -555,8 +991,8 @@ const HomePage = () => {
             </div>
           )}
         </div>
-
-      </div>
+        </div>
+      
 
       {/* Categories Section */}
       <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8">
@@ -759,7 +1195,7 @@ const HomePage = () => {
 
           {/* How It Works */}
           <div className="bg-gray-100 dark:bg-white/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8">
-            <h3 className="text-lg sm:text-xl md:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4 text-center">
+            <h3 className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4 text-center">
               How It Works
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
