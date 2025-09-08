@@ -201,6 +201,14 @@ const AdminPaymentTransactions = () => {
     }));
   };
 
+  const handlePageSizeChange = (newLimit) => {
+    setFilters(prev => ({
+      ...prev,
+      limit: parseInt(newLimit),
+      page: 1 // Reset to first page when changing page size
+    }));
+  };
+
   const toggleTransactionDetails = (transactionId) => {
     setExpandedTransaction(expandedTransaction === transactionId ? null : transactionId);
   };
@@ -452,7 +460,7 @@ const AdminPaymentTransactions = () => {
                           placeholder="Search transactions..."
                           value={filters.search}
                           onChange={(e) => handleFilterChange('search', e.target.value)}
-                          className="pl-10 pr-4 py-2 w-full lg:w-auto border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 w-full"
+                          className="pl-10 pr-4 py-2 w-full lg:w-auto border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500"
                         />
                       </div>
                     </div>
@@ -494,6 +502,24 @@ const AdminPaymentTransactions = () => {
                   >
                     <FaList />
                   </button>
+                </div>
+
+                {/* Page Size Dropdown */}
+                <div className="flex items-center space-x-2">
+                  <label className="text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Show:</label>
+                  <select
+                    value={filters.limit}
+                    onChange={(e) => handlePageSizeChange(e.target.value)}
+                    className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-xs sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white min-w-0"
+                  >
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                    <option value={250}>250</option>
+                    <option value={500}>500</option>
+                    <option value={1000}>1000</option>
+                  </select>
                 </div>
 
                 {/* Export Button */}
