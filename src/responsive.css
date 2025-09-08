@@ -353,25 +353,3 @@
 /* Responsive info system */
 .info-system-responsive { @apply text-blue-600 bg-blue-50 border-blue-200; }
 
-/* Subscription name styling - Mobile and Web specific dimensions */
-.subscription-name-badge {
-  @apply px-4 rounded flex items-center justify-center text-white font-medium text-sm shadow;
-}
-
-/* Mobile specific styling */
-@media (max-width: 768px) {
-  .subscription-name-badge {
-    max-width: 90px;
-    min-width: 60px;
-    margin: auto;
-  }
-}
-
-/* Web specific styling */
-@media (min-width: 769px) {
-  .subscription-name-badge {
-    max-width: 90px;
-    min-width: 60px;
-  }
-}
-
