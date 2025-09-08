@@ -219,74 +219,151 @@ const FinancialAnalytics = () => {
 
   const chartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false,
         labels: {
-          color: darkMode ? "#ffffff" : "#000000",
+          color: darkMode ? "#ffffff" : "#374151",
+          font: {
+            size: 12,
+            weight: '500'
+          }
         },
       },
+      tooltip: {
+        backgroundColor: darkMode ? "rgba(17, 24, 39, 0.95)" : "rgba(255, 255, 255, 0.95)",
+        titleColor: darkMode ? "#ffffff" : "#111827",
+        bodyColor: darkMode ? "#ffffff" : "#374151",
+        borderColor: darkMode ? "rgba(75, 85, 99, 0.3)" : "rgba(209, 213, 219, 0.3)",
+        borderWidth: 1,
+        cornerRadius: 8,
+        displayColors: true,
+        padding: 12
+      }
     },
     scales: {
       x: {
         ticks: {
-          color: darkMode ? "#ffffff" : "#000000",
+          color: darkMode ? "#ffffff" : "#6b7280",
+          font: {
+            size: 11,
+            weight: '500'
+          }
         },
         grid: {
-          color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
+          color: darkMode ? "rgba(75, 85, 99, 0.2)" : "rgba(209, 213, 219, 0.5)",
+          drawBorder: false
         },
+        border: {
+          color: darkMode ? "rgba(75, 85, 99, 0.3)" : "rgba(209, 213, 219, 0.5)"
+        }
       },
       y: {
         ticks: {
-          color: darkMode ? "#ffffff" : "#000000",
+          color: darkMode ? "#ffffff" : "#6b7280",
+          font: {
+            size: 11,
+            weight: '500'
+          }
         },
         grid: {
-          color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
+          color: darkMode ? "rgba(75, 85, 99, 0.2)" : "rgba(209, 213, 219, 0.5)",
+          drawBorder: false
         },
+        border: {
+          color: darkMode ? "rgba(75, 85, 99, 0.3)" : "rgba(209, 213, 219, 0.5)"
+        }
       },
     },
   };
 
   const pieOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "bottom",
         labels: {
-          color: darkMode ? "#ffffff" : "#000000",
+          color: darkMode ? "#ffffff" : "#374151",
           padding: 20,
           usePointStyle: true,
+          font: {
+            size: 12,
+            weight: '500'
+          }
         },
       },
+      tooltip: {
+        backgroundColor: darkMode ? "rgba(17, 24, 39, 0.95)" : "rgba(255, 255, 255, 0.95)",
+        titleColor: darkMode ? "#ffffff" : "#111827",
+        bodyColor: darkMode ? "#ffffff" : "#374151",
+        borderColor: darkMode ? "rgba(75, 85, 99, 0.3)" : "rgba(209, 213, 219, 0.3)",
+        borderWidth: 1,
+        cornerRadius: 8,
+        displayColors: true,
+        padding: 12
+      }
     },
   };
 
   const lineOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false,
         labels: {
-          color: darkMode ? "#ffffff" : "#000000",
+          color: darkMode ? "#ffffff" : "#374151",
+          font: {
+            size: 12,
+            weight: '500'
+          }
         },
       },
+      tooltip: {
+        backgroundColor: darkMode ? "rgba(17, 24, 39, 0.95)" : "rgba(255, 255, 255, 0.95)",
+        titleColor: darkMode ? "#ffffff" : "#111827",
+        bodyColor: darkMode ? "#ffffff" : "#374151",
+        borderColor: darkMode ? "rgba(75, 85, 99, 0.3)" : "rgba(209, 213, 219, 0.3)",
+        borderWidth: 1,
+        cornerRadius: 8,
+        displayColors: true,
+        padding: 12
+      }
     },
     scales: {
       x: {
         ticks: {
-          color: darkMode ? "#ffffff" : "#000000",
+          color: darkMode ? "#ffffff" : "#6b7280",
+          font: {
+            size: 11,
+            weight: '500'
+          }
         },
         grid: {
-          color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
+          color: darkMode ? "rgba(75, 85, 99, 0.2)" : "rgba(209, 213, 219, 0.5)",
+          drawBorder: false
         },
+        border: {
+          color: darkMode ? "rgba(75, 85, 99, 0.3)" : "rgba(209, 213, 219, 0.5)"
+        }
       },
       y: {
         ticks: {
-          color: darkMode ? "#ffffff" : "#000000",
+          color: darkMode ? "#ffffff" : "#6b7280",
+          font: {
+            size: 11,
+            weight: '500'
+          }
         },
         grid: {
-          color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
+          color: darkMode ? "rgba(75, 85, 99, 0.2)" : "rgba(209, 213, 219, 0.5)",
+          drawBorder: false
         },
+        border: {
+          color: darkMode ? "rgba(75, 85, 99, 0.3)" : "rgba(209, 213, 219, 0.5)"
+        }
       },
     },
   };
@@ -400,7 +477,9 @@ const FinancialAnalytics = () => {
               Plan Distribution
             </h3>
             {planLabels.length > 0 ? (
-              <Pie data={planPieData} options={pieOptions} />
+              <div className="h-80">
+                <Pie data={planPieData} options={pieOptions} />
+              </div>
             ) : (
               <div className="h-64 flex items-center justify-center text-gray-400">
                 No data available
@@ -414,7 +493,9 @@ const FinancialAnalytics = () => {
               Revenue Trend
             </h3>
             {revenueTrendLabels.length > 0 ? (
-              <Line data={revenueLineData} options={lineOptions} />
+              <div className="h-80">
+                <Line data={revenueLineData} options={lineOptions} />
+              </div>
             ) : (
               <div className="h-64 flex items-center justify-center text-gray-400">
                 No data available
@@ -429,7 +510,9 @@ const FinancialAnalytics = () => {
             Payment Statistics
           </h3>
           {paymentLabels.length > 0 ? (
-            <Bar data={paymentBarData} options={chartOptions} />
+            <div className="h-80">
+              <Bar data={paymentBarData} options={chartOptions} />
+            </div>
           ) : (
             <div className="h-64 flex items-center justify-center text-gray-400">
               No data available
