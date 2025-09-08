@@ -8,7 +8,7 @@ import ResponsiveTable from '../../components/ResponsiveTable';
 import Pagination from '../../components/Pagination';
 import ViewToggle from '../../components/ViewToggle';
 import SearchFilter from '../../components/SearchFilter';
-import { FaTrash, FaEnvelope, FaPhone, FaEye, FaEdit } from 'react-icons/fa';
+import { FaTrash,FaEdit } from 'react-icons/fa';
 import { isMobile } from 'react-device-detect';
 import useDebounce from "../../utils/useDebounce";
 import AdminMobileAppWrapper from '../../components/AdminMobileAppWrapper';
@@ -344,10 +344,12 @@ const StudentsPage = () => {
               columns={columns}
               viewModes={['table', 'list', 'grid']}
               defaultView={viewMode}
+              currentView={viewMode}
               showPagination={false}
               showViewToggle={false}
               loading={loading}
               emptyMessage="No students found"
+              onViewChange={setViewMode}
               onRowClick={(student) => {
                 // Handle row click if needed
                 console.log('Student clicked:', student);

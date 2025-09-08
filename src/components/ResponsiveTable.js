@@ -9,6 +9,7 @@ const ResponsiveTable = ({
   actions = [],
   viewModes = ['table', 'list', 'grid'],
   defaultView = 'table',
+  currentView = null,
   itemsPerPage = 10,
   showPagination = true,
   showViewToggle = true,
@@ -24,7 +25,8 @@ const ResponsiveTable = ({
   onClearFilters = null,
   filterOptions = {}
 }) => {
-  const [currentView, setCurrentView] = useState(defaultView);
+  const [internalView, setInternalView] = useState(defaultView);
+  const currentViewState = currentView !== null ? currentView : internalView;
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPageState, setItemsPerPage] = useState(itemsPerPage);
 
@@ -40,7 +42,9 @@ const ResponsiveTable = ({
   };
 
   const handleViewChange = (view) => {
-    setCurrentView(view);
+    if (currentView === null) {
+      setInternalView(view);
+    }
     setCurrentPage(1); // Reset to first page when changing view
     if (onViewChange) {
       onViewChange(view);
@@ -401,7 +405,7 @@ const ResponsiveTable = ({
             {showViewToggle && (
               <div className="flex items-center gap-3">
                 <ViewToggle
-                  currentView={currentView}
+                  currentView={currentViewState}
                   onViewChange={handleViewChange}
                   views={viewModes}
                 />
@@ -429,9 +433,9 @@ const ResponsiveTable = ({
 
       {/* Content based on view mode */}
       <div className="overflow-hidden">
-        {currentView === 'table' && renderTableView()}
-        {currentView === 'list' && <div>{renderListView()}</div>}
-        {currentView === 'grid' && <div>{renderGridView()}</div>}
+        {currentViewState === 'table' && renderTableView()}
+        {currentViewState === 'list' && <div>{renderListView()}</div>}
+        {currentViewState === 'grid' && <div>{renderGridView()}</div>}
       </div>
 
       {/* Pagination */}
