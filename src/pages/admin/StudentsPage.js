@@ -294,19 +294,21 @@ const StudentsPage = () => {
         />
 
         {/* Combined View Toggle and Page Size Controls */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mb-4">
-          <ViewToggle
-            currentView={viewMode}
-            onViewChange={setViewMode}
-            views={['table', 'list', 'grid']}
-          />
+        <div className="flex items-center justify-between mb-4 gap-2">
+          <div className="flex-shrink-0">
+            <ViewToggle
+              currentView={viewMode}
+              onViewChange={setViewMode}
+              views={['table', 'list', 'grid']}
+            />
+          </div>
           
-          <div className="flex items-center space-x-2">
-            <label className="text-sm text-gray-600 dark:text-gray-400">Show:</label>
+          <div className="flex items-center space-x-2 flex-shrink-0">
+            <label className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Show:</label>
             <select
               value={itemsPerPage}
               onChange={handleItemsPerPageChange}
-              className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-xs sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white min-w-0"
             >
               <option value={5}>5</option>
               <option value={10}>10</option>
