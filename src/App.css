@@ -6,6 +6,11 @@
 
 /* Mobile app container adjustments */
 @media (max-width: 768px) {
+  .subscription-name-badge{
+    max-width: 100px;
+    min-width: 100px;
+    border-radius: 4px;
+  }
   .appContainer {
     margin-top: 0;
     padding-bottom: 0; /* Space for mobile bottom navigation */
