@@ -123,7 +123,7 @@ const RewardsDashboard = () => {
             ></div>
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-            Reach Level 10 (110 monthly wins) with ≥75% accuracy to qualify for monthly rewards
+            Reach (Level 10 and Minimum 110 Quizzes with ≥75% Accuracy) to qualify for monthly rewards
           </p>
           {canUnlock && (
             <div className="mt-2 p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">

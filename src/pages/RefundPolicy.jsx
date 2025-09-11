@@ -48,7 +48,7 @@ const RefundPolicy = () => (
     <ul className="list-disc pl-6 space-y-2">
       <li>Monthly rewards are <strong>not purchases</strong> and are <strong>not refundable</strong>. They are prizes based on performance, leaderboard position, and eligibility.</li>
       <li>
-        <strong>Monthly Rewards System:</strong> Top 3 eligible users at Level 10 (110 wins + ≥75% accuracy) win ₹9,999 each month. Eligibility is based on current month performance only.
+        <strong>Monthly Rewards System:</strong> Top 3 eligible users at (Level 10 and Minimum 110 Quizzes with ≥75% Accuracy) win ₹9,999 each month. Eligibility is based on current month performance only.
       </li>
       <li>Monthly rewards are processed at the end of each month and reset for the next month. Previous month achievements do not carry forward.</li>
       <li>Withdrawals (if enabled) may require bank details/KYC verification to comply with regulations.</li>

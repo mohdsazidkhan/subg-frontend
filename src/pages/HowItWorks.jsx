@@ -30,7 +30,7 @@ const HowItWorks = () => (
 
       <li>
         <strong>Monthly Rewards System: </strong>  
-        Top 3 eligible users at Level 10 (110 monthly wins with ≥75% accuracy) earn ₹9,999 each month. Rewards reset and recalculate every month.
+        Top 3 eligible users at (Level 10 and Minimum 110 Quizzes with ≥75% Accuracy) earn ₹9,999 each month. Rewards reset and recalculate every month.
       </li>
 
       <li>

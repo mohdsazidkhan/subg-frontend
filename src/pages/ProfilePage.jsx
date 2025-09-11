@@ -1254,7 +1254,7 @@ const message =
                       ></div>
                     </div>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                      Complete 110 high-score quizzes (75%+) to unlock monthly rewards
+                      Complete (Level 10 and Minimum 110 Quizzes with ≥75% Accuracy) to unlock monthly rewards
                     </p>
                   </div>
 

@@ -759,7 +759,7 @@ const HomePage = () => {
             </h2>
             <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Start from Level 1 (Rookie) and progress through 10 levels each
-              month. Reach Level 10 (110 high-score wins with ≥75% accuracy) to
+              month. Reach (Level 10 and Minimum 110 Quizzes with ≥75% accuracy) to
               qualify for monthly rewards!
             </p>
           </div>

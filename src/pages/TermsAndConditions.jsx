@@ -24,8 +24,8 @@ const TermsAndConditions = () => (
         <strong>Monthly Rewards System:</strong> Rewards are processed monthly based on Top 3 leaderboard ranks:
       </p>
       <ul className="list-disc pl-6 space-y-1">
-        <li><strong>Monthly:</strong> Top 3 eligible users at Level 10 (110 wins + ≥75% accuracy) win prizes in 3:2:1 ratio from ₹9,999 total pool</li>
-        <li><strong>Eligibility:</strong> Must reach Level 10 with ≥75% accuracy in the current month</li>
+        <li><strong>Monthly:</strong> Top 3 eligible users at (Level 10 and Minimum 110 Quizzes with ≥75% Accuracy) win prizes in 3:2:1 ratio from ₹9,999 total pool</li>
+        <li><strong>Eligibility:</strong> Must reach Level 10 and minimum 110 quizzes ≥75% accuracy in the current month</li>
         <li><strong>Reset:</strong> Progress and rewards reset every month on the 1st</li>
       </ul>
       <p>
@@ -34,7 +34,7 @@ const TermsAndConditions = () => (
     </div>
 
     <p className="mb-4">
-      To qualify for monthly rewards, users must complete at least <strong>110 high-score quizzes (75%+)</strong> and rank in the Top 3 on the <strong>Level 10</strong> leaderboard by the end of the month. All progress resets monthly.
+      To qualify for monthly rewards, users must complete at least <strong>(Level 10 and Minimum 110 Quizzes with ≥75% accuracy)</strong> and rank in the Top 3 on the <strong>Level 10</strong> leaderboard by the end of the month. All progress resets monthly.
     </p>
 
     <p className="mb-4">

@@ -551,9 +551,8 @@ const LandingPage = () => {
                 Win Amazing Prizes & Rewards
               </span>
             </h2>
-                         <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Compete monthly for amazing rewards! Top 3 performers at Level 10
-              with ≥75% accuracy share ₹9,999 prize pool every month.
+            <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Compete monthly for amazing rewards! Top 3 performers at Level 10 and Minimum 110 Quizzes with ≥75% accuracy share ₹9,999 prize pool every month.
              </p>
           </div>
 
@@ -665,7 +664,7 @@ const LandingPage = () => {
                 {
                   icon: FaStar,
                   name: "Quiz Master",
-                  description: "Complete 110 quizzes",
+                  description: "Complete Min 110 Quizzes",
                 },
                 {
                   icon: FaBrain,
@@ -1157,7 +1156,7 @@ const LandingPage = () => {
             </h2>
                          <p className="text-md md:text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Start from Level 1 (Rookie) and progress through 10 levels each
-              month. Reach Level 10 (110 high-score wins with ≥75% accuracy) to
+              month. Reach (Level 10 and Minimum 110 Quizzes with ≥75% Accuracy) to
               qualify for monthly rewards!
              </p>
              
