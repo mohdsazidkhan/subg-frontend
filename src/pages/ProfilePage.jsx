@@ -30,7 +30,11 @@ import {
   FaKey,
   FaPlus,
   FaRocket,
-  FaGem
+  FaGem,
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  FaYoutube
 } from 'react-icons/fa';
 import { getSubscriptionStatusTextWithTheme } from '../utils/subscriptionUtils';
 import ShareComponent from '../components/ShareComponent';
@@ -89,53 +93,53 @@ const ProfilePage = () => {
   const [bankFormErrors, setBankFormErrors] = useState({});
   const [isSaving, setIsSaving] = useState(false);
   const [bankDetailsSaved, setBankDetailsSaved] = useState(false);
-  useEffect(() => {
-    const fetchProfileAndQuizzes = async () => {
+  const fetchProfileAndQuizzes = async () => {
+    try {
+      const profileRes = await API.getProfile();
+      setStudent(profileRes);
       try {
-        const profileRes = await API.getProfile();
-        setStudent(profileRes);
+        const historyRes = await API.getQuizHistory();
+        setPlayedQuizzes(historyRes.data?.attempts || []);
+      } catch (quizErr) {
+        setPlayedQuizzes([]); // Still show profile even if quizzes fail
+      }
+      
+      // Check if user is eligible for bank details
+      if (isEligibleForBankDetails(profileRes)) {
         try {
-          const historyRes = await API.getQuizHistory();
-          setPlayedQuizzes(historyRes.data?.attempts || []);
-        } catch (quizErr) {
-          setPlayedQuizzes([]); // Still show profile even if quizzes fail
-        }
-        
-        // Check if user is eligible for bank details
-        if (isEligibleForBankDetails(profileRes)) {
-          try {
-            const bankRes = await API.getBankDetails();
-            if (bankRes.success && bankRes.bankDetail) {
-              setBankDetails(bankRes.bankDetail);
-              // Pre-fill form data with existing bank details
-              setBankFormData({
-                accountHolderName: bankRes.bankDetail.accountHolderName,
-                accountNumber: bankRes.bankDetail.accountNumber,
-                bankName: bankRes.bankDetail.bankName,
-                ifscCode: bankRes.bankDetail.ifscCode,
-                branchName: bankRes.bankDetail.branchName
-              });
-            }
-          } catch (bankErr) {
-            // Check if it's a 404 error (no bank details yet) vs other errors
-            if (bankErr.response && bankErr.response.status === 404) {
-              // User doesn't have bank details yet - this is normal
-              console.log('No bank details found yet - user can add them');
-              setBankDetails(null);
-            } else {
-              // Actual error occurred
-              console.error('Error fetching bank details:', bankErr);
-              // Don't show error to user since bank details are optional
-            }
+          const bankRes = await API.getBankDetails();
+          if (bankRes.success && bankRes.bankDetail) {
+            setBankDetails(bankRes.bankDetail);
+            // Pre-fill form data with existing bank details
+            setBankFormData({
+              accountHolderName: bankRes.bankDetail.accountHolderName,
+              accountNumber: bankRes.bankDetail.accountNumber,
+              bankName: bankRes.bankDetail.bankName,
+              ifscCode: bankRes.bankDetail.ifscCode,
+              branchName: bankRes.bankDetail.branchName
+            });
+          }
+        } catch (bankErr) {
+          // Check if it's a 404 error (no bank details yet) vs other errors
+          if (bankErr.response && bankErr.response.status === 404) {
+            // User doesn't have bank details yet - this is normal
+            console.log('No bank details found yet - user can add them');
+            setBankDetails(null);
+          } else {
+            // Actual error occurred
+            console.error('Error fetching bank details:', bankErr);
+            // Don't show error to user since bank details are optional
           }
         }
-      } catch (err) {
-        console.error('Profile fetch error:', err);
-        handleAuthError(err, navigate);
-        setError('Failed to load profile');
       }
-    };
+    } catch (err) {
+      console.error('Profile fetch error:', err);
+      handleAuthError(err, navigate);
+      setError('Failed to load profile');
+    }
+  };
 
+  useEffect(() => {
     fetchProfileAndQuizzes();
   }, [navigate]);
   
@@ -332,13 +336,11 @@ const ProfilePage = () => {
     
     try {
       const response = await API.updateProfile(editProfileData);
-      if (response.success) {
+      if(response.success){
         setStudent(response.user);
         setIsEditingProfile(false);
         toast.success('Profile updated successfully!');
-        
-        // Update localStorage with new user info
-        localStorage.setItem('userInfo', JSON.stringify(response.user));
+        fetchProfileAndQuizzes();
       }
     } catch (err) {
       console.error('Error updating profile:', err);
@@ -351,6 +353,44 @@ const ProfilePage = () => {
   const showResult = (quiz) => {
     navigate("/quiz-result", {state: {quizResult: quiz}})
   }
+
+  // Function to extract username from social media URLs
+  const extractUsername = (url, platform) => {
+    if (!url) return '';
+    
+    try {
+      const urlObj = new URL(url);
+      const pathname = urlObj.pathname;
+      
+      switch (platform) {
+        case 'instagram':
+          // Extract username from instagram.com/username or instagram.com/@username
+          const instagramMatch = pathname.match(/\/(?:@)?([^\/\?]+)/);
+          return instagramMatch ? instagramMatch[1].replace('@', '') : '';
+        
+        case 'facebook':
+          // Extract username from facebook.com/username
+          const facebookMatch = pathname.match(/\/([^\/\?]+)/);
+          return facebookMatch ? facebookMatch[1] : '';
+        
+        case 'x':
+          // Extract username from x.com/username or twitter.com/username
+          const xMatch = pathname.match(/\/([^\/\?]+)/);
+          return xMatch ? xMatch[1] : '';
+        
+        case 'youtube':
+          // Extract username from youtube.com/@username or youtube.com/c/username or youtube.com/user/username
+          const youtubeMatch = pathname.match(/\/(?:@|c\/|user\/)([^\/\?]+)/);
+          return youtubeMatch ? youtubeMatch[1] : '';
+        
+        default:
+          return '';
+      }
+    } catch (error) {
+      console.error('Error extracting username:', error);
+      return '';
+    }
+  };
   // Use new backend level structure
   const userLevel = student?.levelInfo?.currentLevel || { number: 0, name: 'Starter' };
   const nextLevel = student?.levelInfo?.nextLevel;
@@ -426,22 +466,6 @@ const message =
           <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">About</h2>
           </div>
-          
-          {/* Monthly System Info */}
-          <div className="m-2 lg:m-4 bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/30 dark:to-teal-900/30 rounded-2xl p-4 border border-green-200 dark:border-green-700">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-teal-500 rounded-xl flex items-center justify-center">
-                <span className="text-xl">🎯</span>
-              </div>
-              <div>
-                <h4 className="text-lg font-semibold text-green-800 dark:text-green-300">Monthly Rewards System</h4>
-                <p className="text-sm text-green-600 dark:text-green-400">
-                  Compete monthly for rewards! Reach Level 10 and Minimum 110 Quizzes with ≥75% accuracy to qualify for monthly prizes. 
-                  Your progress resets each month for fair competition.
-                </p>
-              </div>
-            </div>
-          </div>
 
           {/* Profile Information - Show either details or edit form */}
           {!isEditingProfile && (
@@ -493,10 +517,10 @@ const message =
                         rel="noopener noreferrer"
                         className="flex items-center space-x-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
                       >
-                        <span className="text-pink-500 text-lg">📷</span>
+                        <FaInstagram className="text-pink-500 text-lg" />
                         <div className="flex-1">
                           <p className="text-sm font-medium text-gray-900 dark:text-white">Instagram</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{student.socialLinks.instagram}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">@{extractUsername(student.socialLinks.instagram, 'instagram')}</p>
                         </div>
                       </a>
                     )}
@@ -508,10 +532,10 @@ const message =
                         rel="noopener noreferrer"
                         className="flex items-center space-x-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
                       >
-                        <span className="text-blue-600 text-lg">📘</span>
+                        <FaFacebookF className="text-blue-600 text-lg" />
                         <div className="flex-1">
                           <p className="text-sm font-medium text-gray-900 dark:text-white">Facebook</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{student.socialLinks.facebook}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">@{extractUsername(student.socialLinks.facebook, 'facebook')}</p>
                         </div>
                       </a>
                     )}
@@ -523,10 +547,10 @@ const message =
                         rel="noopener noreferrer"
                         className="flex items-center space-x-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
                       >
-                        <span className="text-black dark:text-white text-lg">𝕏</span>
+                        <FaTwitter className="text-black dark:text-white text-lg" />
                         <div className="flex-1">
                           <p className="text-sm font-medium text-gray-900 dark:text-white">X (Twitter)</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{student.socialLinks.x}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">@{extractUsername(student.socialLinks.x, 'x')}</p>
                         </div>
                       </a>
                     )}
@@ -538,10 +562,10 @@ const message =
                         rel="noopener noreferrer"
                         className="flex items-center space-x-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
                       >
-                        <span className="text-red-600 text-lg">📺</span>
+                        <FaYoutube className="text-red-600 text-lg" />
                         <div className="flex-1">
                           <p className="text-sm font-medium text-gray-900 dark:text-white">YouTube</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{student.socialLinks.youtube}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">@{extractUsername(student.socialLinks.youtube, 'youtube')}</p>
                         </div>
                       </a>
                     )}
@@ -665,7 +689,7 @@ const message =
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         <span className="flex items-center space-x-2">
-                          <span className="text-pink-500">📷</span>
+                          <FaInstagram className="text-pink-500" />
                           <span>Instagram</span>
                         </span>
                       </label>
@@ -690,7 +714,7 @@ const message =
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         <span className="flex items-center space-x-2">
-                          <span className="text-blue-600">📘</span>
+                          <FaFacebookF className="text-blue-600" />
                           <span>Facebook</span>
                         </span>
                       </label>
@@ -715,7 +739,7 @@ const message =
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         <span className="flex items-center space-x-2">
-                          <span className="text-black dark:text-white">𝕏</span>
+                          <FaTwitter className="text-black dark:text-white" />
                           <span>X (Twitter)</span>
                         </span>
                       </label>
@@ -740,7 +764,7 @@ const message =
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         <span className="flex items-center space-x-2">
-                          <span className="text-red-600">📺</span>
+                          <FaYoutube className="text-red-600" />
                           <span>YouTube</span>
                         </span>
                       </label>
