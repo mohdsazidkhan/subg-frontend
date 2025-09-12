@@ -546,7 +546,7 @@ const LandingPage = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-gray-900 dark:via-green-900/20 dark:to-emerald-900/20 pointer-events-none" />
         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-tr from-green-500 via-emerald-500 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl animate-float">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-tr from-green-500 via-emerald-500 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-3 lg:mb-6 shadow-xl animate-float">
               <FaUserGraduate className="text-white text-2xl sm:text-3xl md:text-4xl drop-shadow-lg" />
             </div>
             <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4">
@@ -627,9 +627,9 @@ const LandingPage = () => {
        <section id="prizes" className="py-20 relative overflow-hidden">
          <div className="absolute inset-0 bg-gradient-to-tl from-amber-50 via-yellow-50 to-orange-50 dark:from-gray-900 dark:via-amber-900/20 dark:to-orange-900/20 pointer-events-none" />
          <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-4 lg:mb-16">
             <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
-                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
                 Win Amazing Prizes & Rewards
               </span>
             </h2>
