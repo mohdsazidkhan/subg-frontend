@@ -548,13 +548,13 @@ const message =
           {/* Profile Completion Progress Bar */}
           {profileCompletion ? (
             <div className="px-4 py-4 border-b border-gray-200 dark:border-gray-700">
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-4 border border-green-200 dark:border-green-700">
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-2 lg:p-4 border border-green-200 dark:border-green-700">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                     <FaUserGraduate className="text-green-600 dark:text-green-400" />
                     Profile Completion
                   </h3>
-                  <span className={`text-2xl font-bold ${profileCompletion.percentage === 100 ? 'text-green-600 dark:text-green-400' : 'text-orange-600 dark:text-orange-400'}`}>
+                  <span className={`text-md lg:text-2xl font-bold ${profileCompletion.percentage === 100 ? 'text-green-600 dark:text-green-400' : 'text-orange-600 dark:text-orange-400'}`}>
                     {profileCompletion.percentage === 100 ? 'Completed ✅' : `${profileCompletion.percentage}%`}
                   </span>
                 </div>
