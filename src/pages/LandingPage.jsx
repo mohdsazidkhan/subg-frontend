@@ -541,6 +541,88 @@ const LandingPage = () => {
         </div>
       </section>
 
+       {/* Profile Completion Reward Section */}
+       <section id="profile-completion" className="py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-gray-900 dark:via-green-900/20 dark:to-emerald-900/20 pointer-events-none" />
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-tr from-green-500 via-emerald-500 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl animate-float">
+              <FaUserGraduate className="text-white text-2xl sm:text-3xl md:text-4xl drop-shadow-lg" />
+            </div>
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 via-emerald-500 to-teal-600 dark:text-white">
+                Complete Your Profile & Get Basic Subscription FREE!
+              </span>
+            </h2>
+            <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Complete <strong className="text-green-600 dark:text-green-400">100% of your profile</strong> and instantly unlock a <strong className="text-green-600 dark:text-green-400">Basic Subscription (₹9 value)</strong> for 30 days absolutely free!
+            </p>
+          </div>
+          <div className="max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                  <div className="space-y-3 sm:space-y-4">
+                    <h4 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3">
+                      ✅ What You Need to Complete:
+                    </h4>
+                    <div className="space-y-2 sm:space-y-3">
+                      <div className="flex items-center space-x-2 sm:space-x-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <FaStar className="text-white text-xs sm:text-sm" />
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">Full Name</span>
+                      </div>
+                      <div className="flex items-center space-x-2 sm:space-x-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <FaStar className="text-white text-xs sm:text-sm" />
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">Valid Email Address</span>
+                      </div>
+                      <div className="flex items-center space-x-2 sm:space-x-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <FaStar className="text-white text-xs sm:text-sm" />
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">10-digit Phone No.</span>
+                      </div>
+                      <div className="flex items-center space-x-2 sm:space-x-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <FaStar className="text-white text-xs sm:text-sm" />
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">One Social Media Link</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 sm:space-y-4">
+                    <h4 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3">
+                      🚀 What You Get:
+                    </h4>
+                    <div className="space-y-2 sm:space-y-3">
+                      <div className="flex items-center space-x-2 sm:space-x-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <FaStar className="text-white text-xs sm:text-sm" />
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">Access to Levels 0-6 (Basic Plan)</span>
+                      </div>
+                      <div className="flex items-center space-x-2 sm:space-x-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <FaStar className="text-white text-xs sm:text-sm" />
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">30 Days of Basic Access</span>
+                      </div>
+                      <div className="flex items-center space-x-2 sm:space-x-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <FaStar className="text-white text-xs sm:text-sm" />
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">Unlimited Quiz Attempts</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+        </div>
+        
+      </section>
+
       {/* Prize & Rewards Section */}
        <section id="prizes" className="py-20 relative overflow-hidden">
          <div className="absolute inset-0 bg-gradient-to-tl from-amber-50 via-yellow-50 to-orange-50 dark:from-gray-900 dark:via-amber-900/20 dark:to-orange-900/20 pointer-events-none" />
@@ -1664,17 +1746,19 @@ const LandingPage = () => {
         </div>
       </section>
 
+         
+
           {/* Referral System Section */}
           <section id="referrals" className="py-20 relative overflow-hidden">
          <div className="absolute inset-0 bg-gradient-to-br from-pink-50 via-rose-50 to-red-50 dark:from-gray-900 dark:via-pink-900/20 dark:to-rose-900/20 pointer-events-none" />
          <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
-                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
                 Refer & Earn Rewards
               </span>
             </h2>
-                         <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Invite your friends and family to join SUBG QUIZ. Earn
               subscription plan upgrades as referral milestones!
              </p>

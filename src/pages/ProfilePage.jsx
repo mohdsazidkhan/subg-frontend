@@ -94,10 +94,91 @@ const ProfilePage = () => {
   const [bankFormErrors, setBankFormErrors] = useState({});
   const [isSaving, setIsSaving] = useState(false);
   const [bankDetailsSaved, setBankDetailsSaved] = useState(false);
+  const [profileCompletion, setProfileCompletion] = useState(null);
+  
+  // Separate function to fetch profile completion data
+  const fetchProfileCompletion = async () => {
+    try {
+      const res = await API.getProfile();
+      console.log('🔍 Profile Completion API Response:', res);
+      
+      if (res?.success && res.user?.profileCompletion) {
+        console.log('✅ Profile completion data found:', res.user.profileCompletion);
+        setProfileCompletion(res.user.profileCompletion);
+      } else {
+        console.log('❌ Profile completion data not found');
+        // Set default data
+        setProfileCompletion({
+          percentage: 0,
+          isComplete: false,
+          fields: [
+            { name: 'Full Name', completed: false, value: '' },
+            { name: 'Email Address', completed: false, value: '' },
+            { name: 'Phone Number', completed: false, value: '' },
+            { name: 'Social Media Link', completed: false, value: '' }
+          ],
+          completedFields: 0,
+          totalFields: 4
+        });
+      }
+    } catch (err) {
+      console.log('❌ Failed to fetch profile completion:', err);
+      // Set default data on error
+      setProfileCompletion({
+        percentage: 0,
+        isComplete: false,
+        fields: [
+          { name: 'Full Name', completed: false, value: '' },
+          { name: 'Email Address', completed: false, value: '' },
+          { name: 'Phone Number', completed: false, value: '' },
+          { name: 'Social Media Link', completed: false, value: '' }
+        ],
+        completedFields: 0,
+        totalFields: 4
+      });
+    }
+  };
+  
   const fetchProfileAndQuizzes = async () => {
     try {
       const profileRes = await API.getProfile();
-      setStudent(profileRes);
+      console.log('🔍 Profile API Response in ProfilePage:', profileRes);
+      
+      // Set the user data correctly
+      if (profileRes?.success && profileRes?.user) {
+        setStudent(profileRes.user);
+        console.log('✅ User data set:', profileRes.user);
+      } else {
+        console.log('❌ No user data found in response');
+        setStudent({});
+      }
+      
+      // Set profile completion data if available
+      if (profileRes?.user?.profileCompletion) {
+        console.log('✅ Profile completion data found in ProfilePage:', profileRes.user.profileCompletion);
+        setProfileCompletion(profileRes.user.profileCompletion);
+      } else {
+        console.log('❌ Profile completion data not found in ProfilePage response');
+        console.log('Response structure:', {
+          success: profileRes?.success,
+          hasUser: !!profileRes?.user,
+          hasProfileCompletion: !!profileRes?.user?.profileCompletion
+        });
+        
+        // Set default profile completion data
+        setProfileCompletion({
+          percentage: 0,
+          isComplete: false,
+          fields: [
+            { name: 'Full Name', completed: false, value: '' },
+            { name: 'Email Address', completed: false, value: '' },
+            { name: 'Phone Number', completed: false, value: '' },
+            { name: 'Social Media Link', completed: false, value: '' }
+          ],
+          completedFields: 0,
+          totalFields: 4
+        });
+      }
       try {
         const historyRes = await API.getQuizHistory();
         setPlayedQuizzes(historyRes.data?.attempts || []);
@@ -142,6 +223,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     fetchProfileAndQuizzes();
+    fetchProfileCompletion();
   }, [navigate]);
   
   // Check if user is eligible for bank details (level 10 or pro subscription)
@@ -445,11 +527,11 @@ const message =
             {/* Profile Picture */}
             <div className="flex items-end -mt-16 mb-4">
               <div className="w-20 lg:w-24 h-20 lg:h-24 text-2xl font-bold bg-white dark:bg-gray-800 rounded-full border-2 border-gray-400 dark:border-gray-600 shadow-lg flex items-center justify-center">
-              {student.name?.charAt(0)}
+              {student?.name?.charAt(0) || 'U'}
               </div>
               <div className="ml-4 flex-1">
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white">{student.name}</h1>
-                <p className="text-sm text-gray-600 dark:text-gray-400"><strong>{student.levelInfo?.currentLevel?.name}</strong></p>
+                <h1 className="text-xl font-bold text-gray-900 dark:text-white">{student?.name || 'User'}</h1>
+                <p className="text-sm text-gray-600 dark:text-gray-400"><strong>{student?.levelInfo?.currentLevel?.name || 'Level 0'}</strong></p>
               </div>
               <button
                 onClick={handleEditProfile}
@@ -463,6 +545,75 @@ const message =
 
         {/* Facebook-style Profile Details */}
         <div className="bg-white dark:bg-gray-800 mt-2 p-0 lg:p-4">
+          {/* Profile Completion Progress Bar */}
+          {profileCompletion ? (
+            <div className="px-4 py-4 border-b border-gray-200 dark:border-gray-700">
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-4 border border-green-200 dark:border-green-700">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                    <FaUserGraduate className="text-green-600 dark:text-green-400" />
+                    Profile Completion
+                  </h3>
+                  <span className={`text-2xl font-bold ${profileCompletion.percentage === 100 ? 'text-green-600 dark:text-green-400' : 'text-orange-600 dark:text-orange-400'}`}>
+                    {profileCompletion.percentage === 100 ? 'Completed ✅' : `${profileCompletion.percentage}%`}
+                  </span>
+                </div>
+                
+                {/* Progress Bar */}
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-3">
+                  <div 
+                    className={`h-3 rounded-full transition-all duration-500 ease-in-out ${
+                      profileCompletion.percentage === 100 
+                        ? 'bg-gradient-to-r from-green-500 to-emerald-600' 
+                        : 'bg-gradient-to-r from-orange-500 to-yellow-500'
+                    }`}
+                    style={{width: `${profileCompletion.percentage}%`}}
+                  ></div>
+                </div>
+                
+                {/* Status Message */}
+                <div className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                  {profileCompletion.percentage === 100 
+                    ? '🎉 Congratulations! Your profile is complete and you have received your Basic Subscription reward!'
+                    : `Complete ${4 - profileCompletion.completedFields} more field${4 - profileCompletion.completedFields === 1 ? '' : 's'} to get 100% and unlock your Basic Subscription reward!`
+                  }
+                </div>
+                
+                {/* Field Status */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-xs">
+                  {profileCompletion.fields.map((field, index) => (
+                    <div key={index} className="flex items-center justify-between p-2 bg-white/50 dark:bg-gray-800/50 rounded-lg">
+                      <span className="text-gray-700 dark:text-gray-300">{field.name}</span>
+                      <span className={field.completed ? 'text-green-500' : 'text-red-500'}>
+                        {field.completed ? '✅' : '❌'}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Reward Info */}
+                {profileCompletion.percentage === 100 && (
+                  <div className="mt-3 p-3 bg-green-100 dark:bg-green-900/30 rounded-lg border border-green-200 dark:border-green-700">
+                    <div className="flex items-center gap-2 text-green-800 dark:text-green-200">
+                      <FaCrown className="text-lg" />
+                      <span className="font-semibold">You've earned a Basic Subscription (₹9 value) for 30 days!</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="px-4 py-4 border-b border-gray-200 dark:border-gray-700">
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-xl p-4 border border-gray-200 dark:border-gray-600">
+                <div className="text-center">
+                  <div className="text-lg text-gray-600 dark:text-gray-300">
+                    Loading profile completion data...
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* About Section */}
           <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">About</h2>
@@ -478,7 +629,7 @@ const message =
                   <FaEnvelope className="text-gray-400 text-lg" />
                   <div>
                     <p className="text-sm text-gray-600 dark:text-gray-400">Email</p>
-                    <p className="text-gray-900 dark:text-white font-medium">{student.email}</p>
+                    <p className="text-gray-900 dark:text-white font-medium">{student?.email || 'Not provided'}</p>
                   </div>
                 </div>
                 
@@ -486,7 +637,7 @@ const message =
                   <FaPhone className="text-gray-400 text-lg" />
                   <div>
                     <p className="text-sm text-gray-600 dark:text-gray-400">Phone</p>
-                    <p className="text-gray-900 dark:text-white font-medium">{student.phone}</p>
+                    <p className="text-gray-900 dark:text-white font-medium">{student?.phone || 'Not provided'}</p>
                   </div>
                 </div>
               </div>

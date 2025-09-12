@@ -223,12 +223,15 @@ const HomePage = () => {
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [showSystemUpdateModal, setShowSystemUpdateModal] = useState(false);
+  const [profileCompletion, setProfileCompletion] = useState(null);
+  const [user, setUser] = useState(null);
   console.log(userLevelData, "userLevelData");
   
   useEffect(() => {
     fetchHomePageData();
     fetchCategories();
     fetchLevels();
+    fetchProfileCompletion();
     // Show system update modal for first-time visitors
     const hasSeenModal = localStorage.getItem('hasSeenSystemUpdateModal');
     if (!hasSeenModal) {
@@ -450,6 +453,41 @@ const HomePage = () => {
     }
   };
 
+  const fetchProfileCompletion = async () => {
+    try {
+      const res = await API.getProfile();
+      console.log('🔍 Profile API Response:', res);
+      
+      if (res?.success && res.user?.profileCompletion) {
+        console.log('✅ Profile completion data found:', res.user.profileCompletion);
+        setUser(res.user);
+        setProfileCompletion(res.user.profileCompletion);
+      } else {
+        console.log('❌ Profile completion data not found in response');
+        console.log('Response structure:', {
+          success: res?.success,
+          hasUser: !!res?.user,
+          hasProfileCompletion: !!res?.user?.profileCompletion
+        });
+      }
+    } catch (err) {
+      console.log('❌ Failed to fetch profile completion:', err);
+      // Set default values if API fails
+      setProfileCompletion({
+        percentage: 0,
+        isComplete: false,
+        fields: [
+          { name: 'Full Name', completed: false },
+          { name: 'Email Address', completed: false },
+          { name: 'Phone Number', completed: false },
+          { name: 'Social Media Link', completed: false }
+        ],
+        completedFields: 0,
+        totalFields: 4
+      });
+    }
+  };
+
   const handleQuizAttempt = (quiz) => {
     setSelectedQuiz(quiz);
     setShowQuizModal(true);
@@ -516,7 +554,9 @@ const HomePage = () => {
   };
   return (
     <MobileAppWrapper title="Home">
+      
       <div className="relative min-h-screen bg-subg-light dark:bg-subg-dark overflow-x-hidden">
+
       {/* Hero Section */}
       <div className="relative overflow-hidden z-10">
         <div className="absolute inset-0 bg-gradient-to-r from-yellow-600/10 via-red-600/10 to-indigo-600/10 pointer-events-none" />
@@ -593,6 +633,176 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+      
+      {/* Profile Completion Reward Section - Only show for logged in users with incomplete profile and free subscription */}
+      {isLoggedIn && profileCompletion && profileCompletion.percentage < 100 && user?.subscriptionStatus === 'free' && (
+        <div className="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
+          <div className="rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 border-2 border-green-300/30 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-900/20 dark:via-emerald-900/20 dark:to-teal-900/20">
+            <div className="text-center mb-6 sm:mb-8 md:mb-10">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-tr from-green-600 via-emerald-600 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-xl sm:shadow-2xl animate-float">
+                <FaUserGraduate className="text-white text-2xl sm:text-3xl md:text-4xl drop-shadow-lg" />
+              </div>
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-800 dark:text-white mb-3 sm:mb-4 md:mb-6 drop-shadow-lg">
+                🎁 Complete Your Profile & Get Basic Subscription FREE!
+              </h2>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 dark:text-gray-300 font-medium max-w-3xl mx-auto px-4 sm:px-0">
+                Complete <strong className="text-green-600 dark:text-green-400">100% of your profile</strong> and instantly unlock a <strong className="text-green-600 dark:text-green-400">Basic Subscription (₹9 value)</strong> for 30 days absolutely free!
+              </p>
+            </div>
+
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-white/80 dark:bg-gray-800/80 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-green-200 dark:border-green-700">
+                <div className="text-center mb-6 sm:mb-8">
+                  {/* Dynamic Progress Bar Section */}
+                  {profileCompletion ? (
+                    <div className="bg-white/90 dark:bg-gray-900/90 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6 border border-gray-200 dark:border-gray-700">
+                      <div className="text-center mb-4">
+                        <div className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white mb-2">
+                          {profileCompletion.percentage === 100 ? (
+                            <span className="text-green-600 dark:text-green-400">
+                              Profile Completed ✅
+                            </span>
+                          ) : (
+                            <span className="text-orange-600 dark:text-orange-400">
+                              Profile Completion: {profileCompletion.percentage}%
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                          {profileCompletion.percentage === 100 
+                            ? '🎉 Congratulations! Your profile is 100% complete!' 
+                            : `Complete ${4 - profileCompletion.completedFields} more field${4 - profileCompletion.completedFields === 1 ? '' : 's'} to get 100% and unlock your reward!`
+                          }
+                        </div>
+                      </div>
+                      
+                      {/* Progress Bar */}
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 mb-4">
+                        <div 
+                          className={`h-4 rounded-full transition-all duration-500 ease-in-out ${
+                            profileCompletion.percentage === 100 
+                              ? 'bg-gradient-to-r from-green-500 to-emerald-600' 
+                              : 'bg-gradient-to-r from-orange-500 to-yellow-500'
+                          }`}
+                          style={{width: `${profileCompletion.percentage}%`}}
+                        ></div>
+                      </div>
+                      
+                      {/* Field Status */}
+                      <div className="space-y-2 text-sm">
+                        {profileCompletion?.fields.map((field, index) => (
+                          <div key={index} className="flex items-center justify-between">
+                            <span className="text-gray-600 dark:text-gray-300">{field.name}</span>
+                            <span className={field.completed ? 'text-green-500' : 'text-red-500'}>
+                              {field.completed ? '✅ Complete' : '❌ Required'}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="bg-white/90 dark:bg-gray-900/90 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6 border border-gray-200 dark:border-gray-700">
+                      <div className="text-center">
+                        <div className="text-lg text-gray-600 dark:text-gray-300">
+                          Loading profile completion data...
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="bg-gradient-to-r from-green-700 to-emerald-700 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6">
+                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
+                      ₹9 Basic Plan
+                    </div>
+                    <div className="text-sm sm:text-base text-green-100 mb-2">
+                      30 Days FREE Subscription
+                    </div>
+                    <div className="text-xs sm:text-sm text-green-200">
+                      Worth ₹9 - Completely FREE!
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                  <div className="space-y-3 sm:space-y-4">
+                    <h4 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3">
+                      ✅ What You Need to Complete:
+                    </h4>
+                    <div className="space-y-2 sm:space-y-3">
+                      <div className="flex items-center space-x-2 sm:space-x-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <FaStar className="text-white text-xs sm:text-sm" />
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">Full Name</span>
+                      </div>
+                      <div className="flex items-center space-x-2 sm:space-x-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <FaStar className="text-white text-xs sm:text-sm" />
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">Valid Email Address</span>
+                      </div>
+                      <div className="flex items-center space-x-2 sm:space-x-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <FaStar className="text-white text-xs sm:text-sm" />
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">10-digit Phone No.</span>
+                      </div>
+                      <div className="flex items-center space-x-2 sm:space-x-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <FaStar className="text-white text-xs sm:text-sm" />
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">One Social Media Link</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 sm:space-y-4">
+                    <h4 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3">
+                      🚀 What You Get:
+                    </h4>
+                    <div className="space-y-2 sm:space-y-3">
+                      <div className="flex items-center space-x-2 sm:space-x-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <FaStar className="text-white text-xs sm:text-sm" />
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">Access to Levels 0-6 (Basic Plan)</span>
+                      </div>
+                      <div className="flex items-center space-x-2 sm:space-x-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <FaStar className="text-white text-xs sm:text-sm" />
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">30 Days of Basic Access</span>
+                      </div>
+                      <div className="flex items-center space-x-2 sm:space-x-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <FaStar className="text-white text-xs sm:text-sm" />
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">Unlimited Quiz Attempts</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-center">
+                  <div className="bg-yellow-100 dark:bg-yellow-900/30 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 border border-yellow-300 dark:border-yellow-700">
+                    <p className="text-yellow-800 dark:text-yellow-200 text-xs sm:text-sm font-medium">
+                      💡 <strong>Pro Tip:</strong> Complete your profile to get the reward immediately!
+                    </p>
+                  </div>
+                  
+                  <Link
+                    to="/profile"
+                    className="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base md:text-lg"
+                  >
+                    <FaUserGraduate className="text-sm sm:text-base" />
+                    <span>Complete Profile & Get Reward</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Monthly Winners Section */}
       <div className="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
@@ -745,7 +955,7 @@ const HomePage = () => {
           </div>
         </div>
 
-        </div>  
+      </div>  
 
         {/* Progressive Learning Levels Section */}
       <div className="py-20 relative overflow-hidden">
@@ -890,8 +1100,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 z-10 mt-8 sm:mt-12 md:mt-16">
-
+      
         {/* Level-based Quizzes Section */}
         <div className="container mx-auto px-0 mb-6 sm:mb-10 md:mb-12">
           <div className="flex items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
@@ -923,7 +1132,7 @@ const HomePage = () => {
               </div>
             </div>
           ) : !hasActiveSubscription() ||
-            (error && error.toLowerCase().includes("subscription")) ? (
+          (error && error.toLowerCase().includes("subscription")) ? (
             <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 flex flex-col items-center justify-center animate-fade-in">
               <div className="text-center mb-6">
                 <div className="text-red-600 text-3xl mb-2">⚠️</div>
@@ -1027,9 +1236,27 @@ const HomePage = () => {
               )}
             </div>
           )}
-        </div>
-        </div>
       
+
+      {/* Profile Completion Success Section - Show for users with 100% complete profile */}
+      {isLoggedIn && profileCompletion && profileCompletion.percentage === 100 && (
+        <div className="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
+          <div className="rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 border-2 border-green-300/30 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-900/20 dark:via-emerald-900/20 dark:to-teal-900/20">
+            <div className="text-center mb-6 sm:mb-8 md:mb-10">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-tr from-green-600 via-emerald-600 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-xl sm:shadow-2xl animate-float">
+                <FaUserGraduate className="text-white text-2xl sm:text-3xl md:text-4xl drop-shadow-lg" />
+              </div>
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-800 dark:text-white mb-3 sm:mb-4 md:mb-6 drop-shadow-lg">
+                🎉 Profile Completed Successfully!
+              </h2>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 dark:text-gray-300 font-medium max-w-3xl mx-auto px-4 sm:px-0">
+                Congratulations! Your profile is <strong className="text-green-600 dark:text-green-400">100% complete</strong>. 
+                {user?.subscriptionStatus === 'free' ? ' You have received your Basic Subscription reward!' : ' You already have a premium subscription!'}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Categories Section */}
       <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8">
@@ -1343,6 +1570,7 @@ const HomePage = () => {
           )}
         </div>
       </div>
+
       
       {/* System Update Modal */}
       <SystemUpdateModal 
@@ -1352,6 +1580,8 @@ const HomePage = () => {
           localStorage.setItem('hasSeenSystemUpdateModal', 'true');
         }}
       />
+
+        </div>
       </div>
     </MobileAppWrapper>
   );

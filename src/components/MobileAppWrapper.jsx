@@ -89,7 +89,7 @@ const MobileAppWrapper = ({ children, title, showHeader = true }) => {
           <div className="flex items-center justify-between px-2">
             {/* Logo on the left */}
             <Link 
-              to="/home"
+              to={user ? '/home' : '/'}
               className="flex items-center justify-center hover:opacity-80 transition-opacity duration-200"
             >
               <img 
