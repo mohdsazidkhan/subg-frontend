@@ -68,7 +68,13 @@ const ProfilePage = () => {
   const [editProfileData, setEditProfileData] = useState({
     name: '',
     email: '',
-    phone: ''
+    phone: '',
+    socialLinks: {
+      instagram: '',
+      facebook: '',
+      x: '',
+      youtube: ''
+    }
   });
   const [editProfileErrors, setEditProfileErrors] = useState({});
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
@@ -224,7 +230,13 @@ const ProfilePage = () => {
     setEditProfileData({
       name: student.name || '',
       email: student.email || '',
-      phone: student.phone || ''
+      phone: student.phone || '',
+      socialLinks: {
+        instagram: student.socialLinks?.instagram || '',
+        facebook: student.socialLinks?.facebook || '',
+        x: student.socialLinks?.x || '',
+        youtube: student.socialLinks?.youtube || ''
+      }
     });
     setEditProfileErrors({});
     setIsEditingProfile(true);
@@ -235,17 +247,36 @@ const ProfilePage = () => {
     setEditProfileData({
       name: '',
       email: '',
-      phone: ''
+      phone: '',
+      socialLinks: {
+        instagram: '',
+        facebook: '',
+        x: '',
+        youtube: ''
+      }
     });
     setEditProfileErrors({});
   };
 
   const handleEditProfileChange = (e) => {
     const { name, value } = e.target;
-    setEditProfileData({
-      ...editProfileData,
-      [name]: value
-    });
+    
+    // Handle social links separately
+    if (name.startsWith('socialLinks.')) {
+      const socialPlatform = name.split('.')[1];
+      setEditProfileData({
+        ...editProfileData,
+        socialLinks: {
+          ...editProfileData.socialLinks,
+          [socialPlatform]: value
+        }
+      });
+    } else {
+      setEditProfileData({
+        ...editProfileData,
+        [name]: value
+      });
+    }
     
     // Clear error for this field when user types
     if (editProfileErrors[name]) {
@@ -274,6 +305,17 @@ const ProfilePage = () => {
     } else if (!/^[0-9]{10}$/.test(editProfileData.phone.trim())) {
       errors.phone = 'Phone number must be exactly 10 digits';
     }
+    
+    // Validate social media URLs
+    const urlRegex = /^https?:\/\/.+/;
+    const socialPlatforms = ['instagram', 'facebook', 'x', 'youtube'];
+    
+    socialPlatforms.forEach(platform => {
+      const url = editProfileData.socialLinks[platform];
+      if (url && url.trim() && !urlRegex.test(url.trim())) {
+        errors[`socialLinks.${platform}`] = `Please enter a valid URL for ${platform}`;
+      }
+    });
     
     setEditProfileErrors(errors);
     return Object.keys(errors).length === 0;
@@ -348,61 +390,45 @@ const message =
 
   return (
   <MobileAppWrapper title="Profile">
-    <div className="min-h-screen bg-subg-light dark:bg-subg-dark relative overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-40 sm:w-80 h-40 sm:h-80 bg-gradient-to-br from-yellow-400/20 to-red-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-40 sm:w-80 h-40 sm:h-80 bg-gradient-to-tr from-indigo-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 sm:w-96 h-48 sm:h-96 bg-gradient-to-r from-green-400/10 to-yellow-400/10 rounded-full blur-3xl animate-pulse delay-500"></div>
-      </div>
-
-      <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8 mt-0 sm:mt-16 relative z-10">
-        
-        {/* Enhanced Hero Section */}
-        <div className="text-center mb-10 sm:mb-16 profile-hero">
-          <div className="relative inline-block mb-6 sm:mb-8">
-            <div className="w-16 lg:w-24 h-16 lg:h-24 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto shadow-2xl floating-animation">
-              <FaUser className="text-white text-2xl sm:text-4xl" />
-            </div>
-            <div className="absolute -top-2 -right-2 w-6 sm:w-8 h-6 sm:h-8 bg-gradient-to-r from-green-400 to-yellow-500 rounded-full flex items-center justify-center animate-bounce">
-              <FaCrown className="text-white text-xs sm:text-sm" />
-            </div>
+    <div className="container mx-auto min-h-screen bg-gray-100 dark:bg-gray-900">
+      <div>
+        {/* Profile Header */}
+        <div className="bg-white dark:bg-gray-800">
+          {/* Cover Photo Area */}
+          <div className="h-32 bg-gradient-to-r from-red-500 to-yellow-600 relative">
+            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white dark:from-gray-800 to-transparent"></div>
           </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-600 dark:text-gray-100 mb-4 sm:mb-6">
-            {student.name?.split(' ')[0]}'s Profile
-          </h1>
-          <p className="text-base sm:text-xl lg:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Track your progress, achievements, and level up your quiz journey
-          </p>
-        </div>
-
-        {/* Enhanced Profile Details Card */}
-        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 sm:p-8 border border-white/30 mb-10 sm:mb-16 hover-lift">
-          <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
-            <div className="w-14 sm:w-20 h-14 sm:h-20 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
-              <FaUser className="text-white text-xl sm:text-3xl" />
-            </div>
-            <div className='text-center sm:text-left flex-1'>
-              <h2 className="text-2xl sm:text-4xl font-bold text-gray-800 dark:text-white">
-                Profile Details
-              </h2>
-              <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg">
-                Your personal information and account status
-              </p>
-            </div>
-            {!isEditingProfile && (
+          
+          {/* Profile Info */}
+          <div className="px-2 lg:px-4 pb-2 lg:pb-4 relative">
+            {/* Profile Picture */}
+            <div className="flex items-end -mt-16 mb-4">
+              <div className="w-24 h-24 bg-white dark:bg-gray-800 rounded-full border-2 border-gray-400 dark:border-gray-600 shadow-lg flex items-center justify-center">
+                <FaUser className="text-gray-400 text-3xl" />
+              </div>
+              <div className="ml-4 flex-1">
+                <h1 className="text-xl font-bold text-gray-900 dark:text-white">{student.name}</h1>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Quiz Enthusiast</p>
+              </div>
               <button
                 onClick={handleEditProfile}
-                className="bg-gradient-to-r from-yellow-500 to-red-500 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-lg"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
               >
-                <FaEdit className="text-sm" />
-                <span>Edit Profile</span>
+                Edit Profile
               </button>
-            )}
+            </div>
+          </div>
+        </div>
+
+        {/* Facebook-style Profile Details */}
+        <div className="bg-white dark:bg-gray-800 mt-2 p-0 lg:p-4">
+          {/* About Section */}
+          <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">About</h2>
           </div>
           
           {/* Monthly System Info */}
-          <div className="mb-6 bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/30 dark:to-teal-900/30 rounded-2xl p-4 border border-green-200 dark:border-green-700">
+          <div className="m-2 lg:m-4 bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/30 dark:to-teal-900/30 rounded-2xl p-4 border border-green-200 dark:border-green-700">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-teal-500 rounded-xl flex items-center justify-center">
                 <span className="text-xl">🎯</span>
@@ -410,7 +436,7 @@ const message =
               <div>
                 <h4 className="text-lg font-semibold text-green-800 dark:text-green-300">Monthly Rewards System</h4>
                 <p className="text-sm text-green-600 dark:text-green-400">
-                  Compete monthly for rewards! Reach Level 10 with ≥75% accuracy to qualify for monthly prizes. 
+                  Compete monthly for rewards! Reach Level 10 and Minimum 110 Quizzes with ≥75% accuracy to qualify for monthly prizes. 
                   Your progress resets each month for fair competition.
                 </p>
               </div>
@@ -418,67 +444,115 @@ const message =
           </div>
 
           {/* Profile Information - Show either details or edit form */}
-          {!isEditingProfile ? (
+          {!isEditingProfile && (
             // Show Profile Details
-            <>
-              <div className="space-y-6 mb-6">
-                <div className="bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl p-3 lg:p-6 border border-yellow-200 dark:border-yellow-700">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-red-500 rounded-xl flex items-center justify-center">
-                      <FaUser className="text-white text-xl" />
-                    </div>
-                    <div>
-                      <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Full Name</span>
-                      <p className="text-md lg:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{student.name}</p>
-                    </div>
+            <div className="px-4 py-3 space-y-4">
+              {/* Contact Info */}
+              <div className="space-y-3">
+                <div className="flex items-center space-x-3">
+                  <FaEnvelope className="text-gray-400 text-lg" />
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Email</p>
+                    <p className="text-gray-900 dark:text-white font-medium">{student.email}</p>
                   </div>
                 </div>
                 
-                <div className="bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/30 dark:to-teal-900/30 rounded-2xl p-3 lg:p-6 border border-green-200 dark:border-green-700">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-500 rounded-xl flex items-center justify-center">
-                      <FaEnvelope className="text-white text-xl" />
-                    </div>
-                    <div>
-                      <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Email Address</span>
-                      <p className=" text-md lg:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{student.email}</p>
-                    </div>
+                <div className="flex items-center space-x-3">
+                  <FaPhone className="text-gray-400 text-lg" />
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Phone</p>
+                    <p className="text-gray-900 dark:text-white font-medium">{student.phone}</p>
                   </div>
+                </div>
+              </div>
+              {/* Subscription Status */}
+              <div className="flex items-center space-x-3">
+                <FaCrown className="text-yellow-500 text-lg" />
+                <div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Subscription</p>
+                  {(() => {
+                    const statusInfo = getSubscriptionStatusTextWithTheme(student.subscriptionStatus);
+                    return (
+                      <p className={`font-medium ${statusInfo.textColor}`}>
+                        {statusInfo.text}
+                      </p>
+                    );
+                  })()}
                 </div>
               </div>
 
-              <div className="space-y-6">
-                 <div className="bg-gradient-to-r from-red-50 to-yellow-50 dark:from-red-900/30 dark:to-yellow-900/30 rounded-2xl p-3 lg:p-6 border border-red-200 dark:border-red-700">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
-                      <FaPhone className="text-white text-xl" />
-                    </div>
-                    <div>
-                      <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Phone Number</span>
-                      <p className="text-md lg:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">{student.phone}</p>
-                    </div>
+              {/* Social Media Links */}
+              {(student.socialLinks?.instagram || student.socialLinks?.facebook || student.socialLinks?.x || student.socialLinks?.youtube) && (
+                <div className="space-y-3">
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Social Media</h3>
+                  <div className="space-y-2">
+                    {student.socialLinks?.instagram && (
+                      <a
+                        href={student.socialLinks.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                      >
+                        <span className="text-pink-500 text-lg">📷</span>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-gray-900 dark:text-white">Instagram</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{student.socialLinks.instagram}</p>
+                        </div>
+                      </a>
+                    )}
+                    
+                    {student.socialLinks?.facebook && (
+                      <a
+                        href={student.socialLinks.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                      >
+                        <span className="text-blue-600 text-lg">📘</span>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-gray-900 dark:text-white">Facebook</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{student.socialLinks.facebook}</p>
+                        </div>
+                      </a>
+                    )}
+                    
+                    {student.socialLinks?.x && (
+                      <a
+                        href={student.socialLinks.x}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                      >
+                        <span className="text-black dark:text-white text-lg">𝕏</span>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-gray-900 dark:text-white">X (Twitter)</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{student.socialLinks.x}</p>
+                        </div>
+                      </a>
+                    )}
+                    
+                    {student.socialLinks?.youtube && (
+                      <a
+                        href={student.socialLinks.youtube}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                      >
+                        <span className="text-red-600 text-lg">📺</span>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-gray-900 dark:text-white">YouTube</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{student.socialLinks.youtube}</p>
+                        </div>
+                      </a>
+                    )}
                   </div>
                 </div>
-                <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-2xl p-3 lg:p-6 border border-yellow-200 dark:border-yellow-700">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center">
-                      <FaCrown className="text-white text-xl" />
-                    </div>
-                    <div>
-                      <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Subscription Status</span>
-                      {(() => {
-                        const statusInfo = getSubscriptionStatusTextWithTheme(student.subscriptionStatus);
-                        return (
-                          <div className={`text-xl font-bold ${statusInfo.textColor}`}>
-                            {statusInfo.text}
-                            </div>
-                          );
-                      })()}
-                    </div>
-                  </div>
-              </div>
-                
-                {student.subscription?.isActive && (
+              )}
+            </div>
+          )}
+
+        {/* Subscription Details */}
+        {student.subscription?.isActive && (
                   <>
                     <div className="bg-gradient-to-r from-yellow-50 to-red-50 dark:from-yellow-900/30 dark:to-red-900/30 rounded-2xl p-3 lg:p-6 border border-yellow-200 dark:border-yellow-700">
                       <div className="flex items-center space-x-4">
@@ -500,7 +574,7 @@ const message =
                         </div>
                         <div>
                           <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Expires On</span>
-                          <p className="text-md sm:text-xl lg:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+                          <p className="text-md sm:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                             {new Date(student.subscription?.expiresAt).toLocaleDateString()}
                           </p>
                         </div>
@@ -508,128 +582,229 @@ const message =
                     </div>
                   </>
                 )}
-               
+        </div>
+
+        {/* Edit Profile Form */}
+        {isEditingProfile && (
+          <div className="bg-white dark:bg-gray-800 mt-4">
+            <div className="px-4 py-3">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Edit Profile</h3>
                 
-              </div>
-            </>
-          ) : (
-            // Show Edit Profile Form
-            <div className="space-y-6">
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-6 border border-blue-200 dark:border-blue-700">
-                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 flex items-center space-x-2">
-                  <FaEdit className="text-blue-500" />
-                  <span>Edit Profile Information</span>
-                </h3>
-                
-                <form onSubmit={handleUpdateProfile} className="space-y-4">
-                  {/* Name Field */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={editProfileData.name}
-                      onChange={handleEditProfileChange}
-                      className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300 ${
-                        editProfileErrors.name 
-                          ? 'border-red-500 focus:ring-red-500' 
-                          : 'border-gray-300 dark:border-gray-600'
-                      }`}
-                      placeholder="Enter your full name"
-                    />
-                    {editProfileErrors.name && (
-                      <p className="text-red-500 text-sm mt-1">{editProfileErrors.name}</p>
-                    )}
-                  </div>
+              <form onSubmit={handleUpdateProfile} className="space-y-4">
+                {/* Name Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={editProfileData.name}
+                    onChange={handleEditProfileChange}
+                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300 ${
+                      editProfileErrors.name 
+                        ? 'border-red-500 focus:ring-red-500' 
+                        : 'border-gray-300 dark:border-gray-600'
+                    }`}
+                    placeholder="Enter your full name"
+                  />
+                  {editProfileErrors.name && (
+                    <p className="text-red-500 text-xs mt-1">{editProfileErrors.name}</p>
+                  )}
+                </div>
 
-                  {/* Email Field */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={editProfileData.email}
-                      onChange={handleEditProfileChange}
-                      className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300 ${
-                        editProfileErrors.email 
-                          ? 'border-red-500 focus:ring-red-500' 
-                          : 'border-gray-300 dark:border-gray-600'
-                      }`}
-                      placeholder="Enter your email address"
-                    />
-                    {editProfileErrors.email && (
-                      <p className="text-red-500 text-sm mt-1">{editProfileErrors.email}</p>
-                    )}
-                  </div>
+                {/* Email Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={editProfileData.email}
+                    onChange={handleEditProfileChange}
+                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300 ${
+                      editProfileErrors.email 
+                        ? 'border-red-500 focus:ring-red-500' 
+                        : 'border-gray-300 dark:border-gray-600'
+                    }`}
+                    placeholder="Enter your email address"
+                  />
+                  {editProfileErrors.email && (
+                    <p className="text-red-500 text-xs mt-1">{editProfileErrors.email}</p>
+                  )}
+                </div>
 
-                  {/* Phone Field */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={editProfileData.phone}
-                      onChange={handleEditProfileChange}
-                      className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300 ${
-                        editProfileErrors.phone 
-                          ? 'border-red-500 focus:ring-red-500' 
-                          : 'border-gray-300 dark:border-gray-600'
-                      }`}
-                      placeholder="Enter your phone number (10 digits)"
-                    />
-                    {editProfileErrors.phone && (
-                      <p className="text-red-500 text-sm mt-1">{editProfileErrors.phone}</p>
-                    )}
-                  </div>
+                {/* Phone Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={editProfileData.phone}
+                    onChange={handleEditProfileChange}
+                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300 ${
+                      editProfileErrors.phone 
+                        ? 'border-red-500 focus:ring-red-500' 
+                        : 'border-gray-300 dark:border-gray-600'
+                    }`}
+                    placeholder="Enter your phone number (10 digits)"
+                  />
+                  {editProfileErrors.phone && (
+                    <p className="text-red-500 text-xs mt-1">{editProfileErrors.phone}</p>
+                  )}
+                </div>
 
-                  {/* Action Buttons */}
-                  <div className="flex space-x-4 pt-4">
-                    <button
-                      type="submit"
-                      disabled={isUpdatingProfile}
-                      className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
-                    >
-                      {isUpdatingProfile ? (
-                        <>
-                          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white"></div>
-                          <span>Updating...</span>
-                        </>
-                      ) : (
-                        <>
-                          <FaSave />
-                          <span>Update Profile</span>
-                        </>
+                {/* Social Media Links Section */}
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Social Media Links (Optional)</h4>
+                  <div className="space-y-3">
+                    {/* Instagram */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        <span className="flex items-center space-x-2">
+                          <span className="text-pink-500">📷</span>
+                          <span>Instagram</span>
+                        </span>
+                      </label>
+                      <input
+                        type="url"
+                        name="socialLinks.instagram"
+                        value={editProfileData.socialLinks.instagram}
+                        onChange={handleEditProfileChange}
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300 ${
+                          editProfileErrors['socialLinks.instagram'] 
+                            ? 'border-red-500 focus:ring-red-500' 
+                            : 'border-gray-300 dark:border-gray-600'
+                        }`}
+                        placeholder="https://instagram.com/yourusername"
+                      />
+                      {editProfileErrors['socialLinks.instagram'] && (
+                        <p className="text-red-500 text-xs mt-1">{editProfileErrors['socialLinks.instagram']}</p>
                       )}
-                    </button>
-                    
-                    <button
-                      type="button"
-                      onClick={handleCancelEdit}
-                      disabled={isUpdatingProfile}
-                      className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
-                    >
-                      <span>Cancel</span>
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          )}
+                    </div>
 
-            <div className="mt-6 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 rounded-2xl p-3 lg:p-6 border border-emerald-200 dark:border-emerald-700">
+                    {/* Facebook */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        <span className="flex items-center space-x-2">
+                          <span className="text-blue-600">📘</span>
+                          <span>Facebook</span>
+                        </span>
+                      </label>
+                      <input
+                        type="url"
+                        name="socialLinks.facebook"
+                        value={editProfileData.socialLinks.facebook}
+                        onChange={handleEditProfileChange}
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300 ${
+                          editProfileErrors['socialLinks.facebook'] 
+                            ? 'border-red-500 focus:ring-red-500' 
+                            : 'border-gray-300 dark:border-gray-600'
+                        }`}
+                        placeholder="https://facebook.com/yourusername"
+                      />
+                      {editProfileErrors['socialLinks.facebook'] && (
+                        <p className="text-red-500 text-xs mt-1">{editProfileErrors['socialLinks.facebook']}</p>
+                      )}
+                    </div>
+
+                    {/* X (Twitter) */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        <span className="flex items-center space-x-2">
+                          <span className="text-black dark:text-white">𝕏</span>
+                          <span>X (Twitter)</span>
+                        </span>
+                      </label>
+                      <input
+                        type="url"
+                        name="socialLinks.x"
+                        value={editProfileData.socialLinks.x}
+                        onChange={handleEditProfileChange}
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300 ${
+                          editProfileErrors['socialLinks.x'] 
+                            ? 'border-red-500 focus:ring-red-500' 
+                            : 'border-gray-300 dark:border-gray-600'
+                        }`}
+                        placeholder="https://x.com/yourusername"
+                      />
+                      {editProfileErrors['socialLinks.x'] && (
+                        <p className="text-red-500 text-xs mt-1">{editProfileErrors['socialLinks.x']}</p>
+                      )}
+                    </div>
+
+                    {/* YouTube */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        <span className="flex items-center space-x-2">
+                          <span className="text-red-600">📺</span>
+                          <span>YouTube</span>
+                        </span>
+                      </label>
+                      <input
+                        type="url"
+                        name="socialLinks.youtube"
+                        value={editProfileData.socialLinks.youtube}
+                        onChange={handleEditProfileChange}
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300 ${
+                          editProfileErrors['socialLinks.youtube'] 
+                            ? 'border-red-500 focus:ring-red-500' 
+                            : 'border-gray-300 dark:border-gray-600'
+                        }`}
+                        placeholder="https://youtube.com/@yourusername"
+                      />
+                      {editProfileErrors['socialLinks.youtube'] && (
+                        <p className="text-red-500 text-xs mt-1">{editProfileErrors['socialLinks.youtube']}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex space-x-3 pt-4">
+                  <button
+                    type="submit"
+                    disabled={isUpdatingProfile}
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                  >
+                    {isUpdatingProfile ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                        <span>Updating...</span>
+                      </>
+                    ) : (
+                      <>
+                        <FaSave className="text-sm" />
+                        <span>Save Changes</span>
+                      </>
+                    )}
+                  </button>
+                  
+                  <button
+                    type="button"
+                    onClick={handleCancelEdit}
+                    disabled={isUpdatingProfile}
+                    className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+            <div className="m-2 lg:m-4 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 rounded-2xl p-3 lg:p-6 border border-emerald-200 dark:border-emerald-700">
                 <div className="flex items-center space-x-4">
                   <div className="min-h-12 min-w-12 w-12 h-12 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl flex items-center justify-center">
                     <FaAward className="text-white text-xl" />
                   </div>
                   <div>
                     <span className="text-gray-600 dark:text-gray-300 text-sm font-medium">Achievement Badges</span>
-                    <p className="text-md lg:text-xl xl:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+                    <p className="text-md lg:text-xl xl:text-2xl font-bold text-gray-800 dark:text-white">
                       {student.badges && student.badges.length > 0
                         ? student.badges.join(', ')
                         : 'No badges yet'}
@@ -639,7 +814,31 @@ const message =
               </div>
 
         </div>
-        <div className="my-6 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-gray-900 dark:to-gray-900 rounded-2xl p-3 lg:p-6 border border-emerald-200 dark:border-emerald-700">
+
+        {/* Facebook-style Stats Section */}
+        <div className="bg-white dark:bg-gray-800 mt-4">
+          <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Quiz Stats</h2>
+          </div>
+          <div className="px-4 py-3">
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div>
+                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{quizzesPlayed}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Quizzes Played</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-green-600 dark:text-green-400">{highScoreQuizzes}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">High Scores</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{highScoreRate}%</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Success Rate</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="m-2 lg:m-4 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-gray-900 dark:to-gray-900 rounded-2xl p-3 lg:p-6 border border-emerald-200 dark:border-emerald-700">
   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
     {/* Reward Center Referral Section */}
     <div className="lg:col-span-2">
@@ -787,7 +986,7 @@ const message =
 
         {/* Bank Details Card - Only shown for eligible users (level 10 or pro subscription) */}
         {isEligibleForBankDetails(student) && (
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 lg:p-8 border border-white/30 my-6 hover-lift">
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 lg:p-8 border border-white/30 m-2 lg:m-4 hover-lift">
             <div className="flex items-center space-x-4 mb-8">
               <div className="w-12 lg:w-20 h-12 lg:h-20 bg-gradient-to-r from-teal-500 via-yellow-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
                 <FaUniversity className="text-white text-3xl" />
@@ -804,14 +1003,14 @@ const message =
 
             {/* Success Message */}
             {bankDetailsSaved && (
-              <div className="mb-6 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded-xl p-4 text-green-700 dark:text-green-300 flex items-center">
+              <div className="m-2 lg:m-4 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded-xl p-4 text-green-700 dark:text-green-300 flex items-center">
                 <FaCheckCircle className="mr-2" /> Bank details saved successfully!
               </div>
             )}
 
             {/* Bank Details Display */}
             {bankDetails && !showBankForm ? (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 m-2 lg:m-4">
                 
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-3 lg:p-6 border border-blue-200 dark:border-blue-700 hover-scale">
                   <div className="flex items-center space-x-4">
@@ -1044,7 +1243,7 @@ const message =
         )}
 
         {/* Enhanced Level Progression Card */}
-        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 lg:p-8 border border-white/30 mb-16 hover-lift">
+        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 lg:p-8 border border-white/30 m-2 lg:m-4 hover-lift">
           <div className="flex items-center space-x-4 mb-8">
             <div className="w-12 lg:w-20 h-12 lg:h-20 bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
               <FaTrophy className="text-white text-3xl" />
@@ -1118,7 +1317,7 @@ const message =
           
 
           {/* Enhanced Progress Bar */}
-          <div className="mb-8">
+          <div className="m-2 lg:m-4">
             <div className="flex justify-between items-center mb-4">
               <span className="text-gray-700 dark:text-gray-300 font-bold text-lg">Progress to Next Level</span>
               <span className="text-gray-600 dark:text-gray-400 font-semibold text-lg">
@@ -1177,7 +1376,7 @@ const message =
 
           {/* Enhanced Next Level Info */}
           {nextLevel ? (
-            <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-3xl p-2 lg:p-8 border border-yellow-200 dark:border-yellow-700 hover-scale">
+            <div className="m-2 lg:m-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-3xl p-2 lg:p-8 border border-yellow-200 dark:border-yellow-700">
               <div className="flex items-center space-x-4 mb-4">
                 <div className="w-12 lg:w-16 h-12 lg:h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center">
                   {(() => {
@@ -1229,7 +1428,7 @@ const message =
           </div>
 
           {/* Rewards Section */}
-          <div className="my-8">
+          <div className="m-2 lg:m-4">
             {/* Quiz Progress */}
             {rewardsData?.quizProgress && (
               <div className="mt-4 sm:mt-6">
@@ -1422,7 +1621,7 @@ const message =
             </div>
           </div>
           {/* Enhanced Quiz History Card */}
-        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 lg:p-8 border border-white/30 mt-2 lg:mt-6">
+        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 lg:p-8 border border-white/30 m-2 lg:m-4">
           <div className="flex items-center space-x-4 mb-8">
             <div className="w-12 lg:w-20 h-12 lg:h-20 bg-gradient-to-r from-red-500 via-yellow-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
               <FaBrain className="text-white text-3xl" />
@@ -1500,12 +1699,11 @@ const message =
               </div>
             )}
           </div>
-           {/* Payment Transactions Section */}
-        <div className="mt-8">
+        {/* Payment Transactions Section */}
+        <div className="m-2 lg:m-4 pb-6">
           <PaymentTransactions />
         </div>
-        </div>
-        </div>
+      </div>
     </MobileAppWrapper>
   );
 }
