@@ -34,7 +34,8 @@ import {
   FaFacebookF,
   FaTwitter,
   FaInstagram,
-  FaYoutube
+  FaYoutube,
+  FaPencilAlt
 } from 'react-icons/fa';
 import { getSubscriptionStatusTextWithTheme } from '../utils/subscriptionUtils';
 import ShareComponent from '../components/ShareComponent';
@@ -435,7 +436,7 @@ const message =
         {/* Profile Header */}
         <div className="bg-white dark:bg-gray-800">
           {/* Cover Photo Area */}
-          <div className="h-32 bg-gradient-to-r from-red-500 to-yellow-600 relative">
+          <div className="h-20 lg:h-32 bg-gradient-to-r from-red-500 to-yellow-600 relative">
             <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white dark:from-gray-800 to-transparent"></div>
           </div>
           
@@ -443,18 +444,18 @@ const message =
           <div className="px-2 lg:px-4 pb-2 lg:pb-4 relative">
             {/* Profile Picture */}
             <div className="flex items-end -mt-16 mb-4">
-              <div className="w-24 h-24 bg-white dark:bg-gray-800 rounded-full border-2 border-gray-400 dark:border-gray-600 shadow-lg flex items-center justify-center">
-                <FaUser className="text-gray-400 text-3xl" />
+              <div className="w-20 lg:w-24 h-20 lg:h-24 text-2xl font-bold bg-white dark:bg-gray-800 rounded-full border-2 border-gray-400 dark:border-gray-600 shadow-lg flex items-center justify-center">
+              {student.name?.charAt(0)}
               </div>
               <div className="ml-4 flex-1">
                 <h1 className="text-xl font-bold text-gray-900 dark:text-white">{student.name}</h1>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Quiz Enthusiast</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400"><strong>{student.levelInfo?.currentLevel?.name}</strong></p>
               </div>
               <button
                 onClick={handleEditProfile}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                className="bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
               >
-                Edit Profile
+                <div className='flex justify-between items-center gap-2'><span><FaPencilAlt /></span> <span>Edit</span></div>
               </button>
             </div>
           </div>
@@ -610,7 +611,7 @@ const message =
 
         {/* Edit Profile Form */}
         {isEditingProfile && (
-          <div className="bg-white dark:bg-gray-800 mt-4">
+          <div className="bg-white dark:bg-gray-800 mt-2 lg:mt-4">
             <div className="px-4 py-3">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Edit Profile</h3>
                 
@@ -792,7 +793,7 @@ const message =
                   <button
                     type="submit"
                     disabled={isUpdatingProfile}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                    className="flex-1 bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white py-2 px-4 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                   >
                     {isUpdatingProfile ? (
                       <>
@@ -811,7 +812,7 @@ const message =
                     type="button"
                     onClick={handleCancelEdit}
                     disabled={isUpdatingProfile}
-                    className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Cancel
                   </button>
@@ -840,7 +841,7 @@ const message =
         </div>
 
         {/* Facebook-style Stats Section */}
-        <div className="bg-white dark:bg-gray-800 mt-4">
+        <div className="bg-white dark:bg-gray-800 pt-2 lg:mt-4">
           <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Quiz Stats</h2>
           </div>
@@ -962,11 +963,11 @@ const message =
             </h4>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
-              <div className="bg-gradient-to-r from-yellow-300 to-orange-400 text-yellow-900 dark:text-yellow-900 font-mono font-bold px-6 py-3 rounded-xl tracking-widest border-2 border-yellow-200 dark:border-yellow-300 shadow-lg text-lg lg:text-xl select-all">
+              <div className="bg-gradient-to-r from-yellow-300 to-orange-400 text-gray-900 dark:text-gray-900 font-mono font-bold px-6 py-3 rounded-xl tracking-widest border-2 border-yellow-200 dark:border-yellow-300 shadow-lg text-lg lg:text-xl select-all">
                 {student.referralCode}
               </div>
               <button
-                className="px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2"
+                className="px-6 py-3 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-600 hover:to-orange-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2"
                 onClick={() => {
                   navigator.clipboard.writeText(student.referralCode);
                 }}
@@ -1247,7 +1248,7 @@ const message =
               <div className="text-center">
                 <button
                   onClick={() => setShowBankForm(true)}
-                  className="px-6 py-3 bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white rounded-xl font-semibold transition-all duration-300 flex items-center space-x-2 mx-auto"
+                  className="px-4 py-2 bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white rounded-xl font-semibold transition-all duration-300 flex items-center space-x-2 mx-auto"
                 >
                   {bankDetails ? (
                     <>
