@@ -6,7 +6,16 @@ import {
   FaTrophy,
   FaUser,
   FaCreditCard,
-  FaCalendarAlt
+  FaCalendarAlt,
+  FaLayerGroup,
+  FaStickyNote,
+  FaLockOpen,
+  FaNetworkWired,
+  FaSearchPlus,
+  FaPeopleCarry,
+  FaPeopleArrows,
+  FaPersonBooth,
+  FaUserLock
 } from 'react-icons/fa';
 import { BsPersonCircle } from 'react-icons/bs';
 import { MdDashboard } from 'react-icons/md';
@@ -27,9 +36,10 @@ const MobileBottomNavigation = () => {
 
   const studentNavItems = [
     { path: '/home', icon: FaHome, label: 'Home' },
-    { path: '/search', icon: FaSearch, label: 'Search' },
+    { path: '/subscription', icon: hasActiveSubscription() ? FaCalendarAlt : FaCreditCard, label: 'Plans' },
     { path: '/rewards', icon: FaTrophy, label: 'Rewards' },
-    { path: '/subscription', icon: hasActiveSubscription() ? FaCalendarAlt : FaCreditCard, label: 'Subscription' },
+    { path: '/levels', icon: FaLayerGroup, label: 'Levels' },
+    { path: '/search', icon: FaSearch, label: 'Search' },
     { path: '/profile', icon: BsPersonCircle, label: 'Profile' },
   ];
 
@@ -44,10 +54,11 @@ const MobileBottomNavigation = () => {
   // Landing page navigation items (for non-logged in users)
   const landingNavItems = [
     { path: '/', icon: FaHome, label: 'Home' },
-    { path: '/how-it-works', icon: FaSearch, label: 'How It Works' },
+    { path: '/how-it-works', icon: FaSearchPlus, label: 'How it Works' },
     { path: '/about', icon: FaTrophy, label: 'About' },
     { path: '/contact', icon: FaUser, label: 'Contact' },
-    { path: '/login', icon: BsPersonCircle, label: 'Login' },
+    { path: '/register', icon: BsPersonCircle, label: 'Register' },
+    { path: '/login', icon: FaUserLock, label: 'Login' },
   ];
 
   const navItems = user ? (isAdmin() ? adminNavItems : studentNavItems) : landingNavItems;
@@ -64,7 +75,7 @@ const MobileBottomNavigation = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex flex-col items-center justify-center py-2 px-3 transition-all duration-200 ${
+                className={`flex flex-col items-center justify-center py-1 px-2 transition-all duration-200 ${
                   isActive
                     ? 'bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 dark:from-yellow-500 dark:to-red-500 dark:hover:from-yellow-600 dark:hover:to-red-600 text-white dark:text-white transition-all duration-300 font-semibold transform hover:scale-105 shadow-lg hover:shadow-xl dark:shadow-yellow-500/25 hover:dark:shadow-yellow-500/40'
                     : 'text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400'
