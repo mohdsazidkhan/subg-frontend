@@ -3,7 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 import {
   FaUsers,
   FaBook,
-  FaQuestionCircle
+  FaQuestionCircle,
+  FaMoneyBill,
+  FaCalendarAlt
 } from 'react-icons/fa';
 import { MdDashboard, MdAnalytics, MdQuestionAnswer } from 'react-icons/md';
 import { getCurrentUser } from '../utils/authUtils';
@@ -44,9 +46,15 @@ const AdminMobileBottomNavigation = () => {
       color: 'from-yellow-500 to-yellow-600'
     },
     { 
-      path: '/admin/quizzes', 
-      icon: FaQuestionCircle, 
-      label: 'Quizzes',
+      path: '/admin/subscriptions', 
+      icon: FaCalendarAlt, 
+      label: 'Plans',
+      color: 'from-yellow-500 to-yellow-600'
+    },
+    { 
+      path: '/admin/payment-transactions', 
+      icon: FaMoneyBill, 
+      label: 'Payments',
       color: 'from-red-500 to-red-600'
     }
   ];
@@ -64,7 +72,7 @@ const AdminMobileBottomNavigation = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex flex-col items-center justify-center w-20 h-12 transition-all duration-300 transform hover:scale-110 ${
+                className={`flex flex-col items-center justify-center w-20 h-12 transition-all duration-300 ${
                   isActive
                     ? 'bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 dark:from-yellow-500 dark:to-red-500 dark:hover:from-yellow-600 dark:hover:to-red-600 text-white dark:text-white transition-all duration-300 font-semibold shadow-lg hover:shadow-xl dark:shadow-yellow-500/25 hover:dark:shadow-yellow-500/40'
                     : 'text-gray-400 hover:text-white hover:bg-gray-700'

@@ -15,7 +15,8 @@ import {
   FaPeopleCarry,
   FaPeopleArrows,
   FaPersonBooth,
-  FaUserLock
+  FaUserLock,
+  FaMoneyBill
 } from 'react-icons/fa';
 import { BsPersonCircle } from 'react-icons/bs';
 import { MdDashboard } from 'react-icons/md';
@@ -45,6 +46,7 @@ const MobileBottomNavigation = () => {
 
   const adminNavItems = [
     { path: '/admin/dashboard', icon: MdDashboard, label: 'Dashboard' },
+    { path: '/admin/payment-transactions', icon: FaMoneyBill, label: 'Payments' },
     { path: '/admin/students', icon: FaUser, label: 'Students' },
     { path: '/admin/categories', icon: FaSearch, label: 'Categories' },
     { path: '/admin/quizzes', icon: FaTrophy, label: 'Quizzes' },
