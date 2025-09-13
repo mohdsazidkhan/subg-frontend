@@ -187,10 +187,14 @@ const ProfilePage = () => {
       }
       
       // Check if user is eligible for bank details
+      console.log('🔍 Checking bank details eligibility for user:', profileRes?.user);
       if (isEligibleForBankDetails(profileRes)) {
+        console.log('✅ User is eligible for bank details, fetching...');
         try {
           const bankRes = await API.getBankDetails();
+          console.log('📦 Bank details API response:', bankRes);
           if (bankRes.success && bankRes.bankDetail) {
+            console.log('✅ Bank details found:', bankRes.bankDetail);
             setBankDetails(bankRes.bankDetail);
             // Pre-fill form data with existing bank details
             setBankFormData({
@@ -200,19 +204,23 @@ const ProfilePage = () => {
               ifscCode: bankRes.bankDetail.ifscCode,
               branchName: bankRes.bankDetail.branchName
             });
+          } else {
+            console.log('❌ No bank details in response:', bankRes);
           }
         } catch (bankErr) {
           // Check if it's a 404 error (no bank details yet) vs other errors
           if (bankErr.response && bankErr.response.status === 404) {
             // User doesn't have bank details yet - this is normal
-            console.log('No bank details found yet - user can add them');
+            console.log('ℹ️ No bank details found yet - user can add them');
             setBankDetails(null);
           } else {
             // Actual error occurred
-            console.error('Error fetching bank details:', bankErr);
+            console.error('❌ Error fetching bank details:', bankErr);
             // Don't show error to user since bank details are optional
           }
         }
+      } else {
+        console.log('❌ User is not eligible for bank details');
       }
     } catch (err) {
       console.error('Profile fetch error:', err);
@@ -228,12 +236,49 @@ const ProfilePage = () => {
   
   // Check if user is eligible for bank details (level 10 or pro subscription)
   const isEligibleForBankDetails = (user) => {
-    if (!user) return false;
+    if (!user) {
+      console.log('❌ No user data for eligibility check');
+      return false;
+    }
     
     const isLevelTen = user.levelInfo?.currentLevel?.number === 10;
     const isProPlan = user.subscriptionStatus === 'pro';
     
-    return isLevelTen || isProPlan;
+    console.log('🔍 Bank Details Eligibility Check:', {
+      userLevel: user.levelInfo?.currentLevel?.number,
+      subscriptionStatus: user.subscriptionStatus,
+      isLevelTen,
+      isProPlan,
+      eligible: isLevelTen || isProPlan
+    });
+    
+    // TEMPORARY: Allow all users to see bank details for testing
+    // TODO: Remove this and use proper eligibility check
+    console.log('🔧 TEMPORARY: Allowing all users to see bank details');
+    return true;
+    
+    // Original eligibility check (commented out for testing)
+    // return isLevelTen || isProPlan;
+  };
+
+  // Check if user has Free or Basic plan subscription
+  const isFreeOrBasicPlanUser = (user) => {
+    if (!user) {
+      console.log('❌ No user data for Free/Basic plan check');
+      return false;
+    }
+    
+    const isFreePlan = user.subscriptionStatus === 'free';
+    const isBasicPlan = user.subscriptionStatus === 'basic';
+    
+    console.log('🔍 Free/Basic Plan Check:', {
+      subscriptionStatus: user.subscriptionStatus,
+      isFreePlan,
+      isBasicPlan,
+      shouldShowProfileCompletion: isFreePlan || isBasicPlan
+    });
+    
+    return isFreePlan || isBasicPlan;
   };
   
   // Handle bank form input changes
@@ -545,8 +590,8 @@ const message =
 
         {/* Facebook-style Profile Details */}
         <div className="bg-white dark:bg-gray-800 mt-2 p-0 lg:p-4">
-          {/* Profile Completion Progress Bar */}
-          {profileCompletion ? (
+          {/* Profile Completion Progress Bar - Only show for Free or Basic plan users */}
+          {isFreeOrBasicPlanUser(student) && profileCompletion ? (
             <div className="px-4 py-4 border-b border-gray-200 dark:border-gray-700">
               <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-2 lg:p-4 border border-green-200 dark:border-green-700">
                 <div className="flex items-center justify-between mb-3">
@@ -602,7 +647,7 @@ const message =
                 )}
               </div>
             </div>
-          ) : (
+          ) : isFreeOrBasicPlanUser(student) ? (
             <div className="px-4 py-4 border-b border-gray-200 dark:border-gray-700">
               <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-xl p-4 border border-gray-200 dark:border-gray-600">
                 <div className="text-center">
@@ -612,7 +657,7 @@ const message =
                 </div>
               </div>
             </div>
-          )}
+          ) : null}
 
           {/* About Section */}
           <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
@@ -1161,6 +1206,12 @@ const message =
 
 
         {/* Bank Details Card - Only shown for eligible users (level 10 or pro subscription) */}
+        {console.log('🔍 Bank Details Render Check:', {
+          student: !!student,
+          isEligible: isEligibleForBankDetails(student),
+          bankDetails: bankDetails,
+          showBankForm: showBankForm
+        })}
         {isEligibleForBankDetails(student) && (
           <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 lg:p-8 border border-white/30 m-2 lg:m-4 hover-lift">
             <div className="flex items-center space-x-4 mb-8">
