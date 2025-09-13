@@ -37,12 +37,6 @@ const fallbackLevels = [
 ];
 
 
-const getUserLevel = (highScoreQuizzes, levels) => {
-  for (let i = levels.length - 1; i >= 0; i--) {
-    if (highScoreQuizzes >= levels[i].quizzesRequired) return levels[i];
-  }
-  return levels[0];
-};
 
 const LevelsPage = () => {
   const navigate = useNavigate();
@@ -61,7 +55,7 @@ const LevelsPage = () => {
           API.getAllLevels()
         ]);
         profileRes = profileResult;
-        setUserLevelData(profileRes);
+        setUserLevelData(profileRes?.user);
         if (levelsRes.success) {
           setLevels(levelsRes.data);
         } else {
@@ -89,7 +83,9 @@ const LevelsPage = () => {
   }, []);
 
   const highScoreQuizzes = userLevelData?.monthlyProgress?.highScoreWins || 0;
-  const userLevel = getUserLevel(highScoreQuizzes, levels);
+  const totalQuizAttempts = userLevelData?.monthlyProgress?.totalQuizAttempts || 0;
+  // Use the levelInfo from API response instead of calculating from highScoreQuizzes
+  const userLevel = userLevelData?.levelInfo?.currentLevel || { number: 0, name: 'Starter' };
 
   if (loading) {
     return (
@@ -261,7 +257,7 @@ const LevelsPage = () => {
                   {userLevel.name}
                 </div>
                 <div className="text-gray-600 dark:text-gray-300">
-                  Level {userLevel.level}
+                  Level {userLevel.number}
                 </div>
                 <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                   {userLevel.description}
@@ -270,7 +266,7 @@ const LevelsPage = () => {
             </div>
             <div className="text-center">
               <div className="text-xl lg:text-2xl font-bold text-yellow-600 dark:text-yellow-400 mb-2">
-                {highScoreQuizzes} / {userLevelData?.levelInfo?.progress?.quizzesToNextLevel} Quizzes
+                {highScoreQuizzes} / {totalQuizAttempts || 0} Quizzes
               </div>
               <div className="text-gray-600 dark:text-gray-300">
                 High-score quizzes completed (75%+ score)
@@ -282,7 +278,7 @@ const LevelsPage = () => {
         {/* Levels Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
           {levels.map((lvl) => {
-            const isCurrentLevel = lvl.level === userLevel.level;
+            const isCurrentLevel = lvl.level === userLevel.number;
             const isUnlocked = highScoreQuizzes >= lvl.quizzesRequired;
             const cardBg = `bg-gradient-to-br 
   from-yellow-50 to-red-50
