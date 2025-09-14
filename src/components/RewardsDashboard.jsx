@@ -24,13 +24,13 @@ const RewardsDashboard = () => {
       }
       
       setRewards({
-        claimableRewards: profile?.claimableRewards || 0,
+        claimableRewards: profile?.user?.claimableRewards || 0,
         quizProgress: {
-          current: profile?.monthlyProgress?.highScoreWins || 0,
+          current: profile?.user?.monthlyProgress?.highScoreWins || 0,
           required: 110,
-          percentage: Math.min(100, Math.round(((profile?.monthlyProgress?.highScoreWins || 0) / 110) * 100))
+          percentage: Math.min(100, Math.round(((profile?.user?.monthlyProgress?.highScoreWins || 0) / 110) * 100))
         },
-        canUnlock: Boolean(profile?.monthlyProgress?.rewardEligible),
+        canUnlock: Boolean(profile?.user?.monthlyProgress?.rewardEligible),
         unlocked: [],
         claimed: []
       });
