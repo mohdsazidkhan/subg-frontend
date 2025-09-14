@@ -1548,7 +1548,7 @@ const message =
             <div className="flex justify-between items-center mb-4">
               <span className="text-gray-700 dark:text-gray-300 font-bold text-lg">Progress to Next Level</span>
               <span className="text-gray-600 dark:text-gray-400 font-semibold text-lg">
-                {nextLevel ? Math.round((highScoreQuizzes / nextLevel.quizzesRequired) * 100) : 100}%
+                {nextLevel ? Math.round((highScoreQuizzes / nextLevel.quizzesRequired) * 100) > 100 ? 100 : Math.round((highScoreQuizzes / nextLevel.quizzesRequired) * 100) : 100}%
               </span>
             </div>
             
