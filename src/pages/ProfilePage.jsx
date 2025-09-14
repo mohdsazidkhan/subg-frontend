@@ -1667,7 +1667,7 @@ const message =
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Quiz Progress: {rewardsData.quizProgress?.current || 0} / {rewardsData.quizProgress?.required || 1024}
+                        Quiz Progress: {rewardsData.quizProgress?.current || 0} / {rewardsData.quizProgress?.required || 110}
                       </span>
                       <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
                         {Math.round(rewardsData.quizProgress?.percentage || 0)}%
@@ -1693,7 +1693,7 @@ const message =
                     </div>
                     <div className="text-center p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-xl border border-blue-200 dark:border-blue-600">
                       <div className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
-                        {rewardsData.quizProgress?.required - (rewardsData.quizProgress?.current || 0)}
+                        {rewardsData.quizProgress?.current > rewardsData.quizProgress?.required ? 0 :rewardsData.quizProgress?.required - (rewardsData.quizProgress?.current || 0)}
                       </div>
                       <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Remaining</div>
                     </div>

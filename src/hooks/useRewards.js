@@ -25,12 +25,12 @@ export const useRewards = () => {
       const shaped = {
         claimableRewards: response?.claimableRewards || 0,
         quizProgress: {
-          current: response?.monthlyProgress?.highScoreWins || 0,
+          current: response?.user?.monthlyProgress?.highScoreWins || 0,
           required: 110,
-          percentage: Math.min(100, Math.round(((response?.monthlyProgress?.highScoreWins || 0) / 110) * 100))
+          percentage: Math.min(100, Math.round(((response?.user?.monthlyProgress?.highScoreWins || 0) / 110) * 100))
         },
-        canUnlock: Boolean(response?.monthlyProgress?.rewardEligible),
-        monthlyRank: response?.monthlyProgress?.rewardRank || 0,
+        canUnlock: Boolean(response?.user?.monthlyProgress?.rewardEligible),
+        monthlyRank: response?.user?.monthlyProgress?.rewardRank || 0,
         // legacy arrays removed
         locked: [],
         unlocked: [],
