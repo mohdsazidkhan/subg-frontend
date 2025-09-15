@@ -174,7 +174,7 @@ const ContactUs = () => {
                   Our support team is available 24/7 to assist you with any
                   questions or issues.
                 </p>
-                <button className="bg-gradient-to-r from-green-500 to-yellow-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-600 hover:to-yellow-600 transition-all duration-300 transform hover:scale-105">
+                <button className="bg-gradient-to-r from-green-500 to-yellow-500 text-white px-3 lg:px-6 py-2 lg:py-3 rounded-xl font-semibold hover:from-green-600 hover:to-yellow-600 transition-all duration-300 transform hover:scale-105">
                   Live Chat Support
                 </button>
               </div>
@@ -266,13 +266,13 @@ const ContactUs = () => {
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-yellow-500 to-red-500 text-white py-3 px-6 rounded-xl font-semibold hover:from-yellow-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
+                className="w-full bg-gradient-to-r from-yellow-500 to-red-500 text-white py-2 lg:py-3 px-4 lg:px-6 rounded-xl font-semibold hover:from-yellow-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
               >
                 <FaPaperPlane className="text-sm" />
                 <span>Send Message</span>
               </button>
             </form>
-            <div className="mt-8 flex flex-wrap justify-center items-center gap-4">
+            <div className="mt-8 flex flex-wrap justify-center items-center gap-2 lg:gap-4">
               {socialLinks.map((item, index) => (
                 <a
                   key={index}
@@ -280,7 +280,7 @@ const ContactUs = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   title={new URL(item.url).hostname}
-                  className="w-11 h-11 rounded-full text-white flex items-center justify-center text-xl 
+                  className="w-8 lg:w-11 h-8 lg:h-11 rounded-full text-white flex items-center justify-center text-xl 
            shadow-lg transition-all duration-300 transform hover:scale-110 hover:rotate-3
            bg-gradient-to-bl from-yellow-500 to-red-500 
            dark:from-gray-700 dark:to-gray-900 hover:shadow-2xl"
