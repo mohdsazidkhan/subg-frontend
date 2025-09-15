@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
-import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaTrophy, FaBrain, FaRocket, FaSignInAlt, FaGoogle } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaTrophy, FaBrain, FaRocket, FaSignInAlt } from 'react-icons/fa';
 import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const LoginPage = () => {
@@ -107,13 +107,13 @@ const LoginPage = () => {
 
   return (
     <MobileAppWrapper title="Login">
-      <div className="bg-subg-light dark:bg-subg-dark flex items-center justify-center p-2 md:p-4">
+      <div className="bg-subg-light dark:bg-subg-dark flex items-center justify-center">
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         
         {/* Left Side - Quiz Platform Info */}
         <div className="hidden lg:block space-y-8">
           <div className="text-center lg:text-left">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gray-800 dark:text-gray-100">
+            <h1 className="text-xl md:text-2xl lg:text-5xl font-bold mb-4 text-gray-800 dark:text-gray-100">
               Welcome Back! 🎯
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
@@ -122,7 +122,7 @@ const LoginPage = () => {
           </div>
 
           {/* Feature Cards */}
-          <div className="space-y-6">
+          <div className="space-y-2 lg:space-y-6">
             <div className="flex items-center space-x-4 p-6 bg-white/80 dark:bg-gray-800/80 rounded-xl backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="p-3 bg-gradient-to-r from-yellow-500 to-red-500 rounded-lg">
                 <FaBrain className="text-white text-2xl" />
@@ -158,8 +158,8 @@ const LoginPage = () => {
         {/* Right Side - Login Form */}
         <div className="w-full max-w-md mx-auto">
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 login-form-container">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">Welcome Back!</h2>
+            <div className="text-center mb-4 lg:mb-8">
+              <h2 className="text-xl lg:text-3xl font-bold text-gray-800 dark:text-white mb-2">Welcome Back!</h2>
               <p className="text-gray-600 dark:text-gray-400">Sign in to continue your quiz journey</p>
             </div>
 
@@ -174,7 +174,7 @@ const LoginPage = () => {
                   type="text"
                   value={referralCode}
                   onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300 tracking-widest uppercase"
+                  className="w-full pl-10 pr-4 py-2 lg:py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300 tracking-widest uppercase"
                   placeholder="Enter referral code"
                   maxLength={8}
                 />
@@ -187,14 +187,14 @@ const LoginPage = () => {
             {/* Google Login Button */}
             <button
               onClick={() => googleLogin()}
-              className="w-full bg-white border-2 border-gray-300 rounded-xl px-6 py-3 text-gray-700 font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 flex items-center justify-center space-x-3 mb-6 shadow-sm hover:shadow-md"
+              className="w-full bg-white border-2 border-gray-300 rounded-xl px-3 lg:px-6 py-2 lg:py-3 text-gray-700 font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 flex items-center justify-center space-x-3 mb-3 lg:mb-6 shadow-sm hover:shadow-md"
             >
-              <FaGoogle className="text-red-500 text-xl" />
+              <img src="/google.svg" alt="Google" className="w-6 h-6" />
               <span>Sign In with Google</span>
             </button>
 
             {/* Divider */}
-            <div className="relative mb-6">
+            <div className="relative mb-2 lg:mb-6">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
               </div>
@@ -204,7 +204,7 @@ const LoginPage = () => {
             </div>
 
             {/* Existing Login Form */}
-            <form onSubmit={handleLogin} className="space-y-6">
+            <form onSubmit={handleLogin} className="space-y-2 lg:space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Email or Phone
@@ -215,7 +215,7 @@ const LoginPage = () => {
                     type="text"
                     value={identifier}
                     onChange={(e) => setIdentifier(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                    className="w-full pl-10 pr-4 py-2 lg:py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
                     placeholder="Enter your email or phone"
                     required
                   />
@@ -232,7 +232,7 @@ const LoginPage = () => {
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                    className="w-full pl-10 pr-12 py-2 lg:py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
                     placeholder="Enter your password"
                     required
                   />
@@ -258,7 +258,7 @@ const LoginPage = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-red-600 to-yellow-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-red-700 hover:to-yellow-700 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
+                className="w-full bg-gradient-to-r from-red-600 to-yellow-600 text-white py-2 lg:py-3 px-4 lg:px-6 rounded-xl font-semibold hover:from-red-700 hover:to-yellow-700 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
               >
                 {isLoading ? (
                   <>

@@ -155,10 +155,10 @@ const RegisterPage = () => {
         <div className="w-full max-w-md mx-auto">
           <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-2xl px-2 py-4 md:p-8 border border-white/20">
             <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-10 lg:w-16 h-10 lg:h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaUser className="text-white text-2xl" />
               </div>
-              <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
+              <h2 className="text-xl lg:text-3xl font-bold text-gray-800 dark:text-white mb-2">
                 Create Account
               </h2>
               <p className="text-gray-600 dark:text-gray-300">
