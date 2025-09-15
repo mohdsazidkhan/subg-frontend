@@ -1075,10 +1075,10 @@ const message =
           <div className="w-12 lg:w-20 h-12 lg:h-20 bg-gradient-to-tr from-yellow-300 via-orange-400 to-red-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl animate-float group-hover:scale-110 transition-transform duration-300">
             <span className="text-3xl">🎁</span>
           </div>
-          <h3 className="text-2xl lg:text-3xl font-extrabold text-gray-800 dark:text-white mb-3 drop-shadow-lg">
+          <h3 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-gray-800 dark:text-white mb-3 drop-shadow-lg">
             Referral Rewards Center
           </h3>
-          <p className="text-gray-700 dark:text-yellow-200 text-lg font-medium">
+          <p className="text-gray-700 dark:text-yellow-200 text-md lg:text-lg font-medium">
             Invite friends and unlock premium subscriptions automatically!
           </p>
         </div>
@@ -1511,10 +1511,10 @@ const message =
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
             {/* High-Score Quizzes */}
             <div className="text-center p-2 lg:p-8 bg-gradient-to-br from-yellow-50 to-red-100 dark:from-yellow-900/30 dark:to-red-900/30 rounded-3xl border border-yellow-200 dark:border-yellow-700 hover-scale">
-              <div className="w-12 lg:w-16 h-12 lg:h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <div className="w-10 lg:w-16 h-10 lg:h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <FaFire className="text-white text-2xl" />
               </div>
-              <div className="text-4xl font-bold text-yellow-600 dark:text-yellow-400 mb-2">{highScoreQuizzes}</div>
+              <div className="text-2xl lg:text-4xl font-bold text-yellow-600 dark:text-yellow-400 mb-2">{highScoreQuizzes}</div>
               <div className="bg-gradient-to-r from-red-50 to-yellow-100 dark:from-red-900/30 dark:to-yellow-900/30 rounded-3xl border border-red-200 dark:border-red-700 hover-scale">
                 <div className="text-gray-600 dark:text-gray-300 text-lg font-semibold">High-Score Quizzes</div>
                 <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">75% + Score</div>
@@ -1522,19 +1522,19 @@ const message =
             </div>
             {/* Total Quizzes Played */}
             <div className="text-center p-2 lg:p-8 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30 rounded-3xl border border-green-200 dark:border-green-700 hover-scale">
-              <div className="w-12 lg:w-16 h-12 lg:h-16 bg-gradient-to-r from-green-500 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <div className="w-10 lg:w-16 h-10 lg:h-16 bg-gradient-to-r from-green-500 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <FaBookOpen className="text-white text-2xl" />
               </div>
-              <div className="text-4xl font-bold text-green-600 dark:text-green-400 mb-2">{quizzesPlayed}</div>
+              <div className="text-2xl lg:text-4xl font-bold text-green-600 dark:text-green-400 mb-2">{quizzesPlayed}</div>
               <div className="text-gray-600 dark:text-gray-300 text-lg font-semibold">Total Quizzes Played</div>
               <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">Attempted</div>
             </div>
             {/* Success Rate */}
             <div className="text-center p-2 lg:p-8 bg-gradient-to-br from-red-50 to-yellow-100 dark:from-red-900/30 dark:to-yellow-900/30 rounded-3xl border border-red-200 dark:border-red-700 hover-scale">
-              <div className="w-12 lg:w-16 h-12 lg:h-16 bg-gradient-to-r from-red-500 to-yellow-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <div className="w-10 lg:w-16 h-10 lg:h-16 bg-gradient-to-r from-red-500 to-yellow-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <FaChartLine className="text-white text-2xl" />
               </div>
-              <div className="text-4xl font-bold text-red-600 dark:text-red-400 mb-2">{highScoreRate}%</div>
+              <div className="text-2xl lg:text-4xl font-bold text-red-600 dark:text-red-400 mb-2">{highScoreRate}%</div>
               <div className="text-gray-600 dark:text-gray-300 text-lg font-semibold">Success Rate</div>
               <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">High Scores</div>
             </div>
@@ -1605,7 +1605,7 @@ const message =
           {nextLevel ? (
             <div className="m-2 lg:m-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-3xl p-2 lg:p-8 border border-yellow-200 dark:border-yellow-700">
               <div className="flex items-center space-x-4 mb-4">
-                <div className="w-12 lg:w-16 h-12 lg:h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center">
+                <div className="w-10 lg:w-16 h-10 lg:h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center">
                   {(() => {
                     const BadgeIcon = levelBadgeIcons[nextLevel.name] || levelBadgeIcons.Default;
                     return (
@@ -1745,7 +1745,7 @@ const message =
                 </div>
                 <Link
                   to="/rewards"
-                  className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-white font-semibold rounded-xl transition-all duration-200 hover:scale-105 shadow-lg"
+                  className="px-3 lg:px-6 py-2 lg:py-3 bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-white font-semibold rounded-xl transition-all duration-200 hover:scale-105 shadow-lg"
                 >
                   View Rewards
                 </Link>
@@ -1880,7 +1880,7 @@ const message =
                   className="group cursor-pointer bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700/50 dark:to-gray-600/50 rounded-3xl p-2 lg:p-8 border border-gray-200 dark:border-gray-600 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-4 hover:scale-105 hover-lift"
                 >
                     <div className="flex items-center justify-between mb-6">
-                      <div className="w-12 lg:w-16 h-12 lg:h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg">
+                      <div className="w-10 lg:w-16 h-10 lg:h-16 bg-gradient-to-r from-yellow-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg">
                         <FaMedal className="text-white text-2xl" />
                       </div>
                       <div className={`px-4 py-2 rounded-full text-sm font-bold ${

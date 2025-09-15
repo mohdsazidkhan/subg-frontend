@@ -414,7 +414,7 @@ const LandingPage = () => {
           </div>
         </div>
         
-        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 mt-0 md:mt-8">
+        <div className="relative container mx-auto px-4 lg:px-8 py-10 lg:py-20 mt-0 md:mt-8">
           <div className="text-center">
             <h1 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 dark:text-white">
@@ -823,10 +823,10 @@ const LandingPage = () => {
           </div>
 
           <div className="rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-xl border-2 border-blue-300 dark:border-indigo-500">
-            <div className="p-6 border-b-2 border-blue-200 dark:border-blue-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
+            <div className="p-2 lg:p-6 border-b-2 border-blue-200 dark:border-blue-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                  <h3 className="text-xl font-semibold text-blue-800 dark:text-blue-200 flex items-center gap-2">
+                  <h3 className="text-md md:text-xl font-semibold text-blue-800 dark:text-blue-200 flex items-center gap-2">
                     <span className="text-2xl">🏆</span>
                     {new Date().toLocaleDateString("en-US", {
                       month: "long",

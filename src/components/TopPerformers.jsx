@@ -289,7 +289,7 @@ import API from '../utils/api';
       {/* Header */}
       <div className="flex flex-col lg:flex-row justify-between items-center mb-6">
         <div className='mb-4 lg:mb-0 text-center lg:text-left'>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+          <h3 className="text-md lg:text-xl font-bold text-gray-900 dark:text-white mb-2">
             🏆 Top 10 Performers - {getCurrentMonthDisplay()}
           </h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -356,13 +356,13 @@ import API from '../utils/api';
       {/* Current User Position Section */}
       {data?.currentUser && (
         <div className="my-8 p-3 lg:p-6 bg-gradient-to-r from-red-50 to-yellow-50 dark:from-red-900/20 dark:to-yellow-900/20 rounded-xl border-2 border-red-200 dark:border-yellow-600">
-          <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <h4 className="text-md lg:text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
             🎯 Your Current Position
           </h4>
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-2 lg:p-4 shadow-lg">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-0 lg:p-4 shadow-lg">
             <div className="flex flex-col lg:flex-row items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-red-500 to-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg">
+                <div className="w-10 h-10 lg:w-16 lg:h-16 bg-gradient-to-r from-red-500 to-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg">
                   {data.currentUser.position}
                 </div>
                 <div>
