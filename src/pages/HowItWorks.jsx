@@ -2,8 +2,8 @@ import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const HowItWorks = () => (
   <MobileAppWrapper title="How It Works">
-    <div className="max-w-4xl mx-auto px-4 py-10 text-gray-800 dark:text-gray-200 transition-colors duration-300">
-      <h1 className="text-3xl font-semibold mb-6 text-gray-900 dark:text-white">
+    <div className="max-w-4xl mx-auto p-4 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+      <h1 className="text-xl lg:text-3xl font-semibold mb-6 text-gray-900 dark:text-white">
         How It Works
       </h1>
 
