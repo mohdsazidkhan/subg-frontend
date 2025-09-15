@@ -418,18 +418,11 @@ const LandingPage = () => {
           <div className="text-center">
             <h1 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 dark:text-white">
-                Master Knowledge
-              </span>
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 dark:text-white">
-                Through Interactive Quizzes
+              Your Journey: Starter ➜ Legend
               </span>
             </h1>
-            <p className="text-sm md:text-xl mb-8 max-w-3xl mx-auto text-gray-600 dark:text-gray-300">
-              Challenge yourself with our comprehensive quiz platform. Test your
-              knowledge across multiple categories, compete with others, and
-              climb the monthly leaderboard while earning rewards. Every month
-              is a fresh start!
+            <p className="text-sm md:text-xl mb-8 max-w-3xl mx-auto text-gray-600 dark:text-gray-300 font-semibold">
+            Ready to prove your knowledge? Play level based quizzes across categories, compete on the leaderboard, and win monthly rewards. <br/> <strong>A new challenge begins every month!</strong>
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
@@ -542,10 +535,10 @@ const LandingPage = () => {
       </section>
 
        {/* Profile Completion Reward Section */}
-       <section id="profile-completion" className="py-20 relative overflow-hidden">
+       <section id="profile-completion" className="py-5 md:py-10 lg:py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-gray-900 dark:via-green-900/20 dark:to-emerald-900/20 pointer-events-none" />
         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-4 md:mb-8 lg:mb-16">
             <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-tr from-green-500 via-emerald-500 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-3 lg:mb-6 shadow-xl animate-float">
               <FaUserGraduate className="text-white text-2xl sm:text-3xl md:text-4xl drop-shadow-lg" />
             </div>
@@ -624,7 +617,7 @@ const LandingPage = () => {
       </section>
 
       {/* Prize & Rewards Section */}
-       <section id="prizes" className="py-20 relative overflow-hidden">
+       <section id="prizes" className="py-5 md:py-10 lg:py-20 relative overflow-hidden">
          <div className="absolute inset-0 bg-gradient-to-tl from-amber-50 via-yellow-50 to-orange-50 dark:from-gray-900 dark:via-amber-900/20 dark:to-orange-900/20 pointer-events-none" />
          <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-4 lg:mb-16">
@@ -739,7 +732,7 @@ const LandingPage = () => {
           </div>
 
           {/* Achievement Badges */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-4 lg:mb-12">
             <h3 className="text-xl lg:text-2xl font-bold mb-8">Earn Achievement Badges</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
@@ -784,7 +777,7 @@ const LandingPage = () => {
 
       
       {/* Monthly Winners Section */}
-      <section className="py-16 relative overflow-hidden">
+      <section className="py-5 md:py-10 lg:py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-tr from-blue-50 via-green-50 to-orange-50 dark:from-blue-900/20 dark:via-green-900/20 dark:to-orange-900/20 pointer-events-none" />
         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -809,10 +802,10 @@ const LandingPage = () => {
       </section>
 
       {/* Top Performers Section */}
-      <section id="performers" className="py-20 relative overflow-hidden">
+      <section id="performers" className="py-5 md:py-10 lg:py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-tr from-green-50 via-emerald-50 to-teal-50 dark:from-gray-900 dark:via-green-900/20 dark:to-teal-900/20 pointer-events-none" />
         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-4 md:mb-8 lg:mb-16">
             <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
                              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
                 Top 10 Performers{" "}
@@ -1227,10 +1220,10 @@ const LandingPage = () => {
       </section>
 
       {/* Levels Section */}
-       <section id="levels" className="py-20 relative overflow-hidden">
+       <section id="levels" className="py-5 md:py-10 lg:py-20 relative overflow-hidden">
          <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 dark:from-gray-900 dark:via-yellow-900/20 dark:to-red-900/20 pointer-events-none" />
          <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-4 md:mb-8 lg:mb-16">
             <h2 className="text-xl -md:text-xl md:text-3xl lg:text-4xl font-bold mb-4">
                              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
                 Progressive Learning Levels
@@ -1343,10 +1336,10 @@ const LandingPage = () => {
       </section>
 
              {/* Categories Section */}
-       <section id="categories" className="py-20 relative overflow-hidden">
+       <section id="categories" className="py-5 md:py-10 lg:py-20 relative overflow-hidden">
          <div className="absolute inset-0 bg-gradient-to-bl from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20 pointer-events-none" />
          <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-4 md:mb-8 lg:mb-16">
             <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
                              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
                 Explore Diverse Categories
@@ -1413,10 +1406,10 @@ const LandingPage = () => {
       
 
              {/* Subscription Plans Section */}
-       <section id="subscription" className="py-20 relative overflow-hidden">
+       <section id="subscription" className="py-5 md:py-10 lg:py-20 relative overflow-hidden">
          <div className="absolute inset-0 bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50 dark:from-gray-900 dark:via-violet-900/20 dark:to-indigo-900/20 pointer-events-none" />
          <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-4 md:mb-8 lg:mb-16">
             <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
                 Choose Your Perfect Plan
@@ -1679,10 +1672,10 @@ const LandingPage = () => {
       </section>
 
              {/* Features Section */}
-       <section className="py-20 relative overflow-hidden">
+       <section className="py-5 md:py-10 lg:py-20 relative overflow-hidden">
          <div className="absolute inset-0 bg-gradient-to-tl from-cyan-50 via-blue-50 to-sky-50 dark:from-gray-900 dark:via-cyan-900/20 dark:to-sky-900/20 pointer-events-none" />
          <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-4 md:mb-8 lg:mb-16">
             <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
                                  Why Choose SUBG QUIZ?
@@ -1749,10 +1742,10 @@ const LandingPage = () => {
          
 
           {/* Referral System Section */}
-          <section id="referrals" className="py-20 relative overflow-hidden">
+          <section id="referrals" className="py-5 md:py-10 lg:py-20 relative overflow-hidden">
          <div className="absolute inset-0 bg-gradient-to-br from-pink-50 via-rose-50 to-red-50 dark:from-gray-900 dark:via-pink-900/20 dark:to-rose-900/20 pointer-events-none" />
          <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-4 md:mb-8 lg:mb-16">
             <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
                 Refer & Earn Rewards
@@ -1912,7 +1905,7 @@ const LandingPage = () => {
       </section>
 
              {/* CTA Section */}
-       <section className="py-20 relative overflow-hidden">
+       <section className="py-5 md:py-10 lg:py-20 relative overflow-hidden">
          <div className="absolute inset-0 bg-gradient-to-r from-yellow-100 via-orange-100 to-red-100 dark:from-gray-800 dark:via-yellow-800/30 dark:to-red-800/30 pointer-events-none" />
          <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-6">
