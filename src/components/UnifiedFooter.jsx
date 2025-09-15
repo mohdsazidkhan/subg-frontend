@@ -100,7 +100,7 @@ const UnifiedFooter = ({ isLandingPage = false }) => {
               <ul className="space-y-3">
                 {[
                   { name: 'Contact Us', href: '/contact' },
-                  { name: 'Help Center', href: '/how-it-works' },
+                  { name: 'How it Works', href: '/how-it-works' },
                   { name: 'Privacy Policy', href: '/privacy' },
                   { name: 'Terms of Service', href: '/terms' },
                   { name: 'Refund Policy', href: '/refund' }
