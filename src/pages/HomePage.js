@@ -34,6 +34,7 @@ import SystemUpdateModal from "../components/SystemUpdateModal";
 import { BsSearch } from "react-icons/bs";
 import MonthlyWinnersDisplay from "../components/MonthlyWinnersDisplay";
 import MobileAppWrapper from "../components/MobileAppWrapper";
+import ReferralBanner from "../components/ReferralBanner";
 // Icon mapping for categories
 const categoryIcons = {
   Science: FaFlask,
@@ -1102,7 +1103,7 @@ const HomePage = () => {
 
       
         {/* Level-based Quizzes Section */}
-        <div className="container mx-auto px-0 mb-6 sm:mb-10 md:mb-12">
+        <div className="container mx-auto p-4 mb-6 sm:mb-10 md:mb-12">
           <div className="flex items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
             <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
               <FaStar className="text-yellow-500 text-lg sm:text-xl md:text-2xl" />
@@ -1133,24 +1134,32 @@ const HomePage = () => {
             </div>
           ) : !hasActiveSubscription() ||
           (error && error.toLowerCase().includes("subscription")) ? (
-            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 flex flex-col items-center justify-center animate-fade-in">
-              <div className="text-center mb-6">
-                <div className="text-red-600 text-3xl mb-2">⚠️</div>
-                <p className="text-red-600 text-lg font-semibold mb-4">
-                  {error && error.toLowerCase().includes("subscription")
-                    ? error
-                    : "Access to quizzes requires an active subscription."}
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  Subscribe now to unlock all quizzes and levels!
-                </p>
-                <Link
-                  to="/subscription"
-                  className="inline-block bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
-                >
-                  Subscribe Now
-                </Link>
+            <div className="animate-fade-in">
+              {/* Subscription Warning */}
+              <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 md:p-8 border border-white/20 flex flex-col items-center justify-center mb-6">
+                <div className="text-center mb-6">
+                  <div className="text-red-600 text-3xl mb-2">⚠️</div>
+                  <p className="text-red-600 text-lg font-semibold mb-4">
+                    {error && error.toLowerCase().includes("subscription")
+                      ? error
+                      : "Access to quizzes requires an active subscription."}
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                    Subscribe now to unlock all quizzes and levels!
+                  </p>
+                  <Link
+                    to="/subscription"
+                    className="inline-block bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
+                  >
+                    Subscribe Now
+                  </Link>
+                </div>
               </div>
+
+              {/* Referral Banner - Only show for logged-in users */}
+              {isLoggedIn && user && (
+                <ReferralBanner user={user} />
+              )}
             </div>
           ) : (
             <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-0 border border-white/20 animate-fade-in">
