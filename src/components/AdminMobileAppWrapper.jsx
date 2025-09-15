@@ -4,6 +4,7 @@ import { FaSignOutAlt, FaSun, FaMoon, FaBars, FaTimes } from 'react-icons/fa';
 import { secureLogout, getCurrentUser } from '../utils/authUtils';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleSidebar } from '../store/sidebarSlice';
+import ScrollToTopButton from './ScrollToTopButton';
 
 const AdminMobileAppWrapper = ({ children, title, showHeader = true }) => {
   const location = useLocation();
@@ -125,6 +126,9 @@ const AdminMobileAppWrapper = ({ children, title, showHeader = true }) => {
       <div className="admin-mobile-content">
         {children}
       </div>
+      
+      {/* Scroll to Top Button - Only show on mobile */}
+      <ScrollToTopButton />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { FaSignOutAlt, FaSun, FaMoon } from 'react-icons/fa';
 import { secureLogout, getCurrentUser } from '../utils/authUtils';
+import ScrollToTopButton from './ScrollToTopButton';
 
 const MobileAppWrapper = ({ children, title, showHeader = true }) => {
   const location = useLocation();
@@ -133,6 +134,9 @@ const MobileAppWrapper = ({ children, title, showHeader = true }) => {
       <div className="mobile-content">
         {children}
       </div>
+      
+      {/* Scroll to Top Button - Only show on mobile */}
+      <ScrollToTopButton />
     </div>
   );
 };
