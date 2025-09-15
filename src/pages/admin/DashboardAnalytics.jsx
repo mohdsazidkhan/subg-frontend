@@ -143,6 +143,11 @@ const DashboardAnalytics = () => {
     }
   };
 
+  // Limit recent activity items to 20 records
+  const recentActivities = Array.isArray(data?.recentActivity)
+    ? data.recentActivity.slice(0, 20)
+    : [];
+
   // Recent Activity View Components
   const RecentActivityTableView = () => (
     <div className="overflow-x-auto">
@@ -170,8 +175,8 @@ const DashboardAnalytics = () => {
           </tr>
         </thead>
         <tbody>
-          {data.recentActivity?.length > 0 ? (
-            data.recentActivity.map((a, i) => (
+          {recentActivities.length > 0 ? (
+            recentActivities.map((a, i) => (
               <tr 
                 key={i} 
                 className="border-b border-gray-200 dark:border-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 dark:hover:from-blue-900/10 dark:hover:to-indigo-900/10 transition-all duration-200 group"
@@ -215,8 +220,8 @@ const DashboardAnalytics = () => {
 
   const RecentActivityCardView = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {data.recentActivity?.length > 0 ? (
-        data.recentActivity.map((a, i) => (
+      {recentActivities.length > 0 ? (
+        recentActivities.map((a, i) => (
           <div key={i} className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4 hover:shadow-lg transition-all duration-200">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg flex items-center justify-center">
@@ -264,8 +269,8 @@ const DashboardAnalytics = () => {
 
   const RecentActivityListView = () => (
     <div className="space-y-3">
-      {data.recentActivity?.length > 0 ? (
-        data.recentActivity.map((a, i) => (
+      {recentActivities.length > 0 ? (
+        recentActivities.map((a, i) => (
           <div key={i} className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4 hover:shadow-md transition-all duration-200">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
               <div className="flex items-center gap-3">
