@@ -258,6 +258,8 @@ const RewardsDashboard = () => {
 
         {/* Requirements Info */}
         <MonthlyRewardsInfo className="mt-4 sm:mt-6" />
+
+        <div className='text-md bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg p-3 lg:p-6 mt-4 sm:mt-6 font-semibold'>Top 3 winners receive cash prizes within 7 days of result declaration<br/><br/>Winners are declared publicly and prizes are transferred directly to their accounts.</div>
       </div>
     </div>
   );
