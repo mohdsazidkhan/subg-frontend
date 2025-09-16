@@ -102,7 +102,7 @@ const MobileAppWrapper = ({ children, title, showHeader = true }) => {
             
             {/* Page name in the center */}
             <h1 className="text-lg font-semibold text-gray-900 dark:text-white flex-1 text-center">
-              {getPageName()}
+              {getPageName()?.length > 25 ? getPageName()?.slice(0, 25) + '...' : getPageName()}
             </h1>
             
             {/* Right side - Theme toggle and Logout button */}

@@ -255,41 +255,6 @@ const ArticlesPage = () => {
                   Discover insights, tips, and knowledge from our community
                 </p>
               </div>
-              
-              {/* View Toggle */}
-              <div className="mt-4 sm:mt-0 flex items-center space-x-2">
-                <span className="hidden sm:inline text-sm text-gray-600 dark:text-gray-400">View:</span>
-                <div className="flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
-                  <button
-                    onClick={() => handleViewModeChange('grid')}
-                    className={`px-2 sm:px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                      viewMode === 'grid'
-                        ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                    }`}
-                    title="Grid View"
-                  >
-                    <span className="flex items-center space-x-1">
-                      <span>⊞</span>
-                      <span className="hidden sm:inline">Grid</span>
-                    </span>
-                  </button>
-                  <button
-                    onClick={() => handleViewModeChange('list')}
-                    className={`px-2 sm:px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                      viewMode === 'list'
-                        ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                    }`}
-                    title="List View"
-                  >
-                    <span className="flex items-center space-x-1">
-                      <span>☰</span>
-                      <span className="hidden sm:inline">List</span>
-                    </span>
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -381,14 +346,14 @@ const ArticlesPage = () => {
                     ))}
                   </select>
                 </div>
-                <div className="flex items-end">
+                <div className="flex items-end mb-2 lg:mb-4">
                   <label className="flex items-center">
                     <input
                       type="checkbox"
                       name="featured"
                       checked={filters.featured}
                       onChange={handleFilterChange}
-                      className="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded"
+                      className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
                     />
                     <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">
                       Featured Only
@@ -398,7 +363,8 @@ const ArticlesPage = () => {
                 <div className="flex items-end">
                   <button
                     type="submit"
-                    className="w-full bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md font-medium transition-colors"
+                    className="w-full bg-gradient-to-r from-yellow-500 to-red-500 text-white 
+              dark:from-yellow-600 dark:to-red-700 px-4 py-2 rounded-md font-medium transition-colors"
                   >
                     Search
                   </button>
@@ -415,6 +381,40 @@ const ArticlesPage = () => {
               </h2>
               <div className="text-sm text-gray-500 dark:text-gray-400">
                 {pagination.total ? `${pagination.total} articles found` : ''}
+              </div>
+              {/* View Toggle */}
+              <div className="mt-4 sm:mt-0 flex items-center space-x-2">
+                <span className="hidden sm:inline text-sm text-gray-600 dark:text-gray-400">View:</span>
+                <div className="flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+                  <button
+                    onClick={() => handleViewModeChange('grid')}
+                    className={`px-2 sm:px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                      viewMode === 'grid'
+                        ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                    }`}
+                    title="Grid View"
+                  >
+                    <span className="flex items-center space-x-1">
+                      <span>⊞</span>
+                      <span className="hidden sm:inline">Grid</span>
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => handleViewModeChange('list')}
+                    className={`px-2 sm:px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                      viewMode === 'list'
+                        ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                    }`}
+                    title="List View"
+                  >
+                    <span className="flex items-center space-x-1">
+                      <span>☰</span>
+                      <span className="hidden sm:inline">List</span>
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
             

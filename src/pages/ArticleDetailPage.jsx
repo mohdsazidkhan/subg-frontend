@@ -43,6 +43,7 @@ const ArticleDetailPage = () => {
   const fetchRelatedArticles = async (categoryId) => {
     try {
       const response = await API.getArticlesByCategory(categoryId, { limit: 3 });
+      console.log(response, 'fetchRelatedArticles')
       setRelatedArticles(response.data.articles || []);
     } catch (err) {
       console.error('Error fetching related articles:', err);
@@ -129,7 +130,7 @@ const ArticleDetailPage = () => {
               <li>•</li>
               <li><Link to="/articles" className="hover:text-yellow-600 dark:hover:text-yellow-400">Articles</Link></li>
               <li>•</li>
-              <li className="text-gray-900 dark:text-white">{article.title}</li>
+              <li className="text-gray-900 dark:text-white">{article.title?.length > 25 ? article.title?.slice(0, 25) + '...' : article.title}</li>
             </ol>
           </nav>
 
@@ -147,12 +148,12 @@ const ArticleDetailPage = () => {
               </span>
             </div>
             
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            <h1 className="text-xl md:text-2xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
               {article.title}
             </h1>
             
             {article.excerpt && (
-              <p className="text-xl text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+              <p className="text-md lg:text-xl text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
                 {article.excerpt}
               </p>
             )}
@@ -196,7 +197,7 @@ const ArticleDetailPage = () => {
           )}
 
           {/* Article Content */}
-          <article className="prose prose-lg max-w-none mb-8">
+          <article className="prose prose-lg max-w-none mb-0 lg:mb-8">
             <div 
               className="text-gray-900 dark:text-white leading-relaxed"
               dangerouslySetInnerHTML={{ 
@@ -206,7 +207,7 @@ const ArticleDetailPage = () => {
           </article>
 
           {/* Article Actions */}
-          <div className="flex items-center justify-between py-6 border-t border-b border-gray-200 dark:border-gray-700 mb-8">
+          <div className="flex-col lg:flex-row items-center justify-between py-6 border-t border-b border-gray-200 dark:border-gray-700 mb-0 lg:mb-8">
             <div className="flex items-center space-x-4">
               <button
                 onClick={handleLike}
@@ -230,9 +231,12 @@ const ArticleDetailPage = () => {
             {article.category && (
               <div className="flex items-center space-x-2">
                 <span className="text-sm text-gray-500 dark:text-gray-400">Category:</span>
-                <span className="bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-400 text-sm px-3 py-1 rounded-full">
+                <Link
+                  to={`/articles/category/${article.category._id}`}
+                  className="bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-400 text-sm px-3 py-1 rounded-full hover:bg-yellow-200 dark:hover:bg-yellow-800/30"
+                >
                   {article.category.name}
-                </span>
+                </Link>
               </div>
             )}
           </div>
@@ -243,28 +247,29 @@ const ArticleDetailPage = () => {
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Tags</h3>
               <div className="flex flex-wrap gap-2">
                 {article.tags.map((tag, index) => (
-                  <span
+                  <Link
                     key={index}
-                    className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm px-3 py-1 rounded-full"
+                    to={`/articles/tag/${encodeURIComponent(tag)}`}
+                    className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm px-3 py-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600"
                   >
                     #{tag}
-                  </span>
+                  </Link>
                 ))}
               </div>
             </div>
           )}
 
           {/* Related Articles */}
-          {relatedArticles.length > 0 && (
+          {relatedArticles?.filter(relatedArticle => relatedArticle._id !== article._id).length > 0 && (
             <div className="mb-8">
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
                 Related Articles
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {relatedArticles
-                  .filter(relatedArticle => relatedArticle._id !== article._id)
-                  .slice(0, 3)
-                  .map((relatedArticle) => (
+                  ?.filter(relatedArticle => relatedArticle._id !== article._id)
+                  ?.slice(0, 3)
+                  ?.map((relatedArticle) => (
                     <Link
                       key={relatedArticle._id}
                       to={`/articles/${relatedArticle.slug}`}
@@ -301,10 +306,11 @@ const ArticleDetailPage = () => {
           <div className="text-center">
             <Link
               to="/articles"
-              className="inline-flex items-center space-x-2 bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+              className="inline-flex items-center space-x-2 bg-gradient-to-r from-yellow-500 to-red-500 text-white 
+              dark:from-yellow-600 dark:to-red-700 px-3 lg:px-6 py-2 lg:py-3 rounded-lg font-medium transition-colors"
             >
               <span>←</span>
-              <span>Back to All Articles</span>
+              <span>Go Back</span>
             </Link>
           </div>
         </div>

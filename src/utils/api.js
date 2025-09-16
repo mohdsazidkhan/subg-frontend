@@ -623,6 +623,11 @@ class ApiService {
     return this.request(`/api/public/articles/category/${categoryId}?${queryString}`);
   }
 
+  async getArticlesByTag(tag, params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/public/articles/tag/${encodeURIComponent(tag)}?${queryString}`);
+  }
+
   async searchArticles(query, params = {}) {
     const searchParams = new URLSearchParams({ q: query, ...params }).toString();
     return this.request(`/api/public/articles/search?${searchParams}`);

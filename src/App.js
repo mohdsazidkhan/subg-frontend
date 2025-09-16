@@ -62,6 +62,8 @@ import AdminArticles from './pages/admin/AdminArticles.jsx';
 import AdminArticleForm from './pages/admin/AdminArticleForm.jsx';
 import ArticlesPage from './pages/ArticlesPage.jsx';
 import ArticleDetailPage from './pages/ArticleDetailPage.jsx';
+import ArticleCategoryPage from './pages/ArticleCategoryPage.jsx';
+import ArticleTagPage from './pages/ArticleTagPage.jsx';
 import ReactGA from 'react-ga4';
 import SearchPage from './pages/SearchPage.jsx';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -157,6 +159,8 @@ function AppLayout() {
             {/* Public Article Routes */}
             <Route path="/articles" element={<ArticlesPage />} />
             <Route path="/articles/:slug" element={<ArticleDetailPage />} />
+            <Route path="/articles/category/:categoryId" element={<ArticleCategoryPage />} />
+            <Route path="/articles/tag/:tagName" element={<ArticleTagPage />} />
             
             {/* Analytics Admin Routes */}
             <Route path="/admin/analytics/dashboard" element={<AdminRoute><TokenValidationWrapper><DashboardAnalytics /></TokenValidationWrapper></AdminRoute>} />
