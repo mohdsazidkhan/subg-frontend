@@ -123,22 +123,46 @@ const ReferralBanner = ({ user }) => {
 
       {/* Milestone Rewards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-        <div className={`bg-gradient-to-br ${referralCount >= 2 ? 'from-green-400 to-blue-500' : 'from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600'} rounded-xl p-3 text-center border border-white/50`}>
-          <div className="text-white font-bold text-sm">2 Referrals</div>
-          <div className="text-white text-xs">₹9 BASIC</div>
-          {referralCount >= 2 && <div className="text-white text-xs">✅ Earned</div>}
-        </div>
-        <div className={`bg-gradient-to-br ${referralCount >= 5 ? 'from-blue-400 to-purple-500' : 'from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600'} rounded-xl p-3 text-center border border-white/50`}>
-          <div className="text-white font-bold text-sm">5 Referrals</div>
-          <div className="text-white text-xs">₹49 PREMIUM</div>
-          {referralCount >= 5 && <div className="text-white text-xs">✅ Earned</div>}
-        </div>
-        <div className={`bg-gradient-to-br ${referralCount >= 10 ? 'from-purple-400 to-pink-500' : 'from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600'} rounded-xl p-3 text-center border border-white/50`}>
-          <div className="text-white font-bold text-sm">10 Referrals</div>
-          <div className="text-white text-xs">₹99 PRO</div>
-          {referralCount >= 10 && <div className="text-white text-xs">✅ Earned</div>}
-        </div>
-      </div>
+  {/* 2 Referrals */}
+  <div
+    className={`bg-gradient-to-br ${
+      referralCount >= 2
+        ? 'from-green-400 to-blue-500 text-white'
+        : 'from-gray-200 to-gray-300 text-black dark:from-gray-700 dark:to-gray-600 dark:text-white'
+    } rounded-xl p-3 text-center border border-white/50`}
+  >
+    <div className="font-bold text-sm">2 Referrals</div>
+    <div className="text-xs">₹9 BASIC</div>
+    {referralCount >= 2 && <div className="text-xs">✅ Earned</div>}
+  </div>
+
+  {/* 5 Referrals */}
+  <div
+    className={`bg-gradient-to-br ${
+      referralCount >= 5
+        ? 'from-blue-400 to-purple-500 text-white'
+        : 'from-gray-200 to-gray-300 text-black dark:from-gray-700 dark:to-gray-600 dark:text-white'
+    } rounded-xl p-3 text-center border border-white/50`}
+  >
+    <div className="font-bold text-sm">5 Referrals</div>
+    <div className="text-xs">₹49 PREMIUM</div>
+    {referralCount >= 5 && <div className="text-xs">✅ Earned</div>}
+  </div>
+
+  {/* 10 Referrals - Unique gradient */}
+  <div
+    className={`rounded-xl p-3 text-center border border-white/50 ${
+      referralCount >= 10
+        ? 'bg-gradient-to-br from-orange-400 to-red-500 text-white dark:from-rose-500 dark:to-violet-600'
+        : 'from-gray-200 to-gray-300 text-black bg-gradient-to-br dark:from-gray-700 dark:to-gray-600 dark:text-white'
+    }`}
+  >
+    <div className="font-bold text-sm">10 Referrals</div>
+    <div className="text-xs">₹99 PRO</div>
+    {referralCount >= 10 && <div className="text-xs">✅ Earned</div>}
+  </div>
+</div>
+
 
       {/* Share Buttons */}
       <div className="space-y-3">

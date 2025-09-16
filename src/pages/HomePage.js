@@ -1245,27 +1245,7 @@ const HomePage = () => {
               )}
             </div>
           )}
-      
-
-      {/* Profile Completion Success Section - Show for users with 100% complete profile */}
-      {isLoggedIn && profileCompletion && profileCompletion.percentage === 100 && (
-        <div className="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
-          <div className="rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 border-2 border-green-300/30 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-900/20 dark:via-emerald-900/20 dark:to-teal-900/20">
-            <div className="text-center mb-6 sm:mb-8 md:mb-10">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-tr from-green-600 via-emerald-600 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-xl sm:shadow-2xl animate-float">
-                <FaUserGraduate className="text-white text-2xl sm:text-3xl md:text-4xl drop-shadow-lg" />
-              </div>
-              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-800 dark:text-white mb-3 sm:mb-4 md:mb-6 drop-shadow-lg">
-                🎉 Profile Completed Successfully!
-              </h2>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 dark:text-gray-300 font-medium max-w-3xl mx-auto px-4 sm:px-0">
-                Congratulations! Your profile is <strong className="text-green-600 dark:text-green-400">100% complete</strong>. 
-                {user?.subscriptionStatus === 'free' ? ' You have received your Basic Subscription reward!' : ' You already have a premium subscription!'}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+    
 
       {/* Categories Section */}
       <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8">
@@ -1474,7 +1454,7 @@ const HomePage = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
               <div className="text-center">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3">
-                  <span className="text-white font-bold text-sm sm:text-base md:text-lg">1</span>
+                  <span className="text-white dark:text-black font-bold text-sm sm:text-base md:text-lg">1</span>
                 </div>
                 <p className="text-gray-700 dark:text-yellow-200 text-xs sm:text-sm">
                   Sign up and get your unique referral code
@@ -1482,7 +1462,7 @@ const HomePage = () => {
               </div>
               <div className="text-center">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3">
-                  <span className="text-white font-bold text-sm sm:text-base md:text-lg">2</span>
+                  <span className="text-white dark:text-black font-bold text-sm sm:text-base md:text-lg">2</span>
                 </div>
                 <p className="text-gray-700 dark:text-yellow-200 text-xs sm:text-sm">
                   Share your code with friends
@@ -1490,7 +1470,7 @@ const HomePage = () => {
               </div>
               <div className="text-center">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3">
-                  <span className="text-white font-bold text-sm sm:text-base md:text-lg">3</span>
+                  <span className="text-white dark:text-black font-bold text-sm sm:text-base md:text-lg">3</span>
                 </div>
                 <p className="text-gray-700 dark:text-yellow-200 text-xs sm:text-sm">
                   Friends join using your code
