@@ -67,14 +67,14 @@ const ArticleCategoryPage = () => {
   return (
     <MobileAppWrapper title={title}>
       <div className="max-w-5xl mx-auto p-4 text-gray-900 dark:text-white">
-        <div className="flex-col lg:flex-row items-center justify-between gap-4 mb-6">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-6">
           <div>
             <h1 className="text-xl md:text-2xl lg:text-3xl font-bold">{title}</h1>
             {category?.description && (
               <p className="text-gray-600 dark:text-gray-400 mt-1">{category.description}</p>
             )}
           </div>
-          <button onClick={() => navigate(-1)} className="mt-4 lg:mt-0 justify-end bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-lg">
+          <button onClick={() => navigate(-1)} className=" bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-lg">
             ← Back
           </button>
         </div>

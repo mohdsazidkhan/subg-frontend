@@ -77,7 +77,7 @@ const UnifiedFooter = ({ isLandingPage = false }) => {
               <ul className="space-y-3">
                 {[
                   { name: 'About Us', href: '/about' },
-                  { name: 'How It Works', href: '/how-it-works' },
+                  { name: 'Blog', href: '/articles' },
                   { name: 'Categories', href: '#categories' },
                   { name: 'Levels', href: '#levels' },
                   { name: 'Top Performers', href: '#performers' }
@@ -137,6 +137,7 @@ const UnifiedFooter = ({ isLandingPage = false }) => {
       <div className="flex flex-wrap justify-center gap-3 md:gap-6 text-sm text-gray-600 dark:text-gray-300">
         <Link to="/about" className="hover:text-gray-900 dark:hover:text-white transition-colors">About Us</Link>
         <Link to="/how-it-works" className="hover:text-gray-900 dark:hover:text-white transition-colors">How It Works</Link>
+        <Link to="/articles" className="hover:text-gray-900 dark:hover:text-white transition-colors">Blog</Link>
         <Link to={legalLinks.TERMS} className="hover:text-gray-900 dark:hover:text-white transition-colors">Terms & Conditions</Link>
         <Link to={legalLinks.PRIVACY_POLICY} className="hover:text-gray-900 dark:hover:text-white transition-colors">Privacy Policy</Link>
         <Link to={legalLinks.REFUND_POLICY} className="hover:text-gray-900 dark:hover:text-white transition-colors">Refund Policy</Link>

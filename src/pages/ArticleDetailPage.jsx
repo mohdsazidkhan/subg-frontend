@@ -191,7 +191,7 @@ const ArticleDetailPage = () => {
               <img
                 src={article.featuredImage}
                 alt={article.featuredImageAlt || article.title}
-                className="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
+                className="w-full h-42 md:h-96 object-cover rounded-lg shadow-lg"
               />
             </div>
           )}
@@ -207,7 +207,7 @@ const ArticleDetailPage = () => {
           </article>
 
           {/* Article Actions */}
-          <div className="flex-col lg:flex-row items-center justify-between py-6 border-t border-b border-gray-200 dark:border-gray-700 mb-0 lg:mb-8">
+          <div className="flex flex-col lg:flex-row items-center justify-between py-6 border-t border-b border-gray-200 dark:border-gray-700 mb-0 lg:mb-4">
             <div className="flex items-center space-x-4">
               <button
                 onClick={handleLike}

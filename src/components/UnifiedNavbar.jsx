@@ -151,6 +151,12 @@ const UnifiedNavbar = ({ isLandingPage = false, scrollToSection }) => {
       >
         Referrals
       </button>
+      <button 
+        onClick={() => navigate('/articles')}
+        className="hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors"
+      >
+        Blog
+      </button>
     </nav>
   );
 
