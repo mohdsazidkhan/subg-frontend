@@ -544,6 +544,101 @@ class ApiService {
   async getAdminSubscriptionFilterOptions() {
     return this.request('/api/admin/subscriptions/filter-options');
   }
+
+  // ===== ADMIN ARTICLES =====
+  async getAdminArticles(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/admin/articles?${queryString}`);
+  }
+
+  async getAdminArticle(id) {
+    return this.request(`/api/admin/articles/${id}`);
+  }
+
+  async createArticle(articleData) {
+    return this.request('/api/admin/articles', {
+      method: 'POST',
+      body: JSON.stringify(articleData)
+    });
+  }
+
+  async updateArticle(id, articleData) {
+    return this.request(`/api/admin/articles/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(articleData)
+    });
+  }
+
+  async deleteArticle(id) {
+    return this.request(`/api/admin/articles/${id}`, {
+      method: 'DELETE'
+    });
+  }
+
+  async publishArticle(id) {
+    return this.request(`/api/admin/articles/${id}/publish`, {
+      method: 'PATCH'
+    });
+  }
+
+  async unpublishArticle(id) {
+    return this.request(`/api/admin/articles/${id}/unpublish`, {
+      method: 'PATCH'
+    });
+  }
+
+  async toggleFeatured(id) {
+    return this.request(`/api/admin/articles/${id}/toggle-featured`, {
+      method: 'PATCH'
+    });
+  }
+
+  async togglePinned(id) {
+    return this.request(`/api/admin/articles/${id}/toggle-pinned`, {
+      method: 'PATCH'
+    });
+  }
+
+  async getArticleStats() {
+    return this.request('/api/admin/articles-stats');
+  }
+
+  // ===== PUBLIC ARTICLES =====
+  async getPublishedArticles(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/public/articles?${queryString}`);
+  }
+
+  async getFeaturedArticles(limit = 5) {
+    const queryString = new URLSearchParams({ limit }).toString();
+    return this.request(`/api/public/articles/featured?${queryString}`);
+  }
+
+  async getArticleBySlug(slug) {
+    return this.request(`/api/public/articles/${slug}`);
+  }
+
+  async getArticlesByCategory(categoryId, params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/public/articles/category/${categoryId}?${queryString}`);
+  }
+
+  async searchArticles(query, params = {}) {
+    const searchParams = new URLSearchParams({ q: query, ...params }).toString();
+    return this.request(`/api/public/articles/search?${searchParams}`);
+  }
+
+  async incrementArticleViews(id) {
+    return this.request(`/api/public/articles/${id}/view`, {
+      method: 'POST'
+    });
+  }
+
+  async incrementArticleLikes(id) {
+    return this.request(`/api/public/articles/${id}/like`, {
+      method: 'POST'
+    });
+  }
 }
 
 const API = new ApiService();

@@ -122,7 +122,7 @@ const UnifiedFooter = ({ isLandingPage = false }) => {
           <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
             <div className="flex flex-col md:flex-row justify-center items-center">
               <p className="text-gray-600 dark:text-gray-400 text-sm text-center">
-                © 2025 SUBG QUIZ. All rights reserved. Developed by <a target='_blank' rel='noreferrer' href='https://mohdsazidkhan.com' className="hover:text-gray-900 dark:hover:text-white transition-colors">{config.APP_AUTHOR}</a>
+                © 2025 SUBG QUIZ. All rights reserved. Designed & Developed by <a target='_blank' rel='noreferrer' href='https://mohdsazidkhan.com' className="hover:text-gray-900 dark:hover:text-white transition-colors">{config.APP_AUTHOR}</a>
               </p>
             </div>
           </div>

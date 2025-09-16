@@ -58,6 +58,10 @@ import AdminBankDetails from './pages/admin/AdminBankDetails';
 import AdminPaymentTransactions from './pages/admin/AdminPaymentTransactions';
 import AdminSubscriptions from './pages/admin/AdminSubscriptions';
 import AdminMonthlyWinners from './pages/admin/AdminMonthlyWinners.jsx';
+import AdminArticles from './pages/admin/AdminArticles.jsx';
+import AdminArticleForm from './pages/admin/AdminArticleForm.jsx';
+import ArticlesPage from './pages/ArticlesPage.jsx';
+import ArticleDetailPage from './pages/ArticleDetailPage.jsx';
 import ReactGA from 'react-ga4';
 import SearchPage from './pages/SearchPage.jsx';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -144,6 +148,15 @@ function AppLayout() {
             <Route path="/admin/payment-transactions" element={<AdminRoute><TokenValidationWrapper><AdminPaymentTransactions /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/subscriptions" element={<AdminRoute><TokenValidationWrapper><AdminSubscriptions /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/monthly-winners" element={<AdminRoute><TokenValidationWrapper><AdminMonthlyWinners /></TokenValidationWrapper></AdminRoute>} />
+            
+            {/* Article Admin Routes */}
+            <Route path="/admin/articles" element={<AdminRoute><TokenValidationWrapper><AdminArticles /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/articles/create" element={<AdminRoute><TokenValidationWrapper><AdminArticleForm /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/articles/:id/edit" element={<AdminRoute><TokenValidationWrapper><AdminArticleForm /></TokenValidationWrapper></AdminRoute>} />
+            
+            {/* Public Article Routes */}
+            <Route path="/articles" element={<ArticlesPage />} />
+            <Route path="/articles/:slug" element={<ArticleDetailPage />} />
             
             {/* Analytics Admin Routes */}
             <Route path="/admin/analytics/dashboard" element={<AdminRoute><TokenValidationWrapper><DashboardAnalytics /></TokenValidationWrapper></AdminRoute>} />

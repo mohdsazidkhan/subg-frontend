@@ -422,7 +422,7 @@ const LandingPage = () => {
               </span>
             </h1>
             <p className="text-sm md:text-xl mb-8 max-w-3xl mx-auto text-gray-600 dark:text-gray-300 font-semibold">
-            Ready to prove your knowledge? Play level based quizzes across categories, compete on the leaderboard, and win monthly rewards. <br/> <strong>A new challenge begins every month!</strong>
+            Ready to prove your knowledge? Play level based quizzes across categories, compete on the leaderboard, and win monthly rewards. <br/> <strong className="text-orange-500">A new challenge begins every month!</strong>
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
@@ -707,12 +707,16 @@ const LandingPage = () => {
                    </div>
                  </div>
                  <div className="text-center">
-                  <div className="text-center p-4 rounded-lg bg-gradient-to-br from-orange-600/50 to-orange-700/60 text-white">
+                  <div className="text-center p-4 rounded-lg 
+bg-gradient-to-br from-orange-600/70 to-orange-700/80 
+dark:from-orange-800/20 dark:to-orange-700/20 
+text-white
+">
 
-                  <div className="text-xl lg:text-2xl font-bold text-amber-600 dark:text-white mb-2">
+                  <div className="text-xl lg:text-2xl font-bold text-white mb-2">
                     ₹1,667
                   </div>
-                  <p className="text-gray-600 dark:text-gray-200">
+                  <p className="text-gray-200">
                     3rd Place (17%)
                   </p>
                  </div>
@@ -1616,30 +1620,30 @@ const LandingPage = () => {
                     },
                     {
                       feature: "Categories Access",
-                      free: "Basic",
-                      basic: "Advanced",
-                      premium: "Premium + Custom",
-                      pro: "All + Custom",
+                      free: "Free",
+                      basic: "Basic",
+                      premium: "Premium",
+                      pro: "All",
                     },
                     {
                       feature: "Support",
-                      free: "Standard",
-                      basic: "Priority",
-                      premium: "24/7 Priority",
-                      pro: "24/7 Priority",
+                      free: "Basic",
+                      basic: "Standard",
+                      premium: "Priority",
+                      pro: "24/7",
                     },
                     {
                       feature: "Analytics",
                       free: "Basic",
                       basic: "Detailed",
-                      premium: "Advanced + AI",
-                      pro: "Advanced + AI + Export",
+                      premium: "Advanced",
+                      pro: "Advanced + Detailed",
                     },
                     {
                       feature: "Monthly Rewards",
-                      free: "Eligible",
-                      basic: "Eligible",
-                      premium: "Eligible",
+                      free: "Not Eligible",
+                      basic: "Not Eligible",
+                      premium: "Not Eligible",
                       pro: "Eligible",
                     },
                    ].map((row, index) => (
@@ -1929,6 +1933,12 @@ const LandingPage = () => {
               className="px-4 md:px-8 py-2 md:py-4 border-2 border-yellow-600 text-yellow-600 dark:text-yellow-400 rounded-xl font-semibold text-lg hover:bg-yellow-600 hover:text-white dark:hover:bg-yellow-600 dark:hover:text-white transition-all duration-300"
             >
               Learn More
+            </Link>
+            <Link
+              to="/articles"
+              className="px-4 md:px-8 py-2 md:py-4 border-2 border-blue-600 text-blue-600 dark:text-blue-400 rounded-xl font-semibold text-lg hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white transition-all duration-300"
+            >
+              📝 Articles
             </Link>
           </div>
         </div>

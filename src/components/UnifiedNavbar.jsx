@@ -51,6 +51,13 @@ const UnifiedNavbar = ({ isLandingPage = false, scrollToSection }) => {
         <BsSearch className="text-lg text-white" />
       </Link>
       <Link
+        title="Articles"
+        to="/articles"
+        className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 p-2 shadow-lg hover:scale-105 transition-transform flex items-center justify-center"
+      >
+        <span className="text-lg text-white">📝</span>
+      </Link>
+      <Link
         title="Rewards"
         to="/rewards"
         className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-600 p-2 shadow-lg hover:scale-105 transition-transform flex items-center justify-center"

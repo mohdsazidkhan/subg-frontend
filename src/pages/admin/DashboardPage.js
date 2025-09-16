@@ -21,7 +21,15 @@ const DashboardPage = () => {
     paidSubscriptions: 0,
     paymentOrders: 0,
     completedPaymentOrders: 0,
-    totalRevenue: 0
+    totalRevenue: 0,
+    // Article stats
+    totalArticles: 0,
+    publishedArticles: 0,
+    draftArticles: 0,
+    featuredArticles: 0,
+    pinnedArticles: 0,
+    totalArticleViews: 0,
+    totalArticleLikes: 0
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -31,8 +39,15 @@ const DashboardPage = () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await API.getAdminStats();
-        setStats(response);
+        const [mainStats, articleStats] = await Promise.all([
+          API.getAdminStats(),
+          API.getArticleStats()
+        ]);
+        
+        setStats({
+          ...mainStats,
+          ...articleStats.stats
+        });
       } catch (err) {
         console.error('Error fetching stats:', err);
         setError('Failed to load dashboard statistics');
@@ -51,7 +66,14 @@ const DashboardPage = () => {
           paidSubscriptions: 0,
           paymentOrders: 0,
           completedPaymentOrders: 0,
-          totalRevenue: 0
+          totalRevenue: 0,
+          totalArticles: 0,
+          publishedArticles: 0,
+          draftArticles: 0,
+          featuredArticles: 0,
+          pinnedArticles: 0,
+          totalArticleViews: 0,
+          totalArticleLikes: 0
         });
       } finally {
         setLoading(false);
@@ -188,6 +210,51 @@ const DashboardPage = () => {
       bgColor: 'bg-indigo-50',
       darkBgColor: 'dark:bg-indigo-900/20',
       subtitle: 'All quiz attempts'
+    },
+    // Article Cards
+    {
+      title: 'Total Articles',
+      count: stats.totalArticles || 0,
+      link: '/admin/articles',
+      icon: '📝',
+      color: 'bg-blue-500',
+      textColor: 'text-blue-500',
+      bgColor: 'bg-blue-50',
+      darkBgColor: 'dark:bg-blue-900/20',
+      subtitle: `${stats.publishedArticles || 0} published`
+    },
+    {
+      title: 'Draft Articles',
+      count: stats.draftArticles || 0,
+      link: '/admin/articles?status=draft',
+      icon: '📄',
+      color: 'bg-yellow-500',
+      textColor: 'text-yellow-500',
+      bgColor: 'bg-yellow-50',
+      darkBgColor: 'dark:bg-yellow-900/20',
+      subtitle: 'Unpublished content'
+    },
+    {
+      title: 'Featured Articles',
+      count: stats.featuredArticles || 0,
+      link: '/admin/articles?featured=true',
+      icon: '⭐',
+      color: 'bg-purple-500',
+      textColor: 'text-purple-500',
+      bgColor: 'bg-purple-50',
+      darkBgColor: 'dark:bg-purple-900/20',
+      subtitle: 'Highlighted content'
+    },
+    {
+      title: 'Article Views',
+      count: stats.totalArticleViews || 0,
+      link: '/admin/articles',
+      icon: '👁️',
+      color: 'bg-green-500',
+      textColor: 'text-green-500',
+      bgColor: 'bg-green-50',
+      darkBgColor: 'dark:bg-green-900/20',
+      subtitle: `${stats.totalArticleLikes || 0} likes`
     },
   ];
 
@@ -396,6 +463,16 @@ const DashboardPage = () => {
               <div>
                 <h3 className="font-medium text-gray-900 dark:text-white">Create Questions</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Add New Questions to Quiz</p>
+              </div>
+            </Link>
+
+            <Link to="/admin/articles" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 hover:from-blue-100 hover:to-blue-200 dark:hover:from-blue-800/30 dark:hover:to-blue-700/30 transition-all duration-300">
+              <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center mr-3">
+                <span className="text-white text-lg">📝</span>
+              </div>
+              <div>
+                <h3 className="font-medium text-gray-900 dark:text-white">Manage Articles</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Create & Manage Blog Articles</p>
               </div>
             </Link>
             
