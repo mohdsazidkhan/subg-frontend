@@ -2234,6 +2234,7 @@ const categoryIcons = {
   "Literature & Language": FaLanguage,
   "Competitive Exams": FaGraduationCap,
   "Economics": FaDollarSign,
+  Default: FaBook,
 };
 
 const levelBadgeIcons = {
