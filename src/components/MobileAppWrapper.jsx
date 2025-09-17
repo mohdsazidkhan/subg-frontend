@@ -7,7 +7,7 @@ import ScrollToTopButton from './ScrollToTopButton';
 const MobileAppWrapper = ({ children, title, showHeader = true }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const user = typeof window !== 'undefined' ? getCurrentUser() : null;
+  const user = getCurrentUser();
   
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -19,7 +19,6 @@ const MobileAppWrapper = ({ children, title, showHeader = true }) => {
   });
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
     const root = window.document.documentElement;
     if (darkMode) {
       root.classList.add('dark');
@@ -108,15 +107,13 @@ const MobileAppWrapper = ({ children, title, showHeader = true }) => {
             
             {/* Right side - Theme toggle and Logout button */}
             <div className="flex items-center space-x-2">
-              {typeof window !== 'undefined' && (
-                <button
-                  onClick={toggleTheme}
-                  className="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 transition-all duration-200 hover:scale-105"
-                  title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                >
-                  {darkMode ? <FaSun className="w-4 h-4" /> : <FaMoon className="w-4 h-4" />}
-                </button>
-              )}
+              <button
+                onClick={toggleTheme}
+                className="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 transition-all duration-200 hover:scale-105"
+                title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              >
+                {darkMode ? <FaSun className="w-4 h-4" /> : <FaMoon className="w-4 h-4" />}
+              </button>
 
               {user ? (
                 <button
@@ -139,7 +136,7 @@ const MobileAppWrapper = ({ children, title, showHeader = true }) => {
       </div>
       
       {/* Scroll to Top Button - Only show on mobile */}
-      {typeof window !== 'undefined' && <ScrollToTopButton />}
+      <ScrollToTopButton />
     </div>
   );
 };
