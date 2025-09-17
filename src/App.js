@@ -104,7 +104,7 @@ function AppLayout() {
       {/* Sidebar only for admin users */}
       {isAdmin() && hasAdminPrivileges() && <Sidebar />}
       
-      <ToastContainer position="bottom-right" autoClose={3000} />
+      {typeof window !== 'undefined' && <ToastContainer position="bottom-right" autoClose={3000} />}
       <div className={`appContainer ${location.pathname !== '/' ? 'has-navbar' : ''}`}>
         <>
           <Routes>
@@ -181,6 +181,8 @@ function AppLayout() {
     </ErrorBoundary>
   );
 }
+
+export { AppLayout };
 
 export default function App() {
   return (
