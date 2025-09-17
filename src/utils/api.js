@@ -23,10 +23,15 @@ class ApiService {
       console.log('🔑 Token:', token ? 'Present' : 'Missing');
     }
     
+    const isFormData = options && options.body && typeof FormData !== 'undefined' && options.body instanceof FormData;
+
+    const defaultHeaders = isFormData
+      ? { ...(token && { Authorization: `Bearer ${token}` }) }
+      : { 'Content-Type': 'application/json', ...(token && { Authorization: `Bearer ${token}` }) };
+
     const config = {
       headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }),
+        ...defaultHeaders,
         ...options.headers,
       },
       ...options,
@@ -556,16 +561,34 @@ class ApiService {
   }
 
   async createArticle(articleData) {
+    const form = new FormData();
+    Object.entries(articleData).forEach(([key, value]) => {
+      if (value === undefined || value === null) return;
+      if (key === 'tags' && Array.isArray(value)) {
+        value.forEach(tag => form.append('tags[]', tag));
+      } else {
+        form.append(key, value);
+      }
+    });
     return this.request('/api/admin/articles', {
       method: 'POST',
-      body: JSON.stringify(articleData)
+      body: form
     });
   }
 
   async updateArticle(id, articleData) {
+    const form = new FormData();
+    Object.entries(articleData).forEach(([key, value]) => {
+      if (value === undefined || value === null) return;
+      if (key === 'tags' && Array.isArray(value)) {
+        value.forEach(tag => form.append('tags[]', tag));
+      } else {
+        form.append(key, value);
+      }
+    });
     return this.request(`/api/admin/articles/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(articleData)
+      body: form
     });
   }
 

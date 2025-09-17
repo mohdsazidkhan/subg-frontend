@@ -103,6 +103,15 @@ const AdminArticleForm = () => {
     }));
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    setFormData(prev => ({
+      ...prev,
+      featuredImageFile: file
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -115,6 +124,10 @@ const AdminArticleForm = () => {
         slug: generateSlug(formData.title),
         tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
       };
+      // Keep file separate from URL field to avoid conflicts
+      if (formData.featuredImageFile) {
+        articleData.featuredImageFile = formData.featuredImageFile;
+      }
 
       if (isEdit) {
         await API.updateArticle(id, articleData);
@@ -285,17 +298,24 @@ const AdminArticleForm = () => {
               </h2>
               
               <div className="grid grid-cols-1 gap-6">
-                {/* Featured Image */}
+                {/* Featured Image Upload */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Featured Image URL
+                    Featured Image
                   </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="w-full text-sm text-gray-900 dark:text-gray-200"
+                  />
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Optional: You can still paste a hosted image URL below.</p>
                   <input
                     type="url"
                     name="featuredImage"
                     value={formData.featuredImage}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:bg-gray-700 dark:text-white"
+                    className="mt-2 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:bg-gray-700 dark:text-white"
                     placeholder="https://example.com/image.jpg"
                   />
                 </div>
