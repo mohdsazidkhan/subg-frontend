@@ -1,10 +1,10 @@
 {
 	"rewrites": [
 		{ "source": "/api/:path*", "destination": "https://subg-backend.onrender.com/api/:path*" },
-		{ "source": "/static/:path*", "destination": "/static/:path*" },
-		{ "source": "/assets/:path*", "destination": "/assets/:path*" },
-		{ "source": "/favicon.ico", "destination": "/favicon.ico" },
-		{ "source": "/logo.png", "destination": "/logo.png" },
+		{ "source": "/static/:path*", "destination": "https://subg-backend.onrender.com/static/:path*" },
+		{ "source": "/assets/:path*", "destination": "https://subg-backend.onrender.com/assets/:path*" },
+		{ "source": "/favicon.ico", "destination": "https://subg-backend.onrender.com/favicon.ico" },
+		{ "source": "/logo.png", "destination": "https://subg-backend.onrender.com/logo.png" },
 		{ "source": "/:path*", "destination": "https://subg-backend.onrender.com/:path*" }
 	]
 }
