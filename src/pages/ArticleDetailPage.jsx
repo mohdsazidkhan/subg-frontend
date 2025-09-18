@@ -5,11 +5,11 @@ import MobileAppWrapper from '../components/MobileAppWrapper';
 import Sidebar from '../components/Sidebar';
 import { useSelector } from 'react-redux';
 
-const ArticleDetailPage = () => {
-  const { slug } = useParams();
-  const [article, setArticle] = useState(null);
-  const [relatedArticles, setRelatedArticles] = useState([]);
-  const [loading, setLoading] = useState(true);
+const ArticleDetailPage = ({ ssrData }) => {
+  const { slug } = typeof window !== 'undefined' ? require('react-router-dom').useParams() : { slug: ssrData?.article?.slug };
+  const [article, setArticle] = useState(ssrData?.article || null);
+  const [relatedArticles, setRelatedArticles] = useState(ssrData?.related || []);
+  const [loading, setLoading] = useState(!ssrData);
   const [error, setError] = useState(null);
   const [liked, setLiked] = useState(false);
 
@@ -17,8 +17,9 @@ const ArticleDetailPage = () => {
   const isOpen = useSelector((state) => state.sidebar.isOpen);
 
   useEffect(() => {
+    if (ssrData) return;
     fetchArticle();
-  }, [slug]);
+  }, [slug, ssrData]);
 
   const fetchArticle = async () => {
     try {

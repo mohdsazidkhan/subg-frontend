@@ -5,11 +5,11 @@
 
 const config = {
   // API Configuration
-  API_URL: process.env.REACT_APP_API_URL || 'http://localhost:5000',
-  BACKEND_URL: process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000',
+  API_URL: process.env.NEXT_PUBLIC_API_BASE_URL || process.env.REACT_APP_API_URL || 'http://localhost:5000',
+  BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000',
 
   // Application Configuration
-  APP_NAME: process.env.REACT_APP_APP_NAME || 'SUBG QUIZ',
+  APP_NAME: process.env.NEXT_PUBLIC_APP_NAME || process.env.REACT_APP_APP_NAME || 'SUBG QUIZ',
   APP_VERSION: process.env.REACT_APP_APP_VERSION || '1.0.0',
   APP_DESCRIPTION: process.env.REACT_APP_APP_DESCRIPTION || 'Quiz Platform',
   APP_AUTHOR: process.env.REACT_APP_APP_AUTHOR || 'SUBG TEAM',
@@ -21,15 +21,15 @@ const config = {
   MAX_LOGIN_ATTEMPTS: parseInt(process.env.REACT_APP_MAX_LOGIN_ATTEMPTS) || 5,
 
   // Payment Configuration
-  CURRENCY: process.env.REACT_APP_CURRENCY || 'INR',
+  CURRENCY: process.env.NEXT_PUBLIC_CURRENCY || process.env.REACT_APP_CURRENCY || 'INR',
   PAYMENT_TIMEOUT: parseInt(process.env.REACT_APP_PAYMENT_TIMEOUT) || 300000, // 5 minutes
 
-  // PayU Configuration
-  PAYU_MERCHANT_KEY: process.env.REACT_APP_PAYU_MERCHANT_KEY || 'your_payu_merchant_key',
-  PAYU_MERCHANT_ID: process.env.REACT_APP_PAYU_MERCHANT_ID || 'your_payu_merchant_id',
-  PAYU_PAYMENT_URL: process.env.REACT_APP_PAYU_PAYMENT_URL || 'https://test.payu.in/_payment',
-  PAYU_SUCCESS_URL: process.env.REACT_APP_PAYU_SUCCESS_URL || 'http://localhost:3000/subscription/payu-success',
-  PAYU_FAILURE_URL: process.env.REACT_APP_PAYU_FAILURE_URL || 'http://localhost:3000/subscription/payu-failure',
+  // PayU Configuration (client-visible only: success/failure URLs). Keys/secrets must live on backend.
+  PAYU_MERCHANT_KEY: process.env.NEXT_PUBLIC_PAYU_MERCHANT_KEY || process.env.REACT_APP_PAYU_MERCHANT_KEY || 'your_payu_merchant_key',
+  PAYU_MERCHANT_ID: process.env.NEXT_PUBLIC_PAYU_MERCHANT_ID || process.env.REACT_APP_PAYU_MERCHANT_ID || 'your_payu_merchant_id',
+  PAYU_PAYMENT_URL: process.env.NEXT_PUBLIC_PAYU_PAYMENT_URL || process.env.REACT_APP_PAYU_PAYMENT_URL || 'https://test.payu.in/_payment',
+  PAYU_SUCCESS_URL: (process.env.NEXT_PUBLIC_PAYU_SUCCESS_URL || process.env.REACT_APP_PAYU_SUCCESS_URL || `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/subscription/payu-success`),
+  PAYU_FAILURE_URL: (process.env.NEXT_PUBLIC_PAYU_FAILURE_URL || process.env.REACT_APP_PAYU_FAILURE_URL || `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/subscription/payu-failure`),
 
   // Subscription Plans
   SUBSCRIPTION_PLANS: {
@@ -104,7 +104,7 @@ const config = {
 
   // UI Configuration
   UI_CONFIG: {
-    DEFAULT_THEME: process.env.REACT_APP_DEFAULT_THEME || 'light',
+    DEFAULT_THEME: process.env.NEXT_PUBLIC_DEFAULT_THEME || process.env.REACT_APP_DEFAULT_THEME || 'light',
     ENABLE_DARK_MODE: process.env.REACT_APP_ENABLE_DARK_MODE === 'true',
     TOAST_DURATION: parseInt(process.env.REACT_APP_TOAST_DURATION) || 3000,
     LOADING_TIMEOUT: parseInt(process.env.REACT_APP_LOADING_TIMEOUT) || 10000

@@ -6,7 +6,7 @@ import MobileAppWrapper from '../components/MobileAppWrapper';
 import Sidebar from '../components/Sidebar';
 import { useSelector } from 'react-redux';
 
-const ArticlesPage = () => {
+const ArticlesPage = ({ ssrData }) => {
   const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -82,9 +82,16 @@ const ArticlesPage = () => {
   };
 
   useEffect(() => {
+    if (ssrData) {
+      setArticles(ssrData.articles || []);
+      setPagination(ssrData.pagination || {});
+      setCategories(ssrData.categories || []);
+      setLoading(false);
+      return;
+    }
     fetchArticles();
     fetchCategories();
-  }, [fetchArticles]);
+  }, [fetchArticles, ssrData]);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
