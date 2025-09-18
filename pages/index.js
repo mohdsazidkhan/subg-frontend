@@ -5,7 +5,7 @@ export default function Home() {
     // Avoid rendering client-only app on server to prevent runtime errors
     return null;
   }
-  const HomeClient = require('./_components/HomeClient.jsx').default;
+  const HomeClient = require('../src/next/HomeClient.jsx').default;
   return <HomeClient />;
 }
 
