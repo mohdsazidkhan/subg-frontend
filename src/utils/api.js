@@ -1,10 +1,9 @@
-const getIsBrowser = () => typeof window !== 'undefined';
-const API_BASE_URL = (process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL || process.env.REACT_APP_API_URL) || 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 
   (process.env.NODE_ENV === 'production' ? 'https://subg-backend.onrender.com' : 'http://localhost:5000');
 
 // Validate API configuration
-if (!process.env.API_BASE_URL && !process.env.NEXT_PUBLIC_API_BASE_URL && process.env.NODE_ENV === 'production') {
-  console.warn('⚠️ API_BASE_URL not set. Using fallback URL:', API_BASE_URL);
+if (!process.env.REACT_APP_API_URL && process.env.NODE_ENV === 'production') {
+  console.warn('⚠️ REACT_APP_API_URL not set in production. Using fallback URL:', API_BASE_URL);
 }
 
 class ApiService {
@@ -17,7 +16,7 @@ class ApiService {
 
   async request(endpoint, options = {}) {
     const url = `${this.baseURL}${endpoint}`;
-    const token = getIsBrowser() ? localStorage.getItem('token') : null;
+    const token = localStorage.getItem('token');
     
     if (process.env.NODE_ENV !== 'production') {
       console.log(`🌐 API Request: ${options.method || 'GET'} ${url}`);

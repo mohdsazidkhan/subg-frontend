@@ -6,7 +6,7 @@ import MobileAppWrapper from '../components/MobileAppWrapper';
 import Sidebar from '../components/Sidebar';
 import { useSelector } from 'react-redux';
 
-const ArticlesPage = ({ ssrData }) => {
+const ArticlesPage = () => {
   const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,16 +20,11 @@ const ArticlesPage = ({ ssrData }) => {
   const [pagination, setPagination] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [viewMode, setViewMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const saved = window.localStorage.getItem('articlesViewMode');
-        return saved || 'grid';
-      } catch (_) { /* no-op */ }
-    }
-    return 'grid';
+    const saved = localStorage.getItem('articlesViewMode');
+    return saved || 'grid';
   }); // 'grid' or 'list'
 
-  const user = (typeof window !== 'undefined') ? JSON.parse(window.localStorage.getItem('userInfo') || 'null') : null;
+  const user = JSON.parse(localStorage.getItem('userInfo') || 'null');
   const isOpen = useSelector((state) => state.sidebar.isOpen);
 
   const fetchArticles = useCallback(async () => {
@@ -87,16 +82,9 @@ const ArticlesPage = ({ ssrData }) => {
   };
 
   useEffect(() => {
-    if (ssrData) {
-      setArticles(ssrData.articles || []);
-      setPagination(ssrData.pagination || {});
-      setCategories(ssrData.categories || []);
-      setLoading(false);
-      return;
-    }
     fetchArticles();
     fetchCategories();
-  }, [fetchArticles, ssrData]);
+  }, [fetchArticles]);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
