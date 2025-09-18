@@ -204,9 +204,9 @@ const AdminArticles = () => {
                         </div>
                       )}
                     </div>
-                    <div className="ml-4">
-                      <div className="text-sm font-medium text-gray-900 dark:text-white">
-                        {article.title}
+                    <div className="ml-4 max-w-96" >
+                      <div className="text-sm font-medium text-gray-900 dark:text-white" title={article.title}>
+                        {article.title?.length > 40 ? article.title?.substring(0, 40) + '...' : article.title}
                         {article.isFeatured && (
                           <span className="ml-2 text-yellow-500">⭐</span>
                         )}
@@ -218,8 +218,8 @@ const AdminArticles = () => {
                         {formatDate(article.createdAt)}
                       </div>
                       {article.slug && (
-                        <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
-                          <code>/articles/{article.slug}</code>
+                        <div className="text-xs text-blue-600 dark:text-blue-400 mt-1" title={article.slug}>
+                          <code>/articles/{article.slug?.length > 40 ? article.slug?.substring(0, 40) + '...' : article.slug}</code>
                         </div>
                       )}
                     </div>

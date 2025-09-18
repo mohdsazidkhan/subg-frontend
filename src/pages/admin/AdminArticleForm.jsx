@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import API from '../../utils/api';
 import AdminMobileAppWrapper from '../../components/AdminMobileAppWrapper';
 import Sidebar from '../../components/Sidebar';
+import CustomEditor from '../../components/CustomEditor';
 import { useSelector } from 'react-redux';
 
 const AdminArticleForm = () => {
@@ -103,6 +104,20 @@ const AdminArticleForm = () => {
     }));
   };
 
+  const handleContentChange = (content) => {
+    setFormData(prev => ({
+      ...prev,
+      content: content
+    }));
+  };
+
+  // Helper function to check if content is empty (only whitespace or empty tags)
+  const isContentEmpty = (content) => {
+    if (!content) return true;
+    const textContent = content.replace(/<[^>]*>/g, '').trim();
+    return textContent === '';
+  };
+
   const handleFileChange = (e) => {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
@@ -114,6 +129,12 @@ const AdminArticleForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate content
+    if (isContentEmpty(formData.content)) {
+      setError('Content is required');
+      return;
+    }
     
     try {
       setLoading(true);
@@ -222,14 +243,12 @@ const AdminArticleForm = () => {
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Content *
                   </label>
-                  <textarea
-                    name="content"
+                  <CustomEditor
                     value={formData.content}
-                    onChange={handleChange}
-                    required
-                    rows={12}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:bg-gray-700 dark:text-white"
+                    onChange={handleContentChange}
                     placeholder="Write your article content here..."
+                    minHeight="200px"
+                    toolbarButtons="all"
                   />
                 </div>
 
