@@ -3,9 +3,17 @@ import Head from 'next/head';
 import { MemoryRouter } from 'react-router-dom';
 import UnifiedNavbar from '../components/UnifiedNavbar.jsx';
 import UnifiedFooter from '../components/UnifiedFooter.jsx';
-import LandingPage from '../pages/LandingPage.jsx';
+import ErrorBoundary from '../components/ErrorBoundary.jsx';
 
 export default function HomeClient() {
+  const [LandingPage, setLandingPage] = React.useState(null);
+  React.useEffect(() => {
+    let mounted = true;
+    import('../pages/LandingPage.jsx')
+      .then(mod => { if (mounted) setLandingPage(() => mod.default); })
+      .catch(() => { /* noop - ErrorBoundary will handle */ });
+    return () => { mounted = false; };
+  }, []);
   return (
     <>
       <Head>
@@ -13,9 +21,13 @@ export default function HomeClient() {
         <meta name="description" content="Practice quizzes, levels, rewards, and more on SUBG." />
       </Head>
       <UnifiedNavbar isLandingPage={true} />
-      <MemoryRouter initialEntries={["/"]}>
-        <LandingPage />
-      </MemoryRouter>
+      <ErrorBoundary>
+        {LandingPage ? (
+          <MemoryRouter initialEntries={["/"]}>
+            <LandingPage />
+          </MemoryRouter>
+        ) : null}
+      </ErrorBoundary>
       <UnifiedFooter isLandingPage={true} />
     </>
   );
