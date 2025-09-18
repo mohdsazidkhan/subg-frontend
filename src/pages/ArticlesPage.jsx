@@ -20,11 +20,16 @@ const ArticlesPage = ({ ssrData }) => {
   const [pagination, setPagination] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [viewMode, setViewMode] = useState(() => {
-    const saved = localStorage.getItem('articlesViewMode');
-    return saved || 'grid';
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = window.localStorage.getItem('articlesViewMode');
+        return saved || 'grid';
+      } catch (_) { /* no-op */ }
+    }
+    return 'grid';
   }); // 'grid' or 'list'
 
-  const user = JSON.parse(localStorage.getItem('userInfo') || 'null');
+  const user = (typeof window !== 'undefined') ? JSON.parse(window.localStorage.getItem('userInfo') || 'null') : null;
   const isOpen = useSelector((state) => state.sidebar.isOpen);
 
   const fetchArticles = useCallback(async () => {

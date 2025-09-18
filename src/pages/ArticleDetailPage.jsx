@@ -13,7 +13,7 @@ const ArticleDetailPage = ({ ssrData }) => {
   const [error, setError] = useState(null);
   const [liked, setLiked] = useState(false);
 
-  const user = JSON.parse(localStorage.getItem('userInfo') || 'null');
+  const user = (typeof window !== 'undefined') ? JSON.parse(window.localStorage.getItem('userInfo') || 'null') : null;
   const isOpen = useSelector((state) => state.sidebar.isOpen);
 
   useEffect(() => {
