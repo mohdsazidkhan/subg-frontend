@@ -1,7 +1,7 @@
 import AdminNavbar from '../../src/components/AdminNavbar.jsx';
 import AdminMobileBottomNavigation from '../../src/components/AdminMobileBottomNavigation.jsx';
 import Sidebar from '../../src/components/Sidebar';
-import DashboardPage from '../../src/pages/admin/DashboardPage.jsx';
+import DashboardPage from '../../src/pages/admin/DashboardPage.js';
 import { MemoryRouter } from 'react-router-dom';
 
 export async function getServerSideProps() { return { props: {} }; }

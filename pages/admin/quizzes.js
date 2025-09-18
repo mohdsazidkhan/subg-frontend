@@ -1,7 +1,7 @@
 import AdminNavbar from '../../src/components/AdminNavbar.jsx';
 import AdminMobileBottomNavigation from '../../src/components/AdminMobileBottomNavigation.jsx';
 import Sidebar from '../../src/components/Sidebar';
-import QuizManagementPage from '../../src/pages/admin/QuizPage.jsx';
+import QuizManagementPage from '../../src/pages/admin/QuizPage.js';
 import { MemoryRouter } from 'react-router-dom';
 
 export async function getServerSideProps() { return { props: {} }; }

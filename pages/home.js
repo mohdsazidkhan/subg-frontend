@@ -1,6 +1,6 @@
 import UnifiedNavbar from '../src/components/UnifiedNavbar.jsx';
 import UnifiedFooter from '../src/components/UnifiedFooter.jsx';
-import HomePage from '../src/pages/HomePage.jsx';
+import HomePage from '../src/pages/HomePage.js';
 import { MemoryRouter } from 'react-router-dom';
 
 export async function getServerSideProps() { return { props: {} }; }

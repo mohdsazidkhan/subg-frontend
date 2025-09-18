@@ -1,6 +1,6 @@
 import UnifiedNavbar from '../src/components/UnifiedNavbar.jsx';
 import UnifiedFooter from '../src/components/UnifiedFooter.jsx';
-import LoginPage from '../src/pages/LoginPage.jsx';
+import LoginPage from '../src/pages/LoginPage.js';
 import { MemoryRouter } from 'react-router-dom';
 
 export async function getServerSideProps() { return { props: {} }; }
