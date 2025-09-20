@@ -48,13 +48,14 @@ const ScrollToTopButton = () => {
             borderRadius: '50%',
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             border: 'none',
-            boxShadow: '0 4px 20px rgba(102, 126, 234, 0.4)',
+            color: 'white',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: 'white',
-            fontSize: '18px'
+            boxShadow: '0 4px 20px rgba(102, 126, 234, 0.4)',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            animation: 'scrollToTopFadeIn 0.3s ease-out'
           }}
         >
           <FaArrowUp />
