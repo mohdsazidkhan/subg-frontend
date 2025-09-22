@@ -7,8 +7,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-      'subg-light': 'linear-gradient(45deg, #fff4f4, #fffaea)',
-      'subg-dark': 'linear-gradient(45deg, #4a3535, #2f2b22)',
+      'subg-light': 'linear-gradient(274deg, #fff4f4 33%, #fff 33%, #fffaea 33%)',
+      'subg-dark': 'linear-gradient(274deg, #2a0808 33%, #2d2b1cfc 33%, #1a1d2a 33%)',
       },
       boxShadow: {
         '3xl': '0 35px 60px -12px rgba(0, 0, 0, 0.25)',
