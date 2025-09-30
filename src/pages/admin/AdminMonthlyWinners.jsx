@@ -243,7 +243,7 @@ const AdminMonthlyWinners = () => {
 
               {/* View Toggle Buttons */}
               <div className="flex items-center justify-between gap-3 mb-6">
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
                   <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
                     <button
                       onClick={() => setViewMode('grid')}
