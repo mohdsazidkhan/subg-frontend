@@ -17,7 +17,7 @@ const AdminMonthlyWinners = () => {
   const currentMonth = currentDate.getMonth() + 1; // getMonth() returns 0-11, so add 1
   
   // If current month is September (9), default to August (8), otherwise use current month
-  const defaultMonth = currentMonth === 9 ? 8 : currentMonth;
+  const defaultMonth = currentMonth - 1;
   
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [selectedMonth, setSelectedMonth] = useState(defaultMonth);
