@@ -1,7 +1,19 @@
+import { Helmet } from 'react-helmet';
 import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const PrivacyPolicy = () => (
   <MobileAppWrapper title="Privacy Policy">
+    <Helmet>
+      <title>Privacy Policy - SUBG QUIZ Data Protection & Privacy</title>
+      <meta name="description" content="Read SUBG QUIZ privacy policy to understand how we collect, use, and protect your personal information on our skill-based quiz platform." />
+      <meta name="keywords" content="privacy policy, data protection, SUBG QUIZ privacy, quiz platform privacy, user data security" />
+      <meta property="og:title" content="Privacy Policy - SUBG QUIZ Data Protection & Privacy" />
+      <meta property="og:description" content="Read SUBG QUIZ privacy policy to understand how we collect, use, and protect your personal information on our skill-based quiz platform." />
+      <meta property="og:type" content="website" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Privacy Policy - SUBG QUIZ Data Protection & Privacy" />
+      <meta name="twitter:description" content="Read SUBG QUIZ privacy policy to understand how we collect, use, and protect your personal information on our skill-based quiz platform." />
+    </Helmet>
     <div className="max-w-3xl mx-auto px-4 py-10 text-gray-800 dark:text-gray-200 transition-colors duration-300">
     <h1 className="text-3xl font-semibold mb-4 text-gray-900 dark:text-white">
       Privacy Policy
@@ -45,8 +57,8 @@ const PrivacyPolicy = () => (
       <li>To run quizzes, compute scores, determine level progression, and show leaderboard rankings.</li>
       <li>To process rewards, including the <strong>Monthly Rewards System</strong>:
         <ul className="list-disc pl-6 mt-1 space-y-1">
-          <li><strong>Monthly:</strong> Top 3 eligible users at (Level 10 and Minimum 110 Quizzes with ≥75% Accuracy) win ₹9,999 each</li>
-          <li><strong>Eligibility:</strong> Must reach Level 10 and minimum 110 quizzes ≥75% accuracy in the current month</li>
+          <li><strong>Monthly:</strong> Top 10 eligible users at Level 10 with {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes win from ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000} total pool</li>
+          <li><strong>Eligibility:</strong> Must reach Level 10 and have {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes (≥75% accuracy) in the current month</li>
           <li><strong>Reset:</strong> Progress and rewards reset every month on the 1st</li>
         </ul>
       </li>
@@ -57,7 +69,7 @@ const PrivacyPolicy = () => (
     <h2 className="text-xl font-semibold mt-6 mb-2 text-gray-900 dark:text-white">3) Sharing & Third‑Party Services</h2>
     <ul className="list-disc pl-6 space-y-2">
       <li>
-        <strong>Payments:</strong> We use trusted payment processors (e.g., Razorpay) to handle subscription payments securely. Necessary transaction data is shared with them to complete payment processing.
+        <strong>Payments:</strong> We use trusted payment processors (e.g., PAYU) to handle subscription payments securely. Necessary transaction data is shared with them to complete payment processing.
       </li>
       <li>
         <strong>Email/SMS:</strong> We may use reputable communication providers to deliver OTPs, receipts, or important notifications.

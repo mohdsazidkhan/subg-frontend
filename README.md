@@ -117,30 +117,37 @@ subg-frontend/
 - **Achievement System**: Badges and rewards
 
 ### Level Progression
-1. **Starter** (Level 0) - 0 high-score quizzes (75%+) required
-2. **Rookie** (Level 1) - 2 high-score quizzes (75%+) required
-3. **Explorer** (Level 2) - 6 high-score quizzes (75%+) required
-4. **Thinker** (Level 3) - 12 high-score quizzes (75%+) required
-5. **Strategist** (Level 4) - 20 high-score quizzes (75%+) required
-6. **Achiever** (Level 5) - 30 high-score quizzes (75%+) required
-7. **Mastermind** (Level 6) - 42 high-score quizzes (75%+) required
-8. **Champion** (Level 7) - 56 high-score quizzes (75%+) required
-9. **Prodigy** (Level 8) - 72 high-score quizzes (75%+) required
-10. **Wizard** (Level 9) - 90 high-score quizzes (75%+) required
-11. **Legend** (Level 10) - 110 high-score quizzes (75%+) required
+1. **Starter** (Level 0) - 0 total quiz attempts required
+2. **Rookie** (Level 1) - 4 total quiz attempts required
+3. **Explorer** (Level 2) - 12 total quiz attempts required
+4. **Thinker** (Level 3) - 24 total quiz attempts required
+5. **Strategist** (Level 4) - 40 total quiz attempts required
+6. **Achiever** (Level 5) - 60 total quiz attempts required
+7. **Mastermind** (Level 6) - 84 total quiz attempts required
+8. **Champion** (Level 7) - 112 total quiz attempts required
+9. **Prodigy** (Level 8) - 144 total quiz attempts required
+10. **Wizard** (Level 9) - 180 total quiz attempts required
+11. **Legend** (Level 10) - 220 total quiz attempts required
 
 ## 🏅 Monthly Highscore System
 
 ### Monthly Competition Interface
 - **Progress Tracking**: Real-time monthly quiz progress
-- **Target Display**: 110 high-score quizzes (75%+ accuracy) target
-- **Prize Information**: ₹9,999 total prize pool details
+- **Target Display**: 220 high-score quizzes (75%+ accuracy) target
+- **Prize Information**: ₹10,000 total prize pool details
 - **Leaderboard**: Monthly top performers ranking
 
-### Prize Distribution Display
-- **1st Place**: ₹4,999 (50% of pool) - Gold trophy
-- **2nd Place**: ₹3,333 (33.33% of pool) - Silver trophy  
-- **3rd Place**: ₹1,667 (16.67% of pool) - Bronze trophy
+### Prize Distribution
+- **1st Place**: ₹2,500 (25% of pool)
+- **2nd Place**: ₹2,000 (20% of pool)
+- **3rd Place**: ₹1,500 (15% of pool)
+- **4th Place**: ₹1,200 (12% of pool)
+- **5th Place**: ₹800 (8% of pool)
+- **6th Place**: ₹600 (6% of pool)
+- **7th Place**: ₹500 (5% of pool)
+- **8th Place**: ₹400 (4% of pool)
+- **9th Place**: ₹350 (3.5% of pool)
+- **10th Place**: ₹150 (1.5% of pool)
 
 ### Features
 - **Monthly Reset**: Automatic reset on last day of month

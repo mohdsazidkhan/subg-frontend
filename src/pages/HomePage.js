@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import {
   FaTrophy,
   FaCrown,
@@ -66,18 +67,18 @@ const levelBadgeIcons = {
   Default: FaStar,
 };
 
-// Level play count info for display (monthly cumulative wins, monthly pricing)
+// Level play count info for display (cumulative quiz attempts, monthly pricing)
 const levelsInfo = [
-  { level: 1, quizzes: 2, plan: "Free", amount: 0, prize: 0 },
-  { level: 2, quizzes: 6, plan: "Free", amount: 0, prize: 0 },
-  { level: 3, quizzes: 12, plan: "Free", amount: 0, prize: 0 },
-  { level: 4, quizzes: 20, plan: "Basic", amount: 9, prize: 0 },
-  { level: 5, quizzes: 30, plan: "Basic", amount: 9, prize: 0 },
-  { level: 6, quizzes: 42, plan: "Basic", amount: 9, prize: 0 },
-  { level: 7, quizzes: 56, plan: "Premium", amount: 49, prize: 0 },
-  { level: 8, quizzes: 72, plan: "Premium", amount: 49, prize: 0 },
-  { level: 9, quizzes: 90, plan: "Premium", amount: 49, prize: 0 },
-  { level: 10, quizzes: 110, plan: "Pro", amount: 99, prize: 9999 },
+  { level: 1, quizzes: 4, plan: "Free", amount: 0, prize: 0 },
+  { level: 2, quizzes: 12, plan: "Free", amount: 0, prize: 0 },
+  { level: 3, quizzes: 24, plan: "Free", amount: 0, prize: 0 },
+  { level: 4, quizzes: 40, plan: "Basic", amount: 9, prize: 0 },
+  { level: 5, quizzes: 60, plan: "Basic", amount: 9, prize: 0 },
+  { level: 6, quizzes: 84, plan: "Basic", amount: 9, prize: 0 },
+  { level: 7, quizzes: 112, plan: "Premium", amount: 49, prize: 0 },
+  { level: 8, quizzes: 144, plan: "Premium", amount: 49, prize: 0 },
+  { level: 9, quizzes: 180, plan: "Premium", amount: 49, prize: 0 },
+  { level: 10, quizzes: 220, plan: "Pro", amount: 99, prize: process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000 },
 ];
 
 // Level color mappings for both light and dark modes
@@ -307,73 +308,74 @@ const HomePage = () => {
             level: 1,
             name: "Rookie",
             description: "Build your foundation",
-            quizCount: 30,
-            quizzesRequired: 2,
+            quizCount: 4,
+            quizzesRequired: 4,
           },
           {
             level: 2,
             name: "Explorer",
             description: "Discover new knowledge",
-            quizCount: 35,
-            quizzesRequired: 6,
+            quizCount: 8,
+            quizzesRequired: 12,
           },
           {
             level: 3,
             name: "Thinker",
             description: "Develop critical thinking",
-            quizCount: 40,
-            quizzesRequired: 12,
+            quizCount: 12,
+            quizzesRequired: 24,
           },
           {
             level: 4,
             name: "Strategist",
             description: "Master strategic learning",
-            quizCount: 45,
-            quizzesRequired: 20,
+            quizCount: 16,
+            quizzesRequired: 40,
           },
           {
             level: 5,
             name: "Achiever",
             description: "Achieve excellence",
-            quizCount: 50,
-            quizzesRequired: 30,
+            quizCount: 20,
+            quizzesRequired: 60,
           },
           {
             level: 6,
             name: "Mastermind",
             description: "Become a master",
-            quizCount: 55,
-            quizzesRequired: 42,
+            quizCount: 24,
+            quizzesRequired: 84,
           },
           {
             level: 7,
             name: "Champion",
             description: "Champion level",
-            quizCount: 60,
-            quizzesRequired: 56,
+            quizCount: 28,
+            quizzesRequired: 112,
           },
           {
             level: 8,
             name: "Prodigy",
             description: "Prodigy level",
-            quizCount: 65,
-            quizzesRequired: 72,
+            quizCount: 32,
+            quizzesRequired: 144,
           },
           {
             level: 9,
             name: "Wizard",
             description: "Wizard level",
-            quizCount: 70,
-            quizzesRequired: 90,
+            quizCount: 36,
+            quizzesRequired: 180,
           },
           {
             level: 10,
             name: "Legend",
             description: "Legendary status",
-            quizCount: 75,
-            quizzesRequired: 110,
+            quizCount: 40,
+            quizzesRequired: 220,
           }
         ];
+        
         setLevels(fallbackLevels);
       }
     } catch (err) {
@@ -555,6 +557,17 @@ const HomePage = () => {
   };
   return (
     <MobileAppWrapper title="Home">
+      <Helmet>
+        <title>SUBG QUIZ - Student Unknown's Battle Ground Quiz Platform</title>
+        <meta name="description" content="Join SUBG QUIZ - India's premier skill-based quiz platform. Test your knowledge across 10+ levels, compete for monthly prizes, and earn real rewards. Start your quiz journey today!" />
+        <meta name="keywords" content="quiz platform, online quiz, skill-based quiz, quiz competition, SUBG QUIZ, student quiz, knowledge test, quiz rewards" />
+        <meta property="og:title" content="SUBG QUIZ - Student Unknown's Battle Ground Quiz Platform" />
+        <meta property="og:description" content="Join SUBG QUIZ - India's premier skill-based quiz platform. Test your knowledge across 10+ levels, compete for monthly prizes, and earn real rewards." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="SUBG QUIZ - Student Unknown's Battle Ground Quiz Platform" />
+        <meta name="twitter:description" content="Join SUBG QUIZ - India's premier skill-based quiz platform. Test your knowledge across 10+ levels, compete for monthly prizes, and earn real rewards." />
+      </Helmet>
       
       <div className="relative min-h-screen bg-subg-light dark:bg-subg-dark overflow-x-hidden">
 
@@ -634,6 +647,141 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+
+            {/* Pro User Wallet Section */}
+            <section className="py-5 md:py-10 lg:py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-gray-900 dark:via-green-900/20 dark:to-emerald-900/20 pointer-events-none" />
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-4 md:mb-8 lg:mb-16">
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 via-emerald-500 to-teal-600 dark:text-white">
+                Earn Prize by Adding Questions
+              </span>
+            </h2>
+            <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Pro users can earn money by creating quality questions. <br/>Get ₹10 for every approved question!
+            </p>
+          </div>
+
+          <div className="container mx-auto">
+            <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-3 md:p-8 lg:p-12 border border-green-200 dark:border-green-700">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-center">
+                
+                {/* Left Side - Earning Process */}
+                <div className="space-y-6">
+                  <div className="text-center lg:text-left">
+                    <div className="w-20 h-20 mx-auto lg:mx-0 mb-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center">
+                      <span className="text-3xl">💰</span>
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-4">
+                      Earn ₹10 Per Question
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300 mb-6">
+                      Create high-quality questions and earn money for each approved question by our admin team.
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    {[
+                      {
+                        step: "1",
+                        title: "Create Questions",
+                        description: "Submit quiz questions through the Pro User dashboard"
+                      },
+                      {
+                        step: "2", 
+                        title: "Admin Review",
+                        description: "Our team reviews and approves quality questions"
+                      },
+                      {
+                        step: "3",
+                        title: "Earn Money",
+                        description: "Get ₹10 credited to your wallet for each approved question"
+                      },
+                      {
+                        step: "4",
+                        title: "Request Withdrawal",
+                        description: "After 100 approved questions, request withdrawal to admin"
+                      }
+                    ].map((item, index) => (
+                      <div key={index} className="flex items-start space-x-4">
+                        <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+                          {item.step}
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-800 dark:text-white mb-1">{item.title}</h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-300">{item.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right Side - Stats & Info */}
+                <div className="space-y-6">
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-2xl p-6 border border-green-200 dark:border-green-700">
+                    <h4 className="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">
+                      💡 How It Works
+                    </h4>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600 dark:text-gray-300">Per Approved Question:</span>
+                        <span className="font-bold text-green-600">₹10</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600 dark:text-gray-300">Withdrawal Threshold:</span>
+                        <span className="font-bold text-green-600">100 Questions</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600 dark:text-gray-300">Minimum Withdrawal:</span>
+                        <span className="font-bold text-green-600">₹1,000</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600 dark:text-gray-300">Processing Time:</span>
+                        <span className="font-bold text-green-600">24-48 Hours</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-6 border border-blue-200 dark:border-blue-700">
+                    <h4 className="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">
+                      🎯 Pro User Benefits
+                    </h4>
+                    <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+                      <li className="flex items-center space-x-2">
+                        <span className="text-green-500">✓</span>
+                        <span>Earn money for quality content</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <span className="text-green-500">✓</span>
+                        <span>Help build the quiz community</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <span className="text-green-500">✓</span>
+                        <span>Fast withdrawal processing</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <span className="text-green-500">✓</span>
+                        <span>Admin-reviewed quality standards</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="text-center">
+                    <Link
+                      to="/register"
+                      className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    >
+                      <span className="mr-2">🚀</span>
+                      Become a Pro User
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       
       {/* Profile Completion Reward Section - Only show for logged in users with incomplete profile and free subscription */}
       {isLoggedIn && profileCompletion && profileCompletion.percentage < 100 && user?.subscriptionStatus === 'free' && (
@@ -814,7 +962,7 @@ const HomePage = () => {
             </span>
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Celebrating the previous month's top 3 performers who achieved Level 10 with ≥75% accuracy and won monthly prizes!
+            Celebrating the previous month's top 3 performers who achieved Level 10 and 110 high score quizzes with ≥75% accuracy and won monthly prizes!
           </p>
         </div>
         
@@ -857,6 +1005,8 @@ const HomePage = () => {
         </p>
       </div>
 
+
+
       {/* All Levels and Categories sections are hidden if subscription is required */}
       <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 z-10 mt-8 sm:mt-12 md:mt-16">
         {/* Info Cards */}
@@ -873,25 +1023,25 @@ const HomePage = () => {
             </div>
             <div className="space-y-3 sm:space-y-4">
               <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
-                Only the top 1–3 ranked users in Level 10 (
+                Only the top 10 ranked users in Level 10 (
                 <span className="font-bold text-orange-600">Legend</span>) win
                 scholarships and prizes!
               </p>
               <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg sm:rounded-xl p-3 sm:p-4">
                 <div className="text-center">
                   <div className="text-2xl sm:text-3xl font-bold text-orange-600 mb-1 sm:mb-2">
-                    ₹9,999
+                    ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000}
                   </div>
                   <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
-                    Level 10 Top 3 prize split 3:2:1
+                    Level 10 Top 10 monthly prize pool
                   </div>
                   <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                    Monthly Top 3 at Level 10 with ≥75% accuracy win ₹9,999
+                    Monthly Top 10 at Level 10 with {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes win ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000}
                   </div>
                 </div>
               </div>
               <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
-                Reach Level 10 with high accuracy to qualify for monthly prizes!
+                Reach Level 10 with {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes to qualify for monthly prizes!
               </p>
             </div>
           </div>
@@ -949,162 +1099,14 @@ const HomePage = () => {
                   <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"></div>
                 </div>
                 <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
-                  Compete each month for the Top 3 prize!
+                  Compete each month for the Top 10 prizes from ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000} pool!
                 </p>
               </div>
             </div>
           </div>
         </div>
-
-      </div>  
-
-        {/* Progressive Learning Levels Section */}
-      <div className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 dark:from-gray-900 dark:via-yellow-900/20 dark:to-red-900/20 pointer-events-none" />
-        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
-                Progressive Learning Levels
-              </span>
-            </h2>
-            <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Start from Level 1 (Rookie) and progress through 10 levels each
-              month. Reach (Level 10 and Minimum 110 Quizzes with ≥75% accuracy) to
-              qualify for monthly rewards!
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {levels.map((level, index) => {
-              const levelColors = getLevelColors(level.name);
-              const levelInfo = levelsInfo.find(
-                (info) => info.level === level.level
-              );
-              const playCount = levelInfo ? levelInfo.quizzes : 0;
-              return (
-                <div
-                  key={level._id}
-                  className={`group cursor-pointer relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors.background} ${levelColors.border} hover:border-yellow-500`}
-                >
-                   <div className={`absolute top-0 right-0 w-32 h-32 ${levelColors.accent} rounded-full -translate-y-16 translate-x-16`}></div>
-                   
-                   <div className="relative z-10 text-center">
-                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${levelColors.iconBg}`}>
-                      {React.createElement(
-                        levelBadgeIcons[level.name] || levelBadgeIcons.Default,
-                        {
-                          className: `w-8 h-8 ${levelColors.iconColor}`,
-                        }
-                      )}
-                     </div>
-                     
-                     <h3 className={`text-xl font-bold mb-2 ${levelColors.titleColor} text-center`}>
-                       Level {level.level} - {level.name}
-                     </h3>
-                     <p className={`text-sm mb-4 ${levelColors.descriptionColor} text-center`}>
-                      {level.description ||
-                        `Level ${level.level} challenges`}
-                     </p>
-                     
-                     <div className="grid grid-cols-2 gap-2 mb-3">
-                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
-                         <div className="text-lg font-bold text-yellow-600">
-                           {level.quizCount || "N/A"}
-                         </div>
-                         <div className="text-xs text-gray-600 dark:text-gray-300">
-                           Total Quizzes
-                         </div>
-                       </div>
-                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
-                         <div className="text-lg font-bold text-green-600">
-                           {levelInfo ? levelInfo.plan : "-"}
-                         </div>
-                         <div className="text-xs text-gray-600 dark:text-gray-300">
-                           Plan
-                         </div>
-                       </div>
-                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
-                         <div className="text-lg font-bold text-red-600">
-                           ₹{levelInfo ? levelInfo.amount : 0}
-                         </div>
-                         <div className="text-xs text-gray-600 dark:text-gray-300">
-                           Amount
-                         </div>
-                       </div>
-                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
-                         <div className="text-lg font-bold text-yellow-600">
-                           ₹{levelInfo ? levelInfo.prize : 0}
-                         </div>
-                         <div className="text-xs text-gray-600 dark:text-gray-300">
-                           Prize {level.level === 10 ? '(Monthly Top 3: ₹9,999)' : ''}
-                         </div>
-                       </div>
-                     </div>
-                     
-                     <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg mb-4">
-                      <div className="text-md text-gray-900 dark:text-white text-center mb-2 drop-shadow-sm">
-                        <strong>{playCount} wins to level up!</strong> 
-                      </div>
-                      </div>
-                      {(() => {
-                        const userCurrentLevel = userLevelData?.currentLevel || 0;
-                        const nextLevel = userCurrentLevel + 1;
-                        
-                        if (level.level < nextLevel) {
-                          // User is ahead of this level - show unlocked button
-                          return (
-                            <button
-                              onClick={() => navigate(`/level/${level.level}`)}
-                              className="inline-block bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-2 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base md:text-lg"
-                            >
-                              Unlocked
-                            </button>
-                          );
-                        } else if (nextLevel === level.level) {
-                          // User's next level - show view quizzes button
-                          return (
-                            <button
-                              onClick={() => navigate(`/level/${level.level}`)}
-                              className="inline-block bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-2 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base md:text-lg"
-                            >
-                              View Quizzes
-                            </button>
-                          );
-                        } else {
-                          // User hasn't reached this level yet - show locked button
-                          return (
-                            <button
-                              disabled
-                              className="inline-block bg-gradient-to-r from-gray-400 to-gray-500 text-white font-semibold py-2 px-4 rounded-xl shadow-lg cursor-not-allowed text-sm sm:text-base md:text-lg opacity-60"
-                            >
-                              Locked
-                            </button>
-                          );
-                        }
-                      })()}
-                   </div>
-                 </div>
-              );
-            })}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link
-              to="/register"
-              className="inline-flex items-center space-x-2 px-4 md:px-8 py-2 md:py-3 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
-            >
-              <span>Start Your Journey</span>
-              <FaArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      
-        {/* Level-based Quizzes Section */}
-        <div className="container mx-auto p-4 mb-6 sm:mb-10 md:mb-12">
-          <div className="flex items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
+        
+        <div className="flex items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
             <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
               <FaStar className="text-yellow-500 text-lg sm:text-xl md:text-2xl" />
               Your Quizzes
@@ -1245,6 +1247,14 @@ const HomePage = () => {
               )}
             </div>
           )}
+      </div>  
+
+       
+
+      
+        {/* Level-based Quizzes Section */}
+        <div className="container mx-auto p-4 mb-6 sm:mb-10 md:mb-12">
+          
     
 
       {/* Categories Section */}
@@ -1297,15 +1307,148 @@ const HomePage = () => {
         )}
       </div>
 
-      {/* Quiz Start Confirmation Modal */}
-      <QuizStartModal
-        isOpen={showQuizModal}
-        onClose={handleCancelQuizStart}
-        onConfirm={handleConfirmQuizStart}
-        quiz={selectedQuiz}
-      />
+       {/* Progressive Learning Levels Section */}
+       <div className="py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 dark:from-gray-900 dark:via-yellow-900/20 dark:to-red-900/20 pointer-events-none" />
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-yellow-600 dark:text-white">
+                Progressive Learning Levels
+              </span>
+            </h2>
+            <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Start from Level 1 (Rookie) and progress through 10 levels. Reach Level 10 ({process.env.REACT_APP_LEVEL_10_QUIZ_REQUIREMENT || 220} total quiz attempts) and have {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes to qualify for monthly rewards!
+            </p>
+          </div>
 
-    
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {levels.map((level, index) => {
+              const levelColors = getLevelColors(level.name);
+              const levelInfo = levelsInfo.find(
+                (info) => info.level === level.level
+              );
+              const playCount = levelInfo ? levelInfo.quizzes : 0;
+              return (
+                <div
+                  key={level._id}
+                  className={`group cursor-pointer relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors.background} ${levelColors.border} hover:border-yellow-500`}
+                >
+                   <div className={`absolute top-0 right-0 w-32 h-32 ${levelColors.accent} rounded-full -translate-y-16 translate-x-16`}></div>
+                   
+                   <div className="relative z-10 text-center">
+                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto ${levelColors.iconBg}`}>
+                      {React.createElement(
+                        levelBadgeIcons[level.name] || levelBadgeIcons.Default,
+                        {
+                          className: `w-8 h-8 ${levelColors.iconColor}`,
+                        }
+                      )}
+                     </div>
+                     
+                     <h3 className={`text-xl font-bold mb-2 ${levelColors.titleColor} text-center`}>
+                       Level {level.level} - {level.name}
+                     </h3>
+                     <p className={`text-sm mb-4 ${levelColors.descriptionColor} text-center`}>
+                      {level.description ||
+                        `Level ${level.level} challenges`}
+                     </p>
+                     
+                     <div className="grid grid-cols-2 gap-2 mb-3">
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-yellow-600">
+                           {level.quizCount || "N/A"}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Total Quizzes
+                         </div>
+                       </div>
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-green-600">
+                           {levelInfo ? levelInfo.plan : "-"}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Plan
+                         </div>
+                       </div>
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-red-600">
+                           ₹{levelInfo ? levelInfo.amount : 0}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Amount
+                         </div>
+                       </div>
+                       <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg">
+                         <div className="text-lg font-bold text-yellow-600">
+                           ₹{levelInfo ? levelInfo.prize : 0}
+                         </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300">
+                           Prize {level.level === 10 ? `(Monthly Top 10: ₹${process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000})` : ''}
+                         </div>
+                       </div>
+                     </div>
+                     
+                     <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-2 text-center shadow-lg mb-4">
+                      <div className="text-md text-gray-900 dark:text-white text-center mb-2 drop-shadow-sm">
+                        <strong>{playCount} wins to level up!</strong> 
+                      </div>
+                      </div>
+                      {(() => {
+                        const userCurrentLevel = userLevelData?.currentLevel || 0;
+                        const nextLevel = userCurrentLevel + 1;
+                        
+                        if (level.level < nextLevel) {
+                          // User is ahead of this level - show unlocked button
+                          return (
+                            <button
+                              onClick={() => navigate(`/level/${level.level}`)}
+                              className="inline-block bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-2 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base md:text-lg"
+                            >
+                              Unlocked
+                            </button>
+                          );
+                        } else if (nextLevel === level.level) {
+                          // User's next level - show view quizzes button
+                          return (
+                            <button
+                              onClick={() => navigate(`/level/${level.level}`)}
+                              className="inline-block bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 text-white font-semibold py-2 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base md:text-lg"
+                            >
+                              View Quizzes
+                            </button>
+                          );
+                        } else {
+                          // User hasn't reached this level yet - show locked button
+                          return (
+                            <button
+                              disabled
+                              className="inline-block bg-gradient-to-r from-gray-400 to-gray-500 text-white font-semibold py-2 px-4 rounded-xl shadow-lg cursor-not-allowed text-sm sm:text-base md:text-lg opacity-60"
+                            >
+                              Locked
+                            </button>
+                          );
+                        }
+                      })()}
+                   </div>
+                 </div>
+              );
+            })}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link
+              to="/register"
+              className="inline-flex items-center space-x-2 px-4 md:px-8 py-2 md:py-3 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
+            >
+              <span>Start Your Journey</span>
+              <FaArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+  
       {/* Platform Stats Section */}
       <div className="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 z-10">
         <div className="bg-gradient-to-r from-yellow-100 to-red-100 dark:from-gray-800 dark:to-yellow-900/30 rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 lg:p-10 border border-yellow-200 dark:border-yellow-700 flex flex-col items-center relative overflow-hidden">
@@ -1568,6 +1711,14 @@ const HomePage = () => {
           setShowSystemUpdateModal(false);
           localStorage.setItem('hasSeenSystemUpdateModal', 'true');
         }}
+      />
+
+        {/* Quiz Start Confirmation Modal */}
+        <QuizStartModal
+        isOpen={showQuizModal}
+        onClose={handleCancelQuizStart}
+        onConfirm={handleConfirmQuizStart}
+        quiz={selectedQuiz}
       />
 
         </div>

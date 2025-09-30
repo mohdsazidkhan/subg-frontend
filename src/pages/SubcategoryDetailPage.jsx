@@ -122,7 +122,7 @@ const SubcategoryDetailPage = () => {
         </div>
       )}
       
-      <div className="max-w-5xl mx-auto px-4 py-10">
+      <div className="container mx-auto py-4 px-8">
         {loading ? (
           <div className="flex justify-center items-center h-64 bg-white dark:bg-gray-900">
             <div className="flex flex-col items-center">

@@ -4,6 +4,23 @@
   transition: margin-left 0.3s ease-in-out;
 }
 
+/* Custom Animations for Post User Question Page */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+
 /* Rich Text Editor Styles */
 .rich-text-editor .editor {
   min-height: 200px;

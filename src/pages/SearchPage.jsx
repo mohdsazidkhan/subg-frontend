@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import {useLocation, useNavigate} from "react-router-dom";
+import { Helmet } from "react-helmet";
 import API from "../utils/api";
 import QuizStartModal from "../components/QuizStartModal";
 import MobileAppWrapper from "../components/MobileAppWrapper";
@@ -84,7 +85,18 @@ const SearchPage = () => {
 
   return (
     <MobileAppWrapper title="Search">
-      <div className="p-4 max-w-5xl mx-auto">
+      <Helmet>
+        <title>Search Quizzes - SUBG QUIZ Find Your Perfect Quiz</title>
+        <meta name="description" content="Search and discover quizzes on SUBG QUIZ platform. Find quizzes by category, subcategory, or keywords. Explore thousands of skill-based quiz questions." />
+        <meta name="keywords" content="search quizzes, quiz search, SUBG QUIZ search, find quiz, quiz discovery" />
+        <meta property="og:title" content="Search Quizzes - SUBG QUIZ Find Your Perfect Quiz" />
+        <meta property="og:description" content="Search and discover quizzes on SUBG QUIZ platform. Find quizzes by category, subcategory, or keywords. Explore thousands of skill-based quiz questions." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Search Quizzes - SUBG QUIZ Find Your Perfect Quiz" />
+        <meta name="twitter:description" content="Search and discover quizzes on SUBG QUIZ platform. Find quizzes by category, subcategory, or keywords. Explore thousands of skill-based quiz questions." />
+      </Helmet>
+      <div className="px-8 py-4 container mx-auto"> 
       <form onSubmit={handleSearch} className="flex items-center gap-2 mb-6">
         <input
           type="text"

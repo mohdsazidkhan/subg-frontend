@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { FaTrophy, FaBrain, FaShieldAlt, FaUsers, FaRocket, FaStar, FaAward, FaGraduationCap, FaLightbulb, FaHeart } from 'react-icons/fa';
+import { Helmet } from 'react-helmet';
 import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const AboutUs = () => {
@@ -7,8 +8,19 @@ const AboutUs = () => {
 
   return (
     <MobileAppWrapper title="About Us">
+      <Helmet>
+        <title>About SUBG QUIZ - Skill-Based Quiz Platform | Learn More</title>
+        <meta name="description" content="Learn about SUBG QUIZ - India's premier skill-based quiz platform. Discover our mission, features, and commitment to making learning engaging and rewarding for students." />
+        <meta name="keywords" content="about SUBG QUIZ, quiz platform mission, skill-based learning, quiz features, SUBG QUIZ company" />
+        <meta property="og:title" content="About SUBG QUIZ - Skill-Based Quiz Platform" />
+        <meta property="og:description" content="Learn about SUBG QUIZ - India's premier skill-based quiz platform. Discover our mission, features, and commitment to making learning engaging and rewarding." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="About SUBG QUIZ - Skill-Based Quiz Platform" />
+        <meta name="twitter:description" content="Learn about SUBG QUIZ - India's premier skill-based quiz platform. Discover our mission, features, and commitment to making learning engaging and rewarding." />
+      </Helmet>
       <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
-      <div className="container mx-auto px-4 py-4 lg:py-8 mt-0 lg:mt-8">
+      <div className="container mx-auto px-8 py-4 mt-0 lg:mt-8">
         
         {/* Hero Section */}
         <div className="text-center mb-4 lg:mb-12">
@@ -23,8 +35,6 @@ const AboutUs = () => {
           </p>
         </div>
 
-        {/* Main Content */}
-        <div className="max-w-6xl mx-auto">
           
           {/* Mission Statement */}
           <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-3 md:p-6 lg:p-8 border border-white/20 mb-12">
@@ -112,7 +122,7 @@ const AboutUs = () => {
               </div>
               <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Monthly Rewards</h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Monthly rewards system with ₹9,999 for Top 3 eligible users at (Level 10 and Minimum 110 Quizzes with ≥75% Accuracy).
+                Monthly rewards system with ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000} for Top 10 eligible users at (Level 10 and Minimum {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} Quizzes with ≥75% Accuracy).
               </p>
             </div>
           </div>
@@ -183,7 +193,7 @@ const AboutUs = () => {
               </button>
             </div>
           </div>
-        </div>
+
       </div>
       </div>
     </MobileAppWrapper>

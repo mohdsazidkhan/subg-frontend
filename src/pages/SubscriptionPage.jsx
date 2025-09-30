@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { Helmet } from 'react-helmet';
 import API from '../utils/api';
 import config from '../config/appConfig';
 import MobileAppWrapper from '../components/MobileAppWrapper';
@@ -296,6 +297,17 @@ const SubscriptionPage = () => {
 
   return (
   <MobileAppWrapper title="Subscription">
+    <Helmet>
+      <title>Subscription Plans - SUBG QUIZ Premium Access</title>
+      <meta name="description" content="Choose your SUBG QUIZ subscription plan. Get access to premium quiz levels, advanced features, and unlock your full potential with our skill-based quiz platform." />
+      <meta name="keywords" content="SUBG QUIZ subscription, quiz plans, premium quiz access, quiz platform subscription, quiz membership" />
+      <meta property="og:title" content="Subscription Plans - SUBG QUIZ Premium Access" />
+      <meta property="og:description" content="Choose your SUBG QUIZ subscription plan. Get access to premium quiz levels, advanced features, and unlock your full potential with our skill-based quiz platform." />
+      <meta property="og:type" content="website" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Subscription Plans - SUBG QUIZ Premium Access" />
+      <meta name="twitter:description" content="Choose your SUBG QUIZ subscription plan. Get access to premium quiz levels, advanced features, and unlock your full potential with our skill-based quiz platform." />
+    </Helmet>
     <div className="min-h-screen bg-subg-light dark:bg-subg-dark relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">

@@ -9,16 +9,16 @@ import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const levels = [
   { level: 0, name: 'Starter', desc: 'Just registered - Start your journey!', quizzes: 0, plan: 'Free', amount: 0, prize: 0, color: 'from-gray-300 to-gray-400', icon: FaUserGraduate },
-  { level: 1, name: 'Rookie', desc: 'Begin your quiz journey', quizzes: 2, plan: 'Free', amount: 0, prize: 0, color: 'from-green-300 to-green-400', icon: FaStar },
-  { level: 2, name: 'Explorer', desc: 'Discover new challenges', quizzes: 6, plan: 'Free', amount: 0, prize: 0, color: 'from-blue-300 to-blue-400', icon: FaRocket },
-  { level: 3, name: 'Thinker', desc: 'Develop critical thinking', quizzes: 12, plan: 'Free', amount: 0, prize: 0, color: 'from-purple-300 to-purple-400', icon: FaBrain },
-  { level: 4, name: 'Strategist', desc: 'Master quiz strategies', quizzes: 20, plan: 'Basic', amount: 9, prize: 0, color: 'from-yellow-300 to-yellow-400', icon: FaChartLine },
-  { level: 5, name: 'Achiever', desc: 'Reach new heights', quizzes: 30, plan: 'Basic', amount: 9, prize: 0, color: 'from-orange-300 to-orange-400', icon: FaAward },
-  { level: 6, name: 'Mastermind', desc: 'Become a quiz expert', quizzes: 42, plan: 'Basic', amount: 9, prize: 0, color: 'from-red-300 to-red-400', icon: FaGem },
-  { level: 7, name: 'Champion', desc: 'Compete with the best', quizzes: 56, plan: 'Premium', amount: 49, prize: 0, color: 'from-pink-300 to-pink-400', icon: FaTrophy },
-  { level: 8, name: 'Prodigy', desc: 'Show exceptional talent', quizzes: 72, plan: 'Premium', amount: 49, prize: 0, color: 'from-indigo-300 to-indigo-400', icon: FaMedal },
-  { level: 9, name: 'Wizard', desc: 'Complex questions across categories', quizzes: 90, plan: 'Premium', amount: 49, prize: 0, color: 'from-red-400 to-red-500', icon: FaMagic },
-  { level: 10, name: 'Legend', desc: 'Ultimate quiz mastery', quizzes: 110, plan: 'Pro', amount: 99, prize: 9999, color: 'from-yellow-400 to-red-500', icon: FaCrown }
+  { level: 1, name: 'Rookie', desc: 'Begin your quiz journey', quizzes: 4, plan: 'Free', amount: 0, prize: 0, color: 'from-green-300 to-green-400', icon: FaStar },
+  { level: 2, name: 'Explorer', desc: 'Discover new challenges', quizzes: 12, plan: 'Free', amount: 0, prize: 0, color: 'from-blue-300 to-blue-400', icon: FaRocket },
+  { level: 3, name: 'Thinker', desc: 'Develop critical thinking', quizzes: 24, plan: 'Free', amount: 0, prize: 0, color: 'from-purple-300 to-purple-400', icon: FaBrain },
+  { level: 4, name: 'Strategist', desc: 'Master quiz strategies', quizzes: 40, plan: 'Basic', amount: 9, prize: 0, color: 'from-yellow-300 to-yellow-400', icon: FaChartLine },
+  { level: 5, name: 'Achiever', desc: 'Reach new heights', quizzes: 60, plan: 'Basic', amount: 9, prize: 0, color: 'from-orange-300 to-orange-400', icon: FaAward },
+  { level: 6, name: 'Mastermind', desc: 'Become a quiz expert', quizzes: 84, plan: 'Basic', amount: 9, prize: 0, color: 'from-red-300 to-red-400', icon: FaGem },
+  { level: 7, name: 'Champion', desc: 'Compete with the best', quizzes: 112, plan: 'Premium', amount: 49, prize: 0, color: 'from-pink-300 to-pink-400', icon: FaTrophy },
+  { level: 8, name: 'Prodigy', desc: 'Show exceptional talent', quizzes: 144, plan: 'Premium', amount: 49, prize: 0, color: 'from-indigo-300 to-indigo-400', icon: FaMedal },
+  { level: 9, name: 'Wizard', desc: 'Complex questions across categories', quizzes: 180, plan: 'Premium', amount: 49, prize: 0, color: 'from-red-400 to-red-500', icon: FaMagic },
+  { level: 10, name: 'Legend', desc: 'Ultimate quiz mastery', quizzes: 220, plan: 'Pro', amount: 99, prize: 9999, color: 'from-yellow-400 to-red-500', icon: FaCrown }
 ];
 
 const LevelDetailPage = () => {

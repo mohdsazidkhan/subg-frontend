@@ -5,7 +5,14 @@ import {
   FaMoon,
   FaCreditCard,
   FaCalendarAlt,
-  FaSignOutAlt
+  FaSignOutAlt,
+  FaAd,
+  FaPlus,
+  FaQuestion,
+  FaRupeeSign,
+  FaTrophy,
+  FaEdit,
+  FaBlog
 } from 'react-icons/fa';
 import { BsPersonCircle, BsSearch } from 'react-icons/bs';
 import { MdDashboard } from 'react-icons/md';
@@ -51,19 +58,46 @@ const UnifiedNavbar = ({ isLandingPage = false, scrollToSection }) => {
         <BsSearch className="text-lg text-white" />
       </Link>
       <Link
-        title="Articles"
+        title="Blog"
         to="/articles"
         className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 p-2 shadow-lg hover:scale-105 transition-transform flex items-center justify-center"
       >
-        <span className="text-lg text-white">📝</span>
+        <span className="text-lg text-white"><FaBlog/></span>
       </Link>
       <Link
         title="Rewards"
         to="/rewards"
         className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-600 p-2 shadow-lg hover:scale-105 transition-transform flex items-center justify-center"
       >
-        <span className="text-lg text-white">🏆</span>
+        <span className="text-lg text-white"><FaTrophy/></span>
       </Link>
+      {user && (user.subscriptionStatus || '').toLowerCase() === 'pro' && (
+        <Link
+          title="Post Question"
+          to="/pro/questions/new"
+          className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-red-600 p-2 shadow-lg hover:scale-105 transition-transform flex items-center justify-center"
+        >
+          <span className="text-lg text-white"><FaPlus /></span>
+        </Link>
+      )}
+      {user && (
+        <Link
+          title="Public Questions"
+          to="/questions"
+          className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-blue-700 p-2 shadow-lg hover:scale-105 transition-transform flex items-center justify-center"
+        >
+          <span className="text-lg text-white"><FaQuestion/></span>
+        </Link>
+      )}
+      {user && (
+        <Link
+          title="Wallet"
+          to="/pro/wallet"
+          className="w-8 h-8 rounded-full bg-gradient-to-r from-green-500 to-emerald-700 p-2 shadow-lg hover:scale-105 transition-transform flex items-center justify-center"
+        >
+          <span className="text-lg text-white"><FaRupeeSign/></span>
+        </Link>
+      )}
       <Link
         title={hasActiveSubscription() ? "My Subscription" : "Subscribe Now"}
         to="/subscription"

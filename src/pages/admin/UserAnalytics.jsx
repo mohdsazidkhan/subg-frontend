@@ -186,8 +186,8 @@ const UserAnalytics = () => {
   const mode = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
 
   if (loading) return <div className="min-h-screen flex justify-center items-center bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">Loading...</div>;
-  if (error) return <div className="min-h-screen p-6 bg-gray-50 dark:bg-gray-900 text-red-600 dark:text-red-400">{error}</div>;
-  if (!data) return <div className="min-h-screen p-6 text-center text-gray-400 dark:text-gray-500">No data available</div>;
+  if (error) return <div className="min-h-screen p-3 lg:p-6 bg-gray-50 dark:bg-gray-900 text-red-600 dark:text-red-400">{error}</div>;
+  if (!data) return <div className="min-h-screen p-3 lg:p-6 text-center text-gray-400 dark:text-gray-500">No data available</div>;
 
   return (
     <AdminMobileAppWrapper title="User Analytics">
@@ -198,7 +198,7 @@ const UserAnalytics = () => {
         <p className="text-gray-600 dark:text-gray-400 mb-4">Detailed insights into user behavior, growth, and performance</p>
 
         {/* Filters */}
-        <div className="bg-white dark:bg-gray-800 p-6 border border-gray-200 dark:border-gray-700 rounded-xl shadow mb-8">
+        <div className="bg-white dark:bg-gray-800 p-3 lg:p-6 border border-gray-200 dark:border-gray-700 rounded-xl shadow mb-8">
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
               <FaFilter className="text-gray-500 dark:text-gray-300" />
@@ -224,7 +224,7 @@ const UserAnalytics = () => {
 
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 p-3 lg:p-6 rounded-xl shadow border border-gray-200 dark:border-gray-700">
             <div className="flex items-center mb-4">
               <FaChartBar className="mr-2 text-blue-600 dark:text-blue-400" />
               <h3 className="font-semibold text-lg">Level Distribution</h3>
@@ -232,7 +232,7 @@ const UserAnalytics = () => {
             {levelLabels.length > 0 ? <Bar data={levelBarData} options={baseOptions(mode)} /> : <p className="text-center text-gray-500">No data</p>}
           </div>
 
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 p-3 lg:p-6 rounded-xl shadow border border-gray-200 dark:border-gray-700">
             <div className="flex items-center mb-4">
               <FaChartPie className="mr-2 text-purple-600 dark:text-purple-400" />
               <h3 className="font-semibold text-lg">Subscription Stats</h3>
@@ -242,7 +242,7 @@ const UserAnalytics = () => {
         </div>
 
         {/* Line chart */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow border border-gray-200 dark:border-gray-700 mb-8">
+        <div className="bg-white dark:bg-gray-800 p-3 lg:p-6 rounded-xl shadow border border-gray-200 dark:border-gray-700 mb-8">
           <div className="flex items-center mb-4">
             <FaChartLine className="mr-2 text-green-600 dark:text-green-400" />
             <h3 className="font-semibold text-lg">User Growth</h3>

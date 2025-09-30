@@ -40,8 +40,8 @@ const SystemUpdateModal = ({ isOpen, onClose }) => {
                 <FaRocket className="text-2xl" />
               </div>
               <div>
-                 <h2 className="text-xl lg:text-xl lg:text-2xl font-bold">System Update - Payment Live!</h2>
-                 <p className="text-blue-100">Payment is live now active with monthly rewards system</p>
+                 <h2 className="text-xl lg:text-2xl font-bold">System Update - Top 10 Winners!</h2>
+                 <p className="text-blue-100">Payment is live now with expanded Top 10 monthly winners system</p>
               </div>
             </div>
             <button
@@ -59,11 +59,11 @@ const SystemUpdateModal = ({ isOpen, onClose }) => {
               <FaInfoCircle className="text-blue-600 dark:text-blue-400 text-xl mt-1 flex-shrink-0" />
               <div>
                 <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-200 mb-2">
-                  🎯 Monthly Rewards System Active
+                  🎯 Top 10 Monthly Winners System Active
                 </h3>
                   <p className="text-blue-700 dark:text-blue-300">
-                   Our monthly rewards system is now fully active! Every month, top performers can win prizes by reaching Level 10 with ≥75% accuracy. 
-                   Start fresh each month and compete for monthly rewards.
+                   Our new Top 10 monthly winners system is now fully active! Every month, top 10 performers can win prizes by reaching Level 10 and {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes with ≥75% accuracy. 
+                   Start fresh each month and compete for monthly rewards with more winners than ever before!
                  </p>
               </div>
             </div>
@@ -73,27 +73,62 @@ const SystemUpdateModal = ({ isOpen, onClose }) => {
            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-xl p-2 lg:p-4">
             <h3 className="text-lg font-semibold text-green-800 dark:text-green-200 mb-3 flex items-center">
               <span className="text-xl mr-2">🏆</span>
-              New Monthly Rewards System
+              New Top 10 Monthly Winners System
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
               <div className="text-center bg-white dark:bg-gray-700 rounded-lg p-3">
-                <div className="text-3xl mb-2">🥇</div>
-                <div className="text-lg font-bold text-yellow-600">1st Place</div>
-                <div className="text-sm text-gray-600 dark:text-gray-300">₹4,999</div>
+                <div className="text-2xl mb-2">🥇</div>
+                <div className="text-sm font-bold text-yellow-600">1st Place</div>
+                <div className="text-xs text-gray-600 dark:text-gray-300">₹2,500</div>
               </div>
               <div className="text-center bg-white dark:bg-gray-700 rounded-lg p-3">
-                <div className="text-3xl mb-2">🥈</div>
-                <div className="text-lg font-bold text-green-600">2nd Place</div>
-                <div className="text-sm text-gray-600 dark:text-gray-300">₹3,333</div>
+                <div className="text-2xl mb-2">🥈</div>
+                <div className="text-sm font-bold text-gray-400">2nd Place</div>
+                <div className="text-xs text-gray-600 dark:text-gray-300">₹2,000</div>
               </div>
               <div className="text-center bg-white dark:bg-gray-700 rounded-lg p-3">
-                <div className="text-3xl mb-2">🥉</div>
-                <div className="text-lg font-bold text-orange-600">3rd Place</div>
-                <div className="text-sm text-gray-600 dark:text-gray-300">₹1,667</div>
+                <div className="text-2xl mb-2">🥉</div>
+                <div className="text-sm font-bold text-orange-600">3rd Place</div>
+                <div className="text-xs text-gray-600 dark:text-gray-300">₹1,500</div>
+              </div>
+              <div className="text-center bg-white dark:bg-gray-700 rounded-lg p-3">
+                <div className="text-2xl mb-2">🏅</div>
+                <div className="text-sm font-bold text-blue-600">4th Place</div>
+                <div className="text-xs text-gray-600 dark:text-gray-300">₹1,200</div>
+              </div>
+              <div className="text-center bg-white dark:bg-gray-700 rounded-lg p-3">
+                <div className="text-2xl mb-2">🏅</div>
+                <div className="text-sm font-bold text-blue-600">5th Place</div>
+                <div className="text-xs text-gray-600 dark:text-gray-300">₹800</div>
+              </div>
+              <div className="text-center bg-white dark:bg-gray-700 rounded-lg p-3">
+                <div className="text-2xl mb-2">🏅</div>
+                <div className="text-sm font-bold text-purple-600">6th Place</div>
+                <div className="text-xs text-gray-600 dark:text-gray-300">₹600</div>
+              </div>
+              <div className="text-center bg-white dark:bg-gray-700 rounded-lg p-3">
+                <div className="text-2xl mb-2">🏅</div>
+                <div className="text-sm font-bold text-purple-600">7th Place</div>
+                <div className="text-xs text-gray-600 dark:text-gray-300">₹500</div>
+              </div>
+              <div className="text-center bg-white dark:bg-gray-700 rounded-lg p-3">
+                <div className="text-2xl mb-2">🏅</div>
+                <div className="text-sm font-bold text-green-600">8th Place</div>
+                <div className="text-xs text-gray-600 dark:text-gray-300">₹400</div>
+              </div>
+              <div className="text-center bg-white dark:bg-gray-700 rounded-lg p-3">
+                <div className="text-2xl mb-2">🏅</div>
+                <div className="text-sm font-bold text-green-600">9th Place</div>
+                <div className="text-xs text-gray-600 dark:text-gray-300">₹350</div>
+              </div>
+              <div className="text-center bg-white dark:bg-gray-700 rounded-lg p-3">
+                <div className="text-2xl mb-2">🏅</div>
+                <div className="text-sm font-bold text-green-600">10th Place</div>
+                <div className="text-xs text-gray-600 dark:text-gray-300">₹150</div>
               </div>
             </div>
             <p className="text-sm text-green-700 dark:text-green-300 mt-3 text-center">
-              <strong>Total Prize Pool: ₹9,999</strong> - Top 3 users with Level 10 and ≥75% accuracy win monthly!
+              <strong>Total Prize Pool: ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000}</strong> - Top 10 users with Level 10 and {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes with ≥75% accuracy win monthly!
             </p>
           </div>
 
@@ -178,7 +213,7 @@ const SystemUpdateModal = ({ isOpen, onClose }) => {
         <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-b-2xl">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-sm text-gray-600 dark:text-gray-400 text-center sm:text-left">
-              🎉 Welcome to the new era of monthly competitions, rewards, and live payments!
+              🎉 Welcome to the new era of Top 10 monthly competitions, expanded rewards, and live payments!
             </p>
             <button
               onClick={handleClose}

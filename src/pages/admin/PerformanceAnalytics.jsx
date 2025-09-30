@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Bar, Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { useGlobalError } from "../../contexts/GlobalErrorContext";
 import { useTokenValidation } from "../../hooks/useTokenValidation";
 import {
@@ -14,15 +14,8 @@ import {
   LineElement,
 } from "chart.js";
 import {
-  // FaTrophy,
-  // FaChartLine,
-  // FaUsers,
-  // FaStar,
   FaDownload,
   FaFilter,
-  FaTh,
-  FaList,
-  FaTable,
 } from "react-icons/fa";
 import Sidebar from "../../components/Sidebar";
 import ViewToggle from "../../components/ViewToggle";
@@ -265,7 +258,6 @@ const PerformanceAnalytics = () => {
   const levelLabels = data.levelPerformance?.map((l) => `Level ${l._id}`) || [];
   const levelScores = data.levelPerformance?.map((l) => l.avgScore) || [];
   const levelUsers = data.levelPerformance?.map((l) => l.userCount) || [];
-  const scoreTrendLabels = data.scoreDistribution?.map((s) => `${s._id}`) || [];
 
   const levelScoreBarData = {
     labels: levelLabels,
@@ -297,34 +289,6 @@ const PerformanceAnalytics = () => {
           ? "rgba(139, 92, 246, 1)"
           : "rgba(139, 92, 246, 1)",
         borderWidth: 1,
-      },
-    ],
-  };
-
-  const scoreTrendLineData = {
-    labels: scoreTrendLabels,
-    datasets: [
-      {
-        label: "User Count",
-        data: data.scoreDistribution?.map((s) => s.count) || [],
-        borderColor: darkMode ? "rgba(0, 18, 129, 1)" : "rgba(0, 18, 129, 1)",
-        backgroundColor: darkMode
-          ? "rgba(0, 18, 129, 0.2)"
-          : "rgba(0, 18, 129, 0.2)",
-        fill: true,
-        tension: 0.4,
-      },
-      {
-        label: "Average Score",
-        data: data.scoreDistribution?.map((s) => s.avgScore) || [],
-        borderColor: darkMode
-          ? "rgba(16, 185, 129, 1)"
-          : "rgba(16, 185, 129, 1)",
-        backgroundColor: darkMode
-          ? "rgba(16, 185, 129, 0.2)"
-          : "rgba(16, 185, 129, 0.2)",
-        fill: true,
-        tension: 0.4,
       },
     ],
   };
@@ -390,6 +354,9 @@ const PerformanceAnalytics = () => {
   };
 
   const sortedCategory = (data) => {
+    if (!data || !Array.isArray(data)) {
+      return [];
+    }
     return data.sort((a, b) => b.attemptCount - a.attemptCount);
   }
 
@@ -399,17 +366,18 @@ const PerformanceAnalytics = () => {
         {user?.role === "admin" && isAdminRoute && <Sidebar />}
         <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Performance Analytics</h1>
+        <div className="border p-3 lg:p-6 rounded-xl shadow-lg mb-8 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
+        <div>
+          <h1 className="text-xl lg:text-3xl font-bold mb-2">Performance Analytics</h1>
           <p className="text-gray-600 dark:text-gray-300">
             Comprehensive analysis of user performance and learning progress
           </p>
         </div>
 
         {/* Filters and Export */}
-        <div className="border p-6 rounded-xl shadow-lg mb-8 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-            <div className="flex flex-col sm:flex-row items-center gap-4">
+       
+          <div className="flex flex-col sm:flex-row items-center gap-4">
               <FaFilter className="w-5 h-5 text-gray-600 dark:text-gray-300" />
               <select
                 name="period"
@@ -423,23 +391,6 @@ const PerformanceAnalytics = () => {
                 <option value="year">Last 12 months</option>
               </select>
               
-              {/* Current Month Data Notice */}
-              <div className="bg-green-100 dark:bg-green-900/30 px-4 py-2 rounded-lg border border-green-200 dark:border-green-600">
-                <span className="text-green-800 dark:text-green-200 text-sm font-medium">
-                  📅 Top Performers: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })} Data
-                </span>
-              </div>
-              
-              {/* Category Performance Notice */}
-              <div className="bg-blue-100 dark:bg-blue-900/30 px-4 py-2 rounded-lg border border-blue-200 dark:border-blue-600">
-                <span className="text-blue-800 dark:text-blue-200 text-sm font-medium">
-                  📊 Categories: {filters.period === 'week' ? 'Last 7 days' : 
-                                 filters.period === 'month' ? 'Last 30 days' : 
-                                 filters.period === 'quarter' ? 'Last 3 months' : 
-                                 filters.period === 'year' ? 'Last 12 months' : new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
-                </span>
-              </div>
-              
               <select
                 name="sortBy"
                 value={filters.sortBy || 'highScores'}
@@ -451,15 +402,6 @@ const PerformanceAnalytics = () => {
                 <option value="totalScore">Sort by Total Score</option>
                 <option value="quizzesPlayed">Sort by Monthly Quizzes Played</option>
               </select>
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => window.location.reload()}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-white bg-green-600 hover:bg-green-700 dark:hover:bg-green-500 transition-colors duration-200"
-                title="Refresh Data"
-              >
-                🔄 Refresh
-              </button>
               <button
                 onClick={handleExport}
                 className="flex items-center gap-2 px-6 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200"
@@ -474,7 +416,7 @@ const PerformanceAnalytics = () => {
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Level Performance */}
-          <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+          <div className="rounded-xl border p-3 lg:p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
             <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
               Level Performance
             </h3>
@@ -488,7 +430,7 @@ const PerformanceAnalytics = () => {
           </div>
 
           {/* Users per Level */}
-          <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+          <div className="rounded-xl border p-3 lg:p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
             <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
               Users per Level
             </h3>
@@ -502,59 +444,12 @@ const PerformanceAnalytics = () => {
           </div>
         </div>
 
-        {/* Score Trend */}
-        <div className="rounded-xl border p-2 md:p-6 shadow-lg mb-4 md:mb-8 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-          <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-            Score Trend Over Time
-          </h3>
-          {scoreTrendLabels.length > 0 ? (
-            <Line data={scoreTrendLineData} options={lineOptions} />
-          ) : (
-            <div className="h-64 flex items-center justify-center text-gray-400">
-              No data available
-            </div>
-          )}
-        </div>
-
         {/* Top Performers */}
       <div className="space-y-6">
         
-        {/* Top 10 Performers Header */}
-        <div className="rounded-xl border p-6 shadow-lg bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-yellow-200 dark:border-yellow-700">
-          <div className="flex flex-col sm:flex-row items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center">
-                <span className="text-3xl">🏆</span>
-              </div>
-              <div>
-                <h3 className="text-xl lg:text-2xl font-bold text-yellow-800 dark:text-yellow-200">
-                  Top 10 Performers
-                </h3>
-                <p className="text-yellow-700 dark:text-yellow-300 text-sm">
-                  {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })} Quiz Performance Ranking
-                </p>
-              </div>
-            </div>
-            
-            {/* Current Month Display */}
-            <div className="mt-4 md:mt-0 bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 px-4 py-2 rounded-lg border border-orange-200 dark:border-orange-600">
-              <div className="text-center">
-                <div className="text-sm font-medium text-orange-800 dark:text-orange-200">
-                  📅 {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
-                </div>
-                <div className="text-lg font-bold text-orange-800 dark:text-orange-200">
-                  {new Date().toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'long' 
-                  })}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         
       {/* High Scores Summary */}
-      <div className="rounded-xl border p-6 shadow-lg bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-green-200 dark:border-green-700">
+      <div className="rounded-xl border p-3 lg:p-6 shadow-lg bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-green-200 dark:border-green-700">
         <div className="flex flex-col sm:flex-row items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
@@ -633,22 +528,18 @@ const PerformanceAnalytics = () => {
         </div>
       </div>
 
-      {/* View Toggle */}
-      <div className="flex justify-end mb-4">
-        <ViewToggle 
-          currentView={viewMode} 
-          onViewChange={setViewMode}
-          views={['table', 'list', 'grid']}
-        />
-      </div>
+      
 
       {/* Top Performers */}
-      <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+      <div className="rounded-xl border p-3 lg:p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-col lg:flex-row justify-between items-center mb-4">
           <div>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-              🏆 Top 10 Performers
+              🏆 Top 10 Performers {new Date().toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short' 
+                  })}
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               {filters.sortBy ? 
@@ -660,11 +551,14 @@ const PerformanceAnalytics = () => {
               }
             </p>
           </div>
-          <div className="bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 px-4 py-2 rounded-lg border border-yellow-200 dark:border-yellow-600">
-            <span className="text-yellow-800 dark:text-yellow-200 font-bold text-lg">
-              Top {getSortedTopPerformers().length}/10
-            </span>
-          </div>
+         {/* View Toggle */}
+      <div className="flex justify-end mt-4 lg:mt-0 mb-0 lg:mb-4">
+        <ViewToggle 
+          currentView={viewMode} 
+          onViewChange={setViewMode}
+          views={['table', 'list', 'grid']}
+        />
+      </div>
         </div>
 
         {viewMode === "table" && (
@@ -693,7 +587,7 @@ const PerformanceAnalytics = () => {
                   <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
                     <div className="flex items-center gap-2">
                       <span className="text-xl">💎</span>
-                      Subscription
+                      Plan
                     </div>
                   </th>
                   <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
@@ -704,14 +598,8 @@ const PerformanceAnalytics = () => {
                   </th>
                   <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
                     <div className="flex items-center gap-2">
-                      <span className="text-xl">❓</span>
-                      Questions
-                    </div>
-                  </th>
-                  <th className="py-4 px-4 text-left text-blue-800 dark:text-blue-200 font-bold text-lg">
-                    <div className="flex items-center gap-2">
                       <span className="text-xl">⭐</span>
-                      High Score Wins
+                      High Score 
                     </div>
                   </th>
                   <th className="py-4 px-4 text-left text-purple-800 dark:text-purple-200 font-bold text-lg">
@@ -815,16 +703,6 @@ const PerformanceAnalytics = () => {
                       </td>
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-2">
-                          <div className="w-10 h-10 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-lg flex items-center justify-center">
-                            <span className="text-purple-600 dark:text-purple-400 text-sm">❓</span>
-                          </div>
-                          <span className="font-bold text-gray-900 dark:text-white text-lg">
-                            {(p.level?.quizzesPlayed || 0) * 5}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="py-4 px-4">
-                        <div className="flex items-center gap-2">
                           <div className="w-10 h-10 bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-lg flex items-center justify-center">
                             <span className="text-yellow-600 dark:text-yellow-400 text-sm">⭐</span>
                           </div>
@@ -873,23 +751,6 @@ const PerformanceAnalytics = () => {
             </table>
           </div>
         )}
-
-        {/* Current Month Data Note */}
-        <div className="my-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
-              <span className="text-blue-600 dark:text-blue-400">📅</span>
-            </div>
-            <div>
-              <p className="text-blue-800 dark:text-blue-200 font-medium">
-                <strong>{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })} Data:</strong> This ranking shows the top 10 performers based on their quiz performance for {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}.
-              </p>
-              <p className="text-blue-700 dark:text-blue-300 text-sm mt-1">
-                Rankings are updated based on high scores, accuracy and quizzes played achieved this month.
-              </p>
-            </div>
-          </div>
-        </div>
 
         {viewMode === "list" && (
           <div className="space-y-4">
@@ -1057,7 +918,7 @@ const PerformanceAnalytics = () => {
 
       </div>
       </div>
-      <div className="rounded-xl border p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700 mt-8">
+      <div className="rounded-xl border p-3 lg:p-6 shadow-lg bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700 mt-8">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
         <div className="flex mb-4 md:mb-0 items-center gap-3">
           <div className="w-12 h-12 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-xl flex items-center justify-center">
@@ -1151,7 +1012,7 @@ const PerformanceAnalytics = () => {
                         </div>
                         <div>
                           <div className="font-semibold text-gray-900 dark:text-white text-lg">
-                            {item._id[0]}
+                            {item.categoryName}
                           </div>
                           <div className="text-sm text-gray-500 dark:text-gray-400">
                             Category #{i + 1}

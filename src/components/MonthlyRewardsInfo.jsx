@@ -7,10 +7,10 @@ const MonthlyRewardsInfo = ({ compact = false, className = '' }) => {
         <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-2 text-sm">📋 Monthly Rewards System</h4>
         <div className="space-y-2">
           <div className="text-xs text-blue-700 dark:text-blue-300">
-            <strong>Monthly:</strong> Top 3 eligible users at (Level 10 and Minimum 110 Quizzes with ≥75% Accuracy) win prizes in 3:2:1 ratio from ₹9,999 total pool
+            <strong>Monthly:</strong> Top 10 eligible users at Level 10 with {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes win prizes from ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000} total pool
           </div>
           <div className="text-xs text-blue-700 dark:text-blue-300">
-            <strong>Eligibility:</strong> Must reach Level 10 and Minimum 110 Quizzes with ≥75% Accuracy in {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+            <strong>Eligibility:</strong> Must reach Level 10 and have {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes (≥75% accuracy) in {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
           </div>
           <div className="text-xs text-blue-700 dark:text-blue-300">
             <strong>Reset:</strong> Progress and rewards reset every month on the 1st
@@ -28,16 +28,16 @@ const MonthlyRewardsInfo = ({ compact = false, className = '' }) => {
         <div className="bg-white dark:bg-blue-800/50 rounded-lg p-4">
           <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-2">🏆 Monthly Prize Pool</h4>
           <p className="text-blue-700 dark:text-blue-300 text-sm">
-            Top 3 eligible users at Level 10 each month win prizes in <strong>3:2:1 ratio</strong> from ₹9,999 total pool
+            Top 10 eligible users at Level 10 each month win ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000} total prize pool.
           </p>
         </div>
 
         <div className="bg-white dark:bg-blue-800/50 rounded-lg p-4">
           <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-2">✅ Eligibility Requirements</h4>
           <ul className="text-blue-700 dark:text-blue-300 text-sm space-y-1">
-            <li>• Reach <strong>Level 10</strong> and (Minimum 110 Quizzes with ≥75% Accuracy Monthly)</li>
-            <li>• Maintain <strong>≥75% accuracy</strong> (wins ÷ attempts)</li>
-            <li>• Rank in <strong>Top 3</strong> on monthly leaderboard</li>
+            <li>• Reach <strong>Level 10</strong> ({process.env.REACT_APP_LEVEL_10_QUIZ_REQUIREMENT || 220} total quiz attempts)</li>
+            <li>• Have <strong>{process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes</strong> (≥75% accuracy)</li>
+            <li>• Rank in <strong>Top 10</strong> on monthly leaderboard</li>
           </ul>
         </div>
 
@@ -51,7 +51,7 @@ const MonthlyRewardsInfo = ({ compact = false, className = '' }) => {
         <div className="bg-white dark:bg-blue-800/50 rounded-lg p-4">
           <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-2">💡 How to Qualify</h4>
           <p className="text-blue-700 dark:text-blue-300 text-sm">
-            Focus on accuracy over speed. Complete (Level 10 and Minimum 110 Quizzes with ≥75% Accuracy) to compete for monthly rewards.
+            Focus on accuracy over speed. Complete Level 10 with {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes to compete for monthly rewards.
           </p>
         </div>
       </div>

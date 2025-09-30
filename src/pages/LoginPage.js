@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
+import { Helmet } from 'react-helmet';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaTrophy, FaBrain, FaRocket, FaSignInAlt } from 'react-icons/fa';
@@ -107,6 +108,17 @@ const LoginPage = () => {
 
   return (
     <MobileAppWrapper title="Login">
+      <Helmet>
+        <title>Login to SUBG QUIZ - Sign In to Your Account</title>
+        <meta name="description" content="Sign in to your SUBG QUIZ account to continue your quiz journey. Access your progress, compete in quizzes, and earn rewards." />
+        <meta name="keywords" content="SUBG QUIZ login, sign in, quiz account, user login, quiz platform login" />
+        <meta property="og:title" content="Login to SUBG QUIZ - Sign In to Your Account" />
+        <meta property="og:description" content="Sign in to your SUBG QUIZ account to continue your quiz journey. Access your progress, compete in quizzes, and earn rewards." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Login to SUBG QUIZ - Sign In to Your Account" />
+        <meta name="twitter:description" content="Sign in to your SUBG QUIZ account to continue your quiz journey. Access your progress, compete in quizzes, and earn rewards." />
+      </Helmet>
       <div className="bg-subg-light dark:bg-subg-dark flex items-center justify-center p-2 md:p-4">
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         

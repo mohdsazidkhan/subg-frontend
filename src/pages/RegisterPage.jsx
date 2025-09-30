@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
 import { FaUser, FaEnvelope, FaPhone, FaLock, FaEye, FaEyeSlash, FaTrophy, FaBrain, FaRocket } from 'react-icons/fa';
@@ -98,6 +99,17 @@ const RegisterPage = () => {
 
   return (
     <MobileAppWrapper title="Register">
+      <Helmet>
+        <title>Register for SUBG QUIZ - Join the Quiz Revolution</title>
+        <meta name="description" content="Join SUBG QUIZ - India's premier skill-based quiz platform. Create your account and start your quiz journey with level-based learning and monthly rewards." />
+        <meta name="keywords" content="SUBG QUIZ register, create account, quiz signup, join quiz platform, quiz registration" />
+        <meta property="og:title" content="Register for SUBG QUIZ - Join the Quiz Revolution" />
+        <meta property="og:description" content="Join SUBG QUIZ - India's premier skill-based quiz platform. Create your account and start your quiz journey with level-based learning and monthly rewards." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Register for SUBG QUIZ - Join the Quiz Revolution" />
+        <meta name="twitter:description" content="Join SUBG QUIZ - India's premier skill-based quiz platform. Create your account and start your quiz journey with level-based learning and monthly rewards." />
+      </Helmet>
       <div className="min-h-screen flex items-center justify-center p-2 md:p-4 bg-subg-light dark:bg-subg-dark">
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         

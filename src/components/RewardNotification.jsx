@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { toast } from 'react-hot-toast';
+import { toast } from 'react-toastify';
 
 export const showMonthlyRewardNotification = (rank, amount) => {
   const messages = {

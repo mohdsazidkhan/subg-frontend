@@ -123,7 +123,7 @@ const FinancialAnalytics = () => {
       <div
         className={`min-h-screen ${
           darkMode ? "bg-gray-900 text-white" : "bg-gray-50"
-        } p-6`}
+        } p-3 lg:p-6`}
       >
         <div className="max-w-4xl mx-auto">
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
@@ -138,7 +138,7 @@ const FinancialAnalytics = () => {
       <div
         className={`min-h-screen ${
           darkMode ? "bg-gray-900 text-white" : "bg-gray-50"
-        } p-6`}
+        } p-3 lg:p-6`}
       >
         <div className="max-w-4xl mx-auto">
           <div className="text-center text-gray-500">No data available</div>
@@ -384,7 +384,7 @@ const FinancialAnalytics = () => {
         </div>
 
         {/* Filters and Export */}
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg mb-8">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 lg:p-6 shadow-lg mb-8">
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
             <div className="flex items-center gap-4">
               <FaFilter className="w-5 h-5 text-gray-600 dark:text-gray-300" />
@@ -450,7 +450,7 @@ const FinancialAnalytics = () => {
           ].map((card, i) => (
             <div
               key={i}
-              className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 lg:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
               <div className="flex items-center">
                 <div className={`p-3 rounded-full ${card.iconBg}`}>
@@ -472,7 +472,7 @@ const FinancialAnalytics = () => {
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Plan Distribution */}
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 lg:p-6 shadow-lg">
             <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
               Plan Distribution
             </h3>
@@ -488,7 +488,7 @@ const FinancialAnalytics = () => {
           </div>
 
           {/* Revenue Trend */}
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 lg:p-6 shadow-lg">
             <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
               Revenue Trend
             </h3>
@@ -505,7 +505,7 @@ const FinancialAnalytics = () => {
         </div>
 
         {/* Payment Stats Chart */}
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg mb-8">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 lg:p-6 shadow-lg mb-8">
           <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
             Payment Statistics
           </h3>
@@ -521,7 +521,7 @@ const FinancialAnalytics = () => {
         </div>
 
         {/* Top Revenue Plans Table */}
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 lg:p-6 shadow-lg">
           <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
             Top Revenue Plans
           </h3>

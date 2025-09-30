@@ -99,7 +99,10 @@ const config = {
     PASSING_SCORE: parseInt(process.env.REACT_APP_PASSING_SCORE) || 60, // percentage
     SHOW_RESULTS_IMMEDIATELY: process.env.REACT_APP_SHOW_RESULTS_IMMEDIATELY === 'true',
     ALLOW_RETAKES: process.env.REACT_APP_ALLOW_RETAKES === 'true',
-    MAX_RETAKES: parseInt(process.env.REACT_APP_MAX_RETAKES) || 1
+    MAX_RETAKES: parseInt(process.env.REACT_APP_MAX_RETAKES) || 1,
+    LEVEL_10_QUIZ_REQUIREMENT: parseInt(process.env.REACT_APP_LEVEL_10_QUIZ_REQUIREMENT) || 220, // Total quizzes required for Level 10
+    MONTHLY_REWARD_QUIZ_REQUIREMENT: parseInt(process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT) || 220, // High-score quizzes required for monthly rewards
+    MONTHLY_REWARD_PRIZE_POOL: parseInt(process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL) || 10000 // Monthly reward prize pool in rupees
   },
 
   // UI Configuration

@@ -4,6 +4,7 @@ import API from '../utils/api';
 import MobileAppWrapper from '../components/MobileAppWrapper';
 import Sidebar from '../components/Sidebar';
 import { useSelector } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 const ArticleDetailPage = () => {
   const { slug } = useParams();
@@ -76,9 +77,13 @@ const ArticleDetailPage = () => {
   if (loading) {
     return (
       <MobileAppWrapper title="Loading Article">
+        <Helmet>
+          <title>Loading article...</title>
+          <meta name="description" content="Loading article details." />
+        </Helmet>
         <div className={`mainContent ${isOpen ? 'showPanel' : 'hidePanel'}`}>
           {user && user.role === 'admin' && <Sidebar />}
-          <div className="p-4 w-full text-gray-900 dark:text-white">
+          <div className="container mx-auto px-8 py-4 text-gray-900 dark:text-white">
             <div className="flex items-center justify-center h-64">
               <div className="flex items-center space-x-3">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-500"></div>
@@ -94,9 +99,13 @@ const ArticleDetailPage = () => {
   if (error || !article) {
     return (
       <MobileAppWrapper title="Article Not Found">
+        <Helmet>
+          <title>Article not found</title>
+          <meta name="description" content="The requested article could not be found." />
+        </Helmet>
         <div className={`mainContent ${isOpen ? 'showPanel' : 'hidePanel'}`}>
           {user && user.role === 'admin' && <Sidebar />}
-          <div className="p-4 w-full text-gray-900 dark:text-white">
+          <div className="px-8 py-4 container mx-auto text-gray-900 dark:text-white">
             <div className="text-center py-12">
               <div className="text-6xl mb-4">📝</div>
               <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
@@ -120,9 +129,32 @@ const ArticleDetailPage = () => {
 
   return (
     <MobileAppWrapper title={article.title}>
+      <Helmet>
+        <title>{`${article.title}`}</title>
+        <meta
+          name="description"
+          content={(article.excerpt && article.excerpt.substring(0, 160)) ||
+            (article.content && article.content.replace(/<[^>]*>/g, '').replace(/\n/g, ' ').substring(0, 160)) ||
+            'Read the full article on SUBG.'}
+        />
+        {article.tags && article.tags.length > 0 && (
+          <meta name="keywords" content={article.tags.join(', ')} />
+        )}
+        {/* Basic Open Graph tags */}
+        <meta property="og:title" content={article.title} />
+        <meta
+          property="og:description"
+          content={(article.excerpt && article.excerpt.substring(0, 200)) ||
+            (article.content && article.content.replace(/<[^>]*>/g, '').replace(/\n/g, ' ').substring(0, 200)) ||
+            'Read the full article on SUBG.'}
+        />
+        {article.featuredImage && (
+          <meta property="og:image" content={article.featuredImage} />
+        )}
+      </Helmet>
       <div className={`mainContent ${isOpen ? 'showPanel' : 'hidePanel'}`}>
         {user && user.role === 'admin' && <Sidebar />}
-        <div className="max-w-4xl mx-auto p-4 text-gray-900 dark:text-white">
+        <div className="container mx-auto px-8 py-4 text-gray-900 dark:text-white">
           {/* Breadcrumb */}
           <nav className="mb-6">
             <ol className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
@@ -130,7 +162,10 @@ const ArticleDetailPage = () => {
               <li>•</li>
               <li><Link to="/articles" className="hover:text-yellow-600 dark:hover:text-yellow-400">Articles</Link></li>
               <li>•</li>
-              <li className="text-gray-900 dark:text-white">{article.title?.length > 25 ? article.title?.slice(0, 25) + '...' : article.title}</li>
+              <li className="text-gray-900 dark:text-white">
+                <span className="hidden sm:inline">{article.title}</span>
+                <span className="sm:hidden">{article.title?.length > 25 ? article.title?.slice(0, 25) + '...' : article.title}</span>
+              </li>
             </ol>
           </nav>
 

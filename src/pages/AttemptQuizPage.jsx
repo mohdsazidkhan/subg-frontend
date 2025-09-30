@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
 import { requireSubscription } from '../utils/subscriptionUtils';
@@ -546,6 +547,17 @@ const AttemptQuizPage = () => {
 
   return (
     <MobileAppWrapper title="Quiz">
+      <Helmet>
+        <title>Attempt Quiz - SUBG QUIZ Challenge Your Knowledge</title>
+        <meta name="description" content="Take on SUBG QUIZ challenges and test your knowledge. Answer skill-based questions, compete for high scores, and advance through levels." />
+        <meta name="keywords" content="attempt quiz, SUBG QUIZ quiz, quiz challenge, knowledge test, skill-based quiz" />
+        <meta property="og:title" content="Attempt Quiz - SUBG QUIZ Challenge Your Knowledge" />
+        <meta property="og:description" content="Take on SUBG QUIZ challenges and test your knowledge. Answer skill-based questions, compete for high scores, and advance through levels." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Attempt Quiz - SUBG QUIZ Challenge Your Knowledge" />
+        <meta name="twitter:description" content="Take on SUBG QUIZ challenges and test your knowledge. Answer skill-based questions, compete for high scores, and advance through levels." />
+      </Helmet>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-pink-900/20">
       {/* Fullscreen Warning Banner */}
       {isFullscreen && !submitted && (
@@ -559,7 +571,7 @@ const AttemptQuizPage = () => {
         </div>
       )}
 
-      <div className="max-w-6xl mx-auto p-2">
+      <div className="container mx-auto p-2">
         {quiz.questions.length === 0 && (
           <div className="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-xl p-2 text-red-700 dark:text-red-300 text-center">
             <FaTimesCircle className="text-2xl mx-auto mb-2" />
@@ -939,23 +951,25 @@ const AttemptQuizPage = () => {
 
             {/* Navigation Buttons */}
             <div className="flex justify-between items-center gap-2 md:gap-4">
-              <button
+              {/* Previous Button - Commented Out */}
+              {/* <button
                 onClick={handlePreviousQuestion}
                 disabled={currentQuestionIndex === 0}
                 className="flex items-center space-x-2 px-2 md:px-6 py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white rounded-2xl hover:from-gray-600 hover:to-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 <FaArrowLeft />
                 <span className="font-medium">Previous</span>
-              </button>
+              </button> */}
               
               <div className="flex space-x-2 md:space-x-4">
-                <button
+                {/* Skip Button - Commented Out */}
+                {/* <button
                   onClick={handleSkipQuestion}
                   className="px-2 md:px-4 lg:px-6 py-2 md:py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-2xl hover:from-yellow-600 hover:to-orange-600 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
                 >
                   <FaQuestionCircle />
                   <span className="font-medium">Skip</span>
-                </button>
+                </button> */}
                 
                 <button
                   onClick={handleNextQuestion}

@@ -1,8 +1,20 @@
+import { Helmet } from 'react-helmet';
 import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const HowItWorks = () => (
   <MobileAppWrapper title="How It Works">
-    <div className="max-w-4xl mx-auto p-4 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+    <Helmet>
+      <title>How It Works - SUBG QUIZ Platform Guide</title>
+      <meta name="description" content="Learn how SUBG QUIZ works. Complete guide to registration, subscription plans, quiz gameplay, level progression, and monthly rewards system." />
+      <meta name="keywords" content="how SUBG QUIZ works, quiz platform guide, SUBG QUIZ tutorial, quiz gameplay, platform instructions" />
+      <meta property="og:title" content="How It Works - SUBG QUIZ Platform Guide" />
+      <meta property="og:description" content="Learn how SUBG QUIZ works. Complete guide to registration, subscription plans, quiz gameplay, level progression, and monthly rewards system." />
+      <meta property="og:type" content="website" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="How It Works - SUBG QUIZ Platform Guide" />
+      <meta name="twitter:description" content="Learn how SUBG QUIZ works. Complete guide to registration, subscription plans, quiz gameplay, level progression, and monthly rewards system." />
+    </Helmet>
+    <div className="container mx-auto px-8 py-4 text-gray-800 dark:text-gray-200 transition-colors duration-300">
       <h1 className="text-xl lg:text-3xl font-semibold mb-6 text-gray-900 dark:text-white">
         How It Works
       </h1>
@@ -36,10 +48,10 @@ const HowItWorks = () => (
 
         <li>
           <strong>Monthly Rewards System: </strong>
-          Every month, rewards are given to the <strong>Top 3 eligible users</strong> who meet these criteria:
+          Every month, rewards are given to the <strong>Top 10 eligible users</strong> who meet these criteria:
           <ul className="list-disc list-inside ml-6 mt-2 space-y-1 text-sm text-gray-700 dark:text-gray-300">
             <li>Reached Level 10</li>
-            <li>Played at least 110 quizzes</li>
+            <li>Have {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes (≥75% accuracy)</li>
             <li>Maintained an accuracy of ≥75%</li>
           </ul>
           <p className="mt-2 text-sm">

@@ -20,14 +20,14 @@ export const useRewards = () => {
       if (!response || typeof response !== 'object') {
         throw new Error('Invalid response format from server');
       }
-      
+      console.log(response, 'responseresponse')
       // Shape minimal rewards state for components
       const shaped = {
-        claimableRewards: response?.claimableRewards || 0,
+        claimableRewards: response?.user?.claimableRewards || 0,
         quizProgress: {
           current: response?.user?.monthlyProgress?.highScoreWins || 0,
-          required: 110,
-          percentage: Math.min(100, Math.round(((response?.user?.monthlyProgress?.highScoreWins || 0) / 110) * 100))
+          required: process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220,
+          percentage: Math.min(100, Math.round(((response?.user?.monthlyProgress?.highScoreWins || 0) / (process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220)) * 100))
         },
         canUnlock: Boolean(response?.user?.monthlyProgress?.rewardEligible),
         monthlyRank: response?.user?.monthlyProgress?.rewardRank || 0,
@@ -68,13 +68,13 @@ export const useRewards = () => {
   }, [rewards]);
 
   const getRewardAmount = useCallback((level) => {
-    if (level === 10) return 9999;
+    if (level === 10) return process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000;
     return 0;
   }, []);
 
   const getQuizProgress = useCallback(() => {
     if (!rewards) return null;
-    return rewards.quizProgress || { current: 0, required: 110, percentage: 0 };
+    return rewards.quizProgress || { current: 0, required: process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220, percentage: 0 };
   }, [rewards]);
 
   const canUnlockRewards = useCallback(() => {

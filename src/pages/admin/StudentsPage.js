@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { Helmet } from 'react-helmet';
 import API from '../../utils/api';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
@@ -156,6 +157,15 @@ const StudentsPage = () => {
       )
     },
     {
+      key: 'balance',
+      header: 'Balance',
+      render: (_, student) => (
+        <div className="text-sm font-semibold text-green-700 dark:text-green-400">
+          {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(student.balance || 0)}
+        </div>
+      )
+    },
+    {
       key: 'contact',
       header: 'Contact',
       render: (_, student) => (
@@ -269,6 +279,17 @@ const StudentsPage = () => {
 
   return (
     <AdminMobileAppWrapper title="Students">
+      <Helmet>
+        <title>Manage Students - SUBG QUIZ Admin Panel</title>
+        <meta name="description" content="Manage SUBG QUIZ students, view user profiles, track progress, and handle user accounts from the admin panel." />
+        <meta name="keywords" content="admin students, SUBG QUIZ users, user management, admin panel students" />
+        <meta property="og:title" content="Manage Students - SUBG QUIZ Admin Panel" />
+        <meta property="og:description" content="Manage SUBG QUIZ students, view user profiles, track progress, and handle user accounts from the admin panel." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Manage Students - SUBG QUIZ Admin Panel" />
+        <meta name="twitter:description" content="Manage SUBG QUIZ students, view user profiles, track progress, and handle user accounts from the admin panel." />
+      </Helmet>
       <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
         {user?.role === 'admin' && isAdminRoute && <Sidebar />}
         <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">

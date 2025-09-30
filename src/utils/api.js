@@ -366,6 +366,12 @@ class ApiService {
     }
   }
 
+  // Admin User Wallets
+  async adminGetUserWallets(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/admin/user-wallets?${queryString}`);
+  }
+
   // Categories
   async getAdminCategories(params = {}) {
     const queryString = new URLSearchParams(params).toString();
@@ -665,6 +671,98 @@ class ApiService {
   async incrementArticleLikes(id) {
     return this.request(`/api/public/articles/${id}/like`, {
       method: 'POST'
+    });
+  }
+
+  // ===== PRO USER QUESTIONS =====
+  async createUserQuestion(payload) {
+    return this.request('/api/userQuestions/create', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+  }
+
+  async getUserQuestionById(id) {
+    return this.request(`/api/userQuestions/${id}`);
+  }
+
+  async answerUserQuestion(id, selectedOptionIndex) {
+    return this.request(`/api/userQuestions/${id}/answer`, {
+      method: 'POST',
+      body: JSON.stringify({ selectedOptionIndex })
+    });
+  }
+
+  async likeUserQuestion(id) {
+    return this.request(`/api/userQuestions/${id}/like`, {
+      method: 'POST'
+    });
+  }
+
+  async shareUserQuestion(id) {
+    return this.request(`/api/userQuestions/${id}/share`, {
+      method: 'POST'
+    });
+  }
+
+  async getMyUserQuestions(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/userQuestions/mine/list?${queryString}`);
+  }
+
+  // Public questions feed
+  async getPublicUserQuestions(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/userQuestions/public/list?${queryString}`);
+  }
+
+  async incrementUserQuestionView(id) {
+    return this.request(`/api/userQuestions/${id}/view`, { method: 'POST' });
+  }
+
+  // ===== PRO USER WALLET =====
+  async getUserWallet(userId) {
+    return this.request(`/api/userWallet/${userId}`);
+  }
+
+  // ===== PRO WITHDRAW REQUESTS =====
+  async createWithdrawRequest(payload) {
+    return this.request('/api/withdrawRequests/create', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+  }
+
+  // ===== ADMIN PRO CONTENT =====
+  async adminGetUserQuestions(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/admin/userQuestions?${queryString}`);
+  }
+
+  async adminUpdateUserQuestionStatus(id, status) {
+    return this.request(`/api/admin/userQuestions/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status })
+    });
+  }
+
+  // Withdraw Requests
+  async adminGetWithdrawRequests(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/admin/withdrawRequests?${queryString}`);
+  }
+
+  async adminUpdateWithdrawStatus(id, status) {
+    return this.request(`/api/admin/withdrawRequests/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status })
+    });
+  }
+
+  async adminUpdateWithdrawRequestStatus(id, status) {
+    return this.request(`/api/admin/withdrawRequests/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status })
     });
   }
 }

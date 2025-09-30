@@ -636,10 +636,10 @@ const DashboardAnalytics = () => {
       <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
         {user?.role === 'admin' && isAdminRoute && <Sidebar />}
         <div className="adminContent p-2 md:p-6 w-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
-        <div className="mb-8">
+        <div className="mb-4 lg:mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Analytics Dashboard</h1>
+              <h1 className="text-xl lg:text-3xl font-bold mb-2">Analytics Dashboard</h1>
               <p className="text-gray-600 dark:text-gray-300">
                 Comprehensive overview of platform performance and user engagement
               </p>
@@ -649,7 +649,7 @@ const DashboardAnalytics = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2 lg:gap-6 mb-4 lg:mb-8">
           {[
             { 
               label: 'Total Users', 
@@ -691,14 +691,14 @@ const DashboardAnalytics = () => {
               gradient: 'from-pink-500 to-rose-600'
             },
           ].map((stat, i) => (
-            <div key={i} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 group">
+            <div key={i} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-2 lg:p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 group">
               <div className="flex flex-col items-center text-center">
-                <div className={`w-16 h-16 bg-gradient-to-r ${stat.gradient} rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:shadow-xl transition-all duration-300`}>
+                <div className={`w-12 lg:w-16 h-12 lg:h-16 bg-gradient-to-r ${stat.gradient} rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:shadow-xl transition-all duration-300`}>
                   {React.cloneElement(stat.icon, { className: 'w-8 h-8 text-white' })}
                 </div>
                 <div className="text-center">
                   <p className="text-sm font-semibold mb-2 uppercase tracking-wide text-gray-600 dark:text-gray-300">{stat.label}</p>
-                  <p className="text-3xl font-bold bg-gradient-to-r bg-clip-text text-transparent" style={{
+                  <p className="text-xl lg:text-3xl font-bold bg-gradient-to-r bg-clip-text text-transparent" style={{
                     backgroundImage: `linear-gradient(to right, ${getGradientColors(stat.gradient)})`
                   }}>
                     {stat.value?.toLocaleString() || 0}
@@ -711,7 +711,7 @@ const DashboardAnalytics = () => {
 
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 lg:p-6 shadow-lg">
             <h3 className="text-lg font-semibold mb-4">Level Distribution</h3>
             {levelLabels.length > 0 ? (
               <Bar data={levelBarData} options={chartOptions} />
@@ -720,7 +720,7 @@ const DashboardAnalytics = () => {
             )}
           </div>
 
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 lg:p-6 shadow-lg">
             <h3 className="text-lg font-semibold mb-4">Subscription Distribution</h3>
             {subscriptionLabels.length > 0 ? (
               <Pie data={subscriptionPieData} options={pieOptions} />
@@ -733,7 +733,7 @@ const DashboardAnalytics = () => {
         {/* Tables */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Recent Activity */}
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-lg">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 lg:p-6 shadow-lg">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-xl flex items-center justify-center">
@@ -758,14 +758,14 @@ const DashboardAnalytics = () => {
           </div>
 
           {/* Top Users Section */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-3 lg:p-6 mb-4 lg:mb-6">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center">
+                <div className="w-12 lg:w-16 h-12 lg:h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center">
                   <FaCrown className="text-white text-xl" />
                 </div>
                 <div>
-                                    <h2 className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+                                    <h2 className="text-xl md:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
                     Top Performers
                   </h2>
                   <p className="text-gray-600 dark:text-gray-400">

@@ -64,6 +64,21 @@ const Sidebar = () => {
           <span>Articles</span>
         </Link>
 
+        <Link to="/admin/user-questions" onClick={() => handleNavClick('user-questions')} className={getActiveClass('/admin/user-questions')}>
+          <MdQuestionAnswer className="text-xl" />
+          <span>User Questions</span>
+        </Link>
+
+        <Link to="/admin/user-withdrawals" onClick={() => handleNavClick('user-withdrawals')} className={getActiveClass('/admin/user-withdrawals')}>
+          <span className="text-xl">💰</span>
+          <span>Withdraw Requests</span>
+        </Link>
+
+        <Link to="/admin/user-wallets" onClick={() => handleNavClick('user-wallets')} className={getActiveClass('/admin/user-wallets')}>
+          <span className="text-xl">💼</span>
+          <span>User Wallets</span>
+        </Link>
+
         <Link to="/admin/students" onClick={() => handleNavClick('students')} className={getActiveClass('/admin/students')}>
           <MdPeople className="text-xl" />
           <span>Students</span>

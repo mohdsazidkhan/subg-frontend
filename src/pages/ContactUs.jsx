@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 import {
   FaEnvelope,
   FaPhone,
@@ -78,6 +79,17 @@ const ContactUs = () => {
 
   return (
     <MobileAppWrapper title="Contact Us">
+      <Helmet>
+        <title>Contact SUBG QUIZ - Get Support & Help</title>
+        <meta name="description" content="Get in touch with SUBG QUIZ support team. Contact us for help, questions, or feedback about our quiz platform. We're here to assist you 24/7." />
+        <meta name="keywords" content="contact SUBG QUIZ, quiz support, help desk, customer service, quiz platform contact" />
+        <meta property="og:title" content="Contact SUBG QUIZ - Get Support & Help" />
+        <meta property="og:description" content="Get in touch with SUBG QUIZ support team. Contact us for help, questions, or feedback about our quiz platform. We're here to assist you 24/7." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Contact SUBG QUIZ - Get Support & Help" />
+        <meta name="twitter:description" content="Get in touch with SUBG QUIZ support team. Contact us for help, questions, or feedback about our quiz platform. We're here to assist you 24/7." />
+      </Helmet>
       <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
       <div className="container mx-auto px-4 py-4 lg:py-8 mt-0 lg:mt-8">
         {/* Hero Section */}

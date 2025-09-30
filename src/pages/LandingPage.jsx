@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import {
   FaTrophy,
   FaCrown,
@@ -51,14 +52,15 @@ const LandingPage = () => {
   const [topPerformers, setTopPerformers] = useState([]);
   const [stats, setStats] = useState({
     activeStudents: "10K+",
-    quizCategories: "500+",
+    quizCategories: "15+",
     subcategories: "100+",
-    totalQuizzes: "1000+",
-    totalQuestions: "5000+",
-    quizzesTaken: "50K+",
-    monthlyPrizePool: "₹9,999",
-    paidSubscriptions: "99",
+    totalQuizzes: "4,000+",
+    totalQuestions: "20,000+",
+    quizzesTaken: "5K+",
+    monthlyPrizePool: `₹${process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || "10,000"}`,
+    paidSubscriptions: "99+",
   });
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
@@ -340,6 +342,17 @@ const LandingPage = () => {
 
   return (
     <MobileAppWrapper title="SUBG QUIZ">
+      <Helmet>
+        <title>SUBG QUIZ - Student Unknown's Battle Ground Quiz Platform</title>
+        <meta name="description" content="Join SUBG QUIZ - India's premier skill-based quiz platform. Test your knowledge across 10+ levels, compete for monthly prizes, and earn real rewards. Start your quiz journey today!" />
+        <meta name="keywords" content="quiz platform, online quiz, skill-based quiz, quiz competition, SUBG QUIZ, student quiz, knowledge test, quiz rewards, monthly prizes" />
+        <meta property="og:title" content="SUBG QUIZ - Student Unknown's Battle Ground Quiz Platform" />
+        <meta property="og:description" content="Join SUBG QUIZ - India's premier skill-based quiz platform. Test your knowledge across 10+ levels, compete for monthly prizes, and earn real rewards." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="SUBG QUIZ - Student Unknown's Battle Ground Quiz Platform" />
+        <meta name="twitter:description" content="Join SUBG QUIZ - India's premier skill-based quiz platform. Test your knowledge across 10+ levels, compete for monthly prizes, and earn real rewards." />
+      </Helmet>
       <div className="min-h-screen bg-subg-light dark:bg-subg-dark text-gray-900 dark:text-white transition-colors duration-300">
         {/* Unified Header */}
         <UnifiedNavbar isLandingPage={true} scrollToSection={scrollToSection} />
@@ -627,158 +640,284 @@ const LandingPage = () => {
               </span>
             </h2>
             <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Compete monthly for amazing rewards! Top 3 performers at Level 10 and Minimum 110 Quizzes with ≥75% accuracy share ₹9,999 prize pool every month.
+              Compete monthly for amazing rewards! Top 10 performers at Level 10 with {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes share ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000} prize pool every month.
              </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-            <div>
-              <div className="space-y-6">
-                {[
-                  {
-                    icon: FaTrophy,
-                    title: "Monthly Prize Pool",
-                    description:
-                      "Top 3 performers share the monthly prize pool",
-                    amount: "₹9,999",
-                  },
-                  {
-                    icon: FaCrown,
-                    title: "1st Place",
-                    description: "Best performer gets 50% of the prize pool",
-                    amount: "₹4,999",
-                  },
-                  {
-                    icon: FaMedal,
-                    title: "2nd Place",
-                    description: "Second best gets 33% of the prize pool",
-                    amount: "₹3,333",
-                  },
-                  {
-                    icon: FaGem,
-                    title: "3rd Place",
-                    description: "Third best gets 17% of the prize pool",
-                    amount: "₹1,667",
-                  },
-                ]?.map((reward, index) => (
-                  <div key={index} className="flex items-start space-x-4">
-                                                                                   <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-yellow-100 dark:bg-gray-800">
-                       <reward.icon className="w-6 h-6 text-yellow-600" />
-                     </div>
-                     <div className="flex-1">
-                       <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-lg font-semibold">
-                          {reward?.title}
-                        </h3>
-                        <span className="text-lg font-bold text-green-600">
-                          {reward?.amount}
-                        </span>
-                       </div>
-                       <p className="text-gray-600 dark:text-gray-400">
-                         {reward?.description}
-                       </p>
-                     </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-                         <div className="rounded-2xl p-2 md:-p-6 lg:p-6 xl:p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl">
-              <h3 className="text-xl lg:text-2xl font-bold mb-6 text-center">
-                Monthly Prize Pool
-              </h3>
-               <div className="space-y-6">
-                 <div className="text-center">
-                  <div className="text-4xl font-bold text-yellow-500 mb-2">
-                    ₹9,999
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-400">
+          {/* Full Width Prize Pool Display */}
+          <div className="container mx-auto">
+            <div className="rounded-3xl p-6 md:p-8 lg:p-12 bg-gradient-to-br from-white via-yellow-50 to-orange-50 dark:from-gray-800 dark:via-yellow-900/20 dark:to-orange-900/20 border-2 border-yellow-200 dark:border-yellow-700 shadow-2xl">
+              {/* Header Section */}
+              <div className="text-center mb-8">
+                <h3 className="text-2xl lg:text-4xl font-bold mb-4">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 via-orange-600 to-red-600">
                     Monthly Prize Pool
-                  </p>
-                 </div>
-                 <div className="grid grid-cols-2 gap-4">
-                   <div className="text-center p-4 rounded-lg bg-gradient-to-br from-yellow-600 to-yellow-700 text-white">
-                     <div className="text-xl lg:text-2xl font-bold">₹4,999</div>
-                     <div className="text-sm">1st Place (50%)</div>
+                  </span>
+                </h3>
+                <div className="text-5xl lg:text-7xl font-bold text-yellow-500 mb-4">
+                  ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000}
+                </div>
+                <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                  Top 10 performers at Level 10 with {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes share the prize pool every month
+                </p>
+              </div>
+              
+              {/* Prize Distribution Grid */}
+              <div className="space-y-6">
+                <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-4">
+                   {/* 1st Place */}
+                   <div className="group relative text-center p-4 rounded-xl bg-gradient-to-br from-yellow-400 to-yellow-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                     <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-300 rounded-full flex items-center justify-center">
+                       <span className="text-yellow-800 text-xs font-bold">1</span>
+                     </div>
+                     <div className="text-xl font-bold mb-1">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.25)}</div>
+                     <div className="text-xs opacity-90">25%</div>
                    </div>
-                   <div className="text-center p-4 rounded-lg bg-gradient-to-br from-gray-400 to-gray-500 text-white">
-                     <div className="text-xl lg:text-2xl font-bold">₹3,333</div>
-                     <div className="text-sm">2nd Place (33%)</div>
+                   
+                   {/* 2nd Place */}
+                   <div className="group relative text-center p-4 rounded-xl bg-gradient-to-br from-gray-300 to-gray-500 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                     <div className="absolute -top-2 -right-2 w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center">
+                       <span className="text-gray-700 text-xs font-bold">2</span>
+                     </div>
+                     <div className="text-xl font-bold mb-1">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.20)}</div>
+                     <div className="text-xs opacity-90">20%</div>
+                   </div>
+                   
+                   {/* 3rd Place */}
+                   <div className="group relative text-center p-4 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                     <div className="absolute -top-2 -right-2 w-6 h-6 bg-orange-300 rounded-full flex items-center justify-center">
+                       <span className="text-orange-800 text-xs font-bold">3</span>
+                     </div>
+                     <div className="text-xl font-bold mb-1">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.15)}</div>
+                     <div className="text-xs opacity-90">15%</div>
+                   </div>
+                   
+                   {/* 4th Place */}
+                   <div className="group relative text-center p-4 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                     <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-300 rounded-full flex items-center justify-center">
+                       <span className="text-blue-800 text-xs font-bold">4</span>
+                     </div>
+                     <div className="text-xl font-bold mb-1">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.12)}</div>
+                     <div className="text-xs opacity-90">12%</div>
+                   </div>
+                   
+                   {/* 5th Place */}
+                   <div className="group relative text-center p-4 rounded-xl bg-gradient-to-br from-green-400 to-green-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                     <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-300 rounded-full flex items-center justify-center">
+                       <span className="text-green-800 text-xs font-bold">5</span>
+                     </div>
+                     <div className="text-xl font-bold mb-1">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.08)}</div>
+                     <div className="text-xs opacity-90">8%</div>
+                   </div>
+                   
+                   {/* 6th Place */}
+                   <div className="group relative text-center p-4 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                     <div className="absolute -top-2 -right-2 w-6 h-6 bg-purple-300 rounded-full flex items-center justify-center">
+                       <span className="text-purple-800 text-xs font-bold">6</span>
+                     </div>
+                     <div className="text-xl font-bold mb-1">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.06)}</div>
+                     <div className="text-xs opacity-90">6%</div>
+                   </div>
+                   
+                   {/* 7th Place */}
+                   <div className="group relative text-center p-4 rounded-xl bg-gradient-to-br from-pink-400 to-pink-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                     <div className="absolute -top-2 -right-2 w-6 h-6 bg-pink-300 rounded-full flex items-center justify-center">
+                       <span className="text-pink-800 text-xs font-bold">7</span>
+                     </div>
+                     <div className="text-xl font-bold mb-1">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.05)}</div>
+                     <div className="text-xs opacity-90">5%</div>
+                   </div>
+                   
+                   {/* 8th Place */}
+                   <div className="group relative text-center p-4 rounded-xl bg-gradient-to-br from-indigo-400 to-indigo-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                     <div className="absolute -top-2 -right-2 w-6 h-6 bg-indigo-300 rounded-full flex items-center justify-center">
+                       <span className="text-indigo-800 text-xs font-bold">8</span>
+                     </div>
+                     <div className="text-xl font-bold mb-1">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.04)}</div>
+                     <div className="text-xs opacity-90">4%</div>
+                   </div>
+                   
+                   {/* 9th Place */}
+                   <div className="group relative text-center p-4 rounded-xl bg-gradient-to-br from-teal-400 to-teal-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                     <div className="absolute -top-2 -right-2 w-6 h-6 bg-teal-300 rounded-full flex items-center justify-center">
+                       <span className="text-teal-800 text-xs font-bold">9</span>
+                     </div>
+                     <div className="text-xl font-bold mb-1">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.035)}</div>
+                     <div className="text-xs opacity-90">3.5%</div>
+                   </div>
+                   
+                   {/* 10th Place */}
+                   <div className="group relative text-center p-4 rounded-xl bg-gradient-to-br from-red-400 to-red-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                     <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-300 rounded-full flex items-center justify-center">
+                       <span className="text-red-800 text-xs font-bold">10</span>
+                     </div>
+                     <div className="text-xl font-bold mb-1">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.015)}</div>
+                     <div className="text-xs opacity-90">1.5%</div>
                    </div>
                  </div>
-                 <div className="text-center">
-                  <div className="text-center p-4 rounded-lg 
-bg-gradient-to-br from-orange-600/70 to-orange-700/80 
-dark:from-orange-800/20 dark:to-orange-700/20 
-text-white
-">
-
-                  <div className="text-xl lg:text-2xl font-bold text-white mb-2">
-                    ₹1,667
-                  </div>
-                  <p className="text-gray-200">
-                    3rd Place (17%)
-                  </p>
-                 </div>
+                 
+                 {/* Eligibility Info */}
+                 <div className="text-center p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl border-2 border-blue-200 dark:border-blue-700">
+                   <div className="flex items-center justify-center space-x-2 mb-2">
+                     <FaTrophy className="text-yellow-500 text-xl" />
+                     <h4 className="text-lg font-bold text-blue-800 dark:text-blue-300">Eligibility Requirements</h4>
+                   </div>
+                     <p className="text-blue-700 dark:text-blue-300">
+                     <strong>Level 10</strong> + <strong>{process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes</strong> (≥75% accuracy)
+                   </p>
                  </div>
                </div>
               
-              <div className="mt-8 text-center">
+              {/* Call to Action */}
+              <div className="mt-10 text-center">
                 <Link
                   to="/register"
-                  className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-yellow-600 to-red-600 text-white rounded-xl font-semibold hover:from-yellow-700 hover:to-red-700 transition-all duration-300"
+                  className="inline-flex items-center space-x-3 px-8 py-4 bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-white rounded-2xl font-bold text-lg hover:from-yellow-600 hover:via-orange-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
-                  <span>Start Winning</span>
-                  <FaArrowRight className="w-4 h-4" />
+                  <FaRocket className="w-5 h-5" />
+                  <span>Start Winning Today</span>
+                  <FaArrowRight className="w-5 h-5" />
                 </Link>
               </div>
-            </div>
-          </div>
-
-          {/* Achievement Badges */}
-          <div className="text-center mb-4 lg:mb-12">
-            <h3 className="text-xl lg:text-2xl font-bold mb-8">Earn Achievement Badges</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                {
-                  icon: FaStar,
-                  name: "Quiz Master",
-                  description: "Complete Min 110 Quizzes",
-                },
-                {
-                  icon: FaBrain,
-                  name: "Knowledge Seeker",
-                  description: "Score 75%+ in 55 quizzes",
-                },
-                {
-                  icon: FaRocket,
-                  name: "Speed Demon",
-                  description: "Complete quiz in under 2 minutes",
-                },
-                {
-                  icon: FaCrown,
-                  name: "Legend",
-                  description: "Top 10 in monthly leaderboard",
-                },
-              ].map((badge, index) => (
-                <div
-                  key={index}
-                  className="p-6 rounded-2xl transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-yellow-500 shadow-lg hover:shadow-xl"
-                >
-                   <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center bg-yellow-100 dark:bg-gray-700">
-                     <badge.icon className="w-8 h-8 text-yellow-600" />
-                   </div>
-                   <h4 className="font-semibold mb-2">{badge?.name}</h4>
-                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                     {badge?.description}
-                   </p>
-                 </div>
-              ))}
             </div>
           </div>
         </div>
       </section>
 
+      {/* Pro User Wallet Section */}
+      <section className="py-5 md:py-10 lg:py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-gray-900 dark:via-green-900/20 dark:to-emerald-900/20 pointer-events-none" />
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-4 md:mb-8 lg:mb-16">
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 via-emerald-500 to-teal-600 dark:text-white">
+                Earn Prize by Adding Questions
+              </span>
+            </h2>
+            <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Pro users can earn money by creating quality questions. Get ₹10 for every approved question!
+            </p>
+          </div>
+
+          <div className="container mx-auto">
+            <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-3 lg:p-8 border border-green-200 dark:border-green-700">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-center">
+                
+                {/* Left Side - Earning Process */}
+                <div className="space-y-6">
+                  <div className="text-center lg:text-left">
+                    <div className="w-20 h-20 mx-auto lg:mx-0 mb-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center">
+                      <span className="text-3xl">💰</span>
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-4">
+                      Earn ₹10 Per Question
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300 mb-6">
+                      Create high-quality quiz questions and earn money for each approved question by our admin team.
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    {[
+                      {
+                        step: "1",
+                        title: "Create Questions",
+                        description: "Submit quiz questions through the Pro User dashboard"
+                      },
+                      {
+                        step: "2", 
+                        title: "Admin Review",
+                        description: "Our team reviews and approves quality questions"
+                      },
+                      {
+                        step: "3",
+                        title: "Earn Money",
+                        description: "Get ₹10 credited to your wallet for each approved question"
+                      },
+                      {
+                        step: "4",
+                        title: "Request Withdrawal",
+                        description: "After 100 approved questions, request withdrawal to admin"
+                      }
+                    ].map((item, index) => (
+                      <div key={index} className="flex items-start space-x-4">
+                        <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+                          {item.step}
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-800 dark:text-white mb-1">{item.title}</h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-300">{item.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right Side - Stats & Info */}
+                <div className="space-y-6">
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-2xl p-6 border border-green-200 dark:border-green-700">
+                    <h4 className="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">
+                      💡 How It Works
+                    </h4>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600 dark:text-gray-300">Per Approved Question:</span>
+                        <span className="font-bold text-green-600">₹10</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600 dark:text-gray-300">Withdrawal Threshold:</span>
+                        <span className="font-bold text-green-600">100 Questions</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600 dark:text-gray-300">Minimum Withdrawal:</span>
+                        <span className="font-bold text-green-600">₹1,000</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600 dark:text-gray-300">Processing Time:</span>
+                        <span className="font-bold text-green-600">24-48 Hours</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-6 border border-blue-200 dark:border-blue-700">
+                    <h4 className="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">
+                      🎯 Pro User Benefits
+                    </h4>
+                    <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+                      <li className="flex items-center space-x-2">
+                        <span className="text-green-500">✓</span>
+                        <span>Earn money for quality content</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <span className="text-green-500">✓</span>
+                        <span>Help build the quiz community</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <span className="text-green-500">✓</span>
+                        <span>Fast withdrawal processing</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <span className="text-green-500">✓</span>
+                        <span>Admin-reviewed quality standards</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="text-center">
+                    <Link
+                      to="/register"
+                      className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    >
+                      <span className="mr-2">🚀</span>
+                      Become a Pro User
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       
       {/* Monthly Winners Section */}
       <section className="py-5 md:py-10 lg:py-20 relative overflow-hidden">
@@ -791,7 +930,7 @@ text-white
               </span>
             </h2>
             <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Celebrating the previous month's top 3 performers who achieved Level 10 with ≥75% accuracy and won monthly prizes!
+              Celebrating the previous month's top 3 performers who achieved Level 10 and 110 high score quizzes with ≥75% accuracy won monthly prizes!
             </p>
           </div>
           
@@ -821,8 +960,7 @@ text-white
             </h2>
                          <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Meet the champions who are dominating the monthly leaderboard. Top
-              3 at Level 10 with ≥75% accuracy win monthly prizes in 3:2:1
-              ratio!
+              10 at Level 10 with {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes win monthly prizes from ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000} total pool!
              </p>
           </div>
 
@@ -992,6 +1130,17 @@ text-white
                             {performer?.accuracy || 0}%
                           </div>
                         </div>
+
+                        {/* Total Correct Answers */}
+                        <div className="text-center">
+                          <div className="w-8 h-8 bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 rounded-lg flex items-center justify-center mx-auto mb-1">
+                            <span className="text-emerald-600 dark:text-emerald-400 text-sm">✅</span>
+                          </div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400">Correct</div>
+                          <div className="font-bold text-gray-900 dark:text-white">
+                            {performer?.totalCorrectAnswers || 0}
+                          </div>
+                        </div>
                    </div>
                  </div>
                )) : (
@@ -1045,6 +1194,12 @@ text-white
                         <div className="flex items-center gap-2">
                           <span className="text-xl">🎯</span>
                           Accuracy
+                        </div>
+                      </th>
+                      <th className="py-4 px-4 text-left text-emerald-800 dark:text-emerald-200 font-bold text-lg">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">✅</span>
+                          Total Correct
                         </div>
                       </th>
                     </tr>
@@ -1194,10 +1349,29 @@ text-white
                           </div>
                         </div>
                       </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-10 h-10 bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 rounded-lg flex items-center justify-center">
+                            <span className="text-emerald-600 dark:text-emerald-400 text-sm">
+                              ✅
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-gray-900 dark:text-white text-lg">
+                              {performer?.totalCorrectAnswers || 0}
+                            </span>
+                            {(performer?.totalCorrectAnswers || 0) > 0 && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-200">
+                                ✅
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </td>
                     </tr>
                   )) : (
                     <tr>
-                      <td colSpan="6" className="text-center py-12">
+                      <td colSpan="7" className="text-center py-12">
                         <div className="text-gray-500 dark:text-gray-400 text-lg">
                           No top performers data available
                         </div>
@@ -1234,9 +1408,7 @@ text-white
               </span>
             </h2>
                          <p className="text-md md:text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Start from Level 1 (Rookie) and progress through 10 levels each
-              month. Reach (Level 10 and Minimum 110 Quizzes with ≥75% Accuracy) to
-              qualify for monthly rewards!
+              Start from Level 1 (Rookie) and progress through 10 levels. Reach Level 10 ({process.env.REACT_APP_LEVEL_10_QUIZ_REQUIREMENT || 220} total quiz attempts) and have {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes to qualify for monthly rewards!
              </p>
              
           </div>
@@ -1303,7 +1475,7 @@ text-white
                            ₹{levelInfo?.prize || 0}
                          </div>
                          <div className="text-xs text-gray-600 dark:text-gray-300">
-                           Prize {level?.level === 10 ? '(Monthly Top 3: ₹9,999)' : ''}
+                           Prize {level?.level === 10 ? `(Monthly Top 10: ₹${process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000})` : ''}
                          </div>
                        </div>
                      </div>
@@ -1409,7 +1581,7 @@ text-white
 
       
 
-             {/* Subscription Plans Section */}
+      {/* Subscription Plans Section */}
        <section id="subscription" className="py-5 md:py-10 lg:py-20 relative overflow-hidden">
          <div className="absolute inset-0 bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50 dark:from-gray-900 dark:via-violet-900/20 dark:to-indigo-900/20 pointer-events-none" />
          <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
@@ -1723,7 +1895,7 @@ text-white
               {
                 icon: FaGift,
                 title: "Monthly Rewards",
-                description: "Compete monthly for ₹9,999 prize pool",
+                description: `Compete monthly for ₹${process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000} prize pool`,
               },
             ].map((feature, index) => (
               <div
@@ -1742,6 +1914,7 @@ text-white
           </div>
         </div>
       </section>
+
 
          
 
@@ -1919,7 +2092,7 @@ text-white
           </h2>
                      <p className="text-md md:text-xl mb-8 text-gray-600 dark:text-gray-300">
             Join thousands of students who are already improving their knowledge
-            monthly and competing for ₹9,999 prize pool every month!
+            monthly and competing for ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000} prize pool every month!
            </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -2252,18 +2425,18 @@ const levelBadgeIcons = {
   Default: FaStar,
 };
 
-// Level play count info for display (monthly cumulative wins, monthly pricing)
+// Level play count info for display (cumulative quiz attempts, monthly pricing)
 const levelsInfo = [
-  { level: 1, quizzes: 2, plan: "Free", amount: 0, prize: 0 },
-  { level: 2, quizzes: 6, plan: "Free", amount: 0, prize: 0 },
-  { level: 3, quizzes: 12, plan: "Free", amount: 0, prize: 0 },
-  { level: 4, quizzes: 20, plan: "Basic", amount: 9, prize: 0 },
-  { level: 5, quizzes: 30, plan: "Basic", amount: 9, prize: 0 },
-  { level: 6, quizzes: 42, plan: "Basic", amount: 9, prize: 0 },
-  { level: 7, quizzes: 56, plan: "Premium", amount: 49, prize: 0 },
-  { level: 8, quizzes: 72, plan: "Premium", amount: 49, prize: 0 },
-  { level: 9, quizzes: 90, plan: "Premium", amount: 49, prize: 0 },
-  { level: 10, quizzes: 110, plan: "Pro", amount: 99, prize: 9999 },
+  { level: 1, quizzes: 4, plan: "Free", amount: 0, prize: 0 },
+  { level: 2, quizzes: 12, plan: "Free", amount: 0, prize: 0 },
+  { level: 3, quizzes: 24, plan: "Free", amount: 0, prize: 0 },
+  { level: 4, quizzes: 40, plan: "Basic", amount: 9, prize: 0 },
+  { level: 5, quizzes: 60, plan: "Basic", amount: 9, prize: 0 },
+  { level: 6, quizzes: 84, plan: "Basic", amount: 9, prize: 0 },
+  { level: 7, quizzes: 112, plan: "Premium", amount: 49, prize: 0 },
+  { level: 8, quizzes: 144, plan: "Premium", amount: 49, prize: 0 },
+  { level: 9, quizzes: 180, plan: "Premium", amount: 49, prize: 0 },
+  { level: 10, quizzes: 220, plan: "Pro", amount: 99, prize: process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000 },
 ];
 
 export default LandingPage;

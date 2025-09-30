@@ -1,7 +1,19 @@
+import { Helmet } from 'react-helmet';
 import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const RefundPolicy = () => (
   <MobileAppWrapper title="Refund Policy">
+    <Helmet>
+      <title>Refund Policy - SUBG QUIZ Subscription & Payment Terms</title>
+      <meta name="description" content="Read SUBG QUIZ refund policy and subscription terms. Understand payment policies, refund eligibility, and monthly rewards system." />
+      <meta name="keywords" content="refund policy, SUBG QUIZ refunds, subscription policy, payment terms, quiz platform refunds" />
+      <meta property="og:title" content="Refund Policy - SUBG QUIZ Subscription & Payment Terms" />
+      <meta property="og:description" content="Read SUBG QUIZ refund policy and subscription terms. Understand payment policies, refund eligibility, and monthly rewards system." />
+      <meta property="og:type" content="website" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Refund Policy - SUBG QUIZ Subscription & Payment Terms" />
+      <meta name="twitter:description" content="Read SUBG QUIZ refund policy and subscription terms. Understand payment policies, refund eligibility, and monthly rewards system." />
+    </Helmet>
     <div className="max-w-3xl mx-auto px-4 py-10 text-gray-800 dark:text-gray-200 transition-colors duration-300">
     <h1 className="text-3xl font-semibold mb-4 text-gray-900 dark:text-white">
       Refund & Subscription Policy
@@ -48,7 +60,7 @@ const RefundPolicy = () => (
     <ul className="list-disc pl-6 space-y-2">
       <li>Monthly rewards are <strong>not purchases</strong> and are <strong>not refundable</strong>. They are prizes based on performance, leaderboard position, and eligibility.</li>
       <li>
-        <strong>Monthly Rewards System:</strong> Top 3 eligible users at (Level 10 and Minimum 110 Quizzes with ≥75% Accuracy) win ₹9,999 each month. Eligibility is based on current month performance only.
+        <strong>Monthly Rewards System:</strong> Top 10 eligible users at Level 10 with {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes win from ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000} total pool each month. Eligibility is based on current month performance only.
       </li>
       <li>Monthly rewards are processed at the end of each month and reset for the next month. Previous month achievements do not carry forward.</li>
       <li>Withdrawals (if enabled) may require bank details/KYC verification to comply with regulations.</li>

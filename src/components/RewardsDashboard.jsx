@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import API from "../utils/api";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import MonthlyRewardsInfo from "./MonthlyRewardsInfo";
 
 const RewardsDashboard = () => {
@@ -23,17 +23,16 @@ const RewardsDashboard = () => {
         throw new Error("Invalid response format from server");
       }
 
+      const highScoreQuizzes = profile?.user?.monthlyProgress?.highScoreWins || 0;
+      const requiredQuizzes = process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220;
+      const percentage = Math.min(100, Math.round((highScoreQuizzes / requiredQuizzes) * 100));
+
       setRewards({
         claimableRewards: profile?.user?.claimableRewards || 0,
         quizProgress: {
-          current: profile?.user?.monthlyProgress?.highScoreWins || 0,
-          required: 110,
-          percentage: Math.min(
-            100,
-            Math.round(
-              ((profile?.user?.monthlyProgress?.highScoreWins || 0) / 110) * 100
-            )
-          ),
+          current: highScoreQuizzes,
+          required: requiredQuizzes,
+          percentage: percentage,
         },
         canUnlock: Boolean(profile?.user?.monthlyProgress?.rewardEligible),
         unlocked: [],
@@ -49,7 +48,7 @@ const RewardsDashboard = () => {
   };
 
   const claimReward = async () => {
-    toast.info("Monthly prizes are auto-credited to Top 3 at month end.");
+    toast.info("Monthly prizes are auto-credited to Top 10 at month end.");
   };
 
   const handleWithdraw = async () => {
@@ -59,7 +58,7 @@ const RewardsDashboard = () => {
     }
 
     toast.info(
-      "Monthly rewards will be automatically distributed to top 3 performers!"
+      "Monthly rewards will be automatically transferred within Week!"
     );
   };
 
@@ -100,20 +99,20 @@ const RewardsDashboard = () => {
       </div>
     );
   }
-
+  console.log(rewards, 'rewards')
   // Safely destructure with fallbacks
   const {
     unlocked = [],
     claimed = [],
-    claimableRewards = 0,
-    quizProgress = { current: 0, required: 110, percentage: 0 },
+    claimableRewards,
+    quizProgress = { current: 0, required: process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220, percentage: 0 },
     canUnlock = false,
   } = rewards;
 
   return (
-    <div className="max-w-6xl mx-auto p-0 md:p-3 sm:p-6 space-y-4 sm:space-y-6">
+    <div className="container mx-auto px-8 py-4 space-y-4 sm:space-y-6">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-2 md:p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
-        <h2 className="text-lg sm:text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4">
+        <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4">
           🏆 Rewards Dashboard
         </h2>
 
@@ -121,8 +120,8 @@ const RewardsDashboard = () => {
         <div className="mb-4 sm:mb-6">
           <div className="flex justify-between items-center mb-2">
             <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
-              Quiz Progress: {quizProgress?.current || 0} /{" "}
-              {quizProgress?.required || 110}
+              High-Score Quizzes: {quizProgress?.current || 0} /{" "}
+              {quizProgress?.required || process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220}
             </span>
             <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
               {Math.round(quizProgress?.percentage || 0)}%
@@ -137,8 +136,7 @@ const RewardsDashboard = () => {
             ></div>
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-            Reach (Level 10 and Minimum 110 Quizzes with ≥75% Accuracy) to
-            qualify for monthly rewards
+            Reach Level 10 with {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes to qualify for monthly rewards
           </p>
           {canUnlock && (
             <div className="mt-2 p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
@@ -171,43 +169,106 @@ const RewardsDashboard = () => {
           </div>
         )}
 
-        {/* Monthly Top 3 Info */}
+        {/* Monthly Top 10 Info */}
         <div className="mb-4 sm:mb-6">
           <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3">
-            🏆 Monthly Top 3 Rewards
+            🏆 Monthly Top 10 Rewards
           </h3>
           <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4">
             <div className="text-center">
               <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-                Every month, the top 3 users with Level 10 and ≥75% accuracy win
-                prizes in 3:2:1 ratio from ₹9,999 total pool!
+                Every month, the top 10 users with Level 10 and {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes win
+                prizes from ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000} total pool!
               </p>
-              <div className="grid grid-cols-3 gap-4 text-center">
-                <div className="bg-yellow-100 dark:bg-yellow-800/30 rounded-lg p-3">
-                  <div className="text-2xl mb-1">🥇</div>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-center">
+                <div className="bg-yellow-100 dark:bg-yellow-800/30 rounded-lg p-2">
+                  <div className="text-lg mb-1">🥇</div>
                   <div className="text-xs font-semibold text-yellow-800 dark:text-yellow-200">
-                    1st Place
+                    1st
                   </div>
-                  <div className="text-lg font-bold text-yellow-700 dark:text-yellow-300">
-                    ₹4,999
+                  <div className="text-sm font-bold text-yellow-700 dark:text-yellow-300">
+                    ₹2,500
                   </div>
                 </div>
-                <div className="bg-gray-100 dark:bg-gray-800/30 rounded-lg p-3">
-                  <div className="text-2xl mb-1">🥈</div>
+                <div className="bg-gray-100 dark:bg-gray-800/30 rounded-lg p-2">
+                  <div className="text-lg mb-1">🥈</div>
                   <div className="text-xs font-semibold text-gray-800 dark:text-gray-200">
-                    2nd Place
+                    2nd
                   </div>
-                  <div className="text-lg font-bold text-gray-700 dark:text-gray-300">
-                    ₹3,333
+                  <div className="text-sm font-bold text-gray-700 dark:text-gray-300">
+                    ₹2,000
                   </div>
                 </div>
-                <div className="bg-orange-100 dark:bg-orange-800/30 rounded-lg p-3">
-                  <div className="text-2xl mb-1">🥉</div>
+                <div className="bg-orange-100 dark:bg-orange-800/30 rounded-lg p-2">
+                  <div className="text-lg mb-1">🥉</div>
                   <div className="text-xs font-semibold text-orange-800 dark:text-orange-200">
-                    3rd Place
+                    3rd
                   </div>
-                  <div className="text-lg font-bold text-orange-700 dark:text-orange-300">
-                    ₹1,667
+                  <div className="text-sm font-bold text-orange-700 dark:text-orange-300">
+                    ₹1,500
+                  </div>
+                </div>
+                <div className="bg-blue-100 dark:bg-blue-800/30 rounded-lg p-2">
+                  <div className="text-lg mb-1">🏅</div>
+                  <div className="text-xs font-semibold text-blue-800 dark:text-blue-200">
+                    4th
+                  </div>
+                  <div className="text-sm font-bold text-blue-700 dark:text-blue-300">
+                    ₹1,200
+                  </div>
+                </div>
+                <div className="bg-green-100 dark:bg-green-800/30 rounded-lg p-2">
+                  <div className="text-lg mb-1">🏅</div>
+                  <div className="text-xs font-semibold text-green-800 dark:text-green-200">
+                    5th
+                  </div>
+                  <div className="text-sm font-bold text-green-700 dark:text-green-300">
+                    ₹800
+                  </div>
+                </div>
+                <div className="bg-purple-100 dark:bg-purple-800/30 rounded-lg p-2">
+                  <div className="text-lg mb-1">🏅</div>
+                  <div className="text-xs font-semibold text-purple-800 dark:text-purple-200">
+                    6th
+                  </div>
+                  <div className="text-sm font-bold text-purple-700 dark:text-purple-300">
+                    ₹600
+                  </div>
+                </div>
+                <div className="bg-pink-100 dark:bg-pink-800/30 rounded-lg p-2">
+                  <div className="text-lg mb-1">🏅</div>
+                  <div className="text-xs font-semibold text-pink-800 dark:text-pink-200">
+                    7th
+                  </div>
+                  <div className="text-sm font-bold text-pink-700 dark:text-pink-300">
+                    ₹500
+                  </div>
+                </div>
+                <div className="bg-indigo-100 dark:bg-indigo-800/30 rounded-lg p-2">
+                  <div className="text-lg mb-1">🏅</div>
+                  <div className="text-xs font-semibold text-indigo-800 dark:text-indigo-200">
+                    8th
+                  </div>
+                  <div className="text-sm font-bold text-indigo-700 dark:text-indigo-300">
+                    ₹400
+                  </div>
+                </div>
+                <div className="bg-teal-100 dark:bg-teal-800/30 rounded-lg p-2">
+                  <div className="text-lg mb-1">🏅</div>
+                  <div className="text-xs font-semibold text-teal-800 dark:text-teal-200">
+                    9th
+                  </div>
+                  <div className="text-sm font-bold text-teal-700 dark:text-teal-300">
+                    ₹350
+                  </div>
+                </div>
+                <div className="bg-red-100 dark:bg-red-800/30 rounded-lg p-2">
+                  <div className="text-lg mb-1">🏅</div>
+                  <div className="text-xs font-semibold text-red-800 dark:text-red-200">
+                    10th
+                  </div>
+                  <div className="text-sm font-bold text-red-700 dark:text-red-300">
+                    ₹150
                   </div>
                 </div>
               </div>
@@ -296,8 +357,8 @@ const RewardsDashboard = () => {
                 No Rewards Yet
               </h3>
               <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
-                Reach Level 10 with ≥75% accuracy and compete for monthly Top 3
-                positions to earn ₹9,999!
+                Reach Level 10 with {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes and compete for monthly Top 10
+                positions to earn from ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000} total pool!
               </p>
             </div>
           )}
@@ -309,7 +370,7 @@ const RewardsDashboard = () => {
           <div className="flex items-center justify-center gap-3">
             <div className="text-sm sm:text-base lg:text-lg font-semibold text-red-800 dark:text-red-100 space-y-3">
               <p>
-                🏆 <strong>Top 3 winners</strong> receive{" "}
+                🏆 <strong>Top 10 winners</strong> receive{" "}
                 <span className="text-red-600 dark:text-red-300">
                   cash prizes
                 </span>{" "}

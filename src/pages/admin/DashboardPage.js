@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import API from '../../utils/api';
 import { Link, useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
@@ -26,10 +27,15 @@ const DashboardPage = () => {
     totalArticles: 0,
     publishedArticles: 0,
     draftArticles: 0,
-    featuredArticles: 0,
     pinnedArticles: 0,
     totalArticleViews: 0,
-    totalArticleLikes: 0
+    totalArticleLikes: 0,
+    // Withdraw requests stats
+    withdrawRequests: 0,
+    pendingWithdrawRequests: 0,
+    // Detailed user questions stats
+    approvedUserQuestions: 0,
+    rejectedUserQuestions: 0
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -73,7 +79,6 @@ const DashboardPage = () => {
           totalArticles: 0,
           publishedArticles: 0,
           draftArticles: 0,
-          featuredArticles: 0,
           pinnedArticles: 0,
           totalArticleViews: 0,
           totalArticleLikes: 0
@@ -143,7 +148,81 @@ const DashboardPage = () => {
       darkGradientFrom: 'dark:from-orange-700',
       darkGradientTo: 'dark:to-amber-800'
     },
-    
+    { 
+      title: 'Total User Questions', 
+      count: stats.userQuestions || 0, 
+      link: '/admin/user-questions',
+      icon: '💭',
+      color: 'bg-purple-500',
+      textColor: 'text-purple-900',
+      bgColor: 'bg-purple-100',
+      darkBgColor: 'dark:bg-purple-900/20',
+      gradientFrom: 'from-purple-200',
+      gradientTo: 'to-pink-200',
+      darkGradientFrom: 'dark:from-purple-700',
+      darkGradientTo: 'dark:to-pink-800',
+      subtitle: 'All submitted questions'
+    },
+    { 
+      title: 'Pending Questions', 
+      count: stats.pendingUserQuestions || 0, 
+      link: '/admin/user-questions?status=pending',
+      icon: '⏳',
+      color: 'bg-yellow-500',
+      textColor: 'text-yellow-900',
+      bgColor: 'bg-yellow-100',
+      darkBgColor: 'dark:bg-yellow-900/20',
+      gradientFrom: 'from-yellow-200',
+      gradientTo: 'to-orange-200',
+      darkGradientFrom: 'dark:from-yellow-700',
+      darkGradientTo: 'dark:to-orange-800',
+      subtitle: 'Awaiting review'
+    },
+    { 
+      title: 'Approved Questions', 
+      count: stats.approvedUserQuestions || 0, 
+      link: '/admin/user-questions?status=approved',
+      icon: '✅',
+      color: 'bg-green-500',
+      textColor: 'text-green-900',
+      bgColor: 'bg-green-100',
+      darkBgColor: 'dark:bg-green-900/20',
+      gradientFrom: 'from-green-200',
+      gradientTo: 'to-emerald-200',
+      darkGradientFrom: 'dark:from-green-700',
+      darkGradientTo: 'dark:to-emerald-800',
+      subtitle: 'Approved by admin'
+    },
+    { 
+      title: 'Rejected Questions', 
+      count: stats.rejectedUserQuestions || 0, 
+      link: '/admin/user-questions?status=rejected',
+      icon: '❌',
+      color: 'bg-red-500',
+      textColor: 'text-red-900',
+      bgColor: 'bg-red-100',
+      darkBgColor: 'dark:bg-red-900/20',
+      gradientFrom: 'from-red-200',
+      gradientTo: 'to-pink-200',
+      darkGradientFrom: 'dark:from-red-700',
+      darkGradientTo: 'dark:to-pink-800',
+      subtitle: 'Rejected by admin'
+    },
+    { 
+      title: 'Withdraw Requests', 
+      count: stats.withdrawRequests || 0, 
+      link: '/admin/withdraw-requests',
+      icon: '💰',
+      color: 'bg-green-500',
+      textColor: 'text-green-900',
+      bgColor: 'bg-green-100',
+      darkBgColor: 'dark:bg-green-900/20',
+      gradientFrom: 'from-green-200',
+      gradientTo: 'to-emerald-200',
+      darkGradientFrom: 'dark:from-green-700',
+      darkGradientTo: 'dark:to-emerald-800',
+      subtitle: 'Pending approval'
+    },
     { 
       title: 'Students', 
       count: stats.students, 
@@ -294,21 +373,6 @@ const DashboardPage = () => {
       subtitle: 'Unpublished content'
     },
     {
-      title: 'Featured Articles',
-      count: stats.featuredArticles || 0,
-      link: '/admin/articles?featured=true',
-      icon: '⭐',
-      color: 'bg-purple-500',
-      textColor: 'text-purple-900',
-      bgColor: 'bg-purple-100',
-      darkBgColor: 'dark:bg-purple-900/20',
-      gradientFrom: 'from-purple-200',
-      gradientTo: 'to-pink-200',
-      darkGradientFrom: 'dark:from-purple-700',
-      darkGradientTo: 'dark:to-pink-800',
-      subtitle: 'Highlighted content'
-    },
-    {
       title: 'Article Views',
       count: stats.totalArticleViews || 0,
       link: '/admin/articles',
@@ -368,6 +432,17 @@ const DashboardPage = () => {
 
   return (
     <AdminMobileAppWrapper title="Dashboard">
+      <Helmet>
+        <title>Admin Dashboard - SUBG QUIZ Management</title>
+        <meta name="description" content="SUBG QUIZ admin dashboard for managing quizzes, users, analytics, and platform operations." />
+        <meta name="keywords" content="admin dashboard, SUBG QUIZ admin, quiz management, admin panel" />
+        <meta property="og:title" content="Admin Dashboard - SUBG QUIZ Management" />
+        <meta property="og:description" content="SUBG QUIZ admin dashboard for managing quizzes, users, analytics, and platform operations." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Admin Dashboard - SUBG QUIZ Management" />
+        <meta name="twitter:description" content="SUBG QUIZ admin dashboard for managing quizzes, users, analytics, and platform operations." />
+      </Helmet>
       <div className={`adminPanel ${isOpen ? 'showPanel' : 'hidePanel'}`}>
         {user?.role === 'admin' && isAdminRoute && <Sidebar />}
         <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
@@ -540,6 +615,56 @@ const DashboardPage = () => {
               <div>
                 <h3 className="font-medium text-gray-900 dark:text-white">Manage Articles</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Create & Manage Blog Articles</p>
+              </div>
+            </Link>
+
+            <Link to="/admin/user-questions" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 hover:from-purple-100 hover:to-purple-200 dark:hover:from-purple-800/30 dark:hover:to-purple-700/30 transition-all duration-300">
+              <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center mr-3">
+                <span className="text-white text-lg">💭</span>
+              </div>
+              <div>
+                <h3 className="font-medium text-gray-900 dark:text-white">All User Questions</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">View all submitted questions</p>
+              </div>
+            </Link>
+            
+            <Link to="/admin/user-questions?status=pending" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-yellow-50 to-yellow-100 dark:from-yellow-900/20 dark:to-yellow-800/20 hover:from-yellow-100 hover:to-yellow-200 dark:hover:from-yellow-800/30 dark:hover:to-yellow-700/30 transition-all duration-300">
+              <div className="w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center mr-3">
+                <span className="text-white text-lg">⏳</span>
+              </div>
+              <div>
+                <h3 className="font-medium text-gray-900 dark:text-white">Pending Questions</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Review questions awaiting approval</p>
+              </div>
+            </Link>
+            
+            <Link to="/admin/user-questions?status=approved" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 hover:from-green-100 hover:to-green-200 dark:hover:from-green-800/30 dark:hover:to-green-700/30 transition-all duration-300">
+              <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center mr-3">
+                <span className="text-white text-lg">✅</span>
+              </div>
+              <div>
+                <h3 className="font-medium text-gray-900 dark:text-white">Approved Questions</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">View approved questions</p>
+              </div>
+            </Link>
+            
+            <Link to="/admin/user-questions?status=rejected" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 hover:from-red-100 hover:to-red-200 dark:hover:from-red-800/30 dark:hover:to-red-700/30 transition-all duration-300">
+              <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center mr-3">
+                <span className="text-white text-lg">❌</span>
+              </div>
+              <div>
+                <h3 className="font-medium text-gray-900 dark:text-white">Rejected Questions</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">View rejected questions</p>
+              </div>
+            </Link>
+            
+            <Link to="/admin/withdraw-requests" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 hover:from-green-100 hover:to-green-200 dark:hover:from-green-800/30 dark:hover:to-green-700/30 transition-all duration-300">
+              <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center mr-3">
+                <span className="text-white text-lg">💰</span>
+              </div>
+              <div>
+                <h3 className="font-medium text-gray-900 dark:text-white">Review Withdraw Requests</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Approve/Reject User Withdrawal Requests</p>
               </div>
             </Link>
             

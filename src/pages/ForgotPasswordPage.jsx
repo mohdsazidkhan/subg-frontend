@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import API from '../utils/api';
 import { toast } from 'react-toastify';
 import { FaEnvelope, FaArrowLeft } from 'react-icons/fa';
@@ -31,6 +32,17 @@ const ForgotPasswordPage = () => {
 
   return (
     <MobileAppWrapper title="Forgot Password">
+      <Helmet>
+        <title>Forgot Password - SUBG QUIZ Password Reset</title>
+        <meta name="description" content="Reset your SUBG QUIZ password. Enter your email to receive a password reset link and regain access to your quiz account." />
+        <meta name="keywords" content="forgot password, password reset, SUBG QUIZ login, quiz account recovery" />
+        <meta property="og:title" content="Forgot Password - SUBG QUIZ Password Reset" />
+        <meta property="og:description" content="Reset your SUBG QUIZ password. Enter your email to receive a password reset link and regain access to your quiz account." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Forgot Password - SUBG QUIZ Password Reset" />
+        <meta name="twitter:description" content="Reset your SUBG QUIZ password. Enter your email to receive a password reset link and regain access to your quiz account." />
+      </Helmet>
       <div className="bg-subg-light dark:bg-subg-dark flex items-center justify-center min-h-screen p-2 md:p-4">
       <div className="w-full max-w-md bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20">
         <div className="mb-6 flex items-center gap-2">

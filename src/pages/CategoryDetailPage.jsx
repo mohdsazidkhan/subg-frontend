@@ -98,7 +98,7 @@ const CategoryDetailPage = () => {
       {/* Hero Section with Category Name and Description */}
       {category && (
         <div className="bg-gradient-to-r from-yellow-800 via-orange-800 to-red-800 text-white py-12 sm:py-16 px-4 sm:px-6 shadow-2xl">
-          <div className="max-w-5xl mx-auto text-center">
+          <div className="container mx-auto text-center">
             <div className="mb-4">
               <h1 className="text-2xl sm:text-5xl font-bold mb-4 drop-shadow-lg animate-fade-in">
                 {category.name}
@@ -121,7 +121,7 @@ const CategoryDetailPage = () => {
         </div>
       )}
       
-      <div className="max-w-5xl mx-auto px-2 sm:px-4 py-6 sm:py-10">
+      <div className="container mx-auto px-8 py-4">
 
         {/* Subcategories Section */}
         <div className="mb-8 sm:mb-12">

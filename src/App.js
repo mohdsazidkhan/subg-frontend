@@ -4,6 +4,7 @@ import UnifiedNavbar from './components/UnifiedNavbar.jsx';
 import AdminNavbar from './components/AdminNavbar.jsx';
 import AdminMobileBottomNavigation from './components/AdminMobileBottomNavigation.jsx';
 import MobileBottomNavigation from './components/MobileBottomNavigation.jsx';
+import MobileAppWrapper from './components/MobileAppWrapper.jsx';
 import Sidebar from './components/Sidebar';
 import AdminRoute from './components/AdminRoute';
 import UnifiedFooter from './components/UnifiedFooter.jsx';
@@ -53,6 +54,9 @@ import CategoryDetailPage from './pages/CategoryDetailPage';
 import SubcategoryDetailPage from './pages/SubcategoryDetailPage';
 import LevelDetailPage from './pages/LevelDetailPage';
 import RewardsPage from './pages/RewardsPage';
+import PostUserQuestion from './pages/pro/PostUserQuestion.jsx';
+import MyUserQuestions from './pages/pro/MyUserQuestions.jsx';
+import UserWallet from './pages/pro/UserWallet.jsx';
 import AdminContacts from './pages/admin/AdminContacts';
 import AdminBankDetails from './pages/admin/AdminBankDetails';
 import AdminPaymentTransactions from './pages/admin/AdminPaymentTransactions';
@@ -60,6 +64,10 @@ import AdminSubscriptions from './pages/admin/AdminSubscriptions';
 import AdminMonthlyWinners from './pages/admin/AdminMonthlyWinners.jsx';
 import AdminArticles from './pages/admin/AdminArticles.jsx';
 import AdminArticleForm from './pages/admin/AdminArticleForm.jsx';
+import AdminUserQuestions from './pages/admin/AdminUserQuestions.jsx';
+import AdminUserWallets from './pages/admin/AdminUserWallets.jsx';
+import PublicUserQuestions from './pages/PublicUserQuestions.jsx';
+import AdminWithdrawRequests from './pages/admin/AdminWithdrawRequests.jsx';
 import ArticlesPage from './pages/ArticlesPage.jsx';
 import ArticleDetailPage from './pages/ArticleDetailPage.jsx';
 import ArticleCategoryPage from './pages/ArticleCategoryPage.jsx';
@@ -134,6 +142,9 @@ function AppLayout() {
             <Route path="/quiz-result" element={<StudentRoute><TokenValidationWrapper><QuizResult /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/levels" element={<StudentRoute><TokenValidationWrapper><LevelsPage /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/rewards" element={<StudentRoute><TokenValidationWrapper><RewardsPage /></TokenValidationWrapper></StudentRoute>} />
+            <Route path="/pro/questions/new" element={<StudentRoute><TokenValidationWrapper><MobileAppWrapper title="Create Question"><PostUserQuestion /></MobileAppWrapper></TokenValidationWrapper></StudentRoute>} />
+            <Route path="/pro/questions/mine" element={<StudentRoute><TokenValidationWrapper><MobileAppWrapper title="My Questions"><MyUserQuestions /></MobileAppWrapper></TokenValidationWrapper></StudentRoute>} />
+            <Route path="/pro/wallet" element={<StudentRoute><TokenValidationWrapper><MobileAppWrapper title="My Wallet"><UserWallet /></MobileAppWrapper></TokenValidationWrapper></StudentRoute>} />
             <Route path="/category/:categoryId" element={<StudentRoute><TokenValidationWrapper><CategoryDetailPage /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/subcategory/:subcategoryId" element={<StudentRoute><TokenValidationWrapper><SubcategoryDetailPage /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/level/:levelNumber" element={<StudentRoute><TokenValidationWrapper><LevelDetailPage /></TokenValidationWrapper></StudentRoute>} />
@@ -144,6 +155,10 @@ function AppLayout() {
             <Route path="/admin/subcategories" element={<AdminRoute><TokenValidationWrapper><SubcategoryPage /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/quizzes" element={<AdminRoute><TokenValidationWrapper><QuizManagementPage /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/questions" element={<AdminRoute><TokenValidationWrapper><QuestionPage /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/user-questions" element={<AdminRoute><TokenValidationWrapper><AdminUserQuestions /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/user-wallets" element={<AdminRoute><TokenValidationWrapper><AdminUserWallets /></TokenValidationWrapper></AdminRoute>} />
+          <Route path="/questions" element={<TokenValidationWrapper><PublicUserQuestions /></TokenValidationWrapper>} />
+            <Route path="/admin/user-withdrawals" element={<AdminRoute><TokenValidationWrapper><AdminWithdrawRequests /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/students" element={<AdminRoute><TokenValidationWrapper><StudentPage /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/contacts" element={<AdminRoute><TokenValidationWrapper><AdminContacts /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/bank-details" element={<AdminRoute><TokenValidationWrapper><AdminBankDetails /></TokenValidationWrapper></AdminRoute>} />

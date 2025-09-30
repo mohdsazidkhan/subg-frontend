@@ -58,7 +58,8 @@ import API from '../utils/api';
             highScoreQuizzes: u.monthly?.highScoreWins || 0,
             quizzesPlayed: u.monthly?.totalQuizAttempts || 0,
             accuracy: u.monthly?.accuracy || 0,
-            averageScore: u.monthly?.accuracy || 0
+            averageScore: u.monthly?.accuracy || 0,
+            totalScore: u.totalCorrectAnswers || 0
           }
         }));
         const surroundingUsers = Array.isArray(result?.data?.surroundingUsers) ? result.data.surroundingUsers : [];
@@ -77,7 +78,8 @@ import API from '../utils/api';
             highScoreQuizzes: u.level?.highScoreQuizzes || 0,
             quizzesPlayed: u.level?.quizzesPlayed || 0,
             accuracy: u.level?.accuracy || 0,
-            averageScore: u.level?.averageScore || 0
+            averageScore: u.level?.averageScore || 0,
+            totalScore: u.totalCorrectAnswers || u.level?.totalScore || 0
           }
         }));
 
@@ -97,7 +99,8 @@ import API from '../utils/api';
               highScoreQuizzes: currentUser.level?.highScoreQuizzes || 0,
               quizzesPlayed: currentUser.level?.quizzesPlayed || 0,
               accuracy: currentUser.level?.accuracy || 0,
-              averageScore: currentUser.level?.accuracy || 0
+              averageScore: currentUser.level?.accuracy || 0,
+              totalScore: currentUser.totalCorrectAnswers || currentUser.level?.totalScore || 0
             }
           } : null,
           total: result.data.total || transformed.length 
@@ -460,6 +463,12 @@ import API from '../utils/api';
                     Accuracy
                   </div>
                 </th>
+                <th className="py-4 px-4 text-left text-emerald-800 dark:text-emerald-200 font-bold text-lg">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">✅</span>
+                    Total Correct
+                  </div>
+                </th>
 
               </tr>
             </thead>
@@ -595,6 +604,23 @@ import API from '../utils/api';
                       </div>
                     </div>
                   </td>
+                  <td className="py-4 px-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-10 h-10 bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 rounded-lg flex items-center justify-center">
+                        <span className="text-emerald-600 dark:text-emerald-400 text-sm">✅</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-gray-900 dark:text-white text-lg">
+                          {p.level?.totalScore || 0}
+                        </span>
+                        {(p.level?.totalScore || 0) > 0 && (
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-200">
+                            ✅
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </td>
 
                 </tr>
               ))}
@@ -716,6 +742,18 @@ import API from '../utils/api';
                     </div>
                   </div>
                 </div>
+
+                {/* Total Correct Answers Badge */}
+                <div className="bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 p-1 lg:p-3 rounded-lg border border-emerald-200 dark:border-emerald-700">
+                  <div className="text-center">
+                    <div className="text-xl lg:text-2xl font-bold text-emerald-800 dark:text-emerald-200">
+                      {p.level?.totalScore || 0}
+                    </div>
+                    <div className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                      ✅ Correct
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
@@ -730,7 +768,7 @@ import API from '../utils/api';
           </h4>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
          
-          {topPerformers.map((p, i) => (
+          {topPerformers?.map((p, i) => (
             <div
               key={i}
               className={`p-2 lg:p-4 rounded-lg border dark:border-gray-600 hover:shadow-lg transition-all duration-200 ${
@@ -784,7 +822,7 @@ import API from '../utils/api';
               {/* High Score Badge */}
               <div className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 p-3 rounded-lg mb-3 border border-green-200 dark:border-green-700">
                 <div className="text-center">
-                  <div className="text-xl lg:text-xl lg:text-xl lg:text-xl lg:text-xl lg:text-2xl font-bold text-green-800 dark:text-green-200">
+                  <div className="text-xl lg:text-2xl font-bold text-green-800 dark:text-green-200">
                     {p.level?.highScoreQuizzes || 0}
                   </div>
                   <div className="text-sm font-medium text-green-600 dark:text-green-400">
@@ -796,7 +834,7 @@ import API from '../utils/api';
               {/* Total Quizzes Badge */}
               <div className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 p-3 rounded-lg mb-3 border border-blue-200 dark:border-blue-700">
                 <div className="text-center">
-                  <div className="textxl lg:text-xl lg:text-2xl font-bold text-blue-800 dark:text-blue-200">
+                  <div className="textxl lg:text-2xl font-bold text-blue-800 dark:text-blue-200">
                     {p.level?.quizzesPlayed || 0}
                   </div>
                   <div className="text-sm font-medium text-blue-600 dark:text-blue-400">
@@ -830,6 +868,18 @@ import API from '../utils/api';
                   </div>
                   <div className="text-sm font-medium text-orange-600 dark:text-orange-400">
                     🎯 Accuracy
+                  </div>
+                </div>
+              </div>
+
+              {/* Total Correct Answers Badge */}
+              <div className="bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 p-3 rounded-lg mb-3 border border-emerald-200 dark:border-emerald-700">
+                <div className="text-center">
+                  <div className="text-xl lg:text-2xl font-bold text-emerald-800 dark:text-emerald-200">
+                    {p.level?.totalScore || 0}
+                  </div>
+                  <div className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                    ✅ Total Correct
                   </div>
                 </div>
               </div>

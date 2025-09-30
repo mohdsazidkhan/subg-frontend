@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import API from '../utils/api';
 import useDebounce from '../utils/useDebounce';
 import MobileAppWrapper from '../components/MobileAppWrapper';
@@ -235,9 +236,20 @@ const ArticlesPage = () => {
 
   return (
     <MobileAppWrapper title="Articles">
+      <Helmet>
+        <title>Articles - SUBG QUIZ Knowledge Hub</title>
+        <meta name="description" content="Explore educational articles and knowledge resources on SUBG QUIZ platform. Learn new concepts, improve your quiz skills, and expand your knowledge base." />
+        <meta name="keywords" content="SUBG QUIZ articles, educational content, knowledge hub, quiz learning, educational articles" />
+        <meta property="og:title" content="Articles - SUBG QUIZ Knowledge Hub" />
+        <meta property="og:description" content="Explore educational articles and knowledge resources on SUBG QUIZ platform. Learn new concepts, improve your quiz skills, and expand your knowledge base." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Articles - SUBG QUIZ Knowledge Hub" />
+        <meta name="twitter:description" content="Explore educational articles and knowledge resources on SUBG QUIZ platform. Learn new concepts, improve your quiz skills, and expand your knowledge base." />
+      </Helmet>
       <div className={`mainContent ${isOpen ? 'showPanel' : 'hidePanel'}`}>
         {user && user.role === 'admin' && <Sidebar />}
-        <div className="p-4 w-full text-gray-900 dark:text-white">
+        <div className="container mx-auto px-8 py-4 text-gray-900 dark:text-white">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
             <div>
@@ -249,7 +261,7 @@ const ArticlesPage = () => {
               </p>
             </div>
             {/* Filters */}
-        <div className="gap-4 flex flex-col sm:flex-row sm:items-start sm:justify-between bg-white dark:bg-gray-800 rounded-lg p-2 shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="gap-4 flex flex-col sm:flex-row sm:items-start sm:justify-between bg-white dark:bg-gray-800 rounded-lg p-2 shadow-sm border border-gray-200 dark:border-gray-700">
                {/* View Toggle */}
                 <div className="flex flex-row lg:flex-col items-center lg:items-start justify-center lg:justify-start gap-2 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
                   <button

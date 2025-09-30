@@ -72,7 +72,7 @@ const MonthlyWinnersDisplay = ({ title = "🏆 Previous Month Legends", showTitl
               <div className="text-xl lg:text-2xl font-bold text-yellow-600 mb-2">₹9,999</div>
               <div className="text-sm text-gray-600 dark:text-gray-300 mb-2">Monthly Prize Pool</div>
               <div className="text-xs text-gray-500 dark:text-gray-400">
-                Top 3 users at Level 10 with ≥75% accuracy win prizes in 3:2:1 ratio
+                Top 3 users at Level 10 and 110 high score quizzes with ≥75% accuracy win prizes.
               </div>
             </div>
           </div>
@@ -111,7 +111,7 @@ const MonthlyWinnersDisplay = ({ title = "🏆 Previous Month Legends", showTitl
   };
 
   return (
-    <div className={`bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 rounded-xl border border-yellow-200 dark:border-yellow-600 p-6 ${className}`}>
+    <div className={`bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 rounded-xl border border-yellow-200 dark:border-yellow-600 p-2 lg:p-6 ${className}`}>
       {showTitle && (
         <div className="flex items-center gap-3 mb-6">
           <FaTrophy className="text-3xl text-yellow-600" />
@@ -130,27 +130,26 @@ const MonthlyWinnersDisplay = ({ title = "🏆 Previous Month Legends", showTitl
         {monthlyWinners.winners.map((winner, index) => (
           <div 
             key={winner._id || index} 
-            className={`bg-gradient-to-r ${getRankColor(winner.rank)} rounded-lg p-4 text-white shadow-lg`}
+            className={`bg-gradient-to-r ${getRankColor(winner.rank)} rounded-lg p-2 lg:p-4 text-white shadow-lg`}
           >
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 lg:gap-4">
                 <div className="flex items-center gap-2">
                   {getRankIcon(winner.rank)}
                   <span className="text-lg font-bold">#{winner.rank}</span>
                 </div>
                 <div>
-                  <div className="font-semibold text-lg">{winner.userName}</div>
-                  <div className="text-sm opacity-90">{winner.userEmail}</div>
+                  <div className="font-semibold text-md lg:text-lg">{winner.userName}</div>
                   <div className="text-xs opacity-80 mt-1">
                     {winner.highScoreWins} wins • {winner.accuracy}% accuracy
                   </div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="flex items-center gap-2">
-                  <FaRupeeSign className="text-2xl" />
+                <div className="flex items-center justify-end gap-2">
+                  <FaRupeeSign className="text-md lg:text-2xl" />
                   <div>
-                    <div className="text-xl lg:text-2xl font-bold">{winner.rewardAmount?.toLocaleString()}</div>
+                    <div className="text-md lg:text-2xl font-bold">{winner.rewardAmount?.toLocaleString()}</div>
                     <div className="text-xs opacity-80">Prize</div>
                   </div>
                 </div>

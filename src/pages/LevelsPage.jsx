@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { FaTrophy, FaCrown, FaStar, FaMedal, FaRocket, FaBrain, FaChartLine, FaArrowLeft, FaAward, FaGem } from 'react-icons/fa';
 import { FaUserGraduate, FaMagic } from 'react-icons/fa';
 import API from '../utils/api';
@@ -24,16 +25,16 @@ const levelBadgeIcons = {
 // Fallback levels data if API fails
 const fallbackLevels = [
   { _id: 0, levelName: 'Starter', quizzesRequired: 0, quizCount: 0, description: 'Starting point for all users' },
-  { _id: 1, levelName: 'Rookie', quizzesRequired: 2, quizCount: 0, description: 'Begin your quiz journey' },
-  { _id: 2, levelName: 'Explorer', quizzesRequired: 6, quizCount: 0, description: 'Discover new challenges' },
-  { _id: 3, levelName: 'Thinker', quizzesRequired: 12, quizCount: 0, description: 'Develop critical thinking' },
-  { _id: 4, levelName: 'Strategist', quizzesRequired: 20, quizCount: 0, description: 'Master quiz strategies' },
-  { _id: 5, levelName: 'Achiever', quizzesRequired: 30, quizCount: 0, description: 'Reach new heights' },
-  { _id: 6, levelName: 'Mastermind', quizzesRequired: 42, quizCount: 0, description: 'Become a quiz expert' },
-  { _id: 7, levelName: 'Champion', quizzesRequired: 56, quizCount: 0, description: 'Compete with the best' },
-  { _id: 8, levelName: 'Prodigy', quizzesRequired: 72, quizCount: 0, description: 'Show exceptional talent' },
-  { _id: 9, levelName: 'Wizard', quizzesRequired: 90, quizCount: 0, description: 'Master of all quizzes' },
-  { _id: 10, levelName: 'Legend', quizzesRequired: 110, quizCount: 0, description: 'Achieve legendary status' }
+  { _id: 1, levelName: 'Rookie', quizzesRequired: 4, quizCount: 0, description: 'Begin your quiz journey' },
+  { _id: 2, levelName: 'Explorer', quizzesRequired: 12, quizCount: 0, description: 'Discover new challenges' },
+  { _id: 3, levelName: 'Thinker', quizzesRequired: 24, quizCount: 0, description: 'Develop critical thinking' },
+  { _id: 4, levelName: 'Strategist', quizzesRequired: 40, quizCount: 0, description: 'Master quiz strategies' },
+  { _id: 5, levelName: 'Achiever', quizzesRequired: 60, quizCount: 0, description: 'Reach new heights' },
+  { _id: 6, levelName: 'Mastermind', quizzesRequired: 84, quizCount: 0, description: 'Become a quiz expert' },
+  { _id: 7, levelName: 'Champion', quizzesRequired: 112, quizCount: 0, description: 'Compete with the best' },
+  { _id: 8, levelName: 'Prodigy', quizzesRequired: 144, quizCount: 0, description: 'Show exceptional talent' },
+  { _id: 9, levelName: 'Wizard', quizzesRequired: 180, quizCount: 0, description: 'Master of all quizzes' },
+  { _id: 10, levelName: 'Legend', quizzesRequired: 220, quizCount: 0, description: 'Achieve legendary status' }
 ];
 
 
@@ -117,6 +118,17 @@ const LevelsPage = () => {
 
   return (
   <MobileAppWrapper title="Levels">
+    <Helmet>
+      <title>Quiz Levels - SUBG QUIZ Progressive Learning System</title>
+      <meta name="description" content="Explore SUBG QUIZ progressive learning levels from Starter to Legend. Track your progress, unlock new challenges, and advance through 11 exciting quiz levels." />
+      <meta name="keywords" content="quiz levels, SUBG QUIZ levels, progressive learning, quiz progression, level system" />
+      <meta property="og:title" content="Quiz Levels - SUBG QUIZ Progressive Learning System" />
+      <meta property="og:description" content="Explore SUBG QUIZ progressive learning levels from Starter to Legend. Track your progress, unlock new challenges, and advance through 11 exciting quiz levels." />
+      <meta property="og:type" content="website" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Quiz Levels - SUBG QUIZ Progressive Learning System" />
+      <meta name="twitter:description" content="Explore SUBG QUIZ progressive learning levels from Starter to Legend. Track your progress, unlock new challenges, and advance through 11 exciting quiz levels." />
+    </Helmet>
     <div className="min-h-screen bg-subg-light dark:bg-subg-dark">
       <div className="container mx-auto px-4 py-8 mt-0 lg:mt-16">
         

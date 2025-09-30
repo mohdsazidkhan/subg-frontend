@@ -66,7 +66,7 @@ const ArticleCategoryPage = () => {
 
   return (
     <MobileAppWrapper title={title}>
-      <div className="max-w-5xl mx-auto p-4 text-gray-900 dark:text-white">
+      <div className="container mx-auto px-8 py-4 text-gray-900 dark:text-white">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-6">
           <div>
             <h1 className="text-xl md:text-2xl lg:text-3xl font-bold">{title}</h1>

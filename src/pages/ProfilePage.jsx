@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import API from '../utils/api';
 import { useNavigate, Link } from 'react-router-dom';
 import { handleAuthError } from '../utils/authUtils';
@@ -35,7 +36,10 @@ import {
   FaTwitter,
   FaInstagram,
   FaYoutube,
-  FaPencilAlt
+  FaPencilAlt,
+  FaStickyNote,
+  FaSearch,
+  FaMoneyBill
 } from 'react-icons/fa';
 import { getSubscriptionStatusTextWithTheme } from '../utils/subscriptionUtils';
 import ShareComponent from '../components/ShareComponent';
@@ -558,6 +562,17 @@ const message =
 
   return (
   <MobileAppWrapper title="Profile">
+    <Helmet>
+      <title>My Profile - SUBG QUIZ User Dashboard</title>
+      <meta name="description" content="View your SUBG QUIZ profile, track your progress, manage your account settings, and see your quiz achievements and rewards." />
+      <meta name="keywords" content="SUBG QUIZ profile, user dashboard, quiz progress, account settings, quiz achievements" />
+      <meta property="og:title" content="My Profile - SUBG QUIZ User Dashboard" />
+      <meta property="og:description" content="View your SUBG QUIZ profile, track your progress, manage your account settings, and see your quiz achievements and rewards." />
+      <meta property="og:type" content="website" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="My Profile - SUBG QUIZ User Dashboard" />
+      <meta name="twitter:description" content="View your SUBG QUIZ profile, track your progress, manage your account settings, and see your quiz achievements and rewards." />
+    </Helmet>
     <div className="container mx-auto min-h-screen bg-gray-100 dark:bg-gray-900">
       <div>
         {/* Profile Header */}
@@ -1058,6 +1073,96 @@ const message =
             </div>
           </div>
         </div>
+
+        {/* PRO Features Quick Actions */}
+        {student?.subscriptionStatus === 'pro' && (
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-2 lg:p-8 border border-white/30 m-2 lg:m-4 hover-lift">
+            <div className="flex items-center space-x-4 mb-8">
+              <div className="w-12 lg:w-20 h-12 lg:h-20 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg glow-animation">
+                <FaCrown className="text-white text-3xl" />
+              </div>
+              <div>
+                <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-800 dark:text-white">
+                  PRO Features
+                </h2>
+                <p className="text-gray-600 dark:text-gray-300 text-md lg:text-lg">
+                  Create questions and earn money
+                </p>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+              {/* Create Question */}
+              <div 
+                onClick={() => navigate('/pro/questions/new')}
+                className="group cursor-pointer bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-2xl p-4 lg:p-6 border border-green-200 dark:border-green-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-105"
+              >
+                <div className="flex items-center space-x-4 mb-4">
+                  <div className="w-10 lg:w-12 h-10 lg:h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl flex items-center justify-center">
+                    <FaStickyNote className="text-white text-lg lg:text-xl" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-800 dark:text-white text-lg">Create Question</h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">Post new questions</p>
+                  </div>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                  Create and submit questions to earn ₹10 per approval
+                </p>
+                <div className="flex items-center text-green-600 dark:text-green-400 text-sm font-medium">
+                  <span>Create Now</span>
+                  <FaArrowRight className="ml-2 text-xs" />
+                </div>
+              </div>
+
+              {/* My Questions */}
+              <div 
+                onClick={() => navigate('/pro/questions/mine')}
+                className="group cursor-pointer bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl p-4 lg:p-6 border border-blue-200 dark:border-blue-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-105"
+              >
+                <div className="flex items-center space-x-4 mb-4">
+                  <div className="w-10 lg:w-12 h-10 lg:h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
+                    <FaSearch className="text-white text-lg lg:text-xl" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-800 dark:text-white text-lg">My Questions</h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">View submissions</p>
+                  </div>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                  Track your submitted questions and their status
+                </p>
+                <div className="flex items-center text-blue-600 dark:text-blue-400 text-sm font-medium">
+                  <span>View Questions</span>
+                  <FaArrowRight className="ml-2 text-xs" />
+                </div>
+              </div>
+
+              {/* Wallet */}
+              <div 
+                onClick={() => navigate('/pro/wallet')}
+                className="group cursor-pointer bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-2xl p-4 lg:p-6 border border-yellow-200 dark:border-yellow-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-105"
+              >
+                <div className="flex items-center space-x-4 mb-4">
+                  <div className="w-10 lg:w-12 h-10 lg:h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center">
+                    <FaMoneyBill className="text-white text-lg lg:text-xl" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-800 dark:text-white text-lg">My Wallet</h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">Earnings & withdrawals</p>
+                  </div>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                  Check your earnings and withdraw funds
+                </p>
+                <div className="flex items-center text-yellow-600 dark:text-yellow-400 text-sm font-medium">
+                  <span>View Wallet</span>
+                  <FaArrowRight className="ml-2 text-xs" />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="m-2 lg:m-4 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-gray-900 dark:to-gray-900 rounded-2xl p-3 lg:p-6 border border-emerald-200 dark:border-emerald-700">
   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
@@ -1667,7 +1772,7 @@ const message =
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Quiz Progress: {rewardsData.quizProgress?.current || 0} / {rewardsData.quizProgress?.required || 110}
+                        Quiz Progress: {rewardsData.quizProgress?.current || 0} / {rewardsData.quizProgress?.required || process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220}
                       </span>
                       <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
                         {Math.round(rewardsData.quizProgress?.percentage || 0)}%
@@ -1680,7 +1785,7 @@ const message =
                       ></div>
                     </div>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                      Complete (Level 10 and Minimum 110 Quizzes with ≥75% Accuracy) to unlock monthly rewards
+                      Complete Level 10 with {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes to unlock monthly rewards
                     </p>
                   </div>
 
@@ -1701,32 +1806,67 @@ const message =
                 </div>
               </div>
             )}
-            {/* Monthly Top 3 Info */}
+            {/* Monthly Top 10 Info */}
             <div className="my-4 sm:my-6">
               <h4 className="text-lg lg:text-xl font-semibold text-gray-800 dark:text-white mb-3 sm:mb-4 flex items-center gap-2">
                 <span className="text-xl sm:text-2xl">🏆</span>
-                Monthly Top 3 Rewards
+                Monthly Top 10 Rewards
               </h4>
               <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4">
                 <div className="text-center">
                   <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-                    Every month, the top 3 users with Level 10 and ≥75% accuracy win prizes in 3:2:1 ratio from ₹9,999 total pool!
+                    Every month, the top 10 users with Level 10 and {process.env.REACT_APP_MONTHLY_REWARD_QUIZ_REQUIREMENT || 220} high-score quizzes win prizes from ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000} total pool!
                   </p>
-                  <div className="grid grid-cols-3 gap-4 text-center">
-                    <div className="bg-yellow-100 dark:bg-yellow-800/30 rounded-lg p-3">
-                      <div className="text-2xl mb-1">🥇</div>
-                      <div className="text-xs font-semibold text-yellow-800 dark:text-yellow-200">1st Place</div>
-                      <div className="text-lg font-bold text-yellow-700 dark:text-yellow-300">₹4,999</div>
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-center">
+                    <div className="bg-yellow-100 dark:bg-yellow-800/30 rounded-lg p-2">
+                      <div className="text-lg mb-1">🥇</div>
+                      <div className="text-xs font-semibold text-yellow-800 dark:text-yellow-200">1st</div>
+                      <div className="text-sm font-bold text-yellow-700 dark:text-yellow-300">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.25)}</div>
                     </div>
-                    <div className="bg-gray-100 dark:bg-gray-800/30 rounded-lg p-3">
-                      <div className="text-2xl mb-1">🥈</div>
-                      <div className="text-xs font-semibold text-gray-800 dark:text-gray-200">2nd Place</div>
-                      <div className="text-lg font-bold text-gray-700 dark:text-gray-300">₹3,333</div>
+                    <div className="bg-gray-100 dark:bg-gray-800/30 rounded-lg p-2">
+                      <div className="text-lg mb-1">🥈</div>
+                      <div className="text-xs font-semibold text-gray-800 dark:text-gray-200">2nd</div>
+                      <div className="text-sm font-bold text-gray-700 dark:text-gray-300">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.20)}</div>
                     </div>
-                    <div className="bg-orange-100 dark:bg-orange-800/30 rounded-lg p-3">
-                      <div className="text-2xl mb-1">🥉</div>
-                      <div className="text-xs font-semibold text-orange-800 dark:text-orange-200">3rd Place</div>
-                      <div className="text-lg font-bold text-orange-700 dark:text-orange-300">₹1,667</div>
+                    <div className="bg-orange-100 dark:bg-orange-800/30 rounded-lg p-2">
+                      <div className="text-lg mb-1">🥉</div>
+                      <div className="text-xs font-semibold text-orange-800 dark:text-orange-200">3rd</div>
+                      <div className="text-sm font-bold text-orange-700 dark:text-orange-300">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.15)}</div>
+                    </div>
+                    <div className="bg-blue-100 dark:bg-blue-800/30 rounded-lg p-2">
+                      <div className="text-lg mb-1">🏅</div>
+                      <div className="text-xs font-semibold text-blue-800 dark:text-blue-200">4th</div>
+                      <div className="text-sm font-bold text-blue-700 dark:text-blue-300">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.12)}</div>
+                    </div>
+                    <div className="bg-green-100 dark:bg-green-800/30 rounded-lg p-2">
+                      <div className="text-lg mb-1">🏅</div>
+                      <div className="text-xs font-semibold text-green-800 dark:text-green-200">5th</div>
+                      <div className="text-sm font-bold text-green-700 dark:text-green-300">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.08)}</div>
+                    </div>
+                    <div className="bg-purple-100 dark:bg-purple-800/30 rounded-lg p-2">
+                      <div className="text-lg mb-1">🏅</div>
+                      <div className="text-xs font-semibold text-purple-800 dark:text-purple-200">6th</div>
+                      <div className="text-sm font-bold text-purple-700 dark:text-purple-300">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.06)}</div>
+                    </div>
+                    <div className="bg-pink-100 dark:bg-pink-800/30 rounded-lg p-2">
+                      <div className="text-lg mb-1">🏅</div>
+                      <div className="text-xs font-semibold text-pink-800 dark:text-pink-200">7th</div>
+                      <div className="text-sm font-bold text-pink-700 dark:text-pink-300">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.05)}</div>
+                    </div>
+                    <div className="bg-indigo-100 dark:bg-indigo-800/30 rounded-lg p-2">
+                      <div className="text-lg mb-1">🏅</div>
+                      <div className="text-xs font-semibold text-indigo-800 dark:text-indigo-200">8th</div>
+                      <div className="text-sm font-bold text-indigo-700 dark:text-indigo-300">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.04)}</div>
+                    </div>
+                    <div className="bg-teal-100 dark:bg-teal-800/30 rounded-lg p-2">
+                      <div className="text-lg mb-1">🏅</div>
+                      <div className="text-xs font-semibold text-teal-800 dark:text-teal-200">9th</div>
+                      <div className="text-sm font-bold text-teal-700 dark:text-teal-300">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.035)}</div>
+                    </div>
+                    <div className="bg-red-100 dark:bg-red-800/30 rounded-lg p-2">
+                      <div className="text-lg mb-1">🏅</div>
+                      <div className="text-xs font-semibold text-red-800 dark:text-red-200">10th</div>
+                      <div className="text-sm font-bold text-red-700 dark:text-red-300">₹{Math.round((process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000) * 0.015)}</div>
                     </div>
                   </div>
                 </div>
@@ -1750,26 +1890,12 @@ const message =
                   View Rewards
                 </Link>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
-                <div className="text-center p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-2xl border border-purple-200 dark:border-purple-600">
-                  <div className="text-lg sm:text-xl lg:text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">
-                    {rewardsLoading ? '...' : (rewardsData?.monthlyRank || 'N/A')}
-                  </div>
-                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Monthly Rank</div>
-                </div>
-                <div className="text-center p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-2xl border border-blue-200 dark:border-blue-600">
-                  <div className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
-                    {rewardsLoading ? '...' : (rewardsData?.unlocked?.length || 0)}
-                  </div>
-                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Unlocked Rewards</div>
-                </div>
                 <div className="text-center p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-2xl border border-green-200 dark:border-green-600 sm:col-span-2 md:col-span-1">
                   <div className="text-lg sm:text-xl lg:text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
                     {rewardsLoading ? '...' : `₹${rewardsData?.claimableRewards?.toLocaleString() || '0'}`}
                   </div>
                   <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Total Claimable</div>
                 </div>
-              </div>
             </div>
             
             
@@ -1926,6 +2052,7 @@ const message =
               </div>
             )}
           </div>
+
         {/* Payment Transactions Section */}
         <div className="m-2 lg:m-4 pb-6">
           <PaymentTransactions />

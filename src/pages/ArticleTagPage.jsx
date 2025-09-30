@@ -50,7 +50,7 @@ const ArticleTagPage = () => {
 
   return (
     <MobileAppWrapper title={`#${tagName}`}>
-      <div className="max-w-5xl mx-auto p-4 text-gray-900 dark:text-white">
+      <div className="container mx-auto px-8 py-4 text-gray-900 dark:text-white">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-xl md:text-2xl lg:text-3xl font-bold">#{tagName}</h1>
           <button onClick={() => navigate(-1)} className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-lg">← Back</button>

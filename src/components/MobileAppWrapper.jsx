@@ -61,7 +61,10 @@ const MobileAppWrapper = ({ children, title, showHeader = true }) => {
       '/terms': 'Terms',
       '/privacy': 'Privacy',
       '/refund': 'Refund',
-      '/contact': 'Contact'
+      '/contact': 'Contact',
+      '/pro/questions/new': 'Create Question',
+      '/questions': 'Public Questions',
+      '/pro/wallet': 'My Wallet'
     };
     
     // Check for exact matches first
@@ -74,6 +77,9 @@ const MobileAppWrapper = ({ children, title, showHeader = true }) => {
     if (path.startsWith('/subcategory/')) return 'Subcategory';
     if (path.startsWith('/level/')) return 'Level';
     if (path.startsWith('/attempt-quiz/')) return 'Quiz';
+    if (path.startsWith('/pro/questions/new')) return 'Create Question';
+    if (path.startsWith('/questions')) return 'Public Questions';
+    if (path.startsWith('/pro/wallet')) return 'My Wallet';
     
     // Default fallback
     return 'SUBG QUIZ';
