@@ -5,12 +5,13 @@ import API from '../../utils/api';
 import { toast } from 'react-toastify';
 import { FaTrophy, FaMedal, FaCrown, FaCalendarAlt, FaUsers, FaRupeeSign, FaTh, FaList, FaTable, FaSearch } from 'react-icons/fa';
 import AdminMobileAppWrapper from '../../components/AdminMobileAppWrapper';
+import { isMobile } from 'react-device-detect';
 
 const AdminMonthlyWinners = () => {
   const [monthlyWinners, setMonthlyWinners] = useState([]);
   const [monthlyWinnersLoading, setMonthlyWinnersLoading] = useState(true);
   const [filterLoading, setFilterLoading] = useState(false);
-  const [viewMode, setViewMode] = useState('grid'); // 'grid', 'list', 'table'
+  const [viewMode, setViewMode] = useState(isMobile ? 'list' : 'table'); // 'grid', 'list', 'table'
   // Get current date
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
@@ -208,7 +209,7 @@ const AdminMonthlyWinners = () => {
                     <FaUsers className="text-2xl text-blue-600" />
                     <div>
                       <div className="text-sm text-blue-700 dark:text-blue-400">Total Winners</div>
-                      <div className="textxl lg:text-xl lg:text-2xl font-bold text-blue-800 dark:text-blue-200">
+                      <div className="text-xl lg:text-2xl font-bold text-blue-800 dark:text-blue-200">
                         {monthlyWinners.reduce((total, month) => total + (month.totalWinners || 0), 0)}
                       </div>
                     </div>
@@ -220,7 +221,7 @@ const AdminMonthlyWinners = () => {
                     <FaRupeeSign className="text-2xl text-green-600" />
                     <div>
                       <div className="text-sm text-green-700 dark:text-green-400">Total Distributed</div>
-                      <div className="text-xl lg:text-xl lg:text-xl lg:text-xl lg:text-xl lg:text-2xl font-bold text-green-800 dark:text-green-200">
+                      <div className="text-md lg:text-xl lg:text-2xl font-bold text-green-800 dark:text-green-200">
                         ₹{monthlyWinners.reduce((total, month) => total + (month.totalPrizePool || 0), 0).toLocaleString()}
                       </div>
                     </div>
