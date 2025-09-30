@@ -950,7 +950,7 @@ const AttemptQuizPage = () => {
             </div>
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between items-center gap-2 md:gap-4">
+            <div className="flex justify-end items-center gap-2 md:gap-4">
               {/* Previous Button - Commented Out */}
               {/* <button
                 onClick={handlePreviousQuestion}
