@@ -372,7 +372,7 @@ const AdminMonthlyWinners = () => {
                         </div>
                       </div>
                       
-                      <div className="p-6">
+                      <div className="p-2 lg:p-6">
                         <div className="space-y-4">
                           {monthData.winners?.map((winner, winnerIndex) => (
                             <div key={winner._id || winnerIndex} className="flex items-center justify-between p-4 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
