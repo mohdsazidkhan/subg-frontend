@@ -702,19 +702,38 @@ const message =
                 </div>
               </div>
               {/* Subscription Status */}
-              <div className="flex items-center space-x-3">
-                <FaCrown className="text-yellow-500 text-lg" />
-                <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Subscription</p>
-                  {(() => {
-                    const statusInfo = getSubscriptionStatusTextWithTheme(student.subscriptionStatus);
-                    return (
-                      <p className={`font-medium ${statusInfo.textColor}`}>
-                        {statusInfo.text}
+              <div className="flex items-center justify-between space-x-3">
+                <div className="flex items-center space-x-3">
+                  <FaCrown className="text-yellow-500 text-lg" />
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Subscription</p>
+                    {(() => {
+                      const statusInfo = getSubscriptionStatusTextWithTheme(student.subscriptionStatus);
+                      return (
+                        <p className={`font-medium ${statusInfo.textColor}`}>
+                          {statusInfo.text}
+                        </p>
+                      );
+                    })()}
+                    {/* Subscription Expiry Date */}
+                    {student?.subscriptionExpiry && student.subscriptionStatus !== 'free' && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        Expires: {new Date(student.subscriptionExpiry).toLocaleDateString('en-IN', { 
+                          day: 'numeric', 
+                          month: 'short', 
+                          year: 'numeric' 
+                        })}
                       </p>
-                    );
-                  })()}
+                    )}
+                  </div>
                 </div>
+                <Link 
+                  to="/subscription" 
+                  className="text-sm px-3 py-1.5 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg hover:from-purple-600 hover:to-indigo-700 transition-all shadow-sm hover:shadow-md flex items-center space-x-1"
+                >
+                  <FaRocket className="text-xs" />
+                  <span>{student.subscriptionStatus === 'free' ? 'Upgrade' : 'Manage'}</span>
+                </Link>
               </div>
 
               {/* Social Media Links */}
