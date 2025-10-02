@@ -247,7 +247,7 @@ export default function AdminBankDetails() {
           key={detail._id}
           className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow"
         >
-          <div className="p-6">
+          <div className="p-3 lg:p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center mr-3">
@@ -333,7 +333,7 @@ export default function AdminBankDetails() {
         {bankDetails.map((detail) => (
           <div
             key={detail._id}
-            className="p-4 md:p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            className="p-3 lg:p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
             <div className="flex flex-col md:flex-row md:items-start">
               <div className="flex items-center mb-4 md:mb-0 md:mr-6">
@@ -422,43 +422,35 @@ export default function AdminBankDetails() {
         <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
         <div className="mx-auto">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
             <div>
               <h2 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
                 User Bank Details ({pagination.total || 0})
               </h2>
               <p className="text-gray-600 dark:text-gray-400 mt-1">
-                View bank details of users who are at level 10 or have a pro
-                subscription
+                View bank details of users
               </p>
             </div>
-          </div>
-
-          {/* Search and Filters */}
+            {/* Search and Filters */}
           <SearchFilter
             searchTerm={searchTerm}
             onSearchChange={handleSearch}
             placeholder="Search by name, email, or bank details..."
           />
-
-          {/* View Toggle */}
-          <div className="flex items-center justify-between mb-4">
-            <ViewToggle 
+          <ViewToggle 
               currentView={viewMode} 
               onViewChange={setViewMode} 
               views={['table', 'list', 'grid']}
             />
+            
             <div className="flex items-center space-x-2">
-              <label className="text-sm text-gray-600 dark:text-gray-400">
-                Show:
-              </label>
               <select
                 value={itemsPerPage}
                 onChange={(e) => {
                   setItemsPerPage(Number(e.target.value));
                   setPage(1);
                 }}
-                className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full lg:w-auto px-4 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value={5}>5</option>
                 <option value={10}>10</option>

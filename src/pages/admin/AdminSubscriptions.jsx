@@ -214,13 +214,44 @@ const AdminSubscriptions = () => {
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-IN', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    // Check if dateString exists and is valid
+    if (!dateString) {
+      return 'N/A';
+    }
+    
+    const date = new Date(dateString);
+    
+    // Check if the date is valid
+    if (isNaN(date.getTime())) {
+      return 'Invalid Date';
+    }
+    
+    const day = date.getDate().toString().padStart(2, '0');
+    const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
+  const formatDateTime = (dateString) => {
+    // Check if dateString exists and is valid
+    if (!dateString) {
+      return 'N/A';
+    }
+    
+    const date = new Date(dateString);
+    
+    // Check if the date is valid
+    if (isNaN(date.getTime())) {
+      return 'Invalid Date';
+    }
+    
+    const day = date.getDate().toString().padStart(2, '0');
+    const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+    return `${day}-${month}-${year} at ${time}`;
   };
 
   const getPlanIcon = (planName) => {
@@ -339,18 +370,77 @@ const AdminSubscriptions = () => {
         {user?.role === 'admin' && isAdminRoute && <Sidebar />}
         <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
           {/* Header */}
-          <div className="mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
+          <div>
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              👑 User Subscriptions
+              User Subscriptions ({summary.totalSubscriptions || 0})
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              Manage and monitor all user subscriptions with detailed insights
+              Manage, view user subscriptions
             </p>
+          </div>
+          <div className="relative max-w-md">
+                        <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <input
+                          type="text"
+                          placeholder="Search subscriptions..."
+                          value={filters.search}
+                          onChange={(e) => handleFilterChange('search', e.target.value)}
+                          className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 w-full"
+                        />
+                      </div>
+          {/* View Mode Toggle - Hidden on mobile, shown on desktop */}
+          <div className="flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+                  <button
+                    onClick={() => setViewMode('table')}
+                    className={`p-2 rounded ${viewMode === 'table' ? 'bg-gradient-to-r from-red-500 to-yellow-500 text-white shadow-sm' : 'text-gray-500 dark:text-gray-400'}`}
+                  >
+                    <FaTable />
+                  </button>
+                  <button
+                    onClick={() => setViewMode('grid')}
+                    className={`p-2 rounded ${viewMode === 'grid' ? 'bg-gradient-to-r from-red-500 to-yellow-500 text-white shadow-sm' : 'text-gray-500 dark:text-gray-400'}`}
+                  >
+                    <FaTh />
+                  </button>
+                  <button
+                    onClick={() => setViewMode('list')}
+                    className={`p-2 rounded ${viewMode === 'list' ? 'bg-gradient-to-r from-red-500 to-yellow-500 text-white shadow-sm' : 'text-gray-500 dark:text-gray-400'}`}
+                  >
+                    <FaList />
+                  </button>
+                </div>
+
+                {/* Page Size Dropdown */}
+                <div className="flex items-center space-x-2">
+                  <select
+                    value={filters.limit}
+                    onChange={(e) => handlePageSizeChange(e.target.value)}
+                    className="w-full lg:w-auto px-4 py-2 border border-gray-300 dark:border-gray-600 rounded text-xs sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white min-w-0"
+                  >
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                    <option value={250}>250</option>
+                    <option value={500}>500</option>
+                    <option value={1000}>1000</option>
+                  </select>
+                </div>
+
+                {/* Export Button */}
+                <button
+                  onClick={exportToCSV}
+                  className="flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors"
+                >
+                  <FaDownload className="text-sm" />
+                  Export CSV
+                </button>
           </div>
 
           {/* Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2 lg:gap-4 mb-2 lg:mb-6">
-            <div className="bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl p-3 lg:p-6 text-white">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-4">
+            <div className="bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl p-3 text-white">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-blue-100 text-sm font-medium">Total Subscriptions</p>
@@ -360,7 +450,7 @@ const AdminSubscriptions = () => {
               </div>
             </div>
             
-            <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl p-3 lg:p-6 text-white">
+            <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl p-3 text-white">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-green-100 text-sm font-medium">Active Subscriptions</p>
@@ -370,7 +460,7 @@ const AdminSubscriptions = () => {
               </div>
             </div>
             
-            <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-3 lg:p-6 text-white">
+            <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-3 text-white">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-purple-100 text-sm font-medium">Total Revenue</p>
@@ -380,7 +470,7 @@ const AdminSubscriptions = () => {
               </div>
             </div>
             
-            <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-xl p-3 lg:p-6 text-white">
+            <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-xl p-3 text-white">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-orange-100 text-sm font-medium">This Period</p>
@@ -390,23 +480,21 @@ const AdminSubscriptions = () => {
               </div>
             </div>
             
-            <div className="bg-gradient-to-r from-gray-500 to-gray-600 rounded-xl p-3 lg:p-6 text-white">
+            <div className="bg-gradient-to-r from-gray-500 to-gray-600 rounded-xl p-3 text-white">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-100 text-sm font-medium">Free Subscriptions</p>
                   <p className="text-2xl font-bold">{summary.freeSubscriptions || 0}</p>
-                  <p className="text-gray-200 text-xs mt-1">Free plan users</p>
                 </div>
                 <div className="text-4xl text-gray-200">🆓</div>
               </div>
             </div>
             
-            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-3 lg:p-6 text-white">
+            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-3 text-white">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-indigo-100 text-sm font-medium">Paid Subscriptions</p>
                   <p className="text-2xl font-bold">{summary.paidSubscriptions || 0}</p>
-                  <p className="text-indigo-200 text-xs mt-1">Basic/Premium/Pro plans</p>
                 </div>
                 <div className="text-4xl text-indigo-200">💎</div>
               </div>
@@ -414,7 +502,7 @@ const AdminSubscriptions = () => {
           </div>
 
           {/* Filters and Controls */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-2 shadow-sm border border-gray-200 dark:border-gray-700 mb-4">
             <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
               {/* Filter Controls */}
               <div className="w-full lg:w-auto flex flex-col sm:flex-row gap-4 items-start sm:items-center">
@@ -476,73 +564,9 @@ const AdminSubscriptions = () => {
                       </select>
                     </div>
                     
-                    {/* Search input on separate row for better mobile experience */}
-                    <div className="mt-4">
-                      <div className="relative max-w-md">
-                        <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                        <input
-                          type="text"
-                          placeholder="Search subscriptions..."
-                          value={filters.search}
-                          onChange={(e) => handleFilterChange('search', e.target.value)}
-                          className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 w-full"
-                        />
-                      </div>
-                    </div>
+                    
                   </div>
                 )}
-              </div>
-
-              {/* View Mode and Actions */}
-              <div className="w-full lg:w-auto flex flex-col md:flex-row items-center gap-4">
-                {/* View Mode Toggle - Hidden on mobile, shown on desktop */}
-                <div className="flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
-                  <button
-                    onClick={() => setViewMode('table')}
-                    className={`p-2 rounded ${viewMode === 'table' ? 'bg-white dark:bg-gray-600 shadow-sm' : 'text-gray-500 dark:text-gray-400'}`}
-                  >
-                    <FaTable />
-                  </button>
-                  <button
-                    onClick={() => setViewMode('grid')}
-                    className={`p-2 rounded ${viewMode === 'grid' ? 'bg-white dark:bg-gray-600 shadow-sm' : 'text-gray-500 dark:text-gray-400'}`}
-                  >
-                    <FaTh />
-                  </button>
-                  <button
-                    onClick={() => setViewMode('list')}
-                    className={`p-2 rounded ${viewMode === 'list' ? 'bg-white dark:bg-gray-600 shadow-sm' : 'text-gray-500 dark:text-gray-400'}`}
-                  >
-                    <FaList />
-                  </button>
-                </div>
-
-                {/* Page Size Dropdown */}
-                <div className="flex items-center space-x-2">
-                  <label className="text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Show:</label>
-                  <select
-                    value={filters.limit}
-                    onChange={(e) => handlePageSizeChange(e.target.value)}
-                    className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-xs sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white min-w-0"
-                  >
-                    <option value={10}>10</option>
-                    <option value={20}>20</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                    <option value={250}>250</option>
-                    <option value={500}>500</option>
-                    <option value={1000}>1000</option>
-                  </select>
-                </div>
-
-                {/* Export Button */}
-                <button
-                  onClick={exportToCSV}
-                  className="flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors"
-                >
-                  <FaDownload className="text-sm" />
-                  Export CSV
-                </button>
               </div>
             </div>
           </div>
@@ -568,6 +592,18 @@ const AdminSubscriptions = () => {
                     <table className="w-full">
                       <thead className="bg-gray-50 dark:bg-gray-700">
                         <tr>
+                          <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            S.No.
+                          </th>
+                          <th 
+                            className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
+                            onClick={() => handleSort('createdAt')}
+                          >
+                            <div className="flex items-center gap-2">
+                              Created At
+                              <SortIcon field="createdAt" />
+                            </div>
+                          </th>
                           <th 
                             className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
                             onClick={() => handleSort('user.name')}
@@ -628,8 +664,14 @@ const AdminSubscriptions = () => {
                         </tr>
                       </thead>
                       <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                        {subscriptions.map((subscription) => (
+                        {subscriptions.map((subscription, index) => (
                           <tr key={subscription._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">
+                              {((pagination.currentPage - 1) * filters.limit) + index + 1}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                              {formatDateTime(subscription.createdAt || subscription.created_at || subscription.startDate)}
+                            </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="flex items-center">
                                 <div className="flex-shrink-0 h-10 w-10">
@@ -692,7 +734,7 @@ const AdminSubscriptions = () => {
               {viewMode === 'grid' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-6">
                   {subscriptions.map((subscription) => (
-                    <div key={subscription._id} className="bg-white dark:bg-gray-800 rounded-xl p-3 lg:p-6 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
+                    <div key={subscription._id} className="bg-white dark:bg-gray-800 rounded-xl p-3 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2">
                           {getPlanIcon(subscription.planName)}
@@ -750,8 +792,12 @@ const AdminSubscriptions = () => {
                 <div className="space-y-4">
                   {subscriptions.map((subscription) => (
                     <div key={subscription._id} className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
-                      <div className="flex flex-col lg:flex-row item-start lg:items-center justify-between">
-                        <div className="flex flex-col lg:flex-row item-start lg:items-center gap-4">
+                      <div className="flex flex-col lg:flex-row item-start lg:items-center justify-between gap-2 lg:gap-4">
+                      <div>
+                                <p className="font-medium text-gray-900 dark:text-white">{subscription.user?.name || 'N/A'}</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{subscription.user?.email || 'N/A'}</p>
+                              </div>
+
                           <div className="flex items-center gap-2">
                             {getPlanIcon(subscription.planName)}
                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPlanColor(subscription.planName)}`}>
@@ -765,15 +811,7 @@ const AdminSubscriptions = () => {
                               {subscription.status?.charAt(0).toUpperCase() + subscription.status?.slice(1) || 'Unknown'}
                             </span>
                           </div>
-                          
-                          <div className="flex-1">
-                            <div className="flex items-center gap-4">
                               <div>
-                                <p className="font-medium text-gray-900 dark:text-white">{subscription.user?.name || 'N/A'}</p>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">{subscription.user?.email || 'N/A'}</p>
-                              </div>
-                              
-                              <div className="text-right">
                                 <p className="text-lg font-bold text-green-600 dark:text-green-400">
                                   {subscription.amount ? formatCurrency(subscription.amount) : 'Free'}
                                 </p>
@@ -781,16 +819,15 @@ const AdminSubscriptions = () => {
                                   {subscription.expiryDate ? formatDate(subscription.expiryDate) : 'No expiry'}
                                 </p>
                               </div>
-                            </div>
-                          </div>
-                        </div>
-                        
                         <button
                           onClick={() => toggleSubscriptionDetails(subscription._id)}
                           className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2"
                         >
                           {expandedSubscription === subscription._id ? <FaEyeSlash /> : <FaEye />}
                         </button>
+                          
+                        
+                        
                       </div>
                     </div>
                   ))}

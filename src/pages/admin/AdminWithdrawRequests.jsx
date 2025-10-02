@@ -108,18 +108,34 @@ const AdminWithdrawRequests = () => {
 		}).format(amount);
 	};
 
-	const formatDate = (date) => {
-		return new Date(date).toLocaleDateString('en-IN', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-			hour: '2-digit',
-			minute: '2-digit'
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
+	const formatTime = (date) => {
+		return new Date(date).toLocaleTimeString('en-US', {
+			hour: 'numeric',
+			minute: '2-digit',
+			hour12: true
 		});
 	};
 
 	// Define table columns for ResponsiveTable
 	const columns = [
+		{
+			key: 'sno',
+			header: 'S.No.',
+			render: (_, req, index) => (
+				<div className="text-sm text-gray-600 dark:text-gray-300">
+					{((page - 1) * limit) + index + 1}
+				</div>
+			)
+		},
 		{
 			key: 'request',
 			header: 'Request Details',
@@ -128,14 +144,25 @@ const AdminWithdrawRequests = () => {
 					<div className="text-sm font-medium text-gray-900 dark:text-white">
 						Request ID: {req._id.slice(-8)}
 					</div>
-					<div className="text-xs text-gray-500 dark:text-gray-400">
-						Requested: {formatDate(req.requestedAt)}
-					</div>
 					{req.processedAt && (
 						<div className="text-xs text-gray-500 dark:text-gray-400">
-							Processed: {formatDate(req.processedAt)}
+							Processed: {formatDate(req.processedAt)} at {formatTime(req.processedAt)}
 						</div>
 					)}
+				</div>
+			)
+		},
+		{
+			key: 'createdAt',
+			header: 'Created At',
+			render: (_, req) => (
+				<div className="text-sm">
+					<div className="font-medium text-gray-900 dark:text-white">
+						{formatDate(req.requestedAt)}
+					</div>
+					<div className="text-xs text-gray-500 dark:text-gray-400">
+						{formatTime(req.requestedAt)}
+					</div>
 				</div>
 			)
 		},
@@ -332,7 +359,7 @@ const AdminWithdrawRequests = () => {
 											<div className={`px-2 py-0.5 rounded text-xs border ${getStatusColor(req.status)}`}>{getStatusIcon(req.status)} {req.status}</div>
 										</div>
 										<div className="text-xs text-gray-600 dark:text-gray-300">User: {req.userId?.slice(-8) || 'Unknown'}</div>
-										<div className="text-xs text-gray-500 dark:text-gray-400">Requested: {formatDate(req.requestedAt)}</div>
+										<div className="text-xs text-gray-500 dark:text-gray-400">Requested: {formatDate(req.requestedAt)} at {formatTime(req.requestedAt)}</div>
 										{req.status === 'pending' && (
 											<div className="mt-2 flex gap-2">
 												<button onClick={()=>updateStatus(req._id, 'approved')} className="px-2 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-xs">Approve</button>

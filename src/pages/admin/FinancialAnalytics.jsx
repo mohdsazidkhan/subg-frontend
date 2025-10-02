@@ -70,16 +70,113 @@ const FinancialAnalytics = () => {
   const [darkMode] = useState(
     localStorage.getItem("darkMode") === "true"
   );
+  console.log(data, 'data')
 
   useEffect(() => {
     setLoading(true);
-    const params = new URLSearchParams(filters).toString();
-    API.getFinancialAnalytics(filters)
-      .then((res) => {
-        if (res.success) {
-          setData(res.data);
+    // Fetch both financial analytics and payment transactions
+    Promise.all([
+      API.getFinancialAnalytics(filters),
+      API.getAdminPaymentTransactions({ ...filters, status: 'success' }) // Only successful transactions
+    ])
+      .then(([financialRes, paymentRes]) => {
+        if (financialRes.success) {
+          console.log("Financial Analytics Data:", financialRes.data);
+          console.log("Payment Transactions Data:", paymentRes.data);
+          
+          // Calculate revenue from successful payment transactions
+          let totalRevenue = 0;
+          let periodRevenue = 0;
+          let topRevenuePlans = [];
+          
+          if (paymentRes.success && paymentRes.data?.transactions) {
+            console.log("Total transactions found:", paymentRes.data.transactions.length);
+            console.log("Sample transaction:", paymentRes.data.transactions[0]);
+            
+            // Calculate total revenue from all successful transactions
+            totalRevenue = paymentRes.data.transactions.reduce((sum, transaction) => {
+              return sum + (transaction.amount || 0);
+            }, 0);
+            
+            // Calculate period revenue based on filters
+            periodRevenue = paymentRes.data.transactions
+              .filter(transaction => {
+                const transactionDate = new Date(transaction.createdAt);
+                const transactionYear = transactionDate.getFullYear();
+                const transactionMonth = transactionDate.getMonth() + 1;
+                
+                // Apply year filter
+                if (filters.year && filters.year !== 'all' && transactionYear !== parseInt(filters.year)) {
+                  return false;
+                }
+                
+                // Apply month filter
+                if (filters.month && filters.month !== '0' && transactionMonth !== parseInt(filters.month)) {
+                  return false;
+                }
+                
+                return true;
+              })
+              .reduce((sum, transaction) => sum + (transaction.amount || 0), 0);
+              
+            // Calculate Top Revenue Plans from payment transactions
+            const planStats = {};
+            
+            paymentRes.data.transactions.forEach(transaction => {
+              const planId = transaction.planId || transaction.plan || 'Unknown';
+              const amount = transaction.amount || 0;
+              
+              if (!planStats[planId]) {
+                planStats[planId] = {
+                  totalRevenue: 0,
+                  count: 0,
+                  planName: planId
+                };
+              }
+              
+              planStats[planId].totalRevenue += amount;
+              planStats[planId].count += 1;
+            });
+            
+            // Convert to array and sort by total revenue
+            topRevenuePlans = Object.values(planStats)
+              .sort((a, b) => b.totalRevenue - a.totalRevenue)
+              .slice(0, 10); // Top 10 plans
+              
+            console.log("Top Revenue Plans calculated:", topRevenuePlans);
+            console.log("Filtered transactions for period:", paymentRes.data.transactions.filter(transaction => {
+              const transactionDate = new Date(transaction.createdAt);
+              const transactionYear = transactionDate.getFullYear();
+              const transactionMonth = transactionDate.getMonth() + 1;
+              
+              if (filters.year && filters.year !== 'all' && transactionYear !== parseInt(filters.year)) {
+                return false;
+              }
+              
+              if (filters.month && filters.month !== '0' && transactionMonth !== parseInt(filters.month)) {
+                return false;
+              }
+              
+              return true;
+            }).length);
+          }
+          
+          // Update the data with calculated revenue and top revenue plans
+          const updatedData = {
+            ...financialRes.data,
+            overview: {
+              ...financialRes.data.overview,
+              totalRevenue: totalRevenue,
+              periodRevenue: periodRevenue
+            },
+            topRevenuePlans: topRevenuePlans
+          };
+          
+          console.log("Updated Total Revenue:", totalRevenue);
+          console.log("Updated Period Revenue:", periodRevenue);
+          setData(updatedData);
         } else {
-          setError(res.message || "Failed to load financial analytics");
+          setError(financialRes.message || "Failed to load financial analytics");
         }
         setLoading(false);
       })
@@ -97,10 +194,9 @@ const FinancialAnalytics = () => {
   const handleExport = () => {
     if (!data?.topRevenuePlans?.length) return;
     const rows = data.topRevenuePlans.map((p) => ({
-      Plan: p._id?.[0] || "Unknown",
+      Plan: p.planName || p._id || "Unknown",
       "Total Revenue": p.totalRevenue || 0,
       Count: p.count || 0,
-      "Avg Amount": p.avgAmount?.toFixed(2) || "0.00",
     }));
     exportCSV(rows, "top_revenue_plans.csv");
   };
@@ -183,6 +279,11 @@ const FinancialAnalytics = () => {
       },
     ],
   };
+
+  // Normalize and sort Top Revenue Plans by total revenue (desc)
+  const topRevenuePlans = (data?.topRevenuePlans || [])
+    .slice()
+    .sort((a, b) => ((b?.totalRevenue ?? 0) - (a?.totalRevenue ?? 0)));
 
   const revenueLineData = {
     labels: revenueTrendLabels,
@@ -374,17 +475,17 @@ const FinancialAnalytics = () => {
         {user?.role === "admin" && isAdminRoute && <Sidebar />}
         <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
         {/* Header */}
-        <div className="mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
+        <div>
           <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
             Financial Analytics
           </h1>
           <p className="text-gray-600 dark:text-gray-300">
-            Comprehensive financial insights and revenue analysis
+            Financial insights and revenue analysis
           </p>
         </div>
-
-        {/* Filters and Export */}
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 lg:p-6 shadow-lg mb-8">
+ {/* Filters and Export */}
+ <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-2 shadow-lg mb-4">
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
             <div className="flex items-center gap-4">
               <FaFilter className="w-5 h-5 text-gray-600 dark:text-gray-300" />
@@ -409,6 +510,9 @@ const FinancialAnalytics = () => {
             </button>
           </div>
         </div>
+        </div>
+
+       
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -529,7 +633,7 @@ const FinancialAnalytics = () => {
             <table className="w-[1000px] md:w-full">
               <thead>
                 <tr className="border-b border-gray-200 dark:border-gray-700">
-                  {["Rank", "Plan", "Total Revenue", "Count", "Avg Amount"].map(
+                  {["Rank", "Plan", "Total Revenue", "Count"].map(
                     (th, i) => (
                       <th
                         key={i}
@@ -542,7 +646,7 @@ const FinancialAnalytics = () => {
                 </tr>
               </thead>
               <tbody>
-                {data.topRevenuePlans?.map((p, i) => (
+                {topRevenuePlans?.map((p, i) => (
                   <tr
                     key={i}
                     className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
@@ -563,16 +667,13 @@ const FinancialAnalytics = () => {
                       </span>
                     </td>
                     <td className="py-3 px-4 text-gray-900 dark:text-white">
-                      {p._id?.[0] || "Unknown"}
+                      {p.planName || p._id || "Unknown"}
                     </td>
                     <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
                       ₹{p.totalRevenue?.toLocaleString() || 0}
                     </td>
                     <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
                       {p.count || 0}
-                    </td>
-                    <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                      ₹{p.avgAmount?.toFixed(2) || "0.00"}
                     </td>
                   </tr>
                 ))}

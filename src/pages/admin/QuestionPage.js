@@ -207,6 +207,9 @@ const QuestionPage = () => {
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                S.No.
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Question
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -221,6 +224,9 @@ const QuestionPage = () => {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Time Limit
               </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Created At
+              </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Actions
               </th>
@@ -229,8 +235,11 @@ const QuestionPage = () => {
           <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {questions.map((question) => (
               <tr key={question._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                <td className="px-6 py-4">
-                  <div className="text-sm text-gray-900 dark:text-white max-w-xs">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">
+                  {((currentPage - 1) * itemsPerPage) + questions.indexOf(question) + 1}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm text-gray-900 dark:text-white">
                     {question.questionText}
                   </div>
                 </td>
@@ -239,7 +248,7 @@ const QuestionPage = () => {
                     {question.quiz?.title || 'Unknown Quiz'}
                   </div>
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-500 dark:text-gray-300">
                     {question.options.map((option, index) => (
                       <div key={index} className="mb-1">
@@ -257,6 +266,21 @@ const QuestionPage = () => {
                   <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-white">
                     {question.timeLimit || 'No limit'} seconds
                   </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                  <div className="font-medium text-gray-900 dark:text-white">
+                    {(() => {
+                      const date = new Date(question.createdAt);
+                      const day = date.getDate().toString().padStart(2, '0');
+                      const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+                      const month = monthNames[date.getMonth()];
+                      const year = date.getFullYear();
+                      return `${day}-${month}-${year}`;
+                    })()}
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    {new Date(question.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
+                  </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <div className="flex items-center justify-end space-x-2">
@@ -333,6 +357,16 @@ const QuestionPage = () => {
             <div className="text-xs text-gray-500 dark:text-gray-400">
               Time Limit: {question.timeLimit || 'No limit'} seconds
             </div>
+            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              Created: {(() => {
+                const date = new Date(question.createdAt);
+                const day = date.getDate().toString().padStart(2, '0');
+                const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+                const month = monthNames[date.getMonth()];
+                const year = date.getFullYear();
+                return `${day}-${month}-${year}`;
+              })()} at {new Date(question.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
+            </div>
           </div>
         </div>
       ))}
@@ -381,6 +415,16 @@ const QuestionPage = () => {
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   Time Limit: {question.timeLimit || 'No limit'} seconds
                 </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  Created: {(() => {
+                const date = new Date(question.createdAt);
+                const day = date.getDate().toString().padStart(2, '0');
+                const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+                const month = monthNames[date.getMonth()];
+                const year = date.getFullYear();
+                return `${day}-${month}-${year}`;
+              })()} at {new Date(question.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
+                </p>
               </div>
               <div className="flex items-center space-x-2 ml-0 md:ml-4">
                 <button
@@ -410,18 +454,23 @@ const QuestionPage = () => {
         <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
         <div className="mx-auto">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
             <div>
               <h2 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
-                Manage Questions ({pagination.total})
+                Questions ({pagination.total})
               </h2>
               <p className="text-gray-600 dark:text-gray-400 mt-1">
-                Create, edit, and manage quiz questions
+                Create, edit, and delete questions
               </p>
             </div>
+          <ViewToggle
+              currentView={viewMode}
+              onViewChange={setViewMode}
+              views={['table', 'list', 'grid']}
+            />
             <button
                 onClick={handleToggleForm}
-                className="mt-4 sm:mt-0 flex justify-center items-center px-4 py-2 
+                className="flex justify-center items-center px-4 py-2 
                 bg-gradient-to-r from-yellow-500 to-red-500 text-white 
                 dark:from-yellow-600 dark:to-red-700 
                 rounded-md hover:brightness-110 
@@ -430,35 +479,14 @@ const QuestionPage = () => {
                 <FaPlus className="w-4 h-4 mr-2" />
                 Add Question
               </button>
-          </div>
-
-          {/* Search and Filters */}
-          <SearchFilter
-            searchTerm={searchTerm}
-            onSearchChange={handleSearch}
-            filters={filters}
-            onFilterChange={handleFilterChange}
-            onClearFilters={handleClearFilters}
-            filterOptions={filterOptions}
-            placeholder="Search questions..."
-          />
-
-          {/* View Toggle */}
-          <div className="flex items-center justify-between mb-4">
-            <ViewToggle
-              currentView={viewMode}
-              onViewChange={setViewMode}
-              views={['table', 'list', 'grid']}
-            />
-            <div className="flex items-center space-x-2">
-              <label className="text-sm text-gray-600 dark:text-gray-400">Show:</label>
+              <div className="flex items-center space-x-2">
               <select
                 value={itemsPerPage}
                 onChange={(e) => {
                   setItemsPerPage(Number(e.target.value));
                   setCurrentPage(1);
                 }}
-                className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full lg:w-auto px-4 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value={5}>5</option>
                 <option value={10}>10</option>
@@ -470,6 +498,20 @@ const QuestionPage = () => {
                 <option value={1000}>1000</option>
               </select>
             </div>
+            
+          </div>
+
+          <div className='mb-4'>
+          {/* Search and Filters */}
+            <SearchFilter
+            searchTerm={searchTerm}
+            onSearchChange={handleSearch}
+            filters={filters}
+            onFilterChange={handleFilterChange}
+            onClearFilters={handleClearFilters}
+            filterOptions={filterOptions}
+            placeholder="Search questions..."
+          />
           </div>
 
           {/* Form */}

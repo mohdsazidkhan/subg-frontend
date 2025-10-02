@@ -91,21 +91,20 @@ const AdminMonthlyWinners = () => {
         <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
         <div className="mx-auto">
           {/* Header */}
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6 gap-4">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 gap-4">
             <div className="flex items-center gap-3">
-              <FaTrophy className="text-4xl text-yellow-500" />
               <div>
                 <h2 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
                   Monthly Prize Winners
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400 mt-1">
-                  Complete history of monthly prize winners
+                  History of monthly prize winners
                 </p>
               </div>
             </div>
 
             {/* Year and Month Filters - Moved to Header */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 bg-gray-50 dark:bg-gray-800 p-2 lg:p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 bg-gray-50 dark:bg-gray-800 p-2 rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 <label className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap hidden sm:block">Year:</label>
                 <select
@@ -167,6 +166,59 @@ const AdminMonthlyWinners = () => {
                 <span>{filterLoading ? 'Filtering...' : 'Search'}</span>
               </button>
             </div>
+              {/* View Toggle Buttons */}
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                  <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+                    <button
+                      onClick={() => setViewMode('grid')}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
+                        viewMode === 'grid'
+                          ? 'bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-300 shadow-sm'
+                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                      }`}
+                    >
+                      <FaTh className="text-lg" />
+                      <span>Grid</span>
+                    </button>
+                    <button
+                      onClick={() => setViewMode('list')}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
+                        viewMode === 'list'
+                          ? 'bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-300 shadow-sm'
+                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                      }`}
+                    >
+                      <FaList className="text-lg" />
+                      <span>List</span>
+                    </button>
+                    <button
+                      onClick={() => setViewMode('table')}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
+                        viewMode === 'table'
+                          ? 'bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-300 shadow-sm'
+                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                      }`}
+                    >
+                      <FaTable className="text-lg" />
+                      <span>Table</span>
+                    </button>
+                  </div>
+                  
+                  {/* Show All Months Toggle */}
+                  <button
+                    onClick={() => setShowAllMonths(!showAllMonths)}
+                    className={`px-4 py-3 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
+                      showAllMonths
+                        ? 'bg-green-600 text-white'
+                        : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500'
+                    }`}
+                  >
+                    <FaCalendarAlt className="text-sm" />
+                    <span>{showAllMonths ? 'Show Specific Month' : 'Show All Months'}</span>
+                  </button>
+                </div>
+              </div>
           </div>
 
           {/* Content */}
@@ -241,59 +293,7 @@ const AdminMonthlyWinners = () => {
                 </div>
               </div>
 
-              {/* View Toggle Buttons */}
-              <div className="flex items-center justify-between gap-3 mb-6">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-                  <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
-                    <button
-                      onClick={() => setViewMode('grid')}
-                      className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
-                        viewMode === 'grid'
-                          ? 'bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-300 shadow-sm'
-                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                      }`}
-                    >
-                      <FaTh className="text-lg" />
-                      <span>Grid View</span>
-                    </button>
-                    <button
-                      onClick={() => setViewMode('list')}
-                      className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
-                        viewMode === 'list'
-                          ? 'bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-300 shadow-sm'
-                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                      }`}
-                    >
-                      <FaList className="text-lg" />
-                      <span>List View</span>
-                    </button>
-                    <button
-                      onClick={() => setViewMode('table')}
-                      className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
-                        viewMode === 'table'
-                          ? 'bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-300 shadow-sm'
-                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                      }`}
-                    >
-                      <FaTable className="text-lg" />
-                      <span>Table View</span>
-                    </button>
-                  </div>
-                  
-                  {/* Show All Months Toggle */}
-                  <button
-                    onClick={() => setShowAllMonths(!showAllMonths)}
-                    className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
-                      showAllMonths
-                        ? 'bg-green-600 text-white'
-                        : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500'
-                    }`}
-                  >
-                    <FaCalendarAlt className="text-sm" />
-                    <span>{showAllMonths ? 'Show Specific Month' : 'Show All Months'}</span>
-                  </button>
-                </div>
-              </div>
+            
 
               {/* Monthly Winners Grid */}
               {viewMode === 'grid' && (
@@ -431,6 +431,9 @@ const AdminMonthlyWinners = () => {
                       <thead className="bg-gray-50 dark:bg-gray-700">
                         <tr>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            S.No.
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                             Rank
                           </th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -446,7 +449,7 @@ const AdminMonthlyWinners = () => {
                             Prize
                           </th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            Date
+                            Created At
                           </th>
                         </tr>
                       </thead>
@@ -454,6 +457,15 @@ const AdminMonthlyWinners = () => {
                         {monthlyWinners.map((monthData, monthIndex) => 
                           monthData.winners?.map((winner, winnerIndex) => (
                             <tr key={`${monthData._id}-${winner._id || winnerIndex}`} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">
+                                {(() => {
+                                  let serialNumber = 1;
+                                  for (let i = 0; i < monthIndex; i++) {
+                                    serialNumber += monthlyWinners[i].winners?.length || 0;
+                                  }
+                                  return serialNumber + winnerIndex;
+                                })()}
+                              </td>
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center gap-2">
                                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold ${
@@ -505,7 +517,19 @@ const AdminMonthlyWinners = () => {
                                 </div>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                {new Date(monthData.resetDate).toLocaleDateString()}
+        <div className="font-medium text-gray-900 dark:text-white">
+          {(() => {
+            const date = new Date(monthData.resetDate);
+            const day = date.getDate().toString().padStart(2, '0');
+            const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+            const month = monthNames[date.getMonth()];
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+          })()}
+        </div>
+        <div className="text-xs text-gray-500 dark:text-gray-400">
+          {new Date(monthData.resetDate).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
+        </div>
                               </td>
                             </tr>
                           ))

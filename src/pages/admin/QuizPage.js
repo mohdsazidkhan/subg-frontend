@@ -14,7 +14,6 @@ import {
   FaStar,
   FaSpinner,
 } from "react-icons/fa";
-import { formatTimeToIST, formatDateToIST } from "../../utils";
 import { isMobile } from "react-device-detect";
 import useDebounce from "../../utils/useDebounce";
 import AdminMobileAppWrapper from "../../components/AdminMobileAppWrapper";
@@ -306,6 +305,9 @@ const QuizPage = () => {
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                S.No.
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Quiz
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -324,7 +326,7 @@ const QuizPage = () => {
                 Details
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                Created
+                Created At
               </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Actions
@@ -337,6 +339,9 @@ const QuizPage = () => {
                 key={quiz._id}
                 className="hover:bg-gray-50 dark:hover:bg-gray-700"
               >
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">
+                  {((currentPage - 1) * itemsPerPage) + quizzes.indexOf(quiz) + 1}
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div>
                     <div className="text-sm md:text-lg font-medium text-gray-900 dark:text-white">
@@ -387,11 +392,18 @@ const QuizPage = () => {
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-500 dark:text-gray-300">
-                    {formatDateToIST(quiz.createdAt)}
+                  <div className="font-medium text-gray-900 dark:text-white">
+                    {(() => {
+                      const date = new Date(quiz.createdAt);
+                      const day = date.getDate().toString().padStart(2, '0');
+                      const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+                      const month = monthNames[date.getMonth()];
+                      const year = date.getFullYear();
+                      return `${day}-${month}-${year}`;
+                    })()}
                   </div>
-                  <div className="text-sm text-gray-500 dark:text-gray-300">
-                    {formatTimeToIST(quiz.createdAt)}
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    {new Date(quiz.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -462,8 +474,14 @@ const QuizPage = () => {
 
             <div className="flex items-center justify-between">
               <div className="text-xs text-gray-500 dark:text-gray-400">
-                {formatDateToIST(quiz.createdAt)} at{" "}
-                {formatTimeToIST(quiz.createdAt)}
+                {(() => {
+                  const date = new Date(quiz.createdAt);
+                  const day = date.getDate().toString().padStart(2, '0');
+                  const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+                  const month = monthNames[date.getMonth()];
+                  const year = date.getFullYear();
+                  return `${day}-${month}-${year}`;
+                })()} at {new Date(quiz.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
               </div>
               <button
                 onClick={() => handleDelete(quiz._id)}
@@ -527,8 +545,7 @@ const QuizPage = () => {
                   </div>
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                  Created: {formatDateToIST(quiz.createdAt)} at{" "}
-                  {formatTimeToIST(quiz.createdAt)}
+                  Created: {new Date(quiz.createdAt).toLocaleDateString('en-US')} at {new Date(quiz.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
                 </p>
               </div>
               <div className="flex items-center space-x-2 ml-4">
@@ -552,20 +569,26 @@ const QuizPage = () => {
         {user?.role === 'admin' && isAdminRoute && <Sidebar />}
         <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
         {/* Enhanced Header */}
-        <div className="mb-6 md:mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+        <div className="mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
               <div>
                 <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-white">
-                  Quiz Management ({pagination.total})
+                  Quizzes ({pagination.total})
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400 text-lg">
-                  Create, edit, and manage quizzes with questions and difficulty levels
+                  Create, edit, and delete quizzes
                 </p>
               </div>
+             
+          <ViewToggle
+              currentView={viewMode}
+              onViewChange={setViewMode}
+              views={['table', 'list', 'grid']}
+            />
             
               <button
                 onClick={() => setShowForm(!showForm)}
-                className="mt-4 sm:mt-0 flex justify-center items-center px-4 py-2 
+                className="flex justify-center items-center px-4 py-2 
                 bg-gradient-to-r from-yellow-500 to-red-500 text-white 
                 dark:from-yellow-600 dark:to-red-700 
                 rounded-md hover:brightness-110 
@@ -574,40 +597,14 @@ const QuizPage = () => {
                 <FaPlus className="w-4 h-4 mr-2" />
                 Add Quiz
               </button>
-              
-          </div>
-        </div>
-        {/* Search and Filters */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
-          <SearchFilter
-            searchTerm={searchTerm}
-            onSearchChange={handleSearch}
-            filters={filters}
-            onFilterChange={handleFilterChange}
-            onClearFilters={handleClearFilters}
-            filterOptions={filterOptions}
-            placeholder="Search quizzes by title, description, or tags..."
-          />
-
-          {/* View Toggle and Add Button */}
-          <div className="flex items-center justify-between mt-4">
-            <ViewToggle
-              currentView={viewMode}
-              onViewChange={setViewMode}
-              views={['table', 'list', 'grid']}
-            />
-            <div className="flex items-center justify-end space-x-2">
             <div className="flex items-center space-x-2">
-              <label className="text-sm text-gray-600 dark:text-gray-400">
-                Show:
-              </label>
               <select
                 value={itemsPerPage}
                 onChange={(e) => {
                   setItemsPerPage(Number(e.target.value));
                   setCurrentPage(1);
                 }}
-                className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full lg:w-auto px-4 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value={5}>5</option>
                 <option value={10}>10</option>
@@ -619,8 +616,17 @@ const QuizPage = () => {
                 <option value={1000}>1000</option>
               </select>
             </div>
-            </div>
+              
           </div>
+          <SearchFilter
+            searchTerm={searchTerm}
+            onSearchChange={handleSearch}
+            filters={filters}
+            onFilterChange={handleFilterChange}
+            onClearFilters={handleClearFilters}
+            filterOptions={filterOptions}
+            placeholder="Search quizzes..."
+          />
         </div>
 
 

@@ -67,6 +67,15 @@ const QuizAnalytics = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
   const [filters, setFilters] = useState({
     period: "month",
     category: "",
@@ -77,10 +86,12 @@ const QuizAnalytics = () => {
 
   useEffect(() => {
     setLoading(true);
-    const params = new URLSearchParams(filters).toString();
     API.getQuizAnalytics(filters)
       .then((res) => {
         if (res.success) {
+          console.log("Quiz Analytics Data:", res.data);
+          console.log("Top Quizzes:", res.data?.topQuizzes
+);
           setData(res.data);
         } else {
           setError(res.message || "Failed to load quiz analytics");
@@ -101,9 +112,9 @@ const QuizAnalytics = () => {
   const handleExportTop = () => {
     if (!data?.topQuizzes?.length) return;
     const rows = data.topQuizzes.map((q) => ({
-      Quiz: q.quizTitle?.[0] || "Unknown",
-      Attempts: q.attemptCount || 0,
-      "Avg Score": q.avgScore?.toFixed(2) || "0.00",
+      Quiz: q.quizTitle || q.title || q.quiz?.title || "Unknown",
+      Attempts: q.attemptCount || q.attempts || q.totalAttempts || 0,
+      "Avg Score": q.avgScore ? q.avgScore.toFixed(2) : q.averageScore ? q.averageScore.toFixed(2) : "0.00",
     }));
     exportCSV(rows, "top_quizzes.csv");
   };
@@ -114,7 +125,7 @@ const QuizAnalytics = () => {
       Title: q.title || "Unknown",
       Category: q.category?.name || "Unknown",
       Difficulty: q.difficulty || "Unknown",
-      Created: new Date(q.createdAt).toLocaleDateString(),
+      Created: formatDate(q.createdAt),
     }));
     exportCSV(rows, "recent_quizzes.csv");
   };
@@ -447,6 +458,9 @@ const QuizAnalytics = () => {
                 <thead>
                   <tr className="border-b border-gray-200 dark:border-gray-700">
                     <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
+                      S.No.
+                    </th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
                       Quiz
                     </th>
                     <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
@@ -458,27 +472,30 @@ const QuizAnalytics = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.topQuizzes?.length > 0 ? (
+                  {data?.topQuizzes?.length > 0 ? (
                     data.topQuizzes.map((q, i) => (
                       <tr
                         key={i}
                         className="border-b border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700 transition-colors"
                       >
+                        <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
+                          {i + 1}
+                        </td>
                         <td className="py-3 px-4 text-gray-900 dark:text-white">
-                          {q.quizTitle?.[0] || "Unknown"}
+                          {q.quizTitle || q.title || q.quiz?.title || "Unknown"}
                         </td>
                         <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                          {q.attemptCount || 0}
+                          {q.attemptCount || q.attempts || q.totalAttempts || 0}
                         </td>
                         <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                          {q.avgScore?.toFixed(2) || "0.00"}%
+                          {q.avgScore ? q.avgScore.toFixed(2) : q.averageScore ? q.averageScore.toFixed(2) : "0.00"}%
                         </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
                       <td
-                        colSpan="3"
+                        colSpan="4"
                         className="text-center py-0 md:py-2 lg:py-4 xl:py-6 text-gray-500 dark:text-gray-400"
                       >
                         No quizzes found
@@ -503,6 +520,9 @@ const QuizAnalytics = () => {
                 <thead>
                   <tr className="border-b border-gray-200 dark:border-gray-700">
                     <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
+                      S.No.
+                    </th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
                       Title
                     </th>
                     <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
@@ -523,6 +543,9 @@ const QuizAnalytics = () => {
                         key={i}
                         className="border-b border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700 transition-colors"
                       >
+                        <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
+                          {i + 1}
+                        </td>
                         <td className="py-3 px-4 text-gray-900 dark:text-white">
                           {q.title || "Unknown"}
                         </td>
@@ -545,7 +568,7 @@ const QuizAnalytics = () => {
                           </span>
                         </td>
                         <td className="py-3 px-4 text-gray-600 dark:text-gray-300">
-                          {new Date(q.createdAt).toLocaleDateString()}
+                          {formatDate(q.createdAt)}
                         </td>
                       </tr>
                     ))

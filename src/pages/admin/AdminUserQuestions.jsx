@@ -26,6 +26,15 @@ const AdminUserQuestions = () => {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [updating, setUpdating] = useState(null);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
   const [searchTerm, setSearchTerm] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [pagination, setPagination] = useState({});
@@ -148,11 +157,11 @@ const AdminUserQuestions = () => {
       <div className="mx-auto p-4">
         {/* Header */}
         <div className="mb-4">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
             <div>
               <h1 className="text-xl lg:text-3xl font-bold text-gray-900 dark:text-white flex items-center">
                 <span className="text-xl lg:text-4xl mr-3">💭</span>
-                User Questions Review ({total})
+                User Questions ({total})
               </h1>
               <p className="mt-2 text-gray-600 dark:text-gray-400">
                 Review and approve/reject user-submitted questions
@@ -162,7 +171,7 @@ const AdminUserQuestions = () => {
               <SearchFilter
                 onSearch={handleSearch}
                 placeholder="Search questions..."
-                className="w-full sm:w-60"
+                className="w-full lg:w-60"
               />
               <div className="flex items-center space-x-2">
                 <label className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">
@@ -264,10 +273,16 @@ const AdminUserQuestions = () => {
                   <thead className="bg-gray-50 dark:bg-gray-700">
                     <tr>
                       <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
+                        S.No.
+                      </th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
                         Question
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
                         User
+                      </th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
+                        Created At
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
                         Stats
@@ -280,6 +295,9 @@ const AdminUserQuestions = () => {
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
                     {items.map((q) => (
                       <tr key={q._id}>
+                        <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
+                          {((page - 1) * limit) + items.indexOf(q) + 1}
+                        </td>
                         <td className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100 max-w-[380px]">
                           <div className="font-medium mb-2">
                             {q.questionText}
@@ -309,9 +327,6 @@ const AdminUserQuestions = () => {
                             ))}
                           </div>
 
-                          <div className="text-xs text-gray-500 dark:text-gray-400">
-                            {new Date(q.createdAt).toLocaleDateString()}
-                          </div>
                         </td>
                         <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
                           <div className="font-medium text-gray-900 dark:text-white">
@@ -324,6 +339,14 @@ const AdminUserQuestions = () => {
                               {q.userId?.phone || ""}
                             </div>
                           )}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">
+                            {formatDate(q.createdAt)}
+                          </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                            {new Date(q.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
+                          </div>
                         </td>
                         <td className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
                           <div className="flex items-center gap-3">
@@ -415,6 +438,9 @@ const AdminUserQuestions = () => {
                         Views: {q.viewsCount || 0} • Likes: {q.likesCount || 0}
                       </span>
                     </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                      Created: {formatDate(q.createdAt)} at {new Date(q.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
+                    </div>
                     <div className="flex items-center justify-between">
                       <div
                         className={`px-2 py-0.5 rounded text-xs border ${getStatusColor(
@@ -481,8 +507,11 @@ const AdminUserQuestions = () => {
                       ))}
                     </div>
 
-                    <div className="text-xs text-gray-600 dark:text-gray-300 mb-3">
+                    <div className="text-xs text-gray-600 dark:text-gray-300 mb-2">
                       {q.userId?.name || "Unknown"}
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                      Created: {formatDate(q.createdAt)} at {new Date(q.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
                     </div>
                     <div className="flex items-center justify-between mb-3 text-sm">
                       <span className="text-blue-600 dark:text-blue-400">

@@ -11,6 +11,15 @@ const AdminArticles = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
   const [pagination, setPagination] = useState({});
   const [filters, setFilters] = useState({
     search: '',
@@ -167,6 +176,9 @@ const AdminArticles = () => {
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                S.No.
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Article
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -182,6 +194,9 @@ const AdminArticles = () => {
                 Stats
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Created At
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
@@ -189,6 +204,9 @@ const AdminArticles = () => {
           <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {articles.map((article) => (
               <tr key={article._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">
+                  {((currentPage - 1) * 20) + articles.indexOf(article) + 1}
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="flex-shrink-0 h-10 w-10">
@@ -214,9 +232,6 @@ const AdminArticles = () => {
                           <span className="ml-2 text-blue-500">📌</span>
                         )}
                       </div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">
-                        {formatDate(article.createdAt)}
-                      </div>
                       {article.slug && (
                         <div className="text-xs text-blue-600 dark:text-blue-400 mt-1" title={article.slug}>
                           <code>/articles/{article.slug?.length > 40 ? article.slug?.substring(0, 40) + '...' : article.slug}</code>
@@ -238,6 +253,14 @@ const AdminArticles = () => {
                   <div className="flex space-x-4">
                     <span>👁️ {article.views || 0}</span>
                     <span>❤️ {article.likes || 0}</span>
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                          <div className="font-medium text-gray-900 dark:text-white">
+                            {formatDate(article.createdAt)}
+                          </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    {new Date(article.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -367,9 +390,11 @@ const AdminArticles = () => {
               <div className="mt-1 text-sm text-gray-600 dark:text-gray-300 flex flex-wrap gap-4">
                 <span>By {article.author?.name || 'Unknown'}</span>
                 <span>In {article.category?.name || 'Uncategorized'}</span>
-                <span>{formatDate(article.createdAt)}</span>
                 <span>👁️ {article.views || 0}</span>
                 <span>❤️ {article.likes || 0}</span>
+              </div>
+              <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                Created: {formatDate(article.createdAt)} at {new Date(article.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
               </div>
               {article.slug && (
                 <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
@@ -419,9 +444,11 @@ const AdminArticles = () => {
             <span>{article.category?.name || 'Uncategorized'}</span>
           </div>
           <div className="mt-2 text-xs text-gray-500 dark:text-gray-400 flex items-center gap-4">
-            <span>{formatDate(article.createdAt)}</span>
             <span>👁️ {article.views || 0}</span>
             <span>❤️ {article.likes || 0}</span>
+          </div>
+          <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+            Created: {new Date(article.createdAt).toLocaleDateString('en-US')} at {new Date(article.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
           </div>
           <div className="mt-3 flex items-center gap-3">
             <Link to={`/admin/articles/${article._id}/edit`} className="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300">Edit</Link>
@@ -439,13 +466,6 @@ const AdminArticles = () => {
     </div>
   );
 
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  };
 
   
 
@@ -477,12 +497,13 @@ const AdminArticles = () => {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  📝 Articles Management
+                  📝 Articles ({articles?.length})
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400 mt-1">
-                  Manage your blog articles and content
+                  Create, edit or delete articles and content
                 </p>
               </div>
+              <ViewToggle currentView={viewMode} onViewChange={setViewMode} views={['table','list','grid']} />
               <Link
                 to="/admin/articles/create"
                 className="mt-4 sm:mt-0 bg-gradient-to-r from-yellow-500 to-red-500 text-white 
@@ -490,9 +511,6 @@ const AdminArticles = () => {
               >
                 + Create Article
               </Link>
-            </div>
-            <div className="mt-4">
-              <ViewToggle currentView={viewMode} onViewChange={setViewMode} views={['table','list','grid']} />
             </div>
           </div>
 

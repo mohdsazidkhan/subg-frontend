@@ -10,8 +10,8 @@ import {
   Legend,
   ArcElement
 } from 'chart.js';
-import { FaUsers, FaChartBar, FaMoneyBillWave, FaTrophy, FaClock, FaStar, FaUser, FaBook, FaCalendarAlt, FaMedal, FaCrown, FaAward, FaChartLine } from 'react-icons/fa';
-import { useLocation, Link } from 'react-router-dom';
+import { FaUsers, FaChartBar, FaMoneyBillWave, FaTrophy, FaClock, FaStar, FaUser, FaBook, FaCalendarAlt, FaMedal, FaCrown, FaAward } from 'react-icons/fa';
+import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Sidebar from '../../components/Sidebar';
 import ViewToggle from '../../components/ViewToggle';
@@ -169,7 +169,7 @@ const DashboardAnalytics = () => {
             <th className="text-left py-4 px-4 font-bold text-blue-800 dark:text-blue-200 text-lg">
               <div className="flex items-center gap-2">
                 <FaCalendarAlt className="text-blue-600 dark:text-blue-400" />
-                Date
+                Attempted At
               </div>
             </th>
           </tr>
@@ -197,15 +197,28 @@ const DashboardAnalytics = () => {
                     </span>
                 </td>
                 <td className="py-4 px-4">
-                    <span className="text-gray-600 dark:text-gray-300 font-medium">
-                      {new Date(a.attemptedAt).toLocaleDateString()}
-                    </span>
+                    <div className="text-sm text-gray-600 dark:text-gray-300">
+                      <div className="font-medium text-gray-900 dark:text-white">
+                        {(() => {
+                          const date = new Date(a.attemptedAt);
+                          const day = date.getDate().toString().padStart(2, '0');
+                          const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+                          const month = monthNames[date.getMonth()];
+                          const year = date.getFullYear();
+                          return `${day}-${month}-${year}`;
+                        })()}
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        {new Date(a.attemptedAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
+                      </div>
+                    </div>
                 </td>
+               
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="3" className="text-center py-0 md:py-2 lg:py-4 xl:py-6 text-gray-500 dark:text-gray-400">
+              <td colSpan="4" className="text-center py-0 md:py-2 lg:py-4 xl:py-6 text-gray-500 dark:text-gray-400">
                 <div className="flex flex-col items-center gap-2">
                   <span className="text-4xl">📝</span>
                   <span>No recent activity</span>
@@ -250,9 +263,17 @@ const DashboardAnalytics = () => {
                   <FaCalendarAlt className="text-purple-600 dark:text-purple-400 text-xs" />
                 </div>
                 <span className="text-xs text-gray-600 dark:text-gray-400">
-                  {new Date(a.attemptedAt).toLocaleDateString()}
+                  Attempted: {(() => {
+                    const date = new Date(a.attemptedAt);
+                    const day = date.getDate().toString().padStart(2, '0');
+                    const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+                    const month = monthNames[date.getMonth()];
+                    const year = date.getFullYear();
+                    return `${day}-${month}-${year}`;
+                  })()} at {new Date(a.attemptedAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
                 </span>
               </div>
+              
             </div>
           </div>
         ))
@@ -300,9 +321,17 @@ const DashboardAnalytics = () => {
                     <FaCalendarAlt className="text-purple-600 dark:text-purple-400 text-xs" />
                   </div>
                   <span className="text-sm text-gray-600 dark:text-gray-400">
-                    {new Date(a.attemptedAt).toLocaleDateString()}
+                    Attempted: {(() => {
+                    const date = new Date(a.attemptedAt);
+                    const day = date.getDate().toString().padStart(2, '0');
+                    const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+                    const month = monthNames[date.getMonth()];
+                    const year = date.getFullYear();
+                    return `${day}-${month}-${year}`;
+                  })()} at {new Date(a.attemptedAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
                   </span>
                 </div>
+                
               </div>
             </div>
           </div>

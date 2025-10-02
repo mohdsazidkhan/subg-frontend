@@ -28,6 +28,15 @@ const StudentsPage = () => {
 
   const user = JSON.parse(localStorage.getItem('userInfo'));
   const location = useLocation();
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isOpen = useSelector((state) => state.sidebar.isOpen);
 
@@ -137,6 +146,20 @@ const StudentsPage = () => {
   // Define table columns for ResponsiveTable
   const columns = [
     {
+      key: 'sno',
+      header: 'S.No.',
+      render: (_,student) => {
+        // Calculate serial number based on student's position in the array
+        const studentIndex = students?.findIndex(s => s?._id === student?._id);
+        const serialNumber = studentIndex >= 0 ? ((currentPage - 1) * itemsPerPage) + studentIndex + 1 : 1;
+        return (
+          <div className="text-sm text-gray-600 dark:text-gray-300">
+            {serialNumber}
+          </div>
+        );
+      }
+    },
+    {
       key: 'student',
       header: 'Student',
       render: (_, student) => (
@@ -221,7 +244,7 @@ const StudentsPage = () => {
       header: 'Joined',
       render: (_, student) => (
         <div className="text-sm text-gray-500 dark:text-gray-300">
-                  {new Date(student.createdAt).toLocaleDateString()}
+                  {formatDate(student.createdAt)}
                   </div>
       )
     },
@@ -294,42 +317,31 @@ const StudentsPage = () => {
         {user?.role === 'admin' && isAdminRoute && <Sidebar />}
         <div className="adminContent p-2 md:p-6 w-full text-gray-900 dark:text-white">
         {/* Enhanced Header */}
-        <div className="mb-4">
-          <div className="flex items-center gap-4 mb-2">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
             <div>
               <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-white">
-              Manage Students ({pagination.total || students.length})
+              Students ({pagination?.total || students?.length})
               </h1>
               <p className="text-gray-600 dark:text-gray-400 text-lg">
-                Manage and monitor student accounts, performance, and engagement
+                Create, edit or delete students
               </p>
             </div>
-          </div>
-        </div>
-
-        {/* Search and Filters */}
-        <SearchFilter
-          searchTerm={searchTerm}
-          onSearchChange={handleSearch}
-          placeholder="Search students by name, email, or phone..."
-        />
-
-        {/* Combined View Toggle and Page Size Controls */}
-        <div className="flex items-center justify-between mb-4 gap-2">
-          <div className="flex-shrink-0">
+              {/* Search and Filters */}
+            <SearchFilter
+              searchTerm={searchTerm}
+              onSearchChange={handleSearch}
+              placeholder="Search students by name, email, or phone..."
+            />
             <ViewToggle
               currentView={viewMode}
               onViewChange={setViewMode}
               views={['table', 'list', 'grid']}
             />
-          </div>
-          
-          <div className="flex items-center space-x-2 flex-shrink-0">
-            <label className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Show:</label>
+            <div className="flex items-center space-x-2 flex-shrink-0">
             <select
               value={itemsPerPage}
               onChange={handleItemsPerPageChange}
-              className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-xs sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white min-w-0"
+              className="w-full lg:w-auto px-4 py-2 border border-gray-300 dark:border-gray-600 rounded text-xs sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white min-w-0"
             >
               <option value={5}>5</option>
               <option value={10}>10</option>
@@ -341,7 +353,8 @@ const StudentsPage = () => {
               <option value={1000}>1000</option>
             </select>
           </div>
-        </div>
+          </div>
+
 
         {/* Content */}
         {loading ? (

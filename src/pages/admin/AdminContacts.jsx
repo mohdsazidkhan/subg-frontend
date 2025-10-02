@@ -90,12 +90,19 @@ export default function AdminContacts() {
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleString('en-IN', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
+  const formatTime = (dateString) => {
+    return new Date(dateString).toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
     });
   };
 
@@ -107,6 +114,9 @@ export default function AdminContacts() {
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                S.No.
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Name
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -116,7 +126,7 @@ export default function AdminContacts() {
                 Message
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                Date
+                Created At
               </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Actions
@@ -126,6 +136,9 @@ export default function AdminContacts() {
           <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {contacts.map((contact) => (
               <tr key={contact._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">
+                  {((page - 1) * 20) + contacts.indexOf(contact) + 1}
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-3">
@@ -148,7 +161,12 @@ export default function AdminContacts() {
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                  {formatDate(contact.createdAt)}
+                  <div className="font-medium text-gray-900 dark:text-white">
+                    {formatDate(contact.createdAt)}
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    {formatTime(contact.createdAt)}
+                  </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <div className="flex items-center justify-end space-x-2">
@@ -218,7 +236,7 @@ export default function AdminContacts() {
             </p>
             <div className="text-xs text-gray-500 dark:text-gray-400">
               <FaRegCalendarAlt className="inline mr-1" />
-              {formatDate(contact.createdAt)}
+              {formatDate(contact.createdAt)} at {formatTime(contact.createdAt)}
             </div>
           </div>
         </div>
@@ -252,7 +270,7 @@ export default function AdminContacts() {
                 </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
                   <FaRegCalendarAlt className="inline mr-1" />
-                  {formatDate(contact.createdAt)}
+                  {formatDate(contact.createdAt)} at {formatTime(contact.createdAt)}
                 </p>
               </div>
               <div className="flex items-center space-x-2 ml-4">
@@ -285,40 +303,34 @@ export default function AdminContacts() {
         <div className="adminContent p-4 w-full text-gray-900 dark:text-white">
         <div className="mx-auto">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
             <div>
               <h2 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
-                Manage Contacts ({pagination.total})
+                Contacts ({pagination.total})
               </h2>
               <p className="text-gray-600 dark:text-gray-400 mt-1">
-                View and manage contact form submissions
+                Delete, View Contact Queries
               </p>
             </div>
-          </div>
-
-          {/* Search and Filters */}
+             {/* Search and Filters */}
           <SearchFilter
             searchTerm={searchTerm}
             onSearchChange={handleSearch}
             placeholder="Search contacts by name or email..."
           />
-
-          {/* View Toggle */}
-          <div className="flex items-center justify-between mb-4">
-            <ViewToggle
+           <ViewToggle
               currentView={viewMode}
               onViewChange={setViewMode}
               views={['table', 'list', 'grid']}
             />
             <div className="flex items-center space-x-2">
-              <label className="text-sm text-gray-600 dark:text-gray-400">Show:</label>
               <select
                 value={itemsPerPage}
                 onChange={(e) => {
                   setItemsPerPage(Number(e.target.value));
                   setPage(1);
                 }}
-                className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full lg:w-auto px-4 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value={5}>5</option>
                 <option value={10}>10</option>
@@ -331,6 +343,9 @@ export default function AdminContacts() {
               </select>
             </div>
           </div>
+
+         
+
 
           {/* Content */}
           {loading ? (
