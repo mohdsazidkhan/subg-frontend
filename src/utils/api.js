@@ -676,14 +676,14 @@ class ApiService {
 
   // ===== PRO USER QUESTIONS =====
   async createUserQuestion(payload) {
-    return this.request('/api/proUserQuestions/userQuestions/create', {
+    return this.request('/api/userQuestions/create', {
       method: 'POST',
       body: JSON.stringify(payload)
     });
   }
 
   async getCurrentMonthQuestionCount() {
-    return this.request('/api/proUserQuestions/userQuestions/monthly-count');
+    return this.request('/api/userQuestions/monthly-count');
   }
 
   async getUserQuestionById(id) {
