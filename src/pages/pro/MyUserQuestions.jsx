@@ -99,8 +99,11 @@ const MyUserQuestions = () => {
 					<h1 className="text-xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
 						My Questions
 					</h1>
-					<p className="text-sm lg:text-lg text-gray-600 dark:text-gray-300 mb-4">
+					<p className="text-sm lg:text-lg text-gray-600 dark:text-gray-300 mb-2">
 						Track your submitted questions and their performance
+					</p>
+					<p className="text-blue-600 dark:text-blue-400 text-sm font-medium mb-4">
+						📅 You Can Add Max 100 Questions Per Month
 					</p>
 					<Link 
 						to="/pro/questions/new" 

@@ -661,6 +661,9 @@ const HomePage = () => {
             <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Pro users can earn money by creating quality questions. <br/>Get ₹10 for every approved question!
             </p>
+            <div className="mt-4 inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 rounded-full">
+              <span className="text-sm md:text-base text-blue-700 dark:text-blue-200 font-medium">📅 You Can Add Max 100 Questions Per Month</span>
+            </div>
           </div>
 
           <div className="container mx-auto">
@@ -670,7 +673,7 @@ const HomePage = () => {
                 {/* Left Side - Earning Process */}
                 <div className="space-y-6">
                   <div className="text-center lg:text-left">
-                    <div className="w-20 h-20 mx-auto lg:mx-0 mb-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center">
+                    <div className="w-12 lg:w-20 h-12 lg:h-20 mx-auto lg:mx-0 mb-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center">
                       <span className="text-3xl">💰</span>
                     </div>
                     <h3 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-4">
@@ -719,7 +722,7 @@ const HomePage = () => {
 
                 {/* Right Side - Stats & Info */}
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-2xl p-6 border border-green-200 dark:border-green-700">
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-2xl p-2 lg:p-6 border border-green-200 dark:border-green-700">
                     <h4 className="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">
                       💡 How It Works
                     </h4>
@@ -743,7 +746,7 @@ const HomePage = () => {
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-6 border border-blue-200 dark:border-blue-700">
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-2 lg:p-6 border border-blue-200 dark:border-blue-700">
                     <h4 className="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">
                       🎯 Pro User Benefits
                     </h4>
@@ -1258,7 +1261,7 @@ const HomePage = () => {
     
 
       {/* Categories Section */}
-      <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8">
+      <div className="container mx-auto px-0 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8">
         <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4 md:mb-6 flex items-center gap-2">
           <FaBook className="text-yellow-500 text-lg sm:text-xl md:text-2xl" /> Categories
         </h2>
@@ -1332,7 +1335,7 @@ const HomePage = () => {
               return (
                 <div
                   key={level._id}
-                  className={`group cursor-pointer relative overflow-hidden rounded-2xl p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors.background} ${levelColors.border} hover:border-yellow-500`}
+                  className={`group cursor-pointer relative overflow-hidden rounded-2xl p-2 md:p-4 lg:p-8 transition-all duration-300 transform hover:scale-105 border shadow-lg hover:shadow-xl ${levelColors.background} ${levelColors.border} hover:border-yellow-500`}
                 >
                    <div className={`absolute top-0 right-0 w-32 h-32 ${levelColors.accent} rounded-full -translate-y-16 translate-x-16`}></div>
                    

@@ -110,7 +110,7 @@ const RewardsDashboard = () => {
   } = rewards;
 
   return (
-    <div className="container mx-auto px-8 py-4 space-y-4 sm:space-y-6">
+    <div className="container mx-auto px-4 lg:px-8 py-4 space-y-4 sm:space-y-6">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-2 md:p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
         <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4">
           🏆 Rewards Dashboard

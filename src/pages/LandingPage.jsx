@@ -646,7 +646,7 @@ const LandingPage = () => {
 
           {/* Full Width Prize Pool Display */}
           <div className="container mx-auto">
-            <div className="rounded-3xl p-6 md:p-8 lg:p-12 bg-gradient-to-br from-white via-yellow-50 to-orange-50 dark:from-gray-800 dark:via-yellow-900/20 dark:to-orange-900/20 border-2 border-yellow-200 dark:border-yellow-700 shadow-2xl">
+            <div className="rounded-3xl p-2 md:p-4 lg:p-12 bg-gradient-to-br from-white via-yellow-50 to-orange-50 dark:from-gray-800 dark:via-yellow-900/20 dark:to-orange-900/20 border-2 border-yellow-200 dark:border-yellow-700 shadow-2xl">
               {/* Header Section */}
               <div className="text-center mb-8">
                 <h3 className="text-2xl lg:text-4xl font-bold mb-4">
@@ -654,7 +654,7 @@ const LandingPage = () => {
                     Monthly Prize Pool
                   </span>
                 </h3>
-                <div className="text-5xl lg:text-7xl font-bold text-yellow-500 mb-4">
+                <div className="text-3xl md:text-3xl lg:text-7xl font-bold text-yellow-500 mb-4">
                   ₹{process.env.REACT_APP_MONTHLY_REWARD_PRIZE_POOL || 10000}
                 </div>
                 <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
@@ -757,7 +757,7 @@ const LandingPage = () => {
                  </div>
                  
                  {/* Eligibility Info */}
-                 <div className="text-center p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl border-2 border-blue-200 dark:border-blue-700">
+                 <div className="text-center p-2 lg:p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl border-2 border-blue-200 dark:border-blue-700">
                    <div className="flex items-center justify-center space-x-2 mb-2">
                      <FaTrophy className="text-yellow-500 text-xl" />
                      <h4 className="text-lg font-bold text-blue-800 dark:text-blue-300">Eligibility Requirements</h4>
@@ -797,6 +797,9 @@ const LandingPage = () => {
             <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Pro users can earn money by creating quality questions. Get ₹10 for every approved question!
             </p>
+            <div className="mt-4 inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 rounded-full">
+              <span className="text-sm md:text-base text-blue-700 dark:text-blue-200 font-medium">📅 You Can Add Max 100 Questions Per Month</span>
+            </div>
           </div>
 
           <div className="container mx-auto">
@@ -806,10 +809,10 @@ const LandingPage = () => {
                 {/* Left Side - Earning Process */}
                 <div className="space-y-6">
                   <div className="text-center lg:text-left">
-                    <div className="w-20 h-20 mx-auto lg:mx-0 mb-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center">
-                      <span className="text-3xl">💰</span>
+                    <div className="w-12 lg:w-20 h-12 lg:h-20 mx-auto lg:mx-0 mb-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center">
+                      <span className="text-xl lg:text-3xl">💰</span>
                     </div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-4">
+                    <h3 className="text-xl lg:text-3xl font-bold text-gray-800 dark:text-white mb-4">
                       Earn ₹10 Per Question
                     </h3>
                     <p className="text-gray-600 dark:text-gray-300 mb-6">
@@ -855,7 +858,7 @@ const LandingPage = () => {
 
                 {/* Right Side - Stats & Info */}
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-2xl p-6 border border-green-200 dark:border-green-700">
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-2xl p-2 lg:p-6 border border-green-200 dark:border-green-700">
                     <h4 className="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">
                       💡 How It Works
                     </h4>
@@ -879,7 +882,7 @@ const LandingPage = () => {
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-6 border border-blue-200 dark:border-blue-700">
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-2 lg:p-6 border border-blue-200 dark:border-blue-700">
                     <h4 className="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">
                       🎯 Pro User Benefits
                     </h4>

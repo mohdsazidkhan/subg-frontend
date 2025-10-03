@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../../utils/api';
 import { getCurrentUser } from '../../utils/authUtils';
@@ -12,8 +12,26 @@ const PostUserQuestion = () => {
 	const [correctOptionIndex, setCorrectOptionIndex] = useState(0);
 	const [loading, setLoading] = useState(false);
 	const [focusedField, setFocusedField] = useState(null);
+	const [monthlyCount, setMonthlyCount] = useState(null);
 
 	const isPro = (user?.subscriptionStatus || '').toLowerCase() === 'pro';
+
+	// Fetch monthly count on component mount
+	useEffect(() => {
+		const fetchMonthlyCount = async () => {
+			if (isPro) {
+				try {
+					const response = await API.getCurrentMonthQuestionCount();
+					if (response?.success) {
+						setMonthlyCount(response.data);
+					}
+				} catch (err) {
+					console.error('Error fetching monthly count:', err);
+				}
+			}
+		};
+		fetchMonthlyCount();
+	}, [isPro]);
 
 	const handleOptionChange = (idx, val) => {
 		const next = [...options];
@@ -31,19 +49,30 @@ const PostUserQuestion = () => {
 			toast.error('Please fill question and all 4 options');
 			return;
 		}
+		
+		// Check monthly limit before submitting
+		if (monthlyCount && !monthlyCount.canAddMore) {
+			toast.error('You can add max 100 questions in a month');
+			return;
+		}
+		
 		setLoading(true);
 		try {
 			await API.createUserQuestion({ questionText, options, correctOptionIndex });
 			toast.success('Question submitted for review');
 			navigate('/pro/questions/mine');
 		} catch (err) {
-			toast.error(err?.message || 'Failed to submit question');
+			if (err?.response?.status === 429) {
+				toast.error('You can add max 100 questions in a month');
+			} else {
+				toast.error(err?.message || 'Failed to submit question');
+			}
 		} finally {
 			setLoading(false);
 		}
 	};
 
-	const isFormValid = questionText.trim() && options.every(o => o.trim()) && isPro;
+	const isFormValid = questionText.trim() && options.every(o => o.trim()) && isPro && monthlyCount?.canAddMore !== false;
 	
 	// Calculate form completion percentage
 	const formProgress = () => {
@@ -70,10 +99,43 @@ const PostUserQuestion = () => {
 					<p className="text-sm md:text-lg text-gray-600 dark:text-gray-300 mb-3 md:mb-4 px-4">
 						Share your knowledge with the community and earn rewards
 					</p>
-					<div className="inline-flex items-center px-3 py-1 md:px-4 md:py-2 bg-gradient-to-r from-yellow-100 to-red-100 dark:from-yellow-800 dark:to-red-800 rounded-full">
-						<span className="text-xs md:text-sm text-yellow-700 dark:text-yellow-200 font-medium">✨ PRO Feature</span>
+					<div className="flex flex-col sm:flex-row items-center justify-center gap-2 mb-3 md:mb-4">
+						<div className="inline-flex items-center px-3 py-1 md:px-4 md:py-2 bg-gradient-to-r from-yellow-100 to-red-100 dark:from-yellow-800 dark:to-red-800 rounded-full">
+							<span className="text-xs md:text-sm text-yellow-700 dark:text-yellow-200 font-medium">✨ PRO Feature</span>
+						</div>
+						<div className="inline-flex items-center px-3 py-1 md:px-4 md:py-2 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 rounded-full">
+							<span className="text-xs md:text-sm text-blue-700 dark:text-blue-200 font-medium">📅 You Can Add Max 100 Questions Per Month</span>
+						</div>
 					</div>
 				</div>
+
+				{/* Monthly Count Display */}
+				{isPro && monthlyCount && (
+					<div className="mb-6 md:mb-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4 md:p-6">
+						<div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-3">
+							<div className="flex-shrink-0">
+								<span className="text-xl md:text-2xl">📊</span>
+							</div>
+							<div className="flex-1">
+								<h3 className="text-base md:text-lg font-medium text-blue-800 dark:text-blue-200">
+									Monthly Question Count
+								</h3>
+								<p className="text-sm md:text-base text-blue-600 dark:text-blue-300 mt-1">
+									You have created <span className="font-bold">{monthlyCount.currentCount}</span> out of <span className="font-bold">{monthlyCount.limit}</span> questions this month
+								</p>
+								<div className="mt-2 w-full bg-blue-200 dark:bg-blue-800 rounded-full h-2">
+									<div 
+										className="bg-blue-600 dark:bg-blue-400 h-2 rounded-full transition-all duration-300"
+										style={{ width: `${(monthlyCount.currentCount / monthlyCount.limit) * 100}%` }}
+									></div>
+								</div>
+								<p className="text-xs md:text-sm text-blue-600 dark:text-blue-400 mt-1">
+									{monthlyCount.remaining} questions remaining this month
+								</p>
+							</div>
+						</div>
+					</div>
+				)}
 
 				{/* Pro Status Alert */}
 			{!isPro && (

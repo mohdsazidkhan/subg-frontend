@@ -1125,8 +1125,11 @@ const message =
                     <p className="text-gray-600 dark:text-gray-400 text-sm">Post new questions</p>
                   </div>
                 </div>
-                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">
                   Create and submit questions to earn ₹10 per approval
+                </p>
+                <p className="text-blue-600 dark:text-blue-400 text-xs font-medium mb-4">
+                  📅 You Can Add Max 100 Questions Per Month
                 </p>
                 <div className="flex items-center text-green-600 dark:text-green-400 text-sm font-medium">
                   <span>Create Now</span>
