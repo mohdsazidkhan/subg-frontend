@@ -33,7 +33,6 @@ const AboutUs = () => {
             Where knowledge meets rewards, and learning becomes an exciting adventure
           </p>
         </div>
-
           
           {/* Mission Statement */}
           <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-3 md:p-6 lg:p-8 border border-white/20 mb-12">
