@@ -216,16 +216,50 @@ const StudentsPage = () => {
       key: 'referralCode',
       header: 'Ref. Code',
       render: (_, student) => (
-                  <div className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                  <div className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                     {student.referralCode || 'N/A'}
                   </div>
       )
     },
     {
+      key: 'status',
+      header: 'Status',
+      render: (_, student) => {
+        if(student.status === 'active'){
+          return(
+          <div className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+            {student.status || 'N/A'}
+          </div>
+          )
+        }else if(student.status === 'suspended'){
+          return(
+          <div className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+            {student.status || 'N/A'}
+          </div>
+          )
+        }else if(student.status === 'banned'){
+          return(
+          <div className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
+            {student.status || 'N/A'}
+          </div>
+          )
+        }
+        else if(student.status === 'inactive'){
+          return(
+          <div className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+            {student.status || 'N/A'}
+          </div>
+          )
+        }
+        
+      }
+      
+    },
+    {
       key: 'referralCount',
       header: 'Ref Count',
       render: (_, student) => (
-                  <div className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-gray-800 dark:bg-gray-900 dark:text-white">
+                  <div className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-white">
                     {student.referralCount || 0}
                   </div>
       )
