@@ -5,7 +5,6 @@ import MobileAppWrapper from '../components/MobileAppWrapper';
 
 const AboutUs = () => {
   const navigate = useNavigate();
-
   return (
     <MobileAppWrapper title="About Us">
       <Helmet>
