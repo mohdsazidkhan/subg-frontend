@@ -13,24 +13,32 @@ const PostUserQuestion = () => {
 	const [loading, setLoading] = useState(false);
 	const [focusedField, setFocusedField] = useState(null);
 	const [monthlyCount, setMonthlyCount] = useState(null);
+	const [dailyCount, setDailyCount] = useState(null);
 
 	const isPro = (user?.subscriptionStatus || '').toLowerCase() === 'pro';
 
-	// Fetch monthly count on component mount
+	// Fetch monthly and daily counts on component mount
 	useEffect(() => {
-		const fetchMonthlyCount = async () => {
+		const fetchCounts = async () => {
 			if (isPro) {
 				try {
-					const response = await API.getCurrentMonthQuestionCount();
-					if (response?.success) {
-						setMonthlyCount(response.data);
+					const [monthlyResponse, dailyResponse] = await Promise.all([
+						API.getCurrentMonthQuestionCount(),
+						API.getCurrentDayQuestionCount()
+					]);
+					
+					if (monthlyResponse?.success) {
+						setMonthlyCount(monthlyResponse.data);
+					}
+					if (dailyResponse?.success) {
+						setDailyCount(dailyResponse.data);
 					}
 				} catch (err) {
-					console.error('Error fetching monthly count:', err);
+					console.error('Error fetching counts:', err);
 				}
 			}
 		};
-		fetchMonthlyCount();
+		fetchCounts();
 	}, [isPro]);
 
 	const handleOptionChange = (idx, val) => {
@@ -50,6 +58,12 @@ const PostUserQuestion = () => {
 			return;
 		}
 		
+		// Check daily limit before submitting
+		if (dailyCount && !dailyCount.canAddMore) {
+			toast.error('You can add max 5 questions per day');
+			return;
+		}
+		
 		// Check monthly limit before submitting
 		if (monthlyCount && !monthlyCount.canAddMore) {
 			toast.error('You can add max 100 questions in a month');
@@ -63,7 +77,14 @@ const PostUserQuestion = () => {
 			navigate('/pro/questions/mine');
 		} catch (err) {
 			if (err?.response?.status === 429) {
-				toast.error('You can add max 100 questions in a month');
+				const errorData = err?.response?.data;
+				if (errorData?.error === 'DAILY_LIMIT_EXCEEDED') {
+					toast.error('You can add max 5 questions per day');
+				} else if (errorData?.error === 'MONTHLY_LIMIT_EXCEEDED') {
+					toast.error('You can add max 100 questions in a month');
+				} else {
+					toast.error(errorData?.message || 'Daily/Monthly limit exceeded');
+				}
 			} else {
 				toast.error(err?.message || 'Failed to submit question');
 			}
@@ -72,7 +93,8 @@ const PostUserQuestion = () => {
 		}
 	};
 
-	const isFormValid = questionText.trim() && options.every(o => o.trim()) && isPro && monthlyCount?.canAddMore !== false;
+	const isFormValid = questionText.trim() && options.every(o => o.trim()) && isPro && 
+		monthlyCount?.canAddMore !== false && dailyCount?.canAddMore !== false;
 	
 	// Calculate form completion percentage
 	const formProgress = () => {
@@ -104,10 +126,41 @@ const PostUserQuestion = () => {
 							<span className="text-xs md:text-sm text-yellow-700 dark:text-yellow-200 font-medium">✨ PRO Feature</span>
 						</div>
 						<div className="inline-flex items-center px-3 py-1 md:px-4 md:py-2 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 rounded-full">
-							<span className="text-xs md:text-sm text-blue-700 dark:text-blue-200 font-medium">📅 You Can Add Max 100 Questions Per Month</span>
+							<span className="text-xs md:text-sm text-blue-700 dark:text-blue-200 font-medium">📅 Max 5 Questions Per Day</span>
+						</div>
+						<div className="inline-flex items-center px-3 py-1 md:px-4 md:py-2 bg-gradient-to-r from-green-100 to-blue-100 dark:from-green-800 dark:to-blue-800 rounded-full">
+							<span className="text-xs md:text-sm text-green-700 dark:text-green-200 font-medium">📊 Max 100 Questions Per Month</span>
 						</div>
 					</div>
 				</div>
+
+				{/* Daily Count Display */}
+				{isPro && dailyCount && (
+					<div className="mb-4 md:mb-6 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl p-4 md:p-6">
+						<div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-3">
+							<div className="flex-shrink-0">
+								<span className="text-xl md:text-2xl">📅</span>
+							</div>
+							<div className="flex-1">
+								<h3 className="text-base md:text-lg font-medium text-orange-800 dark:text-orange-200">
+									Daily Question Count
+								</h3>
+								<p className="text-sm md:text-base text-orange-600 dark:text-orange-300 mt-1">
+									You have created <span className="font-bold">{dailyCount.currentCount}</span> out of <span className="font-bold">{dailyCount.limit}</span> questions today
+								</p>
+								<div className="mt-2 w-full bg-orange-200 dark:bg-orange-800 rounded-full h-2">
+									<div 
+										className="bg-orange-600 dark:bg-orange-400 h-2 rounded-full transition-all duration-300"
+										style={{ width: `${(dailyCount.currentCount / dailyCount.limit) * 100}%` }}
+									></div>
+								</div>
+								<p className="text-xs md:text-sm text-orange-600 dark:text-orange-400 mt-1">
+									{dailyCount.remaining} questions remaining today
+								</p>
+							</div>
+						</div>
+					</div>
+				)}
 
 				{/* Monthly Count Display */}
 				{isPro && monthlyCount && (

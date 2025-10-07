@@ -661,9 +661,6 @@ const HomePage = () => {
             <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Pro users can earn money by creating quality questions. <br/>Get ₹10 for every approved question!
             </p>
-            <div className="mt-4 inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 rounded-full">
-              <span className="text-sm md:text-base text-blue-700 dark:text-blue-200 font-medium">📅 You Can Add Max 100 Questions Per Month</span>
-            </div>
           </div>
 
           <div className="container mx-auto">
@@ -705,6 +702,11 @@ const HomePage = () => {
                         step: "4",
                         title: "Request Withdrawal",
                         description: "After 100 approved questions, request withdrawal to admin"
+                      },
+                      {
+                        step: "5",
+                        title: "Payout Prize",
+                        description: "Only available if you qualify as a Monthly Winner"
                       }
                     ].map((item, index) => (
                       <div key={index} className="flex items-start space-x-4">
@@ -727,23 +729,35 @@ const HomePage = () => {
                       💡 How It Works
                     </h4>
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-600 dark:text-gray-300">Per Approved Question:</span>
-                        <span className="font-bold text-green-600">₹10</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-600 dark:text-gray-300">Withdrawal Threshold:</span>
-                        <span className="font-bold text-green-600">100 Questions</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-600 dark:text-gray-300">Minimum Withdrawal:</span>
-                        <span className="font-bold text-green-600">₹1,000</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-600 dark:text-gray-300">Processing Time:</span>
-                        <span className="font-bold text-green-600">24-48 Hours</span>
-                      </div>
-                    </div>
+  <div className="flex items-center justify-between">
+    <span className="text-gray-600 dark:text-gray-300">Daily Question Limit</span>
+    <span className="font-bold text-green-600">Up to 5 Questions</span>
+  </div>
+  <div className="flex items-center justify-between">
+    <span className="text-gray-600 dark:text-gray-300">Monthly Question Limit</span>
+    <span className="font-bold text-green-600">Up to 100 Questions</span>
+  </div>
+  <div className="flex items-center justify-between">
+    <span className="text-gray-600 dark:text-gray-300">Earnings Per Approved Question</span>
+    <span className="font-bold text-green-600">₹10 Each</span>
+  </div>
+  <div className="flex items-center justify-between">
+    <span className="text-gray-600 dark:text-gray-300">Minimum Questions to Withdraw</span>
+    <span className="font-bold text-green-600">100 Questions</span>
+  </div>
+  <div className="flex items-center justify-between">
+    <span className="text-gray-600 dark:text-gray-300">Minimum Payout Amount</span>
+    <span className="font-bold text-green-600">₹1,000*</span>
+  </div>
+  <div className="flex items-center justify-between">
+    <span className="text-gray-600 dark:text-gray-300">Prize Transfer</span>
+    <span className="font-bold text-green-600">With Monthly Prize</span>
+  </div>
+  <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+    *Payout is only available if you qualify as a Monthly Winner.
+  </p>
+</div>
+
                   </div>
 
                   <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl p-2 lg:p-6 border border-blue-200 dark:border-blue-700">
@@ -761,7 +775,7 @@ const HomePage = () => {
                       </li>
                       <li className="flex items-center space-x-2">
                         <span className="text-green-500">✓</span>
-                        <span>Fast withdrawal processing</span>
+                        <span>Monthly withdrawal processing</span>
                       </li>
                       <li className="flex items-center space-x-2">
                         <span className="text-green-500">✓</span>

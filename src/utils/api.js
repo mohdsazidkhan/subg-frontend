@@ -686,6 +686,10 @@ class ApiService {
     return this.request('/api/userQuestions/monthly-count');
   }
 
+  async getCurrentDayQuestionCount() {
+    return this.request('/api/userQuestions/daily-count');
+  }
+
   async getUserQuestionById(id) {
     return this.request(`/api/userQuestions/${id}`);
   }
