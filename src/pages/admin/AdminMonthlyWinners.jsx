@@ -273,7 +273,7 @@ const AdminMonthlyWinners = () => {
                     <FaRupeeSign className="text-2xl text-green-600" />
                     <div>
                       <div className="text-sm text-green-700 dark:text-green-400">Total Distributed</div>
-                      <div className="text-md lg:text-xl lg:text-2xl font-bold text-green-800 dark:text-green-200">
+                      <div className="text-md lg:text-2xl font-bold text-green-800 dark:text-green-200">
                         ₹{monthlyWinners.reduce((total, month) => total + (month.totalPrizePool || 0), 0).toLocaleString()}
                       </div>
                     </div>

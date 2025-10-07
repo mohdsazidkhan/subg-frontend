@@ -44,7 +44,7 @@ class ErrorBoundary extends React.Component {
                 <FaExclamationTriangle className="text-white text-2xl" />
               </div>
               
-              <h1 className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-2">
+              <h1 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-2">
                 Oops! Something went wrong
               </h1>
               

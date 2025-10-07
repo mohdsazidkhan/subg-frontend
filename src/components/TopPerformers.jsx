@@ -693,7 +693,7 @@ import API from '../utils/api';
                 {/* High Score Badge */}
                 <div className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 p-1 lg:p-3 rounded-lg border border-green-200 dark:border-green-700">
                   <div className="text-center">
-                    <div className="text-xl lg:text-xl lg:text-xl lg:text-xl lg:text-xl lg:text-2xl font-bold text-green-800 dark:text-green-200">
+                    <div className="text-xl lg:text-2xl font-bold text-green-800 dark:text-green-200">
                       {p.level?.highScoreQuizzes || 0}
                     </div>
                     <div className="text-sm font-medium text-green-600 dark:text-green-400">
@@ -705,7 +705,7 @@ import API from '../utils/api';
                 {/* Total Quizzes Badge */}
                 <div className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 p-1 lg:p-3 rounded-lg border border-blue-200 dark:border-blue-700">
                   <div className="text-center">
-                    <div className="textxl lg:text-xl lg:text-2xl font-bold text-blue-800 dark:text-blue-200">
+                    <div className="text-xl lg:text-2xl font-bold text-blue-800 dark:text-blue-200">
                       {p.level?.quizzesPlayed || 0}
                     </div>
                     <div className="text-sm font-medium text-blue-600 dark:text-blue-400">
@@ -964,7 +964,7 @@ import API from '../utils/api';
         <div className="mt-12 p-3 md:p-6lg:p-8 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl border-2 border-purple-300 dark:border-pink-500 shadow-xl relative">
 
           <div className="text-center mb-8">
-            <h4 className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-3 flex items-center justify-center gap-3">
+            <h4 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-3 flex items-center justify-center gap-3">
               🎯 Your Competition Zone
             </h4>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">

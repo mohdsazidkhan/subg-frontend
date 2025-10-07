@@ -875,7 +875,7 @@ const PerformanceAnalytics = () => {
                 {/* High Score Badge */}
                 <div className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 p-3 rounded-lg mb-3 border border-green-200 dark:border-green-700">
                   <div className="text-center">
-                    <div className="text-xl lg:text-xl lg:text-xl lg:text-xl lg:text-xl lg:text-2xl font-bold text-green-800 dark:text-green-200">
+                    <div className="text-xl lg:text-2xl font-bold text-green-800 dark:text-green-200">
                       {p.level?.highScoreQuizzes || 0}
                     </div>
                     <div className="text-sm font-medium text-green-600 dark:text-green-400">
@@ -1117,7 +1117,7 @@ const PerformanceAnalytics = () => {
                     </div>
                     <div>
                       <h4 className="font-bold text-gray-900 dark:text-white text-lg">
-                        {item._id[0]}
+                        {item?.categoryName}
                       </h4>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
                         Category #{i + 1}

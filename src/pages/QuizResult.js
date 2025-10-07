@@ -39,7 +39,7 @@ const LeaderboardTable = ({ leaderboard, currentUser }) => {
         <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center">
           <FaTrophy className="text-white text-xl" />
         </div>
-        <h3 className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
+        <h3 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white">
           Leaderboard
         </h3>
       </div>

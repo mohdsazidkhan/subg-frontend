@@ -57,7 +57,7 @@ const ResetPasswordPage = () => {
             <FaArrowLeft /> Back to Login
           </Link>
         </div>
-        <h2 className="text-xl lg:text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-2 text-center">Reset Password</h2>
+        <h2 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-white mb-2 text-center">Reset Password</h2>
         <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">Enter your new password below.</p>
         {success ? (
           <div className="text-green-600 text-center font-semibold py-6">Password reset successful! Redirecting to login...</div>
