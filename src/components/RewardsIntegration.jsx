@@ -55,7 +55,7 @@ const RewardsIntegration = ({ userId, level, isCompleted, leaderboardPosition })
           {/* Show monthly reward info */}
           {rewardStatus === 'monthly' && (
             <div className="text-sm text-green-700 dark:text-green-300">
-              <p>🎉 You're eligible for monthly rewards! Maintain Top 3 position with ≥75% accuracy to win ₹9,999.</p>
+              <p>🎉 You're eligible for monthly rewards! Maintain Top 10 position with ≥75% accuracy to win ₹10,000.</p>
             </div>
           )}
         </div>
@@ -98,7 +98,7 @@ const RewardsIntegration = ({ userId, level, isCompleted, leaderboardPosition })
           
           {rewardStatus === 'monthly' && (
             <p className="text-sm text-yellow-700 dark:text-yellow-300">
-              🏆 You're in Top 3! Maintain this position until month end to win ₹9,999.
+              🏆 You're in Top 10! Maintain this position until month end to win ₹10,000.
             </p>
           )}
           
