@@ -726,7 +726,7 @@ const SubscriptionPage = () => {
                   icon: FaTrophy,
                   title: "Monthly Rewards",
                   description:
-                    "Top 3 eligible users at Level 10 each month win ₹9,999",
+                    "Top 10 eligible users at Level 10 each month win ₹10,000",
                   gradient: "from-yellow-500 to-orange-500",
                 },
                 {

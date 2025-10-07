@@ -142,7 +142,7 @@ const RegisterPage = () => {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Monthly Rewards System</h3>
-                <p className="text-gray-600 dark:text-gray-300">Top 3 eligible users at Level 10 win ₹9,999 each month</p>
+                <p className="text-gray-600 dark:text-gray-300">Top 10 eligible users at Level 10 win ₹10,000 each month</p>
               </div>
             </div>
 
