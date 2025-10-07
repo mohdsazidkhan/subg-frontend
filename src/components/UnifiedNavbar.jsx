@@ -196,7 +196,7 @@ const UnifiedNavbar = ({ isLandingPage = false, scrollToSection }) => {
 
 
   return (
-    <header className={`hidden md:block fixed z-[9999] transition-all duration-300 w-full ${
+    <header className={`hidden md:block fixed z-[9] transition-all duration-300 w-full ${
       darkMode 
         ? 'bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b border-gray-700'
         : 'bg-gradient-to-r from-white via-gray-50 to-white border-b border-gray-200'

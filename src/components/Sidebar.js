@@ -69,6 +69,11 @@ const Sidebar = () => {
           <span>User Questions</span>
         </Link>
 
+        <Link to="/admin/user-quizzes" onClick={() => handleNavClick('user-quizzes')} className={getActiveClass('/admin/user-quizzes')}>
+          <MdQuiz className="text-xl" />
+          <span>User Quizzes</span>
+        </Link>
+
         <Link to="/admin/user-withdrawals" onClick={() => handleNavClick('user-withdrawals')} className={getActiveClass('/admin/user-withdrawals')}>
           <span className="text-xl">💰</span>
           <span>Withdraw Requests</span>

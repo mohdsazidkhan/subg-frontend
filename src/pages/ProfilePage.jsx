@@ -1182,6 +1182,55 @@ const message =
                   <FaArrowRight className="ml-2 text-xs" />
                 </div>
               </div>
+
+              {/* Create Quiz */}
+              <div 
+                onClick={() => navigate('/pro/quiz/create')}
+                className="group cursor-pointer bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-2xl p-4 lg:p-6 border border-indigo-200 dark:border-indigo-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-105"
+              >
+                <div className="flex items-center space-x-4 mb-4">
+                  <div className="w-10 lg:w-12 h-10 lg:h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center">
+                    <FaStickyNote className="text-white text-lg lg:text-xl" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-800 dark:text-white text-lg">Create Quiz</h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">Build custom quizzes</p>
+                  </div>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">
+                  Create your own quizzes and earn subscription rewards
+                </p>
+                <p className="text-indigo-600 dark:text-indigo-400 text-xs font-medium mb-4">
+                  🎁 Earn subscriptions at 9, 49, 99 quizzes!
+                </p>
+                <div className="flex items-center text-indigo-600 dark:text-indigo-400 text-sm font-medium">
+                  <span>Create Now</span>
+                  <FaArrowRight className="ml-2 text-xs" />
+                </div>
+              </div>
+
+              {/* My Quizzes */}
+              <div 
+                onClick={() => navigate('/pro/quizzes/mine')}
+                className="group cursor-pointer bg-gradient-to-br from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-900/20 rounded-2xl p-4 lg:p-6 border border-pink-200 dark:border-pink-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-105"
+              >
+                <div className="flex items-center space-x-4 mb-4">
+                  <div className="w-10 lg:w-12 h-10 lg:h-12 bg-gradient-to-r from-pink-500 to-rose-500 rounded-xl flex items-center justify-center">
+                    <FaSearch className="text-white text-lg lg:text-xl" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-800 dark:text-white text-lg">My Quizzes</h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">View your quizzes</p>
+                  </div>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                  Track your submitted quizzes and approval status
+                </p>
+                <div className="flex items-center text-pink-600 dark:text-pink-400 text-sm font-medium">
+                  <span>View Quizzes</span>
+                  <FaArrowRight className="ml-2 text-xs" />
+                </div>
+              </div>
             </div>
           </div>
         )}

@@ -773,6 +773,193 @@ class ApiService {
       body: JSON.stringify({ status })
     });
   }
+
+  // ===== PRO USER QUIZ MODULE =====
+  
+  // Category Management
+  async createCategory(data) {
+    return this.request('/api/proUser/category/create', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async getMyCategories(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/proUser/category/mine?${queryString}`);
+  }
+
+  async getApprovedCategories() {
+    return this.request('/api/proUser/category/approved');
+  }
+
+  async updateCategory(id, data) {
+    return this.request(`/api/proUser/category/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async deleteCategory(id) {
+    return this.request(`/api/proUser/category/${id}`, {
+      method: 'DELETE'
+    });
+  }
+
+  // Subcategory Management
+  async createSubcategory(data) {
+    return this.request('/api/proUser/subcategory/create', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async getMySubcategories(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/proUser/subcategory/mine?${queryString}`);
+  }
+
+  async getApprovedSubcategories(categoryId) {
+    return this.request(`/api/proUser/subcategory/approved?categoryId=${categoryId}`);
+  }
+
+  async updateSubcategory(id, data) {
+    return this.request(`/api/proUser/subcategory/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async deleteSubcategory(id) {
+    return this.request(`/api/proUser/subcategory/${id}`, {
+      method: 'DELETE'
+    });
+  }
+
+  // Quiz Management
+  async createUserQuiz(data) {
+    return this.request('/api/proUser/quiz/create', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async getMyQuizzes(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/proUser/quiz/mine?${queryString}`);
+  }
+
+  async getMyQuiz(id) {
+    return this.request(`/api/proUser/quiz/${id}`);
+  }
+
+  async updateUserQuiz(id, data) {
+    return this.request(`/api/proUser/quiz/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  }
+
+  async deleteUserQuiz(id) {
+    return this.request(`/api/proUser/quiz/${id}`, {
+      method: 'DELETE'
+    });
+  }
+
+  // Statistics
+  async getQuizCreationStats() {
+    return this.request('/api/proUser/stats/creation');
+  }
+
+  async getMonthlyQuizCount() {
+    return this.request('/api/proUser/stats/monthly-count');
+  }
+
+  // Public User Quizzes
+  async getPublicUserQuizzes(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/proUser/public/quizzes?${queryString}`);
+  }
+
+  async getUserQuizDetails(id) {
+    return this.request(`/api/proUser/public/quiz/${id}`);
+  }
+
+  // ===== ADMIN USER QUIZ MODULE =====
+  
+  // Category Approval
+  async adminGetPendingCategories(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/admin/userQuiz/category/pending?${queryString}`);
+  }
+
+  async adminApproveCategory(id, adminNotes) {
+    return this.request(`/api/admin/userQuiz/category/${id}/approve`, {
+      method: 'POST',
+      body: JSON.stringify({ adminNotes })
+    });
+  }
+
+  async adminRejectCategory(id, adminNotes) {
+    return this.request(`/api/admin/userQuiz/category/${id}/reject`, {
+      method: 'POST',
+      body: JSON.stringify({ adminNotes })
+    });
+  }
+
+  // Subcategory Approval
+  async adminGetPendingSubcategories(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/admin/userQuiz/subcategory/pending?${queryString}`);
+  }
+
+  async adminApproveSubcategory(id, adminNotes) {
+    return this.request(`/api/admin/userQuiz/subcategory/${id}/approve`, {
+      method: 'POST',
+      body: JSON.stringify({ adminNotes })
+    });
+  }
+
+  async adminRejectSubcategory(id, adminNotes) {
+    return this.request(`/api/admin/userQuiz/subcategory/${id}/reject`, {
+      method: 'POST',
+      body: JSON.stringify({ adminNotes })
+    });
+  }
+
+  // Quiz Approval
+  async adminGetPendingQuizzes(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/admin/userQuiz/quiz/pending?${queryString}`);
+  }
+
+  async adminGetPendingQuizDetails(id) {
+    return this.request(`/api/admin/userQuiz/quiz/${id}/details`);
+  }
+
+  async adminApproveQuiz(id, adminNotes) {
+    return this.request(`/api/admin/userQuiz/quiz/${id}/approve`, {
+      method: 'POST',
+      body: JSON.stringify({ adminNotes })
+    });
+  }
+
+  async adminRejectQuiz(id, adminNotes) {
+    return this.request(`/api/admin/userQuiz/quiz/${id}/reject`, {
+      method: 'POST',
+      body: JSON.stringify({ adminNotes })
+    });
+  }
+
+  // Management
+  async adminGetAllUserQuizzes(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.request(`/api/admin/userQuiz/quiz/all?${queryString}`);
+  }
+
+  async adminGetUserQuizStatistics(userId) {
+    return this.request(`/api/admin/userQuiz/user/${userId}/statistics`);
+  }
 }
 
 const API = new ApiService();
