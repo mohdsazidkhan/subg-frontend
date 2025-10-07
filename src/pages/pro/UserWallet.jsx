@@ -328,7 +328,7 @@ const UserWallet = () => {
 									</li>
 									<li className="flex items-start space-x-2">
 										<span className="text-yellow-600 dark:text-yellow-400 mt-1">•</span>
-										<span>Withdrawal requests are processed within 24-48 hours</span>
+										<span>Payout is only available if you qualify as a Monthly Winner.</span>
 									</li>
 								</ul>
 							</div>
