@@ -78,6 +78,7 @@ import ArticleTagPage from './pages/ArticleTagPage.jsx';
 import ReactGA from 'react-ga4';
 import SearchPage from './pages/SearchPage.jsx';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import FloatingActionButton from './components/FloatingActionButton.jsx';
 
 function usePageTracking() {
   const location = useLocation();
@@ -111,6 +112,9 @@ function AppLayout() {
       
       {/* User Mobile Bottom Navigation shows on all non-admin pages */}
       {!location.pathname.startsWith('/admin') && <MobileBottomNavigation />}
+      
+      {/* Floating Action Button - Mobile only, non-admin pages */}
+      {!location.pathname.startsWith('/admin') && location.pathname !== '/' && <FloatingActionButton />}
       
       {/* Sidebar only for admin users */}
       {isAdmin() && hasAdminPrivileges() && <Sidebar />}

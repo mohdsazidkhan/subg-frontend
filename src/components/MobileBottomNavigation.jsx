@@ -9,7 +9,7 @@ import {
   FaUserLock,
   FaMoneyBill,
   FaStickyNote,
-  FaPlus
+  FaCrown
 } from 'react-icons/fa';
 import { BsPersonCircle } from 'react-icons/bs';
 import { MdDashboard } from 'react-icons/md';
@@ -31,7 +31,7 @@ const MobileBottomNavigation = () => {
     { path: '/home', icon: FaHome, label: 'Home' },
     { path: '/search', icon: FaSearch, label: 'Search' },
     { path: '/rewards', icon: FaTrophy, label: 'Rewards' },
-    { path: '/pro/questions/new', icon: FaPlus, label: 'Post' },
+    { path: '/subscription', icon: FaCrown, label: 'Plan' },
     { path: '/questions', icon: FaStickyNote, label: 'Questions' },
     { path: '/pro/wallet', icon: FaMoneyBill, label: 'Wallet' },
     { path: '/profile', icon: BsPersonCircle, label: 'Profile' },

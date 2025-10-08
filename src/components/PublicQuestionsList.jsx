@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaHeart, FaShareAlt, FaEye, FaCheck, FaTimes, FaReply } from 'react-icons/fa';
 
-const PublicQuestionsList = ({ items = [], onAnswer, onLike, onShare, onView }) => {
+const PublicQuestionsList = ({ items = [], onAnswer, onLike, onShare, onView, startIndex = 0 }) => {
 
   const timeAgo = (dateStr) => {
     const diffMs = Date.now() - new Date(dateStr).getTime();
@@ -40,8 +40,9 @@ const PublicQuestionsList = ({ items = [], onAnswer, onLike, onShare, onView }) 
 
   return (
     <div className="space-y-4">
-      {items.map((row) => {
+      {items.map((row, idx) => {
         const user = row.userId || {};
+        const serialNumber = startIndex + idx + 1;
         return (
           <div key={row._id} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
             <div className="flex items-center justify-between">
@@ -67,6 +68,7 @@ const PublicQuestionsList = ({ items = [], onAnswer, onLike, onShare, onView }) 
             </div>
 
             <div className="mt-3 text-base font-medium text-gray-900 dark:text-white">
+              <span className="text-yellow-600 dark:text-yellow-500 font-bold mr-2">#{serialNumber}.</span>
               {row.questionText}
             </div>
 

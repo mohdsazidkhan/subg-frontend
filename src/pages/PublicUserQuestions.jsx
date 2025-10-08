@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import API from '../utils/api';
 import MobileAppWrapper from '../components/MobileAppWrapper';
 import PublicQuestionsList from '../components/PublicQuestionsList';
@@ -9,17 +9,24 @@ const PublicUserQuestions = () => {
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
   const [limit] = useState(20);
-  const [total, setTotal] = useState(0); // reserved for future pagination
-  const [loading, setLoading] = useState(false); // reserved for future skeletons
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const observerTarget = useRef(null);
 
-  const load = useCallback(async () => {
+  // Initial load - replaces all items
+  const load = useCallback(async (resetPage = false) => {
+    const currentPage = resetPage ? 1 : page;
     setLoading(true);
     try {
-      const res = await API.getPublicUserQuestions({ page, limit, search: searchTerm });
+      const res = await API.getPublicUserQuestions({ page: currentPage, limit, search: searchTerm });
       if (res?.success) {
         setItems(res.data || []);
         setTotal(res.pagination?.total || 0);
+        setPage(currentPage);
+        setHasMore((res.data || []).length === limit && (res.data || []).length < (res.pagination?.total || 0));
       }
     } catch (e) {
       console.error('Failed to load public questions', e);
@@ -28,7 +35,56 @@ const PublicUserQuestions = () => {
     }
   }, [page, limit, searchTerm]);
 
-  useEffect(() => { load(); }, [load]);
+  // Load more - appends to existing items
+  const loadMore = useCallback(async () => {
+    if (loadingMore || !hasMore) return;
+    
+    setLoadingMore(true);
+    const nextPage = page + 1;
+    
+    try {
+      const res = await API.getPublicUserQuestions({ page: nextPage, limit, search: searchTerm });
+      if (res?.success) {
+        const newItems = res.data || [];
+        setItems(prev => [...prev, ...newItems]);
+        setPage(nextPage);
+        setHasMore(newItems.length === limit && (items.length + newItems.length) < (res.pagination?.total || 0));
+      }
+    } catch (e) {
+      console.error('Failed to load more questions', e);
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [page, limit, searchTerm, loadingMore, hasMore, items.length]);
+
+  // Initial load
+  useEffect(() => { 
+    load(); 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Infinite scroll observer
+  useEffect(() => {
+    const currentTarget = observerTarget.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading && !loadingMore) {
+          loadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (currentTarget) {
+      observer.observe(currentTarget);
+    }
+
+    return () => {
+      if (currentTarget) {
+        observer.unobserve(currentTarget);
+      }
+    };
+  }, [hasMore, loading, loadingMore, loadMore]);
 
   const answer = async (q, idx) => {
     try {
@@ -90,11 +146,22 @@ const PublicUserQuestions = () => {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  setPage(1);
+                  setHasMore(true);
+                  load(true);
+                }
+              }}
               placeholder="Search questions..."
               className="w-full sm:w-72 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
             />
             <button
-              onClick={() => { setPage(1); load(); }}
+              onClick={() => { 
+                setPage(1); 
+                setHasMore(true);
+                load(true); 
+              }}
               className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm"
             >Search</button>
           </div>
@@ -112,7 +179,38 @@ const PublicUserQuestions = () => {
           onLike={like}
           onShare={share}
           onView={view}
+          startIndex={0}
         />
+
+        {/* Loading More Indicator */}
+        {loadingMore && (
+          <div className="flex justify-center items-center py-8">
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+              <div className="w-3 h-3 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+              <div className="w-3 h-3 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+            </div>
+          </div>
+        )}
+
+        {/* Observer Target for Infinite Scroll */}
+        <div ref={observerTarget} className="h-10"></div>
+
+        {/* End of Results Message */}
+        {!hasMore && items.length > 0 && (
+          <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+            <p className="text-sm">🎉 You've reached the end!</p>
+            <p className="text-xs mt-1">No more questions to load</p>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!loading && items.length === 0 && (
+          <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+            <p className="text-lg mb-2">📝 No questions found</p>
+            <p className="text-sm">Try a different search term</p>
+          </div>
+        )}
       </div>
     </div>
   );
