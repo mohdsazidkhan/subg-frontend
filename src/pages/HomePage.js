@@ -799,6 +799,150 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+      {/* Create Quiz & Earn Subscription Section */}
+      <section className="py-5 md:py-10 lg:py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-indigo-50 to-blue-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-indigo-900/20 pointer-events-none" />
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-4 md:mb-8 lg:mb-16">
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-600 dark:text-white">
+                Create Custom Quizzes & Earn Subscription Rewards
+              </span>
+            </h2>
+            <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Pro users can create their own quizzes and earn next subscription free extensions at milestones!
+            </p>
+          </div>
+
+          <div className="container mx-auto">
+            <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-3 md:p-8 lg:p-12 border border-purple-200 dark:border-purple-700">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-center">
+                
+                {/* Left Side - Creation Process */}
+                <div className="space-y-6">
+                  <div className="text-center lg:text-left">
+                    <div className="w-12 lg:w-20 h-12 lg:h-20 mx-auto lg:mx-0 mb-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-2xl flex items-center justify-center">
+                      <span className="text-3xl">🎓</span>
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-4">
+                      Earn FREE Subscriptions
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300 mb-6">
+                      Create quality quizzes with 5-10 questions each and unlock subscription rewards at major milestones.
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    {[
+                      {
+                        step: "1",
+                        title: "Create Custom Quiz",
+                        description: "Design quizzes with 5-10 questions on any topic"
+                      },
+                      {
+                        step: "2", 
+                        title: "Admin Review",
+                        description: "Our team reviews and approves your quiz"
+                      },
+                      {
+                        step: "3",
+                        title: "Reach Milestones",
+                        description: "Get rewards at 9, 49, and 99 approved quizzes"
+                      },
+                      {
+                        step: "4",
+                        title: "Earn Subscription",
+                        description: "Unlock Basic, Premium, or Pro subscription extensions"
+                      },
+                      {
+                        step: "5",
+                        title: "Share & Contribute",
+                        description: "Your quizzes help the entire community learn"
+                      }
+                    ].map((item, index) => (
+                      <div key={index} className="flex items-start space-x-4">
+                        <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+                          {item.step}
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-800 dark:text-white mb-1">{item.title}</h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-300">{item.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right Side - Stats & Info */}
+                <div className="space-y-6">
+                  <div className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-2xl p-2 lg:p-6 border border-purple-200 dark:border-purple-700">
+                    <h4 className="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">
+                      🏆 Milestone Rewards
+                    </h4>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600 dark:text-gray-300">9 Approved Quizzes</span>
+                        <span className="font-bold text-purple-600">Basic +1 Month</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600 dark:text-gray-300">49 Approved Quizzes</span>
+                        <span className="font-bold text-purple-600">Premium +1 Month</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600 dark:text-gray-300">99 Approved Quizzes</span>
+                        <span className="font-bold text-purple-600">Pro +1 Month</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600 dark:text-gray-300">Monthly Creation Limit</span>
+                        <span className="font-bold text-purple-600">Up to 100 Quizzes</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/30 dark:to-cyan-900/30 rounded-2xl p-2 lg:p-6 border border-blue-200 dark:border-blue-700">
+                    <h4 className="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">
+                      📝 Quiz Requirements
+                    </h4>
+                    <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+                      <li className="flex items-center space-x-2">
+                        <span className="text-purple-500">✓</span>
+                        <span>5-10 questions per quiz</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <span className="text-purple-500">✓</span>
+                        <span>Choose difficulty level</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <span className="text-purple-500">✓</span>
+                        <span>Set custom time limits</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <span className="text-purple-500">✓</span>
+                        <span>Create categories & subcategories</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <span className="text-purple-500">✓</span>
+                        <span>Track your milestone progress</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="text-center">
+                    <Link
+                      to={isLoggedIn ? "/pro/quiz/create" : "/register"}
+                      className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    >
+                      <span className="mr-2">🚀</span>
+                      {isLoggedIn ? "Start Creating Quizzes" : "Become a Pro User"}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       
       {/* Profile Completion Reward Section - Only show for logged in users with incomplete profile and free subscription */}
       {isLoggedIn && profileCompletion && profileCompletion.percentage < 100 && user?.subscriptionStatus === 'free' && (
