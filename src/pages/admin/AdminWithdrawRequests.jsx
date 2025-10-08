@@ -15,13 +15,12 @@ const AdminWithdrawRequests = () => {
 	const [items, setItems] = useState([]);
 	const [status, setStatus] = useState('pending');
 	const [page, setPage] = useState(1);
-	const [limit] = useState(20);
 	const [total, setTotal] = useState(0);
 	const [loading, setLoading] = useState(false);
 	const [updating, setUpdating] = useState(null);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [itemsPerPage, setItemsPerPage] = useState(20);
-	const [pagination, setPagination] = useState({});
+	const [pagination, setPagination] = useState({ page: 1, limit: 20, total: 0, totalPages: 1 });
 
 	// const location = useLocation();
 	// always in admin route in this page
@@ -41,9 +40,13 @@ const AdminWithdrawRequests = () => {
 			};
 			const res = await API.adminGetWithdrawRequests(params);
 			if (res?.success) {
-				setItems(res.data || []);
+				const dataWithIndex = (res.data || []).map((item, index) => ({
+					...item,
+					_sno: ((page - 1) * itemsPerPage) + index + 1
+				}));
+				setItems(dataWithIndex);
 				setTotal(res.pagination?.total || 0);
-				setPagination(res.pagination || {});
+				setPagination(res.pagination || { page: 1, limit: itemsPerPage, total: 0, totalPages: 1 });
 			}
 		} catch (err) {
 			toast.error(err?.message || 'Failed to load withdraw requests');
@@ -67,7 +70,7 @@ const AdminWithdrawRequests = () => {
 		}
 	};
 
-	const totalPages = Math.max(1, Math.ceil(total / limit));
+	const totalPages = Math.max(1, Math.ceil(total / itemsPerPage));
 
 	const getStatusColor = (status) => {
 		switch(status) {
@@ -130,11 +133,13 @@ const AdminWithdrawRequests = () => {
 		{
 			key: 'sno',
 			header: 'S.No.',
-			render: (_, req, index) => (
-				<div className="text-sm text-gray-600 dark:text-gray-300">
-					{((page - 1) * limit) + index + 1}
-				</div>
-			)
+			render: (value, req) => {
+				return (
+					<div className="text-sm text-gray-600 dark:text-gray-300">
+						{req._sno || 'N/A'}
+					</div>
+				);
+			}
 		},
 		{
 			key: 'request',
@@ -142,7 +147,7 @@ const AdminWithdrawRequests = () => {
 			render: (_, req) => (
 				<div className="space-y-2">
 					<div className="text-sm font-medium text-gray-900 dark:text-white">
-						Request ID: {req._id.slice(-8)}
+						Request ID: {req._id?.slice(-8) || 'N/A'}
 					</div>
 					{req.processedAt && (
 						<div className="text-xs text-gray-500 dark:text-gray-400">
@@ -170,33 +175,51 @@ const AdminWithdrawRequests = () => {
 			key: 'user',
 			header: 'User Info',
 			render: (_, req) => (
-				<div className="text-sm">
+				<div className="text-sm space-y-1">
 					<div className="font-medium text-gray-900 dark:text-white">
-						User ID: {req.userId?.slice(-8) || 'Unknown'}
+						{req.userId?.name || 'N/A'}
 					</div>
-					<div className="text-gray-500 dark:text-gray-400 text-xs">
-						{req.userId ? `Full ID: ${req.userId}` : 'User not found'}
+					<div className="text-gray-600 dark:text-gray-400 text-xs">
+						📧 {req.userId?.email || 'N/A'}
+					</div>
+					<div className="text-gray-600 dark:text-gray-400 text-xs">
+						📱 {req.userId?.phone || 'N/A'}
 					</div>
 				</div>
 			)
 		},
 		{
 			key: 'amount',
-			header: 'Amount & Payment',
+			header: 'Amount',
 			render: (_, req) => (
-				<div className="space-y-2">
+				<div className="space-y-1">
 					<div className="text-lg font-bold text-green-600 dark:text-green-400">
 						{formatCurrency(req.amount)}
 					</div>
 					{req.upi && (
-						<div className="text-sm text-gray-600 dark:text-gray-400">
-							UPI: {req.upi}
+						<div className="text-xs text-purple-600 dark:text-purple-400">
+							<div className="font-semibold">UPI ID</div>
+							<div className="font-mono">{req.upi}</div>
 						</div>
 					)}
-					{req.bankDetails && (
-						<div className="text-sm text-gray-600 dark:text-gray-400">
-							Bank Details: {JSON.stringify(req.bankDetails)}
+				</div>
+			)
+		},
+		{
+			key: 'bankDetails',
+			header: 'Bank Details',
+			render: (_, req) => (
+				<div className="text-xs">
+					{req.bankDetail ? (
+						<div className="space-y-1 text-gray-700 dark:text-gray-300">
+							<div><strong>A/C Holder:</strong> {req.bankDetail.accountHolderName}</div>
+							<div><strong>Bank:</strong> {req.bankDetail.bankName}</div>
+							<div><strong>A/C No:</strong> <span className="font-mono">{req.bankDetail.accountNumber}</span></div>
+							<div><strong>IFSC:</strong> <span className="font-mono">{req.bankDetail.ifscCode}</span></div>
+							{req.bankDetail.branchName && <div><strong>Branch:</strong> {req.bankDetail.branchName}</div>}
 						</div>
+					) : (
+						<div className="text-gray-500 dark:text-gray-400 italic">No bank details</div>
 					)}
 				</div>
 			)
@@ -315,10 +338,14 @@ const AdminWithdrawRequests = () => {
 								onChange={handleItemsPerPageChange}
 								className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-xs sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white min-w-0"
 							>
-								<option value={10}>10</option>
-								<option value={20}>20</option>
-								<option value={50}>50</option>
-								<option value={100}>100</option>
+							 <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+              <option value={250}>250</option>
+              <option value={500}>500</option>
+              <option value={1000}>1000</option>
 							</select>
 							</div>
 						</div>
@@ -354,17 +381,49 @@ const AdminWithdrawRequests = () => {
 							<div className="md:hidden space-y-3">
 								{items.map((req) => (
 									<div key={req._id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
-										<div className="flex items-center justify-between mb-2">
-											<div className="text-sm font-semibold text-gray-900 dark:text-white">₹{req.amount}</div>
+										<div className="flex items-center justify-between mb-3">
+											<div className="text-lg font-bold text-green-600 dark:text-green-400">₹{req.amount}</div>
 											<div className={`px-2 py-0.5 rounded text-xs border ${getStatusColor(req.status)}`}>{getStatusIcon(req.status)} {req.status}</div>
 										</div>
-										<div className="text-xs text-gray-600 dark:text-gray-300">User: {req.userId?.slice(-8) || 'Unknown'}</div>
-										<div className="text-xs text-gray-500 dark:text-gray-400">Requested: {formatDate(req.requestedAt)} at {formatTime(req.requestedAt)}</div>
+										
+										<div className="space-y-2 mb-3">
+											<div className="text-sm">
+												<div className="font-semibold text-gray-900 dark:text-white">{req.userId?.name || 'N/A'}</div>
+												<div className="text-xs text-gray-600 dark:text-gray-400">📧 {req.userId?.email || 'N/A'}</div>
+												<div className="text-xs text-gray-600 dark:text-gray-400">📱 {req.userId?.phone || 'N/A'}</div>
+											</div>
+											<div className="text-xs text-gray-500 dark:text-gray-400">
+												Requested: {formatDate(req.requestedAt)} at {formatTime(req.requestedAt)}
+											</div>
+										</div>
+
+										{req.bankDetail && (
+											<div className="mb-3 text-xs bg-blue-50 dark:bg-blue-900/30 p-2 rounded border border-blue-200 dark:border-blue-800">
+												<div className="font-semibold text-blue-700 dark:text-blue-300 mb-1">Bank Details</div>
+												<div className="text-blue-600 dark:text-blue-400 space-y-1">
+													<div>{req.bankDetail.accountHolderName}</div>
+													<div>{req.bankDetail.bankName}</div>
+													<div className="font-mono">{req.bankDetail.accountNumber}</div>
+													<div className="font-mono">{req.bankDetail.ifscCode}</div>
+												</div>
+											</div>
+										)}
+
+										{req.upi && (
+											<div className="mb-3 text-xs bg-purple-50 dark:bg-purple-900/30 p-2 rounded border border-purple-200 dark:border-purple-800">
+												<div className="font-semibold text-purple-700 dark:text-purple-300 mb-1">UPI ID</div>
+												<div className="text-purple-600 dark:text-purple-400 font-mono">{req.upi}</div>
+											</div>
+										)}
+
 										{req.status === 'pending' && (
 											<div className="mt-2 flex gap-2">
-												<button onClick={()=>updateStatus(req._id, 'approved')} className="px-2 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-xs">Approve</button>
-												<button onClick={()=>updateStatus(req._id, 'rejected')} className="px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs">Reject</button>
+												<button onClick={()=>updateStatus(req._id, 'approved')} className="flex-1 px-2 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-xs">✅ Approve</button>
+												<button onClick={()=>updateStatus(req._id, 'rejected')} className="flex-1 px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs">❌ Reject</button>
 											</div>
+										)}
+										{req.status === 'approved' && (
+											<button onClick={()=>updateStatus(req._id, 'paid')} className="w-full px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs">💳 Mark as Paid</button>
 										)}
 									</div>
 								))}

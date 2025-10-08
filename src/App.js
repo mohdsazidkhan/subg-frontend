@@ -20,6 +20,9 @@ import ResetPasswordPage from './pages/ResetPasswordPage.jsx';
 import HomePage from './pages/HomePage';
 import LandingPage from './pages/LandingPage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
+import PublicProfile from './components/PublicProfile.jsx';
+import FollowersList from './components/FollowersList.jsx';
+import FollowingList from './components/FollowingList.jsx';
 import DashboardPage from './pages/admin/DashboardPage';
 import CategoryPage from './pages/admin/CategoryPage';
 import SubcategoryPage from './pages/admin/SubcategoryPage';
@@ -142,6 +145,9 @@ function AppLayout() {
             <Route path="/home" element={<TokenValidationWrapper showWarning={false}><HomePage /></TokenValidationWrapper>} />
             <Route path="/search" element={<TokenValidationWrapper showWarning={false}><SearchPage /></TokenValidationWrapper>} />
             <Route path="/profile" element={<StudentRoute><TokenValidationWrapper><ProfilePage /></TokenValidationWrapper></StudentRoute>} />
+            <Route path="/profile/:username" element={<TokenValidationWrapper showWarning={false}><PublicProfile /></TokenValidationWrapper>} />
+            <Route path="/profile/:username/followers" element={<TokenValidationWrapper showWarning={false}><FollowersList /></TokenValidationWrapper>} />
+            <Route path="/profile/:username/following" element={<TokenValidationWrapper showWarning={false}><FollowingList /></TokenValidationWrapper>} />
             <Route path="/attempt-quiz/:quizId" element={<StudentRoute><TokenValidationWrapper><AttemptQuizPage /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/subscription" element={<StudentRoute><TokenValidationWrapper><SubscriptionPage /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/subscription/payu-success" element={<PayuSuccess />} />

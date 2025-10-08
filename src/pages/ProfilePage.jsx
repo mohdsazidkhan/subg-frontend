@@ -578,8 +578,8 @@ const message =
         {/* Profile Header */}
         <div className="bg-white dark:bg-gray-800">
           {/* Cover Photo Area */}
-          <div className="h-20 lg:h-32 bg-gradient-to-r from-red-500 to-yellow-600 relative">
-            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white dark:from-gray-800 to-transparent"></div>
+          <div className="h-20 lg:h-32 bg-gradient-to-r from-red-800 to-yellow-800 relative">
+            <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white dark:from-gray-800 to-transparent"></div>
           </div>
           
           {/* Profile Info */}
@@ -591,6 +591,9 @@ const message =
               </div>
               <div className="ml-4 flex-1">
                 <h1 className="text-xl font-bold text-gray-900 dark:text-white">{student?.name || 'User'}</h1>
+                {student?.username && (
+                  <p className="text-sm font-semibold text-yellow-600 dark:text-yellow-400">@{student.username}</p>
+                )}
                 <p className="text-sm text-gray-600 dark:text-gray-400"><strong>{student?.levelInfo?.currentLevel?.name || 'Level 0'}</strong></p>
               </div>
               <button
@@ -676,7 +679,27 @@ const message =
 
           {/* About Section */}
           <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">About</h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">About</h2>
+              
+              {/* Followers/Following Stats */}
+              {student?.username && (
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => navigate(`/profile/${student.username}/followers`)}
+                    className="text-sm text-gray-700 dark:text-gray-300 hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors"
+                  >
+                    <span className="font-bold">{student?.followersCount || 0}</span> Followers
+                  </button>
+                  <button
+                    onClick={() => navigate(`/profile/${student.username}/following`)}
+                    className="text-sm text-gray-700 dark:text-gray-300 hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors"
+                  >
+                    <span className="font-bold">{student?.followingCount || 0}</span> Following
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Profile Information - Show either details or edit form */}

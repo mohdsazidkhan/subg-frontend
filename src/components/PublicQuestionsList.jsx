@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaHeart, FaShareAlt, FaEye, FaCheck, FaTimes, FaReply } from 'react-icons/fa';
 
 const PublicQuestionsList = ({ items = [], onAnswer, onLike, onShare, onView, startIndex = 0 }) => {
+  const navigate = useNavigate();
 
   const timeAgo = (dateStr) => {
     const diffMs = Date.now() - new Date(dateStr).getTime();
@@ -30,6 +32,12 @@ const PublicQuestionsList = ({ items = [], onAnswer, onLike, onShare, onView, st
     }
   };
 
+  const handleUserClick = (username) => {
+    if (username) {
+      navigate(`/profile/${username}`);
+    }
+  };
+
   if (!items || items.length === 0) {
     return (
       <div className="text-center py-12">
@@ -46,7 +54,7 @@ const PublicQuestionsList = ({ items = [], onAnswer, onLike, onShare, onView, st
         return (
           <div key={row._id} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3"  onClick={() => handleUserClick(user.username)}>
                 {user.profilePicture ? (
                   <img src={user.profilePicture} alt={user.name} className="w-10 h-10 rounded-full object-cover" />
                 ) : (
@@ -56,11 +64,19 @@ const PublicQuestionsList = ({ items = [], onAnswer, onLike, onShare, onView, st
                 )}
                 <div>
                   <div className="text-sm font-semibold text-gray-900 dark:text-white">
-                    {user.name || 'Unknown User'}
+                    {/* {user.name || 'Unknown User'} */}
                     {user._id && isCurrentUser(user._id) && (
                       <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200">You</span>
                     )}
                   </div>
+                  {user.username && (
+                    <button 
+                     
+                      className="text-xs font-semibold text-yellow-600 dark:text-yellow-400 hover:underline cursor-pointer"
+                    >
+                      @{user.username}
+                    </button>
+                  )}
                   <div className="text-xs text-gray-500 dark:text-gray-400">{user.level?.levelName || 'Starter'}</div>
                 </div>
               </div>

@@ -202,10 +202,14 @@ const AdminUserQuestions = () => {
                 onChange={handleItemsPerPageChange}
                 className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-xs sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white min-w-0"
               >
+                 <option value={5}>5</option>
                 <option value={10}>10</option>
                 <option value={20}>20</option>
                 <option value={50}>50</option>
                 <option value={100}>100</option>
+                <option value={250}>250</option>
+                <option value={500}>500</option>
+                <option value={1000}>1000</option>
               </select>
             </div>
 
@@ -554,19 +558,20 @@ const AdminUserQuestions = () => {
               </div>
             )}
 
-            {/* Pagination */}
-            {pagination.totalPages > 1 && (
-              <div className="mt-6">
-                <Pagination
-                  currentPage={pagination.page || page}
-                  totalPages={pagination.totalPages || totalPages}
-                  onPageChange={setPage}
-                  totalItems={pagination.total || total}
-                  itemsPerPage={pagination.limit || itemsPerPage}
-                />
-              </div>
-            )}
           </>
+        )}
+
+        {/* Pagination - Always show when there are items */}
+        {!loading && items.length > 0 && (
+          <div className="mt-8 pb-4">
+            <Pagination
+              currentPage={pagination.page || page}
+              totalPages={pagination.totalPages || totalPages}
+              onPageChange={setPage}
+              totalItems={pagination.total || total}
+              itemsPerPage={pagination.limit || itemsPerPage}
+            />
+          </div>
         )}
       </div>
     </div>

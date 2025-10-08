@@ -101,10 +101,14 @@ const AdminUserWallets = () => {
                 onChange={handleItemsPerPageChange}
                 className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-xs sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white min-w-0"
               >
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
+                 <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+              <option value={250}>250</option>
+              <option value={500}>500</option>
+              <option value={1000}>1000</option>
               </select>
             </div>
             <button onClick={()=>setViewMode('list')} className={`px-3 py-1 rounded ${viewMode==='list'?'bg-blue-600 text-white':'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}>List</button>
