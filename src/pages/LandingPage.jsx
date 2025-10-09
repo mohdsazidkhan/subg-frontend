@@ -44,12 +44,15 @@ import UnifiedNavbar from "../components/UnifiedNavbar";
 import UnifiedFooter from "../components/UnifiedFooter";
 import MonthlyWinnersDisplay from "../components/MonthlyWinnersDisplay";
 import MobileAppWrapper from "../components/MobileAppWrapper";
+import PricingToggle from "../components/PricingToggle";
 import API from "../utils/api";
+import config from "../config/appConfig";
 
 const LandingPage = () => {
   const [levels, setLevels] = useState([]);
   const [categories, setCategories] = useState([]);
   const [topPerformers, setTopPerformers] = useState([]);
+  const [isYearly, setIsYearly] = useState(false);
   const [stats, setStats] = useState({
     activeStudents: "10K+",
     quizCategories: "15+",
@@ -1752,10 +1755,21 @@ const LandingPage = () => {
                 Choose Your Perfect Plan
               </span>
             </h2>
-                         <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                         <p className="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
               Unlock unlimited potential with our flexible subscription plans.
               All users start at Level 0 monthly and compete fairly!
              </p>
+             
+             {/* Pricing Toggle */}
+             <PricingToggle isYearly={isYearly} onToggle={setIsYearly} />
+             
+             {isYearly && (
+               <div className="inline-block bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-600 rounded-xl px-4 py-2 mt-4">
+                 <p className="text-green-700 dark:text-green-300 font-semibold">
+                   🎉 Save up to 15.91% with yearly plans!
+                 </p>
+               </div>
+             )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
@@ -1798,10 +1812,25 @@ const LandingPage = () => {
                           <div className="relative rounded-md lg:rounded-2xl p-2 lg:p-4 xl:p-6 xxl:p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
                <div className="text-center mb-8">
                  <h3 className="text-xl lg:text-2xl font-bold mb-2">Basic</h3>
+                 {isYearly && config.SUBSCRIPTION_PLANS.BASIC.monthlyTotal && (
+                   <div className="text-gray-500 dark:text-gray-400 text-sm line-through mb-1">
+                     ₹{config.SUBSCRIPTION_PLANS.BASIC.monthlyTotal}
+                   </div>
+                 )}
                 <div className="text-4xl font-bold text-yellow-600 mb-2">
-                  ₹9
+                  ₹{isYearly ? config.SUBSCRIPTION_PLANS.BASIC.yearlyPrice : config.SUBSCRIPTION_PLANS.BASIC.monthlyPrice}
                 </div>
-                 <p className="text-gray-600 dark:text-gray-400">per month</p>
+                 <p className="text-gray-600 dark:text-gray-400">per {isYearly ? 'year' : 'month'}</p>
+                 {isYearly && config.SUBSCRIPTION_PLANS.BASIC.yearlyDiscount && (
+                   <div className="mt-2 inline-block bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-3 py-1 rounded-full text-sm font-semibold">
+                     Save ₹{config.SUBSCRIPTION_PLANS.BASIC.yearlyDiscount}
+                   </div>
+                 )}
+                 {isYearly && (
+                   <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                     Only ₹{Math.round(config.SUBSCRIPTION_PLANS.BASIC.yearlyPrice / 12)}/month
+                   </div>
+                 )}
                </div>
                
                <ul className="space-y-4 mb-8">
@@ -1835,10 +1864,25 @@ const LandingPage = () => {
                          <div className="relative rounded-md lg:rounded-2xl p-2 lg:p-4 xl:p-6 xxl:p-8 transition-all duration-300 transform hover:scale-105 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
                <div className="text-center mb-8">
                  <h3 className="text-xl lg:text-2xl font-bold mb-2">Premium</h3>
+                 {isYearly && config.SUBSCRIPTION_PLANS.PREMIUM.monthlyTotal && (
+                   <div className="text-gray-500 dark:text-gray-400 text-sm line-through mb-1">
+                     ₹{config.SUBSCRIPTION_PLANS.PREMIUM.monthlyTotal}
+                   </div>
+                 )}
                 <div className="text-4xl font-bold text-yellow-600 mb-2">
-                  ₹49
+                  ₹{isYearly ? config.SUBSCRIPTION_PLANS.PREMIUM.yearlyPrice : config.SUBSCRIPTION_PLANS.PREMIUM.monthlyPrice}
                 </div>
-                 <p className="text-gray-600 dark:text-gray-400">per month</p>
+                 <p className="text-gray-600 dark:text-gray-400">per {isYearly ? 'year' : 'month'}</p>
+                 {isYearly && config.SUBSCRIPTION_PLANS.PREMIUM.yearlyDiscount && (
+                   <div className="mt-2 inline-block bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-3 py-1 rounded-full text-sm font-semibold">
+                     Save ₹{config.SUBSCRIPTION_PLANS.PREMIUM.yearlyDiscount}
+                   </div>
+                 )}
+                 {isYearly && (
+                   <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                     Only ₹{Math.round(config.SUBSCRIPTION_PLANS.PREMIUM.yearlyPrice / 12)}/month
+                   </div>
+                 )}
                </div>
                
                <ul className="space-y-4 mb-8">
@@ -1879,10 +1923,25 @@ const LandingPage = () => {
                 </div>
                <div className="text-center mb-8">
                  <h3 className="text-xl lg:text-2xl font-bold mb-2">Pro</h3>
+                 {isYearly && config.SUBSCRIPTION_PLANS.PRO.monthlyTotal && (
+                   <div className="text-gray-500 dark:text-gray-400 text-sm line-through mb-1">
+                     ₹{config.SUBSCRIPTION_PLANS.PRO.monthlyTotal}
+                   </div>
+                 )}
                 <div className="text-4xl font-bold text-yellow-600 mb-2">
-                  ₹99
+                  ₹{isYearly ? config.SUBSCRIPTION_PLANS.PRO.yearlyPrice : config.SUBSCRIPTION_PLANS.PRO.monthlyPrice}
                 </div>
-                 <p className="text-gray-600 dark:text-gray-400">per month</p>
+                 <p className="text-gray-600 dark:text-gray-400">per {isYearly ? 'year' : 'month'}</p>
+                 {isYearly && config.SUBSCRIPTION_PLANS.PRO.yearlyDiscount && (
+                   <div className="mt-2 inline-block bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-3 py-1 rounded-full text-sm font-semibold">
+                     Save ₹{config.SUBSCRIPTION_PLANS.PRO.yearlyDiscount}
+                   </div>
+                 )}
+                 {isYearly && (
+                   <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                     Only ₹{Math.round(config.SUBSCRIPTION_PLANS.PRO.yearlyPrice / 12)}/month
+                   </div>
+                 )}
                </div>
                
                <ul className="space-y-4 mb-8">

@@ -89,7 +89,7 @@ const AdminNavbar = () => {
 
 
   return (
-    <header className={`fixed z-[9] transition-all duration-300 w-full hidden md:block ${
+    <header className={`fixed z-[99] transition-all duration-300 w-full hidden md:block ${
       darkMode 
         ? 'bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-t border-gray-700 md:border-b md:border-t-0'
         : 'bg-gradient-to-r from-white via-gray-50 to-white border-t border-gray-200 md:border-b md:border-t-0'

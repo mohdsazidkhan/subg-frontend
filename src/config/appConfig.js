@@ -35,7 +35,8 @@ const config = {
   SUBSCRIPTION_PLANS: {
     FREE: {
       name: 'Free',
-      price: 0,
+      monthlyPrice: 0,
+      yearlyPrice: 0,
       duration: '1 month',
       features: [
         'Unlimited Quiz Access (Levels 0-3)',
@@ -46,8 +47,11 @@ const config = {
     },
     BASIC: {
       name: 'Basic',
-      price: 9,
-      duration: '1 month',
+      monthlyPrice: 9,
+      yearlyPrice: 99,
+      monthlyTotal: 108, // Monthly × 12
+      yearlyDiscount: 9,
+      yearlyDiscountPercent: 8.33,
       features: [
         'Unlimited Quiz Access (Levels 0-6)',
         'Community Access',
@@ -57,8 +61,11 @@ const config = {
     },
     PREMIUM: {
       name: 'Premium',
-      price: 49,
-      duration: '1 month',
+      monthlyPrice: 49,
+      yearlyPrice: 499,
+      monthlyTotal: 588, // Monthly × 12
+      yearlyDiscount: 89,
+      yearlyDiscountPercent: 15.14,
       features: [
         'Unlimited Quiz Access (Levels 0-9)',
         'Community Access',
@@ -72,8 +79,11 @@ const config = {
     },
     PRO: {
       name: 'Pro',
-      price: 99,
-      duration: '1 month',
+      monthlyPrice: 99,
+      yearlyPrice: 999,
+      monthlyTotal: 1188, // Monthly × 12
+      yearlyDiscount: 189,
+      yearlyDiscountPercent: 15.91,
       features: [
         'Unlimited Quiz Access (All Levels 0-10)',
         'Community Access',

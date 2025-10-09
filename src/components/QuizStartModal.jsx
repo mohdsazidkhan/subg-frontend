@@ -17,10 +17,10 @@ const QuizStartModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-  <div className="bg-white dark:bg-gray-800 rounded-2xl p-2 md:p-4 max-w-md w-full shadow-2xl border border-yellow-200 dark:border-yellow-700">
+  <div className="bg-white dark:bg-gray-800 rounded-2xl p-2 mt-5 md:p-4 max-w-md w-full shadow-2xl border border-yellow-200 dark:border-yellow-700">
         <div className="text-center">
           {/* Header */}
-          <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-2">
+          <div className="w-12 lg:w-16 h-12 lg:h-16 bg-gradient-to-r from-yellow-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-2">
             <FaPlay className="text-white text-2xl" />
           </div>
           
@@ -60,7 +60,7 @@ const QuizStartModal = ({
           {/* Important Notice */}
           <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl p-2 md:p-4 mb-2 border border-yellow-200 dark:border-yellow-600">
             <div className="flex items-start space-x-3">
-              <FaExclamationTriangle className="text-yellow-600 text-xl mt-0.5 flex-shrink-0" />
+              
               <div className="text-left">
                 <h4 className="font-semibold text-yellow-800 dark:text-yellow-200 mb-2">
                   Important Information

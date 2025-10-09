@@ -488,7 +488,7 @@ const AttemptQuizPage = () => {
   if (showExitConfirm) {
     return (
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-2 md:p-8 max-w-md w-full shadow-2xl border border-red-200 dark:border-red-700">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-2 mt-5 md:p-8 max-w-md w-full shadow-2xl border border-red-200 dark:border-red-700">
           <div className="text-center">
             <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
               <FaExclamationTriangle className="text-white text-2xl" />

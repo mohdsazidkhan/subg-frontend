@@ -21,13 +21,16 @@ const PayuPayment = ({ plan, userInfo, onSuccess, onError }) => {
       console.log('Creating PayU order for:', { 
         planId: plan.key, 
         userId: userInfo._id,
-        plan: plan 
+        plan: plan,
+        billingCycle: plan.billingCycle
       });
       
       // Create PayU order
       const orderRes = await API.createPayuSubscriptionOrder({
         planId: (plan.key || '').toLowerCase(),
-        userId: userInfo._id
+        userId: userInfo._id,
+        billingCycle: plan.billingCycle || 'monthly',
+        duration: plan.duration
       });
 
       console.log('PayU order created:', orderRes);

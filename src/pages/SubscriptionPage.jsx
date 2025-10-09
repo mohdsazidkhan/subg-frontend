@@ -38,12 +38,14 @@ import { useNavigate } from "react-router-dom";
 import MonthlyRewardsInfo from "../components/MonthlyRewardsInfo";
 import PayuPayment from "../components/PayuPayment";
 import PaymentTransactions from "../components/PaymentTransactions";
+import PricingToggle from "../components/PricingToggle";
 
 const SubscriptionPage = () => {
   const [subscription, setSubscription] = useState(null);
   const [loading, setLoading] = useState(true);
   const [hoveredPlan, setHoveredPlan] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [isYearly, setIsYearly] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -89,11 +91,21 @@ const SubscriptionPage = () => {
   };
 
   const getSubscriptionPlans = () => {
-    return Object.entries(config.SUBSCRIPTION_PLANS).map(([key, plan]) => ({
-      key,
-      ...plan,
-      duration: "1 month",
-    }));
+    return Object.entries(config.SUBSCRIPTION_PLANS).map(([key, plan]) => {
+      const price = isYearly ? plan.yearlyPrice : plan.monthlyPrice;
+      const duration = isYearly ? "12 months" : "1 month";
+      
+      return {
+        key,
+        ...plan,
+        price: price,
+        originalPrice: isYearly ? plan.monthlyTotal : null,
+        discount: isYearly ? plan.yearlyDiscount : null,
+        discountPercent: isYearly ? plan.yearlyDiscountPercent : null,
+        duration: duration,
+        billingCycle: isYearly ? 'yearly' : 'monthly'
+      };
+    });
   };
 
   const getPlanIcon = (planName) => {
@@ -444,10 +456,21 @@ const SubscriptionPage = () => {
               <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-6">
                 Choose Your Perfect Plan
               </h2>
-              <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
                 Select the plan that best fits your learning goals and unlock
                 premium features
               </p>
+              
+              {/* Pricing Toggle */}
+              <PricingToggle isYearly={isYearly} onToggle={setIsYearly} />
+              
+              {isYearly && (
+                <div className="inline-block bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-600 rounded-xl px-4 py-2 mt-4">
+                  <p className="text-green-700 dark:text-green-300 font-semibold">
+                    🎉 Save up to 15.91% with yearly plans!
+                  </p>
+                </div>
+              )}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-8">
@@ -569,17 +592,36 @@ const SubscriptionPage = () => {
                           {plan.name === "Pro" && "0-10 Level Access"}
                         </div>
                       </div>
+                      
+                      {/* Price Display */}
                       <div className="mb-2">
-                        <span className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-green-600 via-yellow-600 to-red-600 bg-clip-text text-transparent">
-                          ₹{plan.price}
-                        </span>
-                        <span className="text-gray-600 dark:text-gray-300 text-lg">
-                          /month
-                        </span>
+                        {isYearly && plan.originalPrice && (
+                          <div className="text-gray-500 dark:text-gray-400 text-sm line-through mb-1">
+                            ₹{plan.originalPrice}
+                          </div>
+                        )}
+                        <div className="flex items-baseline justify-center gap-2">
+                          <span className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-green-600 via-yellow-600 to-red-600 bg-clip-text text-transparent">
+                            ₹{plan.price}
+                          </span>
+                          <span className="text-gray-600 dark:text-gray-300 text-lg">
+                            /{isYearly ? 'year' : 'month'}
+                          </span>
+                        </div>
+                        {isYearly && plan.discount && (
+                          <div className="mt-2 inline-block bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-3 py-1 rounded-full text-sm font-semibold">
+                            Save ₹{plan.discount} ({plan.discountPercent}%)
+                          </div>
+                        )}
                       </div>
                       <div className="text-gray-600 dark:text-gray-300 text-lg font-medium">
-                        Duration: 1 month
+                        Duration: {plan.duration}
                       </div>
+                      {isYearly && (
+                        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                          Only ₹{Math.round(plan.price / 12)}/month
+                        </div>
+                      )}
                     </div>
 
                     {/* Features - This will take up the remaining space */}
