@@ -98,6 +98,36 @@ const ProfilePage = () => {
   const [bankFormErrors, setBankFormErrors] = useState({});
   const [isSaving, setIsSaving] = useState(false);
   const [bankDetailsSaved, setBankDetailsSaved] = useState(false);
+
+  // Helper function to check if user has active pro subscription
+  const hasActiveProSubscription = () => {
+    if (!student || student?.subscriptionStatus !== 'pro') {
+      return false;
+    }
+    
+    // Check if subscription is expired
+    if (student.subscriptionExpiry) {
+      const now = new Date();
+      const expiryDate = new Date(student.subscriptionExpiry);
+      if (expiryDate < now) {
+        return false; // Subscription expired
+      }
+    }
+    
+    return true;
+  };
+
+  // Handler for create actions with subscription check
+  const handleCreateAction = (path, actionName) => {
+    if (!hasActiveProSubscription()) {
+      toast.warning(`Your pro subscription has expired. Please renew to ${actionName}.`, {
+        position: 'top-center',
+        autoClose: 3000,
+      });
+      return;
+    }
+    navigate(path);
+  };
   const [profileCompletion, setProfileCompletion] = useState(null);
   
   // Separate function to fetch profile completion data
@@ -1136,7 +1166,7 @@ const message =
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
               {/* Create Question */}
               <div 
-                onClick={() => navigate('/pro/questions/new')}
+                onClick={() => handleCreateAction('/pro/questions/new', 'create questions')}
                 className="group cursor-pointer bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-2xl p-4 lg:p-6 border border-green-200 dark:border-green-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-105"
               >
                 <div className="flex items-center space-x-4 mb-4">
@@ -1208,7 +1238,7 @@ const message =
 
               {/* Create Quiz */}
               <div 
-                onClick={() => navigate('/pro/quiz/create')}
+                onClick={() => handleCreateAction('/pro/quiz/create', 'create quizzes')}
                 className="group cursor-pointer bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-2xl p-4 lg:p-6 border border-indigo-200 dark:border-indigo-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-105"
               >
                 <div className="flex items-center space-x-4 mb-4">

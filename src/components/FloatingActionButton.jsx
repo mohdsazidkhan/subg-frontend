@@ -8,8 +8,17 @@ const FloatingActionButton = () => {
   const navigate = useNavigate();
   const user = getCurrentUser();
 
-  // Only show for Pro users
+  // Only show for Pro users with active subscription
   if (!user || user?.subscriptionStatus !== 'pro') return null;
+  
+  // Check if subscription is expired
+  if (user.subscriptionExpiry) {
+    const now = new Date();
+    const expiryDate = new Date(user.subscriptionExpiry);
+    if (expiryDate < now) {
+      return null; // Hide if subscription is expired
+    }
+  }
 
   const handleQuizClick = () => {
     setIsModalOpen(false);
