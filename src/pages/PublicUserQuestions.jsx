@@ -14,26 +14,20 @@ const PublicUserQuestions = () => {
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isSearchActive, setIsSearchActive] = useState(false);
   const observerTarget = useRef(null);
+  const isInitialMount = useRef(true);
 
   // Initial load - replaces all items
   const load = useCallback(async (resetPage = false) => {
     const currentPage = resetPage ? 1 : page;
     setLoading(true);
     try {
-      const res = await API.getPublicUserQuestions({ page: currentPage, limit, search: searchTerm });
+      // Pass empty string if searchTerm is blank to get default questions
+      const searchParam = searchTerm.trim() || '';
+      const res = await API.getPublicUserQuestions({ page: currentPage, limit, search: searchParam });
       if (res?.success) {
-        let list = res.data || [];
-        // Fallback client-side filter (username/name) if backend misses
-        if (searchTerm && String(searchTerm).trim()) {
-          const q = String(searchTerm).trim().toLowerCase();
-          list = list.filter(row => {
-            const text = (row.questionText || row.question || '').toLowerCase();
-            const name = (row.userId?.name || row.author?.name || '').toLowerCase();
-            const username = (row.userId?.username || row.author?.username || '').toLowerCase();
-            return text.includes(q) || name.includes(q) || username.includes(q);
-          });
-        }
+        const list = res.data || [];
         setItems(list);
         setTotal(res.pagination?.total || 0);
         setPage(currentPage);
@@ -52,18 +46,10 @@ const PublicUserQuestions = () => {
     setLoadingMore(true);
     const nextPage = page + 1;
     try {
-      const res = await API.getPublicUserQuestions({ page: nextPage, limit, search: searchTerm });
+      const searchParam = searchTerm.trim() || '';
+      const res = await API.getPublicUserQuestions({ page: nextPage, limit, search: searchParam });
       if (res?.success) {
-        let newItems = res.data || [];
-        if (searchTerm && String(searchTerm).trim()) {
-          const q = String(searchTerm).trim().toLowerCase();
-          newItems = newItems.filter(row => {
-            const text = (row.questionText || row.question || '').toLowerCase();
-            const name = (row.userId?.name || row.author?.name || '').toLowerCase();
-            const username = (row.userId?.username || row.author?.username || '').toLowerCase();
-            return text.includes(q) || name.includes(q) || username.includes(q);
-          });
-        }
+        const newItems = res.data || [];
         setItems(prev => [...prev, ...newItems]);
         setPage(nextPage);
         setHasMore(newItems.length === limit && (items.length + newItems.length) < (res.pagination?.total || 0));
@@ -75,11 +61,38 @@ const PublicUserQuestions = () => {
     }
   }, [page, limit, searchTerm, loadingMore, hasMore, items.length]);
 
+  // Handle search
+  const handleSearch = useCallback(() => {
+    setPage(1);
+    setHasMore(true);
+    setIsSearchActive(true);
+    load(true);
+  }, [load]);
+
+  // Handle clear search
+  const handleClearSearch = useCallback(() => {
+    setSearchTerm('');
+    setPage(1);
+    setHasMore(true);
+    setIsSearchActive(false);
+  }, []);
+
   // Initial load
   useEffect(() => { 
-    load(); 
+    load();
+    isInitialMount.current = false;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Reload when searchTerm is cleared (but not on initial mount)
+  useEffect(() => {
+    if (!isInitialMount.current && searchTerm === '' && !isSearchActive) {
+      setPage(1);
+      setHasMore(true);
+      load(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm, isSearchActive]);
 
   // Infinite scroll observer
   useEffect(() => {
@@ -166,22 +179,32 @@ const PublicUserQuestions = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
-                  setPage(1);
-                  setHasMore(true);
-                  load(true);
+                  if (isSearchActive) {
+                    handleClearSearch();
+                  } else {
+                    handleSearch();
+                  }
                 }
               }}
-              placeholder="Search questions..."
+              placeholder="Search by question, name, username, email..."
               className="w-full sm:w-72 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
             />
             <button
-              onClick={() => { 
-                setPage(1); 
-                setHasMore(true);
-                load(true); 
+              onClick={() => {
+                if (isSearchActive) {
+                  handleClearSearch();
+                } else {
+                  handleSearch();
+                }
               }}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm"
-            >Search</button>
+              className={`px-4 py-2 ${
+                isSearchActive 
+                  ? 'bg-gray-500 hover:bg-gray-600' 
+                  : 'bg-blue-600 hover:bg-blue-700'
+              } text-white rounded-lg text-sm whitespace-nowrap`}
+            >
+              {isSearchActive ? 'Clear' : 'Search'}
+            </button>
           </div>
         </div>
 
