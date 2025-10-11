@@ -23,10 +23,21 @@ const PublicUserQuestions = () => {
     try {
       const res = await API.getPublicUserQuestions({ page: currentPage, limit, search: searchTerm });
       if (res?.success) {
-        setItems(res.data || []);
+        let list = res.data || [];
+        // Fallback client-side filter (username/name) if backend misses
+        if (searchTerm && String(searchTerm).trim()) {
+          const q = String(searchTerm).trim().toLowerCase();
+          list = list.filter(row => {
+            const text = (row.questionText || row.question || '').toLowerCase();
+            const name = (row.userId?.name || row.author?.name || '').toLowerCase();
+            const username = (row.userId?.username || row.author?.username || '').toLowerCase();
+            return text.includes(q) || name.includes(q) || username.includes(q);
+          });
+        }
+        setItems(list);
         setTotal(res.pagination?.total || 0);
         setPage(currentPage);
-        setHasMore((res.data || []).length === limit && (res.data || []).length < (res.pagination?.total || 0));
+        setHasMore(list.length === limit && list.length < (res.pagination?.total || 0));
       }
     } catch (e) {
       console.error('Failed to load public questions', e);
@@ -38,14 +49,21 @@ const PublicUserQuestions = () => {
   // Load more - appends to existing items
   const loadMore = useCallback(async () => {
     if (loadingMore || !hasMore) return;
-    
     setLoadingMore(true);
     const nextPage = page + 1;
-    
     try {
       const res = await API.getPublicUserQuestions({ page: nextPage, limit, search: searchTerm });
       if (res?.success) {
-        const newItems = res.data || [];
+        let newItems = res.data || [];
+        if (searchTerm && String(searchTerm).trim()) {
+          const q = String(searchTerm).trim().toLowerCase();
+          newItems = newItems.filter(row => {
+            const text = (row.questionText || row.question || '').toLowerCase();
+            const name = (row.userId?.name || row.author?.name || '').toLowerCase();
+            const username = (row.userId?.username || row.author?.username || '').toLowerCase();
+            return text.includes(q) || name.includes(q) || username.includes(q);
+          });
+        }
         setItems(prev => [...prev, ...newItems]);
         setPage(nextPage);
         setHasMore(newItems.length === limit && (items.length + newItems.length) < (res.pagination?.total || 0));
