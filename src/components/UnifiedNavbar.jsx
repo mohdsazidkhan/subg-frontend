@@ -12,7 +12,8 @@ import {
   FaRupeeSign,
   FaTrophy,
   FaEdit,
-  FaBlog
+  FaBlog,
+  FaChartLine
 } from 'react-icons/fa';
 import { BsPersonCircle, BsSearch } from 'react-icons/bs';
 import { MdDashboard } from 'react-icons/md';
@@ -70,6 +71,13 @@ const UnifiedNavbar = ({ isLandingPage = false, scrollToSection }) => {
         className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-600 p-2 shadow-lg hover:scale-105 transition-transform flex items-center justify-center"
       >
         <span className="text-lg text-white"><FaTrophy/></span>
+      </Link>
+      <Link
+        title="Levels"
+        to="/levels"
+        className="w-8 h-8 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 p-2 shadow-lg hover:scale-105 transition-transform flex items-center justify-center"
+      >
+        <span className="text-lg text-white"><FaChartLine/></span>
       </Link>
       {user && (user.subscriptionStatus || '').toLowerCase() === 'pro' && (
         <Link
