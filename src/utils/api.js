@@ -548,6 +548,24 @@ class ApiService {
     return this.request(`/api/admin/payment-transactions?${queryString}`);
   }
 
+  // Admin Notifications
+  async getAdminLatestNotifications(limit = 10, { unreadOnly = true } = {}) {
+    const u = unreadOnly ? '1' : '0';
+    const params = new URLSearchParams({ limit, unread: u }).toString();
+    return this.request(`/api/admin/notifications/latest?${params}`);
+  }
+  async getAdminNotifications(page = 1, limit = 20, { unreadOnly = true } = {}) {
+    const u = unreadOnly ? '1' : '0';
+    const params = new URLSearchParams({ page, limit, unread: u }).toString();
+    return this.request(`/api/admin/notifications?${params}`);
+  }
+  async markAdminNotificationRead(id) {
+    return this.request(`/api/admin/notifications/${id}/read`, { method: 'PATCH' });
+  }
+  async clearAdminNotifications() {
+    return this.request(`/api/admin/notifications`, { method: 'DELETE' });
+  }
+
   async getAdminTransactionSummary(params = {}) {
     const queryString = new URLSearchParams(params).toString();
     return this.request(`/api/admin/payment-transactions/summary?${queryString}`);
