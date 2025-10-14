@@ -366,6 +366,22 @@ class ApiService {
     }
   }
 
+  // Admin Notifications
+  async getAdminLatestNotifications(limit = 10) {
+    const params = new URLSearchParams({ limit }).toString();
+    return this.request(`/api/admin/notifications/latest?${params}`);
+  }
+  async getAdminNotifications(page = 1, limit = 20) {
+    const params = new URLSearchParams({ page, limit }).toString();
+    return this.request(`/api/admin/notifications?${params}`);
+  }
+  async markAdminNotificationRead(id) {
+    return this.request(`/api/admin/notifications/${id}/read`, { method: 'PATCH' });
+  }
+  async clearAdminNotifications() {
+    return this.request(`/api/admin/notifications`, { method: 'DELETE' });
+  }
+
   // Admin User Wallets
   async adminGetUserWallets(params = {}) {
     const queryString = new URLSearchParams(params).toString();
@@ -682,12 +698,22 @@ class ApiService {
     });
   }
 
-  async getCurrentMonthQuestionCount() {
-    return this.request('/api/userQuestions/monthly-count');
+  async getCurrentMonthQuestionCount(userId) {
+    // Backend route is '/api/userQuestions/monthly-count/:userId'
+    // Need to pass userId as parameter to get the correct endpoint
+    if (!userId) {
+      throw new Error('userId is required for getCurrentMonthQuestionCount');
+    }
+    return this.request(`/api/userQuestions/monthly-count/${userId}`);
   }
 
-  async getCurrentDayQuestionCount() {
-    return this.request('/api/userQuestions/daily-count');
+  async getCurrentDayQuestionCount(userId) {
+    // Backend route is '/api/userQuestions/daily-count/:userId'
+    // Need to pass userId as parameter to get the correct endpoint
+    if (!userId) {
+      throw new Error('userId is required for getCurrentDayQuestionCount');
+    }
+    return this.request(`/api/userQuestions/daily-count/${userId}`);
   }
 
   async getUserQuestionById(id) {
@@ -959,6 +985,67 @@ class ApiService {
 
   async adminGetUserQuizStatistics(userId) {
     return this.request(`/api/admin/userQuiz/user/${userId}/statistics`);
+  }
+
+  // ===== ADMIN LEVELS =====
+  async getAdminLevels(params = {}) {
+    const queryParams = new URLSearchParams();
+    if (params.page) queryParams.set('page', params.page);
+    if (params.limit) queryParams.set('limit', params.limit);
+    if (params.isActive !== undefined) queryParams.set('isActive', params.isActive);
+    if (params.search) queryParams.set('search', params.search);
+    
+    const queryString = queryParams.toString();
+    return this.request(`/api/admin/levels${queryString ? `?${queryString}` : ''}`);
+  }
+
+  async getAdminLevelById(id) {
+    return this.request(`/api/admin/levels/${id}`);
+  }
+
+  async createAdminLevel(levelData) {
+    return this.request('/api/admin/levels', {
+      method: 'POST',
+      body: JSON.stringify(levelData)
+    });
+  }
+
+  async updateAdminLevel(id, levelData) {
+    return this.request(`/api/admin/levels/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(levelData)
+    });
+  }
+
+  async deleteAdminLevel(id) {
+    return this.request(`/api/admin/levels/${id}`, {
+      method: 'DELETE'
+    });
+  }
+
+  async getAdminLevelStats(levelNumber) {
+    return this.request(`/api/admin/levels/stats/${levelNumber}`);
+  }
+
+  // ===== PUBLIC LEVELS (No auth required) =====
+  async getPublicLevels() {
+    return this.request('/api/public/levels');
+  }
+
+  async getPublicLevelByNumber(levelNumber) {
+    return this.request(`/api/public/levels/${levelNumber}`);
+  }
+
+  async getPublicLevelRoadmap() {
+    return this.request('/api/public/levels/roadmap');
+  }
+
+  async getPublicLevelsStats() {
+    return this.request('/api/public/levels/stats');
+  }
+
+  async getUserLevelInfo() {
+    return this.request('/api/public/levels/user/info');
   }
 }
 

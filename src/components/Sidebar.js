@@ -59,6 +59,11 @@ const Sidebar = () => {
           <span>Questions</span>
         </Link>
 
+        <Link to="/admin/levels" onClick={() => handleNavClick('levels')} className={getActiveClass('/admin/levels')}>
+          <span className="text-xl">🎯</span>
+          <span>Levels</span>
+        </Link>
+
         <Link to="/admin/articles" onClick={() => handleNavClick('articles')} className={getActiveClass('/admin/articles')}>
           <span className="text-xl">📝</span>
           <span>Articles</span>

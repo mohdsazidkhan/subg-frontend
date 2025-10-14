@@ -20,11 +20,11 @@ const PostUserQuestion = () => {
 	// Fetch monthly and daily counts on component mount
 	useEffect(() => {
 		const fetchCounts = async () => {
-			if (isPro) {
+			if (isPro && user?._id) {
 				try {
 					const [monthlyResponse, dailyResponse] = await Promise.all([
-						API.getCurrentMonthQuestionCount(),
-						API.getCurrentDayQuestionCount()
+						API.getCurrentMonthQuestionCount(user._id),
+						API.getCurrentDayQuestionCount(user._id)
 					]);
 					
 					if (monthlyResponse?.success) {
@@ -39,7 +39,7 @@ const PostUserQuestion = () => {
 			}
 		};
 		fetchCounts();
-	}, [isPro]);
+	}, [isPro, user._id]);
 
 	const handleOptionChange = (idx, val) => {
 		const next = [...options];

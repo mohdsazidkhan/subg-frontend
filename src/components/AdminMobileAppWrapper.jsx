@@ -123,7 +123,7 @@ const AdminMobileAppWrapper = ({ children, title, showHeader = true }) => {
           </div>
         </div>
       )}
-      <div className="admin-mobile-content">
+      <div className="admin-mobile-content min-h-screen bg-gray-50 dark:bg-gray-900">
         {children}
       </div>
       

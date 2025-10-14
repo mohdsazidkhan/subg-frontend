@@ -35,7 +35,11 @@ const DashboardPage = () => {
     pendingWithdrawRequests: 0,
     // Detailed user questions stats
     approvedUserQuestions: 0,
-    rejectedUserQuestions: 0
+    rejectedUserQuestions: 0,
+    // Levels stats
+    totalLevels: 0,
+    activeLevels: 0,
+    inactiveLevels: 0
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -119,6 +123,51 @@ const DashboardPage = () => {
       gradientTo: 'to-emerald-200',
       darkGradientFrom: 'dark:from-green-700',
       darkGradientTo: 'dark:to-emerald-800'
+    },
+    { 
+      title: 'Total Levels', 
+      count: stats.totalLevels || 0, 
+      link: '/admin/levels',
+      icon: '🎯',
+      color: 'bg-teal-500',
+      textColor: 'text-teal-900',
+      bgColor: 'bg-teal-100',
+      darkBgColor: 'dark:bg-teal-900/20',
+      gradientFrom: 'from-teal-200',
+      gradientTo: 'to-cyan-200',
+      darkGradientFrom: 'dark:from-teal-700',
+      darkGradientTo: 'dark:to-cyan-800',
+      subtitle: `${stats.activeLevels || 0} active`
+    },
+    { 
+      title: 'Active Levels', 
+      count: stats.activeLevels || 0, 
+      link: '/admin/levels?filter=active',
+      icon: '✅',
+      color: 'bg-emerald-500',
+      textColor: 'text-emerald-900',
+      bgColor: 'bg-emerald-100',
+      darkBgColor: 'dark:bg-emerald-900/20',
+      gradientFrom: 'from-emerald-200',
+      gradientTo: 'to-teal-200',
+      darkGradientFrom: 'dark:from-emerald-700',
+      darkGradientTo: 'dark:to-teal-800',
+      subtitle: 'Currently enabled'
+    },
+    { 
+      title: 'Inactive Levels', 
+      count: stats.inactiveLevels || 0, 
+      link: '/admin/levels?filter=inactive',
+      icon: '❌',
+      color: 'bg-slate-500',
+      textColor: 'text-slate-900',
+      bgColor: 'bg-slate-100',
+      darkBgColor: 'dark:bg-slate-900/20',
+      gradientFrom: 'from-slate-200',
+      gradientTo: 'to-gray-200',
+      darkGradientFrom: 'dark:from-slate-700',
+      darkGradientTo: 'dark:to-gray-800',
+      subtitle: 'Currently disabled'
     },
     { 
       title: 'Quizzes', 
@@ -585,6 +634,16 @@ const DashboardPage = () => {
               <div>
                 <h3 className="font-medium text-gray-900 dark:text-white">Create Subcategoy</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Add New Subcategoy Content</p>
+              </div>
+            </Link>
+
+            <Link to="/admin/levels" className="flex items-center p-4 rounded-lg bg-gradient-to-r from-teal-50 to-teal-100 dark:from-teal-900/20 dark:to-teal-800/20 hover:from-teal-100 hover:to-teal-200 dark:hover:from-teal-800/30 dark:hover:to-teal-700/30 transition-all duration-300">
+              <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center mr-3">
+                <span className="text-white text-lg">🎯</span>
+              </div>
+              <div>
+                <h3 className="font-medium text-gray-900 dark:text-white">Manage Levels</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Configure User Progression Levels</p>
               </div>
             </Link>
 

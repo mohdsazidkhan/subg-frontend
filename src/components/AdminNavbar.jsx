@@ -1,66 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
-  FaTrophy,
-  FaCrown,
-  FaStar,
-  FaMedal,
-  FaRocket,
-  FaChartLine,
-  FaAward,
-  FaGem,
-  FaBook,
-  FaFlask,
-  FaLaptopCode,
-  FaGlobe,
-  FaCalculator,
-  FaPalette,
-  FaLeaf,
-  FaUserGraduate,
-  FaLayerGroup,
-  FaClock,
-  FaQuestionCircle,
-  FaUserCircle,
-  FaLevelUpAlt,
   FaSun,
   FaMoon,
-  FaArrowRight,
-  FaPlay,
-  FaUsers,
-  FaGift,
-  FaCheckCircle,
-  FaShieldAlt,
-  FaHeadset,
-  FaMobileAlt,
-  FaDesktop,
-  FaTabletAlt,
-  FaFacebook,
-  FaTwitter,
-  FaInstagram,
-  FaLinkedin,
-  FaYoutube,
-  FaMagic,
-  FaCreditCard,
-  FaCalendarAlt,
   FaBars,
-  FaTimes,
   FaSignOutAlt,
-  FaCog,
   FaBell
 } from 'react-icons/fa';
-import { BsPersonCircle, BsSearch } from 'react-icons/bs';
-import { MdDarkMode, MdDashboard, MdLogout, MdPerson4, MdPersonAdd, MdAdminPanelSettings } from 'react-icons/md';
+import { MdDashboard } from 'react-icons/md';
 import { toggleSidebar } from '../store/sidebarSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { secureLogout, getCurrentUser } from '../utils/authUtils';
-import { isAdmin, hasAdminPrivileges } from '../utils/adminUtils';
+import API from '../lib/api';
 
 const AdminNavbar = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const user = getCurrentUser();
   const dispatch = useDispatch();
-  const isOpen = useSelector((state) => state.sidebar.isOpen);
   
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== "undefined") {
@@ -72,6 +28,26 @@ const AdminNavbar = () => {
   });
 
   const [notifications, setNotifications] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [loadingNotifs, setLoadingNotifs] = useState(false);
+  const hasFetchedNotifsRef = useRef(false);
+
+  useEffect(() => {
+    const fetchLatest = async () => {
+      try {
+        setLoadingNotifs(true);
+        const res = await API.request('/api/admin/notifications/latest?limit=10');
+        setNotifications(res?.data || []);
+      } catch (e) {
+        // ignore
+      } finally {
+        setLoadingNotifs(false);
+      }
+    };
+    if (hasFetchedNotifsRef.current) return;
+    hasFetchedNotifsRef.current = true;
+    if (user && user.role === 'admin') fetchLatest();
+  }, [user]);
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -113,6 +89,7 @@ const AdminNavbar = () => {
           <div className="flex items-center space-x-4">
             {/* Notifications */}
             <button
+              onClick={() => setShowDropdown(v => !v)}
               className={`p-2 rounded-lg transition-all duration-300 ${
                 darkMode 
                   ? 'bg-red-700 text-red-200 hover:bg-red-600' 
@@ -121,6 +98,31 @@ const AdminNavbar = () => {
             >
               <FaBell className="w-5 h-5" />
             </button>
+            {showDropdown && (
+              <div className={`absolute right-4 top-16 w-80 max-h-[70vh] overflow-auto rounded-lg shadow-xl border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+                <div className={`px-4 py-3 border-b ${darkMode ? 'border-gray-700 text-gray-200' : 'border-gray-200 text-gray-800'}`}>
+                  Notifications
+                </div>
+                <div className="p-2">
+                  {loadingNotifs ? (
+                    <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Loading...</div>
+                  ) : notifications.length === 0 ? (
+                    <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>No notifications</div>
+                  ) : (
+                    notifications.map(n => (
+                      <div key={n._id} className={`p-2 rounded mb-1 ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}>
+                        <div className={`text-sm font-medium ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>{n.title}</div>
+                        <div className={`text-xs ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{n.description}</div>
+                        <div className={`text-[10px] ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>{new Date(n.createdAt).toLocaleString()}</div>
+                      </div>
+                    ))
+                  )}
+                </div>
+                <div className={`px-3 py-2 border-t ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+                  <Link to="/admin/notifications" className={`text-sm ${darkMode ? 'text-red-300' : 'text-red-600'}`}>View all</Link>
+                </div>
+              </div>
+            )}
 
             {/* Dark mode toggle */}
             <button

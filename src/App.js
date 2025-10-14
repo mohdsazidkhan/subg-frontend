@@ -28,10 +28,12 @@ import CategoryPage from './pages/admin/CategoryPage';
 import SubcategoryPage from './pages/admin/SubcategoryPage';
 import QuizManagementPage from './pages/admin/QuizPage';
 import QuestionPage from './pages/admin/QuestionPage';
+import AdminLevelsPage from './pages/admin/LevelsPage';
 import StudentPage from './pages/admin/StudentsPage';
 import QuizResult from './pages/QuizResult';
 import HowItWorks from './pages/HowItWorks.jsx';
 import LevelsPage from './pages/LevelsPage.jsx';
+import PublicLevelsPage from './pages/PublicLevelsPage.jsx';
 import AboutUs from './pages/AboutUs.jsx';
 import TermsAndConditions from './pages/TermsAndConditions.jsx';
 import PrivacyPolicy from './pages/PrivacyPolicy.jsx';
@@ -82,6 +84,7 @@ import ReactGA from 'react-ga4';
 import SearchPage from './pages/SearchPage.jsx';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import FloatingActionButton from './components/FloatingActionButton.jsx';
+import AdminNotifications from './pages/AdminNotifications.jsx';
 
 function usePageTracking() {
   const location = useLocation();
@@ -163,6 +166,7 @@ function AppLayout() {
             <Route path="/category/:categoryId" element={<StudentRoute><TokenValidationWrapper><CategoryDetailPage /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/subcategory/:subcategoryId" element={<StudentRoute><TokenValidationWrapper><SubcategoryDetailPage /></TokenValidationWrapper></StudentRoute>} />
             <Route path="/level/:levelNumber" element={<StudentRoute><TokenValidationWrapper><LevelDetailPage /></TokenValidationWrapper></StudentRoute>} />
+            <Route path="/all-levels" element={<PublicLevelsPage />} />
 
             {/* Admin Routes */}
             <Route path="/admin/dashboard" element={<AdminRoute><TokenValidationWrapper><DashboardPage /></TokenValidationWrapper></AdminRoute>} />
@@ -170,6 +174,7 @@ function AppLayout() {
             <Route path="/admin/subcategories" element={<AdminRoute><TokenValidationWrapper><SubcategoryPage /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/quizzes" element={<AdminRoute><TokenValidationWrapper><QuizManagementPage /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/questions" element={<AdminRoute><TokenValidationWrapper><QuestionPage /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/levels" element={<AdminRoute><TokenValidationWrapper><AdminLevelsPage /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/user-questions" element={<AdminRoute><TokenValidationWrapper><AdminUserQuestions /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/user-quizzes" element={<AdminRoute><TokenValidationWrapper><AdminUserQuizzes /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/user-wallets" element={<AdminRoute><TokenValidationWrapper><AdminUserWallets /></TokenValidationWrapper></AdminRoute>} />
@@ -181,6 +186,7 @@ function AppLayout() {
             <Route path="/admin/payment-transactions" element={<AdminRoute><TokenValidationWrapper><AdminPaymentTransactions /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/subscriptions" element={<AdminRoute><TokenValidationWrapper><AdminSubscriptions /></TokenValidationWrapper></AdminRoute>} />
             <Route path="/admin/monthly-winners" element={<AdminRoute><TokenValidationWrapper><AdminMonthlyWinners /></TokenValidationWrapper></AdminRoute>} />
+            <Route path="/admin/notifications" element={<AdminRoute><TokenValidationWrapper><AdminNotifications /></TokenValidationWrapper></AdminRoute>} />
             
             {/* Article Admin Routes */}
             <Route path="/admin/articles" element={<AdminRoute><TokenValidationWrapper><AdminArticles /></TokenValidationWrapper></AdminRoute>} />
