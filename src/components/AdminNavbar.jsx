@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   FaSun,
@@ -27,42 +27,17 @@ const AdminNavbar = () => {
     return false;
   });
 
-  const [notifications, setNotifications] = useState([]);
   const [notifCount, setNotifCount] = useState(0);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [loadingNotifs, setLoadingNotifs] = useState(false);
-  const hasFetchedNotifsRef = useRef(false);
-  const typeToPath = {
-    question: '/admin/user-questions',
-    quiz: '/admin/user-quizzes',
-    withdraw: '/admin/withdraw-requests',
-    contact: '/admin/contacts',
-    bank: '/admin/bank-details',
-    subscription: '/admin/subscriptions',
-    registration: '/admin/students',
-    quiz_attempt: '/admin/analytics/performance'
-  };
 
   useEffect(() => {
-    const fetchLatest = async () => {
+    const fetchCount = async () => {
       try {
-        setLoadingNotifs(true);
-        const [latestRes, listRes] = await Promise.all([
-          API.getAdminLatestNotifications(10, { unreadOnly: true }),
-          API.getAdminNotifications(1, 1, { unreadOnly: true })
-        ]);
-        setNotifications(latestRes?.data || []);
-        const total = listRes?.pagination?.total || (listRes?.data?.length || 0);
+        const res = await API.getAdminNotifications(1, 1, { unreadOnly: true });
+        const total = res?.pagination?.total || (res?.data?.length || 0);
         setNotifCount(total);
-      } catch (e) {
-        // ignore
-      } finally {
-        setLoadingNotifs(false);
-      }
+      } catch (e) {}
     };
-    if (hasFetchedNotifsRef.current) return;
-    hasFetchedNotifsRef.current = true;
-    if (user && user.role === 'admin') fetchLatest();
+    if (user && user.role === 'admin') fetchCount();
   }, [user]);
 
   useEffect(() => {
@@ -103,14 +78,15 @@ const AdminNavbar = () => {
 
           {/* Right side */}
           <div className="flex items-center space-x-4">
-            {/* Notifications */}
-            <button
-              onClick={() => setShowDropdown(v => !v)}
+            {/* Notifications Link */}
+            <Link
+              to="/admin/notifications"
               className={`p-2 rounded-lg transition-all duration-300 ${
                 darkMode 
                   ? 'bg-red-700 text-red-200 hover:bg-red-600' 
                   : 'bg-red-100 text-red-600 hover:bg-red-200'
               } relative`}
+              title="Notifications"
             >
               <FaBell className="w-5 h-5" />
               {notifCount > 0 && (
@@ -118,56 +94,7 @@ const AdminNavbar = () => {
                   {notifCount > 99 ? '99+' : notifCount}
                 </span>
               )}
-            </button>
-            {showDropdown && (
-              <div className={`absolute right-4 top-16 w-80 max-h-[70vh] overflow-auto rounded-lg shadow-xl border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
-                <div className={`px-4 py-3 border-b ${darkMode ? 'border-gray-700 text-gray-200' : 'border-gray-200 text-gray-800'}`}>
-                  Notifications
-                </div>
-                <div className="p-2">
-                  {loadingNotifs ? (
-                    <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Loading...</div>
-                  ) : notifications.length === 0 ? (
-                    <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>No notifications</div>
-                  ) : (
-                    notifications.map(n => (
-                      <div
-                        key={n._id}
-                        onClick={async () => {
-                          try {
-                            setShowDropdown(false);
-                            if (!n.isRead) setNotifCount(c => Math.max(0, c - 1));
-                            setNotifications(prev => prev.map(x => x._id === n._id ? { ...x, isRead: true } : x));
-                            await API.markAdminNotificationRead(n._id);
-                          } catch (e) {
-                            // ignore
-                          } finally {
-                            const path = typeToPath[n.type] || '/admin/notifications';
-                            navigate(path);
-                          }
-                        }}
-                        className={(() => {
-                          const unreadLight = 'bg-yellow-50 border border-yellow-200 hover:bg-yellow-100';
-                          const unreadDark = 'bg-yellow-900/30 border border-yellow-700 hover:bg-yellow-800/40';
-                          const readLight = 'bg-white hover:bg-gray-100';
-                          const readDark = 'bg-transparent hover:bg-gray-700';
-                          const base = 'cursor-pointer p-2 rounded mb-1';
-                          const stateCls = n.isRead ? (darkMode ? readDark : readLight) : (darkMode ? unreadDark : unreadLight);
-                          return `${base} ${stateCls}`;
-                        })()}
-                      >
-                        <div className={`text-sm font-medium ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>{n.title}</div>
-                        <div className={`text-xs ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{n.description}</div>
-                        <div className={`text-[10px] ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>{new Date(n.createdAt).toLocaleString()}</div>
-                      </div>
-                    ))
-                  )}
-                </div>
-                <div className={`px-3 py-2 border-t ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-                  <Link to="/admin/notifications" className={`text-sm ${darkMode ? 'text-red-300' : 'text-red-600'}`}>View all</Link>
-                </div>
-              </div>
-            )}
+            </Link>
 
             {/* Dark mode toggle */}
             <button
