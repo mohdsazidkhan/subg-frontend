@@ -11,7 +11,7 @@ import { MdDashboard } from 'react-icons/md';
 import { toggleSidebar } from '../store/sidebarSlice';
 import { useDispatch } from 'react-redux';
 import { secureLogout, getCurrentUser } from '../utils/authUtils';
-import API from '../lib/api';
+import API from '../utils/api';
 
 const AdminNavbar = () => {
   const navigate = useNavigate();
