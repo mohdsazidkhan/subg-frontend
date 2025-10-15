@@ -434,7 +434,7 @@ const LandingPage = () => {
           <div className="text-center">
             <h1 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 dark:text-white">
-              Your Journey: Starter ➜ Legend
+              Battle of Brains. <br/> <i>Only Legends Can Survive!</i>
               </span>
             </h1>
             <p className="text-sm md:text-xl mb-8 max-w-3xl mx-auto text-gray-600 dark:text-gray-300 font-semibold">
