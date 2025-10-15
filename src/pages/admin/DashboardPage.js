@@ -184,6 +184,21 @@ const DashboardPage = () => {
   darkGradientTo: 'dark:to-rose-800'
     },
     { 
+      title: 'User Quizzes', 
+      count: stats.userQuizzes || 0, 
+      link: '/admin/user-quizzes',
+      icon: '🧪',
+      color: 'bg-pink-500',
+      textColor: 'text-pink-900',
+      bgColor: 'bg-pink-100',
+      darkBgColor: 'dark:bg-pink-900/20',
+      gradientFrom: 'from-pink-200',
+      gradientTo: 'to-fuchsia-200',
+      darkGradientFrom: 'dark:from-pink-700',
+      darkGradientTo: 'dark:to-fuchsia-800',
+      subtitle: 'Submitted by users'
+    },
+    { 
       title: 'Questions', 
       count: stats.questions, 
       link: '/admin/questions',
