@@ -291,6 +291,18 @@ const ResponsiveTable = ({
 
           {/* Card Content */}
           <div className="space-y-3 sm:space-y-4">
+            {/* Joined Date-Time */}
+            <div className="group">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                  Joined
+                </span>
+                <div className="w-2 h-2 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+              </div>
+              <div className="mt-1 text-sm font-semibold text-gray-900 dark:text-gray-100">
+                {columns.find(col => col.key === 'joined')?.render?.(null, row) || row.joined || 'N/A'}
+              </div>
+            </div>
             {/* First row: Level and Referral Code */}
             <div className="grid grid-cols-2 gap-3">
               <div className="group">

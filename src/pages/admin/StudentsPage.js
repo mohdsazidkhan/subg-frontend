@@ -30,12 +30,14 @@ const StudentsPage = () => {
   const location = useLocation();
 
   const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, '0');
     const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
     const month = monthNames[date.getMonth()];
     const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
+    const time = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    return `${day} ${month} ${year} at ${time}`;
   };
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isOpen = useSelector((state) => state.sidebar.isOpen);
